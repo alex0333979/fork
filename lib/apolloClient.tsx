@@ -21,7 +21,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
         ...init.headers,
         'Access-Control-Allow-Origin': '*',
         // here we pass the cookie along for each request
-        Cookie: headers?.cookie ?? ''
+        // Cookie: headers?.cookie ?? ''
       }
     }).then((response) => response);
   };
@@ -43,7 +43,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
         uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
-        credentials: 'include',
+        // credentials: 'include',
         fetch: enhancedFetch
       })
     ]),

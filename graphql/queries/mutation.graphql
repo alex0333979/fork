@@ -58,8 +58,27 @@ mutation SetTrackingNumber($trackingNumber: String!, $orderId: String!) {
     }
 }
 
-mutation SubmitEntry($entryId: ID, $formId: ID!, $formStep: FormStepInput!) {
-    SubmitEntry(entryId: $entryId, formId: $formId, formStep: $formStep) {
+mutation CreateEntry($formId: ID!) {
+    CreateEntry(formId: $formId) {
+        message
+        status
+        data {
+            id
+            userId
+            currentStep
+            isComplete
+            formId
+            form {
+                ...Form
+            }
+            createdAt
+            updatedAt
+        }
+    }
+}
+
+mutation UpdateEntry($entryId: ID!, $formId: ID!, $formStep: FormStepInput!) {
+    UpdateEntry(entryId: $entryId, formId: $formId, formStep: $formStep) {
         message
         status
         data {

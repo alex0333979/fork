@@ -6,6 +6,8 @@ import {
   ApolloQueryResult
 } from '@apollo/client';
 import {
+  CreateGuestDocument,
+  CreateGuestMutation,
   LoginDocument,
   LoginMutation,
   LoginMutationVariables,
@@ -24,10 +26,15 @@ interface IContextProps {
   getMe: () => User | null;
   setMe: React.Dispatch<React.SetStateAction<User | null>>;
   canAutoLogin: () => boolean;
+  createGuest: ()=> void,
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
   signOut: () => void;
   apolloClient: ApolloClient<NormalizedCacheObject>;
+  getSavedEntries: () => string[],
+  removeEntry: (entryId: string) => void,
+  saveEntry: (entryId: string) => void,
+  clearEntries: () => void
 }
 
 const authContext = createContext({} as IContextProps);
@@ -77,6 +84,9 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
   };
 
   const getAuthHeaders = (): IncomingHttpHeaders | undefined => {
+    // const token = getToken();
+    // setAuthToken(token);
+
     if (!authToken) return undefined;
 
     return {
@@ -101,6 +111,16 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
     }
   };
 
+  const createGuest = async () => {
+    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
+      mutation: CreateGuestDocument
+    });
+    if (data?.CreateGuest?.data?.accessToken) {
+      setAuthToken(data?.CreateGuest?.data?.accessToken);
+      rememberToken(data?.CreateGuest?.data?.accessToken);
+    }
+  }
+
   const signIn = async ({ email, password }: LoginMutationVariables) => {
     const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
       mutation: LoginDocument,
@@ -122,6 +142,29 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
     setAuthToken(null);
   };
 
+  const getSavedEntries = (): string[] => {
+    const strEntries = localStorage.getItem('biometric-photo.entries') || '';
+    return strEntries.split(',')
+  }
+
+  const removeEntry = (entryId: string) => {
+    const entries = getSavedEntries();
+    const index = entries.indexOf(entryId);
+    if (index > -1) {
+      entries.splice(index, 1);
+    }
+  }
+
+  const saveEntry = (entryId: string) => {
+    const entries = getSavedEntries();
+    entries.push(entryId);
+    localStorage.setItem('biometric-photo.entries', entries.toString());
+  }
+
+  const clearEntries = () => {
+    localStorage.setItem('biometric-photo.entries', '');
+  }
+
   return {
     setAuthToken,
     isAuthenticated,
@@ -129,8 +172,13 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
     setMe,
     canAutoLogin,
     autoLogin,
+    createGuest,
     signIn,
     signOut,
-    apolloClient
+    apolloClient,
+    getSavedEntries,
+    removeEntry,
+    saveEntry,
+    clearEntries
   };
 }
