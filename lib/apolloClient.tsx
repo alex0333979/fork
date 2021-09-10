@@ -21,7 +21,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
         ...init.headers,
         'Access-Control-Allow-Origin': '*',
         // here we pass the cookie along for each request
-        // Cookie: headers?.cookie ?? ''
+        Cookie: headers?.cookie ?? ''
       }
     }).then((response) => response);
   };
@@ -104,7 +104,7 @@ export const addApolloState = (
   return pageProps;
 };
 
-export function useApollo(pageProps: AppProps['pageProps'], headers?: IncomingHttpHeaders) {
+export function useApollo(pageProps: AppProps['pageProps']) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  return useMemo(() => initializeApollo({ initialState: state, headers }), [state, headers]);
+  return useMemo(() => initializeApollo({ initialState: state }), [state]);
 }

@@ -1,33 +1,43 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import React, { useEffect } from 'react';
+import type { GetStaticProps, NextPage } from 'next';
+import React from 'react';
+import { AppLayout } from '../../components';
 import { useRouter } from 'next/router';
-import { useAuth } from '../../lib/auth';
+import { initializeApollo } from '@/lib/apolloClient';
+import { Form, FormsDocument, FormsQuery } from '@/generated/graphql';
+import { ApolloQueryResult } from '@apollo/client';
+import ApplicationForm from '@/components/ApplicationForm';
 
-const CreateEntry: NextPage = () => {
-  const router = useRouter();
-  const { createGuest, getSavedEntries } = useAuth();
+type EntryPageProps = {
+  forms: Form[];
+};
 
-  useEffect(() => {
-    createGuest();
-    const savedEntries = getSavedEntries();
-    console.log('===savedEntries===:', savedEntries);
-    if (savedEntries.length > 0) {
-
-    }
-  }, []);
+const Entry: NextPage<EntryPageProps> = ({ forms }: EntryPageProps) => {
+  const { query } = useRouter();
 
   return (
-    <>
-      <Head>
-        <title>Biometric Photos</title>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-        />
-      </Head>
-    </>
+    <AppLayout><ApplicationForm id={query.entryId as string} forms={forms}/></AppLayout>
   );
 };
 
-export default CreateEntry;
+export const getStaticProps: GetStaticProps<EntryPageProps> = async () => {
+  const client = initializeApollo();
+  try {
+    const result: ApolloQueryResult<FormsQuery> = await client.query({
+      query: FormsDocument
+    });
+
+    const forms = result.data?.Forms || [];
+
+    return {
+      props: {
+        forms
+      }
+    };
+  } catch {
+    return {
+      notFound: true
+    };
+  }
+};
+
+export default Entry;

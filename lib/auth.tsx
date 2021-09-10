@@ -14,7 +14,7 @@ import {
   MeDocument,
   MeQuery,
   User
-} from '../graphql/generated/graphql';
+} from '@/generated/graphql';
 import { AppPropsType } from 'next/dist/shared/lib/utils';
 import { useApollo } from './apolloClient';
 import { IncomingHttpHeaders } from 'http';
@@ -26,15 +26,15 @@ interface IContextProps {
   getMe: () => User | null;
   setMe: React.Dispatch<React.SetStateAction<User | null>>;
   canAutoLogin: () => boolean;
-  createGuest: ()=> void,
+  createGuest: () => void;
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
   signOut: () => void;
   apolloClient: ApolloClient<NormalizedCacheObject>;
-  getSavedEntries: () => string[],
-  removeEntry: (entryId: string) => void,
-  saveEntry: (entryId: string) => void,
-  clearEntries: () => void
+  getSavedEntries: () => string[];
+  removeEntry: (entryId: string) => void;
+  saveEntry: (entryId: string) => void;
+  clearEntries: () => void;
 }
 
 const authContext = createContext({} as IContextProps);
@@ -94,7 +94,7 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
     };
   };
 
-  const apolloClient = useApollo(pageProps, getAuthHeaders());
+  const apolloClient = useApollo(pageProps);
 
   const autoLogin = async () => {
     const token = getToken();
@@ -119,7 +119,7 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
       setAuthToken(data?.CreateGuest?.data?.accessToken);
       rememberToken(data?.CreateGuest?.data?.accessToken);
     }
-  }
+  };
 
   const signIn = async ({ email, password }: LoginMutationVariables) => {
     const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
@@ -144,8 +144,8 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
 
   const getSavedEntries = (): string[] => {
     const strEntries = localStorage.getItem('biometric-photo.entries') || '';
-    return strEntries.split(',')
-  }
+    return strEntries.split(',');
+  };
 
   const removeEntry = (entryId: string) => {
     const entries = getSavedEntries();
@@ -153,17 +153,17 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
     if (index > -1) {
       entries.splice(index, 1);
     }
-  }
+  };
 
   const saveEntry = (entryId: string) => {
     const entries = getSavedEntries();
     entries.push(entryId);
     localStorage.setItem('biometric-photo.entries', entries.toString());
-  }
+  };
 
   const clearEntries = () => {
     localStorage.setItem('biometric-photo.entries', '');
-  }
+  };
 
   return {
     setAuthToken,
