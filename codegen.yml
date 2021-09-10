@@ -1,0 +1,12 @@
+overwrite: true
+schema: "http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql"
+documents: "graphql/**/*.graphql"
+generates:
+  graphql/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  graphql/generated/graphql.schema.json:
+    plugins:
+      - "introspection"
