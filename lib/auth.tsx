@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext, ReactNode } from 'react';
+import React, { useState, useContext, createContext, ReactNode, useMemo } from 'react';
 import {
   ApolloProvider,
   ApolloClient,
