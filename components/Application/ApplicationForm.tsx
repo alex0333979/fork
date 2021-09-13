@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth';
-import {
-  Entry,
-  Form,
-  useEntryLazyQuery,
-  useEntryQuery,
-  useFormsLazyQuery,
-  useFormsQuery,
-  useSubmitEntryMutation
-} from '@/generated/graphql';
+import { FieldType, Form, useSubmitEntryMutation } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 import ApplicationList from '@/components/Application/ApplicationList';
 import classNames from 'classnames';
+import RadioOption from '@/components/Application/RadioOption';
+import TextInput from '@/components/Application/TextInput';
+import CountryPicker from '@/components/Application/CountryPicker';
+import StatePicker from '@/components/Application/StatePicker';
+import DatePicker from '@/components/Application/DatePicker';
+import SelectBox from '@/components/Application/SelectBox';
 
 type ApplicationFormProps = {
   id: string | undefined;
@@ -27,17 +25,26 @@ interface IEntry {
 
 const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
   const router = useRouter();
+
+  const [formIndex, setFormIndex] = useState<number>(0);
   const [entry, setEntry] = useState<IEntry>({
     currentStep: 1,
     form: forms[0],
     formId: forms[0].id,
     isComplete: false
   });
-  const [savedEntries, SetSavedEntries] = useState<string[]>([])
+  const [savedEntries, SetSavedEntries] = useState<string[]>([]);
   const { getSavedEntries } = useAuth();
   // const [getEntry, { data: entry, loading, error: entryError }] = useEntryLazyQuery();
   const [submitEntry, { data: newEntry }] = useSubmitEntryMutation();
-
+  useEffect(()=>{
+    setEntry({
+      currentStep: 1,
+      form: forms[formIndex],
+      formId: forms[formIndex].id,
+      isComplete: false
+    })
+  },[formIndex])
   useEffect(() => {
     // if (id) {
     //   getEntry({ variables: { entryId: id } });
@@ -64,6 +71,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
   //     // router.push('/').then()
   //   }
   // }, [entryError, router])
+
+  const formStep = entry.form.steps.find(step => step.step === entry.currentStep);
 
   return (
     <div className="application-page">
@@ -108,175 +117,88 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
                 </ul>
               </div>
               <div className="form-wrap">
-                <div className="form-fields">
-                  <div className="extra-info">
-                    <h3>Before start, please select an application type</h3>
-                    <label>
-                      <span className="field checkbox">
-                        <span className="name">Unknown</span>
-                        <input type="checkbox" placeholder="Male"/>
-                        <span className="wrap">
-                          <span className="bullet"/>
-                          <span className="border"/>
-                        </span>
-                      </span>
-                      <span className="warning">Warning message</span>
-                    </label>
-                  </div>
-                  <div className="group">
-                    <label className="third-size">
-                      <span className="field radio">
-                        <span className="name"><b>DS-11</b><i className="icon-about"/></span>
-                        <span className="extra">New Passport Application</span>
-                        <input type="radio" name="application" placeholder="Male"/>
-                        <span className="wrap">
-                          <span className="bullet"/>
-                          <span className="border"/>
-                        </span>
-                      </span>
-                      <span className="warning">Warning message</span>
-                    </label>
-                    <label className="third-size">
-                        <span className="field radio">
-                          <span className="name"><b>DS-82</b><i className="icon-about"/></span>
-                          <span className="extra">Renewal Application</span>
-                          <input type="radio" name="application" placeholder="Male"/>
-                          <span className="wrap">
+                {
+                  formStep?.notes ? (
+                    <div className="form-fields">
+                      <div className="form-notice">
+                        <p>{formStep.notes}
+                          <span className="icon-info"/></p>
+                      </div>
+                    </div>
+                  ) : (<></>)
+                }
+                {
+                  entry.currentStep === 1 ? (
+                    <div className="form-fields">
+                      <div className="extra-info">
+                        <h3>{'Before start, please select an application type'}</h3>
+                        <label>
+                          <span className="field checkbox">
+                            <span className="name">{'Unknown'}</span>
+                            <input type="checkbox" placeholder="Male"/>
+                            <span className="wrap">
                               <span className="bullet"/>
                               <span className="border"/>
+                            </span>
                           </span>
-                        </span>
-                      <span className="warning">Warning message</span>
-                    </label>
-                    <label className="third-size">
-                        <span className="field radio">
-                          <span className="name"><b>DS-64</b><i className="icon-about"/></span>
-                          <span className="extra">Lost/Stolen Application</span>
-                          <input type="radio" name="application" placeholder="Male"/>
-                          <span className="wrap">
-                              <span className="bullet"/>
-                              <span className="border"/>
-                          </span>
-                        </span>
-                      <span className="warning">Warning message</span>
-                    </label>
-                  </div>
-                </div>
-
+                          <span className="warning">{'Warning message'}</span>
+                        </label>
+                      </div>
+                      <div className="group">
+                        {
+                          forms.map((form, index) => {
+                            return (
+                              <label key={index} className="third-size">
+                                <span className="field radio">
+                                  <span className="name"><b>{form.name}</b><i className="icon-about"/></span>
+                                  <span className="extra">{form.description}</span>
+                                  <input type="radio" onChange={(e) => setFormIndex(index)} name="application" placeholder="Male"/>
+                                  <span className="wrap">
+                                    <span className="bullet"/>
+                                    <span className="border"/>
+                                  </span>
+                                </span>
+                                <span className="warning">Warning message</span>
+                              </label>
+                            );
+                          })
+                        }
+                      </div>
+                    </div>
+                  ) : (<></>)
+                }
                 <form>
                   <div className="form-fields">
-                    <div className="group">
-                      <div className="group-label">
-                        <p>Please select the document(s) for which you are applying</p>
-                      </div>
-                      <label className="third-size">
-                        <span className="field radio">
-                            <span className="name">U.S Passport Book</span>
-                            <input type="radio" name="type" placeholder="Male"/>
-                            <span className="wrap">
-                                <span className="bullet"/>
-                                <span className="border"/>
-                            </span>
-                        </span>
-                        <span className="warning">Warning message</span>
-                      </label>
-                      <label className="third-size">
-                        <span className="field radio">
-                            <span className="name">U.S Passport Card</span>
-                            <input type="radio" name="type" placeholder="Male"/>
-                            <span className="wrap">
-                                <span className="bullet"/>
-                                <span className="border"/>
-                            </span>
-                        </span>
-                        <span className="warning">Warning message</span>
-                      </label>
-                      <label className="third-size">
-                        <span className="field radio">
-                            <span className="name">Both</span>
-                            <input type="radio" name="type" placeholder="Male"/>
-                            <span className="wrap">
-                                <span className="bullet"/>
-                                <span className="border"/>
-                            </span>
-                        </span>
-                        <span className="warning">Warning message</span>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="form-fields limit-width">
-                    <div className="form-notice">
-                      <p>If you have no future travel plans, you can skip this step.
-                        <span className="icon-info"/></p>
-                    </div>
-                    <label className="half-size">
-                      <span className="label">Date Of Birth *</span>
-                      <span className="field"><input type="date" placeholder=""/></span>
-                      <span className="warning">Warning message</span>
-                    </label>
-                    <label className="half-size">
-                      <span className="label">City Of Birth *</span>
-                      <span className="field"><input type="text" placeholder="City Of Birth"/></span>
-                    </label>
-                    <label className="half-size">
-                      <span className="label">Country Of Birth *</span>
-                      <span className="field select">
-                        <select>
-                          <option disabled selected>Selcect country</option>
-                          <option>Selcect country</option>
-                          <option>Selcect country</option>
-                          <option>Selcect country</option>
-                        </select>
-                      </span>
-                    </label>
-                    <div className="group">
-                      <div className="group-label">
-                        <p>Sex *</p>
-                      </div>
-                      <label className="half-size">
-                        <span className="field radio">
-                          <span className="name">Male</span>
-                          <input type="radio" name="sex" placeholder="Male"/>
-                          <span className="wrap">
-                            <span className="bullet"/>
-                            <span className="border"/>
-                          </span>
-                        </span>
-                        <span className="warning">Warning message</span>
-                      </label>
-                      <label className="half-size">
-                        <span className="field radio">
-                          <span className="name">Female</span>
-                          <input type="radio" name="sex" placeholder="Female"/>
-                          <span className="wrap">
-                            <span className="bullet"/>
-                            <span className="border"/>
-                          </span>
-                        </span>
-                      </label>
-                    </div>
-                    <label className="half-size">
-                      <span className="label">Social Security Number</span>
-                      <span className="field"><input type="text" placeholder="XXX-XX-XXXX"/></span>
-                      <span className="attention">Due to security reasons, please fill out this field manually once you have printed/received your application.</span>
-                    </label>
-                    <label className="half-size">
-                      <span className="label">Phone Type *</span>
-                      <span className="more">
-                        <span className="field select">
-                        <select>
-                          <option disabled selected>Home</option>
-                          <option>Home</option>
-                          <option>Home</option>
-                          <option>Home</option>
-                        </select>
-                      </span>
-                        <button type="button" className="add-btn">
-                          <span className="icon-close"/>{'Add\n application'}
-                        </button>
-                      </span>
-                    </label>
+                    {
+                      formStep?.fields.map((field, index) => {
+                        switch (field.type) {
+                          case FieldType.Radio:
+                            return (
+                              <RadioOption key={index} formField={field}/>
+                            );
+                          case FieldType.Input:
+                            return (
+                              <TextInput key={index} formField={field}/>
+                            );
+                          case FieldType.Select:
+                            return (
+                              <SelectBox key={index} formField={field}/>
+                            );
+                          case FieldType.CountryPicker:
+                            return (
+                              <CountryPicker key={index} formField={field}/>
+                            );
+                          case FieldType.StatePicker:
+                            return (
+                              <StatePicker key={index} formField={field}/>
+                            );
+                          case FieldType.DatePicker:
+                            return (
+                              <DatePicker key={index} formField={field}/>
+                            );
+                        }
+                      })
+                    }
                   </div>
                 </form>
               </div>
@@ -292,7 +214,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
                     <button type="button" className="main-btn big outline">
                       <span className="icon-left"/> Back
                     </button>
-                  ): (<></>)
+                  ) : (<></>)
                 }
               </div>
               <div className="next-btn">
