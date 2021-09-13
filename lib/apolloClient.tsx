@@ -1,18 +1,39 @@
-import { ApolloClient, ApolloLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { onError } from '@apollo/link-error';
-import { createUploadLink } from 'apollo-upload-client';
 import merge from 'deepmerge';
 import { IncomingHttpHeaders } from 'http';
 import fetch from 'isomorphic-unfetch';
 import isEqual from 'lodash/isEqual';
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
+import { setContext } from '@apollo/client/link/context';
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
+  let token: string | null;
+
+  const httpLink = createHttpLink({
+    uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
+    // credentials: 'include'
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    if (typeof window !== 'undefined') {
+      token = localStorage.getItem('biometric-photo.token');
+    }
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : "",
+      }
+    }
+  });
+
   // isomorphic fetch for passing the cookies along with each GraphQL request
   const enhancedFetch = (url: RequestInfo, init: RequestInit) => {
     return fetch(url, {
@@ -41,11 +62,7 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
           console.log(`[Network error]: ${networkError}. Backend is unreachable. Is it running?`);
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
-      createUploadLink({
-        uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
-        // credentials: 'include',
-        fetch: enhancedFetch
-      })
+      authLink.concat(httpLink),
     ]),
     cache: new InMemoryCache()
   });

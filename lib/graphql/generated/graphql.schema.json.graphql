@@ -108,7 +108,6 @@ type Mutation {
     AddItemsToCart(items: [CartItemInput!]!): CartResponse!
     AddPromoCodeToCart(promoCode: String!): CartResponse!
     AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
-    CreateEntry(formId: ID!): EntryResponse!
     CreateGuest: TokenResponse!
     CreateOrder: OrderResponse!
     GetPaymentIntent(orderId: String!): PaymentIntentResponse!
@@ -119,7 +118,7 @@ type Mutation {
     SetShippingTypeToCart(shippingType: String!): CartResponse!
     SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
     SignUp(user: UserInput!): UserResponse!
-    UpdateEntry(entryId: ID!, formId: ID!, formStep: FormStepInput!): EntryResponse!
+    SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
 }
 
 type Option {

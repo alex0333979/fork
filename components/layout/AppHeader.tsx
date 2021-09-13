@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
 import NavItem from './NavItem';
-import { TOP_MENUS } from '../constants';
+import { TOP_MENUS } from '../../constants';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);

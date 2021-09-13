@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { initializeApollo } from '@/lib/apolloClient';
 import { Form, FormsDocument, FormsQuery } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
-import ApplicationForm from '@/components/ApplicationForm';
+import ApplicationForm from '@/components/Application/ApplicationForm';
 
 type EntryPageProps = {
   forms: Form[];

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppFooter, AppHeader } from './index';
+import { AppFooter, AppHeader } from '../index';
 
 type AppLayoutProps = {
   children: React.ReactNode;

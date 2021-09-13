@@ -187,7 +187,6 @@ export type Mutation = {
   AddItemsToCart: CartResponse;
   AddPromoCodeToCart: CartResponse;
   AddShippingAddressToCart: CartResponse;
-  CreateEntry: EntryResponse;
   CreateGuest: TokenResponse;
   CreateOrder: OrderResponse;
   GetPaymentIntent: PaymentIntentResponse;
@@ -198,7 +197,7 @@ export type Mutation = {
   SetShippingTypeToCart: CartResponse;
   SetTrackingNumber: OrderResponse;
   SignUp: UserResponse;
-  UpdateEntry: EntryResponse;
+  SubmitEntry: EntryResponse;
 };
 
 
@@ -219,11 +218,6 @@ export type MutationAddPromoCodeToCartArgs = {
 
 export type MutationAddShippingAddressToCartArgs = {
   shippingAddress: ShippingAddressInput;
-};
-
-
-export type MutationCreateEntryArgs = {
-  formId: Scalars['ID'];
 };
 
 
@@ -269,8 +263,8 @@ export type MutationSignUpArgs = {
 };
 
 
-export type MutationUpdateEntryArgs = {
-  entryId: Scalars['ID'];
+export type MutationSubmitEntryArgs = {
+  entryId?: Maybe<Scalars['ID']>;
   formId: Scalars['ID'];
   formStep: FormStepInput;
 };
@@ -586,21 +580,14 @@ export type SetTrackingNumberMutationVariables = Exact<{
 
 export type SetTrackingNumberMutation = { __typename?: 'Mutation', SetTrackingNumber: { __typename?: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename?: 'Order', id: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename?: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string }>, billingAddress: { __typename?: 'BillingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string }, shippingAddress: { __typename?: 'ShippingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }, status: { __typename?: 'OrderTrack', confirmOrder: { __typename?: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename?: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename?: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename?: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename?: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
 
-export type CreateEntryMutationVariables = Exact<{
-  formId: Scalars['ID'];
-}>;
-
-
-export type CreateEntryMutation = { __typename?: 'Mutation', CreateEntry: { __typename?: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename?: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename?: 'Form', id: string, name: string, description: string, steps: Array<{ __typename?: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename?: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename?: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename?: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
-
-export type UpdateEntryMutationVariables = Exact<{
-  entryId: Scalars['ID'];
+export type SubmitEntryMutationVariables = Exact<{
+  entryId?: Maybe<Scalars['ID']>;
   formId: Scalars['ID'];
   formStep: FormStepInput;
 }>;
 
 
-export type UpdateEntryMutation = { __typename?: 'Mutation', UpdateEntry: { __typename?: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename?: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename?: 'Form', id: string, name: string, description: string, steps: Array<{ __typename?: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename?: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename?: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename?: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
+export type SubmitEntryMutation = { __typename?: 'Mutation', SubmitEntry: { __typename?: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename?: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename?: 'Form', id: string, name: string, description: string, steps: Array<{ __typename?: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename?: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename?: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename?: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
 
 export type AddItemsToCartMutationVariables = Exact<{
   cartItems: Array<CartItemInput> | CartItemInput;
@@ -1143,9 +1130,9 @@ export function useSetTrackingNumberMutation(baseOptions?: Apollo.MutationHookOp
 export type SetTrackingNumberMutationHookResult = ReturnType<typeof useSetTrackingNumberMutation>;
 export type SetTrackingNumberMutationResult = Apollo.MutationResult<SetTrackingNumberMutation>;
 export type SetTrackingNumberMutationOptions = Apollo.BaseMutationOptions<SetTrackingNumberMutation, SetTrackingNumberMutationVariables>;
-export const CreateEntryDocument = gql`
-    mutation CreateEntry($formId: ID!) {
-  CreateEntry(formId: $formId) {
+export const SubmitEntryDocument = gql`
+    mutation SubmitEntry($entryId: ID, $formId: ID!, $formStep: FormStepInput!) {
+  SubmitEntry(entryId: $entryId, formId: $formId, formStep: $formStep) {
     message
     status
     data {
@@ -1163,66 +1150,20 @@ export const CreateEntryDocument = gql`
   }
 }
     ${FormFragmentDoc}`;
-export type CreateEntryMutationFn = Apollo.MutationFunction<CreateEntryMutation, CreateEntryMutationVariables>;
+export type SubmitEntryMutationFn = Apollo.MutationFunction<SubmitEntryMutation, SubmitEntryMutationVariables>;
 
 /**
- * __useCreateEntryMutation__
+ * __useSubmitEntryMutation__
  *
- * To run a mutation, you first call `useCreateEntryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateEntryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSubmitEntryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSubmitEntryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createEntryMutation, { data, loading, error }] = useCreateEntryMutation({
- *   variables: {
- *      formId: // value for 'formId'
- *   },
- * });
- */
-export function useCreateEntryMutation(baseOptions?: Apollo.MutationHookOptions<CreateEntryMutation, CreateEntryMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateEntryMutation, CreateEntryMutationVariables>(CreateEntryDocument, options);
-      }
-export type CreateEntryMutationHookResult = ReturnType<typeof useCreateEntryMutation>;
-export type CreateEntryMutationResult = Apollo.MutationResult<CreateEntryMutation>;
-export type CreateEntryMutationOptions = Apollo.BaseMutationOptions<CreateEntryMutation, CreateEntryMutationVariables>;
-export const UpdateEntryDocument = gql`
-    mutation UpdateEntry($entryId: ID!, $formId: ID!, $formStep: FormStepInput!) {
-  UpdateEntry(entryId: $entryId, formId: $formId, formStep: $formStep) {
-    message
-    status
-    data {
-      id
-      userId
-      currentStep
-      isComplete
-      formId
-      form {
-        ...Form
-      }
-      createdAt
-      updatedAt
-    }
-  }
-}
-    ${FormFragmentDoc}`;
-export type UpdateEntryMutationFn = Apollo.MutationFunction<UpdateEntryMutation, UpdateEntryMutationVariables>;
-
-/**
- * __useUpdateEntryMutation__
- *
- * To run a mutation, you first call `useUpdateEntryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateEntryMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateEntryMutation, { data, loading, error }] = useUpdateEntryMutation({
+ * const [submitEntryMutation, { data, loading, error }] = useSubmitEntryMutation({
  *   variables: {
  *      entryId: // value for 'entryId'
  *      formId: // value for 'formId'
@@ -1230,13 +1171,13 @@ export type UpdateEntryMutationFn = Apollo.MutationFunction<UpdateEntryMutation,
  *   },
  * });
  */
-export function useUpdateEntryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEntryMutation, UpdateEntryMutationVariables>) {
+export function useSubmitEntryMutation(baseOptions?: Apollo.MutationHookOptions<SubmitEntryMutation, SubmitEntryMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateEntryMutation, UpdateEntryMutationVariables>(UpdateEntryDocument, options);
+        return Apollo.useMutation<SubmitEntryMutation, SubmitEntryMutationVariables>(SubmitEntryDocument, options);
       }
-export type UpdateEntryMutationHookResult = ReturnType<typeof useUpdateEntryMutation>;
-export type UpdateEntryMutationResult = Apollo.MutationResult<UpdateEntryMutation>;
-export type UpdateEntryMutationOptions = Apollo.BaseMutationOptions<UpdateEntryMutation, UpdateEntryMutationVariables>;
+export type SubmitEntryMutationHookResult = ReturnType<typeof useSubmitEntryMutation>;
+export type SubmitEntryMutationResult = Apollo.MutationResult<SubmitEntryMutation>;
+export type SubmitEntryMutationOptions = Apollo.BaseMutationOptions<SubmitEntryMutation, SubmitEntryMutationVariables>;
 export const AddItemsToCartDocument = gql`
     mutation AddItemsToCart($cartItems: [CartItemInput!]!) {
   AddItemsToCart(items: $cartItems) {

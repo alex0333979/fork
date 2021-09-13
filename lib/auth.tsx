@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext, ReactNode, useMemo } from 'react';
+import React, { useState, useContext, createContext, ReactNode, useEffect } from 'react';
 import {
   ApolloProvider,
   ApolloClient,
@@ -17,7 +17,6 @@ import {
 } from '@/generated/graphql';
 import { AppPropsType } from 'next/dist/shared/lib/utils';
 import { useApollo } from './apolloClient';
-import { IncomingHttpHeaders } from 'http';
 import { FetchResult } from '@apollo/client/link/core';
 
 interface IContextProps {
@@ -46,12 +45,15 @@ export function AuthProvider({
   children: ReactNode;
   pageProps: AppPropsType['pageProps'];
 }) {
-  const auth = useProvideAuth(pageProps);
+  const apolloClient = useApollo(pageProps);
+  const auth = useProvideAuth(apolloClient);
 
   return (
-    <authContext.Provider value={auth}>
-      <ApolloProvider client={auth.apolloClient}>{children}</ApolloProvider>
-    </authContext.Provider>
+    <ApolloProvider client={apolloClient}>
+      <authContext.Provider value={auth}>
+        {children}
+      </authContext.Provider>
+    </ApolloProvider>
   );
 }
 
@@ -59,12 +61,19 @@ export const useAuth = (): IContextProps => {
   return useContext(authContext);
 };
 
-function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
+function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [me, setMe] = useState<User | null>(null);
 
+  useEffect(() => {
+    (async () => {
+      await createGuest();
+      await autoLogin();
+    })()
+  }, [])
+
   const isAuthenticated = (): boolean => {
-    return !!authToken;
+    return !!(me && me.email);
   };
 
   const getMe = (): User | null => {
@@ -82,19 +91,6 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
   const canAutoLogin = (): boolean => {
     return getToken() !== null;
   };
-
-  const getAuthHeaders = (): IncomingHttpHeaders | undefined => {
-    // const token = getToken();
-    // setAuthToken(token);
-
-    if (!authToken) return undefined;
-
-    return {
-      authorization: `Bearer ${authToken}`
-    };
-  };
-
-  const apolloClient = useApollo(pageProps);
 
   const autoLogin = async () => {
     const token = getToken();
@@ -143,8 +139,8 @@ function useProvideAuth(pageProps: AppPropsType['pageProps']): IContextProps {
   };
 
   const getSavedEntries = (): string[] => {
-    const strEntries = localStorage.getItem('biometric-photo.entries') || '';
-    return strEntries.split(',');
+    const strEntries = localStorage.getItem('biometric-photo.entries');
+    return strEntries ? strEntries.split(',') : [];
   };
 
   const removeEntry = (entryId: string) => {

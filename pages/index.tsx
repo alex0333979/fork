@@ -2,19 +2,13 @@ import type { NextPage } from 'next';
 import styles from '../styles/pages/Home.module.scss';
 import React from 'react';
 import { AppLayout } from '../components';
-import { useAuth } from '@/lib/auth';
 
 const Home: NextPage = () => {
-  const { signIn } = useAuth();
-
-  const submit = () => {
-    signIn({ email: 'test@gmail.com', password: 'aaaaaa' });
-  };
 
   return (
     <AppLayout>
       <main className={styles.main}>
-        <h1 className={styles.title} onClick={submit}>
+        <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Biometric Photo!</a>
         </h1>
         <div className={styles.grid}>

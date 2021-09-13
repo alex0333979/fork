@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavItemProps } from '../components/NavItem';
+import { NavItemProps } from '@/components/layout/NavItem';
 
 export const TOP_MENUS: NavItemProps[] = [
   {
