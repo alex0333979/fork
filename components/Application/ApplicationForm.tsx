@@ -33,44 +33,84 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
     formId: forms[0].id,
     isComplete: false
   });
+  const [country, setCountry] = useState<string>('US');
   const [savedEntries, SetSavedEntries] = useState<string[]>([]);
   const { getSavedEntries } = useAuth();
   // const [getEntry, { data: entry, loading, error: entryError }] = useEntryLazyQuery();
   const [submitEntry, { data: newEntry }] = useSubmitEntryMutation();
-  useEffect(()=>{
+
+  useEffect(() => {
     setEntry({
       currentStep: 1,
       form: forms[formIndex],
       formId: forms[formIndex].id,
       isComplete: false
-    })
-  },[formIndex])
-  useEffect(() => {
-    // if (id) {
-    //   getEntry({ variables: { entryId: id } });
-    // } else {
-    //   const entries = getSavedEntries();
-    //   if (entries.length > 0) {
-    //     getEntry({ variables: { entryId: entries[0] } });
-    //   } else {
-    // (async () => {
-    //   await submitEntry({ variables: { formId: forms[0].id} });
-    // })()
-    // }
-    // }
+    });
+  }, [formIndex]);
 
-    // const entries = getSavedEntries();
-    // if (entries.length == 0) {
-    //   const data = useEntryQuery({ variables: { entryId: '612df48b1accd31d2d50894b'}})
-    //
-    // }
-  }, []);
 
-  // useEffect(() => {
-  //   if (entryError) {
-  //     // router.push('/').then()
-  //   }
-  // }, [entryError, router])
+  const onValueChange = (name: string, value: string | number) => {
+    const formStepIndex = entry.form.steps.findIndex(step => step.step === entry.currentStep);
+    if (formStepIndex === -1) {
+      return;
+    }
+    const fieldIndex = entry.form.steps[formStepIndex].fields.findIndex(field => field.name === name);
+    if (fieldIndex === -1) {
+      return;
+    }
+    entry.form.steps[formStepIndex].fields[fieldIndex].value = value;
+    setEntry(entry);
+    console.log(entry.form.steps[formStepIndex].fields[fieldIndex].value)
+  }
+
+  const onOptionSelected = (name: string, index: number) => {
+    const formStepIndex = entry.form.steps.findIndex(step => step.step === entry.currentStep);
+    if (formStepIndex === -1) {
+      return;
+    }
+    const fieldIndex = entry.form.steps[formStepIndex].fields.findIndex(field => field.name === name);
+    if (fieldIndex === -1) {
+      return;
+    }
+    const options = entry.form.steps[formStepIndex].fields[fieldIndex].options;
+    if (!options) {
+      return;
+    }
+    entry.form.steps[formStepIndex].fields[fieldIndex].value = options[index].value
+    setEntry(entry);
+    console.log(entry.form.steps[formStepIndex].fields[fieldIndex].value)
+  }
+
+  const onSelectedCountry = (name: string, value: string) => {
+    onValueChange(name, value);
+    setCountry(value);
+  }
+
+  const submitForm = () => {
+    nextStep();
+  }
+
+  const nextStep = () => {
+    if (entry.currentStep > entry.form.steps.length - 1) {
+      return;
+    }
+    setEntry((values) => ({
+      ...values,
+      currentStep: values.currentStep ++
+    }))
+    setCountry('US');
+  }
+
+  const preStep = () => {
+    if (entry.currentStep < 2) {
+      return;
+    }
+    setEntry((values) => ({
+      ...values,
+      currentStep: values.currentStep --
+    }))
+    setCountry('US');
+  }
 
   const formStep = entry.form.steps.find(step => step.step === entry.currentStep);
 
@@ -152,7 +192,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
                                 <span className="field radio">
                                   <span className="name"><b>{form.name}</b><i className="icon-about"/></span>
                                   <span className="extra">{form.description}</span>
-                                  <input type="radio" onChange={(e) => setFormIndex(index)} name="application" placeholder="Male"/>
+                                  <input
+                                    type="radio"
+                                    name="application"
+                                    checked={index === formIndex}
+                                    onChange={() => setFormIndex(index)}
+                                  />
                                   <span className="wrap">
                                     <span className="bullet"/>
                                     <span className="border"/>
@@ -174,27 +219,27 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
                         switch (field.type) {
                           case FieldType.Radio:
                             return (
-                              <RadioOption key={index} formField={field}/>
+                              <RadioOption key={index} formField={field} onOptionSelected={onOptionSelected}/>
                             );
                           case FieldType.Input:
                             return (
-                              <TextInput key={index} formField={field}/>
+                              <TextInput key={index} formField={field} onValueChange={onValueChange}/>
                             );
                           case FieldType.Select:
                             return (
-                              <SelectBox key={index} formField={field}/>
+                              <SelectBox key={index} formField={field} onValueChange={onValueChange}/>
                             );
                           case FieldType.CountryPicker:
                             return (
-                              <CountryPicker key={index} formField={field}/>
+                              <CountryPicker key={index} formField={field} selectedCountry={onSelectedCountry}/>
                             );
                           case FieldType.StatePicker:
                             return (
-                              <StatePicker key={index} formField={field}/>
+                              <StatePicker key={index} formField={field} selectedState={onValueChange} country={country}/>
                             );
                           case FieldType.DatePicker:
                             return (
-                              <DatePicker key={index} formField={field}/>
+                              <DatePicker key={index} formField={field} onValueChange={onValueChange}/>
                             );
                         }
                       })
@@ -211,14 +256,14 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ id, forms }) => {
               <div className="back-btn">
                 {
                   entry.currentStep !== 1 ? (
-                    <button type="button" className="main-btn big outline">
+                    <button type="button" className="main-btn big outline" onClick={preStep}>
                       <span className="icon-left"/> Back
                     </button>
                   ) : (<></>)
                 }
               </div>
               <div className="next-btn">
-                <button type="button" className="main-btn big">
+                <button type="button" className="main-btn big" onClick={submitForm}>
                   Next <span className="icon-right"/>
                 </button>
               </div>

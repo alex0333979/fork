@@ -1,28 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormField } from '@/generated/graphql';
 
 type RadioOptionProps = {
-  formField: FormField
+  formField: FormField;
+  onOptionSelected: (name: string, index: number) => void;
 }
 
-const RadioOption: React.FC<RadioOptionProps> = ({ formField }) => {
+const RadioOption: React.FC<RadioOptionProps> = ({ formField, onOptionSelected }) => {
+  const [index, setIndex] = useState<number | undefined>(undefined);
+
+  const onSelect = (index: number) => {
+    onOptionSelected(formField.name, index);
+    setIndex(index);
+  };
+
   return (
     <div className="group">
       <div className="group-label">
         <p>{formField.text}</p>
       </div>
       {
-        formField.options?.map((option, index) => {
+        formField.options?.map((option, i) => {
           return (
-            <label key={index} className="third-size">
+            <label key={i} className="third-size">
               <span className="field radio">
                 <span className="name">
                   {option.text}
                   {
-                    option.notes? (<i className="icon-about"/>) : (<></>)
+                    option.notes ? (<i className="icon-about"/>) : (<></>)
                   }
                 </span>
-                <input type="radio" name={formField.name} placeholder={formField.placeholder? formField.placeholder : ''}/>
+                <input
+                  type="radio"
+                  name={formField.name}
+                  placeholder={formField.placeholder ? formField.placeholder : ''}
+                  checked={index === i}
+                  onChange={() => onSelect(i)}
+                />
                 <span className="wrap">
                   <span className="bullet"/>
                   <span className="border"/>
@@ -34,7 +48,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField }) => {
         })
       }
     </div>
-  )
-}
+  );
+};
 
 export default RadioOption;
