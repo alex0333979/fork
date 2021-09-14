@@ -41,7 +41,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
 
   useEffect(() => {
     setSavedEntries(getSavedEntries());
-  }, []);
+  }, [saveEntry]);
 
   // const [getEntry, { data: entry, loading, error: entryError }] = useEntryLazyQuery();
   const [submitEntry] = useSubmitEntryMutation();
@@ -126,10 +126,16 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
     submitEntry({ variables: { entryId: entry.id, formId: entry.formId, formStep: formStep } })
       .then(({ data, errors }) => {
         console.log('===data===', data);
+        if (data) {
+          const id = data.SubmitEntry.data?.id;
+          if (id) {
+            saveEntry(id);
+          }
+        }
         console.log('===errors===', errors);
       });
     // nextStep();
-  }, [validateForm, nextStep]);
+  }, [validateForm, nextStep, saveEntry]);
 
   const formStep = useMemo(() => entry.form.steps.find(step => step.step === entry.currentStep), [entry.form, entry.currentStep]);
 
