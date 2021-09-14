@@ -81,10 +81,16 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   };
 
   const rememberToken = (token: string) => {
+    if (typeof window === 'undefined') {
+      return;
+    }
     localStorage.setItem('biometric-photo.token', token);
   };
 
   const getToken = (): string | null => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
     return localStorage.getItem('biometric-photo.token');
   };
 
@@ -139,6 +145,9 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   };
 
   const getSavedEntries = (): string[] => {
+    if (typeof window === 'undefined') {
+      return [];
+    }
     const strEntries = localStorage.getItem('biometric-photo.entries');
     return strEntries ? strEntries.split(',') : [];
   };
@@ -152,12 +161,18 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   };
 
   const saveEntry = (entryId: string) => {
+    if (typeof window === 'undefined') {
+      return;
+    }
     const entries = getSavedEntries();
     entries.push(entryId);
     localStorage.setItem('biometric-photo.entries', entries.toString());
   };
 
   const clearEntries = () => {
+    if (typeof window === 'undefined') {
+      return;
+    }
     localStorage.setItem('biometric-photo.entries', '');
   };
 

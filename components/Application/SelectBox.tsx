@@ -7,7 +7,7 @@ type SelectBoxProps = {
 }
 
 const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange }) => {
-  const [value, setValue] = useState<string | number >('default');
+  const [value, setValue] = useState<string | number >('');
 
   const onChange = (name: string, value: string | number) => {
     onValueChange(name, value);

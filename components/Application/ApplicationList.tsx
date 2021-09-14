@@ -4,35 +4,51 @@ import classNames from 'classnames';
 
 type ApplicationListProps = {
   ids: string[];
+  isOpenAddFrom: boolean;
+  openAddForm: (status: boolean) => void;
 };
-const ApplicationList: React.FC<ApplicationListProps> = ({ ids }) => {
+const ApplicationList: React.FC<ApplicationListProps> = ({ ids, openAddForm, isOpenAddFrom }) => {
 
   return (
     <div className="application-list">
       <div className="container">
         <div className="data-wrap">
           <ul>
-            {ids.map((id, index) => {
-              return (
-                <li key={index}>
-                  <Link href={'/application/[entryId]'} as={`/application/${id}`}>
-                    <a className={classNames({"main-btn": true,  "small": true, "blank": index === 1})}>
-                      Application №{index + 1}
-                      <span className="icon-remove"/>
+            {
+              ids.map((id, index) => {
+                return (
+                  <li key={index}>
+                    <Link href={'/application/'}>
+                      <a className={classNames({ 'main-btn': true, 'small': true, 'blank': index === 1 })}>
+                        Application №{index + 1}
+                        <span className="icon-remove"/>
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })
+            }
+            {
+              ids.length === 0? (
+                <li>
+                  <Link href={'/application/'}>
+                    <a className={classNames({ 'main-btn': true, 'small': true, 'blank': true })}>
+                      Application №1
                     </a>
                   </Link>
                 </li>
-              );
-            })}
+              ) : (<></>)
+            }
 
-            <li className="add-application">
-              <button type="button" className="add-btn">
+            <li className={classNames({"add-application": true, "active": isOpenAddFrom})}>
+              <button type="button" className="add-btn" onClick={() => openAddForm(!isOpenAddFrom)}>
                 <span className="icon-close"/>
                 {'Add\n application'}
               </button>
+
               <div className="add-form">
                 <div className="bg-wrap">
-                  <button type="button" className="icon-close"/>
+                  <button type="button" className="icon-close" onClick={() => openAddForm(false)}/>
                   <div className="top-info">
                     <h4>Add Another Application?</h4>
                   </div>
@@ -52,7 +68,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({ ids }) => {
                   </table>
                   <div className="btn-wrap">
                     <button type="button" className="main-btn small">Add an application</button>
-                    <button type="button" className="main-btn small blank cancel">Cancel</button>
+                    <button type="button" className="main-btn small blank cancel" onClick={() => openAddForm(false)}>Cancel</button>
                   </div>
                 </div>
               </div>
@@ -61,7 +77,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({ ids }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ApplicationList;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import { CountryDropdown } from 'react-country-region-selector';
 
@@ -13,6 +13,13 @@ const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountr
     selectedCountry(formField.name, country);
     setCountry(country);
   };
+
+  useEffect(() => {
+    if (!formField.defaultValue) {
+      selectedCountry(formField.name, 'US');
+    }
+  }, [])
+
   return (
     <label className="half-size">
       <span className="label">{formField.text}{formField.required ? '*' : ''}</span>

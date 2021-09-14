@@ -1030,6 +1030,18 @@
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.0.3.tgz#76d6d0c3f4d16013c61e45dfca5ff1e6c31ae53c"
   integrity sha512-jDJTpta+P4p1NZTFVLHJ/TLFVYVcOqv6l8xwOeBKNPMgY/zDYH/YH7SJbvrr/h1RcS9GzbPcLKGzpuK9cV56UA==
 
+"@naveen-bharathi/recursive-object-key-filter@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@naveen-bharathi/recursive-object-key-filter/-/recursive-object-key-filter-1.0.5.tgz#248496f3fee8bc2f1be7eb3d7459a7c1b41c2888"
+  integrity sha512-uvlTukLgnVNVAwfdhDcf43s3H8cgOKidTfj5fsDXKJFNM7sPBjnmDjnRMm//In3yf6kIwJ3roSJ8RWPqgSrmGQ==
+
+"@naveen-bharathi/remove-graphql-typename@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@naveen-bharathi/remove-graphql-typename/-/remove-graphql-typename-1.0.3.tgz#9892c6f22b8378b2d908191a373cfd1814a66e7a"
+  integrity sha512-uhMwT3uc+qC0sSupf4dm0qlV76NIQ1UwvRy4J7TAhAmoCEv61UFZWG/H8ZWaNTS9VQYFGv/Xl1r6zzKsdyQAKA==
+  dependencies:
+    "@naveen-bharathi/recursive-object-key-filter" "^1.0.5"
+
 "@next/env@11.1.2":
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/@next/env/-/env-11.1.2.tgz#27996efbbc54c5f949f5e8c0a156e3aa48369b99"

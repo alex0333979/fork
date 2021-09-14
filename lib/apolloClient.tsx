@@ -2,7 +2,6 @@ import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache, NormalizedCach
 import { onError } from '@apollo/link-error';
 import merge from 'deepmerge';
 import { IncomingHttpHeaders } from 'http';
-import fetch from 'isomorphic-unfetch';
 import isEqual from 'lodash/isEqual';
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
@@ -18,6 +17,9 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
   const httpLink = createHttpLink({
     uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
     // credentials: 'include'
+    headers: {
+      ...headers
+    }
   });
 
   const authLink = setContext((_, { headers }) => {
@@ -33,19 +35,6 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
       }
     }
   });
-
-  // isomorphic fetch for passing the cookies along with each GraphQL request
-  const enhancedFetch = (url: RequestInfo, init: RequestInit) => {
-    return fetch(url, {
-      ...init,
-      headers: {
-        ...init.headers,
-        'Access-Control-Allow-Origin': '*',
-        // here we pass the cookie along for each request
-        Cookie: headers?.cookie ?? ''
-      }
-    }).then((response) => response);
-  };
 
   return new ApolloClient({
     // SSR only for Node.js

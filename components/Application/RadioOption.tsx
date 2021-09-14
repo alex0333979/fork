@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 
 type RadioOptionProps = {
@@ -8,6 +8,13 @@ type RadioOptionProps = {
 
 const RadioOption: React.FC<RadioOptionProps> = ({ formField, onOptionSelected }) => {
   const [index, setIndex] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const index = formField.options?.findIndex(option => option.value === formField.value);
+    if (index !== -1) {
+      setIndex(index);
+    }
+  }, [formField])
 
   const onSelect = (index: number) => {
     onOptionSelected(formField.name, index);

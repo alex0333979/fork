@@ -96,7 +96,7 @@ fragment FormField on FormField {
     }
 }
 
-fragment FormSetp on FormStep {
+fragment FormStep on FormStep {
     name
     step
     notes
@@ -110,7 +110,7 @@ fragment Form on Form {
     name
     description
     steps {
-        ...FormSetp
+        ...FormStep
     }
 }
 
