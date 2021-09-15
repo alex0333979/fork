@@ -4,7 +4,7 @@ import { AppLayout } from '../../components';
 import { initializeApollo } from '@/lib/apolloClient';
 import { Form, FormsDocument, FormsQuery } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
-import ApplicationForm from '@/components/Application/ApplicationForm';
+import ApplicationForm from '@/components/application/applicationForm';
 import removeTypename from '@naveen-bharathi/remove-graphql-typename';
 
 interface EntryPageProps {

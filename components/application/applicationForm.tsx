@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import { FieldType, Form, useEntryLazyQuery, useSubmitEntryMutation } from '@/generated/graphql';
-import ApplicationList from '@/components/Application/ApplicationList';
+import ApplicationList from '@/components/application/applicationList';
 import classNames from 'classnames';
-import RadioOption from '@/components/Application/RadioOption';
-import TextInput from '@/components/Application/TextInput';
-import CountryPicker from '@/components/Application/CountryPicker';
-import StatePicker from '@/components/Application/StatePicker';
-import DatePicker from '@/components/Application/DatePicker';
-import SelectBox from '@/components/Application/SelectBox';
+import RadioOption from '@/components/application/radioOption';
+import TextInput from '@/components/application/textInput';
+import CountryPicker from '@/components/application/countryPicker';
+import StatePicker from '@/components/application/statePicker';
+import DatePicker from '@/components/application/datePicker';
+import SelectBox from '@/components/application/selectBox';
 import removeTypename from '@naveen-bharathi/remove-graphql-typename';
 
 interface ApplicationFormProps {
@@ -179,6 +179,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
   }, [entry]);
 
   const validateForm = useCallback(() => {
+    // todo add validation
     console.log('========');
   }, []);
 
@@ -197,7 +198,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
     }).then(({ data, errors }) => {
       console.log('===data===', data);
       if (data) {
-        const result = data.SubmitEntry.data;
+        const result = removeTypename(data.SubmitEntry.data);
         if (result) {
           saveEntry(result.id);
           result.currentStep += 1;

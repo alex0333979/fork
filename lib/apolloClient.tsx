@@ -61,7 +61,9 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
       // this uses apollo-link-http under the hood, so all the options here come from that package
       authLink.concat(httpLink)
     ]),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache({
+      addTypename: false
+    })
   });
 };
 
