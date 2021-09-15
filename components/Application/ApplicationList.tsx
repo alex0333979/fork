@@ -5,16 +5,23 @@ import classNames from 'classnames';
 interface ApplicationListProps {
   ids: string[];
   isOpenAddFrom: boolean;
-  currentId: string | undefined;
+  isNewEntry: boolean;
+  currentId: string | null;
   openAddForm: (status: boolean) => void;
-  selectedEntry: (id: string | undefined) => void;
+  selectedEntry: (id: string | null) => void;
+  createEntry: () => void;
+  deleteEntry: (id: string | null) => void;
 }
+
 const ApplicationList: React.FC<ApplicationListProps> = ({
   ids,
   isOpenAddFrom,
+  isNewEntry,
   currentId,
   openAddForm,
-  selectedEntry
+  selectedEntry,
+  createEntry,
+  deleteEntry
 }) => (
   <div className="application-list">
     <div className="container">
@@ -22,27 +29,40 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
         <ul>
           {ids.map((id, index) => (
             <li key={index}>
+              <a
+                className={classNames({
+                  'main-btn': true,
+                  small: true,
+                  blank: id !== currentId
+                })}
+                onClick={(e) => {
+                  e.preventDefault();
+                  selectedEntry(id);
+                }}>
+                {`Application №${index + 1}`}
+                <span
+                  className="icon-remove"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteEntry(id);
+                  }}
+                />
+              </a>
+            </li>
+          ))}
+          {ids.length === 0 || isNewEntry ? (
+            <li>
               <Link href={'/application/'}>
                 <a
                   className={classNames({
                     'main-btn': true,
                     small: true,
-                    blank: !(id === currentId)
+                    blank: currentId !== null
                   })}
                   onClick={(e) => {
                     e.preventDefault();
-                    selectedEntry(id);
+                    selectedEntry(null);
                   }}>
-                  Application №{index + 1}
-                  <span className="icon-remove" />
-                </a>
-              </Link>
-            </li>
-          ))}
-          {ids.length === 0 ? (
-            <li>
-              <Link href={'/application/'}>
-                <a className={classNames({ 'main-btn': true, small: true, blank: true })}>
                   Application №1
                 </a>
               </Link>
@@ -80,7 +100,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                   </tfoot>
                 </table>
                 <div className="btn-wrap">
-                  <button type="button" className="main-btn small">
+                  <button type="button" className="main-btn small" onClick={createEntry}>
                     Add an application
                   </button>
                   <button

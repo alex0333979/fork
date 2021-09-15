@@ -4,7 +4,7 @@ import Input from 'react-phone-number-input/input';
 
 interface TextInputProps {
   formField: FormField;
-  onValueChange: (name: string, value: string) => void;
+  onValueChange: (name: string, value: string | undefined) => void;
 }
 
 const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange }) => {
@@ -28,7 +28,7 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange }) => {
             country="US"
             international
             withCountryCallingCode
-            value={value}
+            value={value?.toString()}
             onChange={(value) => onChange(formField.name, value)}
           />
         ) : (

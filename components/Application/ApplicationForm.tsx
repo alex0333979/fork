@@ -16,25 +16,28 @@ interface ApplicationFormProps {
 }
 
 interface IEntry {
-  id?: string;
+  id: string | null;
   currentStep: number;
   form: Form;
   formId: string;
 }
 
 const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
-  const [formIndex, setFormIndex] = useState<number>(0);
-  const [entry, setEntry] = useState<IEntry>({
-    id: undefined,
+  const initialEntry = {
+    id: null,
     currentStep: 1,
     form: forms[0],
     formId: forms[0].id
-  });
+  };
+  const [formIndex, setFormIndex] = useState<number>(0);
+  const [entry, setEntry] = useState<IEntry>(initialEntry);
   const [country, setCountry] = useState<string>('US');
-  const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
   const [entryIds, setEntryIds] = useState<string[]>([]);
+  const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
+  const [isNewEntry, setIsNewEntry] = useState<boolean>(false);
+  const [called, setCalled] = useState<boolean>(false);
 
-  const { getSavedEntries, saveEntry } = useAuth();
+  const { getSavedEntries, saveEntry, removeEntry } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
   const [getEntry, { data: getEntryResponse }] = useEntryLazyQuery();
 
@@ -44,7 +47,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
   }, [getSavedEntries]);
 
   useEffect(() => {
-    if (getEntryResponse?.Entry.data) {
+    if (called && getEntryResponse?.Entry.data) {
       const data = removeTypename(getEntryResponse?.Entry.data);
       console.log('===set entry and next step2===', data.id);
       setCountry('US');
@@ -55,29 +58,55 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
         formId: data.formId
       });
     }
-  }, [getEntryResponse]);
+  }, [getEntryResponse, called]);
 
   useEffect(() => {
     console.log('=====call set current step 1======');
-    setEntry((value) => ({
-      ...value,
+    setEntry(() => ({
+      id: null,
+      currentStep: 1,
       form: forms[formIndex],
       formId: forms[formIndex].id
     }));
   }, [formIndex, forms]);
 
   const selectedEntry = useCallback(
-    (id: string | undefined) => {
+    (id: string | null) => {
       console.log('===%%%%%%%===', id);
+      setCalled(false);
+      if (entry.id === id) {
+        return;
+      }
       if (!id) {
-        console.log('===setFormIndex===', id);
-        setFormIndex(0);
-      } else if (entry.id !== id) {
-        console.log('===getEntry===', id, entry.id);
+        console.log('===getEntry1===', id, entry.id);
+        setEntry(initialEntry);
+      } else {
+        console.log('===getEntry2===', id, entry.id);
         getEntry({ variables: { entryId: id } });
+        setCalled(true);
       }
     },
     [entry.id, getEntry]
+  );
+
+  const createEntry = useCallback(() => {
+    console.log('===createEntry===');
+    setIsNewEntry(true);
+    setIsOpenAddForm(false);
+    selectedEntry(null);
+  }, [selectedEntry]);
+
+  const deleteEntry = useCallback(
+    (id: string | null) => {
+      console.log('====delete entry====', id);
+      if (!id) {
+        setIsNewEntry(false);
+      } else {
+        const ids = removeEntry(id);
+        setEntryIds(ids);
+      }
+    },
+    [removeEntry]
   );
 
   useEffect(() => {
@@ -86,7 +115,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
       selectedEntry(entryIds[entryIds.length - 1]);
     } else {
       console.log('===Initial useEffect2===', 'undefined');
-      selectedEntry(undefined);
+      selectedEntry(null);
     }
   }, [entryIds]);
 
@@ -153,10 +182,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
     console.log('========');
   }, []);
 
-  const formStep = useMemo(() => {
-    console.log('===form step calculated====', entry);
-    return entry.form.steps.find((step) => step.step === entry.currentStep);
-  }, [entry]);
+  const formStep = useMemo(
+    () => entry.form.steps.find((step) => step.step === entry.currentStep),
+    [entry]
+  );
 
   const submitForm = useCallback(() => {
     if (!formStep) {
@@ -187,6 +216,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
         isOpenAddFrom={isOpenAddForm}
         openAddForm={setIsOpenAddForm}
         selectedEntry={selectedEntry}
+        deleteEntry={deleteEntry}
+        createEntry={createEntry}
+        isNewEntry={isNewEntry}
       />
       <div className="floating-wrap">
         <div className={classNames({ 'application-form': true, blur: isOpenAddForm })}>

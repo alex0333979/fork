@@ -1,4 +1,11 @@
-import React, { useState, useContext, createContext, ReactNode, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useContext,
+  createContext,
+  ReactNode,
+  useEffect,
+  useCallback
+} from 'react';
 import {
   ApolloProvider,
   ApolloClient,
@@ -31,8 +38,8 @@ interface IContextProps {
   signOut: () => void;
   apolloClient: ApolloClient<NormalizedCacheObject>;
   getSavedEntries: () => string[];
-  removeEntry: (entryId: string) => void;
-  saveEntry: (entryId: string) => void;
+  removeEntry: (entryId: string | null) => string[];
+  saveEntry: (entryId: string) => string[];
   clearEntries: () => void;
 }
 
@@ -142,23 +149,29 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     return strEntries ? strEntries.split(',') : [];
   };
 
-  const removeEntry = (entryId: string) => {
+  const removeEntry = (entryId: string | null): string[] => {
     const entries = getSavedEntries();
+    if (!entryId) {
+      return entries;
+    }
     const index = entries.indexOf(entryId);
     if (index > -1) {
       entries.splice(index, 1);
     }
+    localStorage.setItem('biometric-photo.entries', entries.toString());
+    return entries;
   };
 
-  const saveEntry = (entryId: string) => {
+  const saveEntry = (entryId: string): string[] => {
     if (typeof window === 'undefined') {
-      return;
+      return [];
     }
     const entries = getSavedEntries();
     if (!entries.includes(entryId)) {
       entries.push(entryId);
       localStorage.setItem('biometric-photo.entries', entries.toString());
     }
+    return entries;
   };
 
   const clearEntries = () => {
