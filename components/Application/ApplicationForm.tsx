@@ -64,11 +64,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
       form: forms[formIndex],
       formId: forms[formIndex].id
     }));
-  }, [forms, formIndex]);
+  }, [formIndex, forms]);
 
   const selectedEntry = useCallback(
     (id: string | undefined) => {
-      console.log('===selectedEntry===');
+      console.log('===%%%%%%%===', id);
       if (!id) {
         console.log('===setFormIndex===', id);
         setFormIndex(0);
@@ -79,6 +79,16 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
     },
     [entry.id, getEntry]
   );
+
+  useEffect(() => {
+    if (entryIds.length > 0) {
+      console.log('===Initial useEffect1===', entryIds);
+      selectedEntry(entryIds[entryIds.length - 1]);
+    } else {
+      console.log('===Initial useEffect2===', 'undefined');
+      selectedEntry(undefined);
+    }
+  }, [entryIds]);
 
   const onValueChange = useCallback(
     (name: string, value: string | number | undefined) => {
@@ -127,16 +137,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
     },
     [onValueChange]
   );
-
-  useEffect(() => {
-    if (entryIds.length > 0) {
-      console.log('===Initial useEffect1===', entryIds);
-      selectedEntry(entryIds[entryIds.length - 1]);
-    } else {
-      console.log('===Initial useEffect2===', 'undefined');
-      selectedEntry(undefined);
-    }
-  }, [entryIds, selectedEntry]);
 
   const preStep = useCallback(() => {
     if (entry.currentStep < 2) {

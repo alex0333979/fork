@@ -7,16 +7,15 @@ import { ApolloQueryResult } from '@apollo/client';
 import ApplicationForm from '@/components/Application/ApplicationForm';
 import removeTypename from '@naveen-bharathi/remove-graphql-typename';
 
-type EntryPageProps = {
+interface EntryPageProps {
   forms: Form[];
-};
+}
 
-const Entry: NextPage<EntryPageProps> = ({ forms }: EntryPageProps) => {
-
-  return (
-    <AppLayout><ApplicationForm forms={forms}/></AppLayout>
-  );
-};
+const Entry: NextPage<EntryPageProps> = ({ forms }: EntryPageProps) => (
+  <AppLayout>
+    <ApplicationForm forms={forms} />
+  </AppLayout>
+);
 
 export const getStaticProps: GetStaticProps<EntryPageProps> = async () => {
   const client = initializeApollo();

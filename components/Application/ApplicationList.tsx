@@ -24,8 +24,15 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
             <li key={index}>
               <Link href={'/application/'}>
                 <a
-                  className={classNames({ 'main-btn': true, small: true, blank: id === currentId })}
-                  onClick={() => selectedEntry(id)}>
+                  className={classNames({
+                    'main-btn': true,
+                    small: true,
+                    blank: !(id === currentId)
+                  })}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    selectedEntry(id);
+                  }}>
                   Application №{index + 1}
                   <span className="icon-remove" />
                 </a>
