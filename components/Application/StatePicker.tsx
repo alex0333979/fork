@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import { RegionDropdown } from 'react-country-region-selector';
 
-type StatePickerProps = {
+interface StatePickerProps {
   formField: FormField;
   country: string;
   selectedState: (name: string, country: string) => void;
@@ -17,7 +17,10 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
 
   return (
     <label className="half-size">
-      <span className="label">{formField.text}{formField.required ? '*' : ''}</span>
+      <span className="label">
+        {formField.text}
+        {formField.required ? '*' : ''}
+      </span>
       <span className="field select">
         <RegionDropdown
           countryValueType={'short'}
@@ -25,7 +28,8 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
           country={country}
           value={state}
           disabled={!(country === 'US' || country === 'CA')}
-          onChange={selectState}/>
+          onChange={selectState}
+        />
       </span>
     </label>
   );

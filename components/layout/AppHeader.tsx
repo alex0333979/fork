@@ -29,18 +29,16 @@ const AppHeader: React.FC = () => {
             <div className={classNames({ 'main-menu': true, open: mobileNavVisible })}>
               <nav>
                 <ul>
-                  {TOP_MENUS.map((menu, index) => {
-                    return (
-                      <NavItem key={index} title={menu.title} link={menu.link} items={menu.items} />
-                    );
-                  })}
+                  {TOP_MENUS.map((menu, index) => (
+                    <NavItem key={index} title={menu.title} link={menu.link} items={menu.items} />
+                  ))}
                 </ul>
               </nav>
-              {/*<div>*/}
+              {/* <div>*/}
               {/*  <div class="">*/}
               {/*    <button type="button" class="main-btn big">Select a packages</button>*/}
               {/*  </div>*/}
-              {/*</div>*/}
+              {/* </div>*/}
             </div>
           </div>
           <div className="right-side">

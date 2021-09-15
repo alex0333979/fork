@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 
-export type NavItemProps = {
+export interface NavItemProps {
   title: string;
   link?: string;
   items: {
     title: string;
     link: string;
   }[];
-};
+}
 
 const NavItem: React.FC<NavItemProps> = ({ title, link = '', items }) => {
   const [open, setOpen] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, link = '', items }) => {
         <a>
           <span>{title}</span>
         </a>
-        <div className={classNames({ 'drop-item': true, open: open })}>
+        <div className={classNames({ 'drop-item': true, open })}>
           <ul>
             {items.map((item, index) => (
               <li key={index}>

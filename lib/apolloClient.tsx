@@ -1,4 +1,10 @@
-import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  createHttpLink,
+  InMemoryCache,
+  NormalizedCacheObject
+} from '@apollo/client';
 import { onError } from '@apollo/link-error';
 import merge from 'deepmerge';
 import { IncomingHttpHeaders } from 'http';
@@ -31,9 +37,9 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
     return {
       headers: {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : "",
+        Authorization: token ? `Bearer ${token}` : ''
       }
-    }
+    };
   });
 
   return new ApolloClient({
@@ -41,17 +47,19 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
     ssrMode: typeof window === 'undefined',
     link: ApolloLink.from([
       onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors)
+        if (graphQLErrors) {
           graphQLErrors.forEach(({ message, locations, path }) =>
             console.log(
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
             )
           );
-        if (networkError)
+        }
+        if (networkError) {
           console.log(`[Network error]: ${networkError}. Backend is unreachable. Is it running?`);
+        }
       }),
       // this uses apollo-link-http under the hood, so all the options here come from that package
-      authLink.concat(httpLink),
+      authLink.concat(httpLink)
     ]),
     cache: new InMemoryCache()
   });

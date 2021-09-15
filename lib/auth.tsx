@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext, ReactNode, useEffect } from 'react';
+import React, { useState, useContext, createContext, ReactNode, useEffect, useCallback } from 'react';
 import {
   ApolloProvider,
   ApolloClient,
@@ -50,16 +50,12 @@ export function AuthProvider({
 
   return (
     <ApolloProvider client={apolloClient}>
-      <authContext.Provider value={auth}>
-        {children}
-      </authContext.Provider>
+      <authContext.Provider value={auth}>{children}</authContext.Provider>
     </ApolloProvider>
   );
 }
 
-export const useAuth = (): IContextProps => {
-  return useContext(authContext);
-};
+export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
   const [authToken, setAuthToken] = useState<string | null>(null);
@@ -69,16 +65,12 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     (async () => {
       await createGuest();
       await autoLogin();
-    })()
-  }, [])
+    })();
+  }, []);
 
-  const isAuthenticated = (): boolean => {
-    return !!(me && me.email);
-  };
+  const isAuthenticated = (): boolean => !!(me && me.email);
 
-  const getMe = (): User | null => {
-    return me;
-  };
+  const getMe = (): User | null => me;
 
   const rememberToken = (token: string) => {
     if (typeof window === 'undefined') {
@@ -94,11 +86,9 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     return localStorage.getItem('biometric-photo.token');
   };
 
-  const canAutoLogin = (): boolean => {
-    return getToken() !== null;
-  };
+  const canAutoLogin = (): boolean => getToken() !== null;
 
-  const autoLogin = async () => {
+  const autoLogin = useCallback(async () => {
     const token = getToken();
     if (token === null) {
       return;
@@ -111,9 +101,9 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       rememberToken(token);
       setMe(data.Me.data);
     }
-  };
+  }, [apolloClient]);
 
-  const createGuest = async () => {
+  const createGuest = useCallback(async () => {
     const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
       mutation: CreateGuestDocument
     });
@@ -121,14 +111,14 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       setAuthToken(data?.CreateGuest?.data?.accessToken);
       rememberToken(data?.CreateGuest?.data?.accessToken);
     }
-  };
+  }, [apolloClient]);
 
   const signIn = async ({ email, password }: LoginMutationVariables) => {
     const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
       mutation: LoginDocument,
       variables: {
-        email: email,
-        password: password
+        email,
+        password
       }
     });
 
@@ -165,8 +155,10 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       return;
     }
     const entries = getSavedEntries();
-    entries.push(entryId);
-    localStorage.setItem('biometric-photo.entries', entries.toString());
+    if (!entries.includes(entryId)) {
+      entries.push(entryId);
+      localStorage.setItem('biometric-photo.entries', entries.toString());
+    }
   };
 
   const clearEntries = () => {

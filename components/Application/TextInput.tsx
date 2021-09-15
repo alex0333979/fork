@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormField, ValidationType } from '@/generated/graphql';
 import Input from 'react-phone-number-input/input';
 
-type TextInputProps = {
+interface TextInputProps {
   formField: FormField;
   onValueChange: (name: string, value: string) => void;
 }
@@ -17,38 +17,36 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange }) => {
 
   return (
     <label className="half-size">
-      <span className="label">{formField.text}{formField.required ? '*' : ''}
-        {
-          formField.notes ? (<i className="icon-about"/>) : (<></>)
-        }
+      <span className="label">
+        {formField.text}
+        {formField.required ? '*' : ''}
+        {formField.notes ? <i className="icon-about" /> : <></>}
       </span>
       <span className="field">
-        {
-          formField.validations?.find(validation => validation.type === ValidationType.IsPhone) ?
-            (
-              <Input
-                country="US"
-                international
-                withCountryCallingCode
-                value={value}
-                onChange={(value) => onChange(formField.name, value)}/>
-            ): (
-              <input
-                type="text"
-                name={formField.name}
-                value={value}
-                placeholder={formField.placeholder ? formField.placeholder : ''}
-                disabled={!!(formField.disabled)}
-                onChange={(e) => onChange(e.target.name, e.target.value)}
-              />
-            )
-        }
+        {formField.validations?.find((validation) => validation.type === ValidationType.IsPhone) ? (
+          <Input
+            country="US"
+            international
+            withCountryCallingCode
+            value={value}
+            onChange={(value) => onChange(formField.name, value)}
+          />
+        ) : (
+          <input
+            type="text"
+            name={formField.name}
+            value={value}
+            placeholder={formField.placeholder ? formField.placeholder : ''}
+            disabled={!!formField.disabled}
+            onChange={(e) => onChange(e.target.name, e.target.value)}
+          />
+        )}
       </span>
-      {
-        formField.name === 'social_security_number' ? (
-          <span className="attention">{formField.notes}</span>
-        ) : (<></>)
-      }
+      {formField.name === 'social_security_number' ? (
+        <span className="attention">{formField.notes}</span>
+      ) : (
+        <></>
+      )}
     </label>
   );
 };
