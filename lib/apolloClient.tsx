@@ -6,12 +6,13 @@ import {
   NormalizedCacheObject
 } from '@apollo/client';
 import merge from 'deepmerge';
-import { IncomingHttpHeaders, IncomingMessage } from 'http';
+import { IncomingMessage } from 'http';
 import isEqual from 'lodash/isEqual';
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
 import { setContext } from '@apollo/client/link/context';
 import cookie from 'cookie';
+import { GetServerSidePropsContext } from 'next';
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 export const COOKIES_TOKEN_NAME = 'jwt';
@@ -24,18 +25,15 @@ const getToken = (req?: IncomingMessage) => {
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
-const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
+const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const httpLink = createHttpLink({
     uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
-    // credentials: 'include'
-    headers: {
-      ...headers
-    }
+    credentials: 'include'
   });
 
   const authLink = setContext((_, { headers }) => {
     // get token from cookie
-    const token = getToken();
+    const token = getToken(ctx?.req);
     // return the headers to the context so httpLink can read them
     return {
       headers: {
@@ -62,20 +60,8 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
   });
 };
 
-type InitialState = NormalizedCacheObject | undefined;
-
-interface IInitializeApollo {
-  headers?: IncomingHttpHeaders | null;
-  initialState?: InitialState | null;
-}
-
-export const initializeApollo = (
-  { headers, initialState }: IInitializeApollo = {
-    headers: null,
-    initialState: null
-  }
-) => {
-  const _apolloClient = apolloClient ?? createApolloClient(headers);
+export const initializeApollo = (initialState = null, ctx = undefined) => {
+  const _apolloClient = apolloClient ?? createApolloClient(ctx);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // get hydrated here
@@ -117,5 +103,5 @@ export const addApolloState = (
 
 export function useApollo(pageProps: AppProps['pageProps']) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  return useMemo(() => initializeApollo({ initialState: state }), [state]);
+  return useMemo(() => initializeApollo(state), [state]);
 }
