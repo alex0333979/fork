@@ -20,7 +20,7 @@ const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountr
     if (!formField.defaultValue) {
       selectedCountry(formField.name, 'US');
     }
-  }, []);
+  }, [formField.defaultValue, formField.name, selectedCountry]);
 
   return (
     <label className="half-size">

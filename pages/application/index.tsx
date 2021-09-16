@@ -5,7 +5,6 @@ import { initializeApollo } from '@/lib/apolloClient';
 import { Form, FormsDocument, FormsQuery } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
 import ApplicationForm from '@/components/application/applicationForm';
-import removeTypename from '@naveen-bharathi/remove-graphql-typename';
 
 interface EntryPageProps {
   forms: Form[];
@@ -24,7 +23,7 @@ export const getStaticProps: GetStaticProps<EntryPageProps> = async () => {
       query: FormsDocument
     });
 
-    const forms = removeTypename(result.data?.Forms || []);
+    const forms = result.data?.Forms || [];
 
     return {
       props: {

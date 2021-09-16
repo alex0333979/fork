@@ -5,21 +5,26 @@ import {
   InMemoryCache,
   NormalizedCacheObject
 } from '@apollo/client';
-import { onError } from '@apollo/link-error';
 import merge from 'deepmerge';
-import { IncomingHttpHeaders } from 'http';
+import { IncomingHttpHeaders, IncomingMessage } from 'http';
 import isEqual from 'lodash/isEqual';
 import type { AppProps } from 'next/app';
 import { useMemo } from 'react';
 import { setContext } from '@apollo/client/link/context';
+import cookie from 'cookie';
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
+export const COOKIES_TOKEN_NAME = 'jwt';
+
+const getToken = (req?: IncomingMessage) => {
+  const parsedCookie = cookie.parse(req ? req.headers.cookie ?? '' : document.cookie);
+
+  return parsedCookie[COOKIES_TOKEN_NAME];
+};
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
-  let token: string | null;
-
   const httpLink = createHttpLink({
     uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
     // credentials: 'include'
@@ -29,10 +34,8 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
   });
 
   const authLink = setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
-    if (typeof window !== 'undefined') {
-      token = localStorage.getItem('biometric-photo.token');
-    }
+    // get token from cookie
+    const token = getToken();
     // return the headers to the context so httpLink can read them
     return {
       headers: {
@@ -42,28 +45,20 @@ const createApolloClient = (headers: IncomingHttpHeaders | null = null) => {
     };
   });
 
+  const omitTypename = (key: string, value: any) => (key === '__typename' ? undefined : value);
+
+  const omitTypenameLink = new ApolloLink((operation, forward) => {
+    if (operation.variables) {
+      operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+    }
+    return forward(operation);
+  });
+
   return new ApolloClient({
     // SSR only for Node.js
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([
-      onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors) {
-          graphQLErrors.forEach(({ message, locations, path }) =>
-            console.log(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-            )
-          );
-        }
-        if (networkError) {
-          console.log(`[Network error]: ${networkError}. Backend is unreachable. Is it running?`);
-        }
-      }),
-      // this uses apollo-link-http under the hood, so all the options here come from that package
-      authLink.concat(httpLink)
-    ]),
-    cache: new InMemoryCache({
-      addTypename: false
-    })
+    link: ApolloLink.from([omitTypenameLink, authLink, httpLink]),
+    cache: new InMemoryCache()
   });
 };
 

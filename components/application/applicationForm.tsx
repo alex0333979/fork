@@ -49,13 +49,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
   useEffect(() => {
     if (called && getEntryResponse?.Entry.data) {
       const data = removeTypename(getEntryResponse?.Entry.data);
-      console.log('===set entry and next step2===', data.id);
+      console.log('===set entry and next step2===', data);
       setCountry('US');
       setEntry({
-        id: data.id,
-        currentStep: data.currentStep + 1,
-        form: data.form,
-        formId: data.formId
+        ...data,
+        currentStep: data.currentStep + 1
       });
     }
   }, [getEntryResponse, called]);
