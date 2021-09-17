@@ -106,6 +106,7 @@ export enum FieldType {
   DatePicker = 'DatePicker',
   Input = 'Input',
   Label = 'Label',
+  PhoneInput = 'PhoneInput',
   Radio = 'Radio',
   Select = 'Select',
   StatePicker = 'StatePicker',

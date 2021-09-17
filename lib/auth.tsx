@@ -14,7 +14,6 @@ import {
 } from '@apollo/client';
 import {
   CreateGuestDocument,
-  CreateGuestMutation,
   LoginDocument,
   LoginMutation,
   LoginMutationVariables,
@@ -27,15 +26,12 @@ import { useApollo } from './apolloClient';
 import { FetchResult } from '@apollo/client/link/core';
 
 interface IContextProps {
-  setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
   isAuthenticated: () => boolean;
   getMe: () => User | null;
   setMe: React.Dispatch<React.SetStateAction<User | null>>;
-  canAutoLogin: () => boolean;
   createGuest: () => void;
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
-  signOut: () => void;
   apolloClient: ApolloClient<NormalizedCacheObject>;
   getSavedEntries: () => string[];
   removeEntry: (entryId: string | null) => string[];
@@ -65,7 +61,6 @@ export function AuthProvider({
 export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
-  const [authToken, setAuthToken] = useState<string | null>(null);
   const [me, setMe] = useState<User | null>(null);
 
   useEffect(() => {
@@ -79,45 +74,20 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
 
   const getMe = (): User | null => me;
 
-  const rememberToken = (token: string) => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-    localStorage.setItem('biometric-photo.token', token);
-  };
-
-  const getToken = (): string | null => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-    return localStorage.getItem('biometric-photo.token');
-  };
-
-  const canAutoLogin = (): boolean => getToken() !== null;
-
   const autoLogin = useCallback(async () => {
-    const token = getToken();
-    if (token === null) {
-      return;
-    }
     const { data }: ApolloQueryResult<MeQuery> = await apolloClient.query({
       query: MeDocument,
       variables: {}
     });
     if (data?.Me.data) {
-      rememberToken(token);
       setMe(data.Me.data);
     }
   }, [apolloClient]);
 
   const createGuest = useCallback(async () => {
-    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
+    await apolloClient.mutate({
       mutation: CreateGuestDocument
     });
-    if (data?.CreateGuest?.data?.accessToken) {
-      setAuthToken(data?.CreateGuest?.data?.accessToken);
-      rememberToken(data?.CreateGuest?.data?.accessToken);
-    }
   }, [apolloClient]);
 
   const signIn = async ({ email, password }: LoginMutationVariables) => {
@@ -128,17 +98,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
         password
       }
     });
-
     console.log(data);
-
-    if (data?.Login?.data?.accessToken) {
-      setAuthToken(data?.Login?.data?.accessToken);
-      rememberToken(data?.Login?.data?.accessToken);
-    }
-  };
-
-  const signOut = () => {
-    setAuthToken(null);
   };
 
   const getSavedEntries = (): string[] => {
@@ -182,15 +142,12 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   };
 
   return {
-    setAuthToken,
     isAuthenticated,
     getMe,
     setMe,
-    canAutoLogin,
     autoLogin,
     createGuest,
     signIn,
-    signOut,
     apolloClient,
     getSavedEntries,
     removeEntry,

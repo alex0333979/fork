@@ -37,4 +37,12 @@ export const getStaticProps: GetStaticProps<EntryPageProps> = async () => {
   }
 };
 
+// export const getServerSideProps: GetServerSideProps<{ entryId: string }> = async () => {
+//   return {
+//     props: {
+//       entryId: '123456'
+//     }
+//   };
+// };
+
 export default Entry;

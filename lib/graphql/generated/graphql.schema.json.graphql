@@ -251,6 +251,7 @@ enum FieldType {
     DatePicker
     Input
     Label
+    PhoneInput
     Radio
     Select
     StatePicker

@@ -18,7 +18,9 @@ const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 export const COOKIES_TOKEN_NAME = 'token';
 
 const getToken = (req?: IncomingMessage) => {
-  const parsedCookie = cookie.parse(req ? req.headers.cookie ?? '' : document.cookie);
+  const parsedCookie = cookie.parse(
+    req ? req.headers.cookie ?? '' : typeof window === 'undefined' ? '' : document.cookie
+  );
 
   return parsedCookie[COOKIES_TOKEN_NAME];
 };
@@ -34,7 +36,7 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const authLink = setContext((_, { headers }) => {
     // get token from cookie
     const token = getToken(ctx?.req);
-    console.log('======', token);
+
     // return the headers to the context so httpLink can read them
     return {
       headers: {
