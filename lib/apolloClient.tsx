@@ -29,13 +29,15 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const httpLink = createHttpLink({
-    uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql',
-    credentials: 'include'
+    uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql'
+    // credentials: 'include'
   });
 
   const authLink = setContext((_, { headers }) => {
     // get token from cookie
     const token = getToken(ctx?.req);
+
+    console.log('token', token);
 
     // return the headers to the context so httpLink can read them
     return {

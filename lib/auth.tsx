@@ -4,16 +4,13 @@ import React, {
   createContext,
   ReactNode,
   useEffect,
-  useCallback
+  useCallback,
+  useMemo
 } from 'react';
-import {
-  ApolloProvider,
-  ApolloClient,
-  NormalizedCacheObject,
-  ApolloQueryResult
-} from '@apollo/client';
+import { ApolloClient, NormalizedCacheObject, ApolloQueryResult } from '@apollo/client';
 import {
   CreateGuestDocument,
+  CreateGuestMutation,
   LoginDocument,
   LoginMutation,
   LoginMutationVariables,
@@ -21,18 +18,16 @@ import {
   MeQuery,
   User
 } from '@/generated/graphql';
-import { AppPropsType } from 'next/dist/shared/lib/utils';
-import { useApollo } from './apolloClient';
 import { FetchResult } from '@apollo/client/link/core';
+import { useCookies } from 'react-cookie';
 
 interface IContextProps {
-  isAuthenticated: () => boolean;
-  getMe: () => User | null;
+  isAuthenticated: boolean;
+  getMe: User | null;
   setMe: React.Dispatch<React.SetStateAction<User | null>>;
   createGuest: () => void;
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
-  apolloClient: ApolloClient<NormalizedCacheObject>;
   getSavedEntries: () => string[];
   removeEntry: (entryId: string | null) => string[];
   saveEntry: (entryId: string) => string[];
@@ -43,25 +38,21 @@ const authContext = createContext({} as IContextProps);
 
 export function AuthProvider({
   children,
-  pageProps
+  client
 }: {
   children: ReactNode;
-  pageProps: AppPropsType['pageProps'];
+  client: ApolloClient<NormalizedCacheObject>;
 }) {
-  const apolloClient = useApollo(pageProps);
-  const auth = useProvideAuth(apolloClient);
+  const auth = useProvideAuth(client);
 
-  return (
-    <ApolloProvider client={apolloClient}>
-      <authContext.Provider value={auth}>{children}</authContext.Provider>
-    </ApolloProvider>
-  );
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
 
 export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
   const [me, setMe] = useState<User | null>(null);
+  const [, setCookie] = useCookies(['token']);
 
   useEffect(() => {
     (async () => {
@@ -70,9 +61,9 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     })();
   }, []);
 
-  const isAuthenticated = (): boolean => !!(me && me.email);
+  const isAuthenticated = useMemo((): boolean => !!(me && me.email), [me]);
 
-  const getMe = (): User | null => me;
+  const getMe = useMemo((): User | null => me, [me]);
 
   const autoLogin = useCallback(async () => {
     const { data }: ApolloQueryResult<MeQuery> = await apolloClient.query({
@@ -85,21 +76,31 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   }, [apolloClient]);
 
   const createGuest = useCallback(async () => {
-    await apolloClient.mutate({
+    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
       mutation: CreateGuestDocument
     });
-  }, [apolloClient]);
-
-  const signIn = async ({ email, password }: LoginMutationVariables) => {
-    const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
-      mutation: LoginDocument,
-      variables: {
-        email,
-        password
-      }
-    });
     console.log(data);
-  };
+    if (data?.CreateGuest.data?.accessToken) {
+      setCookie('token', data?.CreateGuest.data?.accessToken, { path: '/' });
+    }
+  }, [apolloClient, setCookie]);
+
+  const signIn = useCallback(
+    async ({ email, password }: LoginMutationVariables) => {
+      const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
+        mutation: LoginDocument,
+        variables: {
+          email,
+          password
+        }
+      });
+      console.log(data);
+      if (data?.Login.data?.accessToken) {
+        setCookie('token', data?.Login.data?.accessToken, { path: '/' });
+      }
+    },
+    [apolloClient, setCookie]
+  );
 
   const getSavedEntries = (): string[] => {
     if (typeof window === 'undefined') {
@@ -148,7 +149,6 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     autoLogin,
     createGuest,
     signIn,
-    apolloClient,
     getSavedEntries,
     removeEntry,
     saveEntry,
