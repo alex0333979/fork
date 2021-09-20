@@ -6,6 +6,12 @@ import Head from 'next/head';
 import { CookiesProvider } from 'react-cookie';
 import { useApollo } from '@/lib/apolloClient';
 import { ApolloProvider } from '@apollo/client';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+
+Router.events.on('routeChangeStart', () => NProgress.start());
+Router.events.on('routeChangeComplete', () => NProgress.done());
+Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);

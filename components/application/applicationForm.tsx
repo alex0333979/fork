@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useAuth } from '@/lib/auth';
-import { FieldType, Form, useEntryLazyQuery, useSubmitEntryMutation } from '@/generated/graphql';
+import { FieldType, Form, FormStep, useSubmitEntryMutation } from '@/generated/graphql';
 import ApplicationList from '@/components/application/applicationList';
 import classNames from 'classnames';
 import RadioOption from '@/components/application/radioOption';
@@ -10,9 +10,13 @@ import StatePicker from '@/components/application/statePicker';
 import DatePicker from '@/components/application/datePicker';
 import SelectBox from '@/components/application/selectBox';
 import removeTypename from '@naveen-bharathi/remove-graphql-typename';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface ApplicationFormProps {
   forms: Form[];
+  entry: IEntry;
+  step: number;
 }
 
 interface IEntry {
@@ -22,77 +26,23 @@ interface IEntry {
   formId: string;
 }
 
-const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
-  const initialEntry = {
-    id: null,
-    currentStep: 1,
-    form: forms[0],
-    formId: forms[0].id
-  };
-  const [formIndex, setFormIndex] = useState<number>(0);
-  const [entry, setEntry] = useState<IEntry>(initialEntry);
+const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step }) => {
+  const router = useRouter();
+  const [formStep, setFormStep] = useState<FormStep | undefined>(
+    entry.form.steps.find((s) => s.step === step)
+  );
   const [country, setCountry] = useState<string>('US');
-  const [entryIds, setEntryIds] = useState<string[]>([]);
   const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
   const [isNewEntry, setIsNewEntry] = useState<boolean>(false);
-  const [called, setCalled] = useState<boolean>(false);
 
-  const { getSavedEntries, saveEntry, removeEntry } = useAuth();
+  const { savedEntries, saveEntry, removeEntry } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
-  const [getEntry, { data: getEntryResponse }] = useEntryLazyQuery();
-
-  useEffect(() => {
-    const ids = getSavedEntries();
-    setEntryIds(ids);
-  }, [getSavedEntries]);
-
-  useEffect(() => {
-    if (called && getEntryResponse?.Entry.data) {
-      const data = removeTypename(getEntryResponse?.Entry.data);
-      console.log('===set entry and next step2===', data);
-      setCountry('US');
-      setEntry({
-        ...data,
-        currentStep: data.currentStep + 1
-      });
-    }
-  }, [getEntryResponse, called]);
-
-  useEffect(() => {
-    console.log('=====call set current step 1======');
-    setEntry(() => ({
-      id: null,
-      currentStep: 1,
-      form: forms[formIndex],
-      formId: forms[formIndex].id
-    }));
-  }, [formIndex, forms]);
-
-  const selectedEntry = useCallback(
-    (id: string | null) => {
-      console.log('===%%%%%%%===', id);
-      setCalled(false);
-      if (entry.id === id) {
-        return;
-      }
-      if (!id) {
-        console.log('===getEntry1===', id, entry.id);
-        setEntry(initialEntry);
-      } else {
-        console.log('===getEntry2===', id, entry.id);
-        getEntry({ variables: { entryId: id } });
-        setCalled(true);
-      }
-    },
-    [entry.id, getEntry]
-  );
 
   const createEntry = useCallback(() => {
     console.log('===createEntry===');
     setIsNewEntry(true);
     setIsOpenAddForm(false);
-    selectedEntry(null);
-  }, [selectedEntry]);
+  }, []);
 
   const deleteEntry = useCallback(
     (id: string | null) => {
@@ -100,61 +50,48 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
       if (!id) {
         setIsNewEntry(false);
       } else {
-        const ids = removeEntry(id);
-        setEntryIds(ids);
+        removeEntry(id);
       }
     },
     [removeEntry]
   );
 
-  useEffect(() => {
-    if (entryIds.length > 0) {
-      console.log('===Initial useEffect1===', entryIds);
-      selectedEntry(entryIds[entryIds.length - 1]);
-    } else {
-      console.log('===Initial useEffect2===', 'undefined');
-      selectedEntry(null);
-    }
-  }, [entryIds]);
+  const selectForm = useCallback((formId: string) => {
+    console.log(formId);
+  }, []);
 
   const onValueChange = useCallback(
     (name: string, value: string | number | undefined) => {
-      const formStepIndex = entry.form.steps.findIndex((step) => step.step === entry.currentStep);
-      if (formStepIndex === -1) {
+      if (!formStep) {
         return;
       }
-      const fieldIndex = entry.form.steps[formStepIndex].fields.findIndex(
-        (field) => field.name === name
-      );
+      const fieldIndex = formStep.fields.findIndex((field) => field.name === name);
       if (fieldIndex === -1) {
         return;
       }
-      entry.form.steps[formStepIndex].fields[fieldIndex].value = value;
-      setEntry(entry);
+      formStep.fields[fieldIndex].value = value;
+      setFormStep(formStep);
     },
-    [entry]
+    [formStep]
   );
 
   const onOptionSelected = useCallback(
     (name: string, index: number) => {
-      const formStepIndex = entry.form.steps.findIndex((step) => step.step === entry.currentStep);
-      if (formStepIndex === -1) {
+      if (!formStep) {
         return;
       }
-      const fieldIndex = entry.form.steps[formStepIndex].fields.findIndex(
-        (field) => field.name === name
-      );
+      const fieldIndex = formStep.fields.findIndex((field) => field.name === name);
       if (fieldIndex === -1) {
         return;
       }
-      const options = entry.form.steps[formStepIndex].fields[fieldIndex].options;
+      const options = formStep.fields[fieldIndex].options;
       if (!options) {
         return;
       }
-      entry.form.steps[formStepIndex].fields[fieldIndex].value = options[index].value;
-      setEntry(entry);
+      formStep.fields[fieldIndex].value = options[index].value;
+      setFormStep(formStep);
     },
-    [entry]
+    [formStep]
   );
 
   const onSelectedCountry = useCallback(
@@ -165,26 +102,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
     [onValueChange]
   );
 
-  const preStep = useCallback(() => {
-    if (entry.currentStep < 2) {
-      return;
-    }
-    setEntry((values) => ({
-      ...values,
-      currentStep: values.currentStep - 1
-    }));
-    setCountry('US');
-  }, [entry]);
-
   const validateForm = useCallback(() => {
     // todo add validation
     console.log('========');
   }, []);
-
-  const formStep = useMemo(
-    () => entry.form.steps.find((step) => step.step === entry.currentStep),
-    [entry]
-  );
 
   const submitForm = useCallback(() => {
     if (!formStep) {
@@ -199,22 +120,20 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
         const result = removeTypename(data.SubmitEntry.data);
         if (result) {
           saveEntry(result.id);
-          result.currentStep += 1;
-          setEntry(result);
+          router.push(`/application/${result.id}/${step + 1}`).then();
         }
       }
       console.log('===errors===', errors);
     });
-  }, [formStep, validateForm, submitEntry, entry.id, entry.formId, saveEntry]);
+  }, [formStep, validateForm, submitEntry, entry.id, entry.formId, saveEntry, router, step]);
 
   return (
     <div className="application-page">
       <ApplicationList
-        ids={entryIds}
+        ids={savedEntries}
         currentId={entry.id}
         isOpenAddFrom={isOpenAddForm}
         openAddForm={setIsOpenAddForm}
-        selectedEntry={selectedEntry}
         deleteEntry={deleteEntry}
         createEntry={createEntry}
         isNewEntry={isNewEntry}
@@ -304,8 +223,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
                             <input
                               type="radio"
                               name="application"
-                              checked={index === formIndex}
-                              onChange={() => setFormIndex(index)}
+                              checked={form.id === entry.formId}
+                              onChange={() => selectForm(form.id)}
                             />
                             <span className="wrap">
                               <span className="bullet" />
@@ -386,9 +305,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms }) => {
             <div className="data-wrap">
               <div className="back-btn">
                 {entry.currentStep !== 1 ? (
-                  <button type="button" className="main-btn big outline" onClick={preStep}>
-                    <span className="icon-left" /> Back
-                  </button>
+                  <Link href={`application/${entry.id}/${step - 1}`}>
+                    <a className="main-btn big outline">
+                      <span className="icon-left" /> Back
+                    </a>
+                  </Link>
                 ) : (
                   <></>
                 )}

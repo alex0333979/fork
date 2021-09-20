@@ -20,6 +20,7 @@ import {
 } from '@/generated/graphql';
 import { FetchResult } from '@apollo/client/link/core';
 import { useCookies } from 'react-cookie';
+import { COOKIES_TOKEN_NAME } from '@/lib/apolloClient';
 
 interface IContextProps {
   isAuthenticated: boolean;
@@ -28,11 +29,13 @@ interface IContextProps {
   createGuest: () => void;
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
-  getSavedEntries: () => string[];
+  savedEntries: string[];
   removeEntry: (entryId: string | null) => string[];
   saveEntry: (entryId: string) => string[];
   clearEntries: () => void;
 }
+
+export const COOKIE_ENTRIES = 'entries';
 
 const authContext = createContext({} as IContextProps);
 
@@ -52,7 +55,7 @@ export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
   const [me, setMe] = useState<User | null>(null);
-  const [, setCookie] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies([COOKIES_TOKEN_NAME, COOKIE_ENTRIES]);
 
   useEffect(() => {
     (async () => {
@@ -81,7 +84,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     });
     console.log(data);
     if (data?.CreateGuest.data?.accessToken) {
-      setCookie('token', data?.CreateGuest.data?.accessToken, { path: '/' });
+      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, { path: '/' });
     }
   }, [apolloClient, setCookie]);
 
@@ -96,50 +99,42 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       });
       console.log(data);
       if (data?.Login.data?.accessToken) {
-        setCookie('token', data?.Login.data?.accessToken, { path: '/' });
+        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/' });
       }
     },
     [apolloClient, setCookie]
   );
 
-  const getSavedEntries = (): string[] => {
-    if (typeof window === 'undefined') {
-      return [];
-    }
-    const strEntries = localStorage.getItem('biometric-photo.entries');
+  const savedEntries = useMemo((): string[] => {
+    const strEntries = cookies[COOKIE_ENTRIES];
     return strEntries ? strEntries.split(',') : [];
-  };
+  }, [cookies]);
 
-  const removeEntry = (entryId: string | null): string[] => {
-    const entries = getSavedEntries();
-    if (!entryId) {
-      return entries;
-    }
-    const index = entries.indexOf(entryId);
-    if (index > -1) {
-      entries.splice(index, 1);
-    }
-    localStorage.setItem('biometric-photo.entries', entries.toString());
-    return entries;
-  };
+  const removeEntry = useCallback(
+    (entryId: string | null): string[] => {
+      if (!entryId) {
+        return savedEntries;
+      }
+      const index = savedEntries.indexOf(entryId);
+      if (index > -1) {
+        savedEntries.splice(index, 1);
+      }
+      setCookie(COOKIE_ENTRIES, savedEntries.toString());
+      return savedEntries;
+    },
+    [savedEntries, setCookie]
+  );
 
   const saveEntry = (entryId: string): string[] => {
-    if (typeof window === 'undefined') {
-      return [];
+    if (!savedEntries.includes(entryId)) {
+      savedEntries.push(entryId);
+      setCookie(COOKIE_ENTRIES, savedEntries.toString());
     }
-    const entries = getSavedEntries();
-    if (!entries.includes(entryId)) {
-      entries.push(entryId);
-      localStorage.setItem('biometric-photo.entries', entries.toString());
-    }
-    return entries;
+    return savedEntries;
   };
 
   const clearEntries = () => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-    localStorage.setItem('biometric-photo.entries', '');
+    setCookie(COOKIE_ENTRIES, '');
   };
 
   return {
@@ -149,7 +144,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     autoLogin,
     createGuest,
     signIn,
-    getSavedEntries,
+    savedEntries,
     removeEntry,
     saveEntry,
     clearEntries

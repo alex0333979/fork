@@ -8,7 +8,6 @@ interface ApplicationListProps {
   isNewEntry: boolean;
   currentId: string | null;
   openAddForm: (status: boolean) => void;
-  selectedEntry: (id: string | null) => void;
   createEntry: () => void;
   deleteEntry: (id: string | null) => void;
 }
@@ -19,7 +18,6 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
   isNewEntry,
   currentId,
   openAddForm,
-  selectedEntry,
   createEntry,
   deleteEntry
 }) => (
@@ -29,25 +27,23 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
         <ul>
           {ids.map((id, index) => (
             <li key={index}>
-              <a
-                className={classNames({
-                  'main-btn': true,
-                  small: true,
-                  blank: id !== currentId
-                })}
-                onClick={(e) => {
-                  e.preventDefault();
-                  selectedEntry(id);
-                }}>
-                {`Application №${index + 1}`}
-                <span
-                  className="icon-remove"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteEntry(id);
-                  }}
-                />
-              </a>
+              <Link href={`/application/${id}`}>
+                <a
+                  className={classNames({
+                    'main-btn': true,
+                    small: true,
+                    blank: id !== currentId
+                  })}>
+                  {`Application №${index + 1}`}
+                  <span
+                    className="icon-remove"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteEntry(id);
+                    }}
+                  />
+                </a>
+              </Link>
             </li>
           ))}
           {ids.length === 0 || isNewEntry ? (
@@ -61,7 +57,6 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                   })}
                   onClick={(e) => {
                     e.preventDefault();
-                    selectedEntry(null);
                   }}>
                   Application №1
                 </a>

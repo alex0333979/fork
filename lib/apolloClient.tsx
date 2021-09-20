@@ -37,8 +37,6 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
     // get token from cookie
     const token = getToken(ctx?.req);
 
-    console.log('token', token);
-
     // return the headers to the context so httpLink can read them
     return {
       headers: {
@@ -65,7 +63,10 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   });
 };
 
-export const initializeApollo = (initialState = null, ctx = undefined) => {
+export const initializeApollo = (
+  initialState?: AppProps['pageProps'],
+  ctx?: GetServerSidePropsContext
+) => {
   const _apolloClient = apolloClient ?? createApolloClient(ctx);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
