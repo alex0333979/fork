@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import { CountryDropdown } from 'react-country-region-selector';
 
@@ -8,19 +8,22 @@ interface CountryPickerProps {
 }
 
 const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountry }) => {
-  const [country, setCountry] = useState<string>(
-    formField.defaultValue ? formField.defaultValue : 'US'
+  const [country, setCountry] = useState<string>(formField.value ? formField.value : 'US');
+
+  const selectCountry = useCallback(
+    (country: string) => {
+      selectedCountry(formField.name, country);
+      setCountry(country);
+    },
+    [formField.name, selectedCountry]
   );
-  const selectCountry = (country: string) => {
-    selectedCountry(formField.name, country);
-    setCountry(country);
-  };
 
   useEffect(() => {
-    if (!formField.defaultValue) {
+    console.log('=========', formField.value);
+    if (!formField.value) {
       selectedCountry(formField.name, 'US');
     }
-  }, [formField.defaultValue, formField.name, selectedCountry]);
+  }, [formField.name, formField.value, selectedCountry]);
 
   return (
     <label className="half-size">

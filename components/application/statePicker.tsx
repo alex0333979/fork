@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import { RegionDropdown } from 'react-country-region-selector';
 
@@ -10,10 +10,14 @@ interface StatePickerProps {
 
 const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState }) => {
   const [state, setState] = useState<string>(formField.defaultValue ? formField.defaultValue : '');
-  const selectState = (state: string) => {
-    selectedState(formField.name, state);
-    setState(state);
-  };
+
+  const selectState = useCallback(
+    (state: string) => {
+      selectedState(formField.name, state);
+      setState(state);
+    },
+    [formField.name, selectedState]
+  );
 
   return (
     <label className="half-size">

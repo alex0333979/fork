@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import Input from 'react-phone-number-input/input';
 
@@ -10,10 +10,13 @@ interface PhoneInputProps {
 const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange }) => {
   const [value, setValue] = useState<string | undefined>(formField.value ? formField.value : '');
 
-  const onChange = (name: string, value: string | undefined) => {
-    onValueChange(name, value || '');
-    setValue(value);
-  };
+  const onChange = useCallback(
+    (name: string, value: string | undefined) => {
+      onValueChange(name, value || '');
+      setValue(value);
+    },
+    [onValueChange]
+  );
 
   return (
     <label className="half-size">

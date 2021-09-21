@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 
 interface RadioOptionProps {
@@ -16,10 +16,13 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onOptionSelected }
     }
   }, [formField]);
 
-  const onSelect = (index: number) => {
-    onOptionSelected(formField.name, index);
-    setIndex(index);
-  };
+  const onSelect = useCallback(
+    (index: number) => {
+      onOptionSelected(formField.name, index);
+      setIndex(index);
+    },
+    [formField.name, onOptionSelected]
+  );
 
   return (
     <div className="group">

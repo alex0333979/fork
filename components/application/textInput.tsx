@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 
 interface TextInputProps {
@@ -9,10 +9,13 @@ interface TextInputProps {
 const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange }) => {
   const [value, setValue] = useState<string | undefined>(formField.value ? formField.value : '');
 
-  const onChange = (name: string, value: string | undefined) => {
-    onValueChange(name, value || '');
-    setValue(value);
-  };
+  const onChange = useCallback(
+    (name: string, value: string | undefined) => {
+      onValueChange(name, value || '');
+      setValue(value);
+    },
+    [onValueChange]
+  );
 
   return (
     <label className="half-size">

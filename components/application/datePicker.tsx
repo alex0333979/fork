@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 
 interface DatePickerProps {
@@ -8,10 +8,13 @@ interface DatePickerProps {
 
 const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange }) => {
   const [date, setDate] = useState<string>(formField.value ? formField.value : '1900-01-01');
-  const onChange = (value: string) => {
-    onValueChange(formField.name, value);
-    setDate(value);
-  };
+  const onChange = useCallback(
+    (value: string) => {
+      onValueChange(formField.name, value);
+      setDate(value);
+    },
+    [formField.name, onValueChange]
+  );
   return (
     <label className="half-size">
       <span className="label">

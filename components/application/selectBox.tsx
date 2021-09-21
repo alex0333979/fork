@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 
 interface SelectBoxProps {
@@ -9,10 +9,13 @@ interface SelectBoxProps {
 const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange }) => {
   const [value, setValue] = useState<string | number>('');
 
-  const onChange = (name: string, value: string | number) => {
-    onValueChange(name, value);
-    setValue(value);
-  };
+  const onChange = useCallback(
+    (name: string, value: string | number) => {
+      onValueChange(name, value);
+      setValue(value);
+    },
+    [onValueChange]
+  );
 
   return (
     <label className="half-size">

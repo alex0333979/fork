@@ -6,7 +6,7 @@ export const TOP_MENUS: NavItemProps[] = [
     items: [
       {
         title: 'Passport photo',
-        link: '/application'
+        link: '/application/create'
       }
     ]
   },

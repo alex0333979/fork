@@ -100,7 +100,6 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
       }
     };
   } catch (e) {
-    console.error('====error>>>>====', e);
     return {
       redirect: {
         destination: '/application',

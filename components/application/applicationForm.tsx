@@ -112,7 +112,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     submitEntry({
       variables: { entryId: entry.id, formId: entry.formId, formStep }
     }).then(({ data, errors }) => {
-      console.log('===data===', data);
       if (data) {
         const result = removeTypename(data.SubmitEntry.data);
         if (result) {
