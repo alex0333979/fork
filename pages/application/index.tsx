@@ -7,7 +7,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import ApplicationForm from '@/components/application/applicationForm';
 import { getSavedEntriesFromCookie } from '@/lib/utils/getEntriesFromCookie';
 
-interface EntryPageProps {
+export interface EntryPageProps {
   forms: Form[];
   entry: {
     id: string | null;
@@ -18,7 +18,7 @@ interface EntryPageProps {
   step: number;
 }
 
-const Entry: NextPage<EntryPageProps> = ({ forms, entry, step }: EntryPageProps) => (
+const Entry: NextPage<EntryPageProps> = ({ forms, entry, step }) => (
   <AppLayout>
     <ApplicationForm forms={forms} entry={entry} step={step} />
   </AppLayout>
@@ -59,15 +59,9 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
         };
       } else {
         return {
-          props: {
-            forms,
-            entry: {
-              id: null,
-              currentStep: 1,
-              form: forms[0],
-              formId: forms[0].id
-            },
-            step: 1
+          redirect: {
+            destination: '/application/create',
+            permanent: false
           }
         };
       }

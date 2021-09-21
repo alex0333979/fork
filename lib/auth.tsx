@@ -57,16 +57,14 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   const [me, setMe] = useState<User | null>(null);
   const [cookies, setCookie] = useCookies([COOKIES_TOKEN_NAME, COOKIE_ENTRIES]);
 
-  useEffect(() => {
-    (async () => {
-      await createGuest();
-      await autoLogin();
-    })();
-  }, []);
-
-  const isAuthenticated = useMemo((): boolean => !!(me && me.email), [me]);
-
-  const getMe = useMemo((): User | null => me, [me]);
+  const createGuest = useCallback(async () => {
+    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
+      mutation: CreateGuestDocument
+    });
+    if (data?.CreateGuest.data?.accessToken) {
+      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, { path: '/' });
+    }
+  }, [apolloClient, setCookie]);
 
   const autoLogin = useCallback(async () => {
     const { data }: ApolloQueryResult<MeQuery> = await apolloClient.query({
@@ -78,15 +76,16 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     }
   }, [apolloClient]);
 
-  const createGuest = useCallback(async () => {
-    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
-      mutation: CreateGuestDocument
-    });
-    console.log(data);
-    if (data?.CreateGuest.data?.accessToken) {
-      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, { path: '/' });
-    }
-  }, [apolloClient, setCookie]);
+  useEffect(() => {
+    (async () => {
+      await createGuest();
+      await autoLogin();
+    })();
+  }, [autoLogin, createGuest]);
+
+  const isAuthenticated = useMemo((): boolean => !!(me && me.email), [me]);
+
+  const getMe = useMemo((): User | null => me, [me]);
 
   const signIn = useCallback(
     async ({ email, password }: LoginMutationVariables) => {
@@ -97,7 +96,6 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
           password
         }
       });
-      console.log(data);
       if (data?.Login.data?.accessToken) {
         setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/' });
       }

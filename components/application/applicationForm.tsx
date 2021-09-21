@@ -12,6 +12,7 @@ import SelectBox from '@/components/application/selectBox';
 import removeTypename from '@naveen-bharathi/remove-graphql-typename';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import PhoneInput from '@/components/application/phoneInput';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -33,32 +34,24 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   );
   const [country, setCountry] = useState<string>('US');
   const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
-  const [isNewEntry, setIsNewEntry] = useState<boolean>(false);
 
   const { savedEntries, saveEntry, removeEntry } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
 
-  const createEntry = useCallback(() => {
-    console.log('===createEntry===');
-    setIsNewEntry(true);
-    setIsOpenAddForm(false);
-  }, []);
-
   const deleteEntry = useCallback(
     (id: string | null) => {
       console.log('====delete entry====', id);
-      if (!id) {
-        setIsNewEntry(false);
-      } else {
-        removeEntry(id);
-      }
+      removeEntry(id);
     },
     [removeEntry]
   );
 
-  const selectForm = useCallback((formId: string) => {
-    console.log(formId);
-  }, []);
+  const selectForm = useCallback(
+    (formId: string) => {
+      router.push(`/application/create?formId=${formId}`).then();
+    },
+    [router]
+  );
 
   const onValueChange = useCallback(
     (name: string, value: string | number | undefined) => {
@@ -135,8 +128,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         isOpenAddFrom={isOpenAddForm}
         openAddForm={setIsOpenAddForm}
         deleteEntry={deleteEntry}
-        createEntry={createEntry}
-        isNewEntry={isNewEntry}
       />
       <div className="floating-wrap">
         <div className={classNames({ 'application-form': true, blur: isOpenAddForm })}>
@@ -254,6 +245,14 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.Input:
                           return (
                             <TextInput
+                              key={index}
+                              formField={field}
+                              onValueChange={onValueChange}
+                            />
+                          );
+                        case FieldType.PhoneInput:
+                          return (
+                            <PhoneInput
                               key={index}
                               formField={field}
                               onValueChange={onValueChange}

@@ -5,20 +5,16 @@ import classNames from 'classnames';
 interface ApplicationListProps {
   ids: string[];
   isOpenAddFrom: boolean;
-  isNewEntry: boolean;
   currentId: string | null;
   openAddForm: (status: boolean) => void;
-  createEntry: () => void;
   deleteEntry: (id: string | null) => void;
 }
 
 const ApplicationList: React.FC<ApplicationListProps> = ({
   ids,
   isOpenAddFrom,
-  isNewEntry,
   currentId,
   openAddForm,
-  createEntry,
   deleteEntry
 }) => (
   <div className="application-list">
@@ -46,18 +42,15 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
               </Link>
             </li>
           ))}
-          {ids.length === 0 || isNewEntry ? (
+          {ids.length === 0 || !currentId ? (
             <li>
-              <Link href={'/application/'}>
+              <Link href={'/application/create'}>
                 <a
                   className={classNames({
                     'main-btn': true,
                     small: true,
                     blank: currentId !== null
-                  })}
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}>
+                  })}>
                   Application №1
                 </a>
               </Link>
@@ -95,9 +88,9 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                   </tfoot>
                 </table>
                 <div className="btn-wrap">
-                  <button type="button" className="main-btn small" onClick={createEntry}>
-                    Add an application
-                  </button>
+                  <Link href={'/application/create'}>
+                    <a className="main-btn small">Add an application</a>
+                  </Link>
                   <button
                     type="button"
                     className="main-btn small blank cancel"

@@ -1,7 +1,6 @@
 .application-list {
   padding: 10px 0;
   position: relative;
-  z-index: 3;
   background-color: var(--catskill-white);
 
   ul {
@@ -34,6 +33,7 @@
           visibility: hidden;
           pointer-events: none;
           transition: opacity var(--transition), visibility var(--transition);
+          z-index: 3;
 
           .bg-wrap {
             padding: 9px 30px;
