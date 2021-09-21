@@ -4,8 +4,9 @@ import { AppLayout } from '@/components/index';
 import { initializeApollo } from '@/lib/apolloClient';
 import { EntryDocument, EntryQuery, Form, FormsDocument, FormsQuery } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
-import ApplicationForm from '@/components/application/applicationForm';
 import { getSavedEntriesFromCookie } from '@/lib/utils/getEntriesFromCookie';
+import dynamic from 'next/dynamic';
+const ApplicationForm = dynamic(() => import('@/components/application/applicationForm'));
 
 export interface EntryPageProps {
   forms: Form[];
@@ -74,16 +75,20 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     const entry = entryResult.data?.Entry.data;
 
     if (entry) {
-      let currentStep = entry.currentStep + 1;
-      if (step) {
-        currentStep = Math.min(parseInt(step, 10), currentStep);
+      const currentStep = entry.currentStep + 1;
+      if (!step || (step && parseInt(step, 10) > currentStep)) {
+        return {
+          redirect: {
+            destination: `/application/${entryId}/${currentStep}/`,
+            permanent: false
+          }
+        };
       }
       return {
         props: {
-          id: entryId,
           forms: forms ?? [],
           entry,
-          step: currentStep
+          step: parseInt(step, 10)
         }
       };
     }

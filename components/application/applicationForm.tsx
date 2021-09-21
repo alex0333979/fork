@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import { FieldType, Form, FormStep, useSubmitEntryMutation } from '@/generated/graphql';
 import ApplicationList from '@/components/application/applicationList';
@@ -37,6 +37,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
 
   const { savedEntries, saveEntry, removeEntry } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
+
+  useEffect(() => {
+    setFormStep(entry.form.steps.find((s) => s.step === step));
+  }, [entry.form.steps, formStep, step]);
 
   const deleteEntry = useCallback(
     (id: string | null) => {
@@ -130,18 +134,18 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         deleteEntry={deleteEntry}
       />
       <div className="floating-wrap">
-        <div className={classNames({ 'application-form': true, blur: isOpenAddForm })}>
+        <div className={classNames('application-form', { blur: isOpenAddForm })}>
           <div className="container">
             <div className="data-wrap">
               <div className="progress-wrap">
                 <h2>{entry.form.description}</h2>
                 <ul>
-                  {entry.form.steps.map((step, index) => (
+                  {entry.form.steps.map((s, index) => (
                     <li
                       key={index}
                       className={classNames({
-                        done: step.step < entry.currentStep,
-                        current: step.step === entry.currentStep
+                        done: s.step < step,
+                        current: s.step === step
                       })}>
                       <div className="counter">
                         <span className="line">
@@ -153,9 +157,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               fill="transparent"
                               strokeWidth="3"
                               strokeDasharray={
-                                step.step < entry.currentStep
+                                s.step < step
                                   ? '295%,1000'
-                                  : step.step === entry.currentStep
+                                  : s.step === step
                                   ? '295%,1000'
                                   : '0%,1000'
                               }
@@ -166,8 +170,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         <span className="index" />
                       </div>
                       <div className="name">
-                        <h4>{step.name}</h4>
-                        <p>{step.step < entry.currentStep ? 'Done' : 'On progress'}</p>
+                        <h4>{s.name}</h4>
+                        <p>{s.step < step ? 'Done' : 'On progress'}</p>
                       </div>
                     </li>
                   ))}
@@ -186,7 +190,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                 ) : (
                   <></>
                 )}
-                {entry.currentStep === 1 ? (
+                {step === 1 ? (
                   <div className="form-fields">
                     <div className="extra-info">
                       <h3>{'Before start, please select an application type'}</h3>
@@ -299,12 +303,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
             </div>
           </div>
         </div>
-        <div className={classNames({ 'application-toolbar': true, blur: isOpenAddForm })}>
+        <div className={classNames('application-toolbar', { blur: isOpenAddForm })}>
           <div className="container">
             <div className="data-wrap">
               <div className="back-btn">
-                {entry.currentStep !== 1 ? (
-                  <Link href={`application/${entry.id}/${step - 1}`}>
+                {step !== 1 ? (
+                  <Link href={`/application/${entry.id}/${step - 1}`}>
                     <a className="main-btn big outline">
                       <span className="icon-left" /> Back
                     </a>

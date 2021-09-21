@@ -4,7 +4,7 @@ import { FormField } from '@/generated/graphql';
 interface SelectBoxProps {
   formField: FormField;
   onValueChange: (name: string, value: string | number) => void;
-};
+}
 
 const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange }) => {
   const [value, setValue] = useState<string | number>('');
@@ -30,9 +30,10 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange }) => {
               {formField.placeholder ? formField.placeholder : ''}
             </option>
             {formField.options?.map((option, index) => (
-                  <option key={index} value={option.value}>{option.text}</option>
-                ))
-            })}
+              <option key={index} value={option.value}>
+                {option.text}
+              </option>
+            ))}
           </select>
         </span>
       </span>

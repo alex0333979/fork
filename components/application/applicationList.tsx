@@ -24,12 +24,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
           {ids.map((id, index) => (
             <li key={index}>
               <Link href={`/application/${id}`}>
-                <a
-                  className={classNames({
-                    'main-btn': true,
-                    small: true,
-                    blank: id !== currentId
-                  })}>
+                <a className={classNames('main-btn', 'small', { blank: id !== currentId })}>
                   {`Application №${index + 1}`}
                   <span
                     className="icon-remove"
