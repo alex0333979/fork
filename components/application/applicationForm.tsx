@@ -40,6 +40,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
 
   useEffect(() => {
     setFormStep(entry.form.steps.find((s) => s.step === step));
+    setCountry('US');
   }, [entry.form.steps, formStep, step]);
 
   const deleteEntry = useCallback(
@@ -58,7 +59,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   );
 
   const onValueChange = useCallback(
-    (name: string, value: string | number | undefined) => {
+    (name: string, value: string | number | boolean | undefined) => {
       if (!formStep) {
         return;
       }
@@ -67,25 +68,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         return;
       }
       formStep.fields[fieldIndex].value = value;
-      setFormStep(formStep);
-    },
-    [formStep]
-  );
-
-  const onOptionSelected = useCallback(
-    (name: string, index: number) => {
-      if (!formStep) {
-        return;
-      }
-      const fieldIndex = formStep.fields.findIndex((field) => field.name === name);
-      if (fieldIndex === -1) {
-        return;
-      }
-      const options = formStep.fields[fieldIndex].options;
-      if (!options) {
-        return;
-      }
-      formStep.fields[fieldIndex].value = options[index].value;
       setFormStep(formStep);
     },
     [formStep]
@@ -245,15 +227,17 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.Radio:
                           return (
                             <RadioOption
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
-                              onOptionSelected={onOptionSelected}
+                              onValueChange={onValueChange}
                             />
                           );
                         case FieldType.Input:
                           return (
                             <TextInput
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
                             />
@@ -261,7 +245,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.PhoneInput:
                           return (
                             <PhoneInput
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
                             />
@@ -269,7 +254,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.Select:
                           return (
                             <SelectBox
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
                             />
@@ -277,7 +263,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.CountryPicker:
                           return (
                             <CountryPicker
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
                               selectedCountry={onSelectedCountry}
                             />
@@ -285,7 +272,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.StatePicker:
                           return (
                             <StatePicker
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
                               selectedState={onValueChange}
                               country={country}
@@ -294,7 +282,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.DatePicker:
                           return (
                             <DatePicker
-                              key={index}
+                              step={step}
+                              key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
                             />

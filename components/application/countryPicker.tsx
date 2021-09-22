@@ -3,11 +3,12 @@ import { FormField } from '@/generated/graphql';
 import { CountryDropdown } from 'react-country-region-selector';
 
 interface CountryPickerProps {
+  step: number;
   formField: FormField;
   selectedCountry: (name: string, country: string) => void;
 }
 
-const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountry }) => {
+const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountry, step }) => {
   const [country, setCountry] = useState<string>(formField.value ? formField.value : 'US');
 
   const selectCountry = useCallback(
@@ -19,7 +20,6 @@ const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountr
   );
 
   useEffect(() => {
-    console.log('=========', formField.value);
     if (!formField.value) {
       selectedCountry(formField.name, 'US');
     }
@@ -29,10 +29,15 @@ const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountr
     <label className="half-size">
       <span className="label">
         {formField.text}
-        {formField.required ? '*' : ''}
+        {formField.required ? ' *' : ''}
       </span>
       <span className="field select">
-        <CountryDropdown valueType={'short'} value={country} onChange={selectCountry} />
+        <CountryDropdown
+          name={`${formField.name}_${step}`}
+          valueType={'short'}
+          value={country}
+          onChange={selectCountry}
+        />
       </span>
     </label>
   );

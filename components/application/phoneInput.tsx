@@ -4,11 +4,12 @@ import Input from 'react-phone-number-input/input';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 interface PhoneInputProps {
+  step: number;
   formField: FormField;
   onValueChange: (name: string, value: string | undefined) => void;
 }
 
-const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange }) => {
+const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, step }) => {
   const [value, setValue] = useState<string>(formField.value ? formField.value.toString() : '');
 
   console.log('======', formField.value, isPossiblePhoneNumber(value));
@@ -24,7 +25,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange }) => 
     <label className="half-size">
       <span className="label">
         {formField.text}
-        {formField.required ? '*' : ''}
+        {formField.required ? ' *' : ''}
         {formField.notes ? <i className="icon-about" /> : <></>}
       </span>
       <span className="field">
@@ -33,6 +34,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange }) => 
           international
           withCountryCallingCode
           value={value}
+          name={`${formField.name}_${step}`}
           onChange={(value) => onChange(formField.name, value ?? '')}
         />
       </span>

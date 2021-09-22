@@ -3,26 +3,24 @@ import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
 
 interface RadioOptionProps {
+  step: number;
   formField: FormField;
-  onOptionSelected: (name: string, index: number) => void;
+  onValueChange: (name: string, value: string | boolean) => void;
 }
 
-const RadioOption: React.FC<RadioOptionProps> = ({ formField, onOptionSelected }) => {
-  const [index, setIndex] = useState<number | undefined>(undefined);
+const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, step }) => {
+  const [value, setValue] = useState<string | boolean>('');
 
   useEffect(() => {
-    const index = formField.options?.findIndex((option) => option.value === formField.value);
-    if (index !== -1) {
-      setIndex(index);
-    }
-  }, [formField]);
+    setValue(formField.value ?? '');
+  }, [formField.value]);
 
-  const onSelect = useCallback(
-    (index: number) => {
-      onOptionSelected(formField.name, index);
-      setIndex(index);
+  const onChange = useCallback(
+    (value: string | boolean) => {
+      onValueChange(formField.name, value);
+      setValue(value);
     },
-    [formField.name, onOptionSelected]
+    [formField.name, onValueChange]
   );
 
   return (
@@ -44,10 +42,10 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onOptionSelected }
             </span>
             <input
               type="radio"
-              name={formField.name}
+              name={`${formField.name}_${step}`}
               placeholder={formField.placeholder ? formField.placeholder : ''}
-              checked={index === i}
-              onChange={() => onSelect(i)}
+              checked={value === option.value}
+              onChange={() => onChange(option.value)}
             />
             <span className="wrap">
               <span className="bullet" />

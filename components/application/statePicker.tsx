@@ -1,15 +1,20 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import { RegionDropdown } from 'react-country-region-selector';
 
 interface StatePickerProps {
+  step: number;
   formField: FormField;
   country: string;
   selectedState: (name: string, country: string) => void;
 }
 
-const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState }) => {
-  const [state, setState] = useState<string>(formField.defaultValue ? formField.defaultValue : '');
+const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState, step }) => {
+  const [state, setState] = useState<string>('');
+
+  useEffect(() => {
+    setState(formField.value ?? '');
+  }, [formField.value]);
 
   const selectState = useCallback(
     (state: string) => {
@@ -23,7 +28,7 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
     <label className="half-size">
       <span className="label">
         {formField.text}
-        {formField.required ? '*' : ''}
+        {formField.required ? ' *' : ''}
       </span>
       <span className="field select">
         <RegionDropdown
@@ -31,6 +36,7 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
           valueType={'short'}
           country={country}
           value={state}
+          name={`${formField.name}_${step}`}
           disabled={!(country === 'US' || country === 'CA')}
           onChange={selectState}
         />
