@@ -1,13 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
+import classNames from 'classnames';
 
 interface SelectBoxProps {
   step: number;
   formField: FormField;
   onValueChange: (name: string, value: string | number) => void;
+  error: string | undefined;
 }
 
-const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, step }) => {
+const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, step, error }) => {
   const [value, setValue] = useState<string | number>('default');
 
   useEffect(() => {
@@ -15,11 +17,11 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, step })
   }, [formField.defaultValue, formField.value]);
 
   const onChange = useCallback(
-    (name: string, value: string | number) => {
-      onValueChange(name, value);
+    (value: string | number) => {
+      onValueChange(formField.name, value);
       setValue(value);
     },
-    [onValueChange]
+    [formField.name, onValueChange]
   );
 
   return (
@@ -33,7 +35,10 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, step })
           <select
             name={`${formField.name}_${step}`}
             value={value}
-            onChange={(e) => onChange(e.target.name, e.target.value)}>
+            onChange={(e) => onChange(e.target.value)}
+            className={classNames({
+              'error-border': !!error
+            })}>
             <option value="default" disabled hidden>
               {formField.placeholder ?? ''}
             </option>
@@ -45,6 +50,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, step })
           </select>
         </span>
       </span>
+      {error ? <span className="attention">{error}</span> : <></>}
     </label>
   );
 };

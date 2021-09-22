@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import { RegionDropdown } from 'react-country-region-selector';
+import classNames from 'classnames';
 
 interface StatePickerProps {
   step: number;
   formField: FormField;
   country: string;
   selectedState: (name: string, country: string) => void;
+  error: string | undefined;
 }
 
-const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState, step }) => {
+const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState, step, error }) => {
   const [state, setState] = useState<string>('');
 
   useEffect(() => {
@@ -39,8 +41,12 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
           name={`${formField.name}_${step}`}
           disabled={!(country === 'US' || country === 'CA')}
           onChange={selectState}
+          classes={classNames({
+            'error-border': !!error
+          })}
         />
       </span>
+      {error ? <span className="attention">{error}</span> : <></>}
     </label>
   );
 };

@@ -347,3 +347,7 @@ template {
 [hidden] {
   display: none;
 }
+
+.error-border {
+  border-color: var(--burnt-sienna) !important;
+}

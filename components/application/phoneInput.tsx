@@ -1,24 +1,24 @@
 import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import Input from 'react-phone-number-input/input';
-import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import classNames from 'classnames';
 
 interface PhoneInputProps {
   step: number;
   formField: FormField;
   onValueChange: (name: string, value: string | undefined) => void;
+  error: string | undefined;
 }
 
-const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, step }) => {
+const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, step, error }) => {
   const [value, setValue] = useState<string>(formField.value ? formField.value.toString() : '');
 
-  console.log('======', formField.value, isPossiblePhoneNumber(value));
   const onChange = useCallback(
-    (name: string, value: string) => {
-      onValueChange(name, value);
+    (value: string) => {
+      onValueChange(formField.name, value);
       setValue(value);
     },
-    [onValueChange]
+    [formField.name, onValueChange]
   );
 
   return (
@@ -35,10 +35,13 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, step 
           withCountryCallingCode
           value={value}
           name={`${formField.name}_${step}`}
-          onChange={(value) => onChange(formField.name, value ?? '')}
+          onChange={(value) => onChange(value ?? '')}
+          className={classNames({
+            'error-border': !!error
+          })}
         />
       </span>
-      {/* <span className="attention">{formField.notes}</span>*/}
+      {error ? <span className="attention">{error}</span> : <></>}
     </label>
   );
 };

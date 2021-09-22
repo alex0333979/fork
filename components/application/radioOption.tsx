@@ -6,9 +6,10 @@ interface RadioOptionProps {
   step: number;
   formField: FormField;
   onValueChange: (name: string, value: string | boolean) => void;
+  error: string | undefined;
 }
 
-const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, step }) => {
+const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, step, error }) => {
   const [value, setValue] = useState<string | boolean>('');
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, ste
               <span className="border" />
             </span>
           </span>
-          <span className="warning">Warning message</span>
+          {error ? <span className="attention">{error}</span> : <></>}
         </label>
       ))}
     </div>

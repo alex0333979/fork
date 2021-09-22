@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth';
-import { FieldType, Form, FormStep, useSubmitEntryMutation } from '@/generated/graphql';
+import {
+  FieldType,
+  Form,
+  FormStep,
+  useSubmitEntryMutation,
+  ValidationType
+} from '@/generated/graphql';
 import ApplicationList from '@/components/application/applicationList';
 import classNames from 'classnames';
 import RadioOption from '@/components/application/radioOption';
@@ -9,10 +15,10 @@ import CountryPicker from '@/components/application/countryPicker';
 import StatePicker from '@/components/application/statePicker';
 import DatePicker from '@/components/application/datePicker';
 import SelectBox from '@/components/application/selectBox';
-import removeTypename from '@naveen-bharathi/remove-graphql-typename';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PhoneInput from '@/components/application/phoneInput';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -27,6 +33,10 @@ interface IEntry {
   formId: string;
 }
 
+interface ValidationError {
+  [key: string]: string;
+}
+
 const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step }) => {
   const router = useRouter();
   const [formStep, setFormStep] = useState<FormStep | undefined>(
@@ -34,6 +44,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   );
   const [country, setCountry] = useState<string>('US');
   const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
+  const [error, setError] = useState<ValidationError>({});
 
   const { savedEntries, saveEntry, removeEntry } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
@@ -69,6 +80,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       }
       formStep.fields[fieldIndex].value = value;
       setFormStep(formStep);
+      setError({});
     },
     [formStep]
   );
@@ -81,21 +93,89 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     [onValueChange]
   );
 
-  const validateForm = useCallback(() => {
-    // todo add validation
-    console.log('========');
-  }, []);
+  const validateForm = useCallback((): ValidationError => {
+    if (!formStep) {
+      return {};
+    }
+    const error: ValidationError = {};
+    for (const field of formStep.fields) {
+      if (field.required && (field.value == null || field.value === '')) {
+        error[field.name] = `This field is required.`;
+        continue;
+      }
+      if (field.options && (field.type === FieldType.Radio || field.type === FieldType.Select)) {
+        const a = field.options.find((x) => x.value === field.value);
+        if (!a) {
+          error[field.name] = `This should be one of Options`;
+          continue;
+        }
+      }
+      if (field.type === FieldType.CheckBox && typeof field.value !== 'boolean') {
+        error[field.name] = `This should be boolean type`;
+        continue;
+      }
+
+      if (field.validations) {
+        field.validations.forEach((v) => {
+          field.value = field.value ?? '';
+          switch (v.type) {
+            case ValidationType.IsEmail:
+              if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(field.value.toString())) {
+                error[field.name] = `This should be email format.`;
+              }
+              break;
+            case ValidationType.IsPhone:
+              if (!isPossiblePhoneNumber(field.value.toString())) {
+                error[field.name] = `This should have US phone number type.`;
+              }
+              break;
+            case ValidationType.MaxLength:
+              const maxLength = v.value || 0;
+              if (field.value.toString().length > maxLength) {
+                error[field.name] = `This should have less than ${maxLength} length`;
+              }
+              break;
+            case ValidationType.MinLength:
+              const minLength = v.value || 0;
+              if (field.value.toString().length < minLength) {
+                error[field.name] = `This should have longer than ${minLength} length`;
+              }
+              break;
+            case ValidationType.Max:
+              const max = v.value || 0;
+              if (Number(field.value) > max) {
+                error[field.name] = `This should have less than ${max}`;
+              }
+              break;
+            case ValidationType.Min:
+              const min = v.value || 0;
+              if (Number(field.value) > min) {
+                error[field.name] = `This should have greater than ${min}`;
+              }
+              break;
+            case ValidationType.Nullable:
+              break;
+          }
+        });
+      }
+    }
+    return error;
+  }, [formStep]);
 
   const submitForm = useCallback(() => {
     if (!formStep) {
       return;
     }
-    validateForm();
+    const error = validateForm();
+    setError(error);
+    if (Object.keys(error).length > 0) {
+      return;
+    }
     submitEntry({
       variables: { entryId: entry.id, formId: entry.formId, formStep }
     }).then(({ data, errors }) => {
       if (data) {
-        const result = removeTypename(data.SubmitEntry.data);
+        const result = data.SubmitEntry.data;
         if (result) {
           saveEntry(result.id);
           router.push(`/application/${result.id}/${step + 1}`).then();
@@ -231,6 +311,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
+                              error={error[field.name]}
                             />
                           );
                         case FieldType.Input:
@@ -240,6 +321,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
+                              error={error[field.name]}
                             />
                           );
                         case FieldType.PhoneInput:
@@ -249,6 +331,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
+                              error={error[field.name]}
                             />
                           );
                         case FieldType.Select:
@@ -258,6 +341,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
+                              error={error[field.name]}
                             />
                           );
                         case FieldType.CountryPicker:
@@ -267,6 +351,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               key={`${index}_${step}`}
                               formField={field}
                               selectedCountry={onSelectedCountry}
+                              error={error[field.name]}
                             />
                           );
                         case FieldType.StatePicker:
@@ -277,6 +362,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               formField={field}
                               selectedState={onValueChange}
                               country={country}
+                              error={error[field.name]}
                             />
                           );
                         case FieldType.DatePicker:
@@ -286,6 +372,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
+                              error={error[field.name]}
                             />
                           );
                       }

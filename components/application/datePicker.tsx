@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
+import classNames from 'classnames';
 
 interface DatePickerProps {
   step: number;
   formField: FormField;
   onValueChange: (name: string, value: string) => void;
+  error: string | undefined;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, step }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, step, error }) => {
   const [date, setDate] = useState<string>(formField.value ? formField.value : '1900-01-01');
   const onChange = useCallback(
     (value: string) => {
@@ -29,9 +31,12 @@ const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, step 
           value={date}
           placeholder={formField.placeholder ? formField.placeholder : ''}
           onChange={(e) => onChange(e.target.value)}
+          className={classNames({
+            'error-border': !!error
+          })}
         />
       </span>
-      <span className="warning">Warning message</span>
+      {error ? <span className="attention">{error}</span> : <></>}
     </label>
   );
 };

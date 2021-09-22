@@ -114,6 +114,7 @@ module.exports = {
     'newline-per-chained-call': 'off',
     'no-bitwise': 'error',
     'no-caller': 'error',
+    'no-case-declarations': 'off',
     'no-cond-assign': 'error',
     'no-console': [
       'off',
