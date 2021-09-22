@@ -207,7 +207,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                     </div>
                     <div className="group">
                       {forms.map((form, index) => (
-                        <label key={index} className="third-size">
+                        <label
+                          key={index}
+                          className={classNames({
+                            'third-size': forms.length > 2,
+                            'half-size': !(forms.length > 2)
+                          })}>
                           <span className="field radio">
                             <span className="name">
                               <b>{form.name}</b>

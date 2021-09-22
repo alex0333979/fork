@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import Input from 'react-phone-number-input/input';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 interface PhoneInputProps {
   formField: FormField;
@@ -8,11 +9,12 @@ interface PhoneInputProps {
 }
 
 const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange }) => {
-  const [value, setValue] = useState<string | undefined>(formField.value ? formField.value : '');
+  const [value, setValue] = useState<string>(formField.value ? formField.value.toString() : '');
 
+  console.log('======', formField.value, isPossiblePhoneNumber(value));
   const onChange = useCallback(
-    (name: string, value: string | undefined) => {
-      onValueChange(name, value || '');
+    (name: string, value: string) => {
+      onValueChange(name, value);
       setValue(value);
     },
     [onValueChange]
@@ -30,8 +32,8 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange }) => 
           country="US"
           international
           withCountryCallingCode
-          value={value?.toString()}
-          onChange={(value) => onChange(formField.name, value)}
+          value={value}
+          onChange={(value) => onChange(formField.name, value ?? '')}
         />
       </span>
       {/* <span className="attention">{formField.notes}</span>*/}

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
+import classNames from 'classnames';
 
 interface RadioOptionProps {
   formField: FormField;
@@ -30,7 +31,12 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onOptionSelected }
         <p>{formField.text}</p>
       </div>
       {formField.options?.map((option, i) => (
-        <label key={i} className="third-size">
+        <label
+          key={i}
+          className={classNames({
+            'third-size': formField.options && formField.options.length > 2,
+            'half-size': !(formField.options && formField.options.length > 2)
+          })}>
           <span className="field radio">
             <span className="name">
               {option.text}

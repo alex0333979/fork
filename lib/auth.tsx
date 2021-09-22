@@ -62,7 +62,10 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       mutation: CreateGuestDocument
     });
     if (data?.CreateGuest.data?.accessToken) {
-      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, { path: '/' });
+      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
+        path: '/',
+        maxAge: 86000
+      });
     }
   }, [apolloClient, setCookie]);
 
@@ -97,7 +100,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
         }
       });
       if (data?.Login.data?.accessToken) {
-        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/' });
+        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/', maxAge: 86000 });
       }
     },
     [apolloClient, setCookie]
@@ -117,7 +120,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       if (index > -1) {
         savedEntries.splice(index, 1);
       }
-      setCookie(COOKIE_ENTRIES, savedEntries.toString());
+      setCookie(COOKIE_ENTRIES, savedEntries.toString(), { path: '/', maxAge: 86000 });
       return savedEntries;
     },
     [savedEntries, setCookie]
@@ -126,7 +129,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   const saveEntry = (entryId: string): string[] => {
     if (!savedEntries.includes(entryId)) {
       savedEntries.push(entryId);
-      setCookie(COOKIE_ENTRIES, savedEntries.toString());
+      setCookie(COOKIE_ENTRIES, savedEntries.toString(), { path: '/', maxAge: 86000 });
     }
     return savedEntries;
   };
