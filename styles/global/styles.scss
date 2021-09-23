@@ -1319,6 +1319,7 @@ select {
         .answer {
           display: none;
           padding: 0 0 28px 0;
+          transition: all .5s ease-in-out;
 
           p {
             max-width: 94%;
