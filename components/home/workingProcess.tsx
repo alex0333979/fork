@@ -83,37 +83,40 @@ const WorkingProcess: React.FC = () => {
 
   const timeIntervalId = useRef<NodeJS.Timeout | undefined>();
   const timeOutId = useRef<NodeJS.Timeout | undefined>();
+
   const resetProcess = useCallback(() => {
-    const b = data.map((a) => {
-      a.active = false;
-      a.loaded = false;
-      a.past = false;
-      a.reset = true;
-      return a;
-    });
-    setData(b);
+    setData(
+      data.map((a) => {
+        a.active = false;
+        a.loaded = false;
+        a.past = false;
+        a.reset = true;
+        return a;
+      })
+    );
   }, [data]);
 
   const runProcess = useCallback(
     (index: number) => {
-      const c = data.map((a, i) => {
-        if (i < index) {
-          a.active = false;
-          a.loaded = true;
-          a.past = true;
-        } else if (index === i) {
-          a.active = true;
-          a.loaded = true;
-          a.past = false;
-        } else {
-          a.active = false;
-          a.loaded = false;
-          a.past = false;
-        }
-        a.reset = false;
-        return a;
-      });
-      setData(c);
+      setData(
+        data.map((a, i) => {
+          if (i < index) {
+            a.active = false;
+            a.loaded = true;
+            a.past = true;
+          } else if (index === i) {
+            a.active = true;
+            a.loaded = true;
+            a.past = false;
+          } else {
+            a.active = false;
+            a.loaded = false;
+            a.past = false;
+          }
+          a.reset = false;
+          return a;
+        })
+      );
     },
     [data]
   );
@@ -133,9 +136,7 @@ const WorkingProcess: React.FC = () => {
   const startProcess = useCallback(
     (index: number) => {
       resetProcess();
-      timeOutId.current = setTimeout(() => {
-        runProcess(index);
-      }, 300);
+      timeOutId.current = setTimeout(() => runProcess(index), 300);
     },
     [resetProcess, runProcess]
   );
