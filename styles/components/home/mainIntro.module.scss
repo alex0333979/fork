@@ -161,3 +161,153 @@
     }
   }
 }
+
+@media screen and (max-width: 1580px) {
+  .main-intro .intro-wrap {
+    padding: 9.4% 0 2% 0;
+  }
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 82px;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap img {
+    max-width: 35px !important;
+  }
+  .main-intro .intro-wrap .intro-title .title ul {
+    padding-top: 33px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul li:before {
+    width: 27px;
+    height: 27px;
+    font-size: 20px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul li {
+    padding: 4px 0 4px 33px;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+  .main-intro .intro-wrap .intro-title .btn-wrap {
+    padding-top: 36px;
+  }
+  .main-intro .intro-wrap .intro-title .btn-wrap .main-btn,
+  .faq-form .form-wrap form .submit-btn .main-btn {
+    max-width: 256px;
+  }
+}
+
+@media screen and (max-width: 1420px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 70px;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap img {
+    max-width: 31px !important;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap {
+    padding: 9px;
+    bottom: 8px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul li:before {
+    width: 22px;
+    height: 22px;
+    font-size: 17px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul li {
+    padding: 3px 0 3px 29px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .main-intro .intro-wrap .intro-title .btn-wrap {
+    padding-top: 30px;
+  }
+  .main-intro .intro-wrap .intro-title .btn-wrap .main-btn,
+  .faq-form .form-wrap form .submit-btn .main-btn {
+    max-width: 215px;
+  }
+  .main-intro .intro-wrap {
+    padding: 10.4% 0 2% 0;
+  }
+  .main-intro .intro-wrap .intro-title .title ul {
+    padding-top: 29px;
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 65px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 56px;
+  }
+}
+
+@media screen and (max-width: 810px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 50px;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap img {
+    max-width: 24px !important;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .main-intro .intro-wrap .intro-title {
+    width: 100%;
+  }
+  .main-intro .intro-wrap .intro-img {
+    width: 100%;
+    display: none;
+
+  }
+  .main-intro .intro-wrap .intro-img span {
+    margin: 0;
+    text-align: center;
+  }
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 36px;
+    line-height: 1.36;
+    letter-spacing: -1.5px;
+  }
+  .main-intro {
+    margin-top: -57px;
+  }
+  .main-intro .intro-wrap {
+    padding: 117px 0 30px 0;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap img {
+    max-width: 30px !important;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap {
+    padding: 10px;
+    bottom: -2px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul {
+    padding-top: 42px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul li:before {
+    width: 24px;
+    height: 24px;
+    font-size: 17px;
+  }
+  .main-intro .intro-wrap .intro-title .title ul li {
+    padding: 1px 0 1px 32px;
+    margin-bottom: 21px;
+    font-size: 16px;
+    line-height: 1.37;
+  }
+  .main-intro .intro-wrap .intro-title .btn-wrap {
+    padding-top: 60px;
+  }
+  .main-intro .intro-wrap .intro-title .btn-wrap .main-btn,
+  .faq-form .form-wrap form .submit-btn .main-btn {
+    max-width: 380px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+
+}
+
+@media screen and (max-width: 400px) {
+}

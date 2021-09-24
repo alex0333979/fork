@@ -146,3 +146,88 @@
     }
   }
 }
+
+@media screen and (max-width: 1580px) {
+  .application-list ul li:not(.add-application) {
+    max-width: 210px;
+  }
+  .application-list ul li .main-btn.small {
+    min-height: 50px;
+  }
+  .application-list ul li.add-application .add-form .top-info h4 {
+    font-size: 19px;
+  }
+  .application-list ul li.add-application .add-form table tr td {
+    padding: 15px 0;
+    font-size: 15px;
+  }
+  .application-list ul li.add-application .add-form table tr td:last-child span {
+    font-size: 18px;
+  }
+  .application-list ul li.add-application .add-form {
+    width: 455px;
+    padding-top: 35px;
+  }
+}
+
+@media screen and (max-width: 1420px) {
+
+}
+
+@media screen and (max-width: 1180px) {
+
+}
+
+@media screen and (max-width: 991px) {
+  .application-list ul li.add-application .add-form {
+    width: 440px;
+    padding-top: 25px;
+  }
+}
+
+@media screen and (max-width: 810px) {
+
+}
+
+@media screen and (max-width: 760px) {
+  .application-list ul li.add-application .add-form {
+    width: 300px;
+    padding-top: 20px;
+  }
+  .application-list ul li.add-application .add-form .bg-wrap {
+    padding: 9px 15px;
+  }
+  .application-list ul li.add-application .add-form .top-info h4 {
+    font-size: 16px;
+  }
+  .application-list ul li.add-application .add-form table tr td {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  .application-list ul li.add-application .add-form table tr td:last-child span {
+    font-size: 16px;
+  }
+  .application-list ul li.add-application .add-form {
+    right: 10px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .application-list ul li.add-application {
+    position: static;
+  }
+  .application-list ul {
+    position: relative;
+  }
+  .application-list ul li.add-application .add-form {
+    right: unset;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .application-list ul li.add-application.open-right .add-form {
+    left: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+}

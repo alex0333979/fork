@@ -107,3 +107,112 @@
     }
   }
 }
+
+@media screen and (max-width: 1580px) {
+  .faq-section .data-wrap {
+    padding: 2.4% 0 4.1% 0;
+  }
+  .faq-section .faq-list ul li .question {
+    padding: 37px 0;
+  }
+  .faq-section .faq-list ul li .question h3 {
+    font-size: 18px;
+  }
+  .faq-section .faq-list ul li .question h3 span.icon-close {
+    width: 42px;
+    height: 42px;
+  }
+  .faq-section .faq-list ul li .answer p {
+    max-width: 93%;
+    padding-left: 21px;
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 1420px) {
+  .faq-section .faq-list {
+    padding-top: 4px;
+  }
+  .faq-section .faq-list ul li .question h3 {
+    font-size: 16px;
+  }
+  .faq-section .faq-list ul li .question {
+    padding: 27px 0;
+  }
+  .faq-section .faq-list ul li .question h3 span.icon-close {
+    width: 36px;
+    height: 36px;
+    font-size: 11px;
+  }
+  .faq-section .faq-list ul li .answer p {
+    max-width: 94%;
+    padding-left: 17px;
+    font-size: 14px;
+  }
+  .faq-section .faq-list ul li .answer {
+    padding: 0 0 14px 0;
+  }
+  .faq-section .faq-list ul li {
+    margin: 12px 0;
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 65px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 56px;
+  }
+}
+
+@media screen and (max-width: 810px) {
+  .main-intro .intro-wrap .intro-title .title.big h1 {
+    font-size: 50px;
+  }
+  .main-intro .intro-wrap .intro-title .title h1 span.emoji-wrap img {
+    max-width: 24px !important;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .faq-section .data-wrap {
+    padding: 21px 0;
+  }
+  .faq-section .faq-list {
+    padding-top: 12px;
+  }
+  .faq-section .faq-list ul li {
+    margin: 10px 0;
+    padding: 12px 24px;
+  }
+  .faq-section .faq-list ul li .question h3 {
+    font-size: 18px;
+  }
+  .faq-section .faq-list ul li .question {
+    padding: 15px 0;
+  }
+  .faq-section .faq-list ul li .question h3 span.icon-close {
+    width: 48px;
+    height: 48px;
+    font-size: 11px;
+  }
+  .faq-section .faq-list ul li .answer {
+    padding: 7px 0 19px 0;
+  }
+  .faq-section .faq-list ul li .answer p {
+    max-width: unset;
+    padding-left: 16px;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+
+}
+
+@media screen and (max-width: 400px) {
+}

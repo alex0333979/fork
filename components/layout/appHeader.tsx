@@ -62,9 +62,7 @@ const AppHeader: React.FC = () => {
               </Link>
             </div>
             <div className="sign-btn">
-              <Link href={'/'}>
-                <a className="main-btn small blank">Sign In</a>
-              </Link>
+              <a className="main-btn small blank">{'Sign In'}</a>
             </div>
             <div className={classNames({ 'menu-btn': true, open: mobileNavVisible })}>
               <button type="button" onClick={() => setMobileNavVisible(!mobileNavVisible)}>

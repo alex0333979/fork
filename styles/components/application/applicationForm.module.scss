@@ -341,3 +341,264 @@
     }
   }
 }
+
+@media screen and (max-width: 1580px) {
+  .add-btn {
+    font-size: 13px;
+  }
+  .application-form .progress-wrap h2 {
+    font-size: 16px;
+  }
+  .form-fields .extra-info h3 {
+    font-size: 24px;
+  }
+  .form-fields label span.field.radio .extra, .form-fields label span.field.checkbox .extra {
+    font-size: 15px;
+  }
+  .form-fields label span.field.radio .name, .form-fields label span.field.checkbox .name {
+    font-size: 17px;
+  }
+  .form-fields label span.field.radio, .form-fields label span.field.checkbox {
+    min-height: 70px;
+    padding: 8px 45px 8px 18px;
+  }
+  .form-fields label span.field.radio .bullet, .form-fields label span.field.checkbox .bullet {
+    right: 10px;
+  }
+  .form-fields .extra-info label {
+    max-width: 230px;
+  }
+  .application-form .form-wrap .form-notice p {
+    padding: 20px;
+    font-size: 15px;
+  }
+  /*  .form-fields label select {
+      line-height: 1.47;
+    }*/
+  .form-fields label span.more .field {
+    margin-right: 15px;
+  }
+  .application-form .progress-wrap ul li .name h4 {
+    font-size: 15px;
+  }
+  .application-toolbar .data-wrap .next-btn {
+    max-width: 360px;
+  }
+  .application-form .progress-wrap ul li .name {
+    min-height: 40px;
+  }
+  .application-form .progress-wrap ul li .counter .index {
+    width: 40px;
+    height: 40px;
+  }
+  .application-form .progress-wrap ul li:before {
+    top: 42px;
+    left: 21px;
+    bottom: -3px;
+  }
+  .application-form .progress-wrap ul li .counter .index:before {
+    font-size: 16px;
+  }
+  .application-form .progress-wrap ul li .counter .index:after {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 1420px) {
+  .application-form .progress-wrap h2 {
+    padding-bottom: 30px;
+  }
+  .application-form .progress-wrap ul li .name {
+    min-height: 36px;
+    padding-left: 10px;
+  }
+  .application-form .progress-wrap ul li .counter .index {
+    width: 36px;
+    height: 36px;
+  }
+  .application-form .progress-wrap ul li:before {
+    top: 38px;
+    left: 19px;
+    bottom: -2px;
+  }
+  .application-form .progress-wrap ul li .counter .index:after {
+    font-size: 22px;
+  }
+  .application-form .progress-wrap ul li .counter .index:before {
+    font-size: 14px;
+  }
+  .application-form .progress-wrap {
+    padding: 22px 15px 22px 0;
+  }
+  .application-form .form-wrap {
+    padding: 18px 0 25px 18px;
+  }
+  .application-toolbar .data-wrap {
+    padding: 0 0 0 18px;
+  }
+  .form-fields .extra-info h3 {
+    font-size: 22px;
+  }
+  .form-fields label span.field.radio .name, .form-fields label span.field.checkbox .name {
+    font-size: 15px;
+  }
+  .form-fields label span.field.radio .extra, .form-fields label span.field.checkbox .extra {
+    font-size: 14px;
+  }
+  .form-fields label span.field.radio, .form-fields label span.field.checkbox {
+    min-height: 60px;
+    padding: 8px 40px 8px 13px;
+  }
+  .form-fields label span.field.radio .bullet, .form-fields label span.field.checkbox .bullet {
+    width: 24px;
+    height: 24px;
+  }
+  .form-fields .extra-info label {
+    max-width: 200px;
+  }
+  .form-fields label span.attention {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  .application-form .form-wrap .form-notice p {
+    padding: 17px;
+  }
+}
+
+@media screen and (max-width: 1180px) {
+
+}
+
+@media screen and (max-width: 991px) {
+  .application-form .progress-wrap h2,
+  .application-form .progress-wrap ul li .name,
+  .application-form .progress-wrap:after {
+    display: none;
+  }
+  .application-form .progress-wrap ul li .counter .index {
+    width: 44px;
+    height: 44px;
+  }
+  .application-form .progress-wrap ul li .counter .index:after {
+    font-size: 27px;
+  }
+  .application-form .progress-wrap ul li .counter .index:before {
+    font-size: 18px;
+  }
+  .application-form .progress-wrap ul li:before {
+    top: 44px;
+    left: 23px;
+    bottom: -4px;
+  }
+  .application-form .progress-wrap {
+    width: 70px;
+    padding: 22px 22px 22px 0;
+  }
+  .application-form .form-wrap {
+    width: calc(100% - 70px);
+    padding: 18px 0 25px 0;
+  }
+  .application-toolbar .data-wrap {
+    width: calc(100% - 70px);
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 810px) {
+
+}
+
+@media screen and (max-width: 760px) {
+
+}
+
+@media screen and (max-width: 640px) {
+  .form-fields .extra-info h3 {
+    font-size: 20px;
+  }
+  .form-fields .extra-info {
+    flex-direction: column;
+  }
+  .form-fields .extra-info label {
+    max-width: 100%;
+    margin: 0;
+    padding: 20px 0 0 0;
+  }
+  .form-fields label.third-size {
+    width: calc(100% - 20px);
+  }
+  .form-fields label:not(.error) span.warning {
+    max-height: 0;
+  }
+  .application-form .form-wrap .form-fields {
+    label {
+      padding: 5px 0;
+    }
+
+    label span.label,
+    .group .group-label p {
+      padding-bottom: 14px;
+      font-size: 14px;
+    }
+
+    label input,
+    label select,
+    label textarea {
+      min-height: 50px;
+      padding: 13px 19px;
+      font-size: 16px;
+    }
+
+    .extra-info label {
+      padding: 20px 0 0 0;
+    }
+  }
+  .form-fields .group {
+    padding: 5px 0;
+  }
+  .application-form .progress-wrap {
+    padding: 18px 22px 20px 0;
+  }
+  .application-form .form-wrap {
+    padding: 19px 0;
+  }
+  .form-fields label span.field.radio .name,
+  .form-fields label span.field.checkbox .name {
+    font-size: 16px;
+  }
+  .form-fields label span.field.radio, .form-fields label span.field.checkbox {
+    min-height: 64px;
+    padding: 8px 50px 8px 10px;
+  }
+  .form-fields label span.field.radio .extra,
+  .form-fields label span.field.checkbox .extra {
+    padding-top: 6px;
+    font-size: 14px;
+  }
+  .form-fields label span.more {
+    align-items: unset;
+    flex-direction: column;
+  }
+  .form-fields label span.more .field {
+    width: 100%;
+    margin: 0 0 10px 0;
+  }
+  .application-toolbar .data-wrap .main-btn {
+    min-height: 48px;
+    font-size: 18px;
+  }
+  .application-toolbar .data-wrap .next-btn {
+    max-width: 215px;
+  }
+  .application-toolbar .data-wrap .back-btn {
+    max-width: 120px;
+    padding-right: 22px;
+  }
+  .application-form .progress-wrap ul {
+    position: sticky;
+    top: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+}
