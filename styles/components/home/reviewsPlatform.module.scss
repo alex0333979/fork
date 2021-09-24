@@ -1,0 +1,211 @@
+.reviews-platform {
+  background: url('../../../public/images/reviews-bg.png') center no-repeat;
+  background-size: contain;
+  overflow: hidden;
+
+  .data-wrap {
+    padding: 5% 0;
+  }
+
+  .sub-title {
+    padding-bottom: 4.2%;
+  }
+
+  .reviews-wrap {
+    position: relative;
+    z-index: 1;
+
+    .slider-shade {
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      bottom: 0;
+      z-index: 3;
+      transform: translateX(-50%);
+      pointer-events: none;
+
+      &:before,
+      &:after {
+        content: '';
+        width: 110px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background: linear-gradient(270deg, #FFFFFF 67.95%, rgba(255, 255, 255, 0) 100%);
+      }
+
+      &:before {
+        left: 0;
+        transform: rotate(180deg);
+      }
+
+      &:after {
+        right: 0;
+      }
+    }
+
+    .slider-wrap {
+      .swiper-container {
+        overflow: visible;
+
+        &:nth-child(odd) {
+          padding: 0 11% 0 21.4%;
+        }
+
+        &:nth-child(even) {
+          padding: 0 21.4% 0 11%;
+        }
+      }
+
+      .swiper-wrapper {
+        transition-timing-function: linear;
+      }
+
+      .swiper-slide {
+        height: auto;
+        display: flex;
+
+        .reviews-item {
+          width: 100%;
+        }
+      }
+    }
+
+    .mobile-slider {
+      display: none;
+      margin: 0 -10px;
+
+      .swiper-container {
+        overflow: visible;
+      }
+
+      .swiper-slide {
+        height: auto;
+        display: flex;
+
+        .reviews-item {
+          width: 100%;
+        }
+      }
+
+      .navigation {
+        display: flex;
+        justify-content: center;
+
+        .btn-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          margin: 10px;
+          font-size: 18px;
+          color: var(--azure-radiance);
+          background-color: var(--white);
+          border: 1px solid var(--azure-radiance);
+          border-radius: 4px;
+          transition: color var(--transition), background-color var(--transition);
+
+          span {
+            display: block;
+          }
+
+          &.button-prev {
+            span {
+              transform: rotate(180deg);
+            }
+          }
+
+          &:hover {
+            color: var(--white);
+            background-color: var(--azure-radiance);
+          }
+        }
+      }
+    }
+  }
+
+
+  .reviews-item {
+    display: flex;
+    padding: 10px;
+
+    .item-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8% 8%;
+      background: #FFFFFF;
+      box-shadow: 0 0 96px rgba(0, 0, 0, 0.05);
+      border-radius: 30px;
+
+      .content {
+        p {
+          margin: 0;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 7; /* number of lines to show */
+          -webkit-box-orient: vertical;
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 1.35;
+          overflow: hidden;
+        }
+      }
+
+      .author {
+        display: flex;
+        align-items: center;
+        padding-top: 44px;
+
+        .picture {
+          width: 70px;
+          flex-shrink: 0;
+          position: relative;
+          z-index: 1;
+          border-radius: 50%;
+          overflow: hidden;
+
+          &:before {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
+            pointer-events: none;
+          }
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+
+        .name {
+          padding-left: 14px;
+
+          h3 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+          }
+
+          p {
+            margin: 0;
+            padding-top: 10px;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 1.1;
+            color: var(--shuttle-gray);
+          }
+        }
+      }
+    }
+  }
+}

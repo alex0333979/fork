@@ -1,4 +1,4 @@
-import { NavItemProps } from '@/components/layout/NavItem';
+import { NavItemProps } from '@/components/layout/navItem';
 
 export const TOP_MENUS: NavItemProps[] = [
   {

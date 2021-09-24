@@ -1,0 +1,245 @@
+.working-process {
+  overflow: hidden;
+
+  .data-wrap {
+    padding: 4.6% 0 3.9% 0;
+  }
+
+  .process-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 5%;
+  }
+
+  .process-list {
+    width: 42.3%;
+    padding-right: 7%;
+
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    ul {
+      padding-left: 30px;
+
+      li {
+        padding: 0 0 18px 8px;
+        position: relative;
+
+        .progress {
+          width: 30px;
+          position: absolute;
+          top: 0;
+          left: -30px;
+          bottom: 0;
+          transition-property: transform;
+          transition-duration: 10.033s;
+
+          .progress-bar,
+          .progress-track {
+            position: absolute;
+            top: 30px;
+            bottom: -15px;
+          }
+
+          .progress-bar {
+            width: 3px;
+            left: 14px;
+            opacity: 0;
+            background-color: var(--azure-radiance);
+            transform: scale(1, 0);
+            transform-origin: top left;
+            transition: transform 0.3s linear, opacity 0.3s ease-out;
+          }
+
+          .progress-track {
+            width: 1px;
+            left: 15px;
+            border: none;
+            border-top: 1px solid white;
+            border-bottom: 1px solid white;
+            background: repeating-linear-gradient(to bottom, var(--azure-radiance) 0, var(--azure-radiance) 3px, transparent 3px, transparent 6px) repeat-y;
+            opacity: 0.5;
+          }
+
+          .progress-bullet {
+            position: absolute;
+            top: 7px;
+            left: 0;
+            display: block;
+            width: 30px;
+            height: 30px;
+            transition: opacity var(--transition);
+            opacity: 0.5;
+            border-radius: 50%;
+
+            &:before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              display: block;
+              width: 100%;
+              height: 100%;
+              border: 1px solid var(--azure-radiance);
+              border-radius: 50%;
+              background-color: white;
+              transition: transform 0.3s ease-in;
+              transform: scale(0.3, 0.3);
+              transform-origin: center center;
+            }
+
+            &:after {
+              content: '';
+              position: absolute;
+              top: 7px;
+              left: 7px;
+              display: block;
+              width: 16px;
+              height: 16px;
+              border-radius: 50%;
+              background: var(--azure-radiance);
+            }
+          }
+        }
+
+        .label {
+          padding-right: 13%;
+
+          h3 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            min-height: 42px;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+          }
+        }
+
+        .description {
+          max-height: 0;
+          padding: 24px 0 5px 0;
+          transition: opacity 0.2s linear, max-height 0.4s ease-in-out, transform 0.3s ease-in;
+          transform: translateY(10px);
+          opacity: 0;
+          overflow: hidden;
+
+          p {
+            margin: 0;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 1.4;
+            color: var(--shuttle-gray);
+          }
+        }
+
+        &[data-past="true"] {
+          .progress-bar {
+            transition: none;
+            transform: scale(1, 1);
+            opacity: 1;
+          }
+
+          .progress-bullet {
+            opacity: 1;
+          }
+        }
+
+        &[data-active="true"] {
+          .label {
+            h3 {
+              color: var(--azure-radiance);
+            }
+          }
+
+          .description {
+            max-height: 600px;
+            transition: max-height 0.4s ease-in-out, opacity 0.2s 0.4s, transform 0.3s 0.4s ease-out;
+            transform: translateY(0);
+            opacity: 1;
+          }
+
+          .progress {
+            .progress-bar {
+              transition: transform 5s linear, opacity 0.3s ease-out;
+            }
+          }
+
+
+          .progress-bullet {
+            opacity: 1;
+
+            &:before {
+              transform: scale(1, 1);
+            }
+          }
+
+          &[data-loaded="true"] .progress {
+            .progress-bar {
+              transition-timing-function: linear;
+              transition-duration: inherit;
+              transition-property: transform;
+
+              transform: scale(1, 1);
+              opacity: 1;
+            }
+          }
+
+          &[data-reset="true"] .progress {
+            .progress-bar {
+              //transition: none;
+              transition: transform 0.3s, opacity 0.2s;
+              transform: scale(1, 0);
+              opacity: 0;
+            }
+          }
+        }
+
+        &:last-child {
+          .progress {
+            .progress-bar,
+            .progress-track {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .process-img {
+    width: calc(100% - 42.3%);
+
+    span {
+      display: block;
+      background: #EDF6FF;
+      border-radius: 50px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+
+      &:before {
+        content: '';
+        display: block;
+        padding-bottom: 90.6%;
+        pointer-events: none;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+}

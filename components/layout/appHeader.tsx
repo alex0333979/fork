@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
-import NavItem from './NavItem';
+import NavItem from './navItem';
 import { TOP_MENUS } from '../../constants';
 
 const AppHeader: React.FC = () => {

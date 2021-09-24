@@ -1,0 +1,28 @@
+.faq-form {
+  .data-wrap {
+    padding: 3.2% 0 8.4% 0;
+  }
+
+  .form-wrap {
+    padding: 5% 8.5% 4% 8.5%;
+    background: linear-gradient(139.37deg, var(--selago) 14.46%, rgba(241, 245, 254, 0) 88.08%), #FFFFFF;
+    border-radius: 30px;
+
+    form {
+      padding-top: 5.7%;
+
+      .form-fields label {
+        padding: 4px 0 20px 0;
+      }
+
+      .submit-btn {
+        text-align: right;
+
+        .main-btn {
+          width: 100%;
+          max-width: 285px;
+        }
+      }
+    }
+  }
+}

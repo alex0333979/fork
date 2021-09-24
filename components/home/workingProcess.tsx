@@ -6,11 +6,11 @@ const PROCESS_DATA = [
     description: (
       <p>
         {`Keep taking shots until you're happy with the results. Each photo is instantly
-                    biometrically approved to comply with U.S. department of State guidelines.`}
+          biometrically approved to comply with U.S. department of State guidelines.`}
         <br />
         <br />
         {`Once you've chosen the perfect shot, print them out yourself or take advantage
-                    of our concierge service. We'll print and ship them directly to you.`}
+          of our concierge service. We'll print and ship them directly to you.`}
       </p>
     )
   },
@@ -19,7 +19,7 @@ const PROCESS_DATA = [
     description: (
       <p>
         {`Keep taking shots until you're happy with the results. Each photo is instantly
-                    biometrically approved to comply with U.S. department of State guidelines`}
+          biometrically approved to comply with U.S. department of State guidelines`}
       </p>
     )
   },
@@ -28,7 +28,7 @@ const PROCESS_DATA = [
     description: (
       <p>
         {`Once you've chosen the perfect shot, print them out yourself or take advantage
-                    of our concierge service. We'll print and ship them directly to you.`}
+          of our concierge service. We'll print and ship them directly to you.`}
       </p>
     )
   }
