@@ -46,7 +46,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                     small: true,
                     blank: currentId !== null
                   })}>
-                  Application №1
+                  Application №{ids.length + 1}
                 </a>
               </Link>
             </li>

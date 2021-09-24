@@ -154,7 +154,7 @@ const ReviewsPlatform: React.FC = () => (
               spaceBetween={0}
               slidesPerView={2}
               watchSlidesProgress={true}
-              mousewheel={true}
+              mousewheel={false}
               loop={true}
               loopAdditionalSlides={4}
               speed={10000}
@@ -186,7 +186,7 @@ const ReviewsPlatform: React.FC = () => (
               spaceBetween={0}
               slidesPerView={2}
               watchSlidesProgress={true}
-              mousewheel={true}
+              mousewheel={false}
               loop={true}
               loopAdditionalSlides={4}
               speed={10000}

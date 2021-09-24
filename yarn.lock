@@ -5803,6 +5803,11 @@ react-is@^16.7.0, react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-loading-icons@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-loading-icons/-/react-loading-icons-1.0.6.tgz#bd421b79a5057f33d93d37a64a08ea3a2655cc89"
+  integrity sha512-VvO1ww1CacxKCcQ9Sy4yPKRVPnM/g26ob8x74pTfYpVQjgv+n8ug0vT8i09YBuGs7L831ldqGivY2op+2vKMHw==
+
 react-phone-number-input@^3.1.27:
   version "3.1.27"
   resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.1.27.tgz#6499ced6602eacb475c58d7131be71a90cd471ce"

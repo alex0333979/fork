@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PhoneInput from '@/components/application/phoneInput';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import { Bars } from 'react-loading-icons';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -45,6 +46,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   const [country, setCountry] = useState<string>('US');
   const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
   const [error, setError] = useState<ValidationError>({});
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { savedEntries, saveEntry, removeEntry } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
@@ -56,7 +58,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
 
   const deleteEntry = useCallback(
     (id: string | null) => {
-      console.log('====delete entry====', id);
       removeEntry(id);
     },
     [removeEntry]
@@ -171,9 +172,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     if (Object.keys(error).length > 0) {
       return;
     }
+    setLoading(true);
     submitEntry({
       variables: { entryId: entry.id, formId: entry.formId, formStep }
     }).then(({ data, errors }) => {
+      setLoading(false);
       if (data) {
         const result = data.SubmitEntry.data;
         if (result) {
@@ -399,7 +402,13 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
               </div>
               <div className="next-btn">
                 <button type="button" className="main-btn big" onClick={submitForm}>
-                  Next <span className="icon-right" />
+                  {loading ? (
+                    <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
+                  ) : (
+                    <>
+                      {'Next'} <span className="icon-right" />
+                    </>
+                  )}
                 </button>
               </div>
             </div>

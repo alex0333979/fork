@@ -10,7 +10,7 @@ interface DatePickerProps {
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, step, error }) => {
-  const [date, setDate] = useState<string>(formField.value ? formField.value : '1900-01-01');
+  const [date, setDate] = useState<string>(formField.value ? formField.value : '1940-01-01');
   const onChange = useCallback(
     (value: string) => {
       onValueChange(formField.name, value);

@@ -54,7 +54,6 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, step, e
           setValue(value);
         }
       } else {
-        console.log('=====', formField.name, value);
         onValueChange(formField.name, value || '');
         setValue(value);
       }
