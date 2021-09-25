@@ -64,7 +64,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     if (data?.CreateGuest.data?.accessToken) {
       setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
         path: '/',
-        maxAge: 86000
+        maxAge: 604800
       });
     }
   }, [apolloClient, setCookie]);
@@ -108,7 +108,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
         }
       });
       if (data?.Login.data?.accessToken) {
-        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/', maxAge: 86000 });
+        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/', maxAge: 604800 });
       }
     },
     [apolloClient, setCookie]
@@ -128,7 +128,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
       if (index > -1) {
         savedEntries.splice(index, 1);
       }
-      setCookie(COOKIE_ENTRIES, savedEntries.toString(), { path: '/', maxAge: 86000 });
+      setCookie(COOKIE_ENTRIES, savedEntries.toString(), { path: '/', maxAge: 604800 });
       return savedEntries;
     },
     [savedEntries, setCookie]
