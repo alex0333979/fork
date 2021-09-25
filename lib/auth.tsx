@@ -81,11 +81,16 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
 
   useEffect(() => {
     (async () => {
-      const token = cookies[COOKIES_TOKEN_NAME];
-      if (!token) {
+      try {
+        const token = cookies[COOKIES_TOKEN_NAME];
+        if (!token) {
+          await createGuest();
+        }
+        await autoLogin();
+      } catch {
         await createGuest();
+        await autoLogin();
       }
-      await autoLogin();
     })();
   }, [autoLogin, cookies, createGuest]);
 
