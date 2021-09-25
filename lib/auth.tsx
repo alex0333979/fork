@@ -81,10 +81,13 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
 
   useEffect(() => {
     (async () => {
-      await createGuest();
+      const token = cookies[COOKIES_TOKEN_NAME];
+      if (!token) {
+        await createGuest();
+      }
       await autoLogin();
     })();
-  }, [autoLogin, createGuest]);
+  }, [autoLogin, cookies, createGuest]);
 
   const isAuthenticated = useMemo((): boolean => !!(me && me.email), [me]);
 
