@@ -8,7 +8,7 @@ import { useAuth } from '@/lib/auth';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
-  const { getMe: me } = useAuth();
+  const { cart } = useAuth();
 
   useEffect(() => {
     mobileNavVisible
@@ -59,7 +59,7 @@ const AppHeader: React.FC = () => {
             <div className="cart-btn">
               <Link href={'/cart'}>
                 <a>
-                  <span className="icon-cart" /> {me?.cart?.items?.length ?? 0}
+                  <span className="icon-cart" /> {cart?.items?.length ?? 0}
                 </a>
               </Link>
             </div>

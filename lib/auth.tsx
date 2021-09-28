@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { ApolloClient, NormalizedCacheObject, ApolloQueryResult } from '@apollo/client';
 import {
+  Cart,
   CreateGuestDocument,
   CreateGuestMutation,
   LoginDocument,
@@ -33,6 +34,8 @@ interface IContextProps {
   removeEntry: (entryId: string | null) => string[];
   saveEntry: (entryId: string) => string[];
   clearEntries: () => void;
+  cart: Cart | null;
+  updateCart: (cart: Cart) => void;
 }
 
 export const COOKIE_ENTRIES = 'entries';
@@ -98,6 +101,20 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
 
   const getMe = useMemo((): User | null => me, [me]);
 
+  const cart = useMemo(() => me?.cart ?? null, [me?.cart]);
+
+  const updateCart = useCallback(
+    (cart: Cart) => {
+      if (me) {
+        setMe({
+          ...me,
+          cart
+        });
+      }
+    },
+    [me]
+  );
+
   const signIn = useCallback(
     async ({ email, password }: LoginMutationVariables) => {
       const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
@@ -156,6 +173,8 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     savedEntries,
     removeEntry,
     saveEntry,
-    clearEntries
+    clearEntries,
+    cart,
+    updateCart
   };
 }

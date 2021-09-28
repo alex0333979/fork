@@ -1,15 +1,27 @@
 import React, { useCallback, useMemo } from 'react';
-import { CartPageProps } from '@/pages/cart';
 import Link from 'next/link';
-import { ProductType } from '@/generated/graphql';
+import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 import ShoppingCartItem from '@/components/cart/cartItem';
+import { useAuth } from '@/lib/auth';
 
-const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
-  const deleteCartItem = useCallback((id: string) => {
-    console.log('=======', id);
-  }, []);
+const ShoppingCart: React.FC = () => {
+  const { cart, updateCart, removeEntry } = useAuth();
+  const [removeFromCart] = useRemoveItemsFromCartMutation();
 
-  const subTotal = useMemo(() => cart.items?.reduce((a, { price }) => a + price, 0), [cart.items]);
+  const onRemoveCartItem = useCallback(
+    (id: string) => {
+      removeFromCart({ variables: { ids: [id] } }).then(({ data }) => {
+        const cart = data?.RemoveItemsFromCart.data;
+        if (cart) {
+          updateCart(cart);
+          removeEntry(id);
+        }
+      });
+    },
+    [removeEntry, removeFromCart, updateCart]
+  );
+
+  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
 
   return (
     <div className="cart-page">
@@ -34,9 +46,9 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
           <div className="cart-summary">
             <div className="item-wrap">
               <ul>
-                {cart.items?.map((item, index) =>
+                {cart?.items?.map((item, index) =>
                   item.product === ProductType.PassportApplication ? (
-                    <ShoppingCartItem key={index} item={item} onDelete={deleteCartItem} />
+                    <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
                   ) : (
                     <></>
                   )
@@ -45,9 +57,9 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
             </div>
             <div className="item-wrap">
               <ul>
-                {cart.items?.map((item, index) =>
+                {cart?.items?.map((item, index) =>
                   item.product === ProductType.PassportPhoto ? (
-                    <ShoppingCartItem key={index} item={item} onDelete={deleteCartItem} />
+                    <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
                   ) : (
                     <></>
                   )
@@ -74,7 +86,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
                         <b>{'Total'}</b>
                       </td>
                       <td>
-                        <b>{`$${cart.totalPrice / 100}`}</b>
+                        <b>{`$${cart?.totalPrice ?? 0}`}</b>
                       </td>
                     </tr>
                   </tfoot>

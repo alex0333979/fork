@@ -58,7 +58,6 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icoFont' !important;
-  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -85,6 +84,7 @@
     background-color: white;
   }
 }
+
 
 .icon-location:before {
   content: "\e900";
@@ -133,5 +133,29 @@
 }
 .icon-remove:before {
   content: "\e915";
+}
+.icon-logout:before {
+  content: "\e916";
+}
+.icon-delete:before {
+  content: "\e917";
+}
+.icon-more:before {
+  content: "\e918";
+}
+.icon-smile:before {
+  content: "\e919";
+}
+.icon-shipping:before {
+  content: "\e920";
+}
+.icon-payment:before {
+  content: "\e921";
+}
+.icon-serach:before {
+  content: "\e922";
+}
+.icon-update:before {
+  content: "\e923";
 }
 

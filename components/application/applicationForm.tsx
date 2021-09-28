@@ -1,9 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import {
+  CartItemInput,
   FieldType,
   Form,
   FormStep,
+  ProductType,
+  useAddItemsToCartMutation,
+  useRemoveItemsFromCartMutation,
   useSubmitEntryMutation,
   ValidationType
 } from '@/generated/graphql';
@@ -20,6 +24,7 @@ import { useRouter } from 'next/router';
 import PhoneInput from '@/components/application/phoneInput';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { Bars } from 'react-loading-icons';
+import ProcessStep, { ProcessStepProps } from '@/components/elements/processStep';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -48,8 +53,40 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { savedEntries, saveEntry, removeEntry } = useAuth();
+  const { savedEntries, saveEntry, removeEntry, updateCart } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
+  const [addToCart] = useAddItemsToCartMutation();
+  const [removeFromCart] = useRemoveItemsFromCartMutation();
+
+  const process: ProcessStepProps = useMemo(
+    () => ({
+      title: entry.form.description,
+      step,
+      steps: entry.form.steps.map((s) => ({
+        name: s.name,
+        step: s.step
+      }))
+    }),
+    [entry.form.description, entry.form.steps, step]
+  );
+
+  const entityUsername = useMemo(() => {
+    if (step === 1) {
+      const firstNameField = formStep?.fields.find((f) => f.name === 'first_name');
+      const firstName = firstNameField ? firstNameField.value : '';
+      const lastNameField = formStep?.fields.find((f) => f.name === 'last_name');
+      const lastName = lastNameField ? lastNameField.value : '';
+      return `${firstName} ${lastName}`;
+    }
+    return '';
+  }, [formStep?.fields, step]);
+
+  const onRemoveCartItem = useCallback(
+    (id: string) => {
+      removeFromCart({ variables: { ids: [id] } }).then();
+    },
+    [removeFromCart]
+  );
 
   useEffect(() => {
     setFormStep(entry.form.steps.find((s) => s.step === step));
@@ -58,9 +95,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
 
   const deleteEntry = useCallback(
     (id: string | null) => {
+      if (id) {
+        onRemoveCartItem(id);
+      }
       removeEntry(id);
     },
-    [removeEntry]
+    [onRemoveCartItem, removeEntry]
   );
 
   const selectForm = useCallback(
@@ -163,6 +203,25 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     return error;
   }, [formStep]);
 
+  const onAddToCartItem = useCallback(
+    (cartItem: CartItemInput) => {
+      setLoading(true);
+      addToCart({
+        variables: {
+          cartItems: [cartItem]
+        }
+      }).then(({ data: cData }) => {
+        setLoading(false);
+        const cart = cData?.AddItemsToCart.data;
+        if (cart) {
+          updateCart(cart);
+          router.push(`/application/${cartItem.productId}/${step + 1}`).then();
+        }
+      });
+    },
+    [addToCart, router, step, updateCart]
+  );
+
   const submitForm = useCallback(() => {
     if (!formStep) {
       return;
@@ -181,12 +240,32 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         const result = data.SubmitEntry.data;
         if (result) {
           saveEntry(result.id);
-          router.push(`/application/${result.id}/${step + 1}`).then();
+          if (step === 1) {
+            onAddToCartItem({
+              name: entityUsername,
+              description: 'Passport application',
+              product: ProductType.PassportApplication,
+              productId: result.id
+            });
+          } else {
+            router.push(`/application/${result.id}/${step + 1}`).then();
+          }
         }
       }
       console.log('===errors===', errors);
     });
-  }, [formStep, validateForm, submitEntry, entry.id, entry.formId, saveEntry, router, step]);
+  }, [
+    formStep,
+    validateForm,
+    submitEntry,
+    entry.id,
+    entry.formId,
+    saveEntry,
+    step,
+    onAddToCartItem,
+    entityUsername,
+    router
+  ]);
 
   return (
     <div className="application-page">
@@ -201,46 +280,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         <div className={classNames('application-form', { blur: isOpenAddForm })}>
           <div className="container">
             <div className="data-wrap">
-              <div className="progress-wrap">
-                <h2>{entry.form.description}</h2>
-                <ul>
-                  {entry.form.steps.map((s, index) => (
-                    <li
-                      key={index}
-                      className={classNames({
-                        done: s.step < step,
-                        current: s.step === step
-                      })}>
-                      <div className="counter">
-                        <span className="line">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                            <circle
-                              cx="24"
-                              cy="24"
-                              r="22.5"
-                              fill="transparent"
-                              strokeWidth="3"
-                              strokeDasharray={
-                                s.step < step
-                                  ? '295%,1000'
-                                  : s.step === step
-                                  ? '295%,1000'
-                                  : '0%,1000'
-                              }
-                              strokeDashoffset="0"
-                            />
-                          </svg>
-                        </span>
-                        <span className="index" />
-                      </div>
-                      <div className="name">
-                        <h4>{s.name}</h4>
-                        <p>{s.step < step ? 'Done' : 'On progress'}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <ProcessStep title={process.title} step={process.step} steps={process.steps} />
               <div className="form-wrap">
                 {formStep?.notes ? (
                   <div className="form-fields">
