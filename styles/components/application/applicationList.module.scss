@@ -63,6 +63,7 @@
 
           .top-info {
             padding: 13px 0 10px 0;
+
             h4 {
               margin: 0;
               font-weight: 600;
@@ -82,6 +83,7 @@
                 }
               }
             }
+
             tfoot {
               border-top: 1px solid var(--porcelain);
             }
@@ -92,12 +94,15 @@
                 font-weight: normal;
                 font-size: 16px;
                 line-height: 1;
+
                 b {
                   font-weight: 600;
                 }
+
                 &:last-child {
                   padding-left: 15px;
                   text-align: right;
+
                   span {
                     font-size: 20px;
                   }
@@ -108,12 +113,15 @@
 
           .btn-wrap {
             padding-top: 3px;
+
             .main-btn {
               width: 100%;
               margin-bottom: 9px;
+
               &.small {
                 min-height: 48px;
               }
+
               &:last-child {
                 margin-bottom: 0;
               }
@@ -125,12 +133,14 @@
           .add-btn span.icon-close:before {
             transform: rotate(0);
           }
+
           .add-form {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
           }
         }
+
         &.open-right {
           .add-form {
             left: 0;

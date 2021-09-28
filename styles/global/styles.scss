@@ -119,6 +119,21 @@ select {
       font-size: 19px;
       color: var(--burnt-sienna);
     }
+
+    &.icon-close {
+      margin-left: 13px;
+      font-size: 10px;
+
+      &:before {
+        display: block;
+        transform: rotate(45deg);
+      }
+    }
+
+    &.icon-logout {
+      padding-left: 10px;
+      font-size: 18px;
+    }
   }
 
   &.big {
@@ -214,7 +229,7 @@ select {
   .extra-info {
     width: 100%;
     margin: 0 10px;
-    padding: 0 10px 30px 0;
+    padding: 30px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -360,6 +375,17 @@ select {
           padding: 10px 50px 10px 20px;
           cursor: pointer;
 
+          &.with-price {
+            min-height: 56px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .name {
+              flex: 1;
+            }
+          }
+
           .name {
             display: flex;
             align-items: center;
@@ -376,6 +402,14 @@ select {
               padding: 0 5px;
               color: var(--shuttle-gray);
             }
+          }
+
+          .price {
+            padding: 0 4px 0 10px;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 1;
+            color: var(--azure-radiance);
           }
 
           .extra {

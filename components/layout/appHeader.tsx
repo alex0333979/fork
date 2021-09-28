@@ -4,9 +4,11 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import NavItem from './navItem';
 import { TOP_MENUS } from '../../constants';
+import { useAuth } from '@/lib/auth';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
+  const { getMe: me } = useAuth();
 
   useEffect(() => {
     mobileNavVisible
@@ -55,9 +57,9 @@ const AppHeader: React.FC = () => {
               </Link>
             </div>
             <div className="cart-btn">
-              <Link href={'/'}>
+              <Link href={'/cart'}>
                 <a>
-                  <span className="icon-cart" />0
+                  <span className="icon-cart" /> {me?.cart?.items?.length ?? 0}
                 </a>
               </Link>
             </div>

@@ -11,7 +11,13 @@ interface StatePickerProps {
   error: string | undefined;
 }
 
-const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState, step, error }) => {
+const StatePicker: React.FC<StatePickerProps> = ({
+  formField,
+  country,
+  selectedState,
+  step,
+  error
+}) => {
   const [state, setState] = useState<string>('');
 
   useEffect(() => {
