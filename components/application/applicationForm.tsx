@@ -7,7 +7,6 @@ import {
   FormStep,
   ProductType,
   useAddItemsToCartMutation,
-  useRemoveItemsFromCartMutation,
   useSubmitEntryMutation,
   ValidationType
 } from '@/generated/graphql';
@@ -52,10 +51,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { savedEntries, saveEntry, removeEntry, updateCart } = useAuth();
+  const { updateCart } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
   const [addToCart] = useAddItemsToCartMutation();
-  const [removeFromCart] = useRemoveItemsFromCartMutation();
 
   const process: ProcessStepProps = useMemo(
     () => ({
@@ -80,27 +78,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     return '';
   }, [formStep?.fields, step]);
 
-  const onRemoveCartItem = useCallback(
-    (id: string) => {
-      removeFromCart({ variables: { ids: [id] } }).then();
-    },
-    [removeFromCart]
-  );
-
   useEffect(() => {
     setFormStep(entry.form.steps.find((s) => s.step === step));
     setCountry('US');
   }, [entry.form.steps, formStep, step]);
-
-  const deleteEntry = useCallback(
-    (id: string | null) => {
-      if (id) {
-        onRemoveCartItem(id);
-      }
-      removeEntry(id);
-    },
-    [onRemoveCartItem, removeEntry]
-  );
 
   const selectForm = useCallback(
     (formId: string) => {
@@ -238,7 +219,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       if (data) {
         const result = data.SubmitEntry.data;
         if (result) {
-          saveEntry(result.id);
           if (step === 1) {
             onAddToCartItem({
               name: entityUsername,
@@ -259,7 +239,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     submitEntry,
     entry.id,
     entry.formId,
-    saveEntry,
     step,
     onAddToCartItem,
     entityUsername,
@@ -269,11 +248,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   return (
     <div className="application-page">
       <ApplicationList
-        ids={savedEntries}
         currentId={entry.id}
         isOpenAddFrom={isOpenAddForm}
         openAddForm={setIsOpenAddForm}
-        deleteEntry={deleteEntry}
       />
       <div className="floating-wrap">
         <div className={classNames('application-form', { blur: isOpenAddForm })}>

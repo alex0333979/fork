@@ -2,9 +2,16 @@ import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'ne
 import React from 'react';
 import { AppLayout } from '@/components/index';
 import { initializeApollo } from '@/lib/apolloClient';
-import { EntryDocument, EntryQuery, Form, FormsDocument, FormsQuery } from '@/generated/graphql';
+import {
+  CartDocument,
+  CartQuery,
+  EntryDocument,
+  EntryQuery,
+  Form,
+  FormsDocument,
+  FormsQuery
+} from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
-import { getSavedEntriesFromCookie } from '@/lib/utils/getEntriesFromCookie';
 import dynamic from 'next/dynamic';
 const ApplicationForm = dynamic(() => import('@/components/application/applicationForm'));
 
@@ -49,9 +56,13 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     }
 
     if (!entryId) {
-      const entries = getSavedEntriesFromCookie(context);
-      if (entries.length > 0) {
-        const lastEntry = entries[entries.length - 1];
+      const result: ApolloQueryResult<CartQuery> = await client.query({
+        query: CartDocument
+      });
+      const cart = result.data.Cart.data;
+      const items = cart?.items ?? [];
+      if (items.length > 0) {
+        const lastEntry = items[items.length - 1].productId;
         return {
           redirect: {
             destination: `/application/${lastEntry}/`,

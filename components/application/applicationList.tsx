@@ -1,105 +1,136 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
+import { useAuth } from '@/lib/auth';
+import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 
 interface ApplicationListProps {
-  ids: string[];
   isOpenAddFrom: boolean;
   currentId: string | null;
   openAddForm: (status: boolean) => void;
-  deleteEntry: (id: string | null) => void;
 }
 
 const ApplicationList: React.FC<ApplicationListProps> = ({
-  ids,
-  isOpenAddFrom,
   currentId,
-  openAddForm,
-  deleteEntry
-}) => (
-  <div className="application-list">
-    <div className="container">
-      <div className="data-wrap">
-        <ul>
-          {ids.map((id, index) => (
-            <li key={index}>
-              <Link href={`/application/${id}`}>
-                <a className={classNames('main-btn', 'small', { blank: id !== currentId })}>
-                  {`Application №${index + 1}`}
-                  <span
-                    className="icon-remove"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteEntry(id);
-                    }}
-                  />
-                </a>
-              </Link>
-            </li>
-          ))}
-          {ids.length === 0 || !currentId ? (
-            <li>
-              <Link href={'/application/create'}>
-                <a
-                  className={classNames({
-                    'main-btn': true,
-                    small: true,
-                    blank: currentId !== null
-                  })}>
-                  Application №{ids.length + 1}
-                </a>
-              </Link>
-            </li>
-          ) : (
-            <></>
-          )}
+  isOpenAddFrom,
+  openAddForm
+}) => {
+  const { cart, updateCart } = useAuth();
+  const [removeFromCart] = useRemoveItemsFromCartMutation();
 
-          <li className={classNames({ 'add-application': true, active: isOpenAddFrom })}>
-            <button type="button" className="add-btn" onClick={() => openAddForm(!isOpenAddFrom)}>
-              <span className="icon-close" />
-              {'Add\n application'}
-            </button>
+  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
 
-            <div className="add-form">
-              <div className="bg-wrap">
-                <button type="button" className="icon-close" onClick={() => openAddForm(false)} />
-                <div className="top-info">
-                  <h4>Add Another Application?</h4>
-                </div>
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>Your new package price:</td>
-                      <td>$89.00</td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td>Total: 2</td>
-                      <td>
-                        <span>$89.00</span>
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-                <div className="btn-wrap">
-                  <Link href={'/application/create'}>
-                    <a className="main-btn small">Add an application</a>
+  const onRemoveCartItem = useCallback(
+    (id: string) => {
+      removeFromCart({ variables: { ids: [id] } }).then(({ data }) => {
+        const cart = data?.RemoveItemsFromCart.data;
+        if (cart) {
+          updateCart(cart);
+        }
+      });
+    },
+    [removeFromCart, updateCart]
+  );
+
+  const deleteEntry = useCallback(
+    (id: string | null) => {
+      if (id) {
+        onRemoveCartItem(id);
+      }
+    },
+    [onRemoveCartItem]
+  );
+
+  return (
+    <div className="application-list">
+      <div className="container">
+        <div className="data-wrap">
+          <ul>
+            {cart?.items
+              ?.filter((item) => item.product === ProductType.PassportApplication)
+              ?.map((item, index) => (
+                <li key={index}>
+                  <Link href={`/application/${item.productId}`}>
+                    <a
+                      className={classNames('main-btn', 'small', {
+                        blank: item.productId !== currentId
+                      })}>
+                      {`Application №${index + 1}`}
+                      <span
+                        className="icon-remove"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteEntry(item.productId);
+                        }}
+                      />
+                    </a>
                   </Link>
-                  <button
-                    type="button"
-                    className="main-btn small blank cancel"
-                    onClick={() => openAddForm(false)}>
-                    Cancel
-                  </button>
+                </li>
+              ))}
+            {!currentId ? (
+              <li>
+                <Link href={'/application/create'}>
+                  <a
+                    className={classNames({
+                      'main-btn': true,
+                      small: true,
+                      blank: currentId !== null
+                    })}>
+                    Application №{(cart?.items?.length ?? 0) + 1}
+                  </a>
+                </Link>
+              </li>
+            ) : (
+              <></>
+            )}
+
+            <li className={classNames({ 'add-application': true, active: isOpenAddFrom })}>
+              <button type="button" className="add-btn" onClick={() => openAddForm(!isOpenAddFrom)}>
+                <span className="icon-close" />
+                {'Add\n application'}
+              </button>
+
+              <div className="add-form">
+                <div className="bg-wrap">
+                  <button type="button" className="icon-close" onClick={() => openAddForm(false)} />
+                  <div className="top-info">
+                    <h4>{'Add Another Application?'}</h4>
+                  </div>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>{'Your new package price:'}</td>
+                        <td>{`$${subTotal ?? 0 / 100}`}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td>{`Total: ${cart?.items?.length ?? 0}`}</td>
+                        <td>
+                          <span>{`$${subTotal ?? 0 / 100}`}</span>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <div className="btn-wrap">
+                    <Link href={'/application/create'}>
+                      <a className="main-btn small">{'Add an application'}</a>
+                    </Link>
+                    <button
+                      type="button"
+                      className="main-btn small blank cancel"
+                      onClick={() => openAddForm(false)}>
+                      Cancel
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default ApplicationList;

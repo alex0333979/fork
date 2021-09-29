@@ -5,7 +5,7 @@ import ShoppingCartItem from '@/components/cart/cartItem';
 import { useAuth } from '@/lib/auth';
 
 const ShoppingCart: React.FC = () => {
-  const { cart, updateCart, removeEntry } = useAuth();
+  const { cart, updateCart } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
 
   const onRemoveCartItem = useCallback(
@@ -14,11 +14,10 @@ const ShoppingCart: React.FC = () => {
         const cart = data?.RemoveItemsFromCart.data;
         if (cart) {
           updateCart(cart);
-          removeEntry(id);
         }
       });
     },
-    [removeEntry, removeFromCart, updateCart]
+    [removeFromCart, updateCart]
   );
 
   const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
