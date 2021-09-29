@@ -4,15 +4,13 @@ import { Bars } from 'react-loading-icons';
 import classNames from 'classnames';
 
 interface ApplicationToolbarProps {
-  step: number;
-  backLink: string;
+  backLink: string | undefined;
   loading: boolean;
   blur?: boolean;
   onNext: () => void;
 }
 
 const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
-  step,
   backLink,
   loading,
   blur = false,
@@ -22,7 +20,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
     <div className="container">
       <div className="data-wrap">
         <div className="back-btn">
-          {step !== 1 ? (
+          {backLink ? (
             <Link href={backLink}>
               <a className="main-btn big outline">
                 <span className="icon-left" /> {'Back'}

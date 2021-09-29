@@ -426,8 +426,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
           </div>
         </div>
         <ApplicationToolbar
-          step={step}
-          backLink={`/application/${entry.id}/${step - 1}`}
+          backLink={step > 0 ? `/application/${entry.id}/${step - 1}` : undefined}
           loading={loading}
           blur={isOpenAddForm}
           onNext={onSubmit}

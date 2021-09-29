@@ -6,12 +6,18 @@ import ApplicationToolbar from '@/components/elements/applicationToolbar';
 interface CheckoutLayoutProps {
   step: number;
   loading: boolean;
-  backLink: string;
+  backLink: string | undefined;
   onSubmit: () => void;
   children: React.ReactNode;
 }
 
-const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({ step, loading, backLink, children, onSubmit }) => (
+const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
+  step,
+  loading,
+  backLink,
+  children,
+  onSubmit
+}) => (
   <div className="cart-page">
     <div className="page-title">
       <div className="container">
@@ -32,7 +38,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({ step, loading, backLink
           </div>
         </div>
       </div>
-      <ApplicationToolbar step={step} backLink={backLink} loading={loading} onNext={onSubmit} />
+      <ApplicationToolbar backLink={backLink} loading={loading} onNext={onSubmit} />
     </div>
   </div>
 );

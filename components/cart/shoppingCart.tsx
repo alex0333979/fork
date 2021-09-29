@@ -46,24 +46,20 @@ const ShoppingCart: React.FC = () => {
           <div className="cart-summary">
             <div className="item-wrap">
               <ul>
-                {cart?.items?.map((item, index) =>
-                  item.product === ProductType.PassportApplication ? (
+                {cart?.items
+                  ?.filter((item) => item.product === ProductType.PassportApplication)
+                  ?.map((item, index) => (
                     <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
-                  ) : (
-                    <></>
-                  )
-                )}
+                  ))}
               </ul>
             </div>
             <div className="item-wrap">
               <ul>
-                {cart?.items?.map((item, index) =>
-                  item.product === ProductType.PassportPhoto ? (
+                {cart?.items
+                  ?.filter((item) => item.product === ProductType.PassportPhoto)
+                  ?.map((item, index) => (
                     <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
-                  ) : (
-                    <></>
-                  )
-                )}
+                  ))}
               </ul>
             </div>
             <div className="item-wrap total-info">

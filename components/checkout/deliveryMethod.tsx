@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { SHIPPING_PRICE } from '../../constants';
 import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/graphql';
 import { useAuth } from '@/lib/auth';
@@ -19,12 +19,12 @@ const shippingTypes: { title: string; price: number; value: string }[] = [
   {
     title: 'Expedited 1-2 business days',
     price: 2995,
-    value: ShippingType.From3To6
+    value: ShippingType.From1To2
   },
   {
     title: 'Free standard shipping',
     price: 0,
-    value: ShippingType.From3To6
+    value: ShippingType.Free
   }
 ];
 
@@ -35,10 +35,6 @@ const DeliveryMethod: React.FC = () => {
   const [shippingType, setShippingType] = useState<string>(cart?.shippingType ?? ShippingType.Free);
   const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
   const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
-
-  useEffect(() => {
-    setShippingType(cart?.shippingType ?? ShippingType.Free);
-  }, [cart?.shippingType]);
 
   const onSubmit = useCallback(() => {
     setLoading(true);
