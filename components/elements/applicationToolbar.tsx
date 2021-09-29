@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 interface ApplicationToolbarProps {
   step: number;
-  nextLink: string;
+  backLink: string;
   loading: boolean;
   blur?: boolean;
   onNext: () => void;
@@ -13,7 +13,7 @@ interface ApplicationToolbarProps {
 
 const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
   step,
-  nextLink,
+  backLink,
   loading,
   blur = false,
   onNext
@@ -23,7 +23,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
       <div className="data-wrap">
         <div className="back-btn">
           {step !== 1 ? (
-            <Link href={nextLink}>
+            <Link href={backLink}>
               <a className="main-btn big outline">
                 <span className="icon-left" /> {'Back'}
               </a>
