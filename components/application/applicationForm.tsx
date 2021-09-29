@@ -19,12 +19,11 @@ import CountryPicker from '@/components/application/countryPicker';
 import StatePicker from '@/components/application/statePicker';
 import DatePicker from '@/components/application/datePicker';
 import SelectBox from '@/components/application/selectBox';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PhoneInput from '@/components/application/phoneInput';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
-import { Bars } from 'react-loading-icons';
 import ProcessStep, { ProcessStepProps } from '@/components/elements/processStep';
+import ApplicationToolbar from '@/components/elements/applicationToolbar';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -222,7 +221,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     [addToCart, router, step, updateCart]
   );
 
-  const submitForm = useCallback(() => {
+  const onSubmit = useCallback(() => {
     if (!formStep) {
       return;
     }
@@ -426,34 +425,13 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
             </div>
           </div>
         </div>
-        <div className={classNames('application-toolbar', { blur: isOpenAddForm })}>
-          <div className="container">
-            <div className="data-wrap">
-              <div className="back-btn">
-                {step !== 1 ? (
-                  <Link href={`/application/${entry.id}/${step - 1}`}>
-                    <a className="main-btn big outline">
-                      <span className="icon-left" /> Back
-                    </a>
-                  </Link>
-                ) : (
-                  <></>
-                )}
-              </div>
-              <div className="next-btn">
-                <button type="button" className="main-btn big" onClick={submitForm}>
-                  {loading ? (
-                    <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
-                  ) : (
-                    <>
-                      {'Next'} <span className="icon-right" />
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ApplicationToolbar
+          step={step}
+          nextLink={`/application/${entry.id}/${step - 1}`}
+          loading={loading}
+          blur={isOpenAddForm}
+          onNext={onSubmit}
+        />
       </div>
     </div>
   );

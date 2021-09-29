@@ -1,4 +1,5 @@
 import { NavItemProps } from '@/components/layout/navItem';
+import { ProcessStepProps } from '@/components/elements/processStep';
 
 export const TOP_MENUS: NavItemProps[] = [
   {
@@ -60,3 +61,28 @@ export const TOP_MENUS: NavItemProps[] = [
     items: []
   }
 ];
+
+export const CHECKOUT_STEPS: ProcessStepProps = {
+  title: 'New passport application',
+  step: 1,
+  steps: [
+    {
+      name: 'Delivery Method',
+      step: 1
+    },
+    {
+      name: 'Shipping Information',
+      step: 2
+    },
+    {
+      name: 'Payment Information',
+      step: 3
+    },
+    {
+      name: 'Review and Pay',
+      step: 4
+    }
+  ]
+};
+
+export const SHIPPING_PRICE = 950;

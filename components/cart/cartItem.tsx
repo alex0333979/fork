@@ -23,7 +23,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete }) => (
       <div className="price">
         <p>
           {'Price: '}
-          <span>{`$${item.price}`}</span>
+          <span>{`$${item.price / 100}`}</span>
         </p>
       </div>
       <div className="btn-wrap">
