@@ -1,18 +1,53 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { CHECKOUT_STEPS, SHIPPING_PRICE } from '../../constants';
 import ProcessStep from '@/components/elements/processStep';
 import ApplicationToolbar from '@/components/elements/applicationToolbar';
+import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/graphql';
+import { useAuth } from '@/lib/auth';
+import { useRouter } from 'next/router';
+
+const shippingTypes: { title: string; price: number; value: string }[] = [
+  {
+    title: 'Expedited 3-6 day transit time',
+    price: 1495,
+    value: ShippingType.From3To6
+  },
+  {
+    title: 'Three business days',
+    price: 1995,
+    value: ShippingType.From3To3
+  },
+  {
+    title: 'Expedited 1-2 business days',
+    price: 2995,
+    value: ShippingType.From3To6
+  },
+  {
+    title: 'Free standard shipping',
+    price: 0,
+    value: ShippingType.From3To6
+  }
+];
 
 const DeliveryMethod: React.FC = () => {
-  // const { cart } = useAuth();
+  const router = useRouter();
+  const { cart, updateCart } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  // const [setShippingType] = useSetShippingTypeToCartMutation();
+  const [shippingType, setShippingType] = useState<string>(cart?.shippingType ?? ShippingType.Free);
+  const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
+  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
 
   const onSubmit = useCallback(() => {
     setLoading(true);
-    console.log('===========');
-    setLoading(false);
-  }, []);
+    setShippingTypeToCart({ variables: { shippingType } }).then(({ data }) => {
+      setLoading(false);
+      const cart = data?.SetShippingTypeToCart.data;
+      if (cart) {
+        updateCart(cart);
+        router.push('/checkout/shipping').then();
+      }
+    });
+  }, [router, setShippingTypeToCart, shippingType, updateCart]);
 
   return (
     <div className="cart-page">
@@ -39,7 +74,7 @@ const DeliveryMethod: React.FC = () => {
                       <span className="option">{'Print at home'}</span>
                       <span className="slider" />
                       <span className="option" data-status={'Recommended'}>
-                        <b>{`Add concierge service for just $${SHIPPING_PRICE / 100}!`}</b>
+                        <b>{`Add concierge service for just $${subTotal ?? 0 / 100}!`}</b>
                       </span>
                     </span>
                   </label>
@@ -51,7 +86,7 @@ const DeliveryMethod: React.FC = () => {
                         <h3>{'Subtotal'}</h3>
                         <p>
                           {'Just '}
-                          <b>{`${SHIPPING_PRICE / 100}`}</b>
+                          <b>{`$${SHIPPING_PRICE / 100}`}</b>
                         </p>
                       </div>
                     </li>
@@ -76,53 +111,27 @@ const DeliveryMethod: React.FC = () => {
                         <h3>{'Delivery method'}</h3>
                       </div>
                       <div className="form-fields">
-                        <label className="full-size">
-                          <span className="field radio with-price">
-                            <span className="name">Expedited 3-6 day transit time</span>
-                            <span className="price">+$14.95</span>
-                            <input type="radio" name="delivery" placeholder="delivery" />
-                            <span className="wrap">
-                              <span className="bullet" />
-                              <span className="border" />
+                        {shippingTypes.map((option, index) => (
+                          <label key={index} className="full-size">
+                            <span className="field radio with-price">
+                              <span className="name">{option.title}</span>
+                              <span className="price">
+                                {option.price > 0 ? `+$${option.price / 100}` : 'FREE'}
+                              </span>
+                              <input
+                                type="radio"
+                                name="delivery"
+                                checked={shippingType === option.value}
+                                placeholder="delivery"
+                                onChange={() => setShippingType(option.value)}
+                              />
+                              <span className="wrap">
+                                <span className="bullet" />
+                                <span className="border" />
+                              </span>
                             </span>
-                          </span>
-                        </label>
-
-                        <label className="full-size">
-                          <span className="field radio with-price">
-                            <span className="name">Three business days</span>
-                            <span className="price">+$19.95</span>
-                            <input type="radio" name="delivery" placeholder="delivery" />
-                            <span className="wrap">
-                              <span className="bullet" />
-                              <span className="border" />
-                            </span>
-                          </span>
-                        </label>
-
-                        <label className="full-size">
-                          <span className="field radio with-price">
-                            <span className="name">Expedited 1-2 business days</span>
-                            <span className="price">+$29.95</span>
-                            <input type="radio" name="delivery" placeholder="delivery" />
-                            <span className="wrap">
-                              <span className="bullet" />
-                              <span className="border" />
-                            </span>
-                          </span>
-                        </label>
-
-                        <label className="full-size">
-                          <span className="field radio with-price">
-                            <span className="name">Free standard shipping</span>
-                            <span className="price">FREE</span>
-                            <input type="radio" name="delivery" placeholder="delivery" />
-                            <span className="wrap">
-                              <span className="bullet" />
-                              <span className="border" />
-                            </span>
-                          </span>
-                        </label>
+                          </label>
+                        ))}
                       </div>
                     </li>
                   </ol>

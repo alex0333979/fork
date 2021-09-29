@@ -91,7 +91,7 @@ const ShoppingCart: React.FC = () => {
                     </tr>
                   </tfoot>
                 </table>
-                <Link href={'/checkout/billing'}>
+                <Link href={cart?.items?.length ?? 0 > 0 ? '/checkout' : '/cart'}>
                   <a className="main-btn big">{'Check out'}</a>
                 </Link>
               </div>
