@@ -305,7 +305,8 @@ select {
     position: relative;
 
     &.full-size {
-      width: calc(100% - 20px);
+      //width: calc(100% - 20px);
+      width: 100%;
     }
 
     &.half-size {

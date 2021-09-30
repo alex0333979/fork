@@ -19,18 +19,11 @@ const ShippingInformation: React.FC = () => {
   const [country, setCountry] = useState<string>('US');
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime());
   const [addShippingAddress] = useAddShippingAddressToCartMutation();
 
-  useEffect(() => {
+  const initializeForm = useCallback(() => {
     const defaultShippingAddress: any = me?.shippingAddress;
-    if (defaultShippingAddress) {
-      Object.keys(defaultShippingAddress).map((key) => {
-        if (key in shippingForm) {
-          shippingForm[key].value = defaultShippingAddress[key];
-        }
-      });
-    }
-
     const cartShippingAddress: any = cart?.shippingAddress;
     if (cartShippingAddress) {
       Object.keys(cartShippingAddress).map((key) => {
@@ -38,10 +31,23 @@ const ShippingInformation: React.FC = () => {
           shippingForm[key].value = cartShippingAddress[key];
         }
       });
+      setShippingForm(shippingForm);
+    } else if (defaultShippingAddress) {
+      Object.keys(defaultShippingAddress).map((key) => {
+        if (key in shippingForm) {
+          shippingForm[key].value = defaultShippingAddress[key];
+        }
+      });
+      setShippingForm(shippingForm);
+    } else {
+      setShippingForm(SHIPPING_FORM);
     }
-
-    setShippingForm(shippingForm);
   }, [cart?.shippingAddress, me?.shippingAddress, shippingForm]);
+
+  useEffect(() => {
+    initializeForm();
+    setRefreshKey(new Date().getTime());
+  }, [initializeForm]);
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
@@ -82,7 +88,12 @@ const ShippingInformation: React.FC = () => {
   }, [addShippingAddress, router, shippingForm, updateCart]);
 
   return (
-    <CheckoutLayout step={2} loading={loading} backLink={`/checkout`} onSubmit={onSubmit}>
+    <CheckoutLayout
+      key={refreshKey}
+      step={2}
+      loading={loading}
+      backLink={`/checkout`}
+      onSubmit={onSubmit}>
       <div className="form-wrap">
         <div className="form-fields">
           <div className="extra-info">

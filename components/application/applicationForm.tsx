@@ -22,6 +22,7 @@ import PhoneInput from '@/components/elements/phoneInput';
 import ProcessStep, { ProcessStepProps } from '@/components/elements/processStep';
 import ApplicationToolbar from '@/components/elements/applicationToolbar';
 import { formValidation, ValidationError } from '@/lib/utils/formValidation';
+import CheckBox from '@/components/elements/checkBox';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -45,6 +46,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [unknown, setUnknown] = useState<boolean>(false);
 
   const { updateCart } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
@@ -84,6 +86,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     },
     [router]
   );
+
+  const onChangeUnknown = useCallback((status: boolean) => {
+    setUnknown(status);
+  }, []);
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
@@ -199,17 +205,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                   <div className="form-fields">
                     <div className="extra-info">
                       <h3>{'Before start, please select an application type'}</h3>
-                      <label>
-                        <span className="field checkbox">
-                          <span className="name">{'Unknown'}</span>
-                          <input type="checkbox" placeholder="Male" />
-                          <span className="wrap">
-                            <span className="bullet" />
-                            <span className="border" />
-                          </span>
-                        </span>
-                        <span className="warning">{'Warning message'}</span>
-                      </label>
+                      <CheckBox text={'Unknown'} value={unknown} onChange={onChangeUnknown} />
                     </div>
                     <div className="group">
                       {forms.map((form, index) => (
