@@ -3,6 +3,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { useAuth } from '@/lib/auth';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
+import { useRouter } from 'next/router';
 
 interface ApplicationListProps {
   isOpenAddFrom: boolean;
@@ -15,30 +16,32 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
   isOpenAddFrom,
   openAddForm
 }) => {
+  const router = useRouter();
   const { cart, updateCart } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
 
   const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
 
   const onRemoveCartItem = useCallback(
-    (id: string) => {
+    (id: string | null) => {
+      if (!id) {
+        return;
+      }
+
       removeFromCart({ variables: { ids: [id] } }).then(({ data }) => {
         const cart = data?.RemoveItemsFromCart.data;
         if (cart) {
           updateCart(cart);
+          const items = cart.items ?? [];
+          if (items.length > 0) {
+            router.push(`/application/${items[0].product}/`).then();
+          } else {
+            router.push(`/application/create/`).then();
+          }
         }
       });
     },
-    [removeFromCart, updateCart]
-  );
-
-  const deleteEntry = useCallback(
-    (id: string | null) => {
-      if (id) {
-        onRemoveCartItem(id);
-      }
-    },
-    [onRemoveCartItem]
+    [removeFromCart, router, updateCart]
   );
 
   return (
@@ -59,8 +62,9 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                       <span
                         className="icon-remove"
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
-                          deleteEntry(item.productId);
+                          onRemoveCartItem(item.id);
                         }}
                       />
                     </a>

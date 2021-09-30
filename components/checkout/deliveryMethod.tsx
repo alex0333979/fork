@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { SHIPPING_PRICE } from '../../constants';
 import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/graphql';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
@@ -58,7 +57,7 @@ const DeliveryMethod: React.FC = () => {
               <span className="option">{'Print at home'}</span>
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
-                <b>{`Add concierge service for just $${subTotal ?? 0 / 100}!`}</b>
+                <b>{`Add concierge service for just $${(subTotal ?? 0) / 100}!`}</b>
               </span>
             </span>
           </label>
@@ -70,7 +69,7 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Subtotal'}</h3>
                 <p>
                   {'Just '}
-                  <b>{`$${SHIPPING_PRICE / 100}`}</b>
+                  <b>{`$${(subTotal ?? 0) / 100}`}</b>
                 </p>
               </div>
             </li>

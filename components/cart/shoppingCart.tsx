@@ -68,7 +68,7 @@ const ShoppingCart: React.FC = () => {
                   <tbody>
                     <tr>
                       <td>{'Subtotal'}</td>
-                      <td>{`$${subTotal ?? 0 / 100}`}</td>
+                      <td>{`$${(subTotal ?? 0) / 100}`}</td>
                     </tr>
                     <tr>
                       <td>{'Tax'}</td>
@@ -81,7 +81,7 @@ const ShoppingCart: React.FC = () => {
                         <b>{'Total'}</b>
                       </td>
                       <td>
-                        <b>{`$${cart?.totalPrice ?? 0 / 100}`}</b>
+                        <b>{`$${(cart?.totalPrice ?? 0) / 100}`}</b>
                       </td>
                     </tr>
                   </tfoot>
