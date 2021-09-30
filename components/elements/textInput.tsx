@@ -3,13 +3,12 @@ import { FormField, ValidationType } from '@/generated/graphql';
 import classNames from 'classnames';
 
 interface TextInputProps {
-  step: number;
   formField: FormField;
   onValueChange: (name: string, value: string | number) => void;
   error: string | undefined;
 }
 
-const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, step, error }) => {
+const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, error }) => {
   const [value, setValue] = useState<string | number>('');
   const [shouldNumber, setShouldNumber] = useState<boolean>(false);
   const [minLength, setMinLength] = useState<number>(0);
@@ -50,7 +49,7 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, step, e
       }
       if (shouldNumber) {
         if (isNumberInput(value)) {
-          onValueChange(formField.name, value || '');
+          onValueChange(formField.name, Number(value) || '');
           setValue(value);
         }
       } else {
@@ -74,7 +73,7 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, step, e
           className={classNames({
             'error-border': !!error
           })}
-          name={`${formField.name}_${step}`}
+          name={formField.name}
           value={value}
           placeholder={formField.placeholder ? formField.placeholder : ''}
           disabled={!!formField.disabled}

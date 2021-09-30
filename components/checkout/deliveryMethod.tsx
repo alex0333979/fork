@@ -3,29 +3,7 @@ import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/grap
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
-
-const shippingTypes: { title: string; price: number; value: string }[] = [
-  {
-    title: 'Expedited 3-6 day transit time',
-    price: 1495,
-    value: ShippingType.From3To6
-  },
-  {
-    title: 'Three business days',
-    price: 1995,
-    value: ShippingType.From3To3
-  },
-  {
-    title: 'Expedited 1-2 business days',
-    price: 2995,
-    value: ShippingType.From1To2
-  },
-  {
-    title: 'Free standard shipping',
-    price: 0,
-    value: ShippingType.Free
-  }
-];
+import { SHIPPING_TYPES } from '../../constants';
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter();
@@ -94,7 +72,7 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Delivery method'}</h3>
               </div>
               <div className="form-fields">
-                {shippingTypes.map((option, index) => (
+                {SHIPPING_TYPES.map((option, index) => (
                   <label key={index} className="full-size">
                     <span className="field radio with-price">
                       <span className="name">{option.title}</span>

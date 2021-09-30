@@ -15,7 +15,16 @@ const PaymentInformation: React.FC = () => {
 
   return (
     <CheckoutLayout step={3} loading={loading} backLink={`/checkout/shipping`} onSubmit={onSubmit}>
-      <div className="form-wrap"></div>
+      <div className="form-wrap">
+        <div className="form-fields">
+          <div className="extra-info">
+            <h3>{'Payment Information'}</h3>
+          </div>
+        </div>
+        <form>
+
+        </form>
+      </div>
     </CheckoutLayout>
   );
 };

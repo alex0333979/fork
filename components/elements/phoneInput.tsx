@@ -1,36 +1,40 @@
 import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
+import Input from 'react-phone-number-input/input';
 import classNames from 'classnames';
 
-interface DatePickerProps {
-  step: number;
+interface PhoneInputProps {
   formField: FormField;
-  onValueChange: (name: string, value: string) => void;
+  onValueChange: (name: string, value: string | undefined) => void;
   error: string | undefined;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, step, error }) => {
-  const [date, setDate] = useState<string>(formField.value ? formField.value : '1940-01-01');
+const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, error }) => {
+  const [value, setValue] = useState<string>(formField.value ? formField.value.toString() : '');
+
   const onChange = useCallback(
     (value: string) => {
       onValueChange(formField.name, value);
-      setDate(value);
+      setValue(value);
     },
     [formField.name, onValueChange]
   );
+
   return (
     <label className="half-size">
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}
+        {formField.notes ? <i className="icon-about" /> : <></>}
       </span>
       <span className="field">
-        <input
-          type="date"
-          name={`${formField.name}_${step}`}
-          value={date}
-          placeholder={formField.placeholder ? formField.placeholder : ''}
-          onChange={(e) => onChange(e.target.value)}
+        <Input
+          country="US"
+          international
+          withCountryCallingCode
+          value={value}
+          name={formField.name}
+          onChange={(value) => onChange(value ?? '')}
           className={classNames({
             'error-border': !!error
           })}
@@ -41,4 +45,4 @@ const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, step,
   );
 };
 
-export default DatePicker;
+export default PhoneInput;

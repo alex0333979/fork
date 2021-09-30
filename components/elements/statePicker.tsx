@@ -4,20 +4,13 @@ import { RegionDropdown } from 'react-country-region-selector';
 import classNames from 'classnames';
 
 interface StatePickerProps {
-  step: number;
   formField: FormField;
   country: string;
   selectedState: (name: string, country: string) => void;
   error: string | undefined;
 }
 
-const StatePicker: React.FC<StatePickerProps> = ({
-  formField,
-  country,
-  selectedState,
-  step,
-  error
-}) => {
+const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState, error }) => {
   const [state, setState] = useState<string>('');
 
   useEffect(() => {
@@ -44,7 +37,7 @@ const StatePicker: React.FC<StatePickerProps> = ({
           valueType={'short'}
           country={country}
           value={state}
-          name={`${formField.name}_${step}`}
+          name={formField.name}
           disabled={!(country === 'US' || country === 'CA')}
           onChange={selectState}
           classes={classNames({

@@ -7,22 +7,21 @@ import {
   FormStep,
   ProductType,
   useAddItemsToCartMutation,
-  useSubmitEntryMutation,
-  ValidationType
+  useSubmitEntryMutation
 } from '@/generated/graphql';
 import ApplicationList from '@/components/application/applicationList';
 import classNames from 'classnames';
-import RadioOption from '@/components/application/radioOption';
-import TextInput from '@/components/application/textInput';
-import CountryPicker from '@/components/application/countryPicker';
-import StatePicker from '@/components/application/statePicker';
-import DatePicker from '@/components/application/datePicker';
-import SelectBox from '@/components/application/selectBox';
+import RadioOption from '@/components/elements/radioOption';
+import TextInput from '@/components/elements/textInput';
+import CountryPicker from '@/components/elements/countryPicker';
+import StatePicker from '@/components/elements/statePicker';
+import DatePicker from '@/components/elements/datePicker';
+import SelectBox from '@/components/elements/selectBox';
 import { useRouter } from 'next/router';
-import PhoneInput from '@/components/application/phoneInput';
-import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import PhoneInput from '@/components/elements/phoneInput';
 import ProcessStep, { ProcessStepProps } from '@/components/elements/processStep';
 import ApplicationToolbar from '@/components/elements/applicationToolbar';
+import { formValidation, ValidationError } from '@/lib/utils/formValidation';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -35,10 +34,6 @@ interface IEntry {
   currentStep: number;
   form: Form;
   formId: string;
-}
-
-interface ValidationError {
-  [key: string]: string;
 }
 
 const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step }) => {
@@ -114,75 +109,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     [onValueChange]
   );
 
-  const validateForm = useCallback((): ValidationError => {
-    if (!formStep) {
-      return {};
-    }
-    const error: ValidationError = {};
-    for (const field of formStep.fields) {
-      if (field.required && (field.value == null || field.value === '')) {
-        error[field.name] = `This field is required.`;
-        continue;
-      }
-      if (field.options && (field.type === FieldType.Radio || field.type === FieldType.Select)) {
-        const a = field.options.find((x) => x.value === field.value);
-        if (!a) {
-          error[field.name] = `This should be one of Options`;
-          continue;
-        }
-      }
-      if (field.type === FieldType.CheckBox && typeof field.value !== 'boolean') {
-        error[field.name] = `This should be boolean type`;
-        continue;
-      }
-
-      if (field.validations) {
-        field.validations.forEach((v) => {
-          field.value = field.value ?? '';
-          switch (v.type) {
-            case ValidationType.IsEmail:
-              if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(field.value.toString())) {
-                error[field.name] = `This should be email format.`;
-              }
-              break;
-            case ValidationType.IsPhone:
-              if (!isPossiblePhoneNumber(field.value.toString())) {
-                error[field.name] = `This should have US phone number type.`;
-              }
-              break;
-            case ValidationType.MaxLength:
-              const maxLength = v.value || 0;
-              if (field.value.toString().length > maxLength) {
-                error[field.name] = `This should have less than ${maxLength} length`;
-              }
-              break;
-            case ValidationType.MinLength:
-              const minLength = v.value || 0;
-              if (field.value.toString().length < minLength) {
-                error[field.name] = `This should have longer than ${minLength} length`;
-              }
-              break;
-            case ValidationType.Max:
-              const max = v.value || 0;
-              if (Number(field.value) > max) {
-                error[field.name] = `This should have less than ${max}`;
-              }
-              break;
-            case ValidationType.Min:
-              const min = v.value || 0;
-              if (Number(field.value) > min) {
-                error[field.name] = `This should have greater than ${min}`;
-              }
-              break;
-            case ValidationType.Nullable:
-              break;
-          }
-        });
-      }
-    }
-    return error;
-  }, [formStep]);
-
   const onAddToCartItem = useCallback(
     (cartItem: CartItemInput) => {
       setLoading(true);
@@ -206,7 +132,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     if (!formStep) {
       return;
     }
-    const error = validateForm();
+    const error = formValidation(formStep.fields);
     setError(error);
     if (Object.keys(error).length > 0) {
       return;
@@ -235,7 +161,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     });
   }, [
     formStep,
-    validateForm,
     submitEntry,
     entry.id,
     entry.formId,
@@ -326,7 +251,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.Radio:
                           return (
                             <RadioOption
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
@@ -336,7 +260,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.Input:
                           return (
                             <TextInput
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
@@ -346,7 +269,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.PhoneInput:
                           return (
                             <PhoneInput
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
@@ -356,7 +278,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.Select:
                           return (
                             <SelectBox
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}
@@ -366,7 +287,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.CountryPicker:
                           return (
                             <CountryPicker
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               selectedCountry={onSelectedCountry}
@@ -376,7 +296,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.StatePicker:
                           return (
                             <StatePicker
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               selectedState={onValueChange}
@@ -387,7 +306,6 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                         case FieldType.DatePicker:
                           return (
                             <DatePicker
-                              step={step}
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}

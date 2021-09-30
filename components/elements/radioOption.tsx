@@ -3,13 +3,12 @@ import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
 
 interface RadioOptionProps {
-  step: number;
   formField: FormField;
   onValueChange: (name: string, value: string | boolean) => void;
   error: string | undefined;
 }
 
-const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, step, error }) => {
+const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, error }) => {
   const [value, setValue] = useState<string | boolean>('');
 
   useEffect(() => {
@@ -43,7 +42,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, ste
             </span>
             <input
               type="radio"
-              name={`${formField.name}_${step}`}
+              name={formField.name}
               placeholder={formField.placeholder ? formField.placeholder : ''}
               checked={value === option.value}
               onChange={() => onChange(option.value)}

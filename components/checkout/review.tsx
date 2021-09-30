@@ -15,7 +15,13 @@ const ReviewAndPay: React.FC = () => {
 
   return (
     <CheckoutLayout step={4} loading={loading} backLink={`/checkout/payment`} onSubmit={onSubmit}>
-      <div className="form-wrap"></div>
+      <div className="form-wrap">
+        <div className="form-fields">
+          <div className="extra-info">
+            <h3>{'Review and Pay'}</h3>
+          </div>
+        </div>
+      </div>
     </CheckoutLayout>
   );
 };
