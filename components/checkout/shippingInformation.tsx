@@ -23,26 +23,17 @@ const ShippingInformation: React.FC = () => {
   const [addShippingAddress] = useAddShippingAddressToCartMutation();
 
   const initializeForm = useCallback(() => {
-    const defaultShippingAddress: any = me?.shippingAddress;
-    const cartShippingAddress: any = cart?.shippingAddress;
-    if (cartShippingAddress) {
-      Object.keys(cartShippingAddress).map((key) => {
-        if (key in shippingForm) {
-          shippingForm[key].value = cartShippingAddress[key];
+    const initialForm = { ...SHIPPING_FORM };
+    const _shippingAddress: any = cart?.shippingAddress || me?.shippingAddress;
+    if (_shippingAddress) {
+      Object.keys(_shippingAddress).map((key) => {
+        if (key in initialForm) {
+          initialForm[key].value = _shippingAddress[key];
         }
       });
-      setShippingForm(shippingForm);
-    } else if (defaultShippingAddress) {
-      Object.keys(defaultShippingAddress).map((key) => {
-        if (key in shippingForm) {
-          shippingForm[key].value = defaultShippingAddress[key];
-        }
-      });
-      setShippingForm(shippingForm);
-    } else {
-      setShippingForm(SHIPPING_FORM);
     }
-  }, [cart?.shippingAddress, me?.shippingAddress, shippingForm]);
+    setShippingForm(initialForm);
+  }, [cart?.shippingAddress, me?.shippingAddress]);
 
   useEffect(() => {
     initializeForm();
@@ -51,8 +42,9 @@ const ShippingInformation: React.FC = () => {
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
-      shippingForm[name].value = value;
-      setShippingForm(shippingForm);
+      const _shippingForm = { ...shippingForm };
+      _shippingForm[name].value = value;
+      setShippingForm(_shippingForm);
       setError({});
     },
     [shippingForm]

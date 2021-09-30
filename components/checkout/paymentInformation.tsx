@@ -26,7 +26,7 @@ const PaymentInformation: React.FC = () => {
 
   const initializeForm = useCallback(() => {
     const initialForm = { ...BILLING_FORM };
-    const _billingAddress: any | undefined = me?.billingAddress || cart?.billingAddress;
+    const _billingAddress: any | undefined = cart?.billingAddress || me?.billingAddress;
     if (_billingAddress) {
       Object.keys(_billingAddress).map((key) => {
         if (key in initialForm) {
@@ -65,9 +65,9 @@ const PaymentInformation: React.FC = () => {
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
-      const updateBillingForm = { ...billingForm };
-      updateBillingForm[name].value = value;
-      setBillingForm(updateBillingForm);
+      const _billingForm = { ...billingForm };
+      _billingForm[name].value = value;
+      setBillingForm(_billingForm);
       setError({});
     },
     [billingForm]
