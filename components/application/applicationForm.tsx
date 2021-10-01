@@ -66,11 +66,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
 
   const entityUsername = useMemo(() => {
     if (step === 1) {
-      const firstNameField = formStep?.fields.find((f) => f.name === 'first_name');
-      const firstName = firstNameField ? firstNameField.value : '';
-      const lastNameField = formStep?.fields.find((f) => f.name === 'last_name');
-      const lastName = lastNameField ? lastNameField.value : '';
-      return `${firstName} ${lastName}`;
+      const a = formStep?.fields.find((f) => f.name === 'first_name');
+      const b = formStep?.fields.find((l) => l.name === 'last_name');
+      return `${a?.value ?? ''} ${b?.value ?? ''}`;
     }
     return '';
   }, [formStep?.fields, step]);

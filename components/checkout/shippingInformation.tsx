@@ -94,13 +94,13 @@ const ShippingInformation: React.FC = () => {
         </div>
         <form>
           <div className="form-fields">
-            {Object.keys(shippingForm).map((key, index) => {
+            {Object.keys(shippingForm).map((key) => {
               const field = shippingForm[key];
               switch (field.type) {
                 case FieldType.Input:
                   return (
                     <TextInput
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
@@ -109,7 +109,7 @@ const ShippingInformation: React.FC = () => {
                 case FieldType.PhoneInput:
                   return (
                     <PhoneInput
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
@@ -118,7 +118,7 @@ const ShippingInformation: React.FC = () => {
                 case FieldType.Select:
                   return (
                     <SelectBox
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
@@ -127,7 +127,7 @@ const ShippingInformation: React.FC = () => {
                 case FieldType.CountryPicker:
                   return (
                     <CountryPicker
-                      key={index}
+                      key={key}
                       formField={field}
                       selectedCountry={onSelectedCountry}
                       error={error[field.name]}
@@ -136,7 +136,7 @@ const ShippingInformation: React.FC = () => {
                 case FieldType.StatePicker:
                   return (
                     <StatePicker
-                      key={index}
+                      key={key}
                       formField={field}
                       selectedState={onValueChange}
                       country={country}
@@ -146,7 +146,7 @@ const ShippingInformation: React.FC = () => {
                 case FieldType.DatePicker:
                   return (
                     <DatePicker
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}

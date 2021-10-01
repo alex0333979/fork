@@ -16,7 +16,7 @@ import CheckBox from '@/components/elements/checkBox';
 const PaymentInformation: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart, getMe: me } = useAuth();
-  const [billingForm, setBillingForm] = useState<{ [key: string]: FormField }>({ ...BILLING_FORM });
+  const [billingForm, setBillingForm] = useState<{ [key: string]: FormField }>(BILLING_FORM);
   const [country, setCountry] = useState<string>('US');
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +25,11 @@ const PaymentInformation: React.FC = () => {
   const [addBillingAddress] = useAddBillingAddressToCartMutation();
 
   const initializeForm = useCallback(() => {
+    // This is ridiculous otherwise, const object will be changed
+    Object.keys(BILLING_FORM).map((key) => {
+      BILLING_FORM[key].value = null;
+    });
+
     const initialForm = { ...BILLING_FORM };
     const _billingAddress: any | undefined = cart?.billingAddress || me?.billingAddress;
     if (_billingAddress) {
@@ -46,16 +51,14 @@ const PaymentInformation: React.FC = () => {
     (status: boolean) => {
       setSameAddress(status);
       if (status) {
-        const updateBillingForm = { ...billingForm };
+        const _billingForm = { ...billingForm };
         const cartShippingAddress: any = cart?.shippingAddress;
         if (cartShippingAddress) {
-          Object.keys(updateBillingForm).map((key) => {
-            if (key in updateBillingForm) {
-              updateBillingForm[key].value = cartShippingAddress[key];
-            }
+          Object.keys(_billingForm).map((key) => {
+            _billingForm[key].value = cartShippingAddress[key];
           });
         }
-        setBillingForm(updateBillingForm);
+        setBillingForm(_billingForm);
       } else {
         initializeForm();
       }
@@ -122,13 +125,13 @@ const PaymentInformation: React.FC = () => {
               value={sameAddress}
               onChange={onChangeSameAddress}
             />
-            {Object.keys(billingForm).map((key, index) => {
+            {Object.keys(billingForm).map((key) => {
               const field = billingForm[key];
               switch (field.type) {
                 case FieldType.Input:
                   return (
                     <TextInput
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
@@ -137,7 +140,7 @@ const PaymentInformation: React.FC = () => {
                 case FieldType.PhoneInput:
                   return (
                     <PhoneInput
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
@@ -146,7 +149,7 @@ const PaymentInformation: React.FC = () => {
                 case FieldType.Select:
                   return (
                     <SelectBox
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
@@ -155,7 +158,7 @@ const PaymentInformation: React.FC = () => {
                 case FieldType.CountryPicker:
                   return (
                     <CountryPicker
-                      key={index}
+                      key={key}
                       formField={field}
                       selectedCountry={onSelectedCountry}
                       error={error[field.name]}
@@ -164,7 +167,7 @@ const PaymentInformation: React.FC = () => {
                 case FieldType.StatePicker:
                   return (
                     <StatePicker
-                      key={index}
+                      key={key}
                       formField={field}
                       selectedState={onValueChange}
                       country={country}
@@ -174,7 +177,7 @@ const PaymentInformation: React.FC = () => {
                 case FieldType.DatePicker:
                   return (
                     <DatePicker
-                      key={index}
+                      key={key}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
