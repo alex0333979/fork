@@ -3,7 +3,7 @@ import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/grap
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
-import { SHIPPING_TYPES } from '../../constants';
+import { CONCIERGE_PRICE, SHIPPING_TYPES } from '../../constants';
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter();
@@ -35,7 +35,7 @@ const DeliveryMethod: React.FC = () => {
               <span className="option">{'Print at home'}</span>
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
-                <b>{`Add concierge service for just $${(subTotal ?? 0) / 100}!`}</b>
+                <b>{`Add concierge service for just $${(CONCIERGE_PRICE ?? 0) / 100}!`}</b>
               </span>
             </span>
           </label>

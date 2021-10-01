@@ -8,13 +8,15 @@ interface ApplicationToolbarProps {
   loading: boolean;
   blur?: boolean;
   onNext: () => void;
+  nextButtonText?: string;
 }
 
 const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
   backLink,
   loading,
   blur = false,
-  onNext
+  onNext,
+  nextButtonText = 'Next'
 }) => (
   <div className={classNames('application-toolbar', { blur })}>
     <div className="container">
@@ -36,7 +38,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
               <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
             ) : (
               <>
-                {'Next'} <span className="icon-right" />
+                {nextButtonText} <span className="icon-right" />
               </>
             )}
           </button>

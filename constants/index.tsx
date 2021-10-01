@@ -86,7 +86,7 @@ export const CHECKOUT_STEPS: ProcessStepProps = {
   ]
 };
 
-export const SHIPPING_PRICE = 950;
+export const CONCIERGE_PRICE = 950;
 
 export const SHIPPING_TYPES: { title: string; price: number; value: string }[] = [
   {

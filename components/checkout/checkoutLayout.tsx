@@ -8,6 +8,7 @@ interface CheckoutLayoutProps {
   loading: boolean;
   backLink: string | undefined;
   onSubmit: () => void;
+  nextButtonText?: string;
   children: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
   loading,
   backLink,
   children,
+  nextButtonText = 'Next',
   onSubmit
 }) => (
   <div className="cart-page">
@@ -38,7 +40,12 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
           </div>
         </div>
       </div>
-      <ApplicationToolbar backLink={backLink} loading={loading} onNext={onSubmit} />
+      <ApplicationToolbar
+        backLink={backLink}
+        loading={loading}
+        nextButtonText={nextButtonText}
+        onNext={onSubmit}
+      />
     </div>
   </div>
 );
