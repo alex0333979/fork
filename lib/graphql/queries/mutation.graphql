@@ -117,8 +117,8 @@ mutation AddBillingAddressToCart($billingAddress: BillingAddressInput!){
     }
 }
 
-mutation SetShippingTypeToCart($shippingType: String!){
-    SetShippingTypeToCart(shippingType: $shippingType) {
+mutation SetShippingTypeToCart($shippingType: String!, $addConcierge: Boolean!){
+    SetShippingTypeToCart(shippingType: $shippingType, addConcierge: $addConcierge) {
         message
         status
         data {

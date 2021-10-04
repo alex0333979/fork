@@ -4,6 +4,11 @@ import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { CONCIERGE_PRICE, SHIPPING_TYPES } from '../../constants';
 import { useAuth } from '@/lib/auth';
+import {
+  ProductType,
+  useCreateOrderMutation,
+  useGetPaymentIntentMutation
+} from '@/generated/graphql';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -34,21 +39,43 @@ const ReviewAndPay: React.FC = () => {
   const router = useRouter();
   const { cart } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
-  const shippingPrice = useMemo(() => {
-    const sp = SHIPPING_TYPES.find((s) => s.value === cart?.shippingType);
-    return sp?.price ?? 0;
-  }, [cart]);
-
   const [payment, setPayment] = useState({ status: 'initial' });
   const [errorMessage, setErrorMessage] = useState('');
   const stripe = useStripe();
   const elements = useElements();
+  const [createOrder] = useCreateOrderMutation();
+  const [getPaymentIntent] = useGetPaymentIntentMutation();
 
-  const onSubmit = useCallback(() => {
+  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
+  const shippingPrice = useMemo(
+    () => SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
+    [cart]
+  );
+  const aPrice = useMemo(
+    () =>
+      cart?.items
+        ?.filter((c) => c.product === ProductType.PassportApplication)
+        .reduce((a, { price }) => a + price, 0),
+    [cart]
+  );
+  const pPrice = useMemo(
+    () =>
+      cart?.items
+        ?.filter((c) => c.product === ProductType.PassportPhoto)
+        .reduce((a, { price }) => a + price, 0),
+    [cart]
+  );
+
+  const onSubmit = useCallback(async () => {
     setLoading(true);
-    router.push('/checkout/review').then();
+    const { data } = await createOrder();
     setLoading(false);
+    const order = data?.CreateOrder.data;
+    if (order) {
+      const { data: paymentIntent } = await getPaymentIntent({ variables: { orderId: order.id } });
+    }
+
+    router.push('/checkout/review').then();
 
     // todo validate stripe form, create order, get payment intent, payment process
 
@@ -62,7 +89,7 @@ const ReviewAndPay: React.FC = () => {
     //     },
     //   }
     // );
-  }, [router]);
+  }, [createOrder, router]);
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
@@ -96,6 +123,7 @@ const ReviewAndPay: React.FC = () => {
       loading={loading}
       backLink={`/checkout/payment`}
       nextButtonText={'Check out'}
+      disableSubmit={!stripe}
       onSubmit={onSubmit}>
       <div className="form-wrap">
         <div className="form-fields">
@@ -113,17 +141,17 @@ const ReviewAndPay: React.FC = () => {
             <li>
               <div className="name">
                 <h3>{'Passport Application'}</h3>
-                <p>{`$18`}</p>
+                <p>{`$${(aPrice ?? 0) / 100}`}</p>
               </div>
               <div className="name">
                 <h3>{'Passport Photo'}</h3>
-                <p>{`$0`}</p>
+                <p>{`$${(pPrice ?? 0) / 100}`}</p>
               </div>
             </li>
             <li>
               <div className="name">
                 <h3>{'Concierge service'}</h3>
-                <p>{`$${CONCIERGE_PRICE / 100}`}</p>
+                <p>{`$${(cart?.addConcierge ? CONCIERGE_PRICE : 0) / 100}`}</p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
@@ -144,7 +172,15 @@ const ReviewAndPay: React.FC = () => {
                 <p>{`$${((cart?.totalPrice ?? 0) + CONCIERGE_PRICE) / 100}`}</p>
               </div>
             </li>
-
+          </ol>
+        </div>
+        <div className="shipping-data">
+          <ol>
+            <li>
+              <div className="name">
+                <h3>{'Card Info'}</h3>
+              </div>
+            </li>
             <li>
               <form>
                 <CardElement

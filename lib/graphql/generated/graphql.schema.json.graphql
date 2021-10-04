@@ -23,6 +23,7 @@ type BillingAddressResponse {
 }
 
 type Cart {
+    addConcierge: Boolean!
     billingAddress: BillingAddress
     items: [CartItem!]
     promoCode: String
@@ -115,7 +116,7 @@ type Mutation {
     RemoveItemsFromCart(ids: [ID!]!): CartResponse!
     SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
     SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
-    SetShippingTypeToCart(shippingType: String!): CartResponse!
+    SetShippingTypeToCart(addConcierge: Boolean!, shippingType: String!): CartResponse!
     SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
     SignUp(user: UserInput!): UserResponse!
     SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
@@ -128,6 +129,7 @@ type Option {
 }
 
 type Order {
+    addConcierge: Boolean!
     billingAddress: BillingAddress!
     createdAt: DateTime!
     id: ID!

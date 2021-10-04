@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/graphql';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
@@ -10,27 +10,41 @@ const DeliveryMethod: React.FC = () => {
   const { cart, updateCart } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [shippingType, setShippingType] = useState<string>(cart?.shippingType ?? ShippingType.Free);
+  const [addConcierge, setAddConcierge] = useState<boolean>(cart?.addConcierge ?? false);
   const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
-  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
+  const subTotal = useMemo(
+    () =>
+      (SHIPPING_TYPES.find((s) => s.value === shippingType)?.price ?? 0) +
+      (addConcierge ? CONCIERGE_PRICE : 0),
+    [addConcierge, shippingType]
+  );
 
-  const onSubmit = useCallback(() => {
+  useEffect(() => {
+    setShippingType(cart?.shippingType ?? ShippingType.Free);
+    setAddConcierge(cart?.addConcierge ?? false);
+  }, [cart]);
+
+  const onSubmit = useCallback(async () => {
     setLoading(true);
-    setShippingTypeToCart({ variables: { shippingType } }).then(({ data }) => {
-      setLoading(false);
-      const cart = data?.SetShippingTypeToCart.data;
-      if (cart) {
-        updateCart(cart);
-        router.push('/checkout/shipping').then();
-      }
-    });
-  }, [router, setShippingTypeToCart, shippingType, updateCart]);
+    const { data } = await setShippingTypeToCart({ variables: { shippingType, addConcierge } });
+    setLoading(false);
+    const cart = data?.SetShippingTypeToCart.data;
+    if (cart) {
+      updateCart(cart);
+      await router.push('/checkout/shipping');
+    }
+  }, [addConcierge, router, setShippingTypeToCart, shippingType, updateCart]);
 
   return (
     <CheckoutLayout step={1} loading={loading} backLink={`/cart`} onSubmit={onSubmit}>
       <div className="form-wrap">
         <div className="switcher-box">
           <label>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={addConcierge}
+              onChange={(e) => setAddConcierge(e.target.checked)}
+            />
             <span className="box-wrap">
               <span className="option">{'Print at home'}</span>
               <span className="slider" />

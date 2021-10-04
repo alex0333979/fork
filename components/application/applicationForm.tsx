@@ -114,25 +114,24 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
   );
 
   const onAddToCartItem = useCallback(
-    (cartItem: CartItemInput) => {
+    async (cartItem: CartItemInput) => {
       setLoading(true);
-      addToCart({
+      const { data } = await addToCart({
         variables: {
           cartItems: [cartItem]
         }
-      }).then(({ data: cData }) => {
-        setLoading(false);
-        const cart = cData?.AddItemsToCart.data;
-        if (cart) {
-          updateCart(cart);
-          router.push(`/application/${cartItem.productId}/${step + 1}`).then();
-        }
       });
+      setLoading(false);
+      const cart = data?.AddItemsToCart.data;
+      if (cart) {
+        updateCart(cart);
+        await router.push(`/application/${cartItem.productId}/${step + 1}`);
+      }
     },
     [addToCart, router, step, updateCart]
   );
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!formStep) {
       return;
     }
@@ -142,27 +141,23 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       return;
     }
     setLoading(true);
-    submitEntry({
+    const { data } = await submitEntry({
       variables: { entryId: entry.id, formId: entry.formId, formStep }
-    }).then(({ data, errors }) => {
-      setLoading(false);
-      if (data) {
-        const result = data.SubmitEntry.data;
-        if (result) {
-          if (step === 1) {
-            onAddToCartItem({
-              name: entityUsername,
-              description: 'Passport application',
-              product: ProductType.PassportApplication,
-              productId: result.id
-            });
-          } else {
-            router.push(`/application/${result.id}/${step + 1}`).then();
-          }
-        }
-      }
-      console.log('===errors===', errors);
     });
+    setLoading(false);
+    const result = data?.SubmitEntry.data;
+    if (result) {
+      if (step === 1) {
+        await onAddToCartItem({
+          name: entityUsername,
+          description: 'Passport application',
+          product: ProductType.PassportApplication,
+          productId: result.id
+        });
+      } else {
+        await router.push(`/application/${result.id}/${step + 1}`);
+      }
+    }
   }, [
     formStep,
     submitEntry,

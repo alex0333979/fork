@@ -43,6 +43,7 @@ fragment Cart on Cart {
     }
     promoCode
     shippingType
+    addConcierge
     totalPrice
 }
 

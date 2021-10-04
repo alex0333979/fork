@@ -9,13 +9,12 @@ const ShoppingCart: React.FC = () => {
   const [removeFromCart] = useRemoveItemsFromCartMutation();
 
   const onRemoveCartItem = useCallback(
-    (id: string) => {
-      removeFromCart({ variables: { ids: [id] } }).then(({ data }) => {
-        const cart = data?.RemoveItemsFromCart.data;
-        if (cart) {
-          updateCart(cart);
-        }
-      });
+    async (id: string) => {
+      const { data } = await removeFromCart({ variables: { ids: [id] } });
+      const cart = data?.RemoveItemsFromCart.data;
+      if (cart) {
+        updateCart(cart);
+      }
     },
     [removeFromCart, updateCart]
   );

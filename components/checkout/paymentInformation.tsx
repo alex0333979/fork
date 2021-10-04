@@ -84,7 +84,7 @@ const PaymentInformation: React.FC = () => {
     [onValueChange]
   );
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     const error = formValidation(Object.keys(billingForm).map((key) => billingForm[key]));
     setError(error);
     if (Object.keys(error).length > 0) {
@@ -95,14 +95,13 @@ const PaymentInformation: React.FC = () => {
       billingAddress[key] = billingForm[key].value;
     });
     setLoading(true);
-    addBillingAddress({ variables: { billingAddress } }).then(({ data }) => {
-      setLoading(false);
-      const cart = data?.AddBillingAddressToCart.data;
-      if (cart) {
-        updateCart(cart);
-        router.push('/checkout/review').then();
-      }
-    });
+    const { data } = await addBillingAddress({ variables: { billingAddress } });
+    setLoading(false);
+    const cart = data?.AddBillingAddressToCart.data;
+    if (cart) {
+      updateCart(cart);
+      await router.push('/checkout/review');
+    }
   }, [addBillingAddress, billingForm, router, updateCart]);
 
   return (

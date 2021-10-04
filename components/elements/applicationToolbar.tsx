@@ -9,6 +9,7 @@ interface ApplicationToolbarProps {
   blur?: boolean;
   onNext: () => void;
   nextButtonText?: string;
+  disableSubmit?: boolean;
 }
 
 const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
@@ -16,7 +17,8 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
   loading,
   blur = false,
   onNext,
-  nextButtonText = 'Next'
+  nextButtonText = 'Next',
+  disableSubmit = false
 }) => (
   <div className={classNames('application-toolbar', { blur })}>
     <div className="container">
@@ -33,7 +35,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
           )}
         </div>
         <div className="next-btn">
-          <button type="button" className="main-btn big" onClick={onNext}>
+          <button type="button" className="main-btn big" disabled={disableSubmit} onClick={onNext}>
             {loading ? (
               <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
             ) : (

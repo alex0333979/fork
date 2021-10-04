@@ -58,7 +58,7 @@ const ShippingInformation: React.FC = () => {
     [onValueChange]
   );
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     const error = formValidation(Object.keys(shippingForm).map((key) => shippingForm[key]));
     setError(error);
     if (Object.keys(error).length > 0) {
@@ -69,14 +69,13 @@ const ShippingInformation: React.FC = () => {
       shippingAddress[key] = shippingForm[key].value;
     });
     setLoading(true);
-    addShippingAddress({ variables: { shippingAddress } }).then(({ data }) => {
-      setLoading(false);
-      const cart = data?.AddShippingAddressToCart.data;
-      if (cart) {
-        updateCart(cart);
-        router.push('/checkout/payment').then();
-      }
-    });
+    const { data } = await addShippingAddress({ variables: { shippingAddress } });
+    setLoading(false);
+    const cart = data?.AddShippingAddressToCart.data;
+    if (cart) {
+      updateCart(cart);
+      router.push('/checkout/payment').then();
+    }
   }, [addShippingAddress, router, shippingForm, updateCart]);
 
   return (
