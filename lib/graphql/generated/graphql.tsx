@@ -176,6 +176,7 @@ export type Mutation = {
   AddItemsToCart: CartResponse;
   AddPromoCodeToCart: CartResponse;
   AddShippingAddressToCart: CartResponse;
+  ClearCart: CartResponse;
   CreateGuest: TokenResponse;
   CreateOrder: OrderResponse;
   GetPaymentIntent: PaymentIntentResponse;
@@ -570,6 +571,11 @@ export type AddItemsToCartMutationVariables = Exact<{
 
 
 export type AddItemsToCartMutation = { __typename: 'Mutation', AddItemsToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, addConcierge: boolean, totalPrice: number, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string }>> }> } };
+
+export type ClearCartMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClearCartMutation = { __typename: 'Mutation', ClearCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, addConcierge: boolean, totalPrice: number, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string }>> }> } };
 
 export type RemoveItemsFromCartMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
@@ -1192,6 +1198,42 @@ export function useAddItemsToCartMutation(baseOptions?: Apollo.MutationHookOptio
 export type AddItemsToCartMutationHookResult = ReturnType<typeof useAddItemsToCartMutation>;
 export type AddItemsToCartMutationResult = Apollo.MutationResult<AddItemsToCartMutation>;
 export type AddItemsToCartMutationOptions = Apollo.BaseMutationOptions<AddItemsToCartMutation, AddItemsToCartMutationVariables>;
+export const ClearCartDocument = gql`
+    mutation ClearCart {
+  ClearCart {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}
+    ${CartFragmentDoc}`;
+export type ClearCartMutationFn = Apollo.MutationFunction<ClearCartMutation, ClearCartMutationVariables>;
+
+/**
+ * __useClearCartMutation__
+ *
+ * To run a mutation, you first call `useClearCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [clearCartMutation, { data, loading, error }] = useClearCartMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useClearCartMutation(baseOptions?: Apollo.MutationHookOptions<ClearCartMutation, ClearCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ClearCartMutation, ClearCartMutationVariables>(ClearCartDocument, options);
+      }
+export type ClearCartMutationHookResult = ReturnType<typeof useClearCartMutation>;
+export type ClearCartMutationResult = Apollo.MutationResult<ClearCartMutation>;
+export type ClearCartMutationOptions = Apollo.BaseMutationOptions<ClearCartMutation, ClearCartMutationVariables>;
 export const RemoveItemsFromCartDocument = gql`
     mutation RemoveItemsFromCart($ids: [ID!]!) {
   RemoveItemsFromCart(ids: $ids) {

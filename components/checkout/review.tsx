@@ -6,26 +6,28 @@ import { CONCIERGE_PRICE, SHIPPING_TYPES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import {
   ProductType,
+  useClearCartMutation,
   useCreateOrderMutation,
   useGetPaymentIntentMutation
 } from '@/generated/graphql';
+import classNames from 'classnames';
+import { ValidationError } from '@/lib/utils/formValidation';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
   style: {
     base: {
       border: 'solid 1px grey',
-      iconColor: '#5B616E',
-      color: '#5B616E',
-      fontWeight: '500',
-      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-      fontSize: '16px',
+      iconColor: '#5b616e',
+      color: '#000000',
+      fontWeight: 'normal',
+      fontSize: '14px',
       fontSmoothing: 'antialiased',
       ':-webkit-autofill': {
         color: '#fce883'
       },
       '::placeholder': {
-        color: '#5B616E'
+        color: '#5b616e'
       }
     },
     invalid: {
@@ -37,14 +39,18 @@ const CARD_OPTIONS = {
 
 const ReviewAndPay: React.FC = () => {
   const router = useRouter();
-  const { cart } = useAuth();
+  const { cart, updateCart, isAuthenticated } = useAuth();
+  const [cardName, setCardName] = useState<string>('');
+  const [error, setError] = useState<ValidationError>({});
+  const [stripeFocus, setStripeFocus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [payment, setPayment] = useState({ status: 'initial' });
-  const [errorMessage, setErrorMessage] = useState('');
-  const stripe = useStripe();
-  const elements = useElements();
   const [createOrder] = useCreateOrderMutation();
   const [getPaymentIntent] = useGetPaymentIntentMutation();
+  const [clearCart] = useClearCartMutation();
+
+  const stripe = useStripe();
+  const elements = useElements();
 
   const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
   const shippingPrice = useMemo(
@@ -66,50 +72,146 @@ const ReviewAndPay: React.FC = () => {
     [cart]
   );
 
+  const handleInputChange = useCallback((e) => {
+    setError((errors) => ({
+      ...errors,
+      cardName: ''
+    }));
+    setCardName(e.target.value);
+  }, []);
+
   const onSubmit = useCallback(async () => {
+    const cardElement = elements?.getElement(CardElement);
+    if (!cardElement || !stripe) {
+      return;
+    }
+
+    if (!cardName) {
+      setError((errors) => ({
+        ...errors,
+        cardName: 'This field is required'
+      }));
+      return;
+    } else if (error.cardNumber) {
+      return;
+    }
+
+    if (!isAuthenticated) {
+      // todo show login Form
+      return;
+    }
+
     setLoading(true);
     const { data } = await createOrder();
     setLoading(false);
+
     const order = data?.CreateOrder.data;
-    if (order) {
-      const { data: paymentIntent } = await getPaymentIntent({ variables: { orderId: order.id } });
+    if (!order) {
+      setPayment({ status: 'error' });
+      setError((errors) => ({
+        ...errors,
+        result: 'Create order is failed.'
+      }));
+      return;
     }
 
-    router.push('/checkout/review').then();
+    setLoading(true);
+    const { data: intent } = await getPaymentIntent({ variables: { orderId: order.id } });
+    setLoading(false);
+    const clientSecret = intent?.GetPaymentIntent.data?.clientSecret;
+    if (!clientSecret) {
+      setPayment({ status: 'error' });
+      setError((errors) => ({
+        ...errors,
+        result: 'Get payment intent is failed'
+      }));
+      return;
+    }
 
-    // todo validate stripe form, create order, get payment intent, payment process
+    setLoading(true);
+    const { error: pError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card: cardElement, billing_details: { name: cardName } }
+    });
+    setLoading(false);
 
-    // const cardElement = elements?.getElement();
-    // const { error, paymentIntent } = await stripe!.confirmCardPayment(
-    //   response.client_secret,
-    //   {
-    //     payment_method: {
-    //       card: cardElement!,
-    //       billing_details: { name: input.cardholderName },
-    //     },
-    //   }
-    // );
-  }, [createOrder, router]);
+    if (pError) {
+      setPayment({ status: 'error' });
+      setError((errors) => ({
+        ...errors,
+        result: pError.message ?? 'An unknown error occurred'
+      }));
+    } else if (paymentIntent) {
+      setPayment(paymentIntent);
+      const { data } = await clearCart({});
+      const cart = data?.ClearCart.data;
+      if (cart) {
+        updateCart(cart);
+      }
+      await router.push('/');
+    }
+  }, [
+    cardName,
+    clearCart,
+    createOrder,
+    elements,
+    error.cardNumber,
+    getPaymentIntent,
+    isAuthenticated,
+    router,
+    stripe,
+    updateCart
+  ]);
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
       case 'processing':
       case 'requires_payment_method':
       case 'requires_confirmation':
-        return <h3>Processing...</h3>;
+        return (
+          <div className="form-fields">
+            <div className="form-notice">
+              <p>
+                {'Processing...'}
+                <span className="icon-info" />
+              </p>
+            </div>
+          </div>
+        );
 
       case 'requires_action':
-        return <h3>Authenticating...</h3>;
+        return (
+          <div className="form-fields">
+            <div className="form-notice">
+              <p>
+                {'Authenticating...'}
+                <span className="icon-info" />
+              </p>
+            </div>
+          </div>
+        );
 
       case 'succeeded':
-        return <h3>Payment Succeeded 🥳</h3>;
+        return (
+          <div className="form-fields">
+            <div className="form-notice">
+              <p>
+                {'Payment succeeded'}
+                <span className="icon-info" />
+              </p>
+            </div>
+          </div>
+        );
 
       case 'error':
         return (
-          <>
-            <h3>Error 😭</h3>
-            <p className="error-message">{errorMessage}</p>
-          </>
+          <div className="form-fields">
+            <div className="form-notice">
+              <p>
+                {error.result}
+                <span className="icon-info" />
+              </p>
+            </div>
+          </div>
         );
 
       default:
@@ -123,7 +225,7 @@ const ReviewAndPay: React.FC = () => {
       loading={loading}
       backLink={`/checkout/payment`}
       nextButtonText={'Check out'}
-      disableSubmit={!stripe}
+      disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
       onSubmit={onSubmit}>
       <div className="form-wrap">
         <div className="form-fields">
@@ -183,16 +285,55 @@ const ReviewAndPay: React.FC = () => {
             </li>
             <li>
               <form>
-                <CardElement
-                  options={CARD_OPTIONS}
-                  onChange={(e) => {
-                    if (e.error) {
-                      setPayment({ status: 'error' });
-                      setErrorMessage(e.error.message ?? 'An unknown error occurred');
-                    }
-                  }}
-                />
                 <PaymentStatus status={payment.status} />
+                <div className="form-fields">
+                  <label className="full-size">
+                    <span className="label">{'Name on the card *'}</span>
+                    <span className="field">
+                      <input
+                        type="text"
+                        className={classNames({
+                          'error-border': !!error.cardName
+                        })}
+                        name="cardName"
+                        placeholder="Name on the card"
+                        value={cardName}
+                        onChange={handleInputChange}
+                      />
+                    </span>
+                    {error.cardName ? <span className="attention">{error.cardName}</span> : <></>}
+                  </label>
+                  <label className="full-size">
+                    <span className="label">{'Card number'}</span>
+                    <span className="field">
+                      <span
+                        className={classNames('stripe-input', {
+                          focus: stripeFocus,
+                          'error-border': !!error.cardNumber
+                        })}>
+                        <CardElement
+                          options={CARD_OPTIONS}
+                          onFocus={() => setStripeFocus(true)}
+                          onBlur={() => setStripeFocus(false)}
+                          onChange={(e) => {
+                            setError({});
+                            if (e.error) {
+                              setError((errors) => ({
+                                ...errors,
+                                cardNumber: e.error?.message ?? 'An unknown error occurred'
+                              }));
+                            }
+                          }}
+                        />
+                      </span>
+                    </span>
+                    {error.cardNumber ? (
+                      <span className="attention">{error.cardNumber}</span>
+                    ) : (
+                      <></>
+                    )}
+                  </label>
+                </div>
               </form>
             </li>
           </ol>

@@ -87,6 +87,16 @@ mutation AddItemsToCart($cartItems: [CartItemInput!]!){
     }
 }
 
+mutation ClearCart{
+    ClearCart {
+        message
+        status
+        data {
+            ...Cart
+        }
+    }
+}
+
 mutation RemoveItemsFromCart($ids: [ID!]!){
     RemoveItemsFromCart(ids: $ids) {
         message

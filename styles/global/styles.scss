@@ -9,7 +9,7 @@
   --jungle-green: #27AE60;
   --black: #000000;
   --white: #FFFFFF;
-  --shuttle-gray: #5B616E;
+  --shuttle-gray: #5b616e;
   --gin-fizz: #FFF8E0;
   --burnt-sienna: #EB5757;
   --dandelion: #FFE165;
@@ -525,6 +525,7 @@ select {
       }
     }
 
+    .stripe-input,
     input,
     select,
     textarea {
@@ -544,6 +545,10 @@ select {
       }
 
       &:focus {
+        border-color: var(--azure-radiance);
+      }
+
+      &.focus {
         border-color: var(--azure-radiance);
       }
     }
