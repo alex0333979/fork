@@ -13,6 +13,7 @@ import { useMemo } from 'react';
 import { setContext } from '@apollo/client/link/context';
 import cookie from 'cookie';
 import { GetServerSidePropsContext } from 'next';
+import { onError } from '@apollo/link-error';
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 export const COOKIES_TOKEN_NAME = 'token';
@@ -55,11 +56,26 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
     return forward(operation);
   });
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+      );
+    }
+
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
+
   return new ApolloClient({
     // SSR only for Node.js
     ssrMode: typeof window === 'undefined',
-    link: ApolloLink.from([omitTypenameLink, authLink, httpLink]),
-    cache: new InMemoryCache()
+    link: ApolloLink.from([omitTypenameLink, authLink, errorLink, httpLink]),
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      watchQuery: {
+        errorPolicy: 'all'
+      }
+    }
   });
 };
 

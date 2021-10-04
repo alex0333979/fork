@@ -102,8 +102,9 @@ const ReviewAndPay: React.FC = () => {
     }
 
     setLoading(true);
-    const { data } = await createOrder();
+    const { data, errors } = await createOrder();
     setLoading(false);
+    console.log('======', errors);
 
     const order = data?.CreateOrder.data;
     if (!order) {
