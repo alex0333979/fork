@@ -8,7 +8,7 @@ import { useApollo } from '@/lib/apolloClient';
 import { ApolloProvider } from '@apollo/client';
 import Router from 'next/router';
 import NProgress from 'nprogress';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
@@ -16,9 +16,7 @@ Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const showError = (message: string) => toast(message);
-
-  const apolloClient = useApollo(pageProps, showError);
+  const apolloClient = useApollo(pageProps);
 
   return (
     <ApolloProvider client={apolloClient}>

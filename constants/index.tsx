@@ -69,19 +69,23 @@ export const CHECKOUT_STEPS: ProcessStepProps = {
   steps: [
     {
       name: 'Delivery Method',
-      step: 1
+      step: 1,
+      link: `/checkout`
     },
     {
       name: 'Shipping Information',
-      step: 2
+      step: 2,
+      link: `/checkout/shipping`
     },
     {
       name: 'Payment Information',
-      step: 3
+      step: 3,
+      link: `/checkout/payment`
     },
     {
       name: 'Review and Pay',
-      step: 4
+      step: 4,
+      link: `/checkout/review`
     }
   ]
 };

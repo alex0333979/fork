@@ -28,9 +28,9 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, err
       <div className="group-label">
         <p>{formField.text}</p>
       </div>
-      {formField.options?.map((option, i) => (
+      {formField.options?.map((option, index) => (
         <label
-          key={i}
+          key={index}
           className={classNames({
             'third-size': formField.options && formField.options.length > 2,
             'half-size': !(formField.options && formField.options.length > 2)
@@ -52,7 +52,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, err
               <span className="border" />
             </span>
           </span>
-          {error ? <span className="attention">{error}</span> : <></>}
+          {error && index === 0 ? <span className="attention">{error}</span> : <></>}
         </label>
       ))}
     </div>

@@ -58,10 +58,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       step,
       steps: entry.form.steps.map((s) => ({
         name: s.name,
-        step: s.step
+        step: s.step,
+        link: entry.id ? `/application/${entry.id}/${s.step}` : '/application'
       }))
     }),
-    [entry.form.description, entry.form.steps, step]
+    [entry.form.description, entry.form.steps, entry.id, step]
   );
 
   const entityUsername = useMemo(() => {

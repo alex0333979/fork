@@ -12,6 +12,7 @@ import {
 } from '@/generated/graphql';
 import classNames from 'classnames';
 import { ValidationError } from '@/lib/utils/formValidation';
+import { showError, showSuccess } from '@/lib/utils/toast';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -96,10 +97,11 @@ const ReviewAndPay: React.FC = () => {
       return;
     }
 
-    // if (!isAuthenticated) {
-    //   // todo show login Form
-    //   return;
-    // }
+    if (!isAuthenticated) {
+      // todo show login Form
+      showError('You need to login first.');
+      return;
+    }
 
     setLoading(true);
     const { data } = await createOrder({});
@@ -114,6 +116,7 @@ const ReviewAndPay: React.FC = () => {
       }));
       return;
     }
+    showSuccess(`Order(${order.id}) is created.`);
 
     setLoading(true);
     const { data: intent } = await getPaymentIntent({ variables: { orderId: order.id } });
@@ -135,12 +138,14 @@ const ReviewAndPay: React.FC = () => {
     setLoading(false);
 
     if (pError) {
+      showError(pError.message ?? 'An unknown error occurred');
       setPayment({ status: 'error' });
       setError((errors) => ({
         ...errors,
         result: pError.message ?? 'An unknown error occurred'
       }));
     } else if (paymentIntent) {
+      showSuccess('Payment is done successfully.');
       setPayment(paymentIntent);
       const { data } = await clearCart({});
       const cart = data?.ClearCart.data;
