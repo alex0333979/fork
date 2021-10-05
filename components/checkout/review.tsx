@@ -96,10 +96,10 @@ const ReviewAndPay: React.FC = () => {
       return;
     }
 
-    if (!isAuthenticated) {
-      // todo show login Form
-      return;
-    }
+    // if (!isAuthenticated) {
+    //   // todo show login Form
+    //   return;
+    // }
 
     setLoading(true);
     const { data } = await createOrder({});

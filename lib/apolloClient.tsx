@@ -28,7 +28,7 @@ const getToken = (req?: IncomingMessage) => {
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
-const createApolloClient = (ctx?: GetServerSidePropsContext) => {
+const createApolloClient = (ctx?: GetServerSidePropsContext, showError?: (msg: string) => void) => {
   const httpLink = createHttpLink({
     uri: 'http://biome-biome-1isz2e3x3rda8-1558187189.eu-central-1.elb.amazonaws.com/graphql'
     // credentials: 'include'
@@ -58,12 +58,20 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, locations, path }) =>
-        console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-      );
+      graphQLErrors.forEach(({ message, locations, path }) => {
+        console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+        if (showError) {
+          showError(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+        }
+      });
     }
 
-    if (networkError) console.log(`[Network error]: ${networkError}`);
+    if (networkError) {
+      console.log(`[Network error]: ${networkError}`);
+      if (showError) {
+        showError(`[Network error]: ${networkError.message}`);
+      }
+    }
   });
 
   return new ApolloClient({
@@ -87,9 +95,10 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
 
 export const initializeApollo = (
   initialState?: AppProps['pageProps'],
-  ctx?: GetServerSidePropsContext
+  ctx?: GetServerSidePropsContext,
+  showError?: (msg: string) => void
 ) => {
-  const _apolloClient = apolloClient ?? createApolloClient(ctx);
+  const _apolloClient = apolloClient ?? createApolloClient(ctx, showError);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // get hydrated here
@@ -129,7 +138,7 @@ export const addApolloState = (
   return pageProps;
 };
 
-export function useApollo(pageProps: AppProps['pageProps']) {
+export function useApollo(pageProps: AppProps['pageProps'], showError: (message: string) => void) {
   const state = pageProps[APOLLO_STATE_PROP_NAME];
-  return useMemo(() => initializeApollo(state), [state]);
+  return useMemo(() => initializeApollo(state, undefined, showError), [showError, state]);
 }
