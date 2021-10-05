@@ -102,9 +102,8 @@ const ReviewAndPay: React.FC = () => {
     }
 
     setLoading(true);
-    const { data, errors } = await createOrder();
+    const { data } = await createOrder({});
     setLoading(false);
-    console.log('======', errors);
 
     const order = data?.CreateOrder.data;
     if (!order) {
@@ -229,6 +228,7 @@ const ReviewAndPay: React.FC = () => {
       disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
       onSubmit={onSubmit}>
       <div className="form-wrap">
+        <PaymentStatus status={payment.status} />
         <div className="form-fields">
           <div className="extra-info">
             <h3>{'Review and Pay'}</h3>
@@ -286,7 +286,6 @@ const ReviewAndPay: React.FC = () => {
             </li>
             <li>
               <form>
-                <PaymentStatus status={payment.status} />
                 <div className="form-fields">
                   <label className="full-size">
                     <span className="label">{'Name on the card *'}</span>

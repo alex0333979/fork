@@ -74,6 +74,12 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
     defaultOptions: {
       watchQuery: {
         errorPolicy: 'all'
+      },
+      query: {
+        errorPolicy: 'all'
+      },
+      mutate: {
+        errorPolicy: 'all'
       }
     }
   });
