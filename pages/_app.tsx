@@ -10,7 +10,8 @@ import Router from 'next/router';
 import NProgress from 'nprogress';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Login from '@/components/elements/login';
+import SignIn from '@/components/elements/signIn';
+import SignUp from '@/components/elements/signUp';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -30,7 +31,8 @@ function MyApp({ Component, pageProps }: AppProps) {
               content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
             />
           </Head>
-          <Login />
+          <SignIn />
+          <SignUp />
           <Component {...pageProps} />
           <ToastContainer />
         </AuthProvider>

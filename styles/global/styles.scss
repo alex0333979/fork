@@ -104,6 +104,10 @@ select {
   transition: color var(--transition), border-color var(--transition), background-color var(--transition);
   cursor: pointer;
 
+  &.full-size {
+    width: 100%;
+  }
+
   span {
     display: flex;
 
