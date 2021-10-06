@@ -92,7 +92,7 @@ export const CHECKOUT_STEPS: ProcessStepProps = {
 
 export const CONCIERGE_PRICE = 950;
 
-export const SHIPPING_TYPES: { title: string; price: number; value: string }[] = [
+export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType }[] = [
   {
     title: 'Expedited 3-6 day transit time',
     price: 1495,

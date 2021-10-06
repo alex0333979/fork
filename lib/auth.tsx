@@ -32,6 +32,10 @@ interface IContextProps {
   signIn: ({ email, password }: LoginMutationVariables) => void;
   cart: Cart | null;
   updateCart: (cart: Cart) => void;
+  openSignIn: boolean;
+  toggleSignInModal: (show: boolean) => void;
+  openSignUp: boolean;
+  toggleSignUpModal: (show: boolean) => void;
 }
 
 const authContext = createContext({} as IContextProps);
@@ -53,6 +57,8 @@ export const useAuth = (): IContextProps => useContext(authContext);
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
   const [me, setMe] = useState<User | null>(null);
   const [cookies, setCookie] = useCookies([COOKIES_TOKEN_NAME]);
+  const [openSignIn, setOpenSignIn] = useState<boolean>(false);
+  const [openSignUp, setOpenSignUp] = useState<boolean>(false);
 
   const createGuest = useCallback(async () => {
     const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
@@ -125,6 +131,20 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     [apolloClient, setCookie]
   );
 
+  const toggleSignInModal = useCallback((show: boolean) => {
+    if (show) {
+      setOpenSignUp(false);
+    }
+    setOpenSignIn(show);
+  }, []);
+
+  const toggleSignUpModal = useCallback((show: boolean) => {
+    if (show) {
+      setOpenSignIn(false);
+    }
+    setOpenSignUp(show);
+  }, []);
+
   return {
     isAuthenticated,
     getMe,
@@ -133,6 +153,10 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     createGuest,
     signIn,
     cart,
-    updateCart
+    updateCart,
+    openSignIn,
+    toggleSignInModal,
+    openSignUp,
+    toggleSignUpModal
   };
 }

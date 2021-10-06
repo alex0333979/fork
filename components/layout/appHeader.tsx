@@ -8,7 +8,7 @@ import { useAuth } from '@/lib/auth';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
-  const { cart } = useAuth();
+  const { cart, toggleSignInModal } = useAuth();
 
   useEffect(() => {
     mobileNavVisible
@@ -64,7 +64,9 @@ const AppHeader: React.FC = () => {
               </Link>
             </div>
             <div className="sign-btn">
-              <a className="main-btn small blank">{'Sign In'}</a>
+              <a className="main-btn small blank" onClick={() => toggleSignInModal(true)}>
+                {'Sign In'}
+              </a>
             </div>
             <div className={classNames({ 'menu-btn': true, open: mobileNavVisible })}>
               <button type="button" onClick={() => setMobileNavVisible(!mobileNavVisible)}>

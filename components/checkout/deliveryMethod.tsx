@@ -24,6 +24,26 @@ const DeliveryMethod: React.FC = () => {
     setAddConcierge(cart?.addConcierge ?? false);
   }, [cart]);
 
+  const onSetAddConcierge = useCallback(
+    (status: boolean) => {
+      setAddConcierge(status);
+      if (!status && shippingType === ShippingType.Free) {
+        setShippingType(ShippingType.From3To3);
+      }
+    },
+    [shippingType]
+  );
+
+  const onSetShippingType = useCallback(
+    (type: ShippingType) => {
+      if (!addConcierge && type === ShippingType.Free) {
+        return;
+      }
+      setShippingType(type);
+    },
+    [addConcierge]
+  );
+
   const onSubmit = useCallback(async () => {
     setLoading(true);
     const { data } = await setShippingTypeToCart({ variables: { shippingType, addConcierge } });
@@ -67,6 +87,28 @@ const DeliveryMethod: React.FC = () => {
             </li>
             <li>
               <div className="name">
+                {addConcierge ? (
+                  <h3>{'Included:'}</h3>
+                ) : (
+                  <h3>
+                    <span>{'Not Included:'}</span>
+                  </h3>
+                )}
+              </div>
+              <div className="text">
+                <ul>
+                  <li>
+                    {
+                      'We will print your documents and send them to you (cost of shipping not included)'
+                    }
+                  </li>
+                  <li>{'4 Passport photos per person'}</li>
+                  <li>{'Processing instruction guide'}</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div className="name">
                 <h3>{'Delivery method'}</h3>
               </div>
               <div className="form-fields">
@@ -82,7 +124,7 @@ const DeliveryMethod: React.FC = () => {
                         name="delivery"
                         checked={shippingType === option.value}
                         placeholder="delivery"
-                        onChange={() => setShippingType(option.value)}
+                        onChange={() => onSetShippingType(option.value)}
                       />
                       <span className="wrap">
                         <span className="bullet" />
@@ -91,29 +133,25 @@ const DeliveryMethod: React.FC = () => {
                     </span>
                   </label>
                 ))}
-              </div>
-            </li>
-            <li>
-              <div className="name">
-                {addConcierge ? (
-                  <h3>{'Included:'}</h3>
-                ) : (
-                  <h3>
-                    <span>{'Not '}</span>
-                    {'Included:'}
-                  </h3>
-                )}
-              </div>
-              <div className="text">
-                <ul>
-                  <li>
-                    {
-                      'We will print your documents and send them to you (cost of shipping not included)'
-                    }
-                  </li>
-                  <li>{'4 Passport photos per person'}</li>
-                  <li>{'Processing instruction guide'}</li>
-                </ul>
+                <label className="full-size">
+                  <span className="field radio with-price">
+                    <span className="name">
+                      {`No, I'm sure I don't want the concierge service and I will print my photos on my own.`}
+                    </span>
+                    <span className="price">{`$${(CONCIERGE_PRICE ?? 0) / 100}`}</span>
+                    <input
+                      type="radio"
+                      name="concierge"
+                      checked={!addConcierge}
+                      placeholder="concierge"
+                      onChange={(e) => onSetAddConcierge(!e.target.checked)}
+                    />
+                    <span className="wrap">
+                      <span className="bullet" />
+                      <span className="border" />
+                    </span>
+                  </span>
+                </label>
               </div>
             </li>
           </ol>

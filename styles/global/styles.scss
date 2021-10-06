@@ -102,6 +102,7 @@ select {
   background-color: var(--azure-radiance);
   border-radius: 4px;
   transition: color var(--transition), border-color var(--transition), background-color var(--transition);
+  cursor: pointer;
 
   span {
     display: flex;
