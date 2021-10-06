@@ -67,22 +67,6 @@ const DeliveryMethod: React.FC = () => {
             </li>
             <li>
               <div className="name">
-                <h3>{'Included:'}</h3>
-              </div>
-              <div className="text">
-                <ul>
-                  <li>
-                    {
-                      'We will print your documents and send them to you (cost of shipping not included)'
-                    }
-                  </li>
-                  <li>{'4 Passport photos per person'}</li>
-                  <li>{'Processing instruction guide'}</li>
-                </ul>
-              </div>
-            </li>
-            <li>
-              <div className="name">
                 <h3>{'Delivery method'}</h3>
               </div>
               <div className="form-fields">
@@ -107,6 +91,29 @@ const DeliveryMethod: React.FC = () => {
                     </span>
                   </label>
                 ))}
+              </div>
+            </li>
+            <li>
+              <div className="name">
+                {addConcierge ? (
+                  <h3>{'Included:'}</h3>
+                ) : (
+                  <h3>
+                    <span>{'Not '}</span>
+                    {'Included:'}
+                  </h3>
+                )}
+              </div>
+              <div className="text">
+                <ul>
+                  <li>
+                    {
+                      'We will print your documents and send them to you (cost of shipping not included)'
+                    }
+                  </li>
+                  <li>{'4 Passport photos per person'}</li>
+                  <li>{'Processing instruction guide'}</li>
+                </ul>
               </div>
             </li>
           </ol>

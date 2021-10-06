@@ -46,7 +46,7 @@ const AppHeader: React.FC = () => {
           <div className="right-side">
             <div className="location">
               <div className="current">
-                <p>United Kingdom</p>
+                <p>{'United Kingdom'}</p>
               </div>
             </div>
             <div className="user-btn">

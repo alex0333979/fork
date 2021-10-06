@@ -16,75 +16,75 @@ const AppFooter: React.FC = () => (
           </div>
           <div className="menu">
             <ul>
-              <li>How it works</li>
+              <li>{'How it works'}</li>
               <li>
                 <Link href={'/'}>
-                  <a>Passport photo</a>
+                  <a>{'Passport photo'}</a>
                 </Link>
               </li>
             </ul>
             <ul>
-              <li>What we offer</li>
+              <li>{'What we offer'}</li>
               <li>
                 <Link href={'/'}>
-                  <a>Passport photo</a>
+                  <a>{'Passport photo'}</a>
                 </Link>
               </li>
               <li>
                 <Link href={'/'}>
-                  <a>Passport application</a>
-                </Link>
-              </li>
-            </ul>
-            <ul>
-              <li>Resources</li>
-              <li>
-                <Link href={'/'}>
-                  <a>FAQ</a>
-                </Link>
-              </li>
-              <li>
-                <Link href={'/'}>
-                  <a>Blog</a>
-                </Link>
-              </li>
-              <li>
-                <Link href={'/'}>
-                  <a>Videos</a>
+                  <a>{'Passport application'}</a>
                 </Link>
               </li>
             </ul>
             <ul>
-              <li>Pricing</li>
+              <li>{'Resources'}</li>
               <li>
                 <Link href={'/'}>
-                  <a>About</a>
+                  <a>{'FAQ'}</a>
                 </Link>
               </li>
               <li>
                 <Link href={'/'}>
-                  <a>Contact Us</a>
+                  <a>{'Blog'}</a>
+                </Link>
+              </li>
+              <li>
+                <Link href={'/'}>
+                  <a>{'Videos'}</a>
                 </Link>
               </li>
             </ul>
             <ul>
-              <li>Social pages</li>
+              <li>{'Pricing'}</li>
+              <li>
+                <Link href={'/'}>
+                  <a>{'About'}</a>
+                </Link>
+              </li>
+              <li>
+                <Link href={'/'}>
+                  <a>{'Contact Us'}</a>
+                </Link>
+              </li>
+            </ul>
+            <ul>
+              <li>{'Social pages'}</li>
               <li>
                 <a target="_blank">
                   <span className="icon-fb" />
-                  facebook
+                  {'facebook'}
                 </a>
               </li>
               <li>
                 <a target="_blank">
                   <span className="icon-yt" />
-                  youtube
+                  {'youtube'}
                 </a>
               </li>
               <li>
                 <a target="_blank">
                   <span className="icon-inst" />
-                  instagram
+                  {'instagram'}
                 </a>
               </li>
             </ul>
@@ -96,25 +96,25 @@ const AppFooter: React.FC = () => (
       <div className="container">
         <div className="data-wrap">
           <ul>
-            <li className="hide-m">© Copyright 2021. All rights reserved</li>
+            <li className="hide-m">{'© Copyright 2021. All rights reserved'}</li>
             <li>
               <Link href={'/'}>
-                <a>Privacy Policy</a>
+                <a>{'Privacy Policy'}</a>
               </Link>
             </li>
             <li>
               <Link href={'/'}>
-                <a>Terms of Use</a>
+                <a>{'Terms of Use'}</a>
               </Link>
             </li>
             <li>
               <Link href={'/'}>
-                <a>Shipping policy</a>
+                <a>{'Shipping policy'}</a>
               </Link>
             </li>
             <li>
               <Link href={'/'}>
-                <a>Call us</a>
+                <a>{'Call us'}</a>
               </Link>
             </li>
           </ul>
@@ -126,7 +126,7 @@ const AppFooter: React.FC = () => (
         <div className="data-wrap">
           <p>
             <i className="icon-info" />
-            Disclaimer: This is not a government site
+            {'Disclaimer: This is not a government site'}
           </p>
         </div>
       </div>
@@ -134,7 +134,7 @@ const AppFooter: React.FC = () => (
     <div className="copyright">
       <div className="container">
         <div className="data-wrap">
-          <p>© Copyright 2021. All rights reserved</p>
+          <p>{'© Copyright 2021. All rights reserved'}</p>
         </div>
       </div>
     </div>
