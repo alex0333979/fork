@@ -86,7 +86,10 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     const entry = entryResult.data?.Entry.data;
 
     if (entry) {
-      const currentStep = entry.currentStep + 1;
+      let currentStep = entry.currentStep + 1;
+      if (currentStep > entry.form.steps.length + 1) {
+        currentStep -= 1;
+      }
       if (!step || (step && parseInt(step, 10) > currentStep)) {
         return {
           redirect: {

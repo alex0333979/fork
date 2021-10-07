@@ -138,7 +138,7 @@ const DeliveryMethod: React.FC = () => {
                     <span className="name">
                       {`No, I'm sure I don't want the concierge service and I will print my photos on my own.`}
                     </span>
-                    <span className="price">{`$${(CONCIERGE_PRICE ?? 0) / 100}`}</span>
+                    <span className="price" />
                     <input
                       type="radio"
                       name="concierge"

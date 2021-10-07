@@ -35,6 +35,7 @@ type Cart {
 type CartItem {
     description: String!
     id: ID!
+    isComplete: Boolean!
     name: String!
     price: Float!
     product: ProductType!

@@ -29,6 +29,7 @@ fragment CartItem on CartItem {
     product
     productId
     description
+    isComplete
 }
 
 fragment Cart on Cart {

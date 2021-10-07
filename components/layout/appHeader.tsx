@@ -11,9 +11,11 @@ const AppHeader: React.FC = () => {
   const { cart, toggleSignInModal } = useAuth();
 
   useEffect(() => {
-    mobileNavVisible
-      ? document.body.classList.add('scroll-lock')
-      : document.body.classList.remove('scroll-lock');
+    if (mobileNavVisible) {
+      document.body.classList.add('scroll-lock');
+    } else {
+      document.body.classList.remove('scroll-lock');
+    }
   }, [mobileNavVisible]);
 
   return (

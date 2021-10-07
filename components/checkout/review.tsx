@@ -87,6 +87,17 @@ const ReviewAndPay: React.FC = () => {
       return;
     }
 
+    let checkCart = true;
+    cart?.items?.forEach((i) => {
+      if (!i.isComplete) {
+        checkCart = false;
+      }
+    });
+    if (!checkCart) {
+      showError('You have some incomplete entries in your cart.');
+      return;
+    }
+
     if (!cardName) {
       setError((errors) => ({
         ...errors,
@@ -156,6 +167,7 @@ const ReviewAndPay: React.FC = () => {
     }
   }, [
     cardName,
+    cart?.items,
     clearCart,
     createOrder,
     elements,
