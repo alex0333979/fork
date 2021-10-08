@@ -7,6 +7,8 @@ fragment BillingAddress on BillingAddress {
     lastName
     postalCode
     state
+    email
+    phone
 }
 
 fragment ShippingAddress on ShippingAddress {
@@ -44,8 +46,6 @@ fragment Cart on Cart {
     }
     promoCode
     shippingType
-    addConcierge
-    totalPrice
 }
 
 fragment User on User {
@@ -54,6 +54,7 @@ fragment User on User {
     firstName
     lastName
     phone
+    guest
     createdAt
     updatedAt
     billingAddress {

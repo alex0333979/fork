@@ -44,6 +44,11 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
     [removeFromCart, router, updateCart]
   );
 
+  const onCreate = useCallback(async () => {
+    openAddForm(false);
+    await router.push('/application/create');
+  }, [openAddForm, router]);
+
   return (
     <div className="application-list">
       <div className="container">
@@ -117,9 +122,9 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                     </tfoot>
                   </table>
                   <div className="btn-wrap">
-                    <Link href={'/application/create'}>
-                      <a className="main-btn small">{'Add an application'}</a>
-                    </Link>
+                    <button className="main-btn small" onClick={onCreate}>
+                      {'Add an application'}
+                    </button>
                     <button
                       type="button"
                       className="main-btn small blank cancel"

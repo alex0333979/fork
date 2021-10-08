@@ -112,10 +112,15 @@ export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType
     title: 'Free standard shipping',
     price: 0,
     value: ShippingType.Free
+  },
+  {
+    title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
+    price: 0,
+    value: ShippingType.NoShipping
   }
 ];
 
-export const SHIPPING_FORM: { [key: string]: FormField } = {
+export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
   firstName: {
     index: 0,
     type: FieldType.Input,
@@ -225,89 +230,5 @@ export const SHIPPING_FORM: { [key: string]: FormField } = {
         message: 'Input correct (US) phone Number format'
       }
     ]
-  }
-};
-
-export const BILLING_FORM: { [key: string]: FormField } = {
-  firstName: {
-    index: 0,
-    type: FieldType.Input,
-    name: 'firstName',
-    text: 'First Name',
-    required: true,
-    placeholder: 'Input First name'
-  },
-  lastName: {
-    index: 1,
-    type: FieldType.Input,
-    name: 'lastName',
-    text: 'Last Name',
-    required: true,
-    placeholder: 'Input Last name'
-  },
-  address1: {
-    index: 2,
-    type: FieldType.Input,
-    name: 'address1',
-    text: 'Address 1',
-    required: true,
-    placeholder: 'Input address1'
-  },
-  address2: {
-    index: 3,
-    type: FieldType.Input,
-    name: 'address2',
-    text: 'Address 2',
-    required: true,
-    placeholder: 'Input address2'
-  },
-  city: {
-    index: 4,
-    type: FieldType.Input,
-    name: 'city',
-    text: 'City',
-    required: true,
-    placeholder: 'Input City'
-  },
-  postalCode: {
-    index: 5,
-    type: FieldType.Input,
-    name: 'postalCode',
-    text: 'Postal Code',
-    required: true,
-    placeholder: 'Input Zip Code',
-    validations: [
-      {
-        type: ValidationType.IsNumber,
-        message: 'Use correct US Zio code format'
-      },
-      {
-        type: ValidationType.MaxLength,
-        message: 'Use correct US Zio code format',
-        value: 5
-      },
-      {
-        type: ValidationType.MinLength,
-        message: 'Use correct US Zio code format',
-        value: 5
-      }
-    ]
-  },
-  state: {
-    index: 6,
-    type: FieldType.StatePicker,
-    name: 'state',
-    text: 'State',
-    required: true,
-    placeholder: 'Please Select'
-  },
-  country: {
-    index: 7,
-    type: FieldType.CountryPicker,
-    name: 'country',
-    text: 'Country',
-    required: true,
-    placeholder: 'Select Country',
-    defaultValue: 'US'
   }
 };

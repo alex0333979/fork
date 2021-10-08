@@ -8,14 +8,15 @@ import SelectBox from '@/components/elements/selectBox';
 import CountryPicker from '@/components/elements/countryPicker';
 import StatePicker from '@/components/elements/statePicker';
 import DatePicker from '@/components/elements/datePicker';
-import { SHIPPING_FORM } from '../../constants';
+import { SHIPPING_BILLING_FORM } from '../../constants';
 import { formValidation, ValidationError } from '@/lib/utils/formValidation';
 import { useAuth } from '@/lib/auth';
 
 const ShippingInformation: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart, getMe: me } = useAuth();
-  const [shippingForm, setShippingForm] = useState<{ [key: string]: FormField }>(SHIPPING_FORM);
+  const [shippingForm, setShippingForm] =
+    useState<{ [key: string]: FormField }>(SHIPPING_BILLING_FORM);
   const [country, setCountry] = useState<string>('US');
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,7 +24,7 @@ const ShippingInformation: React.FC = () => {
   const [addShippingAddress] = useAddShippingAddressToCartMutation();
 
   const initializeForm = useCallback(() => {
-    const initialForm = { ...SHIPPING_FORM };
+    const initialForm = { ...SHIPPING_BILLING_FORM };
     const _shippingAddress: any = cart?.shippingAddress || me?.shippingAddress;
     if (_shippingAddress) {
       Object.keys(_shippingAddress).map((key) => {

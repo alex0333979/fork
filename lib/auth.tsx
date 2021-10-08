@@ -97,7 +97,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     })();
   }, [autoLogin, cookies, createGuest]);
 
-  const isAuthenticated = useMemo((): boolean => !!(me && me.email), [me]);
+  const isAuthenticated = useMemo((): boolean => !!(me && me.guest), [me]);
 
   const getMe = useMemo((): User | null => me, [me]);
 

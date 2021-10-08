@@ -9,51 +9,32 @@ const DeliveryMethod: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const [shippingType, setShippingType] = useState<string>(cart?.shippingType ?? ShippingType.Free);
-  const [addConcierge, setAddConcierge] = useState<boolean>(cart?.addConcierge ?? false);
+  const [shippingType, setShippingType] = useState<string>(
+    cart?.shippingType ?? ShippingType.NoShipping
+  );
   const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
   const subTotal = useMemo(
     () =>
-      (SHIPPING_TYPES.find((s) => s.value === shippingType)?.price ?? 0) +
-      (addConcierge ? CONCIERGE_PRICE : 0),
-    [addConcierge, shippingType]
-  );
-
-  useEffect(() => {
-    setShippingType(cart?.shippingType ?? ShippingType.Free);
-    setAddConcierge(cart?.addConcierge ?? false);
-  }, [cart]);
-
-  const onSetAddConcierge = useCallback(
-    (status: boolean) => {
-      setAddConcierge(status);
-      if (!status && shippingType === ShippingType.Free) {
-        setShippingType(ShippingType.From3To3);
-      }
-    },
+      shippingType === ShippingType.NoShipping
+        ? 0
+        : (SHIPPING_TYPES.find((s) => s.value === shippingType)?.price ?? 0) + CONCIERGE_PRICE,
     [shippingType]
   );
 
-  const onSetShippingType = useCallback(
-    (type: ShippingType) => {
-      if (!addConcierge && type === ShippingType.Free) {
-        return;
-      }
-      setShippingType(type);
-    },
-    [addConcierge]
-  );
+  useEffect(() => {
+    setShippingType(cart?.shippingType ?? ShippingType.NoShipping);
+  }, [cart]);
 
   const onSubmit = useCallback(async () => {
     setLoading(true);
-    const { data } = await setShippingTypeToCart({ variables: { shippingType, addConcierge } });
+    const { data } = await setShippingTypeToCart({ variables: { shippingType } });
     setLoading(false);
     const cart = data?.SetShippingTypeToCart.data;
     if (cart) {
       updateCart(cart);
       await router.push('/checkout/shipping');
     }
-  }, [addConcierge, router, setShippingTypeToCart, shippingType, updateCart]);
+  }, [router, setShippingTypeToCart, shippingType, updateCart]);
 
   return (
     <CheckoutLayout step={1} loading={loading} backLink={`/cart`} onSubmit={onSubmit}>
@@ -62,8 +43,10 @@ const DeliveryMethod: React.FC = () => {
           <label>
             <input
               type="checkbox"
-              checked={addConcierge}
-              onChange={(e) => setAddConcierge(e.target.checked)}
+              checked={shippingType !== ShippingType.NoShipping}
+              onChange={(e) =>
+                setShippingType(e.target.checked ? ShippingType.From3To3 : ShippingType.NoShipping)
+              }
             />
             <span className="box-wrap">
               <span className="option">{'Print at home'}</span>
@@ -87,12 +70,12 @@ const DeliveryMethod: React.FC = () => {
             </li>
             <li>
               <div className="name">
-                {addConcierge ? (
-                  <h3>{'Included:'}</h3>
-                ) : (
+                {shippingType === ShippingType.NoShipping ? (
                   <h3>
                     <span>{'Not Included:'}</span>
                   </h3>
+                ) : (
+                  <h3>{'Included:'}</h3>
                 )}
               </div>
               <div className="text">
@@ -124,7 +107,7 @@ const DeliveryMethod: React.FC = () => {
                         name="delivery"
                         checked={shippingType === option.value}
                         placeholder="delivery"
-                        onChange={() => onSetShippingType(option.value)}
+                        onChange={() => setShippingType(option.value)}
                       />
                       <span className="wrap">
                         <span className="bullet" />
@@ -133,25 +116,6 @@ const DeliveryMethod: React.FC = () => {
                     </span>
                   </label>
                 ))}
-                <label className="full-size">
-                  <span className="field radio with-price">
-                    <span className="name">
-                      {`No, I'm sure I don't want the concierge service and I will print my photos on my own.`}
-                    </span>
-                    <span className="price" />
-                    <input
-                      type="radio"
-                      name="concierge"
-                      checked={!addConcierge}
-                      placeholder="concierge"
-                      onChange={(e) => onSetAddConcierge(!e.target.checked)}
-                    />
-                    <span className="wrap">
-                      <span className="bullet" />
-                      <span className="border" />
-                    </span>
-                  </span>
-                </label>
               </div>
             </li>
           </ol>

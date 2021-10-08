@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { FieldType, FormField, useAddBillingAddressToCartMutation } from '@/generated/graphql';
-import { BILLING_FORM } from '../../constants';
+import { SHIPPING_BILLING_FORM } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import TextInput from '@/components/elements/textInput';
 import PhoneInput from '@/components/elements/phoneInput';
@@ -16,22 +16,25 @@ import CheckBox from '@/components/elements/checkBox';
 const PaymentInformation: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart, getMe: me } = useAuth();
-  const [billingForm, setBillingForm] = useState<{ [key: string]: FormField }>(BILLING_FORM);
+  const [billingForm, setBillingForm] =
+    useState<{ [key: string]: FormField }>(SHIPPING_BILLING_FORM);
   const [country, setCountry] = useState<string>('US');
   const [error, setError] = useState<ValidationError>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime());
-  const [sameAddress, setSameAddress] = useState<boolean>(false);
+  const [sameAddress, setSameAddress] = useState<boolean>(true);
   const [addBillingAddress] = useAddBillingAddressToCartMutation();
 
   const initializeForm = useCallback(() => {
     // This is ridiculous otherwise, const object will be changed
-    Object.keys(BILLING_FORM).map((key) => {
-      BILLING_FORM[key].value = null;
+    Object.keys(SHIPPING_BILLING_FORM).map((key) => {
+      SHIPPING_BILLING_FORM[key].value = null;
     });
 
-    const initialForm = { ...BILLING_FORM };
-    const _billingAddress: any | undefined = cart?.billingAddress || me?.billingAddress;
+    const initialForm = { ...SHIPPING_BILLING_FORM };
+    const _billingAddress: any | undefined = sameAddress
+      ? cart?.shippingAddress
+      : cart?.billingAddress || me?.billingAddress;
     if (_billingAddress) {
       Object.keys(_billingAddress).map((key) => {
         if (key in initialForm) {
@@ -41,7 +44,7 @@ const PaymentInformation: React.FC = () => {
     }
     setBillingForm(initialForm);
     setRefreshKey(new Date().getTime());
-  }, [cart?.billingAddress, me?.billingAddress]);
+  }, [cart?.billingAddress, cart?.shippingAddress, me?.billingAddress, sameAddress]);
 
   useEffect(() => {
     initializeForm();

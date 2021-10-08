@@ -3,8 +3,11 @@ import Link from 'next/link';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 import ShoppingCartItem from '@/components/cart/cartItem';
 import { useAuth } from '@/lib/auth';
+import { useRouter } from 'next/router';
+import { showError } from '@/lib/utils/toast';
 
 const ShoppingCart: React.FC = () => {
+  const router = useRouter();
   const { cart, updateCart } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
 
@@ -19,7 +22,21 @@ const ShoppingCart: React.FC = () => {
     [removeFromCart, updateCart]
   );
 
-  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
+  const subTotal = useMemo(
+    () =>
+      cart?.items
+        ?.filter((i) => i.product === ProductType.PassportApplication && i.isComplete)
+        .reduce((a, { price }) => a + price, 0),
+    [cart]
+  );
+
+  const onCheckout = useCallback(async () => {
+    if (cart?.items?.filter((i) => i.isComplete)?.length ?? 0 > 0) {
+      await router.push('/checkout');
+    } else {
+      showError(`You don't have any completed entries in your cart yet.`);
+    }
+  }, [cart?.items, router]);
 
   return (
     <div className="cart-page">
@@ -80,14 +97,14 @@ const ShoppingCart: React.FC = () => {
                         <b>{'Total'}</b>
                       </td>
                       <td>
-                        <b>{`$${(cart?.totalPrice ?? 0) / 100}`}</b>
+                        <b>{`$${(subTotal ?? 0) / 100}`}</b>
                       </td>
                     </tr>
                   </tfoot>
                 </table>
-                <Link href={cart?.items?.length ?? 0 > 0 ? '/checkout' : '/cart'}>
-                  <a className="main-btn big">{'Check out'}</a>
-                </Link>
+                <button className="main-btn big" onClick={onCheckout}>
+                  {'Check out'}
+                </button>
               </div>
             </div>
           </div>

@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (
     });
     const cart = result.data.Cart.data;
 
-    if (cart?.items?.length ?? 0 > 0) {
+    if (cart?.items?.filter((i) => i.isComplete).length ?? 0 > 0) {
       return {
         props: {}
       };

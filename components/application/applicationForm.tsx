@@ -156,7 +156,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
           productId: result.id
         });
       } else {
-        await router.push(`/application/${result.id}/${step + 1}`);
+        if (step > entry.form.steps.length - 1) {
+          await router.push('/cart');
+        } else {
+          await router.push(`/application/${result.id}/${step + 1}`);
+        }
       }
     }
   }, [
@@ -164,6 +168,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     submitEntry,
     entry.id,
     entry.formId,
+    entry.form.steps.length,
     step,
     onAddToCartItem,
     entityUsername,

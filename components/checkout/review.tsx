@@ -6,6 +6,7 @@ import { CONCIERGE_PRICE, SHIPPING_TYPES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import {
   ProductType,
+  ShippingType,
   useClearCartMutation,
   useCreateOrderMutation,
   useGetPaymentIntentMutation
@@ -40,7 +41,7 @@ const CARD_OPTIONS = {
 
 const ReviewAndPay: React.FC = () => {
   const router = useRouter();
-  const { cart, updateCart, isAuthenticated } = useAuth();
+  const { cart, updateCart } = useAuth();
   const [cardName, setCardName] = useState<string>('');
   const [error, setError] = useState<ValidationError>({});
   const [stripeFocus, setStripeFocus] = useState<boolean>(false);
@@ -53,7 +54,13 @@ const ReviewAndPay: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
+  const subTotal = useMemo(
+    () =>
+      cart?.items
+        ?.filter((i) => i.product === ProductType.PassportApplication && i.isComplete)
+        .reduce((a, { price }) => a + price, 0),
+    [cart]
+  );
   const shippingPrice = useMemo(
     () => SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
     [cart]
@@ -61,7 +68,7 @@ const ReviewAndPay: React.FC = () => {
   const aPrice = useMemo(
     () =>
       cart?.items
-        ?.filter((c) => c.product === ProductType.PassportApplication)
+        ?.filter((c) => c.product === ProductType.PassportApplication && c.isComplete)
         .reduce((a, { price }) => a + price, 0),
     [cart]
   );
@@ -71,6 +78,10 @@ const ReviewAndPay: React.FC = () => {
         ?.filter((c) => c.product === ProductType.PassportPhoto)
         .reduce((a, { price }) => a + price, 0),
     [cart]
+  );
+  const conciergePrice = useMemo(
+    () => (cart?.shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
+    [cart?.shippingType]
   );
 
   const handleInputChange = useCallback((e) => {
@@ -87,17 +98,6 @@ const ReviewAndPay: React.FC = () => {
       return;
     }
 
-    let checkCart = true;
-    cart?.items?.forEach((i) => {
-      if (!i.isComplete) {
-        checkCart = false;
-      }
-    });
-    if (!checkCart) {
-      showError('You have some incomplete entries in your cart.');
-      return;
-    }
-
     if (!cardName) {
       setError((errors) => ({
         ...errors,
@@ -105,12 +105,6 @@ const ReviewAndPay: React.FC = () => {
       }));
       return;
     } else if (error.cardNumber) {
-      return;
-    }
-
-    if (!isAuthenticated) {
-      // todo show login Form
-      showError('You need to login first.');
       return;
     }
 
@@ -167,13 +161,11 @@ const ReviewAndPay: React.FC = () => {
     }
   }, [
     cardName,
-    cart?.items,
     clearCart,
     createOrder,
     elements,
     error.cardNumber,
     getPaymentIntent,
-    isAuthenticated,
     router,
     stripe,
     updateCart
@@ -263,15 +255,19 @@ const ReviewAndPay: React.FC = () => {
                 <h3>{'Passport Application'}</h3>
                 <p>{`$${(aPrice ?? 0) / 100}`}</p>
               </div>
-              <div className="name">
-                <h3>{'Passport Photo'}</h3>
-                <p>{`$${(pPrice ?? 0) / 100}`}</p>
-              </div>
+              {(pPrice ?? 0) > 0 ? (
+                <div className="name">
+                  <h3>{'Passport Photo'}</h3>
+                  <p>{`$${(pPrice ?? 0) / 100}`}</p>
+                </div>
+              ) : (
+                <></>
+              )}
             </li>
             <li>
               <div className="name">
                 <h3>{'Concierge service'}</h3>
-                <p>{`$${(cart?.addConcierge ? CONCIERGE_PRICE : 0) / 100}`}</p>
+                <p>{`$${conciergePrice / 100}`}</p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
@@ -289,7 +285,7 @@ const ReviewAndPay: React.FC = () => {
             <li>
               <div className="name">
                 <h3>{'Total'}</h3>
-                <p>{`$${((cart?.totalPrice ?? 0) + CONCIERGE_PRICE) / 100}`}</p>
+                <p>{`$${((subTotal ?? 0) + shippingPrice + conciergePrice) / 100}`}</p>
               </div>
             </li>
           </ol>

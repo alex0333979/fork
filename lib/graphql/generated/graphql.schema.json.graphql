@@ -10,8 +10,10 @@ type BillingAddress {
     address2: String!
     city: String!
     country: String!
+    email: String!
     firstName: String!
     lastName: String!
+    phone: String!
     postalCode: Int!
     state: String!
 }
@@ -23,13 +25,11 @@ type BillingAddressResponse {
 }
 
 type Cart {
-    addConcierge: Boolean!
     billingAddress: BillingAddress
     items: [CartItem!]
     promoCode: String
     shippingAddress: ShippingAddress
     shippingType: ShippingType!
-    totalPrice: Float!
 }
 
 type CartItem {
@@ -118,7 +118,7 @@ type Mutation {
     RemoveItemsFromCart(ids: [ID!]!): CartResponse!
     SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
     SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
-    SetShippingTypeToCart(addConcierge: Boolean!, shippingType: String!): CartResponse!
+    SetShippingTypeToCart(shippingType: String!): CartResponse!
     SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
     SignUp(user: UserInput!): UserResponse!
     SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
@@ -131,7 +131,6 @@ type Option {
 }
 
 type Order {
-    addConcierge: Boolean!
     billingAddress: BillingAddress!
     createdAt: DateTime!
     id: ID!
@@ -229,6 +228,7 @@ type User {
     createdAt: DateTime!
     email: String
     firstName: String
+    guest: Boolean!
     id: ID!
     lastName: String
     phone: String
@@ -279,6 +279,7 @@ enum ShippingType {
     FROM1TO2
     FROM3TO3
     FROM3TO6
+    NO_SHIPPING
 }
 
 enum ValidationType {
@@ -297,8 +298,10 @@ input BillingAddressInput {
     address2: String!
     city: String!
     country: String!
+    email: String!
     firstName: String!
     lastName: String!
+    phone: String!
     postalCode: Int!
     state: String!
 }
