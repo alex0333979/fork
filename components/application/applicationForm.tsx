@@ -65,14 +65,11 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     [entry.form.description, entry.form.steps, entry.id, step]
   );
 
-  const entityUsername = useMemo(() => {
-    if (step === 1) {
-      const a = formStep?.fields.find((f) => f.name === 'first_name');
-      const b = formStep?.fields.find((l) => l.name === 'last_name');
-      return `${a?.value ?? ''} ${b?.value ?? ''}`;
-    }
-    return '';
-  }, [formStep?.fields, step]);
+  const getEntityUsername = useCallback((): string => {
+    const a = formStep?.fields.find((f) => f.name === 'first_name');
+    const b = formStep?.fields.find((l) => l.name === 'last_name');
+    return `${a?.value ?? ''} ${b?.value ?? ''}`;
+  }, [formStep?.fields]);
 
   useEffect(() => {
     setFormStep(entry.form.steps.find((s) => s.step === step));
@@ -150,7 +147,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     if (result) {
       if (step === 1) {
         await onAddToCartItem({
-          name: entityUsername,
+          name: getEntityUsername(),
           description: 'Passport application',
           product: ProductType.PassportApplication,
           productId: result.id
@@ -171,7 +168,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     entry.form.steps.length,
     step,
     onAddToCartItem,
-    entityUsername,
+    getEntityUsername,
     router
   ]);
 

@@ -31,7 +31,7 @@ interface IContextProps {
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
   cart: Cart | null;
-  updateCart: (cart: Cart) => void;
+  updateCart: (cart: Cart | null) => void;
   openSignIn: boolean;
   toggleSignInModal: (show: boolean) => void;
   openSignUp: boolean;
@@ -104,7 +104,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   const cart = useMemo(() => me?.cart ?? null, [me?.cart]);
 
   const updateCart = useCallback(
-    (cart: Cart) => {
+    (cart: Cart | null) => {
       if (me) {
         setMe({
           ...me,

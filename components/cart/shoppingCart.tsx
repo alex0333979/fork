@@ -5,10 +5,11 @@ import ShoppingCartItem from '@/components/cart/cartItem';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import { showError } from '@/lib/utils/toast';
+import { CartPageProps } from '@/pages/cart';
 
-const ShoppingCart: React.FC = () => {
+const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
   const router = useRouter();
-  const { cart, updateCart } = useAuth();
+  const { updateCart } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
 
   const onRemoveCartItem = useCallback(
