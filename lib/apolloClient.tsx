@@ -31,7 +31,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const httpLink = createHttpLink({
-    uri: process.env.API_BASE_URL ?? 'https://biometric-backend.cyberfuze.com/graphql'
+    uri: process.env.API_BASE_URL
     // credentials: 'include'
   });
 
