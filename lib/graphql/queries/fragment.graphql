@@ -1,0 +1,178 @@
+fragment BillingAddress on BillingAddress {
+    address1
+    address2
+    city
+    country
+    firstName
+    lastName
+    postalCode
+    state
+    email
+    phone
+}
+
+fragment ShippingAddress on ShippingAddress {
+    address1
+    address2
+    city
+    country
+    firstName
+    lastName
+    postalCode
+    state
+    email
+    phone
+}
+
+fragment CartItem on CartItem {
+    id
+    name
+    price
+    product
+    productId
+    description
+    isComplete
+}
+
+fragment Cart on Cart {
+    billingAddress {
+        ...BillingAddress
+    }
+    shippingAddress {
+        ...ShippingAddress
+    }
+    items {
+        ...CartItem
+    }
+    promoCode
+    shippingType
+}
+
+fragment User on User {
+    id
+    email
+    firstName
+    lastName
+    phone
+    guest
+    createdAt
+    updatedAt
+    billingAddress {
+        ...BillingAddress
+    }
+    shippingAddress {
+        ...ShippingAddress
+    }
+    cart {
+        ...Cart
+    }
+}
+
+fragment Option on Option{
+    notes
+    text
+    value
+}
+
+fragment Validation on Validation {
+    message
+    type
+    value
+}
+
+fragment FormField on FormField {
+    index
+    name
+    type
+    text
+    required
+    value
+    defaultValue
+    disabled
+    notes
+    placeholder
+    options {
+        ...Option
+    }
+    validations {
+        ...Validation
+    }
+}
+
+fragment FormStep on FormStep {
+    name
+    step
+    notes
+    fields {
+        ...FormField
+    }
+}
+
+fragment Form on Form {
+    id
+    name
+    description
+    steps {
+        ...FormStep
+    }
+}
+
+fragment Entry on Entry {
+    id
+    userId
+    currentStep
+    isComplete
+    formId
+    form {
+        ...Form
+    }
+    createdAt
+    updatedAt
+}
+
+fragment TrackStep on TrackStep {
+    status
+    createdAt
+    updatedAt
+}
+
+fragment OrderTrack on OrderTrack {
+    confirmOrder {
+        ...TrackStep
+    }
+    productPrepared {
+        ...TrackStep
+    }
+    shipped {
+        ...TrackStep
+    }
+    outForDelivery {
+        ...TrackStep
+    }
+    delivered {
+        ...TrackStep
+    }
+}
+
+fragment Order on Order {
+    id
+    items {
+        ...CartItem
+    }
+    billingAddress {
+        ...BillingAddress
+    }
+    shippingAddress {
+        ...ShippingAddress
+    }
+    status {
+        ...OrderTrack
+    }
+    totalPrice
+    promoCode
+    orderNumber
+    shippingType
+    trackingNumber
+    createdAt
+    updatedAt
+}

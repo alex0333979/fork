@@ -1,0 +1,82 @@
+query Me{
+    Me{
+        message
+        status
+        data {
+            ...User
+        }
+    }
+}
+
+query Forms{
+    Forms {
+        ...Form
+    }
+}
+
+query Form($formId: String!) {
+    Form(id: $formId) {
+        message
+        status
+        data {
+            ...Form
+        }
+    }
+}
+
+query Entries($page: Int, $pageSize: Int, $skip: Int, $search: String){
+    Entries(page: $page, pageSize: $pageSize, skip: $skip, search: $search) {
+        total
+        data {
+            ...Entry
+        }
+    }
+}
+
+query Entry($entryId: String!){
+    Entry(entryId: $entryId) {
+        message
+        status
+        data {
+            ...Entry
+        }
+    }
+}
+
+query Orders($page: Int, $pageSize: Int, $skip: Int, $search: String){
+    Orders(page: $page, pageSize: $pageSize, skip: $skip, search: $search) {
+        total
+        data {
+            ...Order
+        }
+    }
+}
+
+query Cart{
+    Cart {
+        message
+        status
+        data {
+            ...Cart
+        }
+    }
+}
+
+query CompletedOrders($page: Int, $pageSize: Int, $skip: Int, $search: String) {
+    CompletedOrders(page: $page, pageSize: $pageSize, skip: $skip, search: $search) {
+        total
+        data {
+            ...Order
+        }
+    }
+}
+
+query OrderByOrderNumber($orderNumber: Float!) {
+    OrderByOrderNumber(orderNumber: $orderNumber) {
+        message
+        status
+        data {
+            ...Order
+        }
+    }
+}

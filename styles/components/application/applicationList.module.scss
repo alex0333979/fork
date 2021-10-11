@@ -1,0 +1,243 @@
+.application-list {
+  padding: 10px 0;
+  position: relative;
+  background-color: var(--catskill-white);
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 -9px;
+
+    li {
+      padding: 4px 9px;
+
+      .main-btn {
+        width: 100%;
+
+        &.small {
+          min-height: 55px;
+        }
+      }
+
+      &.add-application {
+        position: relative;
+
+        .add-form {
+          width: 488px;
+          padding-top: 44px;
+          position: absolute;
+          top: 100%;
+          right: 28px;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          transition: opacity var(--transition), visibility var(--transition);
+          z-index: 3;
+
+          .bg-wrap {
+            padding: 9px 30px;
+            background-color: white;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            position: relative;
+          }
+
+          button.icon-close {
+            display: flex;
+            padding: 10px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            z-index: 3;
+            transition: color var(--transition);
+
+            &:hover {
+              color: var(--burnt-sienna);
+            }
+
+          }
+
+          .top-info {
+            padding: 13px 0 10px 0;
+
+            h4 {
+              margin: 0;
+              font-weight: 600;
+              font-size: 20px;
+              line-height: 1.2;
+            }
+          }
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+
+            tbody {
+              tr {
+                td {
+                  color: var(--shuttle-gray);
+                }
+              }
+            }
+
+            tfoot {
+              border-top: 1px solid var(--porcelain);
+            }
+
+            tr {
+              td {
+                padding: 18px 0;
+                font-weight: normal;
+                font-size: 16px;
+                line-height: 1;
+
+                b {
+                  font-weight: 600;
+                }
+
+                &:last-child {
+                  padding-left: 15px;
+                  text-align: right;
+
+                  span {
+                    font-size: 20px;
+                  }
+                }
+              }
+            }
+          }
+
+          .btn-wrap {
+            padding-top: 3px;
+
+            .main-btn {
+              width: 100%;
+              margin-bottom: 9px;
+
+              &.small {
+                min-height: 48px;
+              }
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+        }
+
+        &.active {
+          .add-btn span.icon-close:before {
+            transform: rotate(0);
+          }
+
+          .add-form {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+          }
+        }
+
+        &.open-right {
+          .add-form {
+            left: 0;
+            right: unset;
+          }
+        }
+      }
+
+      &:not(.add-application) {
+        width: 100%;
+        max-width: 239px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1580px) {
+  .application-list ul li:not(.add-application) {
+    max-width: 210px;
+  }
+  .application-list ul li .main-btn.small {
+    min-height: 50px;
+  }
+  .application-list ul li.add-application .add-form .top-info h4 {
+    font-size: 19px;
+  }
+  .application-list ul li.add-application .add-form table tr td {
+    padding: 15px 0;
+    font-size: 15px;
+  }
+  .application-list ul li.add-application .add-form table tr td:last-child span {
+    font-size: 18px;
+  }
+  .application-list ul li.add-application .add-form {
+    width: 455px;
+    padding-top: 35px;
+  }
+}
+
+@media screen and (max-width: 1420px) {
+
+}
+
+@media screen and (max-width: 1180px) {
+
+}
+
+@media screen and (max-width: 991px) {
+  .application-list ul li.add-application .add-form {
+    width: 440px;
+    padding-top: 25px;
+  }
+}
+
+@media screen and (max-width: 810px) {
+
+}
+
+@media screen and (max-width: 760px) {
+  .application-list ul li.add-application .add-form {
+    width: 300px;
+    padding-top: 20px;
+  }
+  .application-list ul li.add-application .add-form .bg-wrap {
+    padding: 9px 15px;
+  }
+  .application-list ul li.add-application .add-form .top-info h4 {
+    font-size: 16px;
+  }
+  .application-list ul li.add-application .add-form table tr td {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  .application-list ul li.add-application .add-form table tr td:last-child span {
+    font-size: 16px;
+  }
+  .application-list ul li.add-application .add-form {
+    right: 10px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .application-list ul li.add-application {
+    position: static;
+  }
+  .application-list ul {
+    position: relative;
+  }
+  .application-list ul li.add-application .add-form {
+    right: unset;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .application-list ul li.add-application.open-right .add-form {
+    left: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+}

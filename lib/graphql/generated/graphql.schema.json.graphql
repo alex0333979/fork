@@ -1,0 +1,376 @@
+# This file was generated based on "graphql.schema.json". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type BillingAddress {
+    address1: String!
+    address2: String!
+    city: String!
+    country: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String!
+    postalCode: Int!
+    state: String!
+}
+
+type BillingAddressResponse {
+    data: BillingAddress
+    message: String!
+    status: Boolean!
+}
+
+type Cart {
+    billingAddress: BillingAddress
+    items: [CartItem!]
+    promoCode: String
+    shippingAddress: ShippingAddress
+    shippingType: ShippingType!
+}
+
+type CartItem {
+    description: String!
+    id: ID!
+    isComplete: Boolean!
+    name: String!
+    price: Float!
+    product: ProductType!
+    productId: ID!
+}
+
+type CartResponse {
+    data: Cart
+    message: String!
+    status: Boolean!
+}
+
+type Entry {
+    createdAt: DateTime!
+    currentStep: Int!
+    form: Form!
+    formId: ID!
+    id: ID!
+    isComplete: Boolean!
+    updatedAt: DateTime!
+    userId: ID!
+}
+
+type EntryPaginatedResponse {
+    data: [Entry!]!
+    total: Float!
+}
+
+type EntryResponse {
+    data: Entry
+    message: String!
+    status: Boolean!
+}
+
+type Form {
+    description: String!
+    id: ID!
+    name: String!
+    steps: [FormStep!]!
+}
+
+type FormField {
+    defaultValue: Value
+    disabled: Boolean
+    index: Float
+    name: String!
+    notes: String
+    options: [Option!]
+    placeholder: String
+    required: Boolean
+    text: String
+    type: FieldType!
+    validations: [Validation!]
+    value: Value
+}
+
+type FormResponse {
+    data: Form
+    message: String!
+    status: Boolean!
+}
+
+type FormStep {
+    fields: [FormField!]!
+    name: String!
+    notes: String
+    step: Int!
+}
+
+type Mutation {
+    AddBillingAddressToCart(billingAddress: BillingAddressInput!): CartResponse!
+    AddItemsToCart(items: [CartItemInput!]!): CartResponse!
+    AddPromoCodeToCart(promoCode: String!): CartResponse!
+    AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
+    ClearCart: CartResponse!
+    CreateGuest: TokenResponse!
+    CreateOrder: OrderResponse!
+    GetPaymentIntent(orderId: String!): PaymentIntentResponse!
+    Login(email: String!, password: String!): TokenResponse!
+    RemoveItemsFromCart(ids: [ID!]!): CartResponse!
+    SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
+    SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
+    SetShippingTypeToCart(shippingType: String!): CartResponse!
+    SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
+    SignUp(user: UserInput!): UserResponse!
+    SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
+}
+
+type Option {
+    notes: String
+    text: String
+    value: Value!
+}
+
+type Order {
+    billingAddress: BillingAddress!
+    createdAt: DateTime!
+    id: ID!
+    items: [CartItem!]!
+    orderNumber: Int!
+    promoCode: String
+    shippingAddress: ShippingAddress!
+    shippingType: ShippingType!
+    status: OrderTrack!
+    totalPrice: Float!
+    trackingNumber: String
+    updatedAt: DateTime!
+    userId: ID!
+}
+
+type OrderPaginatedResponse {
+    data: [Order!]!
+    total: Float!
+}
+
+type OrderResponse {
+    data: Order
+    message: String!
+    status: Boolean!
+}
+
+type OrderTrack {
+    confirmOrder: TrackStep!
+    delivered: TrackStep!
+    outForDelivery: TrackStep!
+    productPrepared: TrackStep!
+    shipped: TrackStep!
+}
+
+type PaymentIntent {
+    clientSecret: String!
+}
+
+type PaymentIntentResponse {
+    data: PaymentIntent
+    message: String!
+    status: Boolean!
+}
+
+type Query {
+    Cart: CartResponse!
+    CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+    Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
+    Entry(entryId: String!): EntryResponse!
+    Form(id: String!): FormResponse!
+    Forms: [Form!]!
+    Me: UserResponse!
+    OrderByOrderNumber(orderNumber: Float!): OrderResponse!
+    Orders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+}
+
+type ShippingAddress {
+    address1: String!
+    address2: String!
+    city: String!
+    country: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String!
+    postalCode: Int!
+    state: String!
+}
+
+type ShippingAddressResponse {
+    data: ShippingAddress
+    message: String!
+    status: Boolean!
+}
+
+type Token {
+    accessToken: String!
+}
+
+type TokenResponse {
+    data: Token
+    message: String!
+    status: Boolean!
+}
+
+type TrackStep {
+    createdAt: DateTime!
+    status: OrderStatus!
+    updatedAt: DateTime!
+}
+
+type User {
+    billingAddress: BillingAddress
+    cart: Cart
+    createdAt: DateTime!
+    email: String
+    firstName: String
+    guest: Boolean!
+    id: ID!
+    lastName: String
+    phone: String
+    shippingAddress: ShippingAddress
+    updatedAt: DateTime!
+}
+
+type UserResponse {
+    data: User
+    message: String!
+    status: Boolean!
+}
+
+type Validation {
+    message: String
+    type: ValidationType!
+    value: Float
+}
+
+enum FieldType {
+    Button
+    CheckBox
+    CountryPicker
+    DatePicker
+    Input
+    Label
+    PhoneInput
+    Radio
+    Select
+    StatePicker
+    TextArea
+}
+
+enum OrderStatus {
+    COMPLETED
+    NOT_STARTED
+    ON_PROGRESS
+    PENDING
+}
+
+enum ProductType {
+    PASSPORT_APPLICATION
+    PASSPORT_PHOTO
+}
+
+enum ShippingType {
+    FREE
+    FROM1TO2
+    FROM3TO3
+    FROM3TO6
+    NO_SHIPPING
+}
+
+enum ValidationType {
+    IsEmail
+    IsNumber
+    IsPhone
+    Max
+    MaxLength
+    Min
+    MinLength
+    Nullable
+}
+
+input BillingAddressInput {
+    address1: String!
+    address2: String!
+    city: String!
+    country: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String!
+    postalCode: Int!
+    state: String!
+}
+
+input CartItemInput {
+    description: String!
+    name: String!
+    product: ProductType!
+    productId: ID!
+}
+
+input FormFieldInput {
+    defaultValue: Value
+    disabled: Boolean
+    index: Float
+    name: String!
+    notes: String
+    options: [OptionInput!]
+    placeholder: String
+    required: Boolean
+    text: String
+    type: FieldType!
+    validations: [ValidationInput!]
+    value: Value
+}
+
+input FormStepInput {
+    fields: [FormFieldInput!]!
+    name: String!
+    notes: String
+    step: Int!
+}
+
+input OptionInput {
+    notes: String
+    text: String
+    value: Value!
+}
+
+input ShippingAddressInput {
+    address1: String!
+    address2: String!
+    city: String!
+    country: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String!
+    postalCode: Int!
+    state: String!
+}
+
+input UserInput {
+    email: String!
+    firstName: String!
+    lastName: String!
+    password: String!
+    phone: String!
+}
+
+input ValidationInput {
+    message: String
+    type: ValidationType!
+    value: Float
+}
+
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+"Value custom scalar type"
+scalar Value
