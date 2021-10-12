@@ -20,6 +20,7 @@ export interface EntryPageProps {
   entry: {
     id: string | null;
     currentStep: number;
+    completeStep: number;
     form: Form;
     formId: string;
   };
@@ -86,14 +87,10 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     const entry = entryResult.data?.Entry.data;
 
     if (entry) {
-      let currentStep = entry.currentStep + 1;
-      if (currentStep > entry.form.steps.length + 1) {
-        currentStep -= 1;
-      }
-      if (!step || (step && parseInt(step, 10) > currentStep)) {
+      if (!step || (step && parseInt(step, 10) > entry.completeStep + 1)) {
         return {
           redirect: {
-            destination: `/application/${entryId}/${currentStep}/`,
+            destination: `/application/${entryId}/${entry.completeStep + 1}/`,
             permanent: false
           }
         };

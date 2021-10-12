@@ -82,6 +82,7 @@ export type CartResponse = {
 };
 
 export type Entry = {
+  completeStep: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   currentStep: Scalars['Int'];
   form: Form;
@@ -509,7 +510,7 @@ export type FormStepFragment = { __typename: 'FormStep', name: string, step: num
 
 export type FormFragment = { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> };
 
-export type EntryFragment = { __typename: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } };
+export type EntryFragment = { __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } };
 
 export type TrackStepFragment = { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any };
 
@@ -652,14 +653,14 @@ export type EntriesQueryVariables = Exact<{
 }>;
 
 
-export type EntriesQuery = { __typename: 'Query', Entries: { __typename: 'EntryPaginatedResponse', total: number, data: Array<{ __typename: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
+export type EntriesQuery = { __typename: 'Query', Entries: { __typename: 'EntryPaginatedResponse', total: number, data: Array<{ __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
 
 export type EntryQueryVariables = Exact<{
   entryId: Scalars['String'];
 }>;
 
 
-export type EntryQuery = { __typename: 'Query', Entry: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
+export type EntryQuery = { __typename: 'Query', Entry: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
 
 export type OrdersQueryVariables = Exact<{
   page?: Maybe<Scalars['Int']>;
@@ -832,6 +833,7 @@ export const EntryFragmentDoc = gql`
   id
   userId
   currentStep
+  completeStep
   isComplete
   formId
   form {

@@ -121,6 +121,7 @@ fragment Entry on Entry {
     id
     userId
     currentStep
+    completeStep
     isComplete
     formId
     form {
