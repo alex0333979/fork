@@ -9,7 +9,7 @@ import PhoneInput from '@/components/elements/phoneInput';
 import SelectBox from '@/components/elements/selectBox';
 import CountryPicker from '@/components/elements/countryPicker';
 import StatePicker from '@/components/elements/statePicker';
-import DatePicker from '@/components/elements/datePicker';
+import AppDatePicker from '@/components/elements/datePicker';
 import { formValidation, ValidationError } from '@/lib/utils/formValidation';
 import CheckBox from '@/components/elements/checkBox';
 
@@ -178,7 +178,7 @@ const PaymentInformation: React.FC = () => {
                   );
                 case FieldType.DatePicker:
                   return (
-                    <DatePicker
+                    <AppDatePicker
                       key={key}
                       formField={field}
                       onValueChange={onValueChange}

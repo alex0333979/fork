@@ -8,23 +8,30 @@ export interface ValidationError {
 export const formValidation = (fields: FormField[]): ValidationError => {
   const error: ValidationError = {};
   for (const field of fields) {
-    if (field.required && (field.value == null || field.value === '')) {
+    if (
+      field.required &&
+      (field.value === undefined || field.value === null || field.value === '')
+    ) {
       error[field.name] = `This field is required.`;
       continue;
     }
-    if (field.options && (field.type === FieldType.Radio || field.type === FieldType.Select)) {
+    if (
+      field.required &&
+      field.options &&
+      (field.type === FieldType.Radio || field.type === FieldType.Select)
+    ) {
       const a = field.options.find((x) => x.value.toString() === field.value?.toString());
       if (!a) {
         error[field.name] = `This should be one of Options`;
         continue;
       }
     }
-    if (field.type === FieldType.CheckBox && typeof field.value !== 'boolean') {
+    if (field.required && field.type === FieldType.CheckBox && typeof field.value !== 'boolean') {
       error[field.name] = `This should be boolean type`;
       continue;
     }
 
-    if (field.validations) {
+    if (field.required && field.validations) {
       field.validations.forEach((v) => {
         field.value = field.value ?? '';
         switch (v.type) {

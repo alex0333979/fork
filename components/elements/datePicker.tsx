@@ -1,18 +1,20 @@
 import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
 
-interface DatePickerProps {
+interface AppDatePickerProps {
   formField: FormField;
-  onValueChange: (name: string, value: string) => void;
+  onValueChange: (name: string, value: string | undefined) => void;
   error: string | undefined;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, error }) => {
-  const [date, setDate] = useState<string>(formField.value ? formField.value : '1940-01-01');
+const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange, error }) => {
+  const [date, setDate] = useState<Date | null>(new Date(formField.value));
   const onChange = useCallback(
-    (value: string) => {
-      onValueChange(formField.name, value);
+    (value: Date | null) => {
+      onValueChange(formField.name, value?.toISOString().split('T')[0]);
       setDate(value);
     },
     [formField.name, onValueChange]
@@ -24,15 +26,15 @@ const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, error
         {formField.required ? ' *' : ''}
       </span>
       <span className="field">
-        <input
-          type="date"
+        <DatePicker
           name={formField.name}
-          value={date}
-          placeholder={formField.placeholder ? formField.placeholder : ''}
-          onChange={(e) => onChange(e.target.value)}
           className={classNames({
             'error-border': !!error
           })}
+          dateFormat={'MM/dd/yyyy'}
+          selected={date}
+          onChange={(date: Date | null) => onChange(date)}
+          maxDate={new Date()}
         />
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
@@ -40,4 +42,4 @@ const DatePicker: React.FC<DatePickerProps> = ({ formField, onValueChange, error
   );
 };
 
-export default DatePicker;
+export default AppDatePicker;

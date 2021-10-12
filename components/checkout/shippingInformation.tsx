@@ -7,7 +7,7 @@ import PhoneInput from '@/components/elements/phoneInput';
 import SelectBox from '@/components/elements/selectBox';
 import CountryPicker from '@/components/elements/countryPicker';
 import StatePicker from '@/components/elements/statePicker';
-import DatePicker from '@/components/elements/datePicker';
+import AppDatePicker from '@/components/elements/datePicker';
 import { SHIPPING_BILLING_FORM } from '../../constants';
 import { formValidation, ValidationError } from '@/lib/utils/formValidation';
 import { useAuth } from '@/lib/auth';
@@ -145,7 +145,7 @@ const ShippingInformation: React.FC = () => {
                   );
                 case FieldType.DatePicker:
                   return (
-                    <DatePicker
+                    <AppDatePicker
                       key={key}
                       formField={field}
                       onValueChange={onValueChange}

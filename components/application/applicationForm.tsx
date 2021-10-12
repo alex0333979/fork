@@ -15,7 +15,7 @@ import RadioOption from '@/components/elements/radioOption';
 import TextInput from '@/components/elements/textInput';
 import CountryPicker from '@/components/elements/countryPicker';
 import StatePicker from '@/components/elements/statePicker';
-import DatePicker from '@/components/elements/datePicker';
+import AppDatePicker from '@/components/elements/datePicker';
 import SelectBox from '@/components/elements/selectBox';
 import { useRouter } from 'next/router';
 import PhoneInput from '@/components/elements/phoneInput';
@@ -33,6 +33,7 @@ interface ApplicationFormProps {
 interface IEntry {
   id: string | null;
   currentStep: number;
+  completeStep: number;
   form: Form;
   formId: string;
 }
@@ -56,13 +57,14 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     () => ({
       title: entry.form.description,
       step,
+      completeStep: entry.completeStep,
       steps: entry.form.steps.map((s) => ({
         name: s.name,
         step: s.step,
         link: entry.id ? `/application/${entry.id}/${s.step}` : '/application'
       }))
     }),
-    [entry.form.description, entry.form.steps, entry.id, step]
+    [entry.completeStep, entry.form.description, entry.form.steps, entry.id, step]
   );
 
   const getEntityUsername = useCallback((): string => {
@@ -183,7 +185,12 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         <div className={classNames('application-form', { blur: isOpenAddForm })}>
           <div className="container">
             <div className="data-wrap">
-              <ProcessStep title={process.title} step={process.step} steps={process.steps} />
+              <ProcessStep
+                title={process.title}
+                step={process.step}
+                steps={process.steps}
+                completeStep={process.completeStep}
+              />
               <div className="form-wrap">
                 {formStep?.notes ? (
                   <div className="form-fields">
@@ -297,7 +304,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                           );
                         case FieldType.DatePicker:
                           return (
-                            <DatePicker
+                            <AppDatePicker
                               key={`${index}_${step}`}
                               formField={field}
                               onValueChange={onValueChange}

@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 export interface ProcessStepProps {
   title: string;
   step: number;
+  completeStep: number;
   steps: {
     name: string;
     step: number;
@@ -12,15 +13,15 @@ export interface ProcessStepProps {
   }[];
 }
 
-const ProcessStep: React.FC<ProcessStepProps> = ({ title, step, steps }) => {
+const ProcessStep: React.FC<ProcessStepProps> = ({ title, step, completeStep, steps }) => {
   const router = useRouter();
   const onClickStep = useCallback(
     async (s: { name: string; step: number; link: string }) => {
-      if (s.step < step) {
+      if (s.step < completeStep + 2) {
         await router.push(s.link);
       }
     },
-    [router, step]
+    [completeStep, router]
   );
 
   return (
