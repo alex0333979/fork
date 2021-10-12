@@ -13,7 +13,7 @@ export const formValidation = (fields: FormField[]): ValidationError => {
       continue;
     }
     if (field.options && (field.type === FieldType.Radio || field.type === FieldType.Select)) {
-      const a = field.options.find((x) => x.value.toString() === field.value.toString());
+      const a = field.options.find((x) => x.value.toString() === field.value?.toString());
       if (!a) {
         error[field.name] = `This should be one of Options`;
         continue;
