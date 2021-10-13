@@ -33,6 +33,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
         forms,
         entry: {
           id: null,
+          completeStep: 0,
           currentStep: 1,
           form: form ?? forms[0],
           formId: form ? form.id : forms[0].id
