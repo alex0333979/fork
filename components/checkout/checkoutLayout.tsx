@@ -5,6 +5,7 @@ import ApplicationToolbar from '@/components/elements/applicationToolbar';
 
 interface CheckoutLayoutProps {
   step: number;
+  completeStep: number;
   loading: boolean;
   backLink: string | undefined;
   onSubmit: () => void;
@@ -15,6 +16,7 @@ interface CheckoutLayoutProps {
 
 const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
   step,
+  completeStep,
   loading,
   backLink,
   children,
@@ -37,7 +39,12 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
       <div className="application-form">
         <div className="container">
           <div className="data-wrap horizontal">
-            <ProcessStep title={CHECKOUT_STEPS.title} step={step} steps={CHECKOUT_STEPS.steps} />
+            <ProcessStep
+              title={CHECKOUT_STEPS.title}
+              step={step}
+              steps={CHECKOUT_STEPS.steps}
+              completeStep={completeStep}
+            />
             {children}
           </div>
         </div>

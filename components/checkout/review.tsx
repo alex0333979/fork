@@ -235,7 +235,8 @@ const ReviewAndPay: React.FC = () => {
       backLink={`/checkout/payment`}
       nextButtonText={'Check out'}
       disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
-      onSubmit={onSubmit}>
+      onSubmit={onSubmit}
+      completeStep={3}>
       <div className="form-wrap">
         <PaymentStatus status={payment.status} />
         <div className="form-fields">

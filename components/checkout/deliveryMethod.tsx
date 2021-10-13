@@ -37,7 +37,12 @@ const DeliveryMethod: React.FC = () => {
   }, [router, setShippingTypeToCart, shippingType, updateCart]);
 
   return (
-    <CheckoutLayout step={1} loading={loading} backLink={`/cart`} onSubmit={onSubmit}>
+    <CheckoutLayout
+      step={1}
+      loading={loading}
+      backLink={`/cart`}
+      onSubmit={onSubmit}
+      completeStep={0}>
       <div className="form-wrap">
         <div className="switcher-box">
           <label>

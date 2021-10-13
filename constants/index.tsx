@@ -65,6 +65,7 @@ export const TOP_MENUS: NavItemProps[] = [
 
 export const CHECKOUT_STEPS: ProcessStepProps = {
   title: 'New passport application',
+  completeStep: 0,
   step: 1,
   steps: [
     {
