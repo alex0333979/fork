@@ -85,7 +85,8 @@ const ShippingInformation: React.FC = () => {
       step={2}
       loading={loading}
       backLink={`/checkout`}
-      onSubmit={onSubmit}>
+      onSubmit={onSubmit}
+      completeStep={1}>
       <div className="form-wrap">
         <div className="form-fields">
           <div className="extra-info">
