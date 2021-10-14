@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import Input from 'react-phone-number-input/input';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
 
 interface PhoneInputProps {
   formField: FormField;
@@ -25,7 +26,13 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, error
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}
-        {formField.notes ? <i className="icon-about" /> : <></>}
+        {formField.notes ? (
+          <a data-tip={formField.notes}>
+            <i className="icon-about" />
+          </a>
+        ) : (
+          <></>
+        )}
       </span>
       <span className="field">
         <Input
@@ -41,6 +48,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ formField, onValueChange, error
         />
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
+      <ReactTooltip place="top" type="info" effect="float" />
     </label>
   );
 };

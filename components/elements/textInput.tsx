@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormField, ValidationType } from '@/generated/graphql';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
 
 interface TextInputProps {
   formField: FormField;
@@ -65,7 +66,13 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, error }
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}
-        {formField.notes ? <i className="icon-about" /> : <></>}
+        {formField.notes ? (
+          <a data-tip={formField.notes}>
+            <i className="icon-about" />
+          </a>
+        ) : (
+          <></>
+        )}
       </span>
       <span className="field">
         <input
@@ -88,6 +95,7 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, error }
         <></>
       )}
       {error ? <span className="attention">{error}</span> : <></>}
+      <ReactTooltip place="top" type="info" effect="float" />
     </label>
   );
 };

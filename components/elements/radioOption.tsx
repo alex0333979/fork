@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
 
 interface RadioOptionProps {
   formField: FormField;
@@ -38,7 +39,13 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, err
           <span className="field radio">
             <span className="name">
               {option.text}
-              {option.notes ? <i className="icon-about" /> : <></>}
+              {option.notes ? (
+                <a data-tip={option.notes}>
+                  <i className="icon-about" />
+                </a>
+              ) : (
+                <></>
+              )}
             </span>
             <input
               type="radio"
@@ -55,6 +62,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({ formField, onValueChange, err
           {error && index === 0 ? <span className="attention">{error}</span> : <></>}
         </label>
       ))}
+      <ReactTooltip place="top" type="info" effect="float" />
     </div>
   );
 };
