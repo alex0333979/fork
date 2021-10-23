@@ -166,3 +166,13 @@ mutation GetPaymentIntent($orderId: String!){
         }
     }
 }
+
+mutation CheckPhoto($entryId: String!){
+    CheckPhoto(entryId: $entryId) {
+        message
+        status
+        data {
+            ...TestResult
+        }
+    }
+}

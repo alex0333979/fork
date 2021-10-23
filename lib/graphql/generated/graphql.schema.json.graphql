@@ -48,6 +48,23 @@ type CartResponse {
     status: Boolean!
 }
 
+type CheckPhotoResponse {
+    data: TestResult
+    message: String!
+    status: Boolean!
+}
+
+type Dictionary {
+    message: String!
+    test: String!
+}
+
+type Dimensions {
+    height: Float!
+    unit: String!
+    width: Float!
+}
+
 type Entry {
     completeStep: Int!
     createdAt: DateTime!
@@ -71,6 +88,10 @@ type EntryResponse {
     status: Boolean!
 }
 
+type Eye {
+    position: Position!
+}
+
 type Form {
     description: String!
     id: ID!
@@ -81,6 +102,7 @@ type Form {
 type FormField {
     defaultValue: Value
     disabled: Boolean
+    hidden: Boolean
     index: Float
     name: String!
     notes: String
@@ -106,11 +128,17 @@ type FormStep {
     step: Int!
 }
 
+type Head {
+    Dimensions: Dimensions!
+    position: Position!
+}
+
 type Mutation {
     AddBillingAddressToCart(billingAddress: BillingAddressInput!): CartResponse!
     AddItemsToCart(items: [CartItemInput!]!): CartResponse!
     AddPromoCodeToCart(promoCode: String!): CartResponse!
     AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
+    CheckPhoto(entryId: String!): CheckPhotoResponse!
     ClearCart: CartResponse!
     CreateGuest: TokenResponse!
     CreateOrder: OrderResponse!
@@ -176,6 +204,12 @@ type PaymentIntentResponse {
     status: Boolean!
 }
 
+type Position {
+    max: Float!
+    min: Float!
+    unit: Unit!
+}
+
 type Query {
     Cart: CartResponse!
     CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
@@ -183,6 +217,7 @@ type Query {
     Entry(entryId: String!): EntryResponse!
     Form(id: String!): FormResponse!
     Forms: [Form!]!
+    GetSignedUrl: SignedUrlResponse!
     Me: UserResponse!
     OrderByOrderNumber(orderNumber: Float!): OrderResponse!
     Orders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
@@ -205,6 +240,29 @@ type ShippingAddressResponse {
     data: ShippingAddress
     message: String!
     status: Boolean!
+}
+
+type SignedUrl {
+    signedUrl: String!
+    url: String!
+}
+
+type SignedUrlResponse {
+    data: SignedUrl
+    message: String!
+    status: Boolean!
+}
+
+type Size {
+    max: Int!
+    min: Int!
+}
+
+type TestResult {
+    code: Code!
+    failed: [Dictionary!]!
+    message: String!
+    passed: [Dictionary!]!
 }
 
 type Token {
@@ -243,10 +301,20 @@ type UserResponse {
     status: Boolean!
 }
 
+type ValidatedImage {
+    image: String!
+}
+
 type Validation {
     message: String
     type: ValidationType!
     value: Float
+}
+
+enum Code {
+    Code200
+    Code400
+    Code500
 }
 
 enum FieldType {
@@ -283,6 +351,12 @@ enum ShippingType {
     NO_SHIPPING
 }
 
+enum Unit {
+    Inch
+    Mm
+    Percentage
+}
+
 enum ValidationType {
     IsEmail
     IsNumber
@@ -317,6 +391,7 @@ input CartItemInput {
 input FormFieldInput {
     defaultValue: Value
     disabled: Boolean
+    hidden: Boolean
     index: Float
     name: String!
     notes: String

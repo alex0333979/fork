@@ -81,6 +81,29 @@ export type CartResponse = {
   status: Scalars['Boolean'];
 };
 
+export type CheckPhotoResponse = {
+  data?: Maybe<TestResult>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
+export enum Code {
+  Code200 = 'Code200',
+  Code400 = 'Code400',
+  Code500 = 'Code500'
+}
+
+export type Dictionary = {
+  message: Scalars['String'];
+  test: Scalars['String'];
+};
+
+export type Dimensions = {
+  height: Scalars['Float'];
+  unit: Scalars['String'];
+  width: Scalars['Float'];
+};
+
 export type Entry = {
   completeStep: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -102,6 +125,10 @@ export type EntryResponse = {
   data?: Maybe<Entry>;
   message: Scalars['String'];
   status: Scalars['Boolean'];
+};
+
+export type Eye = {
+  position: Position;
 };
 
 export enum FieldType {
@@ -128,6 +155,7 @@ export type Form = {
 export type FormField = {
   defaultValue?: Maybe<Scalars['Value']>;
   disabled?: Maybe<Scalars['Boolean']>;
+  hidden?: Maybe<Scalars['Boolean']>;
   index?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
   notes?: Maybe<Scalars['String']>;
@@ -143,6 +171,7 @@ export type FormField = {
 export type FormFieldInput = {
   defaultValue?: Maybe<Scalars['Value']>;
   disabled?: Maybe<Scalars['Boolean']>;
+  hidden?: Maybe<Scalars['Boolean']>;
   index?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
   notes?: Maybe<Scalars['String']>;
@@ -175,11 +204,17 @@ export type FormStepInput = {
   step: Scalars['Int'];
 };
 
+export type Head = {
+  Dimensions: Dimensions;
+  position: Position;
+};
+
 export type Mutation = {
   AddBillingAddressToCart: CartResponse;
   AddItemsToCart: CartResponse;
   AddPromoCodeToCart: CartResponse;
   AddShippingAddressToCart: CartResponse;
+  CheckPhoto: CheckPhotoResponse;
   ClearCart: CartResponse;
   CreateGuest: TokenResponse;
   CreateOrder: OrderResponse;
@@ -212,6 +247,11 @@ export type MutationAddPromoCodeToCartArgs = {
 
 export type MutationAddShippingAddressToCartArgs = {
   shippingAddress: ShippingAddressInput;
+};
+
+
+export type MutationCheckPhotoArgs = {
+  entryId: Scalars['String'];
 };
 
 
@@ -327,6 +367,12 @@ export type PaymentIntentResponse = {
   status: Scalars['Boolean'];
 };
 
+export type Position = {
+  max: Scalars['Float'];
+  min: Scalars['Float'];
+  unit: Unit;
+};
+
 export enum ProductType {
   PassportApplication = 'PASSPORT_APPLICATION',
   PassportPhoto = 'PASSPORT_PHOTO'
@@ -339,6 +385,7 @@ export type Query = {
   Entry: EntryResponse;
   Form: FormResponse;
   Forms: Array<Form>;
+  GetSignedUrl: SignedUrlResponse;
   Me: UserResponse;
   OrderByOrderNumber: OrderResponse;
   Orders: OrderPaginatedResponse;
@@ -423,6 +470,29 @@ export enum ShippingType {
   NoShipping = 'NO_SHIPPING'
 }
 
+export type SignedUrl = {
+  signedUrl: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type SignedUrlResponse = {
+  data?: Maybe<SignedUrl>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
+export type Size = {
+  max: Scalars['Int'];
+  min: Scalars['Int'];
+};
+
+export type TestResult = {
+  code: Code;
+  failed: Array<Dictionary>;
+  message: Scalars['String'];
+  passed: Array<Dictionary>;
+};
+
 export type Token = {
   accessToken: Scalars['String'];
 };
@@ -438,6 +508,12 @@ export type TrackStep = {
   status: OrderStatus;
   updatedAt: Scalars['DateTime'];
 };
+
+export enum Unit {
+  Inch = 'Inch',
+  Mm = 'Mm',
+  Percentage = 'Percentage'
+}
 
 export type User = {
   billingAddress?: Maybe<BillingAddress>;
@@ -465,6 +541,10 @@ export type UserResponse = {
   data?: Maybe<User>;
   message: Scalars['String'];
   status: Scalars['Boolean'];
+};
+
+export type ValidatedImage = {
+  image: Scalars['String'];
 };
 
 export type Validation = {
@@ -504,19 +584,23 @@ export type OptionFragment = { __typename: 'Option', notes?: Maybe<string>, text
 
 export type ValidationFragment = { __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> };
 
-export type FormFieldFragment = { __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> };
+export type FormFieldFragment = { __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> };
 
-export type FormStepFragment = { __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> };
+export type FormStepFragment = { __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> };
 
-export type FormFragment = { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> };
+export type FormFragment = { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> };
 
-export type EntryFragment = { __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } };
+export type EntryFragment = { __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } };
 
 export type TrackStepFragment = { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any };
 
 export type OrderTrackFragment = { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } };
 
 export type OrderFragment = { __typename: 'Order', id: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, isComplete: boolean }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }, shippingAddress: { __typename: 'ShippingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } };
+
+export type SignedUrlFragment = { __typename: 'SignedUrl', url: string, signedUrl: string };
+
+export type TestResultFragment = { __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> };
 
 export type CreateGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -567,7 +651,7 @@ export type SubmitEntryMutationVariables = Exact<{
 }>;
 
 
-export type SubmitEntryMutation = { __typename: 'Mutation', SubmitEntry: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
+export type SubmitEntryMutation = { __typename: 'Mutation', SubmitEntry: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string, userId: string, currentStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
 
 export type AddItemsToCartMutationVariables = Exact<{
   cartItems: Array<CartItemInput> | CartItemInput;
@@ -628,6 +712,13 @@ export type GetPaymentIntentMutationVariables = Exact<{
 
 export type GetPaymentIntentMutation = { __typename: 'Mutation', GetPaymentIntent: { __typename: 'PaymentIntentResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'PaymentIntent', clientSecret: string }> } };
 
+export type CheckPhotoMutationVariables = Exact<{
+  entryId: Scalars['String'];
+}>;
+
+
+export type CheckPhotoMutation = { __typename: 'Mutation', CheckPhoto: { __typename: 'CheckPhotoResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> }> } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -636,14 +727,14 @@ export type MeQuery = { __typename: 'Query', Me: { __typename: 'UserResponse', m
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FormsQuery = { __typename: 'Query', Forms: Array<{ __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> }> };
+export type FormsQuery = { __typename: 'Query', Forms: Array<{ __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> }> };
 
 export type FormQueryVariables = Exact<{
   formId: Scalars['String'];
 }>;
 
 
-export type FormQuery = { __typename: 'Query', Form: { __typename: 'FormResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> }> } };
+export type FormQuery = { __typename: 'Query', Form: { __typename: 'FormResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> }> } };
 
 export type EntriesQueryVariables = Exact<{
   page?: Maybe<Scalars['Int']>;
@@ -653,14 +744,14 @@ export type EntriesQueryVariables = Exact<{
 }>;
 
 
-export type EntriesQuery = { __typename: 'Query', Entries: { __typename: 'EntryPaginatedResponse', total: number, data: Array<{ __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
+export type EntriesQuery = { __typename: 'Query', Entries: { __typename: 'EntryPaginatedResponse', total: number, data: Array<{ __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
 
 export type EntryQueryVariables = Exact<{
   entryId: Scalars['String'];
 }>;
 
 
-export type EntryQuery = { __typename: 'Query', Entry: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
+export type EntryQuery = { __typename: 'Query', Entry: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } }> } };
 
 export type OrdersQueryVariables = Exact<{
   page?: Maybe<Scalars['Int']>;
@@ -693,6 +784,11 @@ export type OrderByOrderNumberQueryVariables = Exact<{
 
 
 export type OrderByOrderNumberQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, isComplete: boolean }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }, shippingAddress: { __typename: 'ShippingAddress', address1: string, address2: string, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+
+export type GetSignedUrlQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSignedUrlQuery = { __typename: 'Query', GetSignedUrl: { __typename: 'SignedUrlResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'SignedUrl', url: string, signedUrl: string }> } };
 
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
@@ -797,6 +893,7 @@ export const FormFieldFragmentDoc = gql`
   value
   defaultValue
   disabled
+  hidden
   notes
   placeholder
   options {
@@ -896,6 +993,26 @@ export const OrderFragmentDoc = gql`
 ${BillingAddressFragmentDoc}
 ${ShippingAddressFragmentDoc}
 ${OrderTrackFragmentDoc}`;
+export const SignedUrlFragmentDoc = gql`
+    fragment SignedUrl on SignedUrl {
+  url
+  signedUrl
+}
+    `;
+export const TestResultFragmentDoc = gql`
+    fragment TestResult on TestResult {
+  message
+  code
+  failed {
+    test
+    message
+  }
+  passed {
+    test
+    message
+  }
+}
+    `;
 export const CreateGuestDocument = gql`
     mutation CreateGuest {
   CreateGuest {
@@ -1498,6 +1615,43 @@ export function useGetPaymentIntentMutation(baseOptions?: Apollo.MutationHookOpt
 export type GetPaymentIntentMutationHookResult = ReturnType<typeof useGetPaymentIntentMutation>;
 export type GetPaymentIntentMutationResult = Apollo.MutationResult<GetPaymentIntentMutation>;
 export type GetPaymentIntentMutationOptions = Apollo.BaseMutationOptions<GetPaymentIntentMutation, GetPaymentIntentMutationVariables>;
+export const CheckPhotoDocument = gql`
+    mutation CheckPhoto($entryId: String!) {
+  CheckPhoto(entryId: $entryId) {
+    message
+    status
+    data {
+      ...TestResult
+    }
+  }
+}
+    ${TestResultFragmentDoc}`;
+export type CheckPhotoMutationFn = Apollo.MutationFunction<CheckPhotoMutation, CheckPhotoMutationVariables>;
+
+/**
+ * __useCheckPhotoMutation__
+ *
+ * To run a mutation, you first call `useCheckPhotoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCheckPhotoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [checkPhotoMutation, { data, loading, error }] = useCheckPhotoMutation({
+ *   variables: {
+ *      entryId: // value for 'entryId'
+ *   },
+ * });
+ */
+export function useCheckPhotoMutation(baseOptions?: Apollo.MutationHookOptions<CheckPhotoMutation, CheckPhotoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CheckPhotoMutation, CheckPhotoMutationVariables>(CheckPhotoDocument, options);
+      }
+export type CheckPhotoMutationHookResult = ReturnType<typeof useCheckPhotoMutation>;
+export type CheckPhotoMutationResult = Apollo.MutationResult<CheckPhotoMutation>;
+export type CheckPhotoMutationOptions = Apollo.BaseMutationOptions<CheckPhotoMutation, CheckPhotoMutationVariables>;
 export const MeDocument = gql`
     query Me {
   Me {
@@ -1848,3 +2002,41 @@ export function useOrderByOrderNumberLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type OrderByOrderNumberQueryHookResult = ReturnType<typeof useOrderByOrderNumberQuery>;
 export type OrderByOrderNumberLazyQueryHookResult = ReturnType<typeof useOrderByOrderNumberLazyQuery>;
 export type OrderByOrderNumberQueryResult = Apollo.QueryResult<OrderByOrderNumberQuery, OrderByOrderNumberQueryVariables>;
+export const GetSignedUrlDocument = gql`
+    query GetSignedUrl {
+  GetSignedUrl {
+    message
+    status
+    data {
+      ...SignedUrl
+    }
+  }
+}
+    ${SignedUrlFragmentDoc}`;
+
+/**
+ * __useGetSignedUrlQuery__
+ *
+ * To run a query within a React component, call `useGetSignedUrlQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSignedUrlQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSignedUrlQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSignedUrlQuery(baseOptions?: Apollo.QueryHookOptions<GetSignedUrlQuery, GetSignedUrlQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSignedUrlQuery, GetSignedUrlQueryVariables>(GetSignedUrlDocument, options);
+      }
+export function useGetSignedUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSignedUrlQuery, GetSignedUrlQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSignedUrlQuery, GetSignedUrlQueryVariables>(GetSignedUrlDocument, options);
+        }
+export type GetSignedUrlQueryHookResult = ReturnType<typeof useGetSignedUrlQuery>;
+export type GetSignedUrlLazyQueryHookResult = ReturnType<typeof useGetSignedUrlLazyQuery>;
+export type GetSignedUrlQueryResult = Apollo.QueryResult<GetSignedUrlQuery, GetSignedUrlQueryVariables>;

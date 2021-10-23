@@ -89,6 +89,7 @@ fragment FormField on FormField {
     value
     defaultValue
     disabled
+    hidden
     notes
     placeholder
     options {
@@ -176,4 +177,22 @@ fragment Order on Order {
     trackingNumber
     createdAt
     updatedAt
+}
+
+fragment SignedUrl on SignedUrl {
+    url
+    signedUrl
+}
+
+fragment TestResult on TestResult {
+    message
+    code
+    failed{
+        test
+        message
+    }
+    passed {
+        test
+        message
+    }
 }

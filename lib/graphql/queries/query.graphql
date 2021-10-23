@@ -1,5 +1,5 @@
 query Me{
-    Me{
+    Me {
         message
         status
         data {
@@ -77,6 +77,16 @@ query OrderByOrderNumber($orderNumber: Float!) {
         status
         data {
             ...Order
+        }
+    }
+}
+
+query GetSignedUrl {
+    GetSignedUrl {
+        message
+        status
+        data {
+            ...SignedUrl
         }
     }
 }
