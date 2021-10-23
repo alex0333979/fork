@@ -13,6 +13,7 @@ import {
 } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
 import dynamic from 'next/dynamic';
+import { PHOTO_FORM } from '../../constants';
 const ApplicationForm = dynamic(() => import('@/components/application/applicationForm'));
 
 export interface EntryPageProps {
@@ -99,9 +100,10 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
           }
         };
       }
+      const applicationForms = forms.filter((f) => f.name !== PHOTO_FORM);
       return {
         props: {
-          forms: forms ?? [],
+          forms: applicationForms ?? [],
           entry,
           step: parseInt(step, 10)
         }

@@ -63,6 +63,8 @@ export const TOP_MENUS: NavItemProps[] = [
   }
 ];
 
+export const PHOTO_FORM = 'Photo';
+
 export const CHECKOUT_STEPS: ProcessStepProps = {
   title: 'New passport application',
   completeStep: 0,
