@@ -93,6 +93,27 @@ export const CHECKOUT_STEPS: ProcessStepProps = {
   ]
 };
 
+export const PHOTO_STEP = {
+  step: 1,
+  steps: [
+    {
+      name: 'Select Type',
+      step: 1,
+      link: `/photo/step1`
+    },
+    {
+      name: 'Photo processing',
+      step: 2,
+      link: `/photo/step2`
+    },
+    {
+      name: 'Checkout',
+      step: 3,
+      link: `/photo/step3`
+    }
+  ]
+};
+
 export const CONCIERGE_PRICE = 950;
 
 export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType }[] = [
