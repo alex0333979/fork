@@ -1,14 +1,21 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import Link from 'next/link';
 import TakePhotoModal from '@/components/elements/takePhotoModal';
+import { PhotoStep2PageProps } from '@/pages/photo/step2';
+import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql';
+import { showError } from '@/lib/utils/toast';
+import { Bars } from 'react-loading-icons';
+import axios from 'axios';
 
-const PhotoStep2: React.FC = () => {
+const PhotoStep2: React.FC<PhotoStep2PageProps> = ({ form }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
+  const [getSignedUrl, { data: signedUrlResponse }] = useGetSignedUrlLazyQuery();
 
   const takePhoto = useCallback((file: File) => {
     setSelectedImage(file);
@@ -16,11 +23,53 @@ const PhotoStep2: React.FC = () => {
   }, []);
 
   const onFileChange = useCallback((e) => {
-    console.log(e.target.files);
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
     }
   }, []);
+
+  const onSubmit = useCallback(async () => {
+    if (!selectedImage) {
+      showError('Select Image first.');
+      return;
+    }
+    setLoading(true);
+    getSignedUrl({});
+    setLoading(false);
+  }, [getSignedUrl, selectedImage]);
+
+  const uploadImageToS3 = useCallback(
+    (data: SignedUrl) => {
+      const options = {
+        params: {
+          Key: selectedImage?.name ?? 'photo',
+          ContentType: selectedImage?.type ?? 'png'
+        },
+        headers: {
+          'Content-Type': selectedImage?.type ?? 'png'
+        }
+      };
+      setLoading(true);
+      axios
+        .put(data.signedUrl, selectedImage, options)
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(err);
+        });
+    },
+    [selectedImage]
+  );
+
+  useEffect(() => {
+    console.log(signedUrlResponse);
+    const data = signedUrlResponse?.GetSignedUrl.data;
+    if (data) {
+      uploadImageToS3(data);
+    }
+  }, [signedUrlResponse, uploadImageToS3]);
 
   return (
     <div className="steps-page">
@@ -132,9 +181,14 @@ const PhotoStep2: React.FC = () => {
                         <span>{'Back'}</span>
                       </a>
                     </Link>
-                    <button type="button" className="main-btn">
-                      <span>{'Next'}</span>
-                      <i className="icon-right" />
+                    <button type="button" className="main-btn" onClick={onSubmit}>
+                      {loading ? (
+                        <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
+                      ) : (
+                        <>
+                          {'Next'} <span className="icon-right" />
+                        </>
+                      )}
                     </button>
                   </div>
                   <div className="info-btn">
