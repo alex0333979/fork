@@ -102,12 +102,12 @@ export const PHOTO_STEP = {
       link: `/photo/step1`
     },
     {
-      name: 'Photo processing',
+      name: 'Upload Photo',
       step: 2,
       link: `/photo/step2`
     },
     {
-      name: 'Checkout',
+      name: 'Photo processing',
       step: 3,
       link: `/photo/step3`
     }

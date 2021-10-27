@@ -744,12 +744,39 @@
 }
 
 .add-photo {
+  position: relative;
+  min-height: 320px;
+
   .main-btn {
     width: 100%;
     margin-bottom: 28px;
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+
+  .preview-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+
+    img {
+      height: 100%;
+      border: 2px #F8FAFC solid;
+      border-radius: 8px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 15px;
+      background-color: #FFFFFF;
+      border: #FFFFFF;
+      border-radius: 50%;
+      z-index: 100;
     }
   }
 }

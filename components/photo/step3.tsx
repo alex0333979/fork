@@ -45,7 +45,7 @@ const PhotoStep3: React.FC = () => (
             <div className="requirements-wrap">
               <div className="img">
                 <span>
-                  <Image src="/images/steps/step-02-03.png" width={486} height={398} alt="" />
+                  <Image src="/images/steps/step-02-03.png" layout={'fill'} alt="" />
                 </span>
                 <Link href={'/photo/step2'}>
                   <a type="button" className="main-btn no-border">
@@ -104,21 +104,21 @@ const PhotoStep3: React.FC = () => (
           </div>
 
           <div className="data-wrap">
-            <div className="btn-wrap single">
-              <div className="action-btn">
-                <button type="button" className="main-btn">
-                  <span>{'Try again'}</span>
-                </button>
-              </div>
-              <div className="info-btn">
-                <button type="button" className="main-btn outline">
-                  <i className="icon-info" />
-                </button>
-              </div>
-            </div>
+            {/* <div className="btn-wrap single">*/}
+            {/*  <div className="action-btn">*/}
+            {/*    <button type="button" className="main-btn">*/}
+            {/*      <span>{'Try again'}</span>*/}
+            {/*    </button>*/}
+            {/*  </div>*/}
+            {/*  <div className="info-btn">*/}
+            {/*    <button type="button" className="main-btn outline">*/}
+            {/*      <i className="icon-info" />*/}
+            {/*    </button>*/}
+            {/*  </div>*/}
+            {/* </div>*/}
             <div className="btn-wrap">
               <div className="action-btn">
-                <Link href={'/photo/step1'}>
+                <Link href={'/photo/step2'}>
                   <a type="button" className="main-btn outline">
                     <i className="icon-left" />
                     <span>{'Back'}</span>
