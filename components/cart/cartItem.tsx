@@ -32,7 +32,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete }) => (
           href={
             item.product === ProductType.PassportApplication
               ? `${PAGES.application.index}${item.productId}`
-              : PAGES.home
+              : `${PAGES.photo.processPhoto}?entryId=${item.productId}`
           }>
           <a className="main-btn small outline">{'Review'}</a>
         </Link>

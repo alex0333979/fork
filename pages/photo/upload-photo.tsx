@@ -5,16 +5,24 @@ import PhotoStep2 from '@/components/photo/uploadPhoto';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
-import { Form, FormsDocument, FormsQuery } from '@/generated/graphql';
+import {
+  Entry,
+  EntryDocument,
+  EntryQuery,
+  Form,
+  FormsDocument,
+  FormsQuery
+} from '@/generated/graphql';
 import { PAGES, PHOTO_FORM } from '../../constants';
 
 export interface UploadPhotoPageProps {
   form: Form;
+  entry: Entry | null;
 }
 
-const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form }) => (
+const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form, entry }) => (
   <PhotoLayout>
-    <PhotoStep2 form={form} />
+    <PhotoStep2 form={form} entry={entry} />
   </PhotoLayout>
 );
 
@@ -39,13 +47,27 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
           permanent: false
         }
       };
-    } else {
+    }
+    const entryId = context?.query?.entryId as string;
+    if (!entryId) {
       return {
         props: {
-          form
+          form,
+          entry: null
         }
       };
     }
+    const entryResult: ApolloQueryResult<EntryQuery> = await client.query({
+      query: EntryDocument,
+      variables: { entryId }
+    });
+    const entry = entryResult.data?.Entry.data;
+    return {
+      props: {
+        form,
+        entry: entry ? entry : null
+      }
+    };
   } catch (e) {
     return {
       redirect: {
