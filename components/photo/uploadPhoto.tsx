@@ -24,6 +24,9 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(
+    entry?.form.steps[0].fields.find((f) => f.name === 'image_url')?.value
+  );
   const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery();
   const { updateCart } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
@@ -32,22 +35,36 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
 
   const takePhoto = useCallback((file: File) => {
     setSelectedImage(file);
+    setImageUrl(URL.createObjectURL(file));
     setOpenCamera(false);
   }, []);
 
   const onFileChange = useCallback((e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
+      setImageUrl(URL.createObjectURL(e.target.files[0]));
     }
   }, []);
 
+  const onRemoveImage = useCallback(() => {
+    setImageUrl(undefined);
+    setSelectedImage(undefined);
+  }, []);
+
   const onSubmit = useCallback(async () => {
+    if (loading || sLoading) {
+      return;
+    }
+    if (entry && imageUrl && !selectedImage) {
+      await router.push(`${PAGES.photo.processPhoto}?entryId=${entry.id}`);
+      return;
+    }
     if (!selectedImage) {
       showError('Select Image first.');
       return;
     }
     getSignedUrl({});
-  }, [getSignedUrl, selectedImage]);
+  }, [entry, getSignedUrl, imageUrl, loading, router, sLoading, selectedImage]);
 
   const onAddToCartItem = useCallback(
     async (cartItem: CartItemInput) => {
@@ -61,7 +78,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
       const cart = data?.AddItemsToCart.data;
       if (cart) {
         updateCart(cart);
-        showSuccess('Added to cart.');
+        showSuccess('This entry is added to cart.');
         await router.push(`${PAGES.photo.processPhoto}?entryId=${cartItem.productId}`);
       }
     },
@@ -91,7 +108,11 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
       setLoading(false);
       const result = data?.SubmitEntry.data;
       if (result) {
-        showSuccess('Entry created.');
+        if (entry?.id) {
+          showSuccess('Entry image is updated.');
+        } else {
+          showSuccess('Entry is created.');
+        }
         await onAddToCartItem({
           name: 'Passport photo',
           description: 'Passport photo',
@@ -130,7 +151,8 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
     if (data) {
       uploadImageToS3(data);
     }
-  }, [signedUrlResponse, uploadImageToS3]);
+    return () => undefined;
+  }, [signedUrlResponse]);
 
   return (
     <div className="steps-page">
@@ -207,10 +229,10 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
                     ref={inputFileRef}
                     onChange={onFileChange}
                   />
-                  {selectedImage ? (
+                  {imageUrl ? (
                     <div className="preview-image">
-                      <img src={URL.createObjectURL(selectedImage)} alt="Thumb" />
-                      <button className="close-button" onClick={() => setSelectedImage(undefined)}>
+                      <img src={imageUrl} alt="Thumb" />
+                      <button className="close-button" onClick={onRemoveImage}>
                         <span className="icon-close" />
                       </button>
                     </div>

@@ -187,7 +187,7 @@ fragment SignedUrl on SignedUrl {
 fragment TestResult on TestResult {
     message
     code
-    failed{
+    failed {
         test
         message
     }
