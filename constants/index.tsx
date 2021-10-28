@@ -2,6 +2,28 @@ import { NavItemProps } from '@/components/layout/navItem';
 import { ProcessStepProps } from '@/components/elements/processStep';
 import { FieldType, FormField, ShippingType, ValidationType } from '@/generated/graphql';
 
+export const PAGES = {
+  home: '/',
+  application: {
+    index: '/application/',
+    create: 'application/create/'
+  },
+  checkout: {
+    index: '/checkout/',
+    deliveryMethod: '/checkout/',
+    shipping: '/checkout/shipping/',
+    payment: '/checkout/payment/',
+    review: '/checkout/review/'
+  },
+  cart: '/cart/',
+  photo: {
+    index: '/photo/',
+    selectType: '/photo/select-type/',
+    uploadPhoto: '/photo/upload-photo/',
+    processPhoto: '/photo/process-photo/'
+  }
+};
+
 export const TOP_MENUS: NavItemProps[] = [
   {
     title: 'How it works',
@@ -73,22 +95,22 @@ export const CHECKOUT_STEPS: ProcessStepProps = {
     {
       name: 'Delivery Method',
       step: 1,
-      link: `/checkout`
+      link: PAGES.checkout.index
     },
     {
       name: 'Shipping Information',
       step: 2,
-      link: `/checkout/shipping`
+      link: PAGES.checkout.shipping
     },
     {
       name: 'Payment Information',
       step: 3,
-      link: `/checkout/payment`
+      link: PAGES.checkout.payment
     },
     {
       name: 'Review and Pay',
       step: 4,
-      link: `/checkout/review`
+      link: PAGES.checkout.review
     }
   ]
 };
@@ -99,17 +121,17 @@ export const PHOTO_STEP = {
     {
       name: 'Select Type',
       step: 1,
-      link: `/photo/step1`
+      link: PAGES.photo.selectType
     },
     {
       name: 'Upload Photo',
       step: 2,
-      link: `/photo/step2`
+      link: PAGES.photo.uploadPhoto
     },
     {
-      name: 'Photo processing',
+      name: 'Process Photo',
       step: 3,
-      link: `/photo/step3`
+      link: PAGES.photo.processPhoto
     }
   ]
 };

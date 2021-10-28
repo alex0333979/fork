@@ -3,7 +3,7 @@ import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { FormsDocument, FormsQuery } from '@/generated/graphql';
 import { EntryPageProps } from '@/pages/application/index';
-import { PHOTO_FORM } from '../../constants';
+import { PAGES, PHOTO_FORM } from '../../constants';
 
 export { default } from './index';
 
@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     if (forms.length === 0) {
       return {
         redirect: {
-          destination: '/',
+          destination: PAGES.home,
           permanent: false
         }
       };
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
   } catch (e) {
     return {
       redirect: {
-        destination: '/',
+        destination: PAGES.home,
         permanent: false
       }
     };

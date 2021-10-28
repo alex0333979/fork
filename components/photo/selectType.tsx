@@ -4,7 +4,7 @@ import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { PHOTO_STEP } from '../../constants';
 import Link from 'next/link';
 
-const PhotoStep1: React.FC = () => {
+const SelectType: React.FC = () => {
   const [type, setType] = useState<string>('selfie');
 
   return (
@@ -83,7 +83,7 @@ const PhotoStep1: React.FC = () => {
               </div>
               <div className="btn-wrap single">
                 <div className="action-btn">
-                  <Link href={'/photo/step2'}>
+                  <Link href={'/photo/upload-photo'}>
                     <a type="button" className="main-btn">
                       <span>{'Next'}</span>
                       <i className="icon-right" />
@@ -103,4 +103,4 @@ const PhotoStep1: React.FC = () => {
     </div>
   );
 };
-export default PhotoStep1;
+export default SelectType;

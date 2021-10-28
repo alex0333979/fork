@@ -4,7 +4,7 @@ import { PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import Link from 'next/link';
 
-const PhotoStep3: React.FC = () => (
+const ProcessPhoto: React.FC = () => (
   <div className="steps-page">
     <div className="container">
       <div className="steps-content">
@@ -118,7 +118,7 @@ const PhotoStep3: React.FC = () => (
             {/* </div>*/}
             <div className="btn-wrap">
               <div className="action-btn">
-                <Link href={'/photo/step2'}>
+                <Link href={'/photo/upload-photo'}>
                   <a type="button" className="main-btn outline">
                     <i className="icon-left" />
                     <span>{'Back'}</span>
@@ -141,4 +141,4 @@ const PhotoStep3: React.FC = () => (
     </div>
   </div>
 );
-export default PhotoStep3;
+export default ProcessPhoto;

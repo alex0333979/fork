@@ -30,7 +30,7 @@ const MainIntro: React.FC = () => (
             </ul>
           </div>
           <div className="btn-wrap">
-            <Link href={'/photo/step1'}>
+            <Link href={'/photo/select-type'}>
               <a className="main-btn big">{'Start now'}</a>
             </Link>
           </div>

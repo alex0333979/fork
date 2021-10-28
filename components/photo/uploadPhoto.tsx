@@ -4,18 +4,19 @@ import { PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import Link from 'next/link';
 import TakePhotoModal from '@/components/elements/takePhotoModal';
-import { PhotoStep2PageProps } from '@/pages/photo/step2';
-import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql';
-import { showError } from '@/lib/utils/toast';
+import { UploadPhotoPageProps } from '@/pages/photo/upload-photo';
+import { SignedUrl, useGetSignedUrlLazyQuery, useSubmitEntryMutation } from '@/generated/graphql';
+import { showError, showSuccess } from '@/lib/utils/toast';
 import { Bars } from 'react-loading-icons';
 import axios from 'axios';
 
-const PhotoStep2: React.FC<PhotoStep2PageProps> = ({ form }) => {
+const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
-  const [getSignedUrl, { data: signedUrlResponse }] = useGetSignedUrlLazyQuery();
+  const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery();
+  const [submitEntry] = useSubmitEntryMutation();
 
   const takePhoto = useCallback((file: File) => {
     setSelectedImage(file);
@@ -33,38 +34,59 @@ const PhotoStep2: React.FC<PhotoStep2PageProps> = ({ form }) => {
       showError('Select Image first.');
       return;
     }
-    setLoading(true);
     getSignedUrl({});
-    setLoading(false);
   }, [getSignedUrl, selectedImage]);
+
+  const createEntry = useCallback(
+    async (signedUrl: SignedUrl) => {
+      const formStep = form.steps[0];
+      if (!formStep) {
+        showError('Create Entry Error, formStep not found.');
+        return;
+      }
+      const a: any = { image_url: signedUrl.url, document_id: 489, number_of_copies: 1 };
+      Object.keys(a).map((key) => {
+        const index = formStep.fields.findIndex((field) => field.name === key);
+        if (index === -1) {
+          showError(`Create Entry Error, ${key} field not found.`);
+          return;
+        }
+        formStep.fields[index].value = a[key];
+      });
+      setLoading(true);
+      const { data } = await submitEntry({
+        variables: { formId: form.id, formStep }
+      });
+      setLoading(false);
+      const entry = data?.SubmitEntry.data;
+      if (entry) {}
+    },
+    [form.id, form.steps, submitEntry]
+  );
 
   const uploadImageToS3 = useCallback(
     (data: SignedUrl) => {
-      const options = {
-        params: {
-          Key: selectedImage?.name ?? 'photo',
-          ContentType: selectedImage?.type ?? 'png'
-        },
-        headers: {
-          'Content-Type': selectedImage?.type ?? 'png'
-        }
-      };
+      if (!selectedImage) {
+        showError('Select Image first.');
+        return;
+      }
       setLoading(true);
       axios
-        .put(data.signedUrl, selectedImage, options)
-        .then(() => {
+        .put(data.signedUrl, selectedImage, {})
+        .then(async () => {
           setLoading(false);
+          showSuccess('File upload success.');
+          await createEntry(data);
         })
         .catch((err) => {
           setLoading(false);
-          console.log(err);
+          showError(err.message);
         });
     },
-    [selectedImage]
+    [createEntry, selectedImage]
   );
 
   useEffect(() => {
-    console.log(signedUrlResponse);
     const data = signedUrlResponse?.GetSignedUrl.data;
     if (data) {
       uploadImageToS3(data);
@@ -175,14 +197,14 @@ const PhotoStep2: React.FC<PhotoStep2PageProps> = ({ form }) => {
 
                 <div className="btn-wrap">
                   <div className="action-btn">
-                    <Link href={'/photo/step1'}>
+                    <Link href={'/photo/select-type'}>
                       <a type="button" className="main-btn outline">
                         <i className="icon-left" />
                         <span>{'Back'}</span>
                       </a>
                     </Link>
                     <button type="button" className="main-btn" onClick={onSubmit}>
-                      {loading ? (
+                      {loading || sLoading ? (
                         <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
                       ) : (
                         <>

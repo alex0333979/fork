@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useAuth } from '@/lib/auth';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 import { useRouter } from 'next/router';
+import { PAGES } from '../../constants';
 
 interface ApplicationListProps {
   isOpenAddFrom: boolean;
@@ -23,30 +24,29 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
   const subTotal = useMemo(() => cart?.items?.reduce((a, { price }) => a + price, 0), [cart]);
 
   const onRemoveCartItem = useCallback(
-    (id: string | null) => {
+    async (id: string | null) => {
       if (!id) {
         return;
       }
 
-      removeFromCart({ variables: { ids: [id] } }).then(({ data }) => {
-        const cart = data?.RemoveItemsFromCart.data;
-        if (cart) {
-          updateCart(cart);
-          const items = cart.items ?? [];
-          if (items.length > 0) {
-            router.push(`/application/${items[0].product}/`).then();
-          } else {
-            router.push(`/application/create/`).then();
-          }
+      const { data } = await removeFromCart({ variables: { ids: [id] } });
+      const cart = data?.RemoveItemsFromCart.data;
+      if (cart) {
+        updateCart(cart);
+        const items = cart.items ?? [];
+        if (items.length > 0) {
+          await router.push(`${PAGES.application.index}${items[0].product}/`);
+        } else {
+          await router.push(PAGES.application.create);
         }
-      });
+      }
     },
     [removeFromCart, router, updateCart]
   );
 
   const onCreate = useCallback(async () => {
     openAddForm(false);
-    await router.push('/application/create');
+    await router.push(PAGES.application.create);
   }, [openAddForm, router]);
 
   return (
@@ -58,7 +58,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
               ?.filter((item) => item.product === ProductType.PassportApplication)
               ?.map((item, index) => (
                 <li key={index}>
-                  <Link href={`/application/${item.productId}`}>
+                  <Link href={`${PAGES.application.index}${item.productId}`}>
                     <a
                       className={classNames('main-btn', 'small', {
                         blank: item.productId !== currentId
@@ -66,10 +66,10 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                       {`Application №${index + 1}`}
                       <span
                         className="icon-remove"
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          onRemoveCartItem(item.id);
+                          await onRemoveCartItem(item.id);
                         }}
                       />
                     </a>
@@ -78,7 +78,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
               ))}
             {!currentId ? (
               <li>
-                <Link href={'/application/create'}>
+                <Link href={PAGES.application.create}>
                   <a
                     className={classNames({
                       'main-btn': true,

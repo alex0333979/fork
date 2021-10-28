@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
 import NavItem from './navItem';
-import { TOP_MENUS } from '../../constants';
+import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
 
 const AppHeader: React.FC = () => {
@@ -24,7 +24,7 @@ const AppHeader: React.FC = () => {
         <div className="toolbar">
           <div className="left-side">
             <div className="logo">
-              <Link href={'/'}>
+              <Link href={PAGES.home}>
                 <a>
                   <Image src="/images/logo.png" alt="" width={147} height={44} />
                 </a>
@@ -52,14 +52,14 @@ const AppHeader: React.FC = () => {
               </div>
             </div>
             <div className="user-btn">
-              <Link href={'/'}>
+              <Link href={PAGES.home}>
                 <a>
                   <span className="icon-user" />
                 </a>
               </Link>
             </div>
             <div className="cart-btn">
-              <Link href={'/cart'}>
+              <Link href={PAGES.cart}>
                 <a>
                   <span className="icon-cart" /> {cart?.items?.length ?? 0}
                 </a>

@@ -6,6 +6,7 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { CartDocument, CartQuery } from '@/generated/graphql';
+import { PAGES } from '../../constants';
 
 const CheckoutPage: NextPage = () => (
   <AppLayout>
@@ -31,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (
     } else {
       return {
         redirect: {
-          destination: `/cart`,
+          destination: PAGES.cart,
           permanent: false
         }
       };
@@ -39,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (
   } catch (e) {
     return {
       redirect: {
-        destination: '/cart',
+        destination: PAGES.cart,
         permanent: false
       }
     };

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { CONCIERGE_PRICE, SHIPPING_TYPES } from '../../constants';
+import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import {
   ProductType,
@@ -157,7 +157,7 @@ const ReviewAndPay: React.FC = () => {
       if (cart) {
         updateCart(cart);
       }
-      await router.push('/');
+      await router.push(PAGES.home);
     }
   }, [
     cardName,
@@ -232,7 +232,7 @@ const ReviewAndPay: React.FC = () => {
     <CheckoutLayout
       step={4}
       loading={loading}
-      backLink={`/checkout/payment`}
+      backLink={PAGES.checkout.payment}
       nextButtonText={'Check out'}
       disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
       onSubmit={onSubmit}

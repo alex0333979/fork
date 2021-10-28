@@ -1,12 +1,12 @@
 import type { NextPage } from 'next';
 import PhotoLayout from '@/components/layout/photoLayout';
+import SelectType from '@/components/photo/selectType';
 import React from 'react';
-import PhotoStep3 from '@/components/photo/step3';
 
-const PhotoStep3Page: NextPage = () => (
+const SelectTypePage: NextPage = () => (
   <PhotoLayout>
-    <PhotoStep3 />
+    <SelectType />
   </PhotoLayout>
 );
 
-export default PhotoStep3Page;
+export default SelectTypePage;

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { CartItem, ProductType } from '@/generated/graphql';
+import { PAGES } from '../../constants';
 
 interface CartItemProps {
   item: CartItem;
@@ -30,8 +31,8 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete }) => (
         <Link
           href={
             item.product === ProductType.PassportApplication
-              ? `/application/${item.productId}`
-              : `/`
+              ? `${PAGES.application.index}${item.productId}`
+              : PAGES.home
           }>
           <a className="main-btn small outline">{'Review'}</a>
         </Link>

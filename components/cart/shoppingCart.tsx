@@ -6,6 +6,7 @@ import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import { showError } from '@/lib/utils/toast';
 import { CartPageProps } from '@/pages/cart';
+import { PAGES } from '../../constants';
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
 
   const onCheckout = useCallback(async () => {
     if (cart?.items?.filter((i) => i.isComplete)?.length ?? 0 > 0) {
-      await router.push('/checkout');
+      await router.push(PAGES.checkout.index);
     } else {
       showError(`You don't have any completed entries in your cart yet.`);
     }
