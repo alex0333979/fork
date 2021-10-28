@@ -71,7 +71,7 @@ export type CartItem = {
 
 export type CartItemInput = {
   description: Scalars['String'];
-  imageUrl: Scalars['String'];
+  imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   product: ProductType;
   productId: Scalars['ID'];
