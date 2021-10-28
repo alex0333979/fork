@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 import ShoppingCartItem from '@/components/cart/cartItem';
@@ -8,10 +8,12 @@ import { showError } from '@/lib/utils/toast';
 import { CartPageProps } from '@/pages/cart';
 import { PAGES } from '../../constants';
 
-const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
+const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
   const router = useRouter();
-  const { updateCart } = useAuth();
+  const { cart, updateCart } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
+
+  useEffect(() => updateCart(pCart), [pCart]);
 
   const onRemoveCartItem = useCallback(
     async (id: string) => {
