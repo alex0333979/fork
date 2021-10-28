@@ -3,7 +3,7 @@ import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/grap
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
-import { CONCIERGE_PRICE, SHIPPING_TYPES } from '../../constants';
+import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter();
@@ -32,7 +32,7 @@ const DeliveryMethod: React.FC = () => {
     const cart = data?.SetShippingTypeToCart.data;
     if (cart) {
       updateCart(cart);
-      await router.push('/checkout/shipping');
+      await router.push(PAGES.checkout.shipping);
     }
   }, [router, setShippingTypeToCart, shippingType, updateCart]);
 
@@ -40,7 +40,7 @@ const DeliveryMethod: React.FC = () => {
     <CheckoutLayout
       step={1}
       loading={loading}
-      backLink={`/cart`}
+      backLink={PAGES.cart}
       onSubmit={onSubmit}
       completeStep={0}>
       <div className="form-wrap">

@@ -25,7 +25,7 @@ const modalStyles = {
 };
 
 interface ModalContainerProps {
-  title: string;
+  title?: string;
   label?: string;
   open: boolean;
   closeModal: () => void;
@@ -49,10 +49,15 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     <button className="modal-close-button" onClick={closeModal}>
       <span className="icon-close" />
     </button>
-    <div className="modal-header">
-      <h2>{title}</h2>
-      {label ? <p>{label}</p> : <></>}
-    </div>
+    {title ? (
+      <div className="modal-header">
+        <h2>{title}</h2>
+        {label ? <p>{label}</p> : <></>}
+      </div>
+    ) : (
+      <></>
+    )}
+
     <div className="modal-content">{children}</div>
   </Modal>
 );

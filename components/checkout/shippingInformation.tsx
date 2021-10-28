@@ -8,7 +8,7 @@ import SelectBox from '@/components/elements/selectBox';
 import CountryPicker from '@/components/elements/countryPicker';
 import StatePicker from '@/components/elements/statePicker';
 import AppDatePicker from '@/components/elements/datePicker';
-import { SHIPPING_BILLING_FORM } from '../../constants';
+import { PAGES, SHIPPING_BILLING_FORM } from '../../constants';
 import { formValidation, ValidationError } from '@/lib/utils/formValidation';
 import { useAuth } from '@/lib/auth';
 
@@ -75,7 +75,7 @@ const ShippingInformation: React.FC = () => {
     const cart = data?.AddShippingAddressToCart.data;
     if (cart) {
       updateCart(cart);
-      router.push('/checkout/payment').then();
+      await router.push(PAGES.checkout.payment);
     }
   }, [addShippingAddress, router, shippingForm, updateCart]);
 
@@ -84,7 +84,7 @@ const ShippingInformation: React.FC = () => {
       key={refreshKey}
       step={2}
       loading={loading}
-      backLink={`/checkout`}
+      backLink={PAGES.checkout.index}
       onSubmit={onSubmit}
       completeStep={1}>
       <div className="form-wrap">

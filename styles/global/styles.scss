@@ -108,7 +108,7 @@ select {
     width: 100%;
   }
 
-  span {
+  span, i {
     display: flex;
 
     &.icon-left {
@@ -138,6 +138,15 @@ select {
     &.icon-logout {
       padding-left: 10px;
       font-size: 18px;
+    }
+
+    &.icon-camera {
+      padding-right: 10px;
+    }
+
+    &.icon-upload {
+      padding-right: 10px;
+      font-size: 22px;
     }
   }
 
@@ -175,6 +184,12 @@ select {
 
   &.blank {
     color: var(--black);
+    border-color: var(--white);
+    background-color: var(--white);
+  }
+
+  &.no-border {
+    color: var(--azure-radiance);
     border-color: var(--white);
     background-color: var(--white);
   }

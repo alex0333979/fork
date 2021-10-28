@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { FieldType, FormField, useAddBillingAddressToCartMutation } from '@/generated/graphql';
-import { SHIPPING_BILLING_FORM } from '../../constants';
+import { PAGES, SHIPPING_BILLING_FORM } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import TextInput from '@/components/elements/textInput';
 import PhoneInput from '@/components/elements/phoneInput';
@@ -103,7 +103,7 @@ const PaymentInformation: React.FC = () => {
     const cart = data?.AddBillingAddressToCart.data;
     if (cart) {
       updateCart(cart);
-      await router.push('/checkout/review');
+      await router.push(PAGES.checkout.review);
     }
   }, [addBillingAddress, billingForm, router, updateCart]);
 
@@ -112,7 +112,7 @@ const PaymentInformation: React.FC = () => {
       key={refreshKey}
       step={3}
       loading={loading}
-      backLink={`/checkout/shipping`}
+      backLink={PAGES.checkout.shipping}
       onSubmit={onSubmit}
       completeStep={2}>
       <div className="form-wrap">

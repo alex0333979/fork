@@ -23,6 +23,7 @@ import ProcessStep, { ProcessStepProps } from '@/components/elements/processStep
 import ApplicationToolbar from '@/components/elements/applicationToolbar';
 import { formValidation, ValidationError } from '@/lib/utils/formValidation';
 import CheckBox from '@/components/elements/checkBox';
+import { PAGES } from '../../constants';
 
 interface ApplicationFormProps {
   forms: Form[];
@@ -61,7 +62,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       steps: entry.form.steps.map((s) => ({
         name: s.name,
         step: s.step,
-        link: entry.id ? `/application/${entry.id}/${s.step}` : '/application'
+        link: entry.id ? `${PAGES.application.index}${entry.id}/${s.step}` : PAGES.application.index
       }))
     }),
     [entry.completeStep, entry.form.description, entry.form.steps, entry.id, step]
@@ -80,7 +81,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
 
   const selectForm = useCallback(
     (formId: string) => {
-      router.push(`/application/create?formId=${formId}`).then();
+      router.push(`${PAGES.application.create}?formId=${formId}`).then();
     },
     [router]
   );
@@ -125,7 +126,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       const cart = data?.AddItemsToCart.data;
       if (cart) {
         updateCart(cart);
-        await router.push(`/application/${cartItem.productId}/${step + 1}`);
+        await router.push(`${PAGES.application.index}${cartItem.productId}/${step + 1}`);
       }
     },
     [addToCart, router, step, updateCart]
@@ -156,9 +157,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         });
       } else {
         if (step > entry.form.steps.length - 1) {
-          await router.push('/cart');
+          await router.push(PAGES.cart);
         } else {
-          await router.push(`/application/${result.id}/${step + 1}`);
+          await router.push(`${PAGES.application.index}${result.id}/${step + 1}`);
         }
       }
     }
@@ -320,7 +321,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
           </div>
         </div>
         <ApplicationToolbar
-          backLink={step > 1 ? `/application/${entry.id}/${step - 1}` : undefined}
+          backLink={step > 1 ? `${PAGES.application.index}${entry.id}/${step - 1}` : undefined}
           loading={loading}
           blur={isOpenAddForm}
           onNext={onSubmit}

@@ -13,7 +13,7 @@ import {
 } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
 import dynamic from 'next/dynamic';
-import { PHOTO_FORM } from '../../constants';
+import { PAGES, PHOTO_FORM } from '../../constants';
 const ApplicationForm = dynamic(() => import('@/components/application/applicationForm'));
 
 export interface EntryPageProps {
@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     if (forms.length === 0) {
       return {
         redirect: {
-          destination: '/',
+          destination: PAGES.home,
           permanent: false
         }
       };
@@ -67,14 +67,14 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
         const lastEntry = items[items.length - 1].productId;
         return {
           redirect: {
-            destination: `/application/${lastEntry}/`,
+            destination: `${PAGES.application.index}${lastEntry}/`,
             permanent: false
           }
         };
       } else {
         return {
           redirect: {
-            destination: '/application/create',
+            destination: PAGES.application.create,
             permanent: false
           }
         };
@@ -95,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
       if (!step || (step && parseInt(step, 10) > nextStep)) {
         return {
           redirect: {
-            destination: `/application/${entryId}/${nextStep}/`,
+            destination: `${PAGES.application.index}${entryId}/${nextStep}/`,
             permanent: false
           }
         };
@@ -112,14 +112,14 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
 
     return {
       redirect: {
-        destination: '/application',
+        destination: PAGES.application.index,
         permanent: false
       }
     };
   } catch (e) {
     return {
       redirect: {
-        destination: '/application',
+        destination: PAGES.application.index,
         permanent: false
       }
     };

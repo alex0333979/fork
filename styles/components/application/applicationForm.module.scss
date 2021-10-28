@@ -61,8 +61,27 @@
   }
 
   .account-menu {
-    width: 23.5%;
-    padding-right: 19px;
+    width: 23.9%;
+    padding: 29px 19px 60px 0;
+  }
+
+  .account-content {
+    width: (100% - 23.9%);
+    padding: 29px 0 60px 23px;
+    position: relative;
+    z-index: 1;
+
+    &:before {
+      content: '';
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      background: var(--catskill-white);
+      z-index: -1;
+      pointer-events: none;
+    }
   }
 }
 
@@ -138,7 +157,6 @@
           }
         }
 
-
         .index {
           width: 44px;
           height: 44px;
@@ -148,6 +166,8 @@
           border-radius: 50%;
           border: 2px solid transparent;
           counter-increment: item;
+          background-color: white;
+          overflow: hidden;
           transition: border-color var(--transition);
 
           &:before,
@@ -342,6 +362,7 @@
   &.blur {
     position: relative;
     z-index: 1;
+
     &:before {
       content: '';
       position: absolute;
