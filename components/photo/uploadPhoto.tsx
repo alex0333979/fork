@@ -117,7 +117,8 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
           name: 'Passport photo',
           description: 'Passport photo',
           product: ProductType.PassportPhoto,
-          productId: result.id
+          productId: result.id,
+          imageUrl: signedUrl.url
         });
       }
     },

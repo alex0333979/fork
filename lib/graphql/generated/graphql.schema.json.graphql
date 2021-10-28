@@ -35,6 +35,7 @@ type Cart {
 type CartItem {
     description: String!
     id: ID!
+    imageUrl: String
     isComplete: Boolean!
     name: String!
     price: Float!
@@ -383,6 +384,7 @@ input BillingAddressInput {
 
 input CartItemInput {
     description: String!
+    imageUrl: String!
     name: String!
     product: ProductType!
     productId: ID!

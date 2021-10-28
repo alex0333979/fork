@@ -11,7 +11,13 @@ interface CartItemProps {
 const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete }) => (
   <li>
     <div className="name">
-      {item.product === ProductType.PassportPhoto ? <div className="img" /> : <></>}
+      {item.product === ProductType.PassportPhoto ? (
+        <div className="img">
+          <img src={item.imageUrl ?? ''} alt="" />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className="text">
         <h4>{item.name}</h4>
         <p>

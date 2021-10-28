@@ -31,6 +31,7 @@ fragment CartItem on CartItem {
     product
     productId
     description
+    imageUrl
     isComplete
 }
 
