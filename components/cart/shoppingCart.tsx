@@ -27,10 +27,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
   );
 
   const subTotal = useMemo(
-    () =>
-      cart?.items
-        ?.filter((i) => i.product === ProductType.PassportApplication && i.isComplete)
-        .reduce((a, { price }) => a + price, 0),
+    () => cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0),
     [cart]
   );
 
