@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { showError } from '@/lib/utils/toast';
 import { Bars } from 'react-loading-icons';
 import { camelCaseToSentence } from '@/lib/utils/string';
+import { parse } from 'path';
 
 enum Status {
   loading = 0,
@@ -48,8 +49,15 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
 
   const imageLink = useMemo<string>(() => {
     const field = entry.form.steps[0].fields.find((f) => f.name === 'image_url');
-    return field ? field.value : '/images/steps/step-02-03.png';
-  }, [entry]);
+    const url = field?.value;
+    if (url) {
+      return status === Status.success
+        ? `${parse(url).dir}/${parse(url).name}_watermark${parse(url).ext}`
+        : url;
+    } else {
+      return '/images/steps/step-02-03.png';
+    }
+  }, [entry.form.steps, status]);
 
   return (
     <div className="steps-page">

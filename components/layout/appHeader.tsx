@@ -5,12 +5,10 @@ import classNames from 'classnames';
 import NavItem from './navItem';
 import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
-import { useRouter } from 'next/router';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
   const { cart } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     if (mobileNavVisible) {
