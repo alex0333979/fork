@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
-import { PHOTO_STEP } from '../../constants';
-import Link from 'next/link';
+import { PAGES, PHOTO_STEP } from '../../constants';
+import { useRouter } from 'next/router';
 
 const SelectType: React.FC = () => {
+  const router = useRouter();
   const [type, setType] = useState<string>('selfie');
 
   return (
@@ -83,12 +84,13 @@ const SelectType: React.FC = () => {
               </div>
               <div className="btn-wrap single">
                 <div className="action-btn">
-                  <Link href={'/photo/upload-photo'}>
-                    <a type="button" className="main-btn">
-                      <span>{'Next'}</span>
-                      <i className="icon-right" />
-                    </a>
-                  </Link>
+                  <button
+                    type="button"
+                    className="main-btn"
+                    onClick={() => router.push(PAGES.photo.uploadPhoto)}>
+                    <span>{'Next'}</span>
+                    <i className="icon-right" />
+                  </button>
                 </div>
                 <div className="info-btn">
                   <button type="button" className="main-btn outline">

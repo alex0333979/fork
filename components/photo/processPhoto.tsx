@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
-import Link from 'next/link';
 import { ProcessPhotoProps } from '@/pages/photo/process-photo';
 import { useRouter } from 'next/router';
 import { Code, Dictionary, useCheckPhotoMutation } from '@/generated/graphql';
@@ -102,12 +101,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   <span>
                     <img src={imageLink} alt="" />
                   </span>
-                  <Link href={`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`}>
-                    <a type="button" className="main-btn no-border">
-                      <i className="icon-camera" />
-                      {'Change Photo'}
-                    </a>
-                  </Link>
+                  <button
+                    type="button"
+                    className="main-btn no-border"
+                    onClick={() => router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)}>
+                    <i className="icon-camera" />
+                    {'Change Photo'}
+                  </button>
                 </div>
                 <div className="list">
                   <ul>
@@ -152,12 +152,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
               {status === Status.success && (
                 <div className="btn-wrap">
                   <div className="action-btn">
-                    <Link href={`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`}>
-                      <a type="button" className="main-btn outline">
-                        <i className="icon-left" />
-                        <span>{'Back'}</span>
-                      </a>
-                    </Link>
+                    <button
+                      type="button"
+                      className="main-btn outline"
+                      onClick={() => router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)}>
+                      <i className="icon-left" />
+                      <span>{'Back'}</span>
+                    </button>
                     <button
                       type="button"
                       className="main-btn"

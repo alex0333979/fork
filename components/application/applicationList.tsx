@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react';
-import Link from 'next/link';
 import classNames from 'classnames';
 import { useAuth } from '@/lib/auth';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
@@ -58,36 +57,36 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
               ?.filter((item) => item.product === ProductType.PassportApplication)
               ?.map((item, index) => (
                 <li key={index}>
-                  <Link href={`${PAGES.application.index}${item.productId}`}>
-                    <a
-                      className={classNames('main-btn', 'small', {
-                        blank: item.productId !== currentId
-                      })}>
-                      {`Application №${index + 1}`}
-                      <span
-                        className="icon-remove"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          await onRemoveCartItem(item.id);
-                        }}
-                      />
-                    </a>
-                  </Link>
+                  <button
+                    type="button"
+                    className={classNames('main-btn', 'small', {
+                      blank: item.productId !== currentId
+                    })}
+                    onClick={() => router.push(`${PAGES.application.index}${item.productId}`)}>
+                    {`Application №${index + 1}`}
+                    <span
+                      className="icon-remove"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        await onRemoveCartItem(item.id);
+                      }}
+                    />
+                  </button>
                 </li>
               ))}
             {!currentId ? (
               <li>
-                <Link href={PAGES.application.create}>
-                  <a
-                    className={classNames({
-                      'main-btn': true,
-                      small: true,
-                      blank: currentId !== null
-                    })}>
-                    Application №{(cart?.items?.length ?? 0) + 1}
-                  </a>
-                </Link>
+                <button
+                  type="button"
+                  className={classNames({
+                    'main-btn': true,
+                    small: true,
+                    blank: currentId !== null
+                  })}
+                  onClick={() => router.push(PAGES.application.create)}>
+                  Application №{(cart?.items?.length ?? 0) + 1}
+                </button>
               </li>
             ) : (
               <></>

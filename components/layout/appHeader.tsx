@@ -5,10 +5,12 @@ import classNames from 'classnames';
 import NavItem from './navItem';
 import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
+import { useRouter } from 'next/router';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
   const { cart } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (mobileNavVisible) {
@@ -66,7 +68,9 @@ const AppHeader: React.FC = () => {
               </Link>
             </div>
             <div className="sign-btn">
-              <a className="main-btn small blank">{'Sign In'}</a>
+              <button type="button" className="main-btn small blank">
+                {'Sign In'}
+              </button>
             </div>
             <div className={classNames({ 'menu-btn': true, open: mobileNavVisible })}>
               <button type="button" onClick={() => setMobileNavVisible(!mobileNavVisible)}>

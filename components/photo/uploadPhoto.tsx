@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
-import Link from 'next/link';
 import TakePhotoModal from '@/components/elements/takePhotoModal';
 import { UploadPhotoPageProps } from '@/pages/photo/upload-photo';
 import {
@@ -259,12 +258,13 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
 
                 <div className="btn-wrap">
                   <div className="action-btn">
-                    <Link href={'/photo/select-type'}>
-                      <a type="button" className="main-btn outline">
-                        <i className="icon-left" />
-                        <span>{'Back'}</span>
-                      </a>
-                    </Link>
+                    <button
+                      type="button"
+                      className="main-btn outline"
+                      onClick={() => router.push(PAGES.photo.selectType)}>
+                      <i className="icon-left" />
+                      <span>{'Back'}</span>
+                    </button>
                     <button type="button" className="main-btn" onClick={onSubmit}>
                       {loading || sLoading ? (
                         <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
