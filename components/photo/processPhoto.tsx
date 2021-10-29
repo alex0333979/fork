@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
-import Link from 'next/link';
 import { ProcessPhotoProps } from '@/pages/photo/process-photo';
 import { useRouter } from 'next/router';
 import { Code, Dictionary, useCheckPhotoMutation } from '@/generated/graphql';
@@ -10,6 +9,7 @@ import classNames from 'classnames';
 import { showError } from '@/lib/utils/toast';
 import { Bars } from 'react-loading-icons';
 import { camelCaseToSentence } from '@/lib/utils/string';
+import { parse } from 'path';
 
 enum Status {
   loading = 0,
@@ -49,8 +49,15 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
 
   const imageLink = useMemo<string>(() => {
     const field = entry.form.steps[0].fields.find((f) => f.name === 'image_url');
-    return field ? field.value : '/images/steps/step-02-03.png';
-  }, [entry]);
+    const url = field?.value;
+    if (url) {
+      return status === Status.success
+        ? `${parse(url).dir}/${parse(url).name}_watermark${parse(url).ext}`
+        : url;
+    } else {
+      return '/images/steps/step-02-03.png';
+    }
+  }, [entry.form.steps, status]);
 
   return (
     <div className="steps-page">
@@ -102,12 +109,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   <span>
                     <img src={imageLink} alt="" />
                   </span>
-                  <Link href={`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`}>
-                    <a type="button" className="main-btn no-border">
-                      <i className="icon-camera" />
-                      {'Change Photo'}
-                    </a>
-                  </Link>
+                  <button
+                    type="button"
+                    className="main-btn no-border"
+                    onClick={() => router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)}>
+                    <i className="icon-camera" />
+                    {'Change Photo'}
+                  </button>
                 </div>
                 <div className="list">
                   <ul>
@@ -152,12 +160,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
               {status === Status.success && (
                 <div className="btn-wrap">
                   <div className="action-btn">
-                    <Link href={`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`}>
-                      <a type="button" className="main-btn outline">
-                        <i className="icon-left" />
-                        <span>{'Back'}</span>
-                      </a>
-                    </Link>
+                    <button
+                      type="button"
+                      className="main-btn outline"
+                      onClick={() => router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)}>
+                      <i className="icon-left" />
+                      <span>{'Back'}</span>
+                    </button>
                     <button
                       type="button"
                       className="main-btn"

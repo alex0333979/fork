@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import Link from 'next/link';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 import ShoppingCartItem from '@/components/cart/cartItem';
 import { useAuth } from '@/lib/auth';
@@ -46,12 +45,13 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
           <div className="data-wrap">
             <h1>{'Shopping cart'}</h1>
             <div className="btn-wrap">
-              <Link href={'/application/create'}>
-                <a className="main-btn small outline">
-                  {'Add passport application'}
-                  <span className="icon-close" />
-                </a>
-              </Link>
+              <button
+                type="button"
+                className="main-btn small outline"
+                onClick={() => router.push(PAGES.application.create)}>
+                {'Add passport application'}
+                <span className="icon-close" />
+              </button>
             </div>
           </div>
         </div>
