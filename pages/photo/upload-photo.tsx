@@ -14,15 +14,17 @@ import {
   FormsQuery
 } from '@/generated/graphql';
 import { PAGES, PHOTO_FORM } from '../../constants';
+import { FACING_MODES } from 'react-html5-camera-photo';
 
 export interface UploadPhotoPageProps {
   form: Form;
   entry: Entry | null;
+  type: string;
 }
 
-const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form, entry }) => (
+const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form, entry, type }) => (
   <PhotoLayout>
-    <PhotoStep2 form={form} entry={entry} />
+    <PhotoStep2 form={form} entry={entry} type={type} />
   </PhotoLayout>
 );
 
@@ -49,11 +51,13 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
       };
     }
     const entryId = context?.query?.entryId as string;
+    const type = context?.query.type as string;
     if (!entryId) {
       return {
         props: {
           form,
-          entry: null
+          entry: null,
+          type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER
         }
       };
     }
@@ -65,7 +69,8 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
     return {
       props: {
         form,
-        entry: entry ? entry : null
+        entry: entry ? entry : null,
+        type: type === 'selfie' ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT
       }
     };
   } catch (e) {
