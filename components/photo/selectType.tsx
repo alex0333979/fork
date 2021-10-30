@@ -3,10 +3,11 @@ import Image from 'next/image';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { PAGES, PHOTO_STEP } from '../../constants';
 import { useRouter } from 'next/router';
+import { FACING_MODES } from 'react-html5-camera-photo';
 
 const SelectType: React.FC = () => {
   const router = useRouter();
-  const [type, setType] = useState<string>('selfie');
+  const [type, setType] = useState<string>(FACING_MODES.USER);
 
   return (
     <div className="steps-page">
@@ -52,9 +53,9 @@ const SelectType: React.FC = () => {
                   <input
                     type="radio"
                     name="method"
-                    checked={type === 'selfie'}
+                    checked={type === FACING_MODES.USER}
                     hidden
-                    onChange={() => setType('selfie')}
+                    onChange={() => setType(FACING_MODES.USER)}
                   />
                   <span className="option-wrap">
                     <span className="bullet" />
@@ -69,9 +70,9 @@ const SelectType: React.FC = () => {
                   <input
                     type="radio"
                     name="method"
-                    checked={type === 'take_photo'}
+                    checked={type === FACING_MODES.ENVIRONMENT}
                     hidden
-                    onChange={() => setType('take_photo')}
+                    onChange={() => setType(FACING_MODES.ENVIRONMENT)}
                   />
                   <span className="option-wrap">
                     <span className="bullet" />
@@ -87,7 +88,7 @@ const SelectType: React.FC = () => {
                   <button
                     type="button"
                     className="main-btn"
-                    onClick={() => router.push(PAGES.photo.uploadPhoto)}>
+                    onClick={() => router.push(`${PAGES.photo.uploadPhoto}?type=${type}`)}>
                     <span>{'Next'}</span>
                     <i className="icon-right" />
                   </button>

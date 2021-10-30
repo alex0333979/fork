@@ -10,7 +10,7 @@ import { Bars } from 'react-loading-icons';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
+const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -253,6 +253,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
       </div>
       <TakePhotoModal
         open={openCamera}
+        idealFacingMode={type}
         closeTakePhoto={() => setOpenCamera(false)}
         takePhoto={takePhoto}
       />

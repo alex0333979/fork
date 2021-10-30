@@ -185,7 +185,10 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
               {status !== Status.success && (
                 <div className="btn-wrap single">
                   <div className="action-btn">
-                    <button type="button" className="main-btn" onClick={processPhoto}>
+                    <button
+                      type="button"
+                      className="main-btn"
+                      onClick={() => router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)}>
                       {status === Status.loading ? (
                         <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
                       ) : (

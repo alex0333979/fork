@@ -7,11 +7,17 @@ import { createFileFromBase64 } from '@/lib/utils/downloadFromBase64';
 
 interface TakePhotoProps {
   open: boolean;
+  idealFacingMode: string;
   closeTakePhoto: () => void;
   takePhoto: (file: File) => void;
 }
 
-const TakePhotoModal: React.FC<TakePhotoProps> = ({ open, closeTakePhoto, takePhoto }) => {
+const TakePhotoModal: React.FC<TakePhotoProps> = ({
+  open,
+  closeTakePhoto,
+  takePhoto,
+  idealFacingMode
+}) => {
   const handleTakePhotoAnimationDone = useCallback(
     (dataUri: string) => {
       const file = createFileFromBase64(dataUri);
@@ -29,7 +35,11 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({ open, closeTakePhoto, takePh
     <ModalContainer open={open} closeModal={() => closeTakePhoto()}>
       <Camera
         onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
-        idealFacingMode={FACING_MODES.USER}
+        idealFacingMode={
+          idealFacingMode === FACING_MODES.ENVIRONMENT
+            ? FACING_MODES.ENVIRONMENT
+            : FACING_MODES.USER
+        }
         imageType={IMAGE_TYPES.PNG}
         idealResolution={{ width: 2000, height: 2000 }}
         isDisplayStartCameraError={false}
