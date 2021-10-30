@@ -23,6 +23,9 @@ export default ProcessPhotoPage;
 export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   context: GetServerSidePropsContext
 ) => {
+  if (context.res) {
+    context.res.setHeader('Cache-Control', 'no-store');
+  }
   try {
     const client = initializeApollo(null, context);
     const entryId = context?.query?.entryId as string;

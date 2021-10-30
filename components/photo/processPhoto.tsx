@@ -35,6 +35,21 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
   const [failed, setFailed] = useState<Dictionary[]>([]);
   const [passed, setPassed] = useState<Dictionary[]>([]);
 
+  const imageUrl = useMemo(
+    () => entry.form.steps[0].fields.find((f) => f.name === 'image_url')?.value,
+    [entry.form.steps]
+  );
+
+  const imageLink = useMemo<string>(() => {
+    if (imageUrl) {
+      return status === Status.success
+        ? `${parse(imageUrl).dir}/${parse(imageUrl).name}_watermark${parse(imageUrl).ext}`
+        : imageUrl;
+    } else {
+      return '/images/steps/step-02-03.png';
+    }
+  }, [imageUrl, status]);
+
   const processPhoto = useCallback(async () => {
     setStatus(Status.loading);
     const { data } = await checkPhoto({ variables: { entryId: entry.id } });
@@ -73,7 +88,6 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
   );
 
   const goNext = useCallback(async () => {
-    const imageUrl = entry.form.steps[0].fields.find((f) => f.name === 'image_url')?.value;
     await onAddToCartItem({
       name: 'Passport photo',
       description: 'Passport photo',
@@ -81,24 +95,12 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
       productId: entry.id,
       imageUrl
     });
-  }, [entry, onAddToCartItem]);
+  }, [entry.id, imageUrl, onAddToCartItem]);
 
   useEffect(() => {
     (async () => processPhoto())();
     return () => undefined;
   }, [processPhoto]);
-
-  const imageLink = useMemo<string>(() => {
-    const field = entry.form.steps[0].fields.find((f) => f.name === 'image_url');
-    const url = field?.value;
-    if (url) {
-      return status === Status.success
-        ? `${parse(url).dir}/${parse(url).name}_watermark${parse(url).ext}`
-        : url;
-    } else {
-      return '/images/steps/step-02-03.png';
-    }
-  }, [entry.form.steps, status]);
 
   return (
     <div className="steps-page">
