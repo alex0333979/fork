@@ -4,19 +4,11 @@ import { PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import TakePhotoModal from '@/components/elements/takePhotoModal';
 import { UploadPhotoPageProps } from '@/pages/photo/upload-photo';
-import {
-  CartItemInput,
-  ProductType,
-  SignedUrl,
-  useAddItemsToCartMutation,
-  useGetSignedUrlLazyQuery,
-  useSubmitEntryMutation
-} from '@/generated/graphql';
+import { SignedUrl, useGetSignedUrlLazyQuery, useSubmitEntryMutation } from '@/generated/graphql';
 import { showError, showSuccess } from '@/lib/utils/toast';
 import { Bars } from 'react-loading-icons';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/lib/auth';
 
 const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,9 +19,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
     entry?.form.steps[0].fields.find((f) => f.name === 'image_url')?.value
   );
   const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery();
-  const { updateCart } = useAuth();
   const [submitEntry] = useSubmitEntryMutation();
-  const [addToCart] = useAddItemsToCartMutation();
   const router = useRouter();
 
   const takePhoto = useCallback((file: File) => {
@@ -65,25 +55,6 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
     getSignedUrl({});
   }, [entry, getSignedUrl, imageUrl, loading, router, sLoading, selectedImage]);
 
-  const onAddToCartItem = useCallback(
-    async (cartItem: CartItemInput) => {
-      setLoading(true);
-      const { data } = await addToCart({
-        variables: {
-          cartItems: [cartItem]
-        }
-      });
-      setLoading(false);
-      const cart = data?.AddItemsToCart.data;
-      if (cart) {
-        updateCart(cart);
-        showSuccess('This entry is added to cart.');
-        await router.push(`${PAGES.photo.processPhoto}?entryId=${cartItem.productId}`);
-      }
-    },
-    [addToCart, router, updateCart]
-  );
-
   const createEntry = useCallback(
     async (signedUrl: SignedUrl) => {
       const formStep = form.steps[0];
@@ -112,16 +83,10 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry }) => {
         } else {
           showSuccess('Entry is created.');
         }
-        await onAddToCartItem({
-          name: 'Passport photo',
-          description: 'Passport photo',
-          product: ProductType.PassportPhoto,
-          productId: result.id,
-          imageUrl: signedUrl.url
-        });
+        await router.push(`${PAGES.photo.processPhoto}?entryId=${result.id}`);
       }
     },
-    [entry, form.id, form.steps, onAddToCartItem, submitEntry]
+    [entry?.id, form.id, form.steps, router, submitEntry]
   );
 
   const uploadImageToS3 = useCallback(

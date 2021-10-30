@@ -4,12 +4,20 @@ import { PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { ProcessPhotoProps } from '@/pages/photo/process-photo';
 import { useRouter } from 'next/router';
-import { Code, Dictionary, useCheckPhotoMutation } from '@/generated/graphql';
+import {
+  CartItemInput,
+  Code,
+  Dictionary,
+  ProductType,
+  useAddItemsToCartMutation,
+  useCheckPhotoMutation
+} from '@/generated/graphql';
 import classNames from 'classnames';
-import { showError } from '@/lib/utils/toast';
+import { showError, showSuccess } from '@/lib/utils/toast';
 import { Bars } from 'react-loading-icons';
 import { camelCaseToSentence } from '@/lib/utils/string';
 import { parse } from 'path';
+import { useAuth } from '@/lib/auth';
 
 enum Status {
   loading = 0,
@@ -19,10 +27,28 @@ enum Status {
 
 const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
   const router = useRouter();
+  const { updateCart } = useAuth();
+  const [addToCart] = useAddItemsToCartMutation();
   const [checkPhoto] = useCheckPhotoMutation();
+  const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Status>(Status.loading);
   const [failed, setFailed] = useState<Dictionary[]>([]);
   const [passed, setPassed] = useState<Dictionary[]>([]);
+
+  const imageUrl = useMemo(
+    () => entry.form.steps[0].fields.find((f) => f.name === 'image_url')?.value,
+    [entry.form.steps]
+  );
+
+  const imageLink = useMemo<string>(() => {
+    if (imageUrl) {
+      return status === Status.success
+        ? `${parse(imageUrl).dir}/${parse(imageUrl).name}_watermark${parse(imageUrl).ext}`
+        : imageUrl;
+    } else {
+      return '/images/steps/step-02-03.png';
+    }
+  }, [imageUrl, status]);
 
   const processPhoto = useCallback(async () => {
     setStatus(Status.loading);
@@ -42,22 +68,39 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
     }
   }, [checkPhoto, entry.id]);
 
+  const onAddToCartItem = useCallback(
+    async (cartItem: CartItemInput) => {
+      setLoading(true);
+      const { data } = await addToCart({
+        variables: {
+          cartItems: [cartItem]
+        }
+      });
+      setLoading(false);
+      const cart = data?.AddItemsToCart.data;
+      if (cart) {
+        updateCart(cart);
+        showSuccess('This entry is added to cart.');
+        await router.push(PAGES.cart);
+      }
+    },
+    [addToCart, router, updateCart]
+  );
+
+  const goNext = useCallback(async () => {
+    await onAddToCartItem({
+      name: 'Passport photo',
+      description: 'Passport photo',
+      product: ProductType.PassportPhoto,
+      productId: entry.id,
+      imageUrl
+    });
+  }, [entry.id, imageUrl, onAddToCartItem]);
+
   useEffect(() => {
     (async () => processPhoto())();
     return () => undefined;
   }, [processPhoto]);
-
-  const imageLink = useMemo<string>(() => {
-    const field = entry.form.steps[0].fields.find((f) => f.name === 'image_url');
-    const url = field?.value;
-    if (url) {
-      return status === Status.success
-        ? `${parse(url).dir}/${parse(url).name}_watermark${parse(url).ext}`
-        : url;
-    } else {
-      return '/images/steps/step-02-03.png';
-    }
-  }, [entry.form.steps, status]);
 
   return (
     <div className="steps-page">
@@ -167,12 +210,14 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                       <i className="icon-left" />
                       <span>{'Back'}</span>
                     </button>
-                    <button
-                      type="button"
-                      className="main-btn"
-                      onClick={() => router.push(PAGES.cart)}>
-                      <span>{'Checkout'}</span>
-                      <i className="icon-right" />
+                    <button type="button" className="main-btn" onClick={goNext}>
+                      {loading ? (
+                        <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
+                      ) : (
+                        <>
+                          {'Checkout'} <span className="icon-right" />
+                        </>
+                      )}
                     </button>
                   </div>
                   <div className="info-btn">
