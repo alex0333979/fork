@@ -24,6 +24,8 @@ export const PAGES = {
   }
 };
 
+export const US_DOCUMENT_ID = 484;
+
 export const TOP_MENUS: NavItemProps[] = [
   {
     title: 'How it works',

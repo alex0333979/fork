@@ -93,9 +93,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
       description: 'Passport photo',
       product: ProductType.PassportPhoto,
       productId: entry.id,
-      imageUrl
+      imageUrl: imageLink
     });
-  }, [entry.id, imageUrl, onAddToCartItem]);
+  }, [entry.id, imageLink, onAddToCartItem]);
 
   useEffect(() => {
     (async () => processPhoto())();

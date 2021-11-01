@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { PAGES, PHOTO_STEP } from '../../constants';
+import { PAGES, PHOTO_STEP, US_DOCUMENT_ID } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import TakePhotoModal from '@/components/elements/takePhotoModal';
 import { UploadPhotoPageProps } from '@/pages/photo/upload-photo';
@@ -62,7 +62,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
         showError('Create Entry Error, formStep not found.');
         return;
       }
-      const a: any = { image_url: signedUrl.url, document_id: 489, number_of_copies: 1 };
+      const a: any = { image_url: signedUrl.url, document_id: US_DOCUMENT_ID, number_of_copies: 1 };
       Object.keys(a).map((key) => {
         const index = formStep.fields.findIndex((field) => field.name === key);
         if (index === -1) {
