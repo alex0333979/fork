@@ -6,7 +6,7 @@ export const PAGES = {
   home: '/',
   application: {
     index: '/application/',
-    create: 'application/create/'
+    create: '/application/create/'
   },
   checkout: {
     index: '/checkout/',
