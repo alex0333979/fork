@@ -6,7 +6,7 @@ export const PAGES = {
   home: '/',
   application: {
     index: '/application/',
-    create: 'application/create/'
+    create: '/application/create/'
   },
   checkout: {
     index: '/checkout/',
@@ -126,12 +126,12 @@ export const PHOTO_STEP = {
       link: PAGES.photo.selectType
     },
     {
-      name: 'Upload Photo',
+      name: 'Take Photo',
       step: 2,
       link: PAGES.photo.uploadPhoto
     },
     {
-      name: 'Process Photo',
+      name: 'Biometric Verification',
       step: 3,
       link: PAGES.photo.processPhoto
     }
