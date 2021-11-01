@@ -31,6 +31,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
           className={classNames({
             'error-border': !!error
           })}
+          showYearDropdown={true}
           dateFormat={'MM/dd/yyyy'}
           selected={date}
           onChange={(date: Date | null) => onChange(date)}

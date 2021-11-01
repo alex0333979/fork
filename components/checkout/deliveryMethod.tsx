@@ -9,9 +9,7 @@ const DeliveryMethod: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const [shippingType, setShippingType] = useState<string>(
-    cart?.shippingType ?? ShippingType.NoShipping
-  );
+  const [shippingType, setShippingType] = useState<string>(cart?.shippingType ?? ShippingType.Free);
   const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
   const subTotal = useMemo(
     () =>
@@ -22,7 +20,7 @@ const DeliveryMethod: React.FC = () => {
   );
 
   useEffect(() => {
-    setShippingType(cart?.shippingType ?? ShippingType.NoShipping);
+    setShippingType(cart?.shippingType ?? ShippingType.Free);
   }, [cart]);
 
   const onSubmit = useCallback(async () => {
