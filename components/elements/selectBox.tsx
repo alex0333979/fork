@@ -13,7 +13,10 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, error }
 
   useEffect(() => {
     setValue(formField.value ?? formField.defaultValue ?? 'default');
-  }, [formField.defaultValue, formField.value]);
+    if (!formField.value && formField.defaultValue !== undefined) {
+      onValueChange(formField.name, formField.defaultValue);
+    }
+  }, [formField.defaultValue, formField.name, formField.value, onValueChange]);
 
   const onChange = useCallback(
     (value: string | number) => {

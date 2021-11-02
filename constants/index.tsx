@@ -198,7 +198,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     type: FieldType.Input,
     name: 'address2',
     text: 'Address 2',
-    required: true,
+    required: false,
     placeholder: 'Input address2'
   },
   city: {
