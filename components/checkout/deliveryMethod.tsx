@@ -48,7 +48,7 @@ const DeliveryMethod: React.FC = () => {
               type="checkbox"
               checked={shippingType !== ShippingType.NoShipping}
               onChange={(e) =>
-                setShippingType(e.target.checked ? ShippingType.From3To3 : ShippingType.NoShipping)
+                setShippingType(e.target.checked ? ShippingType.Free : ShippingType.NoShipping)
               }
             />
             <span className="box-wrap">

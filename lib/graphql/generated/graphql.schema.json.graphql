@@ -371,7 +371,7 @@ enum ValidationType {
 
 input BillingAddressInput {
     address1: String!
-    address2: String!
+    address2: String
     city: String!
     country: String!
     email: String!
@@ -421,7 +421,7 @@ input OptionInput {
 
 input ShippingAddressInput {
     address1: String!
-    address2: String!
+    address2: String
     city: String!
     country: String!
     email: String!
