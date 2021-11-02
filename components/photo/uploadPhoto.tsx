@@ -6,7 +6,6 @@ import TakePhotoModal from '@/components/elements/takePhotoModal';
 import { UploadPhotoPageProps } from '@/pages/photo/upload-photo';
 import { SignedUrl, useGetSignedUrlLazyQuery, useSubmitEntryMutation } from '@/generated/graphql';
 import { showError, showSuccess } from '@/lib/utils/toast';
-import { Bars } from 'react-loading-icons';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
@@ -21,6 +20,8 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
   const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery();
   const [submitEntry] = useSubmitEntryMutation();
   const router = useRouter();
+  const cancelTokenSource = axios.CancelToken.source();
+  const [percentage, setPercentage] = useState<number>(0);
 
   const takePhoto = useCallback((file: File) => {
     setSelectedImage(file);
@@ -95,9 +96,16 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
         showError('Select Image first.');
         return;
       }
+      const config = {
+        cancelToken: cancelTokenSource.token,
+        onUploadProgress: (progressEvent: any) => {
+          const { loaded, total } = progressEvent;
+          setPercentage(Math.round((loaded * 100) / total));
+        }
+      };
       setLoading(true);
       axios
-        .put(data.signedUrl, selectedImage, {})
+        .put(data.signedUrl, selectedImage, config)
         .then(async () => {
           setLoading(false);
           showSuccess('File upload success.');
@@ -110,6 +118,10 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
     },
     [createEntry, selectedImage]
   );
+
+  const onCancelUploadPhoto = useCallback(() => {
+    cancelTokenSource.cancel();
+  }, [cancelTokenSource]);
 
   useEffect(() => {
     const data = signedUrlResponse?.GetSignedUrl.data;
@@ -179,14 +191,43 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
           <div className="step-data">
             <div className="data-wrap">
               <ProcessStepPhoto step={2} steps={PHOTO_STEP.steps} />
-
-              <div className="step-tab">
-                <div className="title">
-                  <h1>{'Take Your Passport Photo'}</h1>
-                  <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
+              {loading || sLoading ? (
+                <div className="step-tab">
+                  <div className="uploading-progress">
+                    <div className="sub-title">
+                      <h3>{'Please wait...'}</h3>
+                    </div>
+                    <div className="progress-line">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <circle
+                          cx="24"
+                          cy="24"
+                          r="22.5"
+                          fill="transparent"
+                          strokeWidth="3"
+                          strokeDasharray={`${(percentage * 295) / 100}%,1000`}
+                          strokeDashoffset="0"
+                        />
+                      </svg>
+                      <span>{imageUrl && <img src={imageUrl} alt="Thumb" />}</span>
+                    </div>
+                    <div className="text">
+                      <p>{`${percentage}%`}</p>
+                    </div>
+                  </div>
+                  <div className="btn-wrap single">
+                    <div className="action-btn">
+                      <button
+                        type="button"
+                        className="main-btn no-border"
+                        onClick={onCancelUploadPhoto}>
+                        {'Cancel'}
+                      </button>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="add-photo">
+              ) : (
+                <div className="step-tab">
                   <input
                     type="file"
                     hidden
@@ -194,59 +235,61 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                     ref={inputFileRef}
                     onChange={onFileChange}
                   />
+
                   {imageUrl ? (
-                    <div className="preview-image">
-                      <img src={imageUrl} alt="Thumb" />
-                      <button className="close-button" onClick={onRemoveImage}>
-                        <span className="icon-close" />
-                      </button>
+                    <div className="uploaded-photo">
+                      <span>
+                        <img src={imageUrl} alt="Thumb" />
+                        <button className="icon-close" onClick={onRemoveImage} />
+                      </span>
                     </div>
                   ) : (
                     <>
-                      <button
-                        type="button"
-                        className="main-btn big outline"
-                        onClick={() => setOpenCamera(true)}>
-                        <span className="icon-camera" />
-                        {'Take A Photo'}
-                      </button>
-                      <button
-                        type="button"
-                        className="main-btn big"
-                        onClick={() => inputFileRef?.current?.click()}>
-                        <span className="icon-upload" />
-                        {'Upload'}
-                      </button>
+                      <div className="title">
+                        <h1>{'Take Your Passport Photo'}</h1>
+                        <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
+                      </div>
+
+                      <div className="add-photo">
+                        <button
+                          type="button"
+                          className="main-btn big outline"
+                          onClick={() => setOpenCamera(true)}>
+                          <span className="icon-camera" />
+                          {'Take A Photo'}
+                        </button>
+                        <button
+                          type="button"
+                          className="main-btn big"
+                          onClick={() => inputFileRef?.current?.click()}>
+                          <span className="icon-upload" />
+                          {'Upload'}
+                        </button>
+                      </div>
                     </>
                   )}
-                </div>
 
-                <div className="btn-wrap">
-                  <div className="action-btn">
-                    <button
-                      type="button"
-                      className="main-btn outline"
-                      onClick={() => router.push(PAGES.photo.selectType)}>
-                      <i className="icon-left" />
-                      <span>{'Back'}</span>
-                    </button>
-                    <button type="button" className="main-btn" onClick={onSubmit}>
-                      {loading || sLoading ? (
-                        <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
-                      ) : (
-                        <>
-                          {'Next'} <span className="icon-right" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <div className="info-btn">
-                    <button type="button" className="main-btn outline">
-                      <i className="icon-info" />
-                    </button>
+                  <div className="btn-wrap">
+                    <div className="action-btn">
+                      <button
+                        type="button"
+                        className="main-btn outline"
+                        onClick={() => router.push(PAGES.photo.selectType)}>
+                        <i className="icon-left" />
+                        <span>{'Back'}</span>
+                      </button>
+                      <button type="button" className="main-btn" onClick={onSubmit}>
+                        {'Next'} <span className="icon-right" />
+                      </button>
+                    </div>
+                    <div className="info-btn">
+                      <button type="button" className="main-btn outline">
+                        <i className="icon-info" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
