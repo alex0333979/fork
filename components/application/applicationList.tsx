@@ -85,7 +85,9 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                     blank: currentId !== null
                   })}
                   onClick={() => router.push(PAGES.application.create)}>
-                  Application №{(cart?.items?.length ?? 0) + 1}
+                  Application №
+                  {(cart?.items?.filter((item) => item.product === ProductType.PassportApplication)
+                    .length ?? 0) + 1}
                 </button>
               </li>
             ) : (
