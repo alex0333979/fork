@@ -1,7 +1,7 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 import React from 'react';
 import { AppLayout } from '@/components/index';
-import { initializeApollo } from '@/lib/apolloClient';
+import { COOKIES_TOKEN_NAME, initializeApollo } from '@/lib/apolloClient';
 import {
   CartDocument,
   CartQuery,
@@ -39,6 +39,10 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
 ) => {
   const entryId = context?.params?.entryId as string;
   const step = context?.params?.step as string;
+  const token = context?.query.token as string;
+  if (token && context.res) {
+    context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
+  }
 
   try {
     const client = initializeApollo(null, context);
@@ -87,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     });
     const entry = entryResult.data?.Entry.data;
 
-    if (entry) {
+    if (entry && entry.form.name !== PHOTO_FORM) {
       let nextStep = entry.completeStep + 1;
       if (entry.completeStep + 1 > entry.form.steps.length) {
         nextStep = entry.completeStep;
