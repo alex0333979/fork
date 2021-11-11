@@ -142,8 +142,8 @@ const ReviewsPlatform: React.FC = () => (
     <div className="container">
       <div className="data-wrap">
         <div className="sub-title">
-          <h2>{'Platform Reviews'}</h2>
-          <p>{'Biometrically approved photos'}</p>
+          <h2>{'See what our customer says about us'}</h2>
+          <p>{'A quick pick'}</p>
         </div>
         <div className="reviews-wrap">
           <div className="slider-shade" />

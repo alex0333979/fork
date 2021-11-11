@@ -2,39 +2,50 @@ import React, { ReactNode, useEffect, useCallback, useState, useRef } from 'reac
 
 const PROCESS_DATA = [
   {
-    label: 'Taking a photo with your mobile device(or your PC)',
+    label: '100% Online',
     description: (
       <p>
-        {`Keep taking shots until you're happy with the results. Each photo is instantly
-          biometrically approved to comply with U.S. department of State guidelines.`}
-        <br />
-        <br />
-        {`Once you've chosen the perfect shot, print them out yourself or take advantage
-          of our concierge service. We'll print and ship them directly to you.`}
+        {`No need to stand in line to get your passport photo. Take your passport photo using your mobile or PC and we will print and ship it to your home.`}
       </p>
     )
   },
   {
-    label: 'Your data secure by TradeMark of cyber',
+    label: 'Guaranteed Government Compliance',
     description: (
       <p>
-        {`Keep taking shots until you're happy with the results. Each photo is instantly
-          biometrically approved to comply with U.S. department of State guidelines`}
+        {`Our AI (Artificial Intelligence) Verifies And, As Long As You've Complied With Our Simple Photo Instructions, Your Passport Photo will be Approved or we provide 100% money back guaranteed.`}
       </p>
     )
   },
   {
-    label: `Percentage of success in 7 years (100%) if not, money back guarantee.`,
+    label: `Passport Photos Your Way`,
     description: (
       <p>
-        {`Once you've chosen the perfect shot, print them out yourself or take advantage
-          of our concierge service. We'll print and ship them directly to you.`}
+        {`Keep Taking Shots Until You're Happy With The Results. Each Photo Is Instantly Biometrically Scanned To Comply With Government Guidelines. Once You've Chosen The Perfect Shot, Print Them Out Yourself Or Take Advantage Of Our Concierge Service. We'll Print And Ship Them Directly To You.`}
+      </p>
+    )
+  },
+  {
+    label: `Photo Approval via AI Software`,
+    description: (
+      <p>
+        {`Each required photo attribute is scanned for accuracy. We confirm that your eyes are in fact open, insure the appropriate background is being used, your head and body position are meeting Government standards, and more. All data points are scanned and either approved or rejected within seconds.`}
+      </p>
+    )
+  },
+  {
+    label: `Facial Feature & Background Attributes`,
+    description: (
+      <p>
+        {`Our biometric technology is used to map facial features and background suitability from the photo you have either uploaded or taken using our built-in camera interface. No need to download an app. Use your phone or PC, it's that simple.`}
       </p>
     )
   }
 ];
 
 const initialData = [
+  { active: false, past: false, loaded: false, reset: false },
+  { active: false, past: false, loaded: false, reset: false },
   { active: false, past: false, loaded: false, reset: false },
   { active: false, past: false, loaded: false, reset: false },
   { active: false, past: false, loaded: false, reset: false }
@@ -169,7 +180,7 @@ const WorkingProcess: React.FC = () => {
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2>{'How our technology works'}</h2>
+            <h2>{'How our technology works?'}</h2>
             <p>{'Biometrically approved photos'}</p>
           </div>
           <div className="process-wrap">

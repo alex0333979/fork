@@ -154,8 +154,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                   </div>
                   <div className="text">
                     <p>
-                      {'Get your perfect biometric'}
-                      <br /> {'photo(compliance guaranteed)'}
+                      {'Stand in front of a well lit white or light-colored wall'}
                     </p>
                   </div>
                 </li>
@@ -167,8 +166,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                   </div>
                   <div className="text">
                     <p>
-                      {'Get your perfect biometric'}
-                      <br /> {'photo(compliance guaranteed)'}
+                      {'Position Your Head Inside The Green Overlay'}
                     </p>
                   </div>
                 </li>
@@ -180,8 +178,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                   </div>
                   <div className="text">
                     <p>
-                      {'Get your perfect biometric'}
-                      <br /> {'photo(compliance guaranteed)'}
+                      {"When someone's taking a photo of you, a 6 foot (1.8m) distance works."}
                     </p>
                   </div>
                 </li>
@@ -253,14 +250,14 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                       <div className="add-photo">
                         <button
                           type="button"
-                          className="main-btn big outline"
+                          className="main-btn big"
                           onClick={() => setOpenCamera(true)}>
                           <span className="icon-camera" />
                           {'Take A Photo'}
                         </button>
                         <button
                           type="button"
-                          className="main-btn big"
+                          className="main-btn big outline"
                           onClick={() => inputFileRef?.current?.click()}>
                           <span className="icon-upload" />
                           {'Upload'}
@@ -279,7 +276,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                         <span>{'Back'}</span>
                       </button>
                       <button type="button" className="main-btn" onClick={onSubmit}>
-                        {'Next'} <span className="icon-right" />
+                        {'Scan My Photo'} <span className="icon-right" />
                       </button>
                     </div>
                     <div className="info-btn">

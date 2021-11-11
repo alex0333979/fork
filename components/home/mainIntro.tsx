@@ -14,23 +14,25 @@ const MainIntro: React.FC = () => {
             <div className="title big">
               <h1>
                 <b>
-                  {'Hello '}
+                  {/*
+                  {'Hey '}
                   <span className="emoji-wrap">
                     <Image src="/images/emoji/waving.png" width={40} height={40} alt="" />
                   </span>
-                  {' take your passport photo'}
-                  <br />
-                  {'from UK '}
+                  */}
+                  {'Take your us '}
                   <span className="emoji-wrap">
                     <Image src="/images/emoji/british-flag.png" width={40} height={40} alt="" />
                   </span>
+                  {'passport photo with your device.'}
+                  <br />
                 </b>
               </h1>
               <ul>
-                <li>{'Your passport photo, your way'}</li>
-                <li>{'Photos & applications, all in one place'}</li>
-                <li>{'Ship directly to your home or print them yourself'}</li>
-                <li>{'Verified, secure & simple'}</li>
+                <li>{'Technology That Guarantees Full Government Compliance'}</li>
+                <li>{'100% Online - Printed at Home or Shipped Straight To'}</li>
+                <li>{'Unlimited Revisions: Your Passport Photo, Your Way'}</li>
+                <li>{'Verified, Secure & Simple'}</li>
               </ul>
             </div>
             <div className="btn-wrap">

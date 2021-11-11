@@ -29,8 +29,7 @@ const SelectType: React.FC = () => {
                 </div>
                 <div className="text">
                   <p>
-                    {'Get your perfect biometric photo'}
-                    <br /> {'(compliance guaranteed)'}
+                    {'Stand in front of a well lit white or light-colored wall'}
                   </p>
                 </div>
               </div>

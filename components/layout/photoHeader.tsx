@@ -20,16 +20,16 @@ const PhotoHeader: React.FC = () => (
             <div className="steps-advantages">
               <ul>
                 <li>
-                  <span className="icon-revisions" />
-                  {'Unlimited revisions'}
+                  <span className="icon-government" />
+                  {'Government Complaint'}
                 </li>
                 <li>
                   <span className="icon-safe" />
-                  {'Secure & safe'}
+                  {'Your Data Is Secure'}
                 </li>
                 <li>
-                  <span className="icon-government" />
-                  {'Approved in government'}
+                  <span className="icon-revisions" />
+                  {'Unlimited Revisions'}
                 </li>
               </ul>
             </div>

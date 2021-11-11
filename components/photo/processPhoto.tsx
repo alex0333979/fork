@@ -134,7 +134,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   </div>
                   <div className="text">
                     <p>
-                      {'Get your perfect biometric photo'}
+                      {'Stand in front of a well lit white or light-colored wall'}
                       <br />
                       {'(compliance guaranteed)'}
                     </p>
@@ -230,7 +230,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                           router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)
                         }>
                         <i className="icon-left" />
-                        <span>{'Back'}</span>
+                        <span>{'Retake My Shot'}</span>
                       </button>
                       <button type="button" className="main-btn" onClick={goNext}>
                         {loading ? (
@@ -265,15 +265,15 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   <h3>
                     {'Would you like to fill'}
                     <br /> {'a passport application'}
-                    <br /> {'for just'} <span>{'19.97$'}</span>
+                    <br /> {'for just'} <span>{'9.97$'}</span>
                   </h3>
                 </div>
                 <div className="btn-wrap">
                   <button type="button" className="main-btn big" onClick={goApplication}>
-                    {'Yes, I would like to save time'}
+                    {'Yes, thank you, I would like to save time'}
                   </button>
                   <button type="button" className="main-btn big outline" onClick={goCart}>
-                    {'No, I will do it myself'}
+                    {'No, I will take care of it myself, and waste a lot of time'}
                   </button>
                 </div>
               </div>
