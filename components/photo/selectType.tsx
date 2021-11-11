@@ -28,9 +28,7 @@ const SelectType: React.FC = () => {
                   <Image src="/images/steps/step-01-00.png" width={332} height={430} alt="" />
                 </div>
                 <div className="text">
-                  <p>
-                    {'Stand in front of a well lit white or light-colored wall'}
-                  </p>
+                  <p>{'Stand in front of a well lit white or light-colored wall'}</p>
                 </div>
               </div>
             </div>
