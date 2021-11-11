@@ -153,9 +153,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                     </span>
                   </div>
                   <div className="text">
-                    <p>
-                      {'Stand in front of a well lit white or light-colored wall'}
-                    </p>
+                    <p>{'Stand in front of a well lit white or light-colored wall'}</p>
                   </div>
                 </li>
                 <li>
@@ -165,9 +163,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                     </span>
                   </div>
                   <div className="text">
-                    <p>
-                      {'Position Your Head Inside The Green Overlay'}
-                    </p>
+                    <p>{'Position Your Head Inside The Green Overlay'}</p>
                   </div>
                 </li>
                 <li>
@@ -177,9 +173,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                     </span>
                   </div>
                   <div className="text">
-                    <p>
-                      {"When someone's taking a photo of you, a 6 foot (1.8m) distance works."}
-                    </p>
+                    <p>{"When someone's taking a photo of you, a 6 foot (1.8m) distance works."}</p>
                   </div>
                 </li>
               </ul>
