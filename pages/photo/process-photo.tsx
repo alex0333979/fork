@@ -3,10 +3,10 @@ import PhotoLayout from '@/components/layout/photoLayout';
 import React from 'react';
 import ProcessPhoto from '@/components/photo/processPhoto';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { initializeApollo } from '@/lib/apolloClient';
+import { COOKIES_TOKEN_NAME, initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { Entry, EntryDocument, EntryQuery } from '@/generated/graphql';
-import { PAGES } from '../../constants';
+import { PAGES, PHOTO_FORM } from '../../constants';
 
 export interface ProcessPhotoProps {
   entry: Entry;
@@ -26,6 +26,10 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   if (context.res) {
     context.res.setHeader('Cache-Control', 'no-store');
   }
+  const token = context?.query.token as string;
+  if (token && context.res) {
+    context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
+  }
   try {
     const client = initializeApollo(null, context);
     const entryId = context?.query?.entryId as string;
@@ -42,17 +46,18 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
       variables: { entryId }
     });
     const entry = entryResult.data?.Entry.data;
-    if (!entry) {
+    if (entry && entry.form.name !== PHOTO_FORM) {
       return {
-        redirect: {
-          destination: PAGES.photo.uploadPhoto,
-          permanent: false
+        props: {
+          entry
         }
       };
     }
+
     return {
-      props: {
-        entry
+      redirect: {
+        destination: PAGES.photo.uploadPhoto,
+        permanent: false
       }
     };
   } catch (e) {
