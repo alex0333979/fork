@@ -30,6 +30,7 @@ interface IContextProps {
   createGuest: () => void;
   autoLogin: () => void;
   signIn: ({ email, password }: LoginMutationVariables) => void;
+  signOut: () => void;
   cart: Cart | null;
   updateCart: (cart: Cart | null) => void;
   openSignIn: boolean;
@@ -56,7 +57,7 @@ export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
   const [me, setMe] = useState<User | null>(null);
-  const [cookies, setCookie] = useCookies([COOKIES_TOKEN_NAME]);
+  const [cookies, setCookie, removeCookie] = useCookies([COOKIES_TOKEN_NAME]);
   const [openSignIn, setOpenSignIn] = useState<boolean>(false);
   const [openSignUp, setOpenSignUp] = useState<boolean>(false);
 
@@ -131,6 +132,11 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     [apolloClient, setCookie]
   );
 
+  const signOut = useCallback(() => {
+    removeCookie(COOKIES_TOKEN_NAME);
+    setMe(null);
+  }, [removeCookie]);
+
   const toggleSignInModal = useCallback((show: boolean) => {
     if (show) {
       setOpenSignUp(false);
@@ -152,6 +158,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     autoLogin,
     createGuest,
     signIn,
+    signOut,
     cart,
     updateCart,
     openSignIn,

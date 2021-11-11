@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
 import NavItem from './navItem';
 import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
+import { useRouter } from 'next/router';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
-  const { cart } = useAuth();
+  const { cart, isAuthenticated, signOut } = useAuth();
+  const router = useRouter();
+
+  const logout = useCallback(async () => {
+    signOut();
+    await router.push(PAGES.home);
+  }, [router, signOut]);
 
   useEffect(() => {
     if (mobileNavVisible) {
@@ -65,11 +72,19 @@ const AppHeader: React.FC = () => {
                 </a>
               </Link>
             </div>
-            <div className="sign-btn">
-              <button type="button" className="main-btn small blank">
-                {'Sign In'}
-              </button>
-            </div>
+            {isAuthenticated ? (
+              <div className="sign-btn">
+                <button type="button" className="main-btn small blank" onClick={logout}>
+                  {'Sign Out'}
+                </button>
+              </div>
+            ) : (
+              <div className="sign-btn">
+                <button type="button" className="main-btn small blank">
+                  {'Sign In'}
+                </button>
+              </div>
+            )}
             <div className={classNames({ 'menu-btn': true, open: mobileNavVisible })}>
               <button type="button" onClick={() => setMobileNavVisible(!mobileNavVisible)}>
                 <span className="icon-menu" />
