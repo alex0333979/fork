@@ -7,7 +7,7 @@ schema {
 
 type BillingAddress {
     address1: String!
-    address2: String!
+    address2: String
     city: String!
     country: String!
     email: String!
@@ -152,6 +152,7 @@ type Mutation {
     SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
     SignUp(user: UserInput!): UserResponse!
     SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
+    UpdateOrderStatus(orderId: String!, orderStatus: OrderStatus!, orderStatusType: OrderStatusType!): OrderResponse!
 }
 
 type Option {
@@ -220,13 +221,15 @@ type Query {
     Forms: [Form!]!
     GetSignedUrl: SignedUrlResponse!
     Me: UserResponse!
+    Order(orderId: String!): OrderResponse!
     OrderByOrderNumber(orderNumber: Float!): OrderResponse!
     Orders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+    OrdersForAdmin(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
 }
 
 type ShippingAddress {
     address1: String!
-    address2: String!
+    address2: String
     city: String!
     country: String!
     email: String!
@@ -290,6 +293,7 @@ type User {
     firstName: String
     guest: Boolean!
     id: ID!
+    isAdmin: Boolean!
     lastName: String
     phone: String
     shippingAddress: ShippingAddress
@@ -339,6 +343,14 @@ enum OrderStatus {
     PENDING
 }
 
+enum OrderStatusType {
+    confirmOrder
+    delivered
+    outForDelivery
+    productPrepared
+    shipped
+}
+
 enum ProductType {
     PASSPORT_APPLICATION
     PASSPORT_PHOTO
@@ -384,7 +396,7 @@ input BillingAddressInput {
 
 input CartItemInput {
     description: String!
-    imageUrl: String!
+    imageUrl: String
     name: String!
     product: ProductType!
     productId: ID!
