@@ -203,7 +203,7 @@ const WorkingProcess: React.FC = () => {
             </div>
             <div className="process-img">
               <span>
-                <Image src="/images/process.png" width={429} height={388} alt="" />
+                <Image src="/images/process.png" layout={'fill'} alt="" />
               </span>
             </div>
           </div>
