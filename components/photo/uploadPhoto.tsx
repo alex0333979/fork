@@ -63,7 +63,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
         showError('Create Entry Error, formStep not found.');
         return;
       }
-      const a: any = { image_url: signedUrl.url, document_id: US_DOCUMENT_ID, number_of_copies: 1 };
+      const a: any = { image_url: signedUrl.url, document_id: US_DOCUMENT_ID, number_of_copies: 4 };
       Object.keys(a).map((key) => {
         const index = formStep.fields.findIndex((field) => field.name === key);
         if (index === -1) {
