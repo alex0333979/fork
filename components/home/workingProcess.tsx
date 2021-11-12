@@ -1,4 +1,5 @@
 import React, { ReactNode, useEffect, useCallback, useState, useRef } from 'react';
+import Image from 'next/image';
 
 const PROCESS_DATA = [
   {
@@ -201,7 +202,7 @@ const WorkingProcess: React.FC = () => {
               </ul>
             </div>
             <div className="process-img">
-              <span />
+              <Image src="/images/process.png" width={429} height={388} alt="" />
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
       variables: { entryId }
     });
     const entry = entryResult.data?.Entry.data;
-    if (entry && entry.form.name !== PHOTO_FORM) {
+    if (entry && entry.form.name === PHOTO_FORM) {
       return {
         props: {
           entry
