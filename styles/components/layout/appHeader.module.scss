@@ -152,7 +152,7 @@ header {
 
     .drop-item {
       transition: opacity var(--transition), visibility var(--transition), max-height var(--transition);
-      pointer-events: none;
+      //pointer-events: none;
 
       ul {
         width: 283px;
@@ -230,6 +230,31 @@ header {
           }
         }
       }
+
+      .drop-item {
+        position: absolute;
+        top: 100%;
+        opacity: 0;
+        visibility: hidden;
+
+        ul {
+          padding: 10px 4px;
+          height: 150px;
+          overflow-y: scroll;
+          z-index: 1000;
+
+          li a {
+            padding: 9px 12px;
+            display: block;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    .drop-item.open {
+      opacity: 1;
+      visibility: visible;
     }
 
     .cart-btn {

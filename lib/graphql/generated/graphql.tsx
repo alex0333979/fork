@@ -95,6 +95,17 @@ export enum Code {
   Code500 = 'Code500'
 }
 
+export type CountriesResponse = {
+  data: Array<Country>;
+  total: Scalars['Float'];
+};
+
+export type Country = {
+  country: Scalars['String'];
+  id: Scalars['Int'];
+  type: Scalars['String'];
+};
+
 export type Dictionary = {
   message: Scalars['String'];
   test: Scalars['String'];
@@ -399,6 +410,7 @@ export enum ProductType {
 export type Query = {
   Cart: CartResponse;
   CompletedOrders: OrderPaginatedResponse;
+  Countries: CountriesResponse;
   Entries: EntryPaginatedResponse;
   Entry: EntryResponse;
   Form: FormResponse;
@@ -636,6 +648,8 @@ export type SignedUrlFragment = { __typename: 'SignedUrl', url: string, signedUr
 
 export type TestResultFragment = { __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> };
 
+export type CountryFragment = { __typename: 'Country', id: number, country: string, type: string };
+
 export type CreateGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -823,6 +837,11 @@ export type GetSignedUrlQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetSignedUrlQuery = { __typename: 'Query', GetSignedUrl: { __typename: 'SignedUrlResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'SignedUrl', url: string, signedUrl: string }> } };
+
+export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CountriesQuery = { __typename: 'Query', Countries: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string }> } };
 
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
@@ -1047,6 +1066,13 @@ export const TestResultFragmentDoc = gql`
     test
     message
   }
+}
+    `;
+export const CountryFragmentDoc = gql`
+    fragment Country on Country {
+  id
+  country
+  type
 }
     `;
 export const CreateGuestDocument = gql`
@@ -2076,3 +2102,40 @@ export function useGetSignedUrlLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetSignedUrlQueryHookResult = ReturnType<typeof useGetSignedUrlQuery>;
 export type GetSignedUrlLazyQueryHookResult = ReturnType<typeof useGetSignedUrlLazyQuery>;
 export type GetSignedUrlQueryResult = Apollo.QueryResult<GetSignedUrlQuery, GetSignedUrlQueryVariables>;
+export const CountriesDocument = gql`
+    query Countries {
+  Countries {
+    data {
+      ...Country
+    }
+    total
+  }
+}
+    ${CountryFragmentDoc}`;
+
+/**
+ * __useCountriesQuery__
+ *
+ * To run a query within a React component, call `useCountriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCountriesQuery(baseOptions?: Apollo.QueryHookOptions<CountriesQuery, CountriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountriesQuery, CountriesQueryVariables>(CountriesDocument, options);
+      }
+export function useCountriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountriesQuery, CountriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountriesQuery, CountriesQueryVariables>(CountriesDocument, options);
+        }
+export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
+export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
+export type CountriesQueryResult = Apollo.QueryResult<CountriesQuery, CountriesQueryVariables>;

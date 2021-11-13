@@ -55,6 +55,17 @@ type CheckPhotoResponse {
     status: Boolean!
 }
 
+type CountriesResponse {
+    data: [Country!]!
+    total: Float!
+}
+
+type Country {
+    country: String!
+    id: Int!
+    type: String!
+}
+
 type Dictionary {
     message: String!
     test: String!
@@ -215,6 +226,7 @@ type Position {
 type Query {
     Cart: CartResponse!
     CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+    Countries: CountriesResponse!
     Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
     Entry(entryId: String!): EntryResponse!
     Form(id: String!): FormResponse!

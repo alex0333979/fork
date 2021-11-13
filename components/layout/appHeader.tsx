@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
@@ -6,11 +6,16 @@ import NavItem from './navItem';
 import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
+import { Country, useCountriesQuery } from '@/generated/graphql';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
   const { cart, isAuthenticated, signOut } = useAuth();
   const router = useRouter();
+  const { data } = useCountriesQuery();
+  const countries = useMemo(() => data?.Countries?.data, [data?.Countries?.data]);
+  const [country, setCountry] = useState<Country | undefined>(undefined);
+  const [openCountry, setOpenCountry] = useState<boolean>(false);
 
   const logout = useCallback(async () => {
     signOut();
@@ -55,7 +60,22 @@ const AppHeader: React.FC = () => {
           <div className="right-side">
             <div className="location">
               <div className="current">
-                <p>{'United Kingdom'}</p>
+                <p onClick={() => setOpenCountry(true)}>{country?.country ?? 'United States'}</p>
+              </div>
+              <div className={classNames('drop-item', { open: openCountry })}>
+                <ul>
+                  {countries?.map((item, index) => (
+                    <li key={index}>
+                      <a
+                        onClick={() => {
+                          setCountry(item);
+                          setOpenCountry(false);
+                        }}>
+                        {item.country}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
             <div className="user-btn">
