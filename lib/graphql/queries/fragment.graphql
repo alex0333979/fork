@@ -198,3 +198,9 @@ fragment TestResult on TestResult {
         message
     }
 }
+
+fragment Country on Country {
+    id
+    country
+    type
+}

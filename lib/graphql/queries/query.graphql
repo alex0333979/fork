@@ -90,3 +90,12 @@ query GetSignedUrl {
         }
     }
 }
+
+query Countries {
+    Countries {
+        data {
+            ...Country
+        }
+        total
+    }
+}
