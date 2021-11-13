@@ -1,4 +1,11 @@
-import React, { ReactNode, useEffect, useCallback, useState, useRef } from 'react';
+import React, {
+  ReactNode,
+  useEffect,
+  useCallback,
+  useState,
+  useRef,
+  useImperativeHandle
+} from 'react';
 import Image from 'next/image';
 
 const PROCESS_DATA = [
@@ -62,6 +69,10 @@ interface ProcessItemProps {
   onClick: () => void;
 }
 
+interface ChildInterface {
+  startWorkingProcess: () => void;
+}
+
 const ProcessItem: React.FC<ProcessItemProps> = ({
   label,
   description,
@@ -89,7 +100,14 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
   </li>
 );
 
-const WorkingProcess: React.FC = () => {
+export interface WorkingProcessProps {
+  onEndRunning: () => void;
+}
+
+const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProcessProps> = (
+  { onEndRunning },
+  ref
+) => {
   const [data, setData] =
     useState<{ active: boolean; past: boolean; loaded: boolean; reset: boolean }[]>(initialData);
 
@@ -165,6 +183,7 @@ const WorkingProcess: React.FC = () => {
           a += 1;
           if (a === initialData.length) {
             if (timeIntervalId.current) {
+              onEndRunning();
               clearInterval(timeIntervalId.current);
             }
           } else {
@@ -173,7 +192,17 @@ const WorkingProcess: React.FC = () => {
         }, 10000);
       }
     },
-    [startProcess]
+    [onEndRunning, startProcess]
+  );
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      startWorkingProcess() {
+        onClickItem(0);
+      }
+    }),
+    [onClickItem]
   );
 
   return (
@@ -213,4 +242,4 @@ const WorkingProcess: React.FC = () => {
   );
 };
 
-export default WorkingProcess;
+export default React.forwardRef(WorkingProcess);

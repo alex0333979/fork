@@ -3,11 +3,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PAGES } from '../../constants';
 
-const MainIntro: React.FC = () => {
+const MainIntro = (props: any, ref: any) => {
   const router = useRouter();
 
   return (
-    <div className="main-intro">
+    <div className="main-intro" ref={ref}>
       <div className="container">
         <div className="intro-wrap">
           <div className="intro-title">
@@ -55,4 +55,4 @@ const MainIntro: React.FC = () => {
   );
 };
 
-export default MainIntro;
+export default React.forwardRef(MainIntro);
