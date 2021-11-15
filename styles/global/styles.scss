@@ -460,7 +460,7 @@ select {
               bottom: -1px;
               opacity: 0;
               visibility: hidden;
-              background-color: white;
+              background-color: var(--azure-radiance);
               border: 4px solid var(--azure-radiance);
               transition: opacity var(--transition), visibility var(--transition), background-color var(--transition), border-color var(--transition);
             }

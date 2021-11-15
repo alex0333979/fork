@@ -21,40 +21,38 @@ export const PAGES = {
     selectType: '/photo/select-type/',
     uploadPhoto: '/photo/upload-photo/',
     processPhoto: '/photo/process-photo/'
-  }
+  },
+  contactUs: '/contact-us',
+  about: '/about'
 };
 
 export const US_DOCUMENT_ID = 484;
 
 export const TOP_MENUS: NavItemProps[] = [
-  {
-    title: 'How it works',
-    items: [
-      {
-        title: 'Passport photo',
-        link: '/application/create'
-      }
-    ]
-  },
-  {
-    title: 'Pricing',
-    link: '/',
-    items: []
-  },
+  // {
+  //   title: 'How it works',
+  //   items: [
+  //     {
+  //       title: 'Passport photo',
+  //       link: '/application/create'
+  //     }
+  //   ]
+  // },
+  // {
+  //   title: 'Pricing',
+  //   link: '/',
+  //   items: []
+  // },
   {
     title: 'What we offer',
     items: [
       {
-        title: 'FAQ',
-        link: '/'
+        title: 'Passport Photo',
+        link: PAGES.photo.index
       },
       {
-        title: 'Blog',
-        link: '/'
-      },
-      {
-        title: 'Videos',
-        link: '/'
+        title: 'Passport Application',
+        link: PAGES.application.create
       }
     ]
   },
@@ -77,12 +75,12 @@ export const TOP_MENUS: NavItemProps[] = [
   },
   {
     title: 'About',
-    link: '/',
+    link: PAGES.about,
     items: []
   },
   {
     title: 'Contact Us',
-    link: '/',
+    link: PAGES.contactUs,
     items: []
   }
 ];
@@ -138,7 +136,7 @@ export const PHOTO_STEP = {
   ]
 };
 
-export const CONCIERGE_PRICE = 950;
+export const CONCIERGE_PRICE = 947;
 
 export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType }[] = [
   {
