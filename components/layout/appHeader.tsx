@@ -7,6 +7,7 @@ import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import { Country, useCountriesQuery } from '@/generated/graphql';
+import axios from 'axios';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
@@ -16,6 +17,27 @@ const AppHeader: React.FC = () => {
   const countries = useMemo(() => data?.Countries?.data, [data?.Countries?.data]);
   const [country, setCountry] = useState<Country | undefined>(undefined);
   const [openCountry, setOpenCountry] = useState<boolean>(false);
+
+  const getGeoInfo = useCallback(() => {
+    axios
+      .get('https://ipapi.co/json/')
+      .then((response) => {
+        const data = response.data;
+        for (const c of countries ?? []) {
+          if (c.country.toLowerCase() === data.country_name.toLowerCase()) {
+            setCountry(c);
+            break;
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [countries]);
+
+  useEffect(() => {
+    getGeoInfo();
+  }, [getGeoInfo]);
 
   const logout = useCallback(async () => {
     signOut();
@@ -60,7 +82,9 @@ const AppHeader: React.FC = () => {
           <div className="right-side">
             <div className="location">
               <div className="current">
-                <p onClick={() => setOpenCountry(true)}>{country?.country ?? 'United States'}</p>
+                <p onClick={() => setOpenCountry(!openCountry)}>
+                  {country?.country ?? 'United States'}
+                </p>
               </div>
               <div className={classNames('drop-item', { open: openCountry })}>
                 <ul>
