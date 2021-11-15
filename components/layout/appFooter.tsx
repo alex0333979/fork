@@ -10,7 +10,7 @@ const AppFooter: React.FC = () => (
           <div className="logo">
             <Link href={'/'}>
               <a>
-                <Image src="/images/logo.png" alt="" width={147} height={44} />
+                <Image src="/images/logo1.png" alt="" width={431} height={132} />
               </a>
             </Link>
           </div>

@@ -1,48 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
 import NavItem from './navItem';
 import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
-import { useRouter } from 'next/router';
-import { Country, useCountriesQuery } from '@/generated/graphql';
-import axios from 'axios';
+import SelectCountry from '@/components/layout/selectCountry';
+import { Country } from '@/generated/graphql';
 
 const AppHeader: React.FC = () => {
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
-  const { cart, isAuthenticated, signOut } = useAuth();
-  const router = useRouter();
-  const { data } = useCountriesQuery();
-  const countries = useMemo(() => data?.Countries?.data, [data?.Countries?.data]);
-  const [country, setCountry] = useState<Country | undefined>(undefined);
-  const [openCountry, setOpenCountry] = useState<boolean>(false);
+  const { cart } = useAuth();
 
-  const getGeoInfo = useCallback(() => {
-    axios
-      .get('https://ipapi.co/json/')
-      .then((response) => {
-        const data = response.data;
-        for (const c of countries ?? []) {
-          if (c.country.toLowerCase() === data.country_name.toLowerCase()) {
-            setCountry(c);
-            break;
-          }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [countries]);
+  // const logout = useCallback(async () => {
+  //   signOut();
+  //   await router.push(PAGES.home);
+  // }, [router, signOut]);
 
-  useEffect(() => {
-    getGeoInfo();
-  }, [getGeoInfo]);
-
-  const logout = useCallback(async () => {
-    signOut();
-    await router.push(PAGES.home);
-  }, [router, signOut]);
+  const onSelectedCountry = useCallback((country: Country) => {
+    console.log(country);
+  }, []);
 
   useEffect(() => {
     if (mobileNavVisible) {
@@ -60,7 +37,7 @@ const AppHeader: React.FC = () => {
             <div className="logo">
               <Link href={PAGES.home}>
                 <a>
-                  <Image src="/images/logo.png" alt="" width={147} height={44} />
+                  <Image src="/images/logo1.png" alt="" width={431} height={132} />
                 </a>
               </Link>
             </div>
@@ -80,28 +57,7 @@ const AppHeader: React.FC = () => {
             </div>
           </div>
           <div className="right-side">
-            <div className="location">
-              <div className="current">
-                <p onClick={() => setOpenCountry(!openCountry)}>
-                  {country?.country ?? 'United States'}
-                </p>
-              </div>
-              <div className={classNames('drop-item', { open: openCountry })}>
-                <ul>
-                  {countries?.map((item, index) => (
-                    <li key={index}>
-                      <a
-                        onClick={() => {
-                          setCountry(item);
-                          setOpenCountry(false);
-                        }}>
-                        {item.country}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            <SelectCountry selectedCountry={onSelectedCountry} />
             <div className="user-btn">
               <Link href={PAGES.home}>
                 <a>
@@ -116,19 +72,19 @@ const AppHeader: React.FC = () => {
                 </a>
               </Link>
             </div>
-            {isAuthenticated ? (
-              <div className="sign-btn">
-                <button type="button" className="main-btn small blank" onClick={logout}>
-                  {'Sign Out'}
-                </button>
-              </div>
-            ) : (
-              <div className="sign-btn">
-                <button type="button" className="main-btn small blank">
-                  {'Sign In'}
-                </button>
-              </div>
-            )}
+            {/* {isAuthenticated ? (*/}
+            {/*  <div className="sign-btn">*/}
+            {/*    <button type="button" className="main-btn small blank" onClick={logout}>*/}
+            {/*      {'Sign Out'}*/}
+            {/*    </button>*/}
+            {/*  </div>*/}
+            {/* ) : (*/}
+            {/*  <div className="sign-btn">*/}
+            {/*    <button type="button" className="main-btn small blank">*/}
+            {/*      {'Sign In'}*/}
+            {/*    </button>*/}
+            {/*  </div>*/}
+            {/* )}*/}
             <div className={classNames({ 'menu-btn': true, open: mobileNavVisible })}>
               <button type="button" onClick={() => setMobileNavVisible(!mobileNavVisible)}>
                 <span className="icon-menu" />

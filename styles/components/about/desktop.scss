@@ -1,0 +1,381 @@
+@media (min-width: 576px) {
+  .about-info .img:before {
+    padding-bottom: 41%;
+  }
+  .about-why .img:before {
+    padding-bottom: 49.5%;
+  }
+}
+
+@media (min-width: 768px) {
+  .about-why .img {
+    margin: 0 -57% 0 36%;
+  }
+  .about-why .img:before {
+    padding-bottom: 47.5%;
+  }
+  .about-page .img .img-wrap span {
+    padding: 6px;
+    max-width: 168px;
+
+    &:nth-child(2) {
+      margin-top: 25px;
+    }
+  }
+  .contacts-map .map-wrap:after {
+    padding-bottom: 64.9%;
+  }
+}
+
+@media (min-width: 992px) {
+  .about-page {
+    padding: 60px 0 0 0;
+  }
+  .about-page .circle {
+    width: 1186px;
+    height: 1186px;
+    left: -684px;
+    top: -837px;
+  }
+  .about-page .title {
+    padding-top: 7%;
+    padding-bottom: 150px;
+  }
+  .about-page .title h1 {
+    font-size: 48px;
+  }
+  .about-page .title p {
+    padding: 33px 0 0 0;
+    max-width: 445px;
+    font-size: 16px;
+    line-height: 1.5;
+    text-transform: none;
+  }
+  .about-page .title ul {
+    padding: 6px 0 0 0;
+  }
+  .about-page .title ul li {
+    padding: 0 0 0 33px;
+    margin: 25px 0;
+    font-weight: normal;
+    font-size: 16px;
+  }
+
+  .about-page .title ul li:before {
+    width: 24px;
+    height: 24px;
+    top: -1px;
+    font-size: 9px;
+  }
+
+  .about-page .img .img-wrap {
+    margin: 0 -192px 0 6px;
+    padding: 0 65px 115px 0;
+  }
+  .about-page .img .img-wrap span {
+    max-width: 406px;
+    padding: 18px;
+
+    &:nth-child(2) {
+      margin-top: 170px;
+    }
+  }
+  .about-page .img {
+    justify-content: flex-start;
+  }
+  .about-page .img .img-wrap:after {
+    width: 200px;
+    height: 200px;
+    left: 67.2%;
+    bottom: 6px;
+  }
+
+  .about-page .img .img-wrap:before {
+    top: 0;
+    left: 191px;
+    right: 0;
+    bottom: 109px;
+  }
+  .about-values {
+    padding: 0 0 133px 0;
+    margin: -93px 0 0 0;
+  }
+  .about-values .title {
+    padding: 0 0 48px 0;
+  }
+  .about-values .title h2 {
+    font-size: 34px;
+  }
+  .about-values .text h3 {
+    font-weight: 600;
+    font-size: 24px;
+  }
+  .about-values .text p {
+    padding: 25px 0 0 0;
+    max-width: 73%;
+    font-size: 16px;
+  }
+  .about-values .list ul li h4 {
+    padding: 23px 0 0 0;
+    font-size: 22px;
+    text-align: left;
+
+  }
+  .about-values .list ul li p {
+    padding: 17px 0 0 0;
+    font-size: 16px;
+    text-align: left;
+  }
+  .about-values .list ul {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 87%;
+  }
+  .about-values .list ul li {
+    width: calc(100% / 2);
+    max-width: 100%;
+    padding: 13px 35px 46px 13px;
+  }
+  .about-values .list ul li .icon {
+    width: 64px;
+    height: 64px;
+    padding: 12px;
+    margin: 0;
+    border-radius: 16px;
+  }
+
+  .about-values:after {
+    height: 89px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background-image: url(../../../public/images/About/down-wave.svg);
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: 100% 100%;
+
+  }
+  .about-values:before {
+    width: 345px;
+    height: 308px;
+    left: -1px;
+    bottom: 1px;
+
+  }
+  .about-values .bg-gradient {
+    height: 100%;
+  }
+  .about-info .text h2 {
+    font-size: 34px;
+    padding: 0 0 10px 0;
+  }
+  .about-info .text p {
+    padding: 12px 0;
+    font-size: 16px;
+  }
+  .about-info .img {
+    margin: 0 -7px 0 -66px;
+    text-align: center;
+    position: relative;
+  }
+  .about-info .img:before {
+    padding-bottom: 93%;
+  }
+  .about-info .text {
+    padding: 30px 0 42px 0;
+    max-width: 432px;
+    margin: 0 auto;
+  }
+  .about-info {
+
+    margin: -89px 0 0 0;
+    padding: 285px 0 236px 0;
+  }
+  .about-info:before {
+    width: auto;
+    height: auto;
+    top: 0;
+    right: -35%;
+    left: 46%;
+    bottom: 121px;
+  }
+  .about-info:after {
+    width: 189px;
+    height: 189px;
+    bottom: 10px;
+    right: -35px;
+  }
+  .about-why {
+    padding: 150px 0 251px 0;
+  }
+  .about-why .img {
+    margin: 47px -107px 0 0;
+  }
+  .about-why .img:before {
+    padding-bottom: 69.5%;
+  }
+  .about-why .text h2 {
+    padding: 0 0 25px 0;
+    font-size: 34px;
+  }
+  .about-why .text p {
+    padding: 0;
+    font-size: 16px;
+  }
+  .about-why .text ul {
+    padding: 47px 0 33px 0;
+    margin: 0 -53px 0 0;
+  }
+  .about-why .text ul li {
+    padding: 0 41px;
+    font-size: 14px;
+  }
+  .about-why .text ul li span {
+    font-weight: 600;
+    font-size: 34px;
+    margin: 0 0 -6px 0;
+  }
+  .about-why .text ul li:before {
+    width: 24px;
+    height: 24px;
+    font-size: 9px;
+  }
+  .about-why .text {
+    margin: 0 0 0 -83px;
+    padding: 56px 57px;
+    max-width: 562px;
+  }
+  .about-why:before {
+    top: -94px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+  }
+  .contacts-page .title {
+    padding: 102px 85px;
+    position: relative;
+  }
+  .contacts-page .contacts-bg {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .contacts-page .title h1 {
+    font-size: 48px;
+  }
+  .contacts-data .title h2 {
+    font-size: 34px;
+  }
+  .contacts-data .title p {
+    max-width: 549px;
+    padding: 11px 0 0 0;
+    font-size: 16px;
+  }
+
+  .contacts-data {
+    padding: 361px 0 122px 0;
+    margin: -241px 0 0 0;
+  }
+  .contacts-data:after {
+    content: '';
+    width: 726px;
+    height: 589px;
+    top: 0;
+    right: -317px;
+  }
+  .contacts-data .text ul li {
+    padding: 7px 0 51px 0;
+  }
+  .contacts-data .text ul li h3 {
+    padding: 0 0 9px 0;
+    letter-spacing: 2px;
+  }
+  .contacts-data .text ul li p {
+    padding: 3px 0 12px 0;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .contacts-data .title {
+    padding: 0 0 112px 0;
+  }
+  .contacts-data .text .btn {
+    padding: 10px 0 0 0;
+  }
+  .contacts-data .text .btn a {
+    font-size: 16px;
+  }
+  .contacts-data form {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 683px;
+    padding: 8px 0 0 11px;
+  }
+  .contacts-data .form-field {
+    padding: 0 8px 30px 8px;
+  }
+  .contacts-data .form-field span {
+    padding: 0 0 15px 0;
+    font-size: 16px;
+  }
+  .contacts-data .form-field input, .contacts-data .form-field textarea {
+    padding: 19px 15px 19px 21px;
+    font-size: 16px;
+  }
+  .contacts-data .form-field textarea {
+    height: 200px;
+  }
+  .contacts-data .form-submit .main-btn {
+    padding: 15px 71px;
+    font-size: 22px;
+  }
+  .contacts-data .text .btn a span {
+    padding: 0 0 0 11px;
+  }
+  .contacts-data .form-submit {
+    padding: 32px 0 0 0;
+    text-align: center;
+  }
+  .contacts-map .map-wrap {
+    margin: 0 auto;
+    max-width: 1104px;
+    border-radius: 8px;
+  }
+  .contacts-map .map-wrap:after {
+    padding-bottom: 41.4%;
+  }
+  .contacts-map {
+    padding: 0 0 119px 0;
+  }
+
+}
+
+
+@media (min-width: 1200px) {
+  .container, .container-sm, .container-md, .container-lg, .container-xl {
+    max-width: 1357px;
+  }
+}
+
+
+@media (min-width: 1200px) {
+  .about-page {
+    padding: 60px 0 0 10.5%;
+  }
+  .about-values {
+    padding: 0 0 133px 10.5%;
+  }
+  .about-why {
+    padding: 150px 0 251px 10.5%;
+  }
+  .contacts-data {
+    padding: 361px 0 122px 10.6%;
+  }
+  .contacts-page .title {
+    padding: 222px 111px;
+  }
+}
+
+@media (min-width: 1300px) {
+
+}
