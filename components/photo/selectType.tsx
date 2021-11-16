@@ -4,21 +4,23 @@ import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { PAGES, PHOTO_STEP } from '../../constants';
 import { useRouter } from 'next/router';
 import { FACING_MODES } from 'react-html5-camera-photo';
+import classNames from 'classnames';
 
 const SelectType: React.FC = () => {
   const router = useRouter();
   const [type, setType] = useState<string>(FACING_MODES.USER);
+  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false);
 
   return (
     <div className="steps-page">
       <div className="container">
         <div className="steps-content">
-          <div className="step-info">
+          <div className={classNames('step-info', { open: openStepInfo })}>
             <div className="info-toolbar">
               <p>
                 <span className="icon-info" />
               </p>
-              <button type="button">
+              <button type="button" onClick={() => setOpenStepInfo(false)}>
                 <span className="icon-close" />
               </button>
             </div>
@@ -91,7 +93,10 @@ const SelectType: React.FC = () => {
                   </button>
                 </div>
                 <div className="info-btn">
-                  <button type="button" className="main-btn outline">
+                  <button
+                    type="button"
+                    className="main-btn outline"
+                    onClick={() => setOpenStepInfo(true)}>
                     <i className="icon-info" />
                   </button>
                 </div>
