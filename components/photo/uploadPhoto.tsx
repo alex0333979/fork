@@ -8,6 +8,7 @@ import { SignedUrl, useGetSignedUrlLazyQuery, useSubmitEntryMutation } from '@/g
 import { showError, showSuccess } from '@/lib/utils/toast';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import classNames from 'classnames';
 
 const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,6 +23,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
   const router = useRouter();
   const cancelTokenSource = axios.CancelToken.source();
   const [percentage, setPercentage] = useState<number>(0);
+  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false);
 
   const takePhoto = useCallback((file: File) => {
     setSelectedImage(file);
@@ -135,12 +137,12 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
     <div className="steps-page">
       <div className="container">
         <div className="steps-content">
-          <div className="step-info">
+          <div className={classNames('step-info', { open: openStepInfo })}>
             <div className="info-toolbar">
               <p>
                 <span className="icon-info" />
               </p>
-              <button type="button">
+              <button type="button" onClick={() => setOpenStepInfo(false)}>
                 <span className="icon-close" />
               </button>
             </div>
@@ -274,7 +276,10 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                       </button>
                     </div>
                     <div className="info-btn">
-                      <button type="button" className="main-btn outline">
+                      <button
+                        type="button"
+                        className="main-btn outline"
+                        onClick={() => setOpenStepInfo(true)}>
                         <i className="icon-info" />
                       </button>
                     </div>
