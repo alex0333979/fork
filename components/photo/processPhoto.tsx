@@ -35,6 +35,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
   const [failed, setFailed] = useState<Dictionary[]>([]);
   const [passed, setPassed] = useState<Dictionary[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false);
 
   const imageUrl = useMemo(
     () => entry.form.steps[0].fields.find((f) => f.name === 'image_url')?.value,
@@ -118,29 +119,77 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
       <div className="steps-page">
         <div className="container">
           <div className="steps-content">
-            <div className="step-info">
+            <div className={classNames('step-info', { open: openStepInfo })}>
               <div className="info-toolbar">
                 <p>
                   <span className="icon-info" />
                 </p>
-                <button type="button">
+                <button type="button" onClick={() => setOpenStepInfo(false)}>
                   <span className="icon-close" />
                 </button>
               </div>
-              <div className="info-text">
-                <div className="info-wrap">
-                  <div className="img">
-                    <Image src="/images/steps/step-03-00.png" width={340} height={326} alt="" />
-                  </div>
-                  <div className="text">
-                    <p>
-                      {'Stand in front of a well lit white or light-colored wall'}
-                      <br />
-                      {'(compliance guaranteed)'}
-                    </p>
+              {status === Status.loading ? (
+                <div className="instruction-list">
+                  <ul>
+                    <li>
+                      <div className="img">
+                        <span>
+                          <Image src="/images/steps/step-02-00.png" layout={'fill'} alt="" />
+                        </span>
+                      </div>
+                      <div className="text">
+                        <p>{'Stand in front of a well lit white or light-colored wall'}</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="img">
+                        <span>
+                          <Image src="/images/steps/step-02-01.png" layout={'fill'} alt="" />
+                        </span>
+                      </div>
+                      <div className="text">
+                        <p>{'Position Your Head Inside The Green Overlay'}</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="img">
+                        <span>
+                          <Image src="/images/steps/step-02-02.png" layout={'fill'} alt="" />
+                        </span>
+                      </div>
+                      <div className="text">
+                        <p>
+                          {"When someone's taking a photo of you, a 6 foot (1.8m) distance works."}
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <div className="info-text">
+                  <div className="info-wrap">
+                    <div className="img">
+                      <Image
+                        src={
+                          status === Status.failed
+                            ? '/images/steps/step-03-00.png'
+                            : '/images/steps/step-03-01.png'
+                        }
+                        width={340}
+                        height={326}
+                        alt=""
+                      />
+                    </div>
+                    <div className="text">
+                      <p>
+                        {'Stand in front of a well lit white or light-colored wall'}
+                        <br />
+                        {'(compliance guaranteed)'}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="step-data">
               <div className="data-wrap">
@@ -214,7 +263,10 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                       </button>
                     </div>
                     <div className="info-btn">
-                      <button type="button" className="main-btn outline">
+                      <button
+                        type="button"
+                        className="main-btn outline"
+                        onClick={() => setOpenStepInfo(true)}>
                         <i className="icon-info" />
                       </button>
                     </div>
@@ -243,7 +295,10 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                       </button>
                     </div>
                     <div className="info-btn">
-                      <button type="button" className="main-btn outline">
+                      <button
+                        type="button"
+                        className="main-btn outline"
+                        onClick={() => setOpenStepInfo(true)}>
                         <i className="icon-info" />
                       </button>
                     </div>
