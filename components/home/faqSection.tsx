@@ -55,7 +55,7 @@ const FAQ: FaqItemProps[] = [
 ];
 
 const FaqSection: React.FC = () => (
-  <div className="faq-section">
+  <div className="faq-section" id="faq">
     <div className="container">
       <div className="data-wrap">
         <div className="sub-title">

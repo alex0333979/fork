@@ -117,6 +117,12 @@ export type Dimensions = {
   width: Scalars['Float'];
 };
 
+export type EmailToAdminInput = {
+  email: Scalars['String'];
+  name: Scalars['String'];
+  question: Scalars['String'];
+};
+
 export type Entry = {
   completeStep: Scalars['Int'];
   createdAt: Scalars['DateTime'];
@@ -234,6 +240,7 @@ export type Mutation = {
   GetPaymentIntent: PaymentIntentResponse;
   Login: TokenResponse;
   RemoveItemsFromCart: CartResponse;
+  SendEmailToAdmin: StringResponse;
   SetDefaultBillingAddress: BillingAddressResponse;
   SetDefaultShippingAddress: ShippingAddressResponse;
   SetShippingTypeToCart: CartResponse;
@@ -282,6 +289,11 @@ export type MutationLoginArgs = {
 
 export type MutationRemoveItemsFromCartArgs = {
   ids: Array<Scalars['ID']>;
+};
+
+
+export type MutationSendEmailToAdminArgs = {
+  data: EmailToAdminInput;
 };
 
 
@@ -531,6 +543,12 @@ export type Size = {
   min: Scalars['Int'];
 };
 
+export type StringResponse = {
+  data?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
 export type TestResult = {
   code: Code;
   failed: Array<Dictionary>;
@@ -766,6 +784,13 @@ export type CheckPhotoMutationVariables = Exact<{
 
 
 export type CheckPhotoMutation = { __typename: 'Mutation', CheckPhoto: { __typename: 'CheckPhotoResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> }> } };
+
+export type SendEmailToAdminMutationVariables = Exact<{
+  data: EmailToAdminInput;
+}>;
+
+
+export type SendEmailToAdminMutation = { __typename: 'Mutation', SendEmailToAdmin: { __typename: 'StringResponse', status: boolean, message: string, data?: Maybe<string> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1714,6 +1739,41 @@ export function useCheckPhotoMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CheckPhotoMutationHookResult = ReturnType<typeof useCheckPhotoMutation>;
 export type CheckPhotoMutationResult = Apollo.MutationResult<CheckPhotoMutation>;
 export type CheckPhotoMutationOptions = Apollo.BaseMutationOptions<CheckPhotoMutation, CheckPhotoMutationVariables>;
+export const SendEmailToAdminDocument = gql`
+    mutation SendEmailToAdmin($data: EmailToAdminInput!) {
+  SendEmailToAdmin(data: $data) {
+    status
+    message
+    data
+  }
+}
+    `;
+export type SendEmailToAdminMutationFn = Apollo.MutationFunction<SendEmailToAdminMutation, SendEmailToAdminMutationVariables>;
+
+/**
+ * __useSendEmailToAdminMutation__
+ *
+ * To run a mutation, you first call `useSendEmailToAdminMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendEmailToAdminMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendEmailToAdminMutation, { data, loading, error }] = useSendEmailToAdminMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useSendEmailToAdminMutation(baseOptions?: Apollo.MutationHookOptions<SendEmailToAdminMutation, SendEmailToAdminMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendEmailToAdminMutation, SendEmailToAdminMutationVariables>(SendEmailToAdminDocument, options);
+      }
+export type SendEmailToAdminMutationHookResult = ReturnType<typeof useSendEmailToAdminMutation>;
+export type SendEmailToAdminMutationResult = Apollo.MutationResult<SendEmailToAdminMutation>;
+export type SendEmailToAdminMutationOptions = Apollo.BaseMutationOptions<SendEmailToAdminMutation, SendEmailToAdminMutationVariables>;
 export const MeDocument = gql`
     query Me {
   Me {

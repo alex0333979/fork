@@ -44,15 +44,6 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
         <div className="container">
           <div className="data-wrap">
             <h1>{'Shopping cart'}</h1>
-            <div className="btn-wrap">
-              <button
-                type="button"
-                className="main-btn small outline"
-                onClick={() => router.push(PAGES.application.create)}>
-                {'Add passport application'}
-                <span className="icon-close" />
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -68,6 +59,15 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                     <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
                   ))}
               </ul>
+              <div className="btn-wrap">
+                <button
+                  type="button"
+                  className="main-btn small outline"
+                  onClick={() => router.push(PAGES.application.create)}>
+                  {'Add passport application'}
+                  <span className="icon-close" />
+                </button>
+              </div>
             </div>
             <div className="item-wrap">
               <ul>
@@ -77,6 +77,15 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                     <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
                   ))}
               </ul>
+              <div className="btn-wrap">
+                <button
+                  type="button"
+                  className="main-btn small outline"
+                  onClick={() => router.push(PAGES.photo.index)}>
+                  {`Add Another Person's Photo`}
+                  <span className="icon-close" />
+                </button>
+              </div>
             </div>
             <div className="item-wrap total-info">
               <div className="order-summary">
