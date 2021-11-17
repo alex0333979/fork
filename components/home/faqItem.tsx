@@ -11,8 +11,8 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
   return (
     <li className={classNames({ open: show })}>
       <div className="question">
-        <h3>
-          {question} <span className="icon-close" onClick={() => setShow(!show)} />
+        <h3 onClick={() => setShow(!show)}>
+          {question} <span className="icon-close" />
         </h3>
       </div>
       <div className="answer">{answer}</div>

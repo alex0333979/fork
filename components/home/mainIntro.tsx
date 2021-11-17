@@ -20,9 +20,9 @@ const MainIntro = (props: any, ref: any) => {
                     <Image src="/images/emoji/waving.png" width={40} height={40} alt="" />
                   </span>
                   */}
-                  {'Take your us '}
+                  {'Take your US '}
                   <span className="emoji-wrap">
-                    <Image src="/images/emoji/british-flag.png" width={40} height={40} alt="" />
+                    <Image src="/images/emoji/us-flag.png" width={40} height={40} alt="" />
                   </span>
                   {'passport photo with your device.'}
                   <br />
@@ -30,7 +30,7 @@ const MainIntro = (props: any, ref: any) => {
               </h1>
               <ul>
                 <li>{'Technology That Guarantees Full Government Compliance'}</li>
-                <li>{'100% Online - Printed at Home or Shipped Straight To'}</li>
+                <li>{'100% Online - Shipped Straight To You or Print at Home'}</li>
                 <li>{'Unlimited Revisions: Your Passport Photo, Your Way'}</li>
                 <li>{'Verified, Secure & Simple'}</li>
               </ul>

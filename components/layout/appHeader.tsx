@@ -7,8 +7,10 @@ import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import SelectCountry from '@/components/layout/selectCountry';
 import { Country } from '@/generated/graphql';
+import { useRouter } from 'next/router';
 
 const AppHeader: React.FC = () => {
+  const router = useRouter();
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
   const { cart } = useAuth();
 
@@ -20,6 +22,14 @@ const AppHeader: React.FC = () => {
   const onSelectedCountry = useCallback((country: Country) => {
     console.log(country);
   }, []);
+
+  const onClickCart = useCallback(async () => {
+    if (cart?.items?.length ?? 0 > 0) {
+      await router.push(PAGES.cart);
+    } else {
+      await router.push(PAGES.photo.index);
+    }
+  }, [cart?.items?.length, router]);
 
   useEffect(() => {
     if (mobileNavVisible) {
@@ -66,11 +76,17 @@ const AppHeader: React.FC = () => {
               </Link>
             </div>
             <div className="cart-btn">
-              <Link href={PAGES.cart}>
-                <a>
-                  <span className="icon-cart" /> {cart?.items?.length ?? 0}
-                </a>
-              </Link>
+              <a onClick={onClickCart}>
+                <span className="icon-cart" /> {cart?.items?.length ?? 0}
+              </a>
+            </div>
+            <div className="sign-btn">
+              <button
+                type="button"
+                className="main-btn small"
+                onClick={() => router.push(PAGES.application.create)}>
+                {'START NOW'}
+              </button>
             </div>
             {/* {isAuthenticated ? (*/}
             {/*  <div className="sign-btn">*/}

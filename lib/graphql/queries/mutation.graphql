@@ -176,3 +176,11 @@ mutation CheckPhoto($entryId: String!){
         }
     }
 }
+
+mutation SendEmailToAdmin($data: EmailToAdminInput!) {
+    SendEmailToAdmin(data: $data) {
+        status
+        message
+        data
+    }
+}

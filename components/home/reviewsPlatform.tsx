@@ -9,64 +9,60 @@ const REVIEWS1 = [
   {
     content: (
       <p>
-        {`WOW. I love this platform. When I contacted customer support, Carlus
-        worked with me to answer my problem. I wanted a way to export my replies
-        to reviews along with the reviews themselves. Carlus reached out to tech,
-        and in only a couple business days, tech had created ...`}
+        {`The procedure is very quick, the quality of service is also good. 
+        I got the background of my photo changed to white, and the software gave me a warning
+         that my first photo wasn’t good quality (due to the indoor light).  
+         The tips provided, on how to take a good passport photo by your cell phone camera, 
+         are extremely useful. Thanks.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-01.png',
-      name: 'Robert Fox',
+      picture: '/images/reviews/Issac_Ross.png',
+      name: 'Isaac Ross, NY',
       occupation: 'Billing Coordinator'
     }
   },
   {
     content: (
       <p>
-        {`We really appreciate your feedback and like any good review, you've
-          provided ways in making our product even better.`}
-        <br />
-        {`Allowing reviewers to upload video has proven to be very successful for
-          bands and you're not alone in wanting the ability to respond to reviews
-          via video!`}
+        {`I love that they do not just print the photo, 
+        they ensure the quality of the photo will be accepted by the passport authority. 
+        They do not stop until they get it right. Awesome service. Can't wait to get my photos!`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-02.png',
-      name: 'Eleanor Pena',
+      picture: '/images/reviews/Tia_Webb.png',
+      name: 'Tia Webb, NC',
       occupation: 'Regional Manager'
     }
   },
   {
     content: (
       <p>
-        {`No, we are here, it is the right choice we made! The support team are
-          amazing, any issues or queries they are quick to respond to, they helped
-          us install the reviews widget to our website on EKM, and also helped to
-          make sure we imported reviews over that we already had.`}
+        {`Brilliant service - each photo I took was analyzed and where it was not sufficient quality 
+        I was able to retake for free. When one is up to standard they take it and remove the background 
+        and make any changes necessary to get the photo to a standard where it will be accepted by the passport office. 
+        The one sent got accepted no problem. 
+        I would definitely recommend as probably the only way to pretty much guarantee your photo will be accepted.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-03.png',
-      name: 'Arlene McCoy',
+      picture: '/images/reviews/George_Pearce.png',
+      name: 'George Pearce, TX',
       occupation: 'Recruiter'
     }
   },
   {
     content: (
       <p>
-        {`As a company needing to collect reviews using a trusted platform the
-          decision to pick Reviews.co.uk was the right one.`}
-        <br />
-        {`No reviews platform is perfect but this one is the closest a small
-          business will get if it wants to be aligned to a good company ethos and
-          not get hijacked by the global data harvesting platforms.`}
+        {`Fast, reliable, great service. 
+        Quality of pics was just what I needed and I got the shot that I wanted to have for 10 years. 
+        Would certainly use again.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-04.png',
-      name: 'Dianne Russell',
+      picture: '/images/reviews/Isabelle_Parry.png',
+      name: 'Isabelle Parry, NM',
       occupation: 'IT Director'
     }
   }
@@ -76,62 +72,54 @@ const REVIEWS2 = [
   {
     content: (
       <p>
-        {`Ciaran has been great, really helpful. I'm a new customer of Reviews.io -
-          had a million annoying questions and Ciaran helped me through the set-up
-          and explained everything to me. Appreciate his help. Nice to get proper
-          full answers and quick responses.`}
+        {`This site is very user friendly and is very easy to navigate through.
+         I had little or no issue using this site. I am very pleased with my results.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-05.png',
-      name: 'Annette Black',
+      picture: '/images/reviews/Alex_Gradner.png',
+      name: 'Alex Gardner, NJ',
       occupation: 'Payroll Specialist'
     }
   },
   {
     content: (
       <p>
-        {`We've been very happy users of reviews.io since 2017. We have an
-          enterprise account and we're integrated with both product and company
-          reviews via their easy to use API. Having our reviews featured alongside
-          our Google Ads allow us to really stand out from our competitors.`}
+        {`If I’m going to need my passport for 10 years, getting the shot I wanted made sense. 
+         I got it here.  Thank you.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-06.png',
-      name: 'Floyd Miles',
+      picture: '/images/reviews/Daniel_Marcolina.png',
+      name: 'Daniel Marcolina, NJ',
       occupation: 'Internal Auditor'
     }
   },
   {
     content: (
       <p>
-        {`I am very pleased with the customer service and delighted with the
-          features available to me at a very affordable price. I have limited skills
-          when it comes to technical aspects of running my own website. Squarespace
-          does not have a built in reviews platform so I have been looking for the
-          perfect...`}
+        {`Very good, it was convenient and easy way to take passport pictures, 
+        it  beats going to the drug store and waiting for someone to help.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-07.png',
-      name: 'Savannah Nguyen',
+      picture: '/images/reviews/Ace_Jonas.png',
+      name: 'Ace Jonas, NY',
       occupation: 'Regional Group Sales'
     }
   },
   {
     content: (
       <p>
-        {`I really enjoy dealing with Reviews.io. They're in Leicester, so just down
-          the road. They always have a answer to any of my questions and take the
-          time to find the solution when needed. Carlus was on the ball and knew his
-          way around the system very well and always had the correct answer for any
-          of my questions.`}
+        {`Very impressed by how easy it was to navigate and follow instructions on the site. 
+        I was able to submit my order in very few steps and I like the option to have them printed and shipped to me. 
+        I am also very impressed with the quick processing time, my order shipped the same day as I placed it! 
+        The pricing is perfect and I will definitely recommend it to my friends.`}
       </p>
     ),
     author: {
-      picture: '/images/reviews/author-04.png',
-      name: 'Cameron Williamson',
+      picture: '/images/reviews/Ariah_Clay.png',
+      name: 'Ariah Clay, CA',
       occupation: 'Financial Consultant'
     }
   }

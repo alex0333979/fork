@@ -44,34 +44,19 @@ export const TOP_MENUS: NavItemProps[] = [
   //   items: []
   // },
   {
-    title: 'What we offer',
-    items: [
-      {
-        title: 'Passport Photo',
-        link: PAGES.photo.index
-      },
-      {
-        title: 'Passport Application',
-        link: PAGES.application.create
-      }
-    ]
+    title: 'Passport Photo',
+    link: PAGES.photo.index,
+    items: []
   },
   {
-    title: 'Resources',
-    items: [
-      {
-        title: 'FAQ',
-        link: '/'
-      },
-      {
-        title: 'Blog',
-        link: '/'
-      },
-      {
-        title: 'Videos',
-        link: '/'
-      }
-    ]
+    title: 'Passport Application',
+    link: PAGES.application.create,
+    items: []
+  },
+  {
+    title: 'FAQ',
+    link: `${PAGES.home}#faq`,
+    items: []
   },
   {
     title: 'About',
