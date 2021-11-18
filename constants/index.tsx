@@ -263,3 +263,21 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     ]
   }
 };
+
+export const PHOTO_PRICES = [
+  {
+    text: '2 Passport Photos',
+    price: 1447,
+    value: 2
+  },
+  {
+    text: '4 Passport Photos',
+    price: 1947,
+    value: 4
+  },
+  {
+    text: '6 Passport Photos',
+    price: 2447,
+    value: 6
+  }
+];

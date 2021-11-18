@@ -138,7 +138,8 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                         </span>
                       </div>
                       <div className="text">
-                        <p>{'Stand in front of a well lit white or light-colored wall'}</p>
+                        <p>{`Background is uniform, plain, and free of shadows. 
+                            Use a neutral expression with eyes clearly visible`}</p>
                       </div>
                     </li>
                     <li>
@@ -148,7 +149,8 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                         </span>
                       </div>
                       <div className="text">
-                        <p>{'Position Your Head Inside The Green Overlay'}</p>
+                        <p>{`Position Your Head Inside The Green Overlay. No glasses allowed. 
+                            Your hair or clothing may not obscure your face`}</p>
                       </div>
                     </li>
                     <li>
@@ -158,9 +160,8 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                         </span>
                       </div>
                       <div className="text">
-                        <p>
-                          {"When someone's taking a photo of you, a 6 foot (1.8m) distance works."}
-                        </p>
+                        <p>{`No uniforms, hats, beanies or other head coverings are allowed, 
+                            unless it's for religious reasons`}</p>
                       </div>
                     </li>
                   </ul>

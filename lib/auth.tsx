@@ -1,13 +1,13 @@
 import React, {
-  useState,
-  useContext,
   createContext,
   ReactNode,
-  useEffect,
   useCallback,
-  useMemo
+  useContext,
+  useEffect,
+  useMemo,
+  useState
 } from 'react';
-import { ApolloClient, NormalizedCacheObject, ApolloQueryResult } from '@apollo/client';
+import { ApolloClient, ApolloQueryResult, NormalizedCacheObject } from '@apollo/client';
 import {
   Cart,
   CreateGuestDocument,
@@ -17,6 +17,7 @@ import {
   LoginMutationVariables,
   MeDocument,
   MeQuery,
+  ShippingType,
   User
 } from '@/generated/graphql';
 import { FetchResult } from '@apollo/client/link/core';

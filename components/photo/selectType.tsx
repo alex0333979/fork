@@ -30,7 +30,16 @@ const SelectType: React.FC = () => {
                   <Image src="/images/steps/step-01-00.png" width={332} height={430} alt="" />
                 </div>
                 <div className="text">
-                  <p>{'Stand in front of a well lit white or light-colored wall'}</p>
+                  <h2>{'Get your perfect AI approved passport photo.'}</h2>
+                  <p>{'(Government Compliance Guaranteed)'}</p>
+                  <br />
+                  <p>{`Each required photo attribute is scanned for accuracy. 
+                  Our biometric technology is used to map facial features and 
+                  background confirm that your eyes are in fact open, 
+                  insure the appropriate background is being used, 
+                  your head and body position are meeting Government standards, and more. `}</p>
+                  <br />
+                  <p>{`No need to download an app. Use your phone or PC, it's that simple.`}</p>
                 </div>
               </div>
             </div>
@@ -40,12 +49,8 @@ const SelectType: React.FC = () => {
               <ProcessStepPhoto step={1} steps={PHOTO_STEP.steps} />
 
               <div className="title">
-                <h1>
-                  {'You can do passport photos'}
-                  <br />
-                  {' on your computer or phone'}
-                </h1>
-                <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
+                <h1>{'Taking your shot on your own or having someone take it for you?'}</h1>
+                <p>{'Select from the options below'}</p>
               </div>
               <div className="method-option">
                 <label>
@@ -78,7 +83,7 @@ const SelectType: React.FC = () => {
                     <span className="img">
                       <Image src="/images/steps/step-01-02.png" layout={'fill'} alt="" />
                     </span>
-                    <span className="name">{'Another will take a photo'}</span>
+                    <span className="name">{`Someone’s taking my photo`}</span>
                   </span>
                 </label>
               </div>

@@ -349,6 +349,10 @@
         .btn-wrap {
           padding-top: 21px;
 
+          .form-fields label {
+            padding: 0;
+          }
+
           .main-btn {
             width: 100%;
           }
