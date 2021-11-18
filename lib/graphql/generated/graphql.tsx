@@ -247,6 +247,7 @@ export type Mutation = {
   SetTrackingNumber: OrderResponse;
   SignUp: UserResponse;
   SubmitEntry: EntryResponse;
+  UpdateCartItemPrice: CartResponse;
   UpdateOrderStatus: OrderResponse;
 };
 
@@ -327,6 +328,11 @@ export type MutationSubmitEntryArgs = {
   entryId?: Maybe<Scalars['ID']>;
   formId: Scalars['ID'];
   formStep: FormStepInput;
+};
+
+
+export type MutationUpdateCartItemPriceArgs = {
+  item: UpdateCartItemPriceInput;
 };
 
 
@@ -578,6 +584,11 @@ export enum Unit {
   Percentage = 'Percentage'
 }
 
+export type UpdateCartItemPriceInput = {
+  itemId: Scalars['ID'];
+  price: Scalars['Int'];
+};
+
 export type User = {
   billingAddress?: Maybe<BillingAddress>;
   cart?: Maybe<Cart>;
@@ -791,6 +802,13 @@ export type SendEmailToAdminMutationVariables = Exact<{
 
 
 export type SendEmailToAdminMutation = { __typename: 'Mutation', SendEmailToAdmin: { __typename: 'StringResponse', status: boolean, message: string, data?: Maybe<string> } };
+
+export type UpdateCartItemPriceMutationVariables = Exact<{
+  item: UpdateCartItemPriceInput;
+}>;
+
+
+export type UpdateCartItemPriceMutation = { __typename: 'Mutation', UpdateCartItemPrice: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: number, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean }>> }> } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1774,6 +1792,43 @@ export function useSendEmailToAdminMutation(baseOptions?: Apollo.MutationHookOpt
 export type SendEmailToAdminMutationHookResult = ReturnType<typeof useSendEmailToAdminMutation>;
 export type SendEmailToAdminMutationResult = Apollo.MutationResult<SendEmailToAdminMutation>;
 export type SendEmailToAdminMutationOptions = Apollo.BaseMutationOptions<SendEmailToAdminMutation, SendEmailToAdminMutationVariables>;
+export const UpdateCartItemPriceDocument = gql`
+    mutation UpdateCartItemPrice($item: UpdateCartItemPriceInput!) {
+  UpdateCartItemPrice(item: $item) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}
+    ${CartFragmentDoc}`;
+export type UpdateCartItemPriceMutationFn = Apollo.MutationFunction<UpdateCartItemPriceMutation, UpdateCartItemPriceMutationVariables>;
+
+/**
+ * __useUpdateCartItemPriceMutation__
+ *
+ * To run a mutation, you first call `useUpdateCartItemPriceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCartItemPriceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCartItemPriceMutation, { data, loading, error }] = useUpdateCartItemPriceMutation({
+ *   variables: {
+ *      item: // value for 'item'
+ *   },
+ * });
+ */
+export function useUpdateCartItemPriceMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCartItemPriceMutation, UpdateCartItemPriceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCartItemPriceMutation, UpdateCartItemPriceMutationVariables>(UpdateCartItemPriceDocument, options);
+      }
+export type UpdateCartItemPriceMutationHookResult = ReturnType<typeof useUpdateCartItemPriceMutation>;
+export type UpdateCartItemPriceMutationResult = Apollo.MutationResult<UpdateCartItemPriceMutation>;
+export type UpdateCartItemPriceMutationOptions = Apollo.BaseMutationOptions<UpdateCartItemPriceMutation, UpdateCartItemPriceMutationVariables>;
 export const MeDocument = gql`
     query Me {
   Me {

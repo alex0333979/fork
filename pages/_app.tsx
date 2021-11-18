@@ -1,6 +1,6 @@
 import '../styles/globals.scss';
 import type { AppProps } from 'next/app';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AuthProvider } from '@/lib/auth';
 import Head from 'next/head';
 import { CookiesProvider } from 'react-cookie';
@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SignIn from '@/components/elements/signIn';
 import SignUp from '@/components/elements/signUp';
+import TagManager from 'react-gtm-module';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -19,6 +20,9 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
+  useEffect(() => {
+    TagManager.initialize({ gtmId: 'GTM-XXXXX' });
+  }, []);
 
   return (
     <ApolloProvider client={apolloClient}>

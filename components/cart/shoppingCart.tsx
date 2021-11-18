@@ -56,7 +56,12 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                 {cart?.items
                   ?.filter((item) => item.product === ProductType.PassportApplication)
                   ?.map((item, index) => (
-                    <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
+                    <ShoppingCartItem
+                      key={index}
+                      item={item}
+                      onDelete={onRemoveCartItem}
+                      onUpdated={updateCart}
+                    />
                   ))}
               </ul>
               <div className="btn-wrap">
@@ -74,7 +79,12 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                 {cart?.items
                   ?.filter((item) => item.product === ProductType.PassportPhoto)
                   ?.map((item, index) => (
-                    <ShoppingCartItem key={index} item={item} onDelete={onRemoveCartItem} />
+                    <ShoppingCartItem
+                      key={index}
+                      item={item}
+                      onDelete={onRemoveCartItem}
+                      onUpdated={updateCart}
+                    />
                   ))}
               </ul>
               <div className="btn-wrap">

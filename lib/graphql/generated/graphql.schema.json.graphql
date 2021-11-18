@@ -157,12 +157,14 @@ type Mutation {
     GetPaymentIntent(orderId: String!): PaymentIntentResponse!
     Login(email: String!, password: String!): TokenResponse!
     RemoveItemsFromCart(ids: [ID!]!): CartResponse!
+    SendEmailToAdmin(data: EmailToAdminInput!): StringResponse!
     SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
     SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
     SetShippingTypeToCart(shippingType: String!): CartResponse!
     SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
     SignUp(user: UserInput!): UserResponse!
     SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
+    UpdateCartItemPrice(item: UpdateCartItemPriceInput!): CartResponse!
     UpdateOrderStatus(orderId: String!, orderStatus: OrderStatus!, orderStatusType: OrderStatusType!): OrderResponse!
 }
 
@@ -272,6 +274,12 @@ type SignedUrlResponse {
 type Size {
     max: Int!
     min: Int!
+}
+
+type StringResponse {
+    data: String
+    message: String!
+    status: Boolean!
 }
 
 type TestResult {
@@ -414,6 +422,12 @@ input CartItemInput {
     productId: ID!
 }
 
+input EmailToAdminInput {
+    email: String!
+    name: String!
+    question: String!
+}
+
 input FormFieldInput {
     defaultValue: Value
     disabled: Boolean
@@ -454,6 +468,11 @@ input ShippingAddressInput {
     phone: String!
     postalCode: Int!
     state: String!
+}
+
+input UpdateCartItemPriceInput {
+    itemId: ID!
+    price: Int!
 }
 
 input UserInput {
