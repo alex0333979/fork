@@ -30,11 +30,6 @@ const AppFooter: React.FC = () => (
                   <a>{'Passport photo'}</a>
                 </Link>
               </li>
-              <li>
-                <Link href={'/'}>
-                  <a>{'Passport application'}</a>
-                </Link>
-              </li>
             </ul>
             <ul>
               <li>{'Resources'}</li>
