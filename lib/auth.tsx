@@ -17,7 +17,6 @@ import {
   LoginMutationVariables,
   MeDocument,
   MeQuery,
-  ShippingType,
   User
 } from '@/generated/graphql';
 import { FetchResult } from '@apollo/client/link/core';
