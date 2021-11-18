@@ -49,11 +49,6 @@ export const TOP_MENUS: NavItemProps[] = [
     items: []
   },
   {
-    title: 'Passport Application',
-    link: PAGES.application.create,
-    items: []
-  },
-  {
     title: 'FAQ',
     link: `${PAGES.home}#faq`,
     items: []

@@ -84,7 +84,7 @@ const AppHeader: React.FC = () => {
               <button
                 type="button"
                 className="main-btn small"
-                onClick={() => router.push(PAGES.application.create)}>
+                onClick={() => router.push(PAGES.photo.index)}>
                 {'START NOW'}
               </button>
             </div>
