@@ -8,14 +8,14 @@ const About: React.FC = () => (
       <div className="container">
         <div className="row">
           <div className="title col-12 col-lg-5">
-            <h1>{'We all about making passport ;easy.'}</h1>
+            <h1>{'We all about convenience and speed when it comes to Your Passport Photos'}</h1>
             <p className="d-lg-none">
-              {`From year to year we strive to invent the most innovative technology that is used by
-                small enterprises technology that is used by small enterprises.`}
+              {`We invest our resources developing most innovative AI software to insure
+               your passport photos meet all Gov requirements - Using your mobile or PC`}
             </p>
             <p className="d-none d-lg-block">
-              {`From year to year we strive to invent the most innovative technology that is used by
-                both passport application and standard passport photo.`}
+              {`We invest our resources developing most innovative AI software to insure
+               your passport photos meet all Gov requirements - Using your mobile or PC`}
             </p>
             <ul>
               <li className="d-lg-none">{'All process is safe'}</li>

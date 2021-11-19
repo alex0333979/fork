@@ -170,16 +170,21 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                 <div className="info-text">
                   <div className="info-wrap">
                     <div className="img">
-                      <Image
-                        src={
-                          status === Status.failed
-                            ? '/images/steps/step-03-00.png'
-                            : '/images/steps/step-03-01.png'
-                        }
-                        width={340}
-                        height={326}
-                        alt=""
-                      />
+                      {status === Status.failed ? (
+                        <Image
+                          src={'/images/steps/step-03-00.png'}
+                          width={340}
+                          height={326}
+                          alt=""
+                        />
+                      ) : (
+                        <Image
+                          src={'/images/steps/step-03-01.png'}
+                          width={392}
+                          height={299}
+                          alt=""
+                        />
+                      )}
                     </div>
                     <div className="text">
                       <p>
@@ -329,7 +334,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                     {'Yes, thank you, I would like to save time'}
                   </button>
                   <button type="button" className="main-btn big outline" onClick={goCart}>
-                    {'No, I will take care of it myself, and waste a lot of time'}
+                    {'No, I will take care of it myself'}
                   </button>
                 </div>
               </div>

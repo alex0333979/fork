@@ -52,31 +52,33 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated }
         <div className="price">
           <p>
             {'Price: '}
-            <span>{item.isComplete ? `$${item.price / 100}` : '$0'}</span>
+            {item.product === ProductType.PassportApplication && (
+              <span>{item.isComplete ? `$${item.price / 100}` : '$0'}</span>
+            )}
           </p>
         </div>
-        <div className="btn-wrap">
-          <div className="form-fields">
-            {PHOTO_PRICES.map((option, index) => (
-              <label key={index} className="full-size">
-                <span className="field radio with-price">
-                  <span className="name">{option.text}</span>
-                  <span className="price">{`$${option.price / 100}`}</span>
-                  <input
-                    type="radio"
-                    name="delivery"
-                    placeholder="delivery"
-                    checked={item.price === option.price}
-                    onChange={() => onChangeOption(option.price)}
-                  />
-                  <span className="wrap">
-                    <span className="bullet" />
-                    <span className="border" />
-                  </span>
+        <div className="form-fields">
+          {PHOTO_PRICES.map((option, index) => (
+            <label key={index} className="full-size">
+              <span className="field radio with-price">
+                <span className="name">{option.text}</span>
+                <span className="price">{`$${option.price / 100}`}</span>
+                <input
+                  type="radio"
+                  name="delivery"
+                  placeholder="delivery"
+                  checked={item.price === option.price}
+                  onChange={() => onChangeOption(option.price)}
+                />
+                <span className="wrap">
+                  <span className="bullet" />
+                  <span className="border" />
                 </span>
-              </label>
-            ))}
-          </div>
+              </span>
+            </label>
+          ))}
+        </div>
+        <div className="btn-wrap">
           <button
             type="button"
             className="main-btn small outline"

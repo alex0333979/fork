@@ -30,8 +30,8 @@ const ContactUs: React.FC = () => (
             <div className="title">
               <h2>{'Contact Us'}</h2>
               <p>
-                {`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisis sem tellus
-                  natoque sed sagittis nisl, nullam.`}
+                {`Please find our contact details and form below for general queries and order inquiries.
+                 We're here to help!`}
               </p>
             </div>
           </div>
@@ -39,28 +39,21 @@ const ContactUs: React.FC = () => (
             <div className="text">
               <ul>
                 <li>
-                  <h3>{'PHONE'}</h3>
+                  <h3>{'EMAIL SUPPORT'}</h3>
                   <p>
-                    <a href="tel:+1234567890">{'+1 234 567 890'}</a>
+                    <a href="mailto:support@passportphotos.com">{'support@passportphotos.com'}</a>
                   </p>
                 </li>
                 <li>
-                  <h3>{'EMAIL'}</h3>
-                  <p>
-                    <a href="mailto:customservice@abc.com">{'customservice@abc.com'}</a>
-                  </p>
+                  <h3>{'OPERATING HOURS'}</h3>
+                  <p>{'Mon - Fri: 10am - 6pm'}</p>
                 </li>
                 <li>
-                  <h3>{'OFFICE'}</h3>
+                  <h3>{'Office Address'}</h3>
                   <p>
-                    {'Mon - Fri: 9am - 6pm'}
+                    {'185 Great Neck Road, NY'}
                     <br />
-                    {'Sat & Sun: 10am - 4pm'}
-                  </p>
-                  <p>
-                    {'248 N Rodeo Dr, Beverly Hills,'}
-                    <br />
-                    {'CA 90210'}
+                    {'11021'}
                   </p>
                 </li>
               </ul>

@@ -5,8 +5,6 @@ import classNames from 'classnames';
 import NavItem from './navItem';
 import { PAGES, TOP_MENUS } from '../../constants';
 import { useAuth } from '@/lib/auth';
-import SelectCountry from '@/components/layout/selectCountry';
-import { Country } from '@/generated/graphql';
 import { useRouter } from 'next/router';
 
 const AppHeader: React.FC = () => {
@@ -19,9 +17,9 @@ const AppHeader: React.FC = () => {
   //   await router.push(PAGES.home);
   // }, [router, signOut]);
 
-  const onSelectedCountry = useCallback((country: Country) => {
-    console.log(country);
-  }, []);
+  // const onSelectedCountry = useCallback((country: Country) => {
+  //   console.log(country);
+  // }, []);
 
   const onClickCart = useCallback(async () => {
     if (cart?.items?.length ?? 0 > 0) {
@@ -67,7 +65,12 @@ const AppHeader: React.FC = () => {
             </div>
           </div>
           <div className="right-side">
-            <SelectCountry selectedCountry={onSelectedCountry} />
+            <div className="location">
+              <div className="current">
+                <p>{'United States'}</p>
+              </div>
+            </div>
+            {/* <SelectCountry selectedCountry={onSelectedCountry} />*/}
             <div className="user-btn">
               <Link href={PAGES.home}>
                 <a>
