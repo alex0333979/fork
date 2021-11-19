@@ -1,4 +1,4 @@
-import '../styles/globals.scss';
+import '../styles/index.scss';
 import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import { AuthProvider } from '@/lib/auth';

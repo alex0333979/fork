@@ -26,7 +26,7 @@ export const PAGES = {
   about: '/about'
 };
 
-export const US_DOCUMENT_ID = 484;
+export const US_DOCUMENT_ID = 495;
 
 export const TOP_MENUS: NavItemProps[] = [
   // {
@@ -275,4 +275,18 @@ export const PHOTO_PRICES = [
     price: 2447,
     value: 6
   }
+];
+
+export const CHECKLIST = [
+  'Head Pose',
+  'Open Eyes',
+  'Red Eyes',
+  'Glasses',
+  'Hat',
+  'Sharpness',
+  'Resolution',
+  'Expression',
+  'Diagonal Face',
+  'Eyes Open',
+  'Pupils'
 ];

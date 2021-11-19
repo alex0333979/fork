@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { PAGES, PHOTO_STEP } from '../../constants';
+import { CHECKLIST, PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { ProcessPhotoProps } from '@/pages/photo/process-photo';
 import { useRouter } from 'next/router';
@@ -170,16 +170,21 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                 <div className="info-text">
                   <div className="info-wrap">
                     <div className="img">
-                      <Image
-                        src={
-                          status === Status.failed
-                            ? '/images/steps/step-03-00.png'
-                            : '/images/steps/step-03-01.png'
-                        }
-                        width={340}
-                        height={326}
-                        alt=""
-                      />
+                      {status === Status.failed ? (
+                        <Image
+                          src={'/images/steps/step-03-00.png'}
+                          width={340}
+                          height={326}
+                          alt=""
+                        />
+                      ) : (
+                        <Image
+                          src={'/images/steps/step-03-01.png'}
+                          width={392}
+                          height={299}
+                          alt=""
+                        />
+                      )}
                     </div>
                     <div className="text">
                       <p>
@@ -201,11 +206,19 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
 
                 <div className="title big">
                   <h1>
-                    {status === Status.loading
-                      ? 'Processing...'
-                      : status === Status.failed
-                      ? 'Correction required'
-                      : 'Success'}
+                    {status === Status.loading ? (
+                      'Processing...'
+                    ) : status === Status.failed ? (
+                      <>
+                        <span className="failed">{'Not approved'}</span>
+                        {' - See Requirements Below and Retake Photo'}
+                      </>
+                    ) : (
+                      <>
+                        <span className="success">{'Success'}</span>
+                        {' - Proceed To Checkout'}
+                      </>
+                    )}
                   </h1>
                 </div>
               </div>
@@ -227,6 +240,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   </div>
                   <div className="list">
                     <ul>
+                      {status === Status.loading &&
+                        CHECKLIST.map((text, index) => (
+                          <li key={`l_${index}`}>
+                            {/* <span className="icon" />*/}
+                            <span className="text">{text}</span>
+                          </li>
+                        ))}
                       {status === Status.failed &&
                         failed.map((f, index) => (
                           <li key={`f_${index}`}>
@@ -329,7 +349,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                     {'Yes, thank you, I would like to save time'}
                   </button>
                   <button type="button" className="main-btn big outline" onClick={goCart}>
-                    {'No, I will take care of it myself, and waste a lot of time'}
+                    {'No, I will take care of it myself'}
                   </button>
                 </div>
               </div>

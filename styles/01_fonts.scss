@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'Averta CY W10';
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Regular.eot');
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Regular.eot?#iefix') format('embedded-opentype'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Regular.woff') format('woff'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Regular.ttf') format('truetype');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Regular.eot');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Regular.woff') format('woff'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -11,10 +11,10 @@
 
 @font-face {
   font-family: 'Averta CY W10';
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Semibold.eot');
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Semibold.eot?#iefix') format('embedded-opentype'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Semibold.woff') format('woff'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Semibold.ttf') format('truetype');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Semibold.eot');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Semibold.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Semibold.woff') format('woff'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Semibold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -22,10 +22,10 @@
 
 @font-face {
   font-family: 'Averta CY W10';
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Bold.eot');
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Bold.eot?#iefix') format('embedded-opentype'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Bold.woff') format('woff'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Bold.ttf') format('truetype');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Bold.eot');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Bold.woff') format('woff'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -33,10 +33,10 @@
 
 @font-face {
   font-family: 'Averta CY W10';
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Light.eot');
-  src: url('../../public/fonts/AvertaCY/AvertaCYW10-Light.eot?#iefix') format('embedded-opentype'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Light.woff') format('woff'),
-  url('../../public/fonts/AvertaCY/AvertaCYW10-Light.ttf') format('truetype');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Light.eot');
+  src: url('../public/fonts/AvertaCY/AvertaCYW10-Light.eot?#iefix') format('embedded-opentype'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Light.woff') format('woff'),
+  url('../public/fonts/AvertaCY/AvertaCYW10-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -45,11 +45,11 @@
 
 @font-face {
   font-family: 'icoFont';
-  src:  url('../../public/fonts/icoFont/icoFont.eot?uayl2p');
-  src:  url('../../public/fonts/icoFont/icoFont.eot?uayl2p#iefix') format('embedded-opentype'),
-  url('../../public/fonts/icoFont/icoFont.ttf?uayl2p') format('truetype'),
-  url('../../public/fonts/icoFont/icoFont.woff?uayl2p') format('woff'),
-  url('../../public/fonts/icoFont/icoFont.svg?uayl2p#icoFont') format('svg');
+  src:  url('../public/fonts/icoFont/icoFont.eot?uayl2p');
+  src:  url('../public/fonts/icoFont/icoFont.eot?uayl2p#iefix') format('embedded-opentype'),
+  url('../public/fonts/icoFont/icoFont.ttf?uayl2p') format('truetype'),
+  url('../public/fonts/icoFont/icoFont.woff?uayl2p') format('woff'),
+  url('../public/fonts/icoFont/icoFont.svg?uayl2p#icoFont') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -58,6 +58,7 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icoFont' !important;
+  speak: unset;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -152,7 +153,7 @@
 .icon-payment:before {
   content: "\e921";
 }
-.icon-search:before {
+.icon-serach:before {
   content: "\e922";
 }
 .icon-update:before {
@@ -173,4 +174,6 @@
 .icon-upload:before {
   content: "\e928";
 }
-
+.icon-edit:before {
+  content: "\e929";
+}
