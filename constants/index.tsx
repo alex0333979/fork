@@ -276,3 +276,17 @@ export const PHOTO_PRICES = [
     value: 6
   }
 ];
+
+export const CHECKLIST = [
+  'Head Pose',
+  'Open Eyes',
+  'Red Eyes',
+  'Glasses',
+  'Hat',
+  'Sharpness',
+  'Resolution',
+  'Expression',
+  'Diagonal Face',
+  'Eyes Open',
+  'Pupils'
+];

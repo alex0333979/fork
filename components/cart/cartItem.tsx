@@ -65,8 +65,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated }
                 <span className="price">{`$${option.price / 100}`}</span>
                 <input
                   type="radio"
-                  name="delivery"
-                  placeholder="delivery"
+                  name={`price`}
                   checked={item.price === option.price}
                   onChange={() => onChangeOption(option.price)}
                 />

@@ -3490,6 +3490,14 @@ footer {
           text-align: center;
           letter-spacing: -1px;
           color: var(--black);
+
+          span.failed{
+            color: var(--burnt-sienna);
+          }
+
+          span.success{
+            color: var(--jungle-green);
+          }
         }
 
         p {
