@@ -30,16 +30,13 @@ const SelectType: React.FC = () => {
                   <Image src="/images/steps/step-01-00.png" width={332} height={430} alt="" />
                 </div>
                 <div className="text">
-                  <h2>{'Get your perfect AI approved passport photo.'}</h2>
-                  <p>{'(Government Compliance Guaranteed)'}</p>
+                  <h2>{'Verified passport photo using your device'}</h2>
                   <br />
-                  <p>{`Each required photo attribute is scanned for accuracy. 
-                  Our biometric technology is used to map facial features and 
-                  background confirm that your eyes are in fact open, 
-                  insure the appropriate background is being used, 
-                  your head and body position are meeting Government standards, and more. `}</p>
+                  <p>{`No need to download an app.`}</p>
                   <br />
-                  <p>{`No need to download an app. Use your phone or PC, it's that simple.`}</p>
+                  <p>{`Use your phone or PC.`}</p>
+                  <br />
+                  <p>{`Our biometric technology verifies Government compliance instantly`}</p>
                 </div>
               </div>
             </div>
