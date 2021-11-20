@@ -459,8 +459,8 @@ select {
               bottom: -1px;
               opacity: 0;
               visibility: hidden;
-              background-color: white;
-              border: 4px solid var(--azure-radiance);
+              background-color: var(--azure-radiance);
+              border: 4px solid white;
               transition: opacity var(--transition), visibility var(--transition), background-color var(--transition), border-color var(--transition);
             }
           }
@@ -487,7 +487,7 @@ select {
             &:checked {
               + .wrap {
                 .bullet {
-                  border-color: transparent;
+                  //border-color: transparent;
 
                   &:before {
                     opacity: 1;

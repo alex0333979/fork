@@ -5,12 +5,13 @@ import { useRouter } from 'next/router';
 import { showError, showSuccess } from '@/lib/utils/toast';
 
 interface CartItemProps {
+  index: number;
   item: CartItem;
   onDelete: (id: string) => void;
   onUpdated: (cart: Cart) => void;
 }
 
-const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated }) => {
+const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated, index }) => {
   const router = useRouter();
   const [updateCartItemPrice] = useUpdateCartItemPriceMutation();
 
@@ -58,14 +59,14 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated }
           </p>
         </div>
         <div className="form-fields">
-          {PHOTO_PRICES.map((option, index) => (
-            <label key={index} className="full-size">
+          {PHOTO_PRICES.map((option, i) => (
+            <label key={`${index}-${i}`} className="full-size">
               <span className="field radio with-price">
                 <span className="name">{option.text}</span>
                 <span className="price">{`$${option.price / 100}`}</span>
                 <input
                   type="radio"
-                  name={`price`}
+                  name={`price-${index}`}
                   checked={item.price === option.price}
                   onChange={() => onChangeOption(option.price)}
                 />
