@@ -3938,6 +3938,8 @@ footer {
               margin-right: 4px;
               padding: 5px;
               border-radius: 6px 0 0 6px;
+              position: relative;
+              z-index: 1;
 
               &:before {
                 content: "\e903";
@@ -3952,6 +3954,29 @@ footer {
                 color: var(--white);
                 background: var(--azure-radiance);
                 border-radius: 3px;
+                transition: opacity var(--transition), visibility var(--transition);
+              }
+
+              &:after {
+                content: "\e930";
+                font-family: 'icoFont' !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 1;
+                font-size: 16px;
+                color: var(--azure-radiance);
+                border-radius: 3px;
+                opacity: 0;
+                visibility: hidden;
+                animation: spinning 4s infinite linear;
+                transition: opacity var(--transition), visibility var(--transition);
+                pointer-events: none;
               }
             }
 
@@ -3959,6 +3984,21 @@ footer {
               flex: 1;
               padding: 13px 10px 13px 16px;
               border-radius: 0 6px 6px 0;
+            }
+          }
+
+          &.loading {
+            span {
+              &.icon {
+                &:before {
+                  opacity: 0;
+                  visibility: hidden;
+                }
+                &:after {
+                  opacity: 1;
+                  visibility: visible;
+                }
+              }
             }
           }
         }
@@ -3992,6 +4032,16 @@ footer {
         }
       }
     }
+
+  }
+}
+
+@keyframes spinning {
+  from {
+    transform:rotate(0deg);
+  }
+  to {
+    transform:rotate(360deg);
   }
 }
 
