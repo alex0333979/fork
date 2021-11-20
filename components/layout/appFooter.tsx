@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PAGES } from '../../constants';
 
 const AppFooter: React.FC = () => (
   <footer>
@@ -93,17 +94,17 @@ const AppFooter: React.FC = () => (
           <ul>
             <li className="hide-m">{'© Copyright 2021. All rights reserved'}</li>
             <li>
-              <Link href={'/'}>
+              <Link href={PAGES.terms}>
                 <a>{'Privacy Policy'}</a>
               </Link>
             </li>
             <li>
-              <Link href={'/'}>
+              <Link href={PAGES.terms}>
                 <a>{'Terms of Use'}</a>
               </Link>
             </li>
             <li>
-              <Link href={'/'}>
+              <Link href={PAGES.shippingPolicy}>
                 <a>{'Shipping policy'}</a>
               </Link>
             </li>

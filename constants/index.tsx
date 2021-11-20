@@ -23,7 +23,9 @@ export const PAGES = {
     processPhoto: '/photo/process-photo/'
   },
   contactUs: '/contact-us',
-  about: '/about'
+  about: '/about',
+  terms: '/terms',
+  shippingPolicy: '/shipping-policy'
 };
 
 export const US_DOCUMENT_ID = 495;
