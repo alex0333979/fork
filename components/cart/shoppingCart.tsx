@@ -57,6 +57,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                   ?.filter((item) => item.product === ProductType.PassportApplication)
                   ?.map((item, index) => (
                     <ShoppingCartItem
+                      index={index}
                       key={index}
                       item={item}
                       onDelete={onRemoveCartItem}
@@ -80,6 +81,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                   ?.filter((item) => item.product === ProductType.PassportPhoto)
                   ?.map((item, index) => (
                     <ShoppingCartItem
+                      index={index}
                       key={index}
                       item={item}
                       onDelete={onRemoveCartItem}

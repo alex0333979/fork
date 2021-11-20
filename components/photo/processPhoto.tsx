@@ -242,8 +242,10 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                     <ul>
                       {status === Status.loading &&
                         CHECKLIST.map((text, index) => (
-                          <li key={`l_${index}`}>
-                            {/* <span className="icon" />*/}
+                          <li
+                            key={`l_${index}`}
+                            className={classNames({ loading: status === Status.loading })}>
+                            <span className="icon" />
                             <span className="text">{text}</span>
                           </li>
                         ))}
