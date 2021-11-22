@@ -65,15 +65,6 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                     />
                   ))}
               </ul>
-              <div className="btn-wrap">
-                <button
-                  type="button"
-                  className="main-btn small outline"
-                  onClick={() => router.push(PAGES.application.create)}>
-                  {'Add passport application'}
-                  <span className="icon-close" />
-                </button>
-              </div>
             </div>
             <div className="item-wrap">
               <ul>

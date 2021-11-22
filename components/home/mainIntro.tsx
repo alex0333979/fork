@@ -25,7 +25,9 @@ const MainIntro = (props: any, ref: any) => {
                     <Image src="/images/emoji/us-flag.png" width={40} height={40} alt="" />
                   </span>
                   <br />
-                  {' passport photo with your device.'}
+                  {' passport photo'}
+                  <br />
+                  {' with your device.'}
                   <br />
                 </b>
               </h1>

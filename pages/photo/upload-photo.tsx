@@ -13,8 +13,9 @@ import {
   FormsDocument,
   FormsQuery
 } from '@/generated/graphql';
-import { PAGES, PHOTO_FORM } from '../../constants';
+import { PAGES, PHOTO_FORM, SEO } from '../../constants';
 import { FACING_MODES } from 'react-html5-camera-photo';
+import { NextSeo } from 'next-seo';
 
 export interface UploadPhotoPageProps {
   form: Form;
@@ -23,9 +24,12 @@ export interface UploadPhotoPageProps {
 }
 
 const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form, entry, type }) => (
-  <PhotoLayout>
-    <PhotoStep2 form={form} entry={entry} type={type} />
-  </PhotoLayout>
+  <>
+    <NextSeo title={SEO.takePhoto.title} description={SEO.takePhoto.description} />
+    <PhotoLayout>
+      <PhotoStep2 form={form} entry={entry} type={type} />
+    </PhotoLayout>
+  </>
 );
 
 export default UploadPhotoPage;

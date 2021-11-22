@@ -6,16 +6,23 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { COOKIES_TOKEN_NAME, initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { Entry, EntryDocument, EntryQuery } from '@/generated/graphql';
-import { PAGES, PHOTO_FORM } from '../../constants';
+import { PAGES, PHOTO_FORM, SEO } from '../../constants';
+import { NextSeo } from 'next-seo';
 
 export interface ProcessPhotoProps {
   entry: Entry;
 }
 
 const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry }) => (
-  <PhotoLayout>
-    <ProcessPhoto entry={entry} />
-  </PhotoLayout>
+  <>
+    <NextSeo
+      title={SEO.passportApplication.title}
+      description={SEO.passportApplication.description}
+    />
+    <PhotoLayout>
+      <ProcessPhoto entry={entry} />
+    </PhotoLayout>
+  </>
 );
 
 export default ProcessPhotoPage;
