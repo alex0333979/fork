@@ -8,7 +8,9 @@ const About: React.FC = () => (
       <div className="container">
         <div className="row">
           <div className="title col-12 col-lg-5">
-            <h1>{'We are all about convenience and speed when it comes to Your Passport Photos'}</h1>
+            <h1>
+              {'We are all about convenience and speed when it comes to Your Passport Photos'}
+            </h1>
             <p className="d-lg-none">
               {`We invest our resources developing most innovative AI software to insure
                your passport photos meet all Gov requirements - Using your mobile or PC`}
