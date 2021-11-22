@@ -166,8 +166,8 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                     </span>
                   </div>
                   <div className="text">
-                    <p>{`Position Your Head Inside The Green Overlay. No glasses allowed. 
-                    Your hair or clothing may not obscure your face`}</p>
+                    <p>{`Position your head inside the green overlay. No glasses allowed. 
+                        Your hair or clothing may not obscure your face`}</p>
                   </div>
                 </li>
                 <li>
