@@ -186,13 +186,6 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                         />
                       )}
                     </div>
-                    <div className="text">
-                      <p>
-                        {'Stand in front of a well lit white or light-colored wall'}
-                        <br />
-                        {'(compliance guaranteed)'}
-                      </p>
-                    </div>
                   </div>
                 </div>
               )}

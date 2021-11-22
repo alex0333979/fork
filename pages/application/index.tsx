@@ -31,7 +31,10 @@ export interface EntryPageProps {
 
 const Entry: NextPage<EntryPageProps> = ({ forms, entry, step }) => (
   <>
-    <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
+    <NextSeo
+      title={SEO.passportApplication.title}
+      description={SEO.passportApplication.description}
+    />
     <AppLayout>
       <ApplicationForm forms={forms} entry={entry} step={step} />
     </AppLayout>

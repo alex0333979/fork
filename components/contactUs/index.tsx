@@ -10,14 +10,9 @@ const ContactUs: React.FC = () => (
             <Image src="/images/Contacts/contacts-bg.jpg" width={1328} height={659} alt="" />
           </div>
           <h1>
-            {'We are an '}
+            {'The premier online passport photo service.'}
             <br />
-            {'online passport service company'}
-            <br />
-            {'based in '}
-            <span>{'New York'}</span>
-            {' and '}
-            <span>{'Los Angeles'}</span>.
+            {'Proudly serving our customers globally.'}
           </h1>
         </div>
       </div>
@@ -30,8 +25,8 @@ const ContactUs: React.FC = () => (
             <div className="title">
               <h2>{'Contact Us'}</h2>
               <p>
-                {`Please find our contact details and form below for general queries and order inquiries.
-                 We're here to help!`}
+                {`Please find our contact details and form below for general queries and order inquiries. 
+                We're here to help!`}
               </p>
             </div>
           </div>

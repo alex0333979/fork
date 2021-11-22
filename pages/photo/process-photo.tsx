@@ -15,10 +15,7 @@ export interface ProcessPhotoProps {
 
 const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry }) => (
   <>
-    <NextSeo
-      title={SEO.passportApplication.title}
-      description={SEO.passportApplication.description}
-    />
+    <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
     <PhotoLayout>
       <ProcessPhoto entry={entry} />
     </PhotoLayout>

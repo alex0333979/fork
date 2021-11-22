@@ -62,20 +62,21 @@ const About: React.FC = () => (
                   <div className="icon">
                     <Image src="/images/About/workflow.svg" width={40} height={40} alt="" />
                   </div>
-                  <h4>{'Collaboration'}</h4>
+                  <h4>{'Convenience'}</h4>
                   <p>
-                    {`Collaboration is the process of two or more people or organizations working
-                      together to complete a task or achieve a goal.`}
+                    {`Verified passport photos by proprietary AI software - within seconds. 
+                    Sent to you wherever you are. No need to wait for so called “experts” to 
+                    verify your photo or wait in line at the local drug store `}
                   </p>
                 </li>
                 <li>
                   <div className="icon">
                     <Image src="/images/About/multiple_shape.svg" width={40} height={40} alt="" />
                   </div>
-                  <h4>{'Transparency'}</h4>
+                  <h4>{'It Is All About The Service'}</h4>
                   <p>
-                    {`Transparency, as used in science is operating in such a way that it is easy for
-                      others to see what actions are performed.`}
+                    {`We are committed to assisting you every step of the way. 
+                    We are responsive and caring. We know it’s a 10 year photo investment.`}
                   </p>
                 </li>
 
@@ -83,10 +84,11 @@ const About: React.FC = () => (
                   <div className="icon">
                     <Image src="/images/About/like.svg" width={40} height={40} alt="" />
                   </div>
-                  <h4>{'Trust'}</h4>
+                  <h4>{'Guaranteed Photo Compliance'}</h4>
                   <p>
-                    {`Trust will help us foster a positive and productive environment that delivers
-                      value to our users and customers.`}
+                    {`Our software and quality control process ensures that your photo meets 
+                    all the government biometric requirements, 100%. If, by some crazy chance, 
+                    your photos gets rejected we’ll refund your money and issue another photo free of charge.`}
                   </p>
                 </li>
                 <li>
@@ -118,13 +120,11 @@ const About: React.FC = () => (
             <div className="text">
               <h2>{'What we do'}</h2>
               <p>
-                {`We supply enterprises, organizations and institutes of high-tech industries with
-                  modern components. We build long-term trusting relationships with our customers and
-                  partners for further fruitful cooperation.`}
+                {`We’ve made taking passport photos simple. 
+                Our AI technology will scan and approve your photo in seconds.`}
               </p>
               <p>
-                {`From year to year we strive to invent the most innovative technology that is used by
-                  both small enterprises and space enterprises.`}
+                {`No need to leave your house, print them at home or have us print and ship them to your door. `}
               </p>
             </div>
           </div>

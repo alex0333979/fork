@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import classNames from 'classnames';
+import DateFnsUtils from '@date-io/date-fns';
+
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 interface AppDatePickerProps {
   formField: FormField;
@@ -26,17 +27,18 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
         {formField.required ? ' *' : ''}
       </span>
       <span className="field">
-        <DatePicker
-          name={formField.name}
-          className={classNames({
-            'error-border': !!error
-          })}
-          showYearDropdown={true}
-          dateFormat={'MM/dd/yyyy'}
-          selected={date}
-          onChange={(date: Date | null) => onChange(date)}
-          maxDate={new Date()}
-        />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <DatePicker
+            name={formField.name}
+            className={classNames({
+              'error-border': !!error
+            })}
+            format={'MM/dd/yyyy'}
+            value={date}
+            onChange={(date: Date | null) => onChange(date)}
+            maxDate={new Date()}
+          />
+        </MuiPickersUtilsProvider>
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
     </label>
