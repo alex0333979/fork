@@ -11,7 +11,7 @@ const AppFooter: React.FC = () => (
           <div className="logo">
             <Link href={'/'}>
               <a>
-                <Image src="/images/logo1.png" alt="" width={431} height={132} />
+                <Image src="/images/logo1.png" alt="" width={450} height={141} />
               </a>
             </Link>
           </div>
@@ -27,7 +27,7 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'Resources'}</li>
               <li>
-                <Link href={'/#faq'}>
+                <Link href={`${PAGES.home}#faq`}>
                   <a>{'FAQ'}</a>
                 </Link>
               </li>
@@ -35,12 +35,12 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'About us'}</li>
               <li>
-                <Link href={'/about'}>
+                <Link href={PAGES.about}>
                   <a>{'About'}</a>
                 </Link>
               </li>
               <li>
-                <Link href={'/contact-us'}>
+                <Link href={PAGES.contactUs}>
                   <a>{'Contact Us'}</a>
                 </Link>
               </li>
@@ -48,16 +48,20 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'Social pages'}</li>
               <li>
-                <a target="https://www.facebook.com/PassportPhotosGlobal">
-                  <span className="icon-fb" />
-                  {'facebook'}
-                </a>
+                <Link href={'https://www.facebook.com/PassportPhotosGlobal'}>
+                  <a target="_blank">
+                    <span className="icon-fb" />
+                    {'facebook'}
+                  </a>
+                </Link>
               </li>
               <li>
-                <a target="https://www.instagram.com/PassportPhotosGlobal">
-                  <span className="icon-inst" />
-                  {'instagram'}
-                </a>
+                <Link href={'https://www.instagram.com/PassportPhotosGlobal'}>
+                  <a target="_blank">
+                    <span className="icon-inst" />
+                    {'instagram'}
+                  </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -82,11 +86,6 @@ const AppFooter: React.FC = () => (
             <li>
               <Link href={PAGES.shippingPolicy}>
                 <a>{'Shipping policy'}</a>
-              </Link>
-            </li>
-            <li>
-              <Link href={'/'}>
-                <a>{'Call us'}</a>
               </Link>
             </li>
           </ul>

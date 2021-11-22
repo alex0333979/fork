@@ -53,7 +53,7 @@ const ContactUs: React.FC = () => (
                 </li>
               </ul>
               <div className="btn">
-                <a>
+                <a href="https://www.google.com/maps?q=185+Great+Neck+Road,+NY+11021">
                   {'Get Directions'}
                   <span className="icon-longarrow" />
                 </a>
