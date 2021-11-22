@@ -33,19 +33,21 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
 
   return (
     <ModalContainer open={open} closeModal={() => closeTakePhoto()}>
-      <Camera
-        onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
-        idealFacingMode={
-          idealFacingMode === FACING_MODES.ENVIRONMENT
-            ? FACING_MODES.ENVIRONMENT
-            : FACING_MODES.USER
-        }
-        imageType={IMAGE_TYPES.PNG}
-        idealResolution={{ width: 2000, height: 2000 }}
-        isDisplayStartCameraError={false}
-        onCameraError={handleCameraError}
-        isFullscreen={false}
-      />
+      {open && (
+        <Camera
+          onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
+          idealFacingMode={
+            idealFacingMode === FACING_MODES.ENVIRONMENT
+              ? FACING_MODES.ENVIRONMENT
+              : FACING_MODES.USER
+          }
+          imageType={IMAGE_TYPES.PNG}
+          idealResolution={{ width: 2000, height: 2000 }}
+          isDisplayStartCameraError={false}
+          onCameraError={handleCameraError}
+          isFullscreen={false}
+        />
+      )}
     </ModalContainer>
   );
 };
