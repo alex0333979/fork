@@ -27,7 +27,7 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'Resources'}</li>
               <li>
-                <Link href={'/'}>
+                <Link href={`${PAGES.home}#faq`}>
                   <a>{'FAQ'}</a>
                 </Link>
               </li>
@@ -35,12 +35,12 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'About us'}</li>
               <li>
-                <Link href={'/'}>
+                <Link href={PAGES.about}>
                   <a>{'About'}</a>
                 </Link>
               </li>
               <li>
-                <Link href={'/'}>
+                <Link href={PAGES.contactUs}>
                   <a>{'Contact Us'}</a>
                 </Link>
               </li>

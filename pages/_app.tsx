@@ -21,7 +21,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
   useEffect(() => {
-    TagManager.initialize({ gtmId: 'GTM-XXXXX' });
+    TagManager.initialize({ gtmId: 'GTM-5W3J7HM' });
   }, []);
 
   return (
