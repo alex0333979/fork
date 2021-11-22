@@ -142,18 +142,18 @@ const About: React.FC = () => (
           </div>
           <div className="col-12 col-lg-6">
             <div className="text">
-              <h2>{'Why Work Here'}</h2>
+              <h2>{'Our History'}</h2>
               <p>{`From year to year we strive to invent the most innovative technology.`}</p>
               <ul>
                 <li>
-                  <span>{`26k`}</span>
-                  {`Passport`}
-                  <br /> {`Application`}
-                </li>
-                <li>
-                  <span>{`12k`}</span>
+                  <span>{`36k`}</span>
                   {`Passport`}
                   <br /> {`Photos`}
+                </li>
+                <li>
+                  <span>{`18k`}</span>
+                  {`Passport`}
+                  <br /> {`Applications`}
                 </li>
               </ul>
             </div>
