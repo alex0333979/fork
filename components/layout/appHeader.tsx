@@ -71,13 +71,13 @@ const AppHeader: React.FC = () => {
               </div>
             </div>
             {/* <SelectCountry selectedCountry={onSelectedCountry} />*/}
-            <div className="user-btn">
-              <Link href={PAGES.home}>
-                <a>
-                  <span className="icon-user" />
-                </a>
-              </Link>
-            </div>
+            {/* <div className="user-btn">*/}
+            {/*  <Link href={PAGES.home}>*/}
+            {/*    <a>*/}
+            {/*      <span className="icon-user" />*/}
+            {/*    </a>*/}
+            {/*  </Link>*/}
+            {/* </div>*/}
             <div className="cart-btn">
               <a onClick={onClickCart}>
                 <span className="icon-cart" /> {cart?.items?.length ?? 0}

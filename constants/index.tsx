@@ -28,6 +28,57 @@ export const PAGES = {
   shippingPolicy: '/shipping-policy'
 };
 
+export const SEO = {
+  home: {
+    title: 'Home Page',
+    description:
+      'Take Your Own Passport Photo From Anywhere - Use Your Cellphone and Get Instant Compliance and Verification',
+    keywords:
+      'ake passport photo at home, print your own passport photo, cellphone passport photos, passport photos online'
+  },
+  selectType: {
+    title: 'select type',
+    description: 'Taking your passport photo on your own or having someone take it for you',
+    keywords: 'diy passport photo, passport photos online, how to take a passport photo at home'
+  },
+  takePhoto: {
+    title: 'take a photo',
+    description: `It's Your Shot, On Your Own Time, and From Anywhere With your cellphone or upload an existing photo.`,
+    keywords: 'digital passport photo, cellphone passport photo, take a passport photo'
+  },
+  processPhoto: {
+    title: 'process photo',
+    description:
+      'Biometrically Verified Passport Photos From the Comfort of Your Home. Let our AI technology do the work',
+    keywords:
+      'Compliant passport photos, verified passport photos, biometrically approved passport photos.'
+  },
+  passportApplication: {
+    title: 'Passport Application Page',
+    description: `Add a passport application to your passport photo purchase. 
+                  Convenient, easy and secure passport application completion.`,
+    keywords:
+      'Online passport applications, digital passport application form, passport application forms'
+  },
+  contactUs: {
+    title: 'PassportPhotos Contact Us',
+    description:
+      'Take Your Own Passport Photo From Anywhere - Use Your Cellphone and Get Instant Compliance and Verification',
+    keywords:
+      'take passport photo at home, print your own passport photo, cellphone passport photos, passport photos online'
+  },
+  about: {
+    title: 'PassportPhotos - About',
+    description: '',
+    keywords: ''
+  },
+  faq: {
+    title: 'PassportPhotos',
+    description: '',
+    keywords: ''
+  }
+};
+
 export const US_DOCUMENT_ID = 495;
 
 export const TOP_MENUS: NavItemProps[] = [

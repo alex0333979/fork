@@ -13,7 +13,8 @@ import {
 } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
 import dynamic from 'next/dynamic';
-import { PAGES, PHOTO_FORM } from '../../constants';
+import { PAGES, PHOTO_FORM, SEO } from '../../constants';
+import { NextSeo } from 'next-seo';
 const ApplicationForm = dynamic(() => import('@/components/application/applicationForm'));
 
 export interface EntryPageProps {
@@ -29,9 +30,12 @@ export interface EntryPageProps {
 }
 
 const Entry: NextPage<EntryPageProps> = ({ forms, entry, step }) => (
-  <AppLayout>
-    <ApplicationForm forms={forms} entry={entry} step={step} />
-  </AppLayout>
+  <>
+    <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
+    <AppLayout>
+      <ApplicationForm forms={forms} entry={entry} step={step} />
+    </AppLayout>
+  </>
 );
 
 export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
