@@ -17,17 +17,9 @@ const AppFooter: React.FC = () => (
           </div>
           <div className="menu">
             <ul>
-              <li>{'How it works'}</li>
-              <li>
-                <Link href={'/'}>
-                  <a>{'Passport photo'}</a>
-                </Link>
-              </li>
-            </ul>
-            <ul>
               <li>{'What we offer'}</li>
               <li>
-                <Link href={'/'}>
+                <Link href={PAGES.photo.index}>
                   <a>{'Passport photo'}</a>
                 </Link>
               </li>
@@ -39,19 +31,9 @@ const AppFooter: React.FC = () => (
                   <a>{'FAQ'}</a>
                 </Link>
               </li>
-              <li>
-                <Link href={'/'}>
-                  <a>{'Blog'}</a>
-                </Link>
-              </li>
-              <li>
-                <Link href={'/'}>
-                  <a>{'Videos'}</a>
-                </Link>
-              </li>
             </ul>
             <ul>
-              <li>{'Pricing'}</li>
+              <li>{'About us'}</li>
               <li>
                 <Link href={'/'}>
                   <a>{'About'}</a>

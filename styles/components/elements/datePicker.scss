@@ -1,0 +1,21 @@
+.MuiFormControl-root {
+  width: 100% !important;
+}
+
+.MuiInputBase-input {
+  box-sizing: border-box !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom: none !important;
+  transition: none !important;
+}
+
+.MuiInput-underline:after {
+  border-bottom: none !important;
+  transition: none !important;
+}
+
+.MuiInput-underline.Mui-fcoused:after {
+  transform: none !important;
+}

@@ -2,7 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import Input from 'react-phone-number-input/input';
 import classNames from 'classnames';
-import ReactTooltip from 'react-tooltip';
+import dynamic from 'next/dynamic';
+
+const ReactTooltip = dynamic(() => import('react-tooltip'), {
+  ssr: false
+});
 
 interface PhoneInputProps {
   formField: FormField;

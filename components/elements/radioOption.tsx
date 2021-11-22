@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
-import ReactTooltip from 'react-tooltip';
+import dynamic from 'next/dynamic';
+
+const ReactTooltip = dynamic(() => import('react-tooltip'), {
+  ssr: false
+});
 
 interface RadioOptionProps {
   formField: FormField;
