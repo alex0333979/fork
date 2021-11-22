@@ -74,7 +74,7 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
       props: {
         form,
         entry: entry ? entry : null,
-        type: type === 'selfie' ? FACING_MODES.USER : FACING_MODES.ENVIRONMENT
+        type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER
       }
     };
   } catch (e) {
