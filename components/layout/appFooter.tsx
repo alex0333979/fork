@@ -27,7 +27,7 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'Resources'}</li>
               <li>
-                <Link href={'/'}>
+                <Link href={'/#faq'}>
                   <a>{'FAQ'}</a>
                 </Link>
               </li>
@@ -35,12 +35,12 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'About us'}</li>
               <li>
-                <Link href={'/'}>
+                <Link href={'/about'}>
                   <a>{'About'}</a>
                 </Link>
               </li>
               <li>
-                <Link href={'/'}>
+                <Link href={'/contact-us'}>
                   <a>{'Contact Us'}</a>
                 </Link>
               </li>
@@ -48,19 +48,13 @@ const AppFooter: React.FC = () => (
             <ul>
               <li>{'Social pages'}</li>
               <li>
-                <a target="_blank">
+                <a target="https://www.facebook.com/PassportPhotosGlobal">
                   <span className="icon-fb" />
                   {'facebook'}
                 </a>
               </li>
               <li>
-                <a target="_blank">
-                  <span className="icon-yt" />
-                  {'youtube'}
-                </a>
-              </li>
-              <li>
-                <a target="_blank">
+                <a target="https://www.instagram.com/PassportPhotosGlobal">
                   <span className="icon-inst" />
                   {'instagram'}
                 </a>

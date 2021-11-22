@@ -149,7 +149,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                         </span>
                       </div>
                       <div className="text">
-                        <p>{`Position Your Head Inside The Green Overlay. No glasses allowed. 
+                        <p>{`Position your head inside the green overlay. No glasses allowed. 
                             Your hair or clothing may not obscure your face`}</p>
                       </div>
                     </li>

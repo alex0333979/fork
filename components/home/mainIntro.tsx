@@ -21,9 +21,11 @@ const MainIntro = (props: any, ref: any) => {
                   </span>
                   */}
                   {'Take your '}
+                  {/*
                   <span className="emoji-wrap">
                     <Image src="/images/emoji/us-flag.png" width={40} height={40} alt="" />
                   </span>
+                  */}
                   <br />
                   {' passport photo'}
                   <br />
