@@ -154,6 +154,13 @@ const ReviewAndPay: React.FC = () => {
       if (cart) {
         updateCart(cart);
       }
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
+        value: 1.0,
+        currency: 'USD',
+        transaction_id: order.id
+      });
+
       await router.push(PAGES.home);
     }
   }, [
