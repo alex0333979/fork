@@ -120,6 +120,7 @@ export type Dimensions = {
 export type EmailToAdminInput = {
   email: Scalars['String'];
   name: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
   question: Scalars['String'];
 };
 

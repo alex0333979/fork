@@ -48,7 +48,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
       return;
     }
     if (entry && imageUrl && !selectedImage) {
-      await router.push(`${PAGES.photo.processPhoto}?entryId=${entry.id}`);
+      await router.push(`${PAGES.photo.processPhoto}?entryId=${entry.id}&type=${type}`);
       return;
     }
     if (!selectedImage) {

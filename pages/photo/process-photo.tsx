@@ -8,16 +8,18 @@ import { ApolloQueryResult } from '@apollo/client';
 import { Entry, EntryDocument, EntryQuery } from '@/generated/graphql';
 import { PAGES, PHOTO_FORM, SEO } from '../../constants';
 import { NextSeo } from 'next-seo';
+import { FACING_MODES } from 'react-html5-camera-photo';
 
 export interface ProcessPhotoProps {
   entry: Entry;
+  type: string;
 }
 
-const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry }) => (
+const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type }) => (
   <>
     <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
     <PhotoLayout>
-      <ProcessPhoto entry={entry} />
+      <ProcessPhoto entry={entry} type={type} />
     </PhotoLayout>
   </>
 );
@@ -37,6 +39,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   try {
     const client = initializeApollo(null, context);
     const entryId = context?.query?.entryId as string;
+    const type = context?.query.type as string;
     if (!entryId) {
       return {
         redirect: {
@@ -53,7 +56,8 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
     if (entry && entry.form.name === PHOTO_FORM) {
       return {
         props: {
-          entry
+          entry,
+          type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER
         }
       };
     }

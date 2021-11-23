@@ -893,12 +893,19 @@ img {
   .map-wrap {
     margin: 0 -15px;
     position: relative;
-    background: var(--gray);
+    //background: var(--gray);
 
-    &:after {
-      content: '';
-      display: block;
-      padding-bottom: 121.9%;
-    }
+    //&:after {
+    //  content: '';
+    //  display: block;
+    //  //padding-bottom: 121.9%;
+    //}
   }
+}
+
+input.error-border {
+  border-color: var(--burnt-sienna) !important;
+}
+textarea.error-border {
+  border-color: var(--burnt-sienna) !important;
 }

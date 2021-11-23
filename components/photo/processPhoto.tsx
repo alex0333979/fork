@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { CHECKLIST, PAGES, PHOTO_STEP } from '../../constants';
+import { APPLICATION_PRICE, CHECKLIST, PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { ProcessPhotoProps } from '@/pages/photo/process-photo';
 import { useRouter } from 'next/router';
@@ -25,7 +25,7 @@ enum Status {
   failed = 2
 }
 
-const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
+const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
   const router = useRouter();
   const { updateCart } = useAuth();
   const [addToCart] = useAddItemsToCartMutation();
@@ -226,7 +226,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                     <button
                       type="button"
                       className="main-btn no-border"
-                      onClick={() => router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)}>
+                      onClick={() =>
+                        router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}&type=${type}`)
+                      }>
                       <i className="icon-camera" />
                       {'Change Photo'}
                     </button>
@@ -336,7 +338,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   <h3>
                     {'Would you like to fill'}
                     <br /> {'a passport application'}
-                    <br /> {'for just'} <span>{'9.97$'}</span>
+                    <br /> {'for just'} <span>{`$${APPLICATION_PRICE / 100}`}</span>
                   </h3>
                 </div>
                 <div className="btn-wrap">
