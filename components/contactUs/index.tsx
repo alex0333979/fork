@@ -115,7 +115,7 @@ const ContactUs: React.FC = () => {
                     type="text"
                     placeholder="First Name"
                     className={classNames({
-                      'error-border': errors.name
+                      'error-border': errors.firstName
                     })}
                     {...register('firstName', { required: true })}
                   />
@@ -126,7 +126,7 @@ const ContactUs: React.FC = () => {
                     type="text"
                     placeholder="Last Name"
                     className={classNames({
-                      'error-border': errors.name
+                      'error-border': errors.lastName
                     })}
                     {...register('lastName', { required: true })}
                   />
@@ -151,7 +151,7 @@ const ContactUs: React.FC = () => {
                     name="phone"
                     control={control}
                     rules={{
-                      validate: (value) => isValidPhoneNumber(value)
+                      validate: (value) => isValidPhoneNumber(value ?? '')
                     }}
                     render={({ field: { onChange, value } }) => (
                       <Input

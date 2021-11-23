@@ -903,6 +903,9 @@ img {
   }
 }
 
-.error-border {
-  color: var(--burnt-sienna);
+input.error-border {
+  border-color: var(--burnt-sienna) !important;
+}
+textarea.error-border {
+  border-color: var(--burnt-sienna) !important;
 }
