@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { CHECKLIST, PAGES, PHOTO_STEP } from '../../constants';
+import { APPLICATION_PRICE, CHECKLIST, PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import { ProcessPhotoProps } from '@/pages/photo/process-photo';
 import { useRouter } from 'next/router';
@@ -336,7 +336,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry }) => {
                   <h3>
                     {'Would you like to fill'}
                     <br /> {'a passport application'}
-                    <br /> {'for just'} <span>{'9.97$'}</span>
+                    <br /> {'for just'} <span>{`$${APPLICATION_PRICE / 100}`}</span>
                   </h3>
                 </div>
                 <div className="btn-wrap">

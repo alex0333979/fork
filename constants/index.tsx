@@ -312,6 +312,8 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
   }
 };
 
+export const APPLICATION_PRICE = 947;
+
 export const PHOTO_PRICES = [
   {
     text: '2 Passport Photos',

@@ -893,12 +893,16 @@ img {
   .map-wrap {
     margin: 0 -15px;
     position: relative;
-    background: var(--gray);
+    //background: var(--gray);
 
-    &:after {
-      content: '';
-      display: block;
-      padding-bottom: 121.9%;
-    }
+    //&:after {
+    //  content: '';
+    //  display: block;
+    //  //padding-bottom: 121.9%;
+    //}
   }
+}
+
+.error-border {
+  color: var(--burnt-sienna);
 }

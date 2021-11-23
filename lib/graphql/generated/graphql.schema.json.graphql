@@ -425,6 +425,7 @@ input CartItemInput {
 input EmailToAdminInput {
     email: String!
     name: String!
+    phone: String
     question: String!
 }
 
