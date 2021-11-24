@@ -135,7 +135,11 @@ const ReviewAndPay: React.FC = () => {
 
     setLoading(true);
     const { error: pError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: { card: cardElement, billing_details: { name: cardName } }
+      payment_method: {
+        card: cardElement,
+        billing_details: { name: cardName },
+        metadata: { order_id: order.id }
+      }
     });
     setLoading(false);
 
