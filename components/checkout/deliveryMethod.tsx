@@ -30,7 +30,11 @@ const DeliveryMethod: React.FC = () => {
     const cart = data?.SetShippingTypeToCart.data;
     if (cart) {
       updateCart(cart);
-      await router.push(PAGES.checkout.shipping);
+      if (cart.shippingType === ShippingType.NoShipping) {
+        await router.push(PAGES.checkout.payment);
+      } else {
+        await router.push(PAGES.checkout.shipping);
+      }
     }
   }, [router, setShippingTypeToCart, shippingType, updateCart]);
 
