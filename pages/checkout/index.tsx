@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import React from 'react';
 import { AppLayout } from '../../components';
 import DeliveryMethod from '@/components/checkout/deliveryMethod';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { CartDocument, CartQuery } from '@/generated/graphql';
