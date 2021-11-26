@@ -18,6 +18,7 @@ import { Bars } from 'react-loading-icons';
 import { camelCaseToSentence } from '@/lib/utils/string';
 import { parse } from 'path';
 import { useAuth } from '@/lib/auth';
+import LoadingMask from '@/components/elements/loadingMask';
 
 enum Status {
   loading = 0,
@@ -116,6 +117,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
 
   return (
     <>
+      {status === Status.loading && <LoadingMask />}
       <div className="steps-page">
         <div className="container">
           <div className="steps-content">
