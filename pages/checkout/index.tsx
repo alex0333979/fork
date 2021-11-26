@@ -6,12 +6,16 @@ import DeliveryMethod from '@/components/checkout/deliveryMethod';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { CartDocument, CartQuery } from '@/generated/graphql';
-import { PAGES } from '../../constants';
+import { PAGES, SEO } from '../../constants';
+import { NextSeo } from 'next-seo';
 
 const CheckoutPage: NextPage = () => (
-  <AppLayout>
-    <DeliveryMethod />
-  </AppLayout>
+  <>
+    <NextSeo title={SEO.checkout.title} description={SEO.checkout.description} />
+    <AppLayout>
+      <DeliveryMethod />
+    </AppLayout>
+  </>
 );
 
 export const getServerSideProps: GetServerSideProps = async (

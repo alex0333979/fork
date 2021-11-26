@@ -60,6 +60,11 @@ export const SEO = {
     keywords:
       'Online passport applications, digital passport application form, passport application forms'
   },
+  checkout: {
+    title: 'PassportPhotos - Checkout',
+    description: '',
+    keywords: ''
+  },
   contactUs: {
     title: 'PassportPhotos - Contact Us',
     description:
@@ -74,6 +79,16 @@ export const SEO = {
   },
   faq: {
     title: 'PassportPhotos - FAQ',
+    description: '',
+    keywords: ''
+  },
+  shippingPolicy: {
+    title: 'PassportPhotos - Shipping Policy',
+    description: '',
+    keywords: ''
+  },
+  terms: {
+    title: 'PassportPhotos - Terms of Use',
     description: '',
     keywords: ''
   }
