@@ -15,9 +15,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
-  const [imageUrl, setImageUrl] = useState<string | undefined>(
-    entry?.form.steps[0].fields.find((f) => f.name === 'image_url')?.value
-  );
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery();
   const [submitEntry] = useSubmitEntryMutation();
   const router = useRouter();

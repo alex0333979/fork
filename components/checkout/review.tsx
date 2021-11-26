@@ -42,7 +42,7 @@ const CARD_OPTIONS = {
 const ReviewAndPay: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart } = useAuth();
-  const [cardName, setCardName] = useState<string | undefined>(undefined);
+  const [cardName, setCardName] = useState<string>('');
   const [error, setError] = useState<ValidationError>({});
   const [stripeFocus, setStripeFocus] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -149,7 +149,6 @@ const ReviewAndPay: React.FC = () => {
         ...errors,
         result: pError.message ?? 'An unknown error occurred'
       }));
-      setCardName(undefined);
       cardElement.clear();
     } else if (paymentIntent) {
       showSuccess('Payment is done successfully.');
