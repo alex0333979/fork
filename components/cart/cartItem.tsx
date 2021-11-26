@@ -9,9 +9,16 @@ interface CartItemProps {
   item: CartItem;
   onDelete: (id: string) => void;
   onUpdated: (cart: Cart) => void;
+  onPreview: (url: string) => void;
 }
 
-const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated, index }) => {
+const ShoppingCartItem: React.FC<CartItemProps> = ({
+  item,
+  onDelete,
+  onUpdated,
+  onPreview,
+  index
+}) => {
   const router = useRouter();
   const [updateCartItemPrice] = useUpdateCartItemPriceMutation();
 
@@ -29,6 +36,17 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated, 
       }
     },
     [item.id, onUpdated, updateCartItemPrice]
+  );
+
+  const onClickItem = useCallback(
+    async (item: CartItem) => {
+      if (item.product === ProductType.PassportApplication) {
+        await router.push(`${PAGES.application.index}${item.productId}`);
+      } else {
+        onPreview(item.imageUrl ?? '');
+      }
+    },
+    [onPreview, router]
   );
 
   return (
@@ -82,14 +100,8 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({ item, onDelete, onUpdated, 
           <button
             type="button"
             className="main-btn small outline"
-            onClick={() =>
-              router.push(
-                item.product === ProductType.PassportApplication
-                  ? `${PAGES.application.index}${item.productId}`
-                  : `${PAGES.photo.processPhoto}?entryId=${item.productId}`
-              )
-            }>
-            {'Review'}
+            onClick={() => onClickItem(item)}>
+            {item.product === ProductType.PassportApplication ? 'Review' : 'Preview'}
           </button>
         </div>
       </div>
