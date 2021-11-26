@@ -33,6 +33,7 @@ type Cart {
 }
 
 type CartItem {
+    createdAt: DateTime!
     description: String!
     id: ID!
     imageUrl: String
@@ -41,6 +42,7 @@ type CartItem {
     price: Float!
     product: ProductType!
     productId: ID!
+    updatedAt: DateTime!
 }
 
 type CartResponse {
@@ -180,8 +182,9 @@ type Order {
     id: ID!
     items: [CartItem!]!
     orderNumber: Int!
+    paymentStatus: PaymentStatus!
     promoCode: String
-    shippingAddress: ShippingAddress!
+    shippingAddress: ShippingAddress
     shippingType: ShippingType!
     status: OrderTrack!
     totalPrice: Float!
@@ -369,6 +372,11 @@ enum OrderStatusType {
     outForDelivery
     productPrepared
     shipped
+}
+
+enum PaymentStatus {
+    COMPLETED
+    PENDING
 }
 
 enum ProductType {

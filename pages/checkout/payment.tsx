@@ -6,12 +6,16 @@ import PaymentInformation from '@/components/checkout/paymentInformation';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { CartDocument, CartQuery, ShippingType } from '@/generated/graphql';
-import { PAGES } from '../../constants';
+import { PAGES, SEO } from '../../constants';
+import { NextSeo } from 'next-seo';
 
 const PaymentInfoPage: NextPage = () => (
-  <AppLayout>
-    <PaymentInformation />
-  </AppLayout>
+  <>
+    <NextSeo title={SEO.checkout.title} description={SEO.checkout.description} />
+    <AppLayout>
+      <PaymentInformation />
+    </AppLayout>
+  </>
 );
 
 export const getServerSideProps: GetServerSideProps = async (

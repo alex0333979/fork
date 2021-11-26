@@ -57,6 +57,9 @@ const SelectType: React.FC = () => {
                     checked={type === FACING_MODES.USER}
                     hidden
                     onChange={() => setType(FACING_MODES.USER)}
+                    onClick={() =>
+                      router.push(`${PAGES.photo.uploadPhoto}?type=${FACING_MODES.USER}`)
+                    }
                   />
                   <span className="option-wrap">
                     <span className="bullet" />
@@ -74,6 +77,9 @@ const SelectType: React.FC = () => {
                     checked={type === FACING_MODES.ENVIRONMENT}
                     hidden
                     onChange={() => setType(FACING_MODES.ENVIRONMENT)}
+                    onClick={() =>
+                      router.push(`${PAGES.photo.uploadPhoto}?type=${FACING_MODES.ENVIRONMENT}`)
+                    }
                   />
                   <span className="option-wrap">
                     <span className="bullet" />
