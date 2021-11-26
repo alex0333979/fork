@@ -33,6 +33,8 @@ fragment CartItem on CartItem {
     description
     imageUrl
     isComplete
+    createdAt
+    updatedAt
 }
 
 fragment Cart on Cart {
