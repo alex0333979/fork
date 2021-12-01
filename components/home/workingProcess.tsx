@@ -7,45 +7,38 @@ import React, {
   useImperativeHandle
 } from 'react';
 import Image from 'next/image';
+import { PAGES } from "../../constants";
 
 const PROCESS_DATA = [
   {
-    label: '100% Online',
+    label: 'Create Your Shot',
     description: (
       <p>
-        {`No need to stand in line to get your passport photo. Take your passport photo using your mobile or PC and we will print and ship it to your home.`}
+        {`Take or Upload a Photo With Your Mobile or PC`}
       </p>
     )
   },
   {
-    label: 'Guaranteed Government Compliance',
+    label: 'AI Software Photo Scan',
     description: (
       <p>
-        {`Our AI (Artificial Intelligence) Verifies And, As Long As You've Complied With Our Simple Photo Instructions, Your Passport Photo will be Approved or we provide 100% money back guaranteed.`}
+        {`Our Biometric Software Will Scan and Verify Your Photo for Government Compliance`}
       </p>
     )
   },
   {
-    label: `Passport Photos Your Way`,
+    label: `Photo Compliance`,
     description: (
       <p>
-        {`Keep Taking Shots Until You're Happy With The Results. Each Photo Is Instantly Biometrically Scanned To Comply With Government Guidelines. Once You've Chosen The Perfect Shot, Print Them Out Yourself Or Take Advantage Of Our Concierge Service. We'll Print And Ship Them Directly To You.`}
+        {`Our Technology Map Your Facial Features and Then Reposition, Size, Crop and Clean Up the Background of Your Shot`}
       </p>
     )
   },
   {
-    label: `Photo Approval via AI Software`,
+    label: `Delivery`,
     description: (
       <p>
-        {`Each required photo attribute is scanned for accuracy. We confirm that your eyes are in fact open, insure the appropriate background is being used, your head and body position are meeting Government standards, and more. All data points are scanned and either approved or rejected within seconds.`}
-      </p>
-    )
-  },
-  {
-    label: `Facial Feature & Background Attributes`,
-    description: (
-      <p>
-        {`Our biometric technology is used to map facial features and background suitability from the photo you have either uploaded or taken using our built-in camera interface. No need to download an app. Use your phone or PC, it's that simple.`}
+        {`We’ll Then Print and Ship Them to You or You May Print Them at Home`}
       </p>
     )
   }
@@ -210,12 +203,13 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2>{'How our technology works?'}</h2>
+            <h2>{'How Our Process Works?'}</h2>
             <p>{'Biometrically approved photos'}</p>
           </div>
           <div className="process-wrap">
             <div className="process-list">
-              <ul>
+                <div className="list-wrap">
+                    <ul>
                 {PROCESS_DATA.map((process, index) => (
                   <ProcessItem
                     key={index}
@@ -229,6 +223,10 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
                   />
                 ))}
               </ul>
+                </div>
+              <div className="start-btn">
+                  <a href="/photo/select-type" className="main-btn big">{'Start now'}</a>
+              </div>
             </div>
             <div className="process-img">
               <span>

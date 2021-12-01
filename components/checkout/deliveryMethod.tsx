@@ -59,7 +59,7 @@ const DeliveryMethod: React.FC = () => {
               <span className="option">{'Print at home'}</span>
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
-                <b>{`Add concierge service for just $${(CONCIERGE_PRICE ?? 0) / 100}!`}</b>
+                <b>{`Add concierge service for just $${(CONCIERGE_PRICE ?? 0) / 100}!`} </b>
               </span>
             </span>
           </label>

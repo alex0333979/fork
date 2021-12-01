@@ -851,6 +851,15 @@ header {
           }
         }
       }
+
+      .mobile-btn {
+        display: none;
+        padding-top: 15px;
+        .main-btn {
+          width: 100%;
+          max-width: 200px;
+        }
+      }
     }
 
     .drop-item {
@@ -1203,11 +1212,12 @@ header {
     width: 42.3%;
     padding-right: 7%;
 
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-
-    &::-webkit-scrollbar {
-      width: 0;
+    .list-wrap {
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      &::-webkit-scrollbar {
+        width: 0;
+      }
     }
 
     ul {
@@ -1641,6 +1651,11 @@ header {
       }
     }
   }
+
+  .start-btn {
+    padding-top: 20px;
+    text-align: center;
+  }
 }
 
 .faq-section {
@@ -1741,13 +1756,18 @@ header {
               }
             }
           }
-          
+
           .answer {
             display: block;
           }
         }
       }
     }
+  }
+
+  .start-btn {
+    padding-top: 20px;
+    text-align: center;
   }
 }
 
@@ -4330,5 +4350,12 @@ footer {
         font-weight: bold;
       }
     }
+  }
+}
+
+.start-btn {
+  .main-btn {
+    width: 100%;
+    max-width: 285px;
   }
 }

@@ -3,53 +3,27 @@ import FaqItem, { FaqItemProps } from '@/components/home/faqItem';
 
 const FAQ: FaqItemProps[] = [
   {
-    question: 'Where do I send my DS-82 or DS-64?',
+    question: 'Background',
     answer: (
-      <p>
-        {`For the DS-82 and DS-64 forms, you must sign and date the application with the date on
-          which you are completing the online form. Applications submitted without your signature
-          and date will not be processed and will be returned to you.`}
-        <br />
-        <br />
-
-        {`If you live in the United States, you must use the United States Postal Service (USPS)
-          to mail your renewal application and supporting documents. If you live in Canada, you
-          should use Canada Post. Please do not use other delivery services such as UPS, FedEx, or
-          DHL. Only USPS or Canada Post can deliver to the PO Box addresses listed on Form
-          DS-82.`}
-        <br />
-        <br />
-
-        {`If you use UPS, FedEx, DHL, or another company to send your application, the application
-          will be returned to you. Routine Service (If you live in California, Florida, Illinois,
-          Minnesota, New York, or Texas): National Passport Processing Center Post Office Box
-          640155 Irving, TX 75064-0155`}
-      </p>
+      <p>{`Stand in front of a background that is plain or white and free of shadows`}</p>
     )
   },
   {
-    question: 'Where can I submit my DS-11?',
+    question: 'Head Position',
     answer: (
-      <p>
-        {`For the DS-82 and DS-64 forms, you must sign and date the application with the date on
-          which you are completing the online form. Applications submitted without your signature
-          and date will not be processed and will be returned to you.`}
-        <br />
-        <br />
-
-        {`If you live in the United States, you must use the United States Postal Service (USPS)
-          to mail your renewal application and supporting documents. If you live in Canada, you
-          should use Canada Post. Please do not use other delivery services such as UPS, FedEx, or
-          DHL. Only USPS or Canada Post can deliver to the PO Box addresses listed on Form
-          DS-82.`}
-        <br />
-        <br />
-
-        {`If you use UPS, FedEx, DHL, or another company to send your application, the application
-          will be returned to you. Routine Service (If you live in California, Florida, Illinois,
-          Minnesota, New York, or Texas): National Passport Processing Center Post Office Box
-          640155 Irving, TX 75064-0155`}
-      </p>
+      <p>{`Position your head inside the green overlay`}</p>
+    )
+  },
+  {
+    question: 'Facial Expression',
+    answer: (
+        <p>{`Keep a neutral expression and look directly into the camera with full your face in view`}</p>
+    )
+  },
+  {
+    question: 'Obstructions',
+    answer: (
+        <p>{`Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face`}</p>
     )
   }
 ];
@@ -59,7 +33,7 @@ const FaqSection: React.FC = () => (
     <div className="container">
       <div className="data-wrap">
         <div className="sub-title">
-          <h2>{'Frequently Asked Questions'}</h2>
+          <h2>{'How To Take A Photo'}</h2>
           <p>{'Biometrically approved photos'}</p>
         </div>
         <div className="faq-list">
@@ -68,6 +42,9 @@ const FaqSection: React.FC = () => (
               <FaqItem key={index} answer={item.answer} question={item.question} />
             ))}
           </ul>
+        </div>
+        <div className="start-btn">
+          <a href="/photo/select-type" className="main-btn big">{'Start now'}</a>
         </div>
       </div>
     </div>

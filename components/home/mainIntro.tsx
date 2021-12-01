@@ -20,24 +20,22 @@ const MainIntro = (props: any, ref: any) => {
                     <Image src="/images/emoji/waving.png" width={40} height={40} alt="" />
                   </span>
                   */}
-                  {'Take your '}
+                  {'Take Your U.S. '}
                   {/*
                   <span className="emoji-wrap">
                     <Image src="/images/emoji/us-flag.png" width={40} height={40} alt="" />
                   </span>
                   */}
                   <br />
-                  {' passport photo'}
-                  <br />
-                  {' with your device.'}
+                  {' Passport Photo Online'}
                   <br />
                 </b>
               </h1>
               <ul>
-                <li>{'Technology That Guarantees Full Government Compliance'}</li>
+                <li>{'Take a Photo with Your Mobile or PC'}</li>
                 <li>{'100% Online - Shipped Straight To You or Print at Home'}</li>
                 <li>{'Unlimited Revisions: Your Passport Photo, Your Way'}</li>
-                <li>{'Verified, Secure & Simple'}</li>
+                <li>{'Biometrically Verified, Secure & Simple'}</li>
               </ul>
             </div>
             <div className="btn-wrap">

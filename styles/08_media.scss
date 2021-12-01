@@ -92,7 +92,8 @@
     padding-top: 36px;
   }
   .main-intro .intro-wrap .intro-title .btn-wrap .main-btn,
-  .faq-form .form-wrap form .submit-btn .main-btn {
+  .faq-form .form-wrap form .submit-btn .main-btn,
+  .start-btn .main-btn {
     max-width: 256px;
   }
   .working-process .process-list ul li {
@@ -526,7 +527,8 @@
     padding-top: 30px;
   }
   .main-intro .intro-wrap .intro-title .btn-wrap .main-btn,
-  .faq-form .form-wrap form .submit-btn .main-btn {
+  .faq-form .form-wrap form .submit-btn .main-btn,
+  .start-btn .main-btn {
     max-width: 215px;
   }
   .main-intro .intro-wrap {
@@ -1143,6 +1145,9 @@
   footer .additional-menu .data-wrap .logo a {
     max-width: 124px;
   }
+  header .toolbar .main-menu .mobile-btn {
+    display: block;
+  }
   header .toolbar .main-menu {
     padding: 87px 20px 20px 20px;
     position: fixed;
@@ -1338,7 +1343,7 @@
   .application-form .data-wrap.horizontal .progress-wrap {
     width: 100%;
     min-height: 60px;
-    padding: 6px 20px 0 20px;
+    padding: 6px 20px 12px 20px;
 
     overflow-x: scroll;
     scroll-behavior: smooth;
@@ -1594,10 +1599,12 @@
     border-radius: 20px;
   }
   .working-process .process-list {
-    width: calc(100% + 40px);
-    margin: 0 -20px;
+    width: 100%;
     padding-right: 0;
     order: 2;
+    .list-wrap {
+      margin: 0 -20px;
+    }
   }
 
   .working-process .process-list ul {
@@ -1843,7 +1850,8 @@
     padding-top: 60px;
   }
   .main-intro .intro-wrap .intro-title .btn-wrap .main-btn,
-  .faq-form .form-wrap form .submit-btn .main-btn {
+  .faq-form .form-wrap form .submit-btn .main-btn,
+  .start-btn .main-btn {
     max-width: 380px;
   }
   .working-process .data-wrap {
@@ -2347,15 +2355,27 @@
   .cart-summary .item-wrap:first-child:after {
     display: none;
   }
+  .switcher-box label span.box-wrap .option {
+    font-size: 14px;
+  }
   .switcher-box label span.box-wrap {
-    flex-wrap: wrap;
+    //flex-wrap: wrap;
+    align-items: center;
+  }
+  .switcher-box label span.box-wrap .slider {
+    margin: 3px 10px;
   }
   .switcher-box label span.box-wrap .option {
     &:last-child {
-      width: 100%;
-      margin-top: 13px;
+      max-width: 300px;
+      width: calc(100% - 155px);
+      /*margin-top: 13px;
       padding-top: 8px;
-      border-top: 2px solid var(--porcelain);
+      border-top: 2px solid var(--porcelain);*/
+      &:after {
+        display: inline-block;
+        //padding-left: 5px;
+      }
     }
   }
   .shipping-data {
