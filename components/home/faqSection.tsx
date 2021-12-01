@@ -1,29 +1,27 @@
 import React from 'react';
 import FaqItem, { FaqItemProps } from '@/components/home/faqItem';
+import Link from 'next/link';
+import { PAGES } from '../../constants';
 
 const FAQ: FaqItemProps[] = [
   {
     question: 'Background',
-    answer: (
-      <p>{`Stand in front of a background that is plain or white and free of shadows`}</p>
-    )
+    answer: <p>{`Stand in front of a background that is plain or white and free of shadows`}</p>
   },
   {
     question: 'Head Position',
-    answer: (
-      <p>{`Position your head inside the green overlay`}</p>
-    )
+    answer: <p>{`Position your head inside the green overlay`}</p>
   },
   {
     question: 'Facial Expression',
     answer: (
-        <p>{`Keep a neutral expression and look directly into the camera with full your face in view`}</p>
+      <p>{`Keep a neutral expression and look directly into the camera with full your face in view`}</p>
     )
   },
   {
     question: 'Obstructions',
     answer: (
-        <p>{`Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face`}</p>
+      <p>{`Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face`}</p>
     )
   }
 ];
@@ -44,7 +42,9 @@ const FaqSection: React.FC = () => (
           </ul>
         </div>
         <div className="start-btn">
-          <a href="/photo/select-type" className="main-btn big">{'Start now'}</a>
+          <Link href={PAGES.photo.selectType}>
+            <a className="main-btn big">{'Start now'}</a>
+          </Link>
         </div>
       </div>
     </div>
