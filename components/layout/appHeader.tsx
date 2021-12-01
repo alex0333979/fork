@@ -59,9 +59,9 @@ const AppHeader: React.FC = () => {
               </nav>
               <div className="mobile-btn">
                 <button
-                    type="button"
-                    className="main-btn"
-                    onClick={() => router.push(PAGES.photo.index)}>
+                  type="button"
+                  className="main-btn"
+                  onClick={() => router.push(PAGES.photo.index)}>
                   {'START NOW'}
                 </button>
               </div>

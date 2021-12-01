@@ -4,7 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/bundle';
 import { Autoplay, Mousewheel, Navigation } from 'swiper';
-import { PAGES } from "../../constants";
+import Link from 'next/link';
+import { PAGES } from '../../constants';
 
 const REVIEWS1 = [
   {
@@ -257,7 +258,9 @@ const ReviewsPlatform: React.FC = () => (
           </div>
         </div>
         <div className="start-btn">
-          <a href="/photo/select-type" className="main-btn big">{'Start now'}</a>
+          <Link href={PAGES.photo.selectType}>
+            <a className="main-btn big">{'Start now'}</a>
+          </Link>
         </div>
       </div>
     </div>

@@ -7,23 +7,18 @@ import React, {
   useImperativeHandle
 } from 'react';
 import Image from 'next/image';
-import { PAGES } from "../../constants";
+import { PAGES } from '../../constants';
+import Link from 'next/link';
 
 const PROCESS_DATA = [
   {
     label: 'Create Your Shot',
-    description: (
-      <p>
-        {`Take or Upload a Photo With Your Mobile or PC`}
-      </p>
-    )
+    description: <p>{`Take or Upload a Photo With Your Mobile or PC`}</p>
   },
   {
     label: 'AI Software Photo Scan',
     description: (
-      <p>
-        {`Our Biometric Software Will Scan and Verify Your Photo for Government Compliance`}
-      </p>
+      <p>{`Our Biometric Software Will Scan and Verify Your Photo for Government Compliance`}</p>
     )
   },
   {
@@ -36,11 +31,7 @@ const PROCESS_DATA = [
   },
   {
     label: `Delivery`,
-    description: (
-      <p>
-        {`We’ll Then Print and Ship Them to You or You May Print Them at Home`}
-      </p>
-    )
+    description: <p>{`We’ll Then Print and Ship Them to You or You May Print Them at Home`}</p>
   }
 ];
 
@@ -208,24 +199,26 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
           </div>
           <div className="process-wrap">
             <div className="process-list">
-                <div className="list-wrap">
-                    <ul>
-                {PROCESS_DATA.map((process, index) => (
-                  <ProcessItem
-                    key={index}
-                    label={process.label}
-                    description={process.description}
-                    active={data[index].active}
-                    past={data[index].past}
-                    loaded={data[index].loaded}
-                    reset={data[index].reset}
-                    onClick={() => onClickItem(index)}
-                  />
-                ))}
-              </ul>
-                </div>
+              <div className="list-wrap">
+                <ul>
+                  {PROCESS_DATA.map((process, index) => (
+                    <ProcessItem
+                      key={index}
+                      label={process.label}
+                      description={process.description}
+                      active={data[index].active}
+                      past={data[index].past}
+                      loaded={data[index].loaded}
+                      reset={data[index].reset}
+                      onClick={() => onClickItem(index)}
+                    />
+                  ))}
+                </ul>
+              </div>
               <div className="start-btn">
-                  <a href="/photo/select-type" className="main-btn big">{'Start now'}</a>
+                <Link href={PAGES.photo.selectType}>
+                  <a className="main-btn big">{'Start now'}</a>
+                </Link>
               </div>
             </div>
             <div className="process-img">
