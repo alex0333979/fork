@@ -56,6 +56,17 @@ const renderGoogleAnalytics2 = () => (
   </>
 );
 
+const renderTrack = () => (
+  <Script type="application/javascript" id="page-track">
+    {`
+      (function(b,o,n,g,s,r,c){if(b[s])return;b[s]={};b[s].scriptToken="XzE0ODc5MTkxNjI";b[s].callsQueue=[];
+      b[s].api=function(){b[s].callsQueue.push(arguments);};r=o.createElement(n);c=o.getElementsByTagName(n)[0];
+      r.async=1;r.src=g;r.id=s+n;c.parentNode.insertBefore(r,c);
+      })(window,document,"script","https://cdn.oribi.io/XzE0ODc5MTkxNjI/oribi.js","ORIBI");
+      `}
+  </Script>
+);
+
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
   useEffect(() => {
@@ -67,6 +78,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       {renderGoogleAnalytics1()}
       {renderGoogleAnalytics2()}
+      {renderTrack()}
       <ApolloProvider client={apolloClient}>
         <CookiesProvider>
           <AuthProvider client={apolloClient}>
