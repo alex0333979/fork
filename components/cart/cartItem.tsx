@@ -76,26 +76,29 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             )}
           </p>
         </div>
-        <div className="form-fields">
-          {PHOTO_PRICES.map((option, i) => (
-            <label key={`${index}-${i}`} className="full-size">
-              <span className="field radio with-price">
-                <span className="name">{option.text}</span>
-                <span className="price">{`$${option.price / 100}`}</span>
-                <input
-                  type="radio"
-                  name={`price-${index}`}
-                  checked={item.price === option.price}
-                  onChange={() => onChangeOption(option.price)}
-                />
-                <span className="wrap">
-                  <span className="bullet" />
-                  <span className="border" />
+        {item.product === ProductType.PassportPhoto && (
+          <div className="form-fields">
+            {PHOTO_PRICES.map((option, i) => (
+              <label key={`${index}-${i}`} className="full-size">
+                <span className="field radio with-price">
+                  <span className="name">{option.text}</span>
+                  <span className="price">{`$${option.price / 100}`}</span>
+                  <input
+                    type="radio"
+                    name={`price-${index}`}
+                    checked={item.price === option.price}
+                    onChange={() => onChangeOption(option.price)}
+                  />
+                  <span className="wrap">
+                    <span className="bullet" />
+                    <span className="border" />
+                  </span>
                 </span>
-              </span>
-            </label>
-          ))}
-        </div>
+              </label>
+            ))}
+          </div>
+        )}
+
         <div className="btn-wrap">
           <button
             type="button"

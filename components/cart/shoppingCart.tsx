@@ -63,7 +63,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
               <div className="item-wrap">
                 <ul>
                   {cart?.items
-                    ?.filter((item) => item.product === ProductType.PassportApplication)
+                    ?.filter((item) => item.product === ProductType.PassportPhoto)
                     ?.map((item, index) => (
                       <ShoppingCartItem
                         index={index}
@@ -79,7 +79,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
               <div className="item-wrap">
                 <ul>
                   {cart?.items
-                    ?.filter((item) => item.product === ProductType.PassportPhoto)
+                    ?.filter((item) => item.product === ProductType.PassportApplication)
                     ?.map((item, index) => (
                       <ShoppingCartItem
                         index={index}
