@@ -73,14 +73,16 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     }
   }, [apolloClient, setCookie]);
 
-  const autoLogin = useCallback(async () => {
+  const autoLogin = useCallback(async (): Promise<boolean> => {
     const { data }: ApolloQueryResult<MeQuery> = await apolloClient.query({
       query: MeDocument,
       variables: {}
     });
     if (data?.Me.data) {
       setMe(data.Me.data);
+      return true;
     }
+    return false;
   }, [apolloClient]);
 
   useEffect(() => {
@@ -90,7 +92,11 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
         if (!token) {
           await createGuest();
         }
-        await autoLogin();
+        const result = await autoLogin();
+        if (!result) {
+          await createGuest();
+          await autoLogin();
+        }
       } catch {
         await createGuest();
         await autoLogin();
