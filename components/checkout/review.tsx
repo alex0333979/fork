@@ -161,9 +161,17 @@ const ReviewAndPay: React.FC = () => {
       }
       window.gtag('event', 'conversion', {
         send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
-        value: 1.0,
+        transaction_id: order.orderNumber,
+        value: order.totalPrice / 100,
         currency: 'USD',
-        transaction_id: order.id
+        tax: 0.0,
+        shipping: shippingPrice,
+        items: order.items.map((item) => ({
+          id: item.productId,
+          name: item.name,
+          category: humanize(item.product),
+          price: item.price / 100
+        }))
       });
 
       window.gtag('event', 'purchase', {
