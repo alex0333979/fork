@@ -14,6 +14,7 @@ import {
 import classNames from 'classnames';
 import { ValidationError } from '@/lib/utils/formValidation';
 import { showError, showSuccess } from '@/lib/utils/toast';
+import { humanize } from '@/lib/utils/string';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -165,6 +166,20 @@ const ReviewAndPay: React.FC = () => {
         transaction_id: order.id
       });
 
+      window.gtag('event', 'purchase', {
+        transaction_id: order.orderNumber,
+        value: order.totalPrice / 100,
+        currency: 'USD',
+        tax: 0.0,
+        shipping: shippingPrice,
+        items: order.items.map((item) => ({
+          id: item.productId,
+          name: item.name,
+          category: humanize(item.product),
+          price: item.price / 100
+        }))
+      });
+
       await router.push(PAGES.home);
     }
   }, [
@@ -175,6 +190,7 @@ const ReviewAndPay: React.FC = () => {
     error.cardNumber,
     getPaymentIntent,
     router,
+    shippingPrice,
     stripe,
     updateCart
   ]);
