@@ -54,7 +54,7 @@ const TextInput: React.FC<TextInputProps> = ({ formField, onValueChange, error }
       }
       if (shouldNumber) {
         if (isNumberInput(value)) {
-          onValueChange(formField.name, Number(value) || '');
+          onValueChange(formField.name, value || '');
           setValue(value);
         }
       } else {
