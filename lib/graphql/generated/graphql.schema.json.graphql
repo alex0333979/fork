@@ -14,7 +14,7 @@ type BillingAddress {
     firstName: String!
     lastName: String!
     phone: String!
-    postalCode: Int!
+    postalCode: String!
     state: String!
 }
 
@@ -33,7 +33,7 @@ type Cart {
 }
 
 type CartItem {
-    createdAt: DateTime!
+    createdAt: DateTime
     description: String!
     id: ID!
     imageUrl: String
@@ -42,7 +42,7 @@ type CartItem {
     price: Float!
     product: ProductType!
     productId: ID!
-    updatedAt: DateTime!
+    updatedAt: DateTime
 }
 
 type CartResponse {
@@ -156,10 +156,13 @@ type Mutation {
     ClearCart: CartResponse!
     CreateGuest: TokenResponse!
     CreateOrder: OrderResponse!
+    DeleteOrder(orderId: String!): StringResponse!
     GetPaymentIntent(orderId: String!): PaymentIntentResponse!
     Login(email: String!, password: String!): TokenResponse!
     RemoveItemsFromCart(ids: [ID!]!): CartResponse!
     SendEmailToAdmin(data: EmailToAdminInput!): StringResponse!
+    SendOrderConfirmToFulfillmentManually(orderId: String!): StringResponse!
+    SendOrderConfirmToUserManually(orderId: String!): StringResponse!
     SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
     SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
     SetShippingTypeToCart(shippingType: String!): CartResponse!
@@ -253,7 +256,7 @@ type ShippingAddress {
     firstName: String!
     lastName: String!
     phone: String!
-    postalCode: Int!
+    postalCode: String!
     state: String!
 }
 
@@ -418,7 +421,7 @@ input BillingAddressInput {
     firstName: String!
     lastName: String!
     phone: String!
-    postalCode: Int!
+    postalCode: String!
     state: String!
 }
 
@@ -475,7 +478,7 @@ input ShippingAddressInput {
     firstName: String!
     lastName: String!
     phone: String!
-    postalCode: Int!
+    postalCode: String!
     state: String!
 }
 
