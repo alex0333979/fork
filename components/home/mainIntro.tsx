@@ -49,7 +49,14 @@ const MainIntro = (props: any, ref: any) => {
           </div>
           <div className="intro-img">
             <span>
-              <Image src="/images/intro-01.png" width={661} height={670} alt="" />
+              <Image
+                src="/images/intro-01.png"
+                priority={true}
+                placeholder="empty"
+                width={661}
+                height={670}
+                alt=""
+              />
             </span>
           </div>
         </div>

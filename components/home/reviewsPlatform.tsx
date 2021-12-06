@@ -157,7 +157,13 @@ const ReviewsPlatform: React.FC = () => (
                       <div className="content">{review.content}</div>
                       <div className="author">
                         <div className="picture">
-                          <Image src={review.author.picture} layout={'fill'} alt="" />
+                          <Image
+                            src={review.author.picture}
+                            priority={true}
+                            placeholder="empty"
+                            layout={'fill'}
+                            alt=""
+                          />
                         </div>
                         <div className="name">
                           <h3>{review.author.name}</h3>
@@ -189,7 +195,13 @@ const ReviewsPlatform: React.FC = () => (
                       <div className="content">{review.content}</div>
                       <div className="author">
                         <div className="picture">
-                          <Image src={review.author.picture} layout={'fill'} alt="" />
+                          <Image
+                            src={review.author.picture}
+                            priority={true}
+                            placeholder="empty"
+                            layout={'fill'}
+                            alt=""
+                          />
                         </div>
                         <div className="name">
                           <h3>{review.author.name}</h3>
@@ -235,7 +247,13 @@ const ReviewsPlatform: React.FC = () => (
                       <div className="content">{review.content}</div>
                       <div className="author">
                         <div className="picture">
-                          <Image src={review.author.picture} layout={'fill'} alt="" />
+                          <Image
+                            src={review.author.picture}
+                            priority={true}
+                            placeholder="empty"
+                            layout={'fill'}
+                            alt=""
+                          />
                         </div>
                         <div className="name">
                           <h3>{review.author.name}</h3>
