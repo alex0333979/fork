@@ -16,7 +16,9 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
   const inputFileRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-  const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery();
+  const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery({
+    fetchPolicy: 'no-cache'
+  });
   const [submitEntry] = useSubmitEntryMutation();
   const router = useRouter();
   const cancelTokenSource = axios.CancelToken.source();
@@ -74,7 +76,8 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
       });
       setLoading(true);
       const { data } = await submitEntry({
-        variables: { entryId: entry?.id, formId: form.id, formStep }
+        variables: { entryId: entry?.id, formId: form.id, formStep },
+        fetchPolicy: 'no-cache'
       });
       setLoading(false);
       const result = data?.SubmitEntry.data;

@@ -37,6 +37,9 @@ export default UploadPhotoPage;
 export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = async (
   context: GetServerSidePropsContext
 ) => {
+  if (context.res) {
+    context.res.setHeader('Cache-Control', 'no-store');
+  }
   try {
     const client = initializeApollo(null, context);
 
@@ -67,7 +70,8 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
     }
     const entryResult: ApolloQueryResult<EntryQuery> = await client.query({
       query: EntryDocument,
-      variables: { entryId }
+      variables: { entryId },
+      fetchPolicy: 'no-cache'
     });
     const entry = entryResult.data?.Entry.data;
     return {

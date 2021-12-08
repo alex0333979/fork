@@ -55,7 +55,10 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
 
   const processPhoto = useCallback(async () => {
     setStatus(Status.loading);
-    const { data } = await checkPhoto({ variables: { entryId: entry.id } });
+    const { data } = await checkPhoto({
+      variables: { entryId: entry.id },
+      fetchPolicy: 'no-cache'
+    });
     const result = data?.CheckPhoto.data;
     if (result) {
       if (result.code === Code.Code200) {

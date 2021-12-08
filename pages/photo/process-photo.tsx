@@ -50,7 +50,8 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
     }
     const entryResult: ApolloQueryResult<EntryQuery> = await client.query({
       query: EntryDocument,
-      variables: { entryId }
+      variables: { entryId },
+      fetchPolicy: 'no-cache'
     });
     const entry = entryResult.data?.Entry.data;
     if (entry && entry.form.name === PHOTO_FORM) {
