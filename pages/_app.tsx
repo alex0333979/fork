@@ -12,7 +12,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SignIn from '@/components/elements/signIn';
 import SignUp from '@/components/elements/signUp';
-import TagManager from 'react-gtm-module';
 import { hotjar } from 'react-hotjar';
 import Script from 'next/script';
 
@@ -20,7 +19,7 @@ Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-const renderGoogleAnalytics1 = () => (
+const renderGoogleAds = () => (
   <>
     <Script
       src="https://www.googletagmanager.com/gtag/js?id=AW-435888795"
@@ -38,7 +37,7 @@ const renderGoogleAnalytics1 = () => (
   </>
 );
 
-const renderGoogleAnalytics2 = () => (
+const renderGoogleAnalytics = () => (
   <>
     <Script
       src="https://www.googletagmanager.com/gtag/js?id=UA-180463623-1"
@@ -56,29 +55,16 @@ const renderGoogleAnalytics2 = () => (
   </>
 );
 
-const renderTrack = () => (
-  <Script type="application/javascript" id="page-track">
-    {`
-      (function(b,o,n,g,s,r,c){if(b[s])return;b[s]={};b[s].scriptToken="XzE0ODc5MTkxNjI";b[s].callsQueue=[];
-      b[s].api=function(){b[s].callsQueue.push(arguments);};r=o.createElement(n);c=o.getElementsByTagName(n)[0];
-      r.async=1;r.src=g;r.id=s+n;c.parentNode.insertBefore(r,c);
-      })(window,document,"script","https://cdn.oribi.io/XzE0ODc5MTkxNjI/oribi.js","ORIBI");
-      `}
-  </Script>
-);
-
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps);
   useEffect(() => {
-    TagManager.initialize({ gtmId: 'GTM-5W3J7HM' });
     hotjar.initialize(2447433, 6);
   }, []);
 
   return (
     <>
-      {renderGoogleAnalytics1()}
-      {renderGoogleAnalytics2()}
-      {renderTrack()}
+      {renderGoogleAds()}
+      {renderGoogleAnalytics()}
       <ApolloProvider client={apolloClient}>
         <CookiesProvider>
           <AuthProvider client={apolloClient}>
