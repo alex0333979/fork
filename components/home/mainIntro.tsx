@@ -43,7 +43,7 @@ const MainIntro = (props: any, ref: any) => {
                 type="button"
                 className="main-btn big"
                 onClick={() => router.push(PAGES.photo.selectType)}>
-                {'Start now'}
+                {'Start Now - From $4 Per Photo'}
               </button>
             </div>
           </div>
