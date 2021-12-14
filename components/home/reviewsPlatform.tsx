@@ -277,7 +277,7 @@ const ReviewsPlatform: React.FC = () => (
         </div>
         <div className="start-btn">
           <Link href={PAGES.photo.selectType}>
-            <a className="main-btn big">{'Start now'}</a>
+            <a className="main-btn big">{'Start Now - From $4 Per Photo'}</a>
           </Link>
         </div>
       </div>

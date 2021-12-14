@@ -184,16 +184,35 @@ export const PHOTO_STEP = {
   ]
 };
 
-export const CONCIERGE_PRICE = 947;
+export const APPLICATION_PRICE = 947;
+export const CONCIERGE_PRICE = 950;
+
+export const PHOTO_PRICES = [
+  {
+    text: '2 Passport Photos',
+    price: 1650,
+    value: 2
+  },
+  {
+    text: '4 Passport Photos',
+    price: 1850,
+    value: 4
+  },
+  {
+    text: '6 Passport Photos',
+    price: 2150,
+    value: 6
+  }
+];
 
 export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType }[] = [
   {
-    title: 'Expedited 3-6 day transit time',
+    title: '4-6 business days',
     price: 1495,
     value: ShippingType.From3To6
   },
   {
-    title: 'Three business days',
+    title: '3-4 business days',
     price: 1995,
     value: ShippingType.From3To3
   },
@@ -326,26 +345,6 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     ]
   }
 };
-
-export const APPLICATION_PRICE = 947;
-
-export const PHOTO_PRICES = [
-  {
-    text: '2 Passport Photos',
-    price: 1447,
-    value: 2
-  },
-  {
-    text: '4 Passport Photos',
-    price: 1947,
-    value: 4
-  },
-  {
-    text: '6 Passport Photos',
-    price: 2447,
-    value: 6
-  }
-];
 
 export const CHECKLIST = [
   'Head Pose',
