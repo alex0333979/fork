@@ -427,7 +427,7 @@ const ReviewAndPay: React.FC = () => {
           <ol>
             <li>
               <div className="name">
-                <h3>{'Card Info'}</h3>
+                <h3>{'Pay With Credit Card'}</h3>
               </div>
             </li>
             <li>
@@ -491,6 +491,23 @@ const ReviewAndPay: React.FC = () => {
             </li>
           </ol>
         </div>
+        {paymentRequest && (
+          <div className="shipping-data">
+            <ol>
+              <li>
+                <form>
+                  <div className="form-fields">
+                    <label className="full-size">
+                      <span className="field">
+                        <PaymentRequestButtonElement options={{ paymentRequest }} />
+                      </span>
+                    </label>
+                  </div>
+                </form>
+              </li>
+            </ol>
+          </div>
+        )}
       </div>
     </CheckoutLayout>
   );

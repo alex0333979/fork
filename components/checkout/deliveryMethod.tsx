@@ -4,6 +4,7 @@ import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
+import classNames from 'classnames';
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter();
@@ -86,7 +87,8 @@ const DeliveryMethod: React.FC = () => {
                 )}
               </div>
               <div className="text">
-                <ul>
+                <ul
+                  className={classNames('', { checked: shippingType !== ShippingType.NoShipping })}>
                   <li>
                     {
                       'We will print your documents and send them to you (cost of shipping not included)'
