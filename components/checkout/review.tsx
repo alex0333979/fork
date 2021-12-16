@@ -479,13 +479,6 @@ const ReviewAndPay: React.FC = () => {
                       <></>
                     )}
                   </label>
-                  {paymentRequest && (
-                    <label className="full-size">
-                      <span className="field">
-                        <PaymentRequestButtonElement options={{ paymentRequest }} />
-                      </span>
-                    </label>
-                  )}
                 </div>
               </form>
             </li>
