@@ -1,10 +1,16 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import {
+  CardElement,
+  PaymentRequestButtonElement,
+  useElements,
+  useStripe
+} from '@stripe/react-stripe-js';
 import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import {
+  Order,
   ProductType,
   ShippingType,
   useClearCartMutation,
@@ -15,6 +21,7 @@ import classNames from 'classnames';
 import { ValidationError } from '@/lib/utils/formValidation';
 import { showError, showSuccess } from '@/lib/utils/toast';
 import { humanize } from '@/lib/utils/string';
+import { PaymentIntent, StripeCardElement, StripeError } from '@stripe/stripe-js';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -51,6 +58,7 @@ const ReviewAndPay: React.FC = () => {
   const [createOrder] = useCreateOrderMutation();
   const [getPaymentIntent] = useGetPaymentIntentMutation();
   const [clearCart] = useClearCartMutation();
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -90,6 +98,100 @@ const ReviewAndPay: React.FC = () => {
     setCardName(e.target.value);
   }, []);
 
+  const onCreateOrder = useCallback(async (): Promise<Order | undefined> => {
+    setLoading(true);
+    const { data } = await createOrder({});
+    setLoading(false);
+
+    const order = data?.CreateOrder.data;
+    if (!order) {
+      setPayment({ status: 'error' });
+      setError((errors) => ({
+        ...errors,
+        result: 'Create order is failed.'
+      }));
+      return;
+    }
+    return order;
+  }, [createOrder]);
+
+  const getClientSecret = useCallback(
+    async (order: Order): Promise<string | undefined> => {
+      setLoading(true);
+      const { data: intent } = await getPaymentIntent({ variables: { orderId: order.id } });
+      setLoading(false);
+      const clientSecret = intent?.GetPaymentIntent.data?.clientSecret;
+      if (!clientSecret) {
+        setPayment({ status: 'error' });
+        setError((errors) => ({
+          ...errors,
+          result: 'Get payment intent is failed'
+        }));
+        return;
+      }
+      return clientSecret;
+    },
+    [getPaymentIntent]
+  );
+
+  const finalizeResult = useCallback(
+    async (
+      order: Order,
+      cardElement: StripeCardElement | undefined,
+      error: StripeError | undefined,
+      paymentIntent: PaymentIntent | undefined
+    ) => {
+      if (error) {
+        showError(error.message ?? 'An unknown error occurred');
+        setPayment({ status: 'error' });
+        setError((errors) => ({
+          ...errors,
+          result: error.message ?? 'An unknown error occurred'
+        }));
+        cardElement?.clear();
+      } else if (paymentIntent) {
+        showSuccess('Payment is done successfully.');
+        setPayment(paymentIntent);
+        const { data } = await clearCart({});
+        const cart = data?.ClearCart.data;
+        if (cart) {
+          updateCart(cart);
+        }
+        window.gtag('event', 'conversion', {
+          send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
+          transaction_id: order.orderNumber,
+          value: order.totalPrice / 100,
+          currency: 'USD',
+          tax: 0.0,
+          shipping: shippingPrice,
+          items: order.items.map((item) => ({
+            id: item.productId,
+            name: item.name,
+            category: humanize(item.product),
+            price: item.price / 100
+          }))
+        });
+
+        window.gtag('event', 'purchase', {
+          transaction_id: order.orderNumber,
+          value: order.totalPrice / 100,
+          currency: 'USD',
+          tax: 0.0,
+          shipping: shippingPrice,
+          items: order.items.map((item) => ({
+            id: item.productId,
+            name: item.name,
+            category: humanize(item.product),
+            price: item.price / 100
+          }))
+        });
+
+        await router.push(PAGES.home);
+      }
+    },
+    [clearCart, router, shippingPrice, updateCart]
+  );
+
   const onSubmit = useCallback(async () => {
     const cardElement = elements?.getElement(CardElement);
     if (!cardElement || !stripe) {
@@ -106,30 +208,13 @@ const ReviewAndPay: React.FC = () => {
       return;
     }
 
-    setLoading(true);
-    const { data } = await createOrder({});
-    setLoading(false);
-
-    const order = data?.CreateOrder.data;
+    const order = await onCreateOrder();
     if (!order) {
-      setPayment({ status: 'error' });
-      setError((errors) => ({
-        ...errors,
-        result: 'Create order is failed.'
-      }));
       return;
     }
 
-    setLoading(true);
-    const { data: intent } = await getPaymentIntent({ variables: { orderId: order.id } });
-    setLoading(false);
-    const clientSecret = intent?.GetPaymentIntent.data?.clientSecret;
+    const clientSecret = await getClientSecret(order);
     if (!clientSecret) {
-      setPayment({ status: 'error' });
-      setError((errors) => ({
-        ...errors,
-        result: 'Get payment intent is failed'
-      }));
       return;
     }
 
@@ -143,64 +228,79 @@ const ReviewAndPay: React.FC = () => {
     });
     setLoading(false);
 
-    if (pError) {
-      showError(pError.message ?? 'An unknown error occurred');
-      setPayment({ status: 'error' });
-      setError((errors) => ({
-        ...errors,
-        result: pError.message ?? 'An unknown error occurred'
-      }));
-      cardElement.clear();
-    } else if (paymentIntent) {
-      showSuccess('Payment is done successfully.');
-      setPayment(paymentIntent);
-      const { data } = await clearCart({});
-      const cart = data?.ClearCart.data;
-      if (cart) {
-        updateCart(cart);
-      }
-      window.gtag('event', 'conversion', {
-        send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
-        transaction_id: order.orderNumber,
-        value: order.totalPrice / 100,
-        currency: 'USD',
-        tax: 0.0,
-        shipping: shippingPrice,
-        items: order.items.map((item) => ({
-          id: item.productId,
-          name: item.name,
-          category: humanize(item.product),
-          price: item.price / 100
-        }))
-      });
+    await finalizeResult(order, cardElement, pError, paymentIntent);
 
-      window.gtag('event', 'purchase', {
-        transaction_id: order.orderNumber,
-        value: order.totalPrice / 100,
-        currency: 'USD',
-        tax: 0.0,
-        shipping: shippingPrice,
-        items: order.items.map((item) => ({
-          id: item.productId,
-          name: item.name,
-          category: humanize(item.product),
-          price: item.price / 100
-        }))
-      });
-
-      await router.push(PAGES.home);
+    if (paymentIntent?.status === 'requires_action') {
+      stripe?.confirmCardPayment(clientSecret);
     }
   }, [
     cardName,
-    clearCart,
-    createOrder,
     elements,
     error.cardNumber,
-    getPaymentIntent,
-    router,
-    shippingPrice,
+    finalizeResult,
+    getClientSecret,
+    onCreateOrder,
+    stripe
+  ]);
+
+  useEffect(() => {
+    if (!stripe || !elements) {
+      return;
+    }
+    const pr = stripe.paymentRequest({
+      currency: 'usd',
+      country: 'US',
+      total: {
+        label: '',
+        amount: (subTotal ?? 0) + shippingPrice + conciergePrice
+      },
+      requestPayerEmail: true,
+      requestPayerName: true
+    });
+    pr.canMakePayment().then((result) => {
+      if (result) {
+        setPaymentRequest(pr);
+      }
+    });
+
+    pr.on('paymentmethod', async ({ paymentMethod }) => {
+      const order = await onCreateOrder();
+      if (!order) {
+        return;
+      }
+
+      const clientSecret = await getClientSecret(order);
+      if (!clientSecret) {
+        return;
+      }
+
+      setLoading(true);
+      const { error, paymentIntent } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: paymentMethod.id
+        },
+        {
+          handleActions: false
+        }
+      );
+      setLoading(false);
+
+      await finalizeResult(order, undefined, error, paymentIntent);
+
+      if (paymentIntent?.status === 'requires_action') {
+        stripe?.confirmCardPayment(clientSecret);
+      }
+    });
+  }, [
     stripe,
-    updateCart
+    elements,
+    subTotal,
+    shippingPrice,
+    conciergePrice,
+    onCreateOrder,
+    getClientSecret,
+    finalizeResult
   ]);
 
   const PaymentStatus = ({ status }: { status: string }) => {
@@ -379,6 +479,13 @@ const ReviewAndPay: React.FC = () => {
                       <></>
                     )}
                   </label>
+                  {paymentRequest && (
+                    <label className="full-size">
+                      <span className="field">
+                        <PaymentRequestButtonElement options={{ paymentRequest }} />
+                      </span>
+                    </label>
+                  )}
                 </div>
               </form>
             </li>
