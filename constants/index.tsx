@@ -184,23 +184,24 @@ export const PHOTO_STEP = {
   ]
 };
 
+export const START_PRICE = 357;
 export const APPLICATION_PRICE = 947;
-export const CONCIERGE_PRICE = 950;
+export const CONCIERGE_PRICE = 947;
 
 export const PHOTO_PRICES = [
   {
     text: '2 Passport Photos',
-    price: 1650,
+    price: 1647,
     value: 2
   },
   {
     text: '4 Passport Photos',
-    price: 1850,
+    price: 1847,
     value: 4
   },
   {
     text: '6 Passport Photos',
-    price: 2150,
+    price: 2147,
     value: 6
   }
 ];

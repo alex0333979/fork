@@ -7,7 +7,7 @@ import React, {
   useImperativeHandle
 } from 'react';
 import Image from 'next/image';
-import { PAGES } from '../../constants';
+import { PAGES, START_PRICE } from '../../constants';
 import Link from 'next/link';
 
 const PROCESS_DATA = [
@@ -217,7 +217,9 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
               </div>
               <div className="start-btn">
                 <Link href={PAGES.photo.selectType}>
-                  <a className="main-btn big">{'Start Now - From $4 Per Photo'}</a>
+                  <a className="main-btn big">
+                    {`Start Now - From $${START_PRICE / 100} Per Photo`}
+                  </a>
                 </Link>
               </div>
             </div>

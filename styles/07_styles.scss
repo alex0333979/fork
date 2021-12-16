@@ -2692,24 +2692,40 @@ footer {
           color: var(--shuttle-gray);
           list-style: none;
           position: relative;
+        }
 
-          &:before {
-            font-family: 'icoFont';
-            content: "\e903";
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 16px;
-            height: 16px;
-            border-radius: 100%;
-            position: absolute;
-            left: -22px;
-            top: 1px;
-            font-size: 7px;
-            color: var(--white);
-            background: var(--green);
-          }
+        &.checked > li:before {
+          font-family: 'icoFont';
+          content: "\e903";
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
+          border-radius: 100%;
+          position: absolute;
+          left: -22px;
+          top: 1px;
+          font-size: 7px;
+          color: var(--white);
+          background: var(--green);
+        }
 
+        & > li:before {
+          font-family: 'icoFont';
+          content: "\e905";
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
+          border-radius: 100%;
+          position: absolute;
+          left: -22px;
+          top: 1px;
+          font-size: 7px;
+          color: var(--white);
+          background: var(--coral);
         }
       }
 
