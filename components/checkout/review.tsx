@@ -423,6 +423,26 @@ const ReviewAndPay: React.FC = () => {
             </li>
           </ol>
         </div>
+        {paymentRequest && (
+          <>
+            <div className="shipping-data">
+              <ol>
+                <li>
+                  <form>
+                    <div className="form-fields">
+                      <label className="full-size">
+                        <span className="field">
+                          <PaymentRequestButtonElement options={{ paymentRequest }} />
+                        </span>
+                      </label>
+                    </div>
+                  </form>
+                </li>
+              </ol>
+            </div>
+            <p className="separator"> - OR - </p>
+          </>
+        )}
         <div className="shipping-data">
           <ol>
             <li>
@@ -484,26 +504,6 @@ const ReviewAndPay: React.FC = () => {
             </li>
           </ol>
         </div>
-        {paymentRequest && (
-          <>
-            <p className="separator"> - OR - </p>
-            <div className="shipping-data">
-              <ol>
-                <li>
-                  <form>
-                    <div className="form-fields">
-                      <label className="full-size">
-                        <span className="field">
-                          <PaymentRequestButtonElement options={{ paymentRequest }} />
-                        </span>
-                      </label>
-                    </div>
-                  </form>
-                </li>
-              </ol>
-            </div>
-          </>
-        )}
       </div>
     </CheckoutLayout>
   );
