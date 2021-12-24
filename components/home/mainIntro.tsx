@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PAGES, START_PRICE } from '../../constants';
+import { PAGES } from '../../constants';
 
 const MainIntro = (props: any, ref: any) => {
   const router = useRouter();
@@ -43,7 +43,7 @@ const MainIntro = (props: any, ref: any) => {
                 type="button"
                 className="main-btn big"
                 onClick={() => router.push(PAGES.photo.selectType)}>
-                {`Start Now - From $${START_PRICE / 100} Per Photo`}
+                {`Start Now`}
               </button>
             </div>
           </div>
