@@ -12,7 +12,7 @@ interface AppDatePickerProps {
 }
 
 const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange, error }) => {
-  const [date, setDate] = useState<Date | null>(new Date(formField.value));
+  const [date, setDate] = useState<Date | null>(formField.value ? new Date(formField.value) : null);
   const onChange = useCallback(
     (value: Date | null) => {
       onValueChange(formField.name, value?.toISOString().split('T')[0]);
@@ -34,6 +34,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
               'error-border': !!error
             })}
             format={'MM/dd/yyyy'}
+            placeholder={'MM/dd/yyyy'}
             value={date}
             onChange={(date: Date | null) => onChange(date)}
             maxDate={new Date()}
