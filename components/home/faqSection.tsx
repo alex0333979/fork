@@ -1,7 +1,7 @@
 import React from 'react';
 import FaqItem, { FaqItemProps } from '@/components/home/faqItem';
 import Link from 'next/link';
-import { PAGES, START_PRICE } from '../../constants';
+import { PAGES } from '../../constants';
 
 const FAQ: FaqItemProps[] = [
   {
@@ -43,7 +43,7 @@ const FaqSection: React.FC = () => (
         </div>
         <div className="start-btn">
           <Link href={PAGES.photo.selectType}>
-            <a className="main-btn big">{`Start Now - From $${START_PRICE / 100} Per Photo`}</a>
+            <a className="main-btn big">{`Start Now`}</a>
           </Link>
         </div>
       </div>
