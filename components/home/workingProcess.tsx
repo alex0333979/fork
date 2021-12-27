@@ -7,8 +7,7 @@ import React, {
   useImperativeHandle
 } from 'react';
 import Image from 'next/image';
-import { PAGES } from '../../constants';
-import Link from 'next/link';
+import { scrollToTop } from '@/lib/utils/scrollToTop';
 
 const PROCESS_DATA = [
   {
@@ -216,9 +215,9 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
                 </ul>
               </div>
               <div className="start-btn">
-                <Link href={PAGES.photo.selectType}>
-                  <a className="main-btn big">{`Start Now`}</a>
-                </Link>
+                <button
+                  className="main-btn big"
+                  onClick={() => scrollToTop()}>{`Start Now`}</button>
               </div>
             </div>
             <div className="process-img">

@@ -1,7 +1,6 @@
 import React from 'react';
 import FaqItem, { FaqItemProps } from '@/components/home/faqItem';
-import Link from 'next/link';
-import { PAGES } from '../../constants';
+import { scrollToTop } from '@/lib/utils/scrollToTop';
 
 const FAQ: FaqItemProps[] = [
   {
@@ -72,9 +71,7 @@ const FaqSection: React.FC = () => (
           </ul>
         </div>
         <div className="start-btn">
-          <Link href={PAGES.photo.selectType}>
-            <a className="main-btn big">{`Start Now`}</a>
-          </Link>
+          <button className="main-btn big" onClick={() => scrollToTop()}>{`Start Now`}</button>
         </div>
       </div>
     </div>
