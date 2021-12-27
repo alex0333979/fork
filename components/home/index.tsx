@@ -4,6 +4,7 @@ import WorkingProcess from '@/components/home/workingProcess';
 import FaqSection from '@/components/home/faqSection';
 import FaqForm from '@/components/home/faqForm';
 import ReviewsPlatform from '@/components/home/reviewsPlatform';
+import HowTakePhoto from '@/components/home/howTakePhoto';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
@@ -32,6 +33,7 @@ const Home: React.FC = () => {
       <MainIntro ref={target} />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} />
       <ReviewsPlatform />
+      <HowTakePhoto />
       <FaqSection />
       <FaqForm />
     </>
