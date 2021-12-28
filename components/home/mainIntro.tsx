@@ -1,22 +1,36 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PAGES } from '../../constants';
 import { useMediaQuery } from '@material-ui/core';
-import { HomePageProps } from '@/pages/index';
 import classNames from 'classnames';
 import { Country, useDocumentsByCountryQuery } from '@/generated/graphql';
+import dynamic from 'next/dynamic';
+import { CountryFlag, iCountry } from '@/components/elements/countrySelector';
+const CountrySelector = dynamic(() => import('@/components/elements/countrySelector'), {
+  ssr: false
+});
 
-const MainIntro = ({ countries }: HomePageProps, ref: any) => {
-  const [country, setCountry] = useState<string>('United States');
+const MainIntro = (props: any, ref: any) => {
+  const [country, setCountry] = useState<iCountry>({
+    label: 'United States',
+    value: 'US'
+  });
+  const [documents, setDocuments] = useState<Country[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const matches = useMediaQuery('only screen and (min-width: 641px)');
-  const { data: documents } = useDocumentsByCountryQuery({
-    variables: { country },
+  const { data } = useDocumentsByCountryQuery({
+    variables: { country: country.label },
     fetchPolicy: 'no-cache'
   });
   const [document, setDocument] = useState<Country | undefined>(undefined);
+
+  useEffect(() => {
+    if (data?.DocumentsByCountry.data) {
+      setDocuments(data.DocumentsByCountry.data);
+    }
+  }, [data?.DocumentsByCountry.data]);
 
   const goTakePhoto = useCallback(async () => {
     if (!document) {
@@ -41,20 +55,21 @@ const MainIntro = ({ countries }: HomePageProps, ref: any) => {
                 <div className="form-fields">
                   <label>
                     <span className="label">{'What country is this for?'}</span>
-                    <span className="field select">
-                      <select
-                        name="select"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}>
-                        <option value="default" disabled hidden>
-                          {'Select country'}
-                        </option>
-                        {countries.map((c, i) => (
-                          <option value={c.country} key={i}>
-                            {c.country}
-                          </option>
-                        ))}
-                      </select>
+                    <span className="field">
+                      <CountrySelector country={country} onSelectCountry={setCountry} />
+                      {/* <select*/}
+                      {/*  name="select"*/}
+                      {/*  value={country}*/}
+                      {/*  onChange={(e) => setCountry(e.target.value)}>*/}
+                      {/*  <option value="default" disabled hidden>*/}
+                      {/*    {'Select country'}*/}
+                      {/*  </option>*/}
+                      {/*  {countries.map((c, i) => (*/}
+                      {/*    <option value={c.country} key={i}>*/}
+                      {/*      {c.country}*/}
+                      {/*    </option>*/}
+                      {/*  ))}*/}
+                      {/* </select>*/}
                     </span>
                   </label>
                 </div>
@@ -67,7 +82,8 @@ const MainIntro = ({ countries }: HomePageProps, ref: any) => {
             </div>
             <div className="intro-img">
               <div className="country-flag">
-                <Image src={'/images/emoji/british-flag.png'} width={40} height={40} alt="" />
+                <CountryFlag size={'30px'} code={country.value.toLocaleLowerCase()} />
+                {/* <Image src={'/images/emoji/british-flag.png'} width={40} height={40} alt="" />*/}
               </div>
               <span>
                 <picture>
@@ -94,41 +110,41 @@ const MainIntro = ({ countries }: HomePageProps, ref: any) => {
             <div className="select-document">
               <div className="form-fields">
                 <label>
-                  <select
-                    name="select-1"
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}>
-                    <option value="default" disabled hidden>
-                      {'Select country'}
-                    </option>
-                    {countries.map((c, i) => (
-                      <option value={c.country} key={i}>
-                        {c.country}
-                      </option>
-                    ))}
-                  </select>
+                  <CountrySelector country={country} onSelectCountry={setCountry} />
+                  {/* <select*/}
+                  {/*  name="select-1"*/}
+                  {/*  value={country}*/}
+                  {/*  onChange={(e) => setCountry(e.target.value)}>*/}
+                  {/*  <option value="default" disabled hidden>*/}
+                  {/*    {'Select country'}*/}
+                  {/*  </option>*/}
+                  {/*  {countries.map((c, i) => (*/}
+                  {/*    <option value={c.country} key={i}>*/}
+                  {/*      {c.country}*/}
+                  {/*    </option>*/}
+                  {/*  ))}*/}
+                  {/* </select>*/}
                 </label>
               </div>
               <div className="document-options">
-                {documents?.DocumentsByCountry.data &&
-                  documents?.DocumentsByCountry.data.map((d, i) => (
-                    <label key={i}>
-                      <input
-                        type="radio"
-                        name={`document-${i}`}
-                        checked={document?.id === d.id}
-                        onChange={() => setDocument(d)}
-                      />
-                      <span className="wrap-box">
-                        <span className="bullet">
-                          <span className="img">
-                            <Image src="/images/passport.png" layout={'fill'} alt="" />
-                          </span>
+                {documents.map((d, i) => (
+                  <label key={i}>
+                    <input
+                      type="radio"
+                      name={`document-${i}`}
+                      checked={document?.id === d.id}
+                      onChange={() => setDocument(d)}
+                    />
+                    <span className="wrap-box">
+                      <span className="bullet">
+                        <span className="img">
+                          <Image src="/images/passport.png" layout={'fill'} alt="" />
                         </span>
-                        <span className="name">{d.type}</span>
                       </span>
-                    </label>
-                  ))}
+                      <span className="name">{d.type}</span>
+                    </span>
+                  </label>
+                ))}
               </div>
               <div className="submit-btn">
                 <a className="main-btn big outline" onClick={() => goTakePhoto()}>

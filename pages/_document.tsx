@@ -85,6 +85,10 @@ class MyDocument extends Document {
             href={'/images/favicon/favicon-128.png'}
             sizes="128x128"
           />
+          <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css"
+            rel="stylesheet"
+          />
           <meta name="application-name" content="&nbsp;" />
           <meta name="msapplication-TileColor" content="#FFFFFF" />
           <meta name="msapplication-TileImage" content="mstile-144x144.png" />

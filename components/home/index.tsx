@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import MainIntro from '@/components/home/mainIntro';
 import WorkingProcess from '@/components/home/workingProcess';
-import FaqSection from '@/components/home/faqSection';
 import FaqForm from '@/components/home/faqForm';
 import ReviewsPlatform from '@/components/home/reviewsPlatform';
 import HowTakePhoto from '@/components/home/howTakePhoto';
-import { HomePageProps } from '@/pages/index';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
-const Home: React.FC<HomePageProps> = ({ countries }) => {
+const Home: React.FC = () => {
   const target = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<WorkingProcessInterface>(null);
   const [running, setRunning] = useState<boolean>(false);
@@ -31,11 +29,11 @@ const Home: React.FC<HomePageProps> = ({ countries }) => {
 
   return (
     <>
-      <MainIntro countries={countries} ref={target} />
+      <MainIntro ref={target} />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} />
       <ReviewsPlatform />
       <HowTakePhoto />
-      <FaqSection />
+      {/* <FaqSection />*/}
       <FaqForm />
     </>
   );

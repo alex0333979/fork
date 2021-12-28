@@ -22,7 +22,9 @@ const HowTakePhoto: React.FC = () => (
                   </span>
                 </div>
                 <div className="text">
-                  <p>{'For the DS-82 and DS-64 forms, you must sign'}</p>
+                  <p>
+                    {'Stand in front of a background that is plain or white and free of shadows'}
+                  </p>
                 </div>
               </div>
             </li>
@@ -37,13 +39,13 @@ const HowTakePhoto: React.FC = () => (
                   </span>
                 </div>
                 <div className="text">
-                  <p>{'For the DS-82 and DS-64 forms, you must sign'}</p>
+                  <p>{'Position your head inside the green overlay'}</p>
                 </div>
               </div>
             </li>
             <li>
               <div className="question">
-                <h3>Facial Expression</h3>
+                <h3>{'Facial Expression'}</h3>
               </div>
               <div className="advice">
                 <div className="img">
@@ -52,7 +54,11 @@ const HowTakePhoto: React.FC = () => (
                   </span>
                 </div>
                 <div className="text">
-                  <p>{'For the DS-82 and DS-64 forms, you must sign'}</p>
+                  <p>
+                    {
+                      'Keep a neutral expression and look directly into the camera with full your face in view'
+                    }
+                  </p>
                 </div>
               </div>
             </li>
@@ -67,7 +73,11 @@ const HowTakePhoto: React.FC = () => (
                   </span>
                 </div>
                 <div className="text">
-                  <p>{'For the DS-82 and DS-64 forms, you must sign'}</p>
+                  <p>
+                    {
+                      'Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face'
+                    }
+                  </p>
                 </div>
               </div>
             </li>
