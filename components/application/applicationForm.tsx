@@ -179,7 +179,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       <div className="floating-wrap">
         <div className={classNames('application-form', { blur: isOpenAddForm })}>
           <div className="container">
-            <div className="data-wrap">
+            <div className="data-wrap horizontal">
               <ProcessStep
                 title={process.title}
                 step={process.step}
