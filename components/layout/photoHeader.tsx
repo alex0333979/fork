@@ -21,7 +21,7 @@ const PhotoHeader: React.FC = () => (
               <ul>
                 <li>
                   <span className="icon-government" />
-                  {'Government Complaint'}
+                  {'Government Compliant'}
                 </li>
                 <li>
                   <span className="icon-safe" />
