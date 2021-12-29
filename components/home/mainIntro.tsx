@@ -37,12 +37,16 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
     }
   }, [data?.DocumentsByCountry.data]);
 
-  const goTakePhoto = useCallback(async () => {
-    if (!document) {
-      return;
-    }
-    await router.push(`${PAGES.photo.selectType}?documentId=${document.id}`);
-  }, [document, router]);
+  const goTakePhoto = useCallback(
+    async (d: Country | undefined) => {
+      if (!d) {
+        return;
+      }
+      setDocument(d);
+      await router.push(`${PAGES.photo.selectType}?documentId=${d.id}`);
+    },
+    [router]
+  );
 
   return (
     <>
@@ -143,7 +147,7 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
                       type="radio"
                       name={`document-${i}`}
                       checked={document?.id === d.id}
-                      onChange={() => setDocument(d)}
+                      onChange={() => goTakePhoto(d)}
                     />
                     <span className="wrap-box">
                       <span className="bullet">
@@ -157,7 +161,7 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
                 ))}
               </div>
               <div className="submit-btn">
-                <a className="main-btn big outline" onClick={() => goTakePhoto()}>
+                <a className="main-btn big outline" onClick={() => goTakePhoto(document)}>
                   <i className="icon-camera" />
                   {'Take A Photo'}
                 </a>
