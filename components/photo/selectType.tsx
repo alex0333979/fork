@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { FACING_MODES } from 'react-html5-camera-photo';
 import classNames from 'classnames';
 import FaqItem, { FaqItemProps } from '@/components/home/faqItem';
+import { SelectTypePageProps } from '@/pages/photo/select-type';
 
 const Data: FaqItemProps[] = [
   {
@@ -41,7 +42,7 @@ const Data: FaqItemProps[] = [
   }
 ];
 
-const SelectType: React.FC = () => {
+const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
   const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [type, setType] = useState<string>(FACING_MODES.USER);
@@ -132,7 +133,11 @@ const SelectType: React.FC = () => {
                     <button
                       type="button"
                       className="main-btn"
-                      onClick={() => router.push(`${PAGES.photo.uploadPhoto}?type=${type}`)}>
+                      onClick={() =>
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?type=${type}&documentId=${documentId}`
+                        )
+                      }>
                       <span>{'Next'}</span>
                       <i className="icon-right" />
                     </button>

@@ -21,13 +21,14 @@ export interface UploadPhotoPageProps {
   form: Form;
   entry: Entry | null;
   type: string;
+  documentId: string;
 }
 
-const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form, entry, type }) => (
+const UploadPhotoPage: NextPage<UploadPhotoPageProps> = ({ form, entry, type, documentId }) => (
   <>
     <NextSeo title={SEO.takePhoto.title} description={SEO.takePhoto.description} />
     <PhotoLayout>
-      <PhotoStep2 form={form} entry={entry} type={type} />
+      <PhotoStep2 form={form} entry={entry} type={type} documentId={documentId} />
     </PhotoLayout>
   </>
 );
@@ -42,6 +43,15 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
   }
   try {
     const client = initializeApollo(null, context);
+    const documentId = context?.query?.documentId as string;
+    if (!documentId) {
+      return {
+        redirect: {
+          destination: PAGES.home,
+          permanent: false
+        }
+      };
+    }
 
     const result: ApolloQueryResult<FormsQuery> = await client.query({
       query: FormsDocument
@@ -64,7 +74,8 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
         props: {
           form,
           entry: null,
-          type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER
+          type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER,
+          documentId
         }
       };
     }
@@ -78,7 +89,8 @@ export const getServerSideProps: GetServerSideProps<UploadPhotoPageProps> = asyn
       props: {
         form,
         entry: entry ? entry : null,
-        type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER
+        type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER,
+        documentId
       }
     };
   } catch (e) {

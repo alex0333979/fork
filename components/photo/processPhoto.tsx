@@ -26,7 +26,7 @@ enum Status {
   failed = 2
 }
 
-const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
+const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) => {
   const router = useRouter();
   const { updateCart } = useAuth();
   const [addToCart] = useAddItemsToCartMutation();
@@ -232,7 +232,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
                       type="button"
                       className="main-btn no-border"
                       onClick={() =>
-                        router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}&type=${type}`)
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?entryId=${entry.id}&type=${type}&documentId=${documentId}`
+                        )
                       }>
                       <i className="icon-camera" />
                       {'Change Photo'}

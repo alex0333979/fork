@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { PAGES, PHOTO_STEP, US_DOCUMENT_ID } from '../../constants';
+import { PAGES, PHOTO_STEP } from '../../constants';
 import ProcessStepPhoto from '@/components/elements/processStepPhoto';
 import TakePhotoModal from '@/components/elements/takePhotoModal';
 import { UploadPhotoPageProps } from '@/pages/photo/upload-photo';
@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
 
-const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
+const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type, documentId }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -48,7 +48,9 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
       return;
     }
     if (entry && imageUrl && !selectedImage) {
-      await router.push(`${PAGES.photo.processPhoto}?entryId=${entry.id}&type=${type}`);
+      await router.push(
+        `${PAGES.photo.processPhoto}?entryId=${entry.id}&type=${type}&documentId=${documentId}`
+      );
       return;
     }
     if (!selectedImage) {
@@ -56,7 +58,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
       return;
     }
     getSignedUrl({});
-  }, [entry, getSignedUrl, imageUrl, loading, router, sLoading, selectedImage]);
+  }, [loading, sLoading, entry, imageUrl, selectedImage, getSignedUrl, router, type, documentId]);
 
   const createEntry = useCallback(
     async (signedUrl: SignedUrl) => {
@@ -65,7 +67,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
         showError('Create Entry Error, formStep not found.');
         return;
       }
-      const a: any = { image_url: signedUrl.url, document_id: US_DOCUMENT_ID, number_of_copies: 4 };
+      const a: any = { image_url: signedUrl.url, document_id: documentId, number_of_copies: 4 };
       Object.keys(a).map((key) => {
         const index = formStep.fields.findIndex((field) => field.name === key);
         if (index === -1) {
@@ -87,10 +89,12 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
         } else {
           showSuccess('Entry is created.');
         }
-        await router.push(`${PAGES.photo.processPhoto}?entryId=${result.id}`);
+        await router.push(
+          `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${type}&documentId=${documentId}`
+        );
       }
     },
-    [entry?.id, form.id, form.steps, router, submitEntry]
+    [documentId, entry?.id, form.id, form.steps, router, submitEntry, type]
   );
 
   const uploadImageToS3 = useCallback(
@@ -271,7 +275,9 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                       <button
                         type="button"
                         className="main-btn outline"
-                        onClick={() => router.push(PAGES.photo.selectType)}>
+                        onClick={() =>
+                          router.push(`${PAGES.photo.selectType}?documentId=${documentId}`)
+                        }>
                         <i className="icon-left" />
                         <span>{'Back'}</span>
                       </button>
