@@ -96,7 +96,9 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                       hidden
                       onChange={() => setType(FACING_MODES.USER)}
                       onClick={() =>
-                        router.push(`${PAGES.photo.uploadPhoto}?type=${FACING_MODES.USER}`)
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?type=${FACING_MODES.USER}&documentId=${documentId}`
+                        )
                       }
                     />
                     <span className="option-wrap">
@@ -116,7 +118,9 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                       hidden
                       onChange={() => setType(FACING_MODES.ENVIRONMENT)}
                       onClick={() =>
-                        router.push(`${PAGES.photo.uploadPhoto}?type=${FACING_MODES.ENVIRONMENT}`)
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?type=${FACING_MODES.ENVIRONMENT}&documentId=${documentId}`
+                        )
                       }
                     />
                     <span className="option-wrap">
