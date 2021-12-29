@@ -126,7 +126,11 @@ const REVIEWS2 = [
   }
 ];
 
-const ReviewsPlatform: React.FC = () => (
+interface ReviewsPlatformProps {
+  setOpen: React.Dispatch<boolean>;
+}
+
+const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
   <div className="reviews-platform">
     <div className="container">
       <div className="data-wrap">
@@ -275,7 +279,12 @@ const ReviewsPlatform: React.FC = () => (
           </div>
         </div>
         <div className="start-btn">
-          <button className="main-btn big" onClick={() => scrollToTop()}>{`Start Now`}</button>
+          <button
+            className="main-btn big"
+            onClick={() => {
+              scrollToTop();
+              setOpen(true);
+            }}>{`Start Now`}</button>
         </div>
       </div>
     </div>

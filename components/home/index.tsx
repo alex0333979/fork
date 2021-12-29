@@ -11,6 +11,7 @@ const Home: React.FC = () => {
   const target = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<WorkingProcessInterface>(null);
   const [running, setRunning] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const listenScrollEvent = useCallback(() => {
     const clientHeight = target?.current?.clientHeight;
@@ -29,11 +30,11 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <MainIntro ref={target} />
-      <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} />
-      <ReviewsPlatform />
+      <MainIntro ref={target} open={open} setOpen={setOpen} />
+      <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpen} />
+      <ReviewsPlatform setOpen={setOpen} />
       <HowTakePhoto />
-      {/* <FaqSection />*/}
+      {/* <FaqSection setOpen={setOpen} />*/}
       <FaqForm />
     </>
   );

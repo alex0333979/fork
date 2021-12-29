@@ -152,7 +152,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                 <li>
                   <div className="img">
                     <span>
-                      <Image src="/images/steps/step-02-00.png" layout={'fill'} alt="" />
+                      <Image src="/images/steps/step-02-00-v2.png" layout={'fill'} alt="" />
                     </span>
                   </div>
                   <div className="text">
@@ -163,7 +163,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                 <li>
                   <div className="img">
                     <span>
-                      <Image src="/images/steps/step-02-01.png" layout={'fill'} alt="" />
+                      <Image src="/images/steps/step-02-01-v2.png" layout={'fill'} alt="" />
                     </span>
                   </div>
                   <div className="text">
@@ -174,7 +174,7 @@ const PhotoStep2: React.FC<UploadPhotoPageProps> = ({ form, entry, type }) => {
                 <li>
                   <div className="img">
                     <span>
-                      <Image src="/images/steps/step-02-02.png" layout={'fill'} alt="" />
+                      <Image src="/images/steps/step-02-02-v2.png" layout={'fill'} alt="" />
                     </span>
                   </div>
                   <div className="text">

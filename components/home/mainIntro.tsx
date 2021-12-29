@@ -7,20 +7,25 @@ import classNames from 'classnames';
 import { Country, useDocumentsByCountryQuery } from '@/generated/graphql';
 import dynamic from 'next/dynamic';
 import { CountryFlag, iCountry } from '@/components/elements/countrySelector';
+import { Bars } from 'react-loading-icons';
 const CountrySelector = dynamic(() => import('@/components/elements/countrySelector'), {
   ssr: false
 });
 
-const MainIntro = (props: any, ref: any) => {
+interface MainIntroProps {
+  open: boolean;
+  setOpen: React.Dispatch<boolean>;
+}
+
+const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
   const [country, setCountry] = useState<iCountry>({
     label: 'United States',
     value: 'US'
   });
   const [documents, setDocuments] = useState<Country[]>([]);
-  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const matches = useMediaQuery('only screen and (min-width: 641px)');
-  const { data } = useDocumentsByCountryQuery({
+  const { data, loading } = useDocumentsByCountryQuery({
     variables: { country: country.label },
     fetchPolicy: 'no-cache'
   });
@@ -101,6 +106,11 @@ const MainIntro = (props: any, ref: any) => {
       <div className={classNames('modal-wrap doc-type', { open })}>
         <div className="overlay" />
         <div className="modal-content">
+          {loading && (
+            <div className="loading-wrapper">
+              <Bars height={50} fill={'#0080FF'} stroke={'transparent'} />
+            </div>
+          )}
           <div className="close-btn">
             <button type="button" onClick={() => setOpen(false)}>
               <span className="icon-close" />

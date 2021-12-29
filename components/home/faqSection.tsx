@@ -55,7 +55,11 @@ const FAQ: FaqItemProps[] = [
   }
 ];
 
-const FaqSection: React.FC = () => (
+interface FaqSectionProps {
+  setOpen: React.Dispatch<boolean>;
+}
+
+const FaqSection: React.FC<FaqSectionProps> = ({ setOpen }) => (
   <div className="faq-section" id="faq">
     <div className="container">
       <div className="data-wrap">
@@ -71,7 +75,12 @@ const FaqSection: React.FC = () => (
           </ul>
         </div>
         <div className="start-btn">
-          <button className="main-btn big" onClick={() => scrollToTop()}>{`Start Now`}</button>
+          <button
+            className="main-btn big"
+            onClick={() => {
+              scrollToTop();
+              setOpen(true);
+            }}>{`Start Now`}</button>
         </div>
       </div>
     </div>
