@@ -11,7 +11,7 @@ import { SelectTypePageProps } from '@/pages/photo/select-type';
 const Data: FaqItemProps[] = [
   {
     question: 'Background',
-    answer: <p>{'Position your head inside the green overlay'}</p>
+    answer: <p>{'Stand in front of a background that is plain or white and free of shadows'}</p>
   },
   {
     question: 'Head Position',
@@ -34,11 +34,11 @@ const Data: FaqItemProps[] = [
   },
   {
     question: 'Facial Expression',
-    answer: <p>{'Position your head inside the green overlay'}</p>
+    answer: <p>{'Keep a neutral expression and look directly into the camera with full your face in view'}</p>
   },
   {
     question: 'Obstructions',
-    answer: <p>{'Position your head inside the green overlay'}</p>
+    answer: <p>{'Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face'}</p>
   }
 ];
 
@@ -156,7 +156,8 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                   </div>
                 </div>
                 <div className="info-link">
-                  <span onClick={() => setOpen(true)}>{'How to take a photo'}</span>
+                  {/* onClick={() => setOpen(true)} */}
+                  <span>{'How to take a photo'}</span>
                 </div>
                 <div className="faq-section">
                   <div className="faq-list">
