@@ -156,7 +156,7 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                   </div>
                 </div>
                 <div className="info-link">
-                  <a onClick={() => setOpen(true)}>{'How to take a photo'}</a>
+                  <span onClick={() => setOpen(true)}>{'How to take a photo'}</span>
                 </div>
                 <div className="faq-section">
                   <div className="faq-list">
