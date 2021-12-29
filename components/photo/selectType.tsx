@@ -96,7 +96,9 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                       hidden
                       onChange={() => setType(FACING_MODES.USER)}
                       onClick={() =>
-                        router.push(`${PAGES.photo.uploadPhoto}?type=${FACING_MODES.USER}`)
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?type=${FACING_MODES.USER}&documentId=${documentId}`
+                        )
                       }
                     />
                     <span className="option-wrap">
@@ -116,7 +118,9 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                       hidden
                       onChange={() => setType(FACING_MODES.ENVIRONMENT)}
                       onClick={() =>
-                        router.push(`${PAGES.photo.uploadPhoto}?type=${FACING_MODES.ENVIRONMENT}`)
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?type=${FACING_MODES.ENVIRONMENT}&documentId=${documentId}`
+                        )
                       }
                     />
                     <span className="option-wrap">
@@ -154,6 +158,15 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
                 <div className="info-link">
                   <a onClick={() => setOpen(true)}>{'How to take a photo'}</a>
                 </div>
+                <div className="faq-section">
+                  <div className="faq-list">
+                    <ul>
+                      {Data.map((item, index) => (
+                        <FaqItem key={index} answer={item.answer} question={item.question} />
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -169,81 +182,7 @@ const SelectType: React.FC<SelectTypePageProps> = ({ documentId }) => {
               </button>
             </div>
             <div className="content-scroll">
-              <div className="faq-section">
-                <div className="faq-list">
-                  <ul>
-                    {Data.map((item, index) => (
-                      <FaqItem key={index} answer={item.answer} question={item.question} />
-                    ))}
-                    {/* <li>*/}
-                    {/*  <div className="question">*/}
-                    {/*    <h3>*/}
-                    {/*      {'Background'} <span className="icon-close" />*/}
-                    {/*    </h3>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="answer">*/}
-                    {/*    <p>{'Position your head inside the green overlay'}</p>*/}
-                    {/*  </div>*/}
-                    {/* </li>*/}
-                    {/* <li>*/}
-                    {/*  <div className="question">*/}
-                    {/*    <h3>*/}
-                    {/*      {'Head Position'} <span className="icon-close" />*/}
-                    {/*    </h3>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="answer">*/}
-                    {/*    <p>{'Position your head inside the green overlay'}</p>*/}
-                    {/*    <div className="img-list">*/}
-                    {/*      <span>*/}
-                    {/*        <Image*/}
-                    {/*          src="/images/steps/step-faq-01.png"*/}
-                    {/*          width={27}*/}
-                    {/*          height={27}*/}
-                    {/*          alt=""*/}
-                    {/*        />*/}
-                    {/*      </span>*/}
-                    {/*      <span>*/}
-                    {/*        <Image*/}
-                    {/*          src="/images/steps/step-faq-02.png"*/}
-                    {/*          width={27}*/}
-                    {/*          height={27}*/}
-                    {/*          alt=""*/}
-                    {/*        />*/}
-                    {/*      </span>*/}
-                    {/*      <span>*/}
-                    {/*        <Image*/}
-                    {/*          src="/images/steps/step-faq-03.png"*/}
-                    {/*          width={27}*/}
-                    {/*          height={27}*/}
-                    {/*          alt=""*/}
-                    {/*        />*/}
-                    {/*      </span>*/}
-                    {/*    </div>*/}
-                    {/*  </div>*/}
-                    {/* </li>*/}
-                    {/* <li>*/}
-                    {/*  <div className="question">*/}
-                    {/*    <h3>*/}
-                    {/*      {'Facial Expression'} <span className="icon-close" />*/}
-                    {/*    </h3>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="answer">*/}
-                    {/*    <p>{'Position your head inside the green overlay'}</p>*/}
-                    {/*  </div>*/}
-                    {/* </li>*/}
-                    {/* <li>*/}
-                    {/*  <div className="question">*/}
-                    {/*    <h3>*/}
-                    {/*      {'Obstructions'} <span className="icon-close" />*/}
-                    {/*    </h3>*/}
-                    {/*  </div>*/}
-                    {/*  <div className="answer">*/}
-                    {/*    <p>{'Position your head inside the green overlay'}</p>*/}
-                    {/*  </div>*/}
-                    {/* </li>*/}
-                  </ul>
-                </div>
-              </div>
+              <div className="youtube-video" />
             </div>
           </div>
         </div>
