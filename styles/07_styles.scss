@@ -4011,13 +4011,13 @@ footer {
       padding: 39px 0 26px 0;
       text-align: center;
 
-      a {
+      span {
         display: inline-flex;
         align-items: center;
         font-weight: normal;
         font-size: 18px;
         line-height: 1.22;
-        text-decoration-line: underline;
+        //text-decoration-line: underline;
         color: var(--azure-radiance);
         transition: color var(--transition);
 
