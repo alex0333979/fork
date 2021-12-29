@@ -235,6 +235,7 @@ type Query {
     Cart: CartResponse!
     CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
     Countries: CountriesResponse!
+    DocumentsByCountry(country: String!): CountriesResponse!
     Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
     Entry(entryId: String!): EntryResponse!
     Form(id: String!): FormResponse!

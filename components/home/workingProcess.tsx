@@ -7,8 +7,7 @@ import React, {
   useImperativeHandle
 } from 'react';
 import Image from 'next/image';
-import { PAGES } from '../../constants';
-import Link from 'next/link';
+import { scrollToTop } from '@/lib/utils/scrollToTop';
 
 const PROCESS_DATA = [
   {
@@ -86,10 +85,11 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
 
 export interface WorkingProcessProps {
   onEndRunning: () => void;
+  setOpen: React.Dispatch<boolean>;
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProcessProps> = (
-  { onEndRunning },
+  { onEndRunning, setOpen },
   ref
 ) => {
   const [data, setData] =
@@ -216,15 +216,18 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
                 </ul>
               </div>
               <div className="start-btn">
-                <Link href={PAGES.photo.selectType}>
-                  <a className="main-btn big">{`Start Now`}</a>
-                </Link>
+                <button
+                  className="main-btn big"
+                  onClick={() => {
+                    scrollToTop();
+                    setOpen(true);
+                  }}>{`Start Now`}</button>
               </div>
             </div>
             <div className="process-img">
               <span>
                 <Image
-                  src="/images/process.png"
+                  src="/images/up-sale.png"
                   layout={'fill'}
                   priority={true}
                   placeholder="empty"

@@ -26,7 +26,7 @@ enum Status {
   failed = 2
 }
 
-const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
+const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) => {
   const router = useRouter();
   const { updateCart } = useAuth();
   const [addToCart] = useAddItemsToCartMutation();
@@ -139,7 +139,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
                     <li>
                       <div className="img">
                         <span>
-                          <Image src="/images/steps/step-02-00.png" layout={'fill'} alt="" />
+                          <Image src="/images/steps/step-02-00-v2.png" layout={'fill'} alt="" />
                         </span>
                       </div>
                       <div className="text">
@@ -150,7 +150,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
                     <li>
                       <div className="img">
                         <span>
-                          <Image src="/images/steps/step-02-01.png" layout={'fill'} alt="" />
+                          <Image src="/images/steps/step-02-01-v2.png" layout={'fill'} alt="" />
                         </span>
                       </div>
                       <div className="text">
@@ -161,7 +161,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
                     <li>
                       <div className="img">
                         <span>
-                          <Image src="/images/steps/step-02-02.png" layout={'fill'} alt="" />
+                          <Image src="/images/steps/step-02-02-v2.png" layout={'fill'} alt="" />
                         </span>
                       </div>
                       <div className="text">
@@ -232,7 +232,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type }) => {
                       type="button"
                       className="main-btn no-border"
                       onClick={() =>
-                        router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}&type=${type}`)
+                        router.push(
+                          `${PAGES.photo.uploadPhoto}?entryId=${entry.id}&type=${type}&documentId=${documentId}`
+                        )
                       }>
                       <i className="icon-camera" />
                       {'Change Photo'}

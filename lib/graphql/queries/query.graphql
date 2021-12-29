@@ -99,3 +99,12 @@ query Countries {
         total
     }
 }
+
+query DocumentsByCountry($country: String!) {
+    DocumentsByCountry(country: $country) {
+        data {
+            ...Country
+        }
+        total
+    }
+}

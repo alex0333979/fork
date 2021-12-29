@@ -4,8 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/bundle';
 import { Autoplay, Mousewheel, Navigation } from 'swiper';
-import Link from 'next/link';
-import { PAGES } from '../../constants';
+import { scrollToTop } from '@/lib/utils/scrollToTop';
 
 const REVIEWS1 = [
   {
@@ -127,7 +126,11 @@ const REVIEWS2 = [
   }
 ];
 
-const ReviewsPlatform: React.FC = () => (
+interface ReviewsPlatformProps {
+  setOpen: React.Dispatch<boolean>;
+}
+
+const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
   <div className="reviews-platform">
     <div className="container">
       <div className="data-wrap">
@@ -276,9 +279,12 @@ const ReviewsPlatform: React.FC = () => (
           </div>
         </div>
         <div className="start-btn">
-          <Link href={PAGES.photo.selectType}>
-            <a className="main-btn big">{`Start Now`}</a>
-          </Link>
+          <button
+            className="main-btn big"
+            onClick={() => {
+              scrollToTop();
+              setOpen(true);
+            }}>{`Start Now`}</button>
         </div>
       </div>
     </div>

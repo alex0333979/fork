@@ -456,6 +456,7 @@ export type Query = {
   Cart: CartResponse;
   CompletedOrders: OrderPaginatedResponse;
   Countries: CountriesResponse;
+  DocumentsByCountry: CountriesResponse;
   Entries: EntryPaginatedResponse;
   Entry: EntryResponse;
   Form: FormResponse;
@@ -474,6 +475,11 @@ export type QueryCompletedOrdersArgs = {
   pageSize?: Maybe<Scalars['Int']>;
   search?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryDocumentsByCountryArgs = {
+  country: Scalars['String'];
 };
 
 
@@ -912,6 +918,13 @@ export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CountriesQuery = { __typename: 'Query', Countries: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string }> } };
+
+export type DocumentsByCountryQueryVariables = Exact<{
+  country: Scalars['String'];
+}>;
+
+
+export type DocumentsByCountryQuery = { __typename: 'Query', DocumentsByCountry: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string }> } };
 
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
@@ -2285,3 +2298,41 @@ export function useCountriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type CountriesQueryHookResult = ReturnType<typeof useCountriesQuery>;
 export type CountriesLazyQueryHookResult = ReturnType<typeof useCountriesLazyQuery>;
 export type CountriesQueryResult = Apollo.QueryResult<CountriesQuery, CountriesQueryVariables>;
+export const DocumentsByCountryDocument = gql`
+    query DocumentsByCountry($country: String!) {
+  DocumentsByCountry(country: $country) {
+    data {
+      ...Country
+    }
+    total
+  }
+}
+    ${CountryFragmentDoc}`;
+
+/**
+ * __useDocumentsByCountryQuery__
+ *
+ * To run a query within a React component, call `useDocumentsByCountryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDocumentsByCountryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDocumentsByCountryQuery({
+ *   variables: {
+ *      country: // value for 'country'
+ *   },
+ * });
+ */
+export function useDocumentsByCountryQuery(baseOptions: Apollo.QueryHookOptions<DocumentsByCountryQuery, DocumentsByCountryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DocumentsByCountryQuery, DocumentsByCountryQueryVariables>(DocumentsByCountryDocument, options);
+      }
+export function useDocumentsByCountryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DocumentsByCountryQuery, DocumentsByCountryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DocumentsByCountryQuery, DocumentsByCountryQueryVariables>(DocumentsByCountryDocument, options);
+        }
+export type DocumentsByCountryQueryHookResult = ReturnType<typeof useDocumentsByCountryQuery>;
+export type DocumentsByCountryLazyQueryHookResult = ReturnType<typeof useDocumentsByCountryLazyQuery>;
+export type DocumentsByCountryQueryResult = Apollo.QueryResult<DocumentsByCountryQuery, DocumentsByCountryQueryVariables>;

@@ -13,13 +13,14 @@ import { FACING_MODES } from 'react-html5-camera-photo';
 export interface ProcessPhotoProps {
   entry: Entry;
   type: string;
+  documentId: string;
 }
 
-const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type }) => (
+const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type, documentId }) => (
   <>
     <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
     <PhotoLayout>
-      <ProcessPhoto entry={entry} type={type} />
+      <ProcessPhoto entry={entry} type={type} documentId={documentId} />
     </PhotoLayout>
   </>
 );
@@ -40,7 +41,8 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
     const client = initializeApollo(null, context);
     const entryId = context?.query?.entryId as string;
     const type = context?.query.type as string;
-    if (!entryId) {
+    const documentId = context?.query?.documentId as string;
+    if (!entryId || !documentId) {
       return {
         redirect: {
           destination: PAGES.photo.selectType,
@@ -58,7 +60,8 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
       return {
         props: {
           entry,
-          type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER
+          type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER,
+          documentId
         }
       };
     }
