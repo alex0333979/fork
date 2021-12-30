@@ -34,11 +34,21 @@ const Data: FaqItemProps[] = [
   },
   {
     question: 'Facial Expression',
-    answer: <p>{'Keep a neutral expression and look directly into the camera with full your face in view'}</p>
+    answer: (
+      <p>
+        {'Keep a neutral expression and look directly into the camera with full your face in view'}
+      </p>
+    )
   },
   {
     question: 'Obstructions',
-    answer: <p>{'Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face'}</p>
+    answer: (
+      <p>
+        {
+          'Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face'
+        }
+      </p>
+    )
   }
 ];
 
