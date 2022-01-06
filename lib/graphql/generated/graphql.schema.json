@@ -4838,18 +4838,6 @@
             "deprecationReason": null
           },
           {
-            "name": "FROM3TO3",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "FROM3TO6",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "NO_SHIPPING",
             "description": null,
             "isDeprecated": false,
