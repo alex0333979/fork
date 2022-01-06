@@ -561,6 +561,8 @@ export type ShippingAddressResponse = {
 export enum ShippingType {
   Free = 'FREE',
   From1To2 = 'FROM1TO2',
+  From3To3 = 'FROM3TO3',
+  From3To6 = 'FROM3TO6',
   NoShipping = 'NO_SHIPPING'
 }
 
