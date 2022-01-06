@@ -28,10 +28,10 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
     <div className="page-title">
       <div className="container">
         <div className="data-wrap">
-          <h1>{'Check out'}</h1>
-          <div className="m-only">
-            <p>{'New Passport Application'}</p>
-          </div>
+          <h1>{'Checkout'}</h1>
+          {/* <div className="m-only">*/}
+          {/*  <p>{'New Passport Application'}</p>*/}
+          {/* </div>*/}
         </div>
       </div>
     </div>

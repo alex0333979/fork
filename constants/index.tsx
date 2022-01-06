@@ -208,22 +208,12 @@ export const PHOTO_PRICES = [
 
 export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType }[] = [
   {
-    title: '4-6 business days',
-    price: 1495,
-    value: ShippingType.From3To6
-  },
-  {
-    title: '3-4 business days',
-    price: 1995,
-    value: ShippingType.From3To3
-  },
-  {
     title: 'Expedited 1-2 business days',
-    price: 2995,
+    price: 1950,
     value: ShippingType.From1To2
   },
   {
-    title: 'Free standard shipping',
+    title: '3-5 business days',
     price: 0,
     value: ShippingType.Free
   },
