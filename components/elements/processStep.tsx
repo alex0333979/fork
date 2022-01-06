@@ -13,7 +13,7 @@ export interface ProcessStepProps {
   }[];
 }
 
-const ProcessStep: React.FC<ProcessStepProps> = ({ title, step, completeStep, steps }) => {
+const ProcessStep: React.FC<ProcessStepProps> = ({ step, completeStep, steps }) => {
   const router = useRouter();
   const onClickStep = useCallback(
     async (s: { name: string; step: number; link: string }) => {
@@ -26,7 +26,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({ title, step, completeStep, st
 
   return (
     <div className="progress-wrap">
-      <h2>{title}</h2>
+      {/* <h2>{title}</h2>*/}
       <ul>
         {steps.map((s, index) => (
           <li

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PAGES } from '../../constants';
+import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants';
 import { useMediaQuery } from '@material-ui/core';
 import classNames from 'classnames';
 import { Country, useDocumentsByCountryQuery } from '@/generated/graphql';
@@ -66,19 +66,6 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
                     <span className="label">{'What country is this for?'}</span>
                     <span className="field">
                       <CountrySelector country={country} onSelectCountry={setCountry} />
-                      {/* <select*/}
-                      {/*  name="select"*/}
-                      {/*  value={country}*/}
-                      {/*  onChange={(e) => setCountry(e.target.value)}>*/}
-                      {/*  <option value="default" disabled hidden>*/}
-                      {/*    {'Select country'}*/}
-                      {/*  </option>*/}
-                      {/*  {countries.map((c, i) => (*/}
-                      {/*    <option value={c.country} key={i}>*/}
-                      {/*      {c.country}*/}
-                      {/*    </option>*/}
-                      {/*  ))}*/}
-                      {/* </select>*/}
                     </span>
                   </label>
                 </div>
@@ -125,19 +112,6 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
               <div className="form-fields">
                 <label>
                   <CountrySelector country={country} onSelectCountry={setCountry} />
-                  {/* <select*/}
-                  {/*  name="select-1"*/}
-                  {/*  value={country}*/}
-                  {/*  onChange={(e) => setCountry(e.target.value)}>*/}
-                  {/*  <option value="default" disabled hidden>*/}
-                  {/*    {'Select country'}*/}
-                  {/*  </option>*/}
-                  {/*  {countries.map((c, i) => (*/}
-                  {/*    <option value={c.country} key={i}>*/}
-                  {/*      {c.country}*/}
-                  {/*    </option>*/}
-                  {/*  ))}*/}
-                  {/* </select>*/}
                 </label>
               </div>
               <div className="document-options">
@@ -152,7 +126,27 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
                     <span className="wrap-box">
                       <span className="bullet">
                         <span className="img">
-                          <Image src="/images/passport.png" layout={'fill'} alt="" />
+                          {d.country === 'United States' &&
+                          US_PASSPORT_IMAGES.find((i) => i.name === d.type) ? (
+                            <Image
+                              src={`/images/passports/${
+                                US_PASSPORT_IMAGES.find((i) => i.name === d.type)?.image
+                              }`}
+                              layout={'fill'}
+                              alt=""
+                            />
+                          ) : d.country === 'United Kingdom' &&
+                            UK_PASSPORT_IMAGES.find((i) => i.name === d.type) ? (
+                            <Image
+                              src={`/images/passports/${
+                                UK_PASSPORT_IMAGES.find((i) => i.name === d.type)?.image
+                              }`}
+                              layout={'fill'}
+                              alt=""
+                            />
+                          ) : (
+                            <Image src="/images/passport.png" layout={'fill'} alt="" />
+                          )}
                         </span>
                       </span>
                       <span className="name">{d.type}</span>
