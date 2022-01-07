@@ -43,7 +43,7 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
         return;
       }
       setDocument(d);
-      await router.push(`${PAGES.photo.selectType}?documentId=${d.id}`);
+      await router.push(`${PAGES.photo.takePhoto}?documentId=${d.id}`);
     },
     [router]
   );

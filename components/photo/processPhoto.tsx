@@ -198,7 +198,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
             <div className="step-data">
               <div className="data-wrap">
                 <ProcessStepPhoto
-                  step={status === Status.success ? 4 : 3}
+                  step={status === Status.success ? 3 : 2}
                   steps={PHOTO_STEP.steps}
                 />
 
@@ -233,7 +233,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
                       className="main-btn no-border"
                       onClick={() =>
                         router.push(
-                          `${PAGES.photo.uploadPhoto}?entryId=${entry.id}&type=${type}&documentId=${documentId}`
+                          `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${documentId}`
                         )
                       }>
                       <i className="icon-camera" />
@@ -278,7 +278,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
                         type="button"
                         className="main-btn"
                         onClick={() =>
-                          router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)
+                          router.push(
+                            `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${documentId}`
+                          )
                         }>
                         {status === Status.loading ? (
                           <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
@@ -304,7 +306,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
                         type="button"
                         className="main-btn outline"
                         onClick={() =>
-                          router.push(`${PAGES.photo.uploadPhoto}?entryId=${entry.id}`)
+                          router.push(
+                            `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${documentId}`
+                          )
                         }>
                         <i className="icon-left" />
                         <span>{'Retake My Shot'}</span>

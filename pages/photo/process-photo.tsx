@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
     if (!entryId || !documentId) {
       return {
         redirect: {
-          destination: PAGES.photo.selectType,
+          destination: PAGES.photo.takePhoto,
           permanent: false
         }
       };
@@ -68,14 +68,14 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
 
     return {
       redirect: {
-        destination: PAGES.photo.uploadPhoto,
+        destination: PAGES.photo.takePhoto,
         permanent: false
       }
     };
   } catch (e) {
     return {
       redirect: {
-        destination: PAGES.photo.uploadPhoto,
+        destination: PAGES.photo.takePhoto,
         permanent: false
       }
     };
