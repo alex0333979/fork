@@ -18,8 +18,7 @@ export const PAGES = {
   cart: '/cart/',
   photo: {
     index: '/photo/',
-    selectType: '/photo/select-type/',
-    uploadPhoto: '/photo/upload-photo/',
+    takePhoto: '/photo/take-photo/',
     processPhoto: '/photo/process-photo/'
   },
   contactUs: '/contact-us',
@@ -167,17 +166,17 @@ export const PHOTO_STEP = {
   step: 1,
   steps: [
     {
-      name: 'Select Type',
-      step: 1,
-      link: PAGES.photo.selectType
-    },
-    {
       name: 'Take Photo',
-      step: 2,
-      link: PAGES.photo.uploadPhoto
+      step: 1,
+      link: PAGES.photo.takePhoto
     },
     {
       name: 'Biometric Verification',
+      step: 2,
+      link: PAGES.photo.takePhoto
+    },
+    {
+      name: 'Checkout & Delivery',
       step: 3,
       link: PAGES.photo.processPhoto
     }
@@ -213,7 +212,7 @@ export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType
     value: ShippingType.From1To2
   },
   {
-    title: '3-5 business days',
+    title: 'Standard 3-5 business days',
     price: 0,
     value: ShippingType.Free
   },
