@@ -62,7 +62,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
         <div className="text">
           <h4>{item.name}</h4>
           <p>
-            {item.product === ProductType.PassportPhoto ? 'Passport photo' : 'Passport application'}
+            {item.product === ProductType.PassportPhoto ? item.description : 'Passport application'}
           </p>
         </div>
         <button onClick={() => onDelete(item.id)} className="icon-delete" />
