@@ -63,13 +63,16 @@ const ReviewAndPay: React.FC = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const subTotal = useMemo(
-    () => cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0),
-    [cart]
-  );
   const shippingPrice = useMemo(
     () => SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
     [cart]
+  );
+  const subTotal = useMemo(
+    () =>
+      cart?.items
+        ?.filter((i) => i.isComplete)
+        .reduce((a, { price }) => a + price + shippingPrice, 0),
+    [cart?.items, shippingPrice]
   );
   const aPrice = useMemo(
     () =>
@@ -89,6 +92,15 @@ const ReviewAndPay: React.FC = () => {
     () => (cart?.shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
     [cart?.shippingType]
   );
+
+  const total = useMemo(() => (subTotal ?? 0) + conciergePrice, [conciergePrice, subTotal]);
+
+  const tax = useMemo(() => {
+    if (cart?.billingAddress?.state === 'NY') {
+      return Math.ceil(total * 0.0875);
+    }
+    return 0;
+  }, [cart?.billingAddress?.state, total]);
 
   const handleInputChange = useCallback((e) => {
     setError((errors) => ({
@@ -403,13 +415,17 @@ const ReviewAndPay: React.FC = () => {
                 <p>{`$${conciergePrice / 100}`}</p>
               </div>
               <div className="name">
+                <h3>{'Shipping'}</h3>
+                <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
+              </div>
+              <div className="name">
                 <h3>{'SubTotal'}</h3>
                 <p>{`$${(subTotal ?? 0) / 100}`}</p>
               </div>
               {cart?.billingAddress?.state === 'NY' ? (
                 <div className="name">
                   <h3>{'Sales tax'}</h3>
-                  <p>{`8.875%`}</p>
+                  <p>{`$${tax / 100}`}</p>
                 </div>
               ) : (
                 <div className="name">
@@ -417,15 +433,11 @@ const ReviewAndPay: React.FC = () => {
                   <p>{`$0`}</p>
                 </div>
               )}
-              <div className="name">
-                <h3>{'Shipping'}</h3>
-                <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
-              </div>
             </li>
             <li>
               <div className="name">
                 <h3>{'Total'}</h3>
-                <p>{`$${((subTotal ?? 0) + shippingPrice + conciergePrice) / 100}`}</p>
+                <p>{`$${(total + tax) / 100}`}</p>
               </div>
             </li>
           </ol>
