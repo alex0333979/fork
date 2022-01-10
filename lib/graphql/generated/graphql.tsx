@@ -108,6 +108,12 @@ export type Country = {
   type: Scalars['String'];
 };
 
+export type CountryResponse = {
+  data?: Maybe<Country>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
 export type Dictionary = {
   message: Scalars['String'];
   test: Scalars['String'];
@@ -456,6 +462,7 @@ export type Query = {
   Cart: CartResponse;
   CompletedOrders: OrderPaginatedResponse;
   Countries: CountriesResponse;
+  Document: CountryResponse;
   DocumentsByCountry: CountriesResponse;
   Entries: EntryPaginatedResponse;
   Entry: EntryResponse;
@@ -475,6 +482,11 @@ export type QueryCompletedOrdersArgs = {
   pageSize?: Maybe<Scalars['Int']>;
   search?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryDocumentArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -925,6 +937,13 @@ export type DocumentsByCountryQueryVariables = Exact<{
 
 
 export type DocumentsByCountryQuery = { __typename: 'Query', DocumentsByCountry: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string }> } };
+
+export type DocumentQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DocumentQuery = { __typename: 'Query', Document: { __typename: 'CountryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Country', id: number, country: string, type: string }> } };
 
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
@@ -2336,3 +2355,42 @@ export function useDocumentsByCountryLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type DocumentsByCountryQueryHookResult = ReturnType<typeof useDocumentsByCountryQuery>;
 export type DocumentsByCountryLazyQueryHookResult = ReturnType<typeof useDocumentsByCountryLazyQuery>;
 export type DocumentsByCountryQueryResult = Apollo.QueryResult<DocumentsByCountryQuery, DocumentsByCountryQueryVariables>;
+export const DocumentDocument = gql`
+    query Document($id: String!) {
+  Document(id: $id) {
+    message
+    status
+    data {
+      ...Country
+    }
+  }
+}
+    ${CountryFragmentDoc}`;
+
+/**
+ * __useDocumentQuery__
+ *
+ * To run a query within a React component, call `useDocumentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDocumentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDocumentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDocumentQuery(baseOptions: Apollo.QueryHookOptions<DocumentQuery, DocumentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DocumentQuery, DocumentQueryVariables>(DocumentDocument, options);
+      }
+export function useDocumentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DocumentQuery, DocumentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DocumentQuery, DocumentQueryVariables>(DocumentDocument, options);
+        }
+export type DocumentQueryHookResult = ReturnType<typeof useDocumentQuery>;
+export type DocumentLazyQueryHookResult = ReturnType<typeof useDocumentLazyQuery>;
+export type DocumentQueryResult = Apollo.QueryResult<DocumentQuery, DocumentQueryVariables>;

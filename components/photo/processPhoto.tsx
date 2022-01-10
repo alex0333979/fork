@@ -26,7 +26,7 @@ enum Status {
   failed = 2
 }
 
-const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) => {
+const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) => {
   const router = useRouter();
   const { updateCart } = useAuth();
   const [addToCart] = useAddItemsToCartMutation();
@@ -95,13 +95,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
 
   const goNext = useCallback(async () => {
     await onAddToCartItem({
-      name: 'Passport photo',
-      description: 'Passport photo',
+      name: `${document.country} - ${document.type}`,
+      description: document.type,
       product: ProductType.PassportPhoto,
       productId: entry.id,
       imageUrl: imageLink
     });
-  }, [entry.id, imageLink, onAddToCartItem]);
+  }, [document, entry.id, imageLink, onAddToCartItem]);
 
   const goApplication = useCallback(async () => {
     setOpen(false);
@@ -233,7 +233,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
                       className="main-btn no-border"
                       onClick={() =>
                         router.push(
-                          `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${documentId}`
+                          `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${document.id}`
                         )
                       }>
                       <i className="icon-camera" />
@@ -279,7 +279,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
                         className="main-btn"
                         onClick={() =>
                           router.push(
-                            `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${documentId}`
+                            `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${document.id}`
                           )
                         }>
                         {status === Status.loading ? (
@@ -307,7 +307,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, documentId }) 
                         className="main-btn outline"
                         onClick={() =>
                           router.push(
-                            `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${documentId}`
+                            `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${document.id}`
                           )
                         }>
                         <i className="icon-left" />

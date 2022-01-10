@@ -68,6 +68,12 @@ type Country {
     type: String!
 }
 
+type CountryResponse {
+    data: Country
+    message: String!
+    status: Boolean!
+}
+
 type Dictionary {
     message: String!
     test: String!
@@ -235,6 +241,7 @@ type Query {
     Cart: CartResponse!
     CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
     Countries: CountriesResponse!
+    Document(id: String!): CountryResponse!
     DocumentsByCountry(country: String!): CountriesResponse!
     Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
     Entry(entryId: String!): EntryResponse!

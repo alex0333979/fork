@@ -5,7 +5,14 @@ import ProcessPhoto from '@/components/photo/processPhoto';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { COOKIES_TOKEN_NAME, initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
-import { Entry, EntryDocument, EntryQuery } from '@/generated/graphql';
+import {
+  DocumentDocument,
+  DocumentQuery,
+  Entry,
+  EntryDocument,
+  EntryQuery,
+  Country
+} from '@/generated/graphql';
 import { PAGES, PHOTO_FORM, SEO } from '../../constants';
 import { NextSeo } from 'next-seo';
 import { FACING_MODES } from 'react-html5-camera-photo';
@@ -13,14 +20,14 @@ import { FACING_MODES } from 'react-html5-camera-photo';
 export interface ProcessPhotoProps {
   entry: Entry;
   type: string;
-  documentId: string;
+  document: Country;
 }
 
-const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type, documentId }) => (
+const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type, document }) => (
   <>
     <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
     <PhotoLayout>
-      <ProcessPhoto entry={entry} type={type} documentId={documentId} />
+      <ProcessPhoto entry={entry} type={type} document={document} />
     </PhotoLayout>
   </>
 );
@@ -50,6 +57,20 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
         }
       };
     }
+    const documentResult: ApolloQueryResult<DocumentQuery> = await client.query({
+      query: DocumentDocument,
+      variables: { id: documentId },
+      fetchPolicy: 'no-cache'
+    });
+    const document = documentResult.data?.Document.data;
+    if (!document) {
+      return {
+        redirect: {
+          destination: PAGES.photo.takePhoto,
+          permanent: false
+        }
+      };
+    }
     const entryResult: ApolloQueryResult<EntryQuery> = await client.query({
       query: EntryDocument,
       variables: { entryId },
@@ -61,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
         props: {
           entry,
           type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER,
-          documentId
+          document
         }
       };
     }
