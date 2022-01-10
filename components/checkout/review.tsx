@@ -406,10 +406,17 @@ const ReviewAndPay: React.FC = () => {
                 <h3>{'SubTotal'}</h3>
                 <p>{`$${(subTotal ?? 0) / 100}`}</p>
               </div>
-              <div className="name">
-                <h3>{'Tax'}</h3>
-                <p>{`$0`}</p>
-              </div>
+              {cart?.billingAddress?.state === 'NY' ? (
+                <div className="name">
+                  <h3>{'Sales tax'}</h3>
+                  <p>{`8.875%`}</p>
+                </div>
+              ) : (
+                <div className="name">
+                  <h3>{'Tax'}</h3>
+                  <p>{`$0`}</p>
+                </div>
+              )}
               <div className="name">
                 <h3>{'Shipping'}</h3>
                 <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
