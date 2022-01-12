@@ -8,6 +8,7 @@ import { Country, useDocumentsByCountryQuery } from '@/generated/graphql';
 import dynamic from 'next/dynamic';
 import { CountryFlag, iCountry } from '@/components/elements/countrySelector';
 import { Bars } from 'react-loading-icons';
+import countryList from 'react-select-country-list';
 const CountrySelector = dynamic(() => import('@/components/elements/countrySelector'), {
   ssr: false
 });
@@ -15,9 +16,10 @@ const CountrySelector = dynamic(() => import('@/components/elements/countrySelec
 interface MainIntroProps {
   open: boolean;
   setOpen: React.Dispatch<boolean>;
+  document: Country | null;
 }
 
-const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
+const MainIntro = ({ open, setOpen, document: pDoc }: MainIntroProps, ref: any) => {
   const [country, setCountry] = useState<iCountry>({
     label: 'United States',
     value: 'US'
@@ -37,6 +39,19 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
     }
   }, [data?.DocumentsByCountry.data]);
 
+  useEffect(() => {
+    if (!pDoc) return;
+    const all = countryList().getData();
+    const doc = all.find((i) => i.label === pDoc.country);
+    setCountry(
+      doc ?? {
+        label: 'United States',
+        value: 'US'
+      }
+    );
+    setDocument(pDoc);
+  }, [pDoc]);
+
   const goTakePhoto = useCallback(
     async (d: Country | undefined) => {
       if (!d) {
@@ -47,6 +62,11 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
     },
     [router]
   );
+
+  const onSelectedCountry = useCallback((country: iCountry) => {
+    setCountry(country);
+    setDocument(undefined);
+  }, []);
 
   return (
     <>
@@ -65,14 +85,25 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
                   <label>
                     <span className="label">{'What country is this for?'}</span>
                     <span className="field">
-                      <CountrySelector country={country} onSelectCountry={setCountry} />
+                      <CountrySelector country={country} onSelectCountry={onSelectedCountry} />
                     </span>
                   </label>
                 </div>
                 <div className="submit-btn">
-                  <a className="main-btn big" onClick={() => setOpen(true)}>
-                    {'Choose document'}
-                  </a>
+                  {document ? (
+                    <>
+                      <a className="main-btn big" onClick={() => goTakePhoto(document)}>
+                        {'Start now'}
+                      </a>
+                      <div className="choose-text">
+                        <a onClick={() => setOpen(true)}>{'Change Country Or Document Type'}</a>
+                      </div>
+                    </>
+                  ) : (
+                    <a className="main-btn big" onClick={() => setOpen(true)}>
+                      {'Choose document'}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -111,7 +142,7 @@ const MainIntro = ({ open, setOpen }: MainIntroProps, ref: any) => {
             <div className="select-document">
               <div className="form-fields">
                 <label>
-                  <CountrySelector country={country} onSelectCountry={setCountry} />
+                  <CountrySelector country={country} onSelectCountry={onSelectedCountry} />
                 </label>
               </div>
               <div className="document-options">

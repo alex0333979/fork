@@ -4,10 +4,11 @@ import WorkingProcess from '@/components/home/workingProcess';
 import FaqForm from '@/components/home/faqForm';
 import ReviewsPlatform from '@/components/home/reviewsPlatform';
 import HowTakePhoto from '@/components/home/howTakePhoto';
+import { HomePageProps } from '@/pages/index';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
-const Home: React.FC = () => {
+const Home: React.FC<HomePageProps> = ({ document }) => {
   const target = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<WorkingProcessInterface>(null);
   const [running, setRunning] = useState<boolean>(false);
@@ -30,7 +31,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <MainIntro ref={target} open={open} setOpen={setOpen} />
+      <MainIntro ref={target} open={open} setOpen={setOpen} document={document} />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpen} />
       <ReviewsPlatform setOpen={setOpen} />
       <HowTakePhoto />
