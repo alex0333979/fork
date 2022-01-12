@@ -1199,6 +1199,13 @@ header {
           .main-btn {
             width: 100%;
           }
+
+          .choose-text {
+            text-align: center;
+            margin-top: 10px;
+            color: var(--shuttle-gray);
+            text-decoration: underline;
+          }
         }
       }
 
