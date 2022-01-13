@@ -68,11 +68,8 @@ const ReviewAndPay: React.FC = () => {
     [cart]
   );
   const subTotal = useMemo(
-    () =>
-      cart?.items
-        ?.filter((i) => i.isComplete)
-        .reduce((a, { price }) => a + price + shippingPrice, 0),
-    [cart?.items, shippingPrice]
+    () => cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0),
+    [cart?.items]
   );
   const aPrice = useMemo(
     () =>
@@ -88,16 +85,32 @@ const ReviewAndPay: React.FC = () => {
         .reduce((a, { price }) => a + price, 0),
     [cart]
   );
+
+  const aCount = useMemo(
+    () =>
+      cart?.items?.filter((c) => c.product === ProductType.PassportApplication && c.isComplete)
+        .length ?? 0,
+    [cart?.items]
+  );
+
+  const pCount = useMemo(
+    () => cart?.items?.filter((c) => c.product === ProductType.PassportPhoto).length ?? 0,
+    [cart?.items]
+  );
+
   const conciergePrice = useMemo(
     () => (cart?.shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
     [cart?.shippingType]
   );
 
-  const total = useMemo(() => (subTotal ?? 0) + conciergePrice, [conciergePrice, subTotal]);
+  const total = useMemo(
+    () => (subTotal ?? 0) + conciergePrice + shippingPrice,
+    [conciergePrice, shippingPrice, subTotal]
+  );
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(total * 0.0875);
+      return Math.ceil(total * 0.08875);
     }
     return 0;
   }, [cart?.billingAddress?.state, total]);
@@ -396,13 +409,15 @@ const ReviewAndPay: React.FC = () => {
               </div>
             </li>
             <li>
-              <div className="name">
-                <h3>{'Passport Application'}</h3>
-                <p>{`$${(aPrice ?? 0) / 100}`}</p>
-              </div>
+              {aCount > 0 && (
+                <div className="name">
+                  <h3>{`${aCount} Passport Application`}</h3>
+                  <p>{`$${(aPrice ?? 0) / 100}`}</p>
+                </div>
+              )}
               {(pPrice ?? 0) > 0 ? (
                 <div className="name">
-                  <h3>{'Passport Photo'}</h3>
+                  <h3>{`${pCount} Photo${pCount > 1 ? 's' : ''}`}</h3>
                   <p>{`$${(pPrice ?? 0) / 100}`}</p>
                 </div>
               ) : (
@@ -413,10 +428,6 @@ const ReviewAndPay: React.FC = () => {
               <div className="name">
                 <h3>{'Concierge service'}</h3>
                 <p>{`$${conciergePrice / 100}`}</p>
-              </div>
-              <div className="name">
-                <h3>{'Shipping'}</h3>
-                <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
@@ -433,6 +444,10 @@ const ReviewAndPay: React.FC = () => {
                   <p>{`$0`}</p>
                 </div>
               )}
+              <div className="name">
+                <h3>{'Shipping'}</h3>
+                <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
+              </div>
             </li>
             <li>
               <div className="name">
