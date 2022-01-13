@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
 
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -15,10 +16,20 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
   const [date, setDate] = useState<Date | null>(formField.value ? new Date(formField.value) : null);
   const onChange = useCallback(
     (value: Date | null) => {
-      onValueChange(formField.name, value?.toISOString().split('T')[0]);
+      onValueChange(
+        formField.name,
+        value !== null ? moment(value).format('MM/DD/YYYY') : undefined
+      );
       setDate(value);
     },
     [formField.name, onValueChange]
+  );
+  const maxDate = useMemo(
+    () =>
+      formField.name === 'date_of_return' || formField.name === 'date_of_departure'
+        ? null
+        : new Date(),
+    [formField.name]
   );
   return (
     <label className="half-size">
@@ -37,7 +48,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
             placeholder={'MM/dd/yyyy'}
             value={date}
             onChange={(date: Date | null) => onChange(date)}
-            maxDate={new Date()}
+            maxDate={maxDate}
           />
         </MuiPickersUtilsProvider>
       </span>
