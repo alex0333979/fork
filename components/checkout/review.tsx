@@ -7,7 +7,7 @@ import {
   useElements,
   useStripe
 } from '@stripe/react-stripe-js';
-import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
+import { CONCIERGE_PRICE, PAGES, PHOTO_PRICES, SHIPPING_TYPES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import {
   Order,
@@ -78,13 +78,6 @@ const ReviewAndPay: React.FC = () => {
         .reduce((a, { price }) => a + price, 0),
     [cart]
   );
-  const pPrice = useMemo(
-    () =>
-      cart?.items
-        ?.filter((c) => c.product === ProductType.PassportPhoto)
-        .reduce((a, { price }) => a + price, 0),
-    [cart]
-  );
 
   const aCount = useMemo(
     () =>
@@ -93,8 +86,17 @@ const ReviewAndPay: React.FC = () => {
     [cart?.items]
   );
 
-  const pCount = useMemo(
-    () => cart?.items?.filter((c) => c.product === ProductType.PassportPhoto).length ?? 0,
+  const photoItems = useMemo(
+    () =>
+      cart?.items
+        ?.filter((c) => c.product === ProductType.PassportPhoto)
+        ?.map((item) => {
+          const price = PHOTO_PRICES.find((p) => p.price === item.price);
+          return {
+            text: price ? `${price.value} ${item.description} Photos` : 'Photos',
+            price: item.price
+          };
+        }) ?? [],
     [cart?.items]
   );
 
@@ -415,14 +417,12 @@ const ReviewAndPay: React.FC = () => {
                   <p>{`$${(aPrice ?? 0) / 100}`}</p>
                 </div>
               )}
-              {(pPrice ?? 0) > 0 ? (
-                <div className="name">
-                  <h3>{`${pCount} Photo${pCount > 1 ? 's' : ''}`}</h3>
-                  <p>{`$${(pPrice ?? 0) / 100}`}</p>
+              {photoItems.map((item, index) => (
+                <div key={index} className="name">
+                  <h3>{item.text}</h3>
+                  <p>{`$${item.price / 100}`}</p>
                 </div>
-              ) : (
-                <></>
-              )}
+              ))}
             </li>
             <li>
               <div className="name">
