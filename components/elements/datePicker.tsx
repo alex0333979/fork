@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
@@ -20,6 +20,13 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
     },
     [formField.name, onValueChange]
   );
+  const maxDate = useMemo(
+    () =>
+      formField.name === 'date_of_return' || formField.name === 'date_of_departure'
+        ? null
+        : new Date(),
+    [formField.name]
+  );
   return (
     <label className="half-size">
       <span className="label">
@@ -37,7 +44,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
             placeholder={'MM/dd/yyyy'}
             value={date}
             onChange={(date: Date | null) => onChange(date)}
-            maxDate={new Date()}
+            maxDate={maxDate}
           />
         </MuiPickersUtilsProvider>
       </span>
