@@ -2,6 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { FormField } from '@/generated/graphql';
 import classNames from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
+import moment from 'moment';
 
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
@@ -15,7 +16,10 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
   const [date, setDate] = useState<Date | null>(formField.value ? new Date(formField.value) : null);
   const onChange = useCallback(
     (value: Date | null) => {
-      onValueChange(formField.name, value?.toISOString().split('T')[0]);
+      onValueChange(
+        formField.name,
+        value !== null ? moment(value).format('MM/DD/YYYY') : undefined
+      );
       setDate(value);
     },
     [formField.name, onValueChange]
