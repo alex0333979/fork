@@ -97,10 +97,9 @@ class MyDocument extends Document {
           <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
           <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
 
-          <meta property="og:site_name" content="Biometric Photos" />
+          <meta property="og:site_name" content="Passport Photos" />
           <meta property="og:url" content="https://PassportPhotos.com" />
           <meta property="og:type" content="website" />
-          <meta property="og:title" content="Biometric Photos" />
           <meta
             property="og:description"
             content={`Take Your Own Passport Photo From Anywhere - 
