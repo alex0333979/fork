@@ -189,17 +189,17 @@ export const CONCIERGE_PRICE = 947;
 
 export const PHOTO_PRICES = [
   {
-    text: '2 Passport Photos',
+    text: '2 Photos',
     price: 1647,
     value: 2
   },
   {
-    text: '4 Passport Photos',
+    text: '4 Photos',
     price: 1847,
     value: 4
   },
   {
-    text: '6 Passport Photos',
+    text: '6 Photos',
     price: 2147,
     value: 6
   }
