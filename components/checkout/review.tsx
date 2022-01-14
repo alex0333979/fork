@@ -451,7 +451,7 @@ const ReviewAndPay: React.FC = () => {
             </li>
             <li>
               <div className="name">
-                <h3>{'Total'}</h3>
+                <h3>{'Grand Total'}</h3>
                 <p>{`$${(total + tax) / 100}`}</p>
               </div>
             </li>
