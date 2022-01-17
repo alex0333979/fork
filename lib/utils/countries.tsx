@@ -85,11 +85,6 @@ export const countries = [
     type: 'Passport'
   },
   {
-    id: 85,
-    country: 'Canada',
-    type: 'Passport'
-  },
-  {
     id: 89,
     country: 'Chad',
     type: 'Passport'

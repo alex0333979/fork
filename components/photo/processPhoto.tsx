@@ -228,6 +228,11 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
                     <span>
                       <img src={imageLink} alt="" />
                     </span>
+                    {status === Status.success && (
+                      <button type="button" className="main-btn" onClick={goNext}>
+                        {'Proceed To Checkout'}
+                      </button>
+                    )}
                     <button
                       type="button"
                       className="main-btn no-border"
