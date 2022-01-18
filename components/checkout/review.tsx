@@ -279,7 +279,7 @@ const ReviewAndPay: React.FC = () => {
       country: 'US',
       total: {
         label: '',
-        amount: (subTotal ?? 0) + shippingPrice + conciergePrice
+        amount: total + tax
       },
       requestPayerEmail: true,
       requestPayerName: true
@@ -327,7 +327,9 @@ const ReviewAndPay: React.FC = () => {
     conciergePrice,
     onCreateOrder,
     getClientSecret,
-    finalizeResult
+    finalizeResult,
+    total,
+    tax
   ]);
 
   const PaymentStatus = ({ status }: { status: string }) => {
