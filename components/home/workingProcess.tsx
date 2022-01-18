@@ -227,7 +227,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
             <div className="process-img">
               <span>
                 <Image
-                  src="/images/up-sale.png"
+                  src="/images/up-sale-new.png"
                   layout={'fill'}
                   priority={true}
                   placeholder="empty"
