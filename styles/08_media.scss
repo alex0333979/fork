@@ -470,6 +470,9 @@
   .online-forms .digital-app .title h1 {
     font-size: 43px;
   }
+  .success-page .data-wrap {
+    min-height: calc(100vh - 95px - 73px - 47px);
+  }
 }
 
 @media screen and (max-width: 1420px) {
@@ -1091,6 +1094,12 @@
   }
   .forms-list .form-box .name h3 {
     font-size: 21px;
+  }
+  .success-page {
+    padding-bottom: 32px;
+  }
+  .success-page .data-wrap {
+    min-height: calc(100vh - 88px - 62px - 32px);
   }
 }
 
@@ -2393,6 +2402,9 @@
   .forms-list .form-box {
     padding: 10px 15px;
   }
+  .success-page .data-wrap {
+    min-height: calc(100vh - 91px - 207px - 32px);
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -2964,6 +2976,17 @@
   }
   .main-intro .intro-wrap .intro-img .country-flag img {
     width: 23px;
+  }
+  .success-page .data-wrap {
+    padding: 74px 20px 30px 20px;
+  }
+  .success-content .btn-wrap {
+    padding-top: 30px;
+  }
+  .success-content .btn-wrap .main-btn {
+    max-width: 218px;
+    min-height: 48px;
+    font-size: 16px;
   }
 }
 
