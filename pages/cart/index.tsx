@@ -6,16 +6,20 @@ import { Cart, CartDocument, CartQuery } from '@/generated/graphql';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
-import { PAGES } from '../../constants';
+import { PAGES, SEO } from '../../constants';
+import { NextSeo } from 'next-seo';
 
 export interface CartPageProps {
   cart: Cart | null;
 }
 
 const CartPage: NextPage<CartPageProps> = ({ cart }) => (
-  <AppLayout>
-    <ShoppingCart cart={cart} />
-  </AppLayout>
+  <>
+    <NextSeo title={SEO.shoppingCart.title} description={SEO.shoppingCart.description} />
+    <AppLayout>
+      <ShoppingCart cart={cart} />
+    </AppLayout>
+  </>
 );
 
 export const getServerSideProps: GetServerSideProps<CartPageProps> = async (
