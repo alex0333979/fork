@@ -24,7 +24,8 @@ export const PAGES = {
   contactUs: '/contact-us',
   about: '/about',
   terms: '/terms',
-  shippingPolicy: '/shipping-policy'
+  shippingPolicy: '/shipping-policy',
+  upSell: '/up-sell'
 };
 
 export const SEO = {
@@ -93,6 +94,11 @@ export const SEO = {
   },
   shoppingCart: {
     title: 'PassportPhotos - Shopping cart',
+    description: '',
+    keywords: ''
+  },
+  upSell: {
+    title: 'PassportPhotos - UpSell',
     description: '',
     keywords: ''
   }
