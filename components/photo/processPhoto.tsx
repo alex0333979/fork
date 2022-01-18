@@ -87,10 +87,15 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
       if (cart) {
         updateCart(cart);
         showSuccess('This entry is added to cart.');
-        setOpen(true);
+        if (document.id === 495 || document.id === 489) {
+          // only for US passport and UK passport
+          setOpen(true);
+        } else {
+          await router.push(PAGES.cart);
+        }
       }
     },
-    [addToCart, updateCart]
+    [addToCart, document.id, router, updateCart]
   );
 
   const goNext = useCallback(async () => {
