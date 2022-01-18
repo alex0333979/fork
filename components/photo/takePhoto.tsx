@@ -143,11 +143,11 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({ form, entry, documentId }) =>
           showError(err.message);
         });
     },
-    [createEntry, selectedImage]
+    [cancelTokenSource.token, createEntry, selectedImage]
   );
 
   const onCancelUploadPhoto = useCallback(() => {
-    cancelTokenSource.cancel();
+    cancelTokenSource.cancel('Upload cancelled');
   }, [cancelTokenSource]);
 
   const takePhoto = useCallback(

@@ -79,6 +79,14 @@ select {
     letter-spacing: -0.5px;
   }
 
+  h3 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+
   p {
     margin: 0;
     padding-top: 21px;
@@ -5192,6 +5200,46 @@ footer {
       .main-btn {
         width: 100%;
       }
+    }
+  }
+}
+
+.success-page {
+  padding-bottom: 47px;
+  .data-wrap {
+    min-height: calc(100vh - 102px - 80px - 47px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    background: var(--catskill-white);
+    border-radius: 4px;
+  }
+}
+
+.success-content {
+  width: 100%;
+  max-width: 290px;
+  margin: 0 auto;
+  .img-wrap {
+    padding-bottom: 5px;
+    text-align: center;
+  }
+  .sub-title {
+    h3 {
+      font-size: 28px;
+    }
+    p {
+      padding-top: 20px;
+      font-size: 18px;
+    }
+  }
+  .btn-wrap {
+    padding-top: 41px;
+    text-align: center;
+    .main-btn {
+      width: 100%;
+      max-width: 240px;
     }
   }
 }

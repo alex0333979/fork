@@ -90,6 +90,11 @@ export const SEO = {
     title: 'PassportPhotos - Terms of Use',
     description: '',
     keywords: ''
+  },
+  shoppingCart: {
+    title: 'PassportPhotos - Shopping cart',
+    description: '',
+    keywords: ''
   }
 };
 
