@@ -73,11 +73,11 @@ const AppHeader: React.FC = () => {
             </div>
           </div>
           <div className="right-side">
-            <div className="location">
-              <div className="current">
-                <p>{'United States'}</p>
-              </div>
-            </div>
+            {/* <div className="location">*/}
+            {/*  <div className="current">*/}
+            {/*    <p>{'United States'}</p>*/}
+            {/*  </div>*/}
+            {/* </div>*/}
             {/* <SelectCountry selectedCountry={onSelectedCountry} />*/}
             {/* <div className="user-btn">*/}
             {/*  <Link href={PAGES.home}>*/}
