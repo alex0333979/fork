@@ -68,10 +68,7 @@ const ReviewAndPay: React.FC = () => {
     () => SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
     [cart]
   );
-  const subTotal = useMemo(
-    () => cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0),
-    [cart?.items]
-  );
+
   const aPrice = useMemo(
     () =>
       cart?.items
@@ -106,17 +103,22 @@ const ReviewAndPay: React.FC = () => {
     [cart?.shippingType]
   );
 
-  const total = useMemo(
-    () => (subTotal ?? 0) + conciergePrice + shippingPrice,
-    [conciergePrice, shippingPrice, subTotal]
+  const subTotal = useMemo(
+    () =>
+      (cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0) ?? 0) +
+      conciergePrice +
+      shippingPrice,
+    [cart?.items, conciergePrice, shippingPrice]
   );
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(total * 0.08875);
+      return Math.ceil(subTotal * 0.08875);
     }
     return 0;
-  }, [cart?.billingAddress?.state, total]);
+  }, [cart?.billingAddress?.state, subTotal]);
+
+  const total = useMemo(() => subTotal + tax, [tax, subTotal]);
 
   const handleInputChange = useCallback((e) => {
     setError((errors) => ({
@@ -436,8 +438,12 @@ const ReviewAndPay: React.FC = () => {
                     <p>{`$${conciergePrice / 100}`}</p>
                   </div>
                   <div className="name">
+                    <h3>{'Shipping'}</h3>
+                    <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
+                  </div>
+                  <div className="name">
                     <h3>{'SubTotal'}</h3>
-                    <p>{`$${(subTotal ?? 0) / 100}`}</p>
+                    <p>{`$${subTotal / 100}`}</p>
                   </div>
                   {cart?.billingAddress?.state === 'NY' ? (
                     <div className="name">
@@ -450,15 +456,11 @@ const ReviewAndPay: React.FC = () => {
                       <p>{`$0`}</p>
                     </div>
                   )}
-                  <div className="name">
-                    <h3>{'Shipping'}</h3>
-                    <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
-                  </div>
                 </li>
                 <li>
                   <div className="name">
                     <h3>{'Grand Total'}</h3>
-                    <p>{`$${(total + tax) / 100}`}</p>
+                    <p>{`$${total / 100}`}</p>
                   </div>
                 </li>
               </ol>
