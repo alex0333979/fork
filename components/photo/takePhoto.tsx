@@ -70,7 +70,8 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({ form, entry, documentId }) =>
     fetchPolicy: 'no-cache'
   });
   const [submitEntry] = useSubmitEntryMutation();
-  const cancelTokenSource = axios.CancelToken.source();
+  const CancelToken = axios.CancelToken;
+  const cancel = useRef<any>(null);
   const [percentage, setPercentage] = useState<number>(0);
 
   const onSubmit = useCallback(async () => {
@@ -124,7 +125,9 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({ form, entry, documentId }) =>
         return;
       }
       const config = {
-        cancelToken: cancelTokenSource.token,
+        cancelToken: new CancelToken(function executor(c) {
+          cancel.current = c;
+        }),
         onUploadProgress: (progressEvent: any) => {
           const { loaded, total } = progressEvent;
           setPercentage(Math.round((loaded * 100) / total));
@@ -141,14 +144,17 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({ form, entry, documentId }) =>
         .catch((err) => {
           setLoading(false);
           showError(err.message);
+          if (inputFileRef?.current) {
+            inputFileRef.current.value = '';
+          }
         });
     },
-    [cancelTokenSource.token, createEntry, selectedImage]
+    [CancelToken, createEntry, selectedImage]
   );
 
   const onCancelUploadPhoto = useCallback(() => {
-    cancelTokenSource.cancel('Upload cancelled');
-  }, [cancelTokenSource]);
+    cancel.current('Upload cancelled');
+  }, []);
 
   const takePhoto = useCallback(
     async (file: File) => {
