@@ -192,7 +192,7 @@ const ReviewAndPay: React.FC = () => {
           transaction_id: order.orderNumber,
           value: order.totalPrice / 100,
           currency: 'USD',
-          tax: 0.0,
+          tax: tax / 100,
           shipping: shippingPrice,
           items: order.items.map((item) => ({
             id: item.productId,
@@ -206,7 +206,7 @@ const ReviewAndPay: React.FC = () => {
           transaction_id: order.orderNumber,
           value: order.totalPrice / 100,
           currency: 'USD',
-          tax: 0.0,
+          tax: tax / 100,
           shipping: shippingPrice,
           items: order.items.map((item) => ({
             id: item.productId,
@@ -216,11 +216,24 @@ const ReviewAndPay: React.FC = () => {
           }))
         });
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (window && window.ORIBI) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window.ORIBI.api('trackPurchase', {
+            totalPrice: order.totalPrice / 100,
+            currency: 'USD',
+            orderId: order.orderNumber,
+            taxPrice: tax / 100,
+            shippingPrice: shippingPrice / 100
+          });
+        }
         // await router.push(PAGES.home);
         setDone(true);
       }
     },
-    [clearCart, shippingPrice, updateCart]
+    [clearCart, shippingPrice, tax, updateCart]
   );
 
   const onSubmit = useCallback(async () => {
