@@ -8,7 +8,6 @@ import { Country, useDocumentsByCountryQuery } from '@/generated/graphql';
 import dynamic from 'next/dynamic';
 import { CountryFlag, iCountry } from '@/components/elements/countrySelector';
 import { Bars } from 'react-loading-icons';
-import countryList from 'react-select-country-list';
 const CountrySelector = dynamic(() => import('@/components/elements/countrySelector'), {
   ssr: false
 });
@@ -16,13 +15,17 @@ const CountrySelector = dynamic(() => import('@/components/elements/countrySelec
 interface MainIntroProps {
   open: boolean;
   setOpen: React.Dispatch<boolean>;
+  country: Country | null;
   document: Country | null;
 }
 
-const MainIntro = ({ open, setOpen, document: pDoc }: MainIntroProps, ref: any) => {
+const MainIntro = (
+  { open, setOpen, country: pCountry, document: pDoc }: MainIntroProps,
+  ref: any
+) => {
   const [country, setCountry] = useState<iCountry>({
-    label: 'United States',
-    value: 'US'
+    label: pCountry?.country ?? 'United States',
+    value: pCountry?.countryCode ?? 'US'
   });
   const [documents, setDocuments] = useState<Country[]>([]);
   const router = useRouter();
@@ -31,26 +34,13 @@ const MainIntro = ({ open, setOpen, document: pDoc }: MainIntroProps, ref: any) 
     variables: { country: country.label },
     fetchPolicy: 'no-cache'
   });
-  const [document, setDocument] = useState<Country | undefined>(undefined);
+  const [document, setDocument] = useState<Country | undefined>(pDoc ?? undefined);
 
   useEffect(() => {
     if (data?.DocumentsByCountry.data) {
       setDocuments(data.DocumentsByCountry.data);
     }
   }, [data?.DocumentsByCountry.data]);
-
-  useEffect(() => {
-    if (!pDoc) return;
-    const all = countryList().getData();
-    const doc = all.find((i) => i.label === pDoc.country);
-    setCountry(
-      doc ?? {
-        label: 'United States',
-        value: 'US'
-      }
-    );
-    setDocument(pDoc);
-  }, [pDoc]);
 
   const goTakePhoto = useCallback(
     async (d: Country | undefined) => {
@@ -76,7 +66,13 @@ const MainIntro = ({ open, setOpen, document: pDoc }: MainIntroProps, ref: any) 
             <div className="intro-title">
               <div className="title big">
                 <h1>
-                  <b>{'Passport and Visa Photos Online'}</b>
+                  {country && document ? (
+                    <b>{`Take Your ${country.label} ${document.type} Online`}</b>
+                  ) : country ? (
+                    <b>{`Take Your ${country.label} Passport and Visa Photos Online`}</b>
+                  ) : (
+                    <b>{'Passport and Visa Photos Online'}</b>
+                  )}
                 </h1>
                 <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
               </div>
@@ -175,8 +171,16 @@ const MainIntro = ({ open, setOpen, document: pDoc }: MainIntroProps, ref: any) 
                               layout={'fill'}
                               alt=""
                             />
+                          ) : d.type === 'Passport' ? (
+                            <Image
+                              src={`/images/passports/${
+                                d.countryCode?.toLowerCase() ?? 'passport'
+                              }.png`}
+                              layout={'fill'}
+                              alt=""
+                            />
                           ) : (
-                            <Image src="/images/passport.png" layout={'fill'} alt="" />
+                            <Image src="/images/passports/default-img.png" layout={'fill'} alt="" />
                           )}
                         </span>
                       </span>
