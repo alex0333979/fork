@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       }
     };
   }
-  const country = countries.find((c) => c.countryCode === countryCode);
+  const country = countries.find((c) => c.countryCode === countryCode.toUpperCase());
   if (!country) {
     return {
       props: {
@@ -64,7 +64,6 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       fetchPolicy: 'no-cache'
     });
     const documents = documentsResult.data?.DocumentsByCountry.data;
-    console.log(documents);
     const document = documents?.find(
       (d) =>
         d.type
@@ -79,7 +78,6 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       }
     };
   } catch (e) {
-    console.log(e);
     return {
       props: {
         country: null,
