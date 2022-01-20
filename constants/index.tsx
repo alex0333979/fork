@@ -13,7 +13,8 @@ export const PAGES = {
     deliveryMethod: '/checkout/',
     shipping: '/checkout/shipping/',
     payment: '/checkout/payment/',
-    review: '/checkout/review/'
+    review: '/checkout/review/',
+    thankYou: '/checkout/thank-you/'
   },
   cart: '/cart/',
   photo: {
@@ -25,8 +26,7 @@ export const PAGES = {
   about: '/about',
   terms: '/terms',
   shippingPolicy: '/shipping-policy',
-  upSell: '/up-sell',
-  thankYou: '/thank-you'
+  upSell: '/up-sell'
 };
 
 export const SEO = {

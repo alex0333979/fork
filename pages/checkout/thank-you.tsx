@@ -3,9 +3,9 @@ import { AppLayout } from '@/components/index';
 import React from 'react';
 import { NextSeo } from 'next-seo';
 import { SEO } from '../../constants';
-import ThankYou from '@/components/thank-you';
+import ThankYou from '@/components/checkout/thank-you';
 
-const TermsPage: NextPage = () => (
+const ThankYouPage: NextPage = () => (
   <>
     <NextSeo title={SEO.thankYou.title} description={SEO.thankYou.description} />
     <AppLayout>
@@ -14,4 +14,4 @@ const TermsPage: NextPage = () => (
   </>
 );
 
-export default TermsPage;
+export default ThankYouPage;

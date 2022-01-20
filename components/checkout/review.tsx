@@ -228,7 +228,7 @@ const ReviewAndPay: React.FC = () => {
             shippingPrice: shippingPrice / 100
           });
         }
-        await router.push(PAGES.thankYou);
+        await router.push(PAGES.checkout.thankYou);
       }
     },
     [clearCart, router, shippingPrice, tax, updateCart]
