@@ -8,7 +8,7 @@ import { HomePageProps } from '@/pages/index';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
-const Home: React.FC<HomePageProps> = ({ document }) => {
+const Home: React.FC<HomePageProps> = ({ country, document }) => {
   const target = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<WorkingProcessInterface>(null);
   const [running, setRunning] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const Home: React.FC<HomePageProps> = ({ document }) => {
 
   return (
     <>
-      <MainIntro ref={target} open={open} setOpen={setOpen} document={document} />
+      <MainIntro ref={target} open={open} setOpen={setOpen} country={country} document={document} />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpen} />
       <ReviewsPlatform setOpen={setOpen} />
       <HowTakePhoto />

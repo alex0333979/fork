@@ -104,6 +104,7 @@ export type CountriesResponse = {
 
 export type Country = {
   country: Scalars['String'];
+  countryCode: Scalars['String'];
   id: Scalars['Int'];
   type: Scalars['String'];
 };
@@ -722,7 +723,7 @@ export type SignedUrlFragment = { __typename: 'SignedUrl', url: string, signedUr
 
 export type TestResultFragment = { __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> };
 
-export type CountryFragment = { __typename: 'Country', id: number, country: string, type: string };
+export type CountryFragment = { __typename: 'Country', id: number, country: string, type: string, countryCode: string };
 
 export type CreateGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -929,21 +930,21 @@ export type GetSignedUrlQuery = { __typename: 'Query', GetSignedUrl: { __typenam
 export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CountriesQuery = { __typename: 'Query', Countries: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string }> } };
+export type CountriesQuery = { __typename: 'Query', Countries: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string, countryCode: string }> } };
 
 export type DocumentsByCountryQueryVariables = Exact<{
   country: Scalars['String'];
 }>;
 
 
-export type DocumentsByCountryQuery = { __typename: 'Query', DocumentsByCountry: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string }> } };
+export type DocumentsByCountryQuery = { __typename: 'Query', DocumentsByCountry: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string, countryCode: string }> } };
 
 export type DocumentQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type DocumentQuery = { __typename: 'Query', Document: { __typename: 'CountryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Country', id: number, country: string, type: string }> } };
+export type DocumentQuery = { __typename: 'Query', Document: { __typename: 'CountryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Country', id: number, country: string, type: string, countryCode: string }> } };
 
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
@@ -1179,6 +1180,7 @@ export const CountryFragmentDoc = gql`
   id
   country
   type
+  countryCode
 }
     `;
 export const CreateGuestDocument = gql`

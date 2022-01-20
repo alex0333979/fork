@@ -64,6 +64,7 @@ type CountriesResponse {
 
 type Country {
     country: String!
+    countryCode: String!
     id: Int!
     type: String!
 }

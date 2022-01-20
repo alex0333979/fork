@@ -60,7 +60,7 @@ export interface CountrySelectorProps {
 const CountrySelector: React.FC<CountrySelectorProps> = ({ country, onSelectCountry }) => {
   const options = useMemo<iCountry[]>(() => {
     const all = countryList().getData();
-    return all.filter((c) => countries.find((ic) => ic.country === c.label));
+    return all.filter((c) => countries.find((ic) => ic.countryCode === c.value));
   }, []);
 
   const changeHandler = (value: any) => {

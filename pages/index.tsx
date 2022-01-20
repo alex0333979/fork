@@ -11,14 +11,15 @@ import { ApolloQueryResult } from '@apollo/client';
 import { Country, DocumentsByCountryDocument, DocumentsByCountryQuery } from '@/generated/graphql';
 
 export interface HomePageProps {
+  country: Country | null;
   document: Country | null;
 }
 
-const HomePage: NextPage<HomePageProps> = ({ document }) => (
+const HomePage: NextPage<HomePageProps> = ({ country, document }) => (
   <>
     <NextSeo title={SEO.home.title} description={SEO.home.description} />
     <AppLayout>
-      <Home document={document} />
+      <Home country={country} document={document} />
     </AppLayout>
   </>
 );
@@ -28,21 +29,29 @@ export default HomePage;
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   context: GetServerSidePropsContext
 ) => {
-  const country = context?.params?.country as string;
+  const countryCode = context?.params?.country as string;
   const documentType = context?.params?.documentType as string;
-  if (!country || !documentType) {
+  if (!countryCode) {
     return {
       props: {
+        country: null,
         document: null
       }
     };
   }
-  const cp = countries.find(
-    (c) => c.country.toLowerCase().replace(' ', '-') === country.toLowerCase()
-  );
-  if (!cp) {
+  const country = countries.find((c) => c.countryCode === countryCode);
+  if (!country) {
     return {
       props: {
+        country: null,
+        document: null
+      }
+    };
+  }
+  if (!documentType) {
+    return {
+      props: {
+        country,
         document: null
       }
     };
@@ -51,10 +60,11 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
     const client = initializeApollo(null, context);
     const documentsResult: ApolloQueryResult<DocumentsByCountryQuery> = await client.query({
       query: DocumentsByCountryDocument,
-      variables: { country: cp.country },
+      variables: { country: country.country },
       fetchPolicy: 'no-cache'
     });
     const documents = documentsResult.data?.DocumentsByCountry.data;
+    console.log(documents);
     const document = documents?.find(
       (d) =>
         d.type
@@ -62,21 +72,17 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
           .replace(/[^\w\s]/gi, '')
           .replace(' ', '') === documentType.toLowerCase().replace('-', '')
     );
-    if (!document) {
-      return {
-        props: {
-          document: null
-        }
-      };
-    }
     return {
       props: {
-        document
+        country,
+        document: document ?? null
       }
     };
   } catch (e) {
+    console.log(e);
     return {
       props: {
+        country: null,
         document: null
       }
     };
