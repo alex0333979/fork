@@ -39,7 +39,9 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       }
     };
   }
-  const country = countries.find((c) => c.countryCode === countryCode.toUpperCase());
+  const country = countries.find(
+    (c) => c.country.toLowerCase().replace(' ', '-') === countryCode.toLowerCase()
+  );
   if (!country) {
     return {
       props: {
