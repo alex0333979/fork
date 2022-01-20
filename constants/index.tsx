@@ -25,7 +25,8 @@ export const PAGES = {
   about: '/about',
   terms: '/terms',
   shippingPolicy: '/shipping-policy',
-  upSell: '/up-sell'
+  upSell: '/up-sell',
+  thankYou: '/thank-you'
 };
 
 export const SEO = {
@@ -99,6 +100,11 @@ export const SEO = {
   },
   upSell: {
     title: 'PassportPhotos - UpSell',
+    description: '',
+    keywords: ''
+  },
+  thankYou: {
+    title: 'PassportPhotos - Thank you',
     description: '',
     keywords: ''
   }

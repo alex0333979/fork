@@ -1,15 +1,15 @@
 import { NextPage } from 'next';
 import { AppLayout } from '@/components/index';
 import React from 'react';
-import Terms from '@/components/terms';
 import { NextSeo } from 'next-seo';
-import { SEO } from '../constants';
+import { SEO } from '../../constants';
+import ThankYou from '@/components/thank-you';
 
 const TermsPage: NextPage = () => (
   <>
-    <NextSeo title={SEO.terms.title} description={SEO.terms.description} />
+    <NextSeo title={SEO.thankYou.title} description={SEO.thankYou.description} />
     <AppLayout>
-      <Terms />
+      <ThankYou />
     </AppLayout>
   </>
 );

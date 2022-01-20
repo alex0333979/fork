@@ -21,8 +21,7 @@ import { ValidationError } from '@/lib/utils/formValidation';
 import { showError, showSuccess } from '@/lib/utils/toast';
 import { humanize } from '@/lib/utils/string';
 import { PaymentIntent, StripeCardElement, StripeError } from '@stripe/stripe-js';
-import Image from 'next/image';
-import { Link } from '@material-ui/core';
+import { useRouter } from 'next/router';
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -59,7 +58,7 @@ const ReviewAndPay: React.FC = () => {
   const [getPaymentIntent] = useGetPaymentIntentMutation();
   const [clearCart] = useClearCartMutation();
   const [paymentRequest, setPaymentRequest] = useState<any>(null);
-  const [done, setDone] = useState<boolean>(false);
+  const router = useRouter();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -229,11 +228,10 @@ const ReviewAndPay: React.FC = () => {
             shippingPrice: shippingPrice / 100
           });
         }
-        // await router.push(PAGES.home);
-        setDone(true);
+        await router.push(PAGES.thankYou);
       }
     },
-    [clearCart, shippingPrice, tax, updateCart]
+    [clearCart, router, shippingPrice, tax, updateCart]
   );
 
   const onSubmit = useCallback(async () => {
@@ -407,186 +405,158 @@ const ReviewAndPay: React.FC = () => {
   };
 
   return (
-    <>
-      <div className={classNames({ hidden: done })}>
-        <CheckoutLayout
-          step={4}
-          loading={loading}
-          backLink={PAGES.checkout.payment}
-          nextButtonText={'Check out'}
-          disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
-          onSubmit={onSubmit}
-          completeStep={3}>
-          <div className="form-wrap">
-            <PaymentStatus status={payment.status} />
-            <div className="form-fields">
-              <div className="extra-info">
-                <h3>{'Review and Pay'}</h3>
+    <CheckoutLayout
+      step={4}
+      loading={loading}
+      backLink={PAGES.checkout.payment}
+      nextButtonText={'Check out'}
+      disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
+      onSubmit={onSubmit}
+      completeStep={3}>
+      <div className="form-wrap">
+        <PaymentStatus status={payment.status} />
+        <div className="form-fields">
+          <div className="extra-info">
+            <h3>{'Review and Pay'}</h3>
+          </div>
+        </div>
+        <div className="shipping-data">
+          <ol>
+            <li>
+              <div className="name">
+                <h3>{'Order summery'}</h3>
               </div>
-            </div>
-            <div className="shipping-data">
-              <ol>
-                <li>
-                  <div className="name">
-                    <h3>{'Order summery'}</h3>
-                  </div>
-                </li>
-                <li>
-                  {aCount > 0 && (
-                    <div className="name">
-                      <h3>{`${aCount} Passport Application`}</h3>
-                      <p>{`$${(aPrice ?? 0) / 100}`}</p>
-                    </div>
-                  )}
-                  {photoItems.map((item, index) => (
-                    <div key={index} className="name">
-                      <h3>{item.text}</h3>
-                      <p>{`$${item.price / 100}`}</p>
-                    </div>
-                  ))}
-                </li>
-                <li>
-                  <div className="name">
-                    <h3>{'Concierge service'}</h3>
-                    <p>{`$${conciergePrice / 100}`}</p>
-                  </div>
-                  <div className="name">
-                    <h3>{'Shipping'}</h3>
-                    <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
-                  </div>
-                  <div className="name">
-                    <h3>{'SubTotal'}</h3>
-                    <p>{`$${subTotal / 100}`}</p>
-                  </div>
-                  {cart?.billingAddress?.state === 'NY' ? (
-                    <div className="name">
-                      <h3>{'Sales tax'}</h3>
-                      <p>{`$${tax / 100}`}</p>
-                    </div>
-                  ) : (
-                    <div className="name">
-                      <h3>{'Tax'}</h3>
-                      <p>{`$0`}</p>
-                    </div>
-                  )}
-                </li>
-                <li>
-                  <div className="name">
-                    <h3>{'Grand Total'}</h3>
-                    <p>{`$${total / 100}`}</p>
-                  </div>
-                </li>
-              </ol>
-            </div>
-            {paymentRequest && (
-              <>
-                <div className="shipping-data">
-                  <ol>
-                    <li>
-                      <form>
-                        <div className="form-fields">
-                          <label className="full-size">
-                            <span className="field">
-                              <PaymentRequestButtonElement options={{ paymentRequest }} />
-                            </span>
-                          </label>
-                        </div>
-                      </form>
-                    </li>
-                  </ol>
+            </li>
+            <li>
+              {aCount > 0 && (
+                <div className="name">
+                  <h3>{`${aCount} Passport Application`}</h3>
+                  <p>{`$${(aPrice ?? 0) / 100}`}</p>
                 </div>
-                <p className="separator"> - OR - </p>
-              </>
-            )}
+              )}
+              {photoItems.map((item, index) => (
+                <div key={index} className="name">
+                  <h3>{item.text}</h3>
+                  <p>{`$${item.price / 100}`}</p>
+                </div>
+              ))}
+            </li>
+            <li>
+              <div className="name">
+                <h3>{'Concierge service'}</h3>
+                <p>{`$${conciergePrice / 100}`}</p>
+              </div>
+              <div className="name">
+                <h3>{'Shipping'}</h3>
+                <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
+              </div>
+              <div className="name">
+                <h3>{'SubTotal'}</h3>
+                <p>{`$${subTotal / 100}`}</p>
+              </div>
+              {cart?.billingAddress?.state === 'NY' ? (
+                <div className="name">
+                  <h3>{'Sales tax'}</h3>
+                  <p>{`$${tax / 100}`}</p>
+                </div>
+              ) : (
+                <div className="name">
+                  <h3>{'Tax'}</h3>
+                  <p>{`$0`}</p>
+                </div>
+              )}
+            </li>
+            <li>
+              <div className="name">
+                <h3>{'Grand Total'}</h3>
+                <p>{`$${total / 100}`}</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        {paymentRequest && (
+          <>
             <div className="shipping-data">
               <ol>
-                <li>
-                  <div className="name">
-                    <h3>{'Pay With Credit Card'}</h3>
-                  </div>
-                </li>
                 <li>
                   <form>
                     <div className="form-fields">
                       <label className="full-size">
-                        <span className="label">{'Name on the card *'}</span>
                         <span className="field">
-                          <input
-                            type="text"
-                            className={classNames({
-                              'error-border': !!error.cardName
-                            })}
-                            name="cardName"
-                            placeholder="Name on the card"
-                            value={cardName}
-                            onChange={handleInputChange}
-                          />
+                          <PaymentRequestButtonElement options={{ paymentRequest }} />
                         </span>
-                        {error.cardName ? (
-                          <span className="attention">{error.cardName}</span>
-                        ) : (
-                          <></>
-                        )}
-                      </label>
-                      <label className="full-size">
-                        <span className="label">{'Card number'}</span>
-                        <span className="field">
-                          <span
-                            className={classNames('stripe-input', {
-                              focus: stripeFocus,
-                              'error-border': !!error.cardNumber
-                            })}>
-                            <CardElement
-                              options={CARD_OPTIONS}
-                              onFocus={() => setStripeFocus(true)}
-                              onBlur={() => setStripeFocus(false)}
-                              onChange={(e) => {
-                                setError({});
-                                if (e.error) {
-                                  setError((errors) => ({
-                                    ...errors,
-                                    cardNumber: e.error?.message ?? 'An unknown error occurred'
-                                  }));
-                                }
-                              }}
-                            />
-                          </span>
-                        </span>
-                        {error.cardNumber ? (
-                          <span className="attention">{error.cardNumber}</span>
-                        ) : (
-                          <></>
-                        )}
                       </label>
                     </div>
                   </form>
                 </li>
               </ol>
             </div>
-          </div>
-        </CheckoutLayout>
-      </div>
-      <div className={classNames('success-page', { hidden: !done })}>
-        <div className="container">
-          <div className="data-wrap">
-            <div className="success-content">
-              <div className="img-wrap">
-                <Image src={'/images/done.png'} width={222} height={167} alt="" />
+            <p className="separator"> - OR - </p>
+          </>
+        )}
+        <div className="shipping-data">
+          <ol>
+            <li>
+              <div className="name">
+                <h3>{'Pay With Credit Card'}</h3>
               </div>
-              <div className="sub-title">
-                <h3>{'Transaction completed successfully'}</h3>
-                <p>{'Thank you'}</p>
-              </div>
-              <div className="btn-wrap">
-                <Link href={PAGES.home}>
-                  <button className="main-btn big">{'Back to Home'}</button>
-                </Link>
-              </div>
-            </div>
-          </div>
+            </li>
+            <li>
+              <form>
+                <div className="form-fields">
+                  <label className="full-size">
+                    <span className="label">{'Name on the card *'}</span>
+                    <span className="field">
+                      <input
+                        type="text"
+                        className={classNames({
+                          'error-border': !!error.cardName
+                        })}
+                        name="cardName"
+                        placeholder="Name on the card"
+                        value={cardName}
+                        onChange={handleInputChange}
+                      />
+                    </span>
+                    {error.cardName ? <span className="attention">{error.cardName}</span> : <></>}
+                  </label>
+                  <label className="full-size">
+                    <span className="label">{'Card number'}</span>
+                    <span className="field">
+                      <span
+                        className={classNames('stripe-input', {
+                          focus: stripeFocus,
+                          'error-border': !!error.cardNumber
+                        })}>
+                        <CardElement
+                          options={CARD_OPTIONS}
+                          onFocus={() => setStripeFocus(true)}
+                          onBlur={() => setStripeFocus(false)}
+                          onChange={(e) => {
+                            setError({});
+                            if (e.error) {
+                              setError((errors) => ({
+                                ...errors,
+                                cardNumber: e.error?.message ?? 'An unknown error occurred'
+                              }));
+                            }
+                          }}
+                        />
+                      </span>
+                    </span>
+                    {error.cardNumber ? (
+                      <span className="attention">{error.cardNumber}</span>
+                    ) : (
+                      <></>
+                    )}
+                  </label>
+                </div>
+              </form>
+            </li>
+          </ol>
         </div>
       </div>
-    </>
+    </CheckoutLayout>
   );
 };
 
