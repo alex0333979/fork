@@ -171,8 +171,16 @@ const MainIntro = (
                               layout={'fill'}
                               alt=""
                             />
+                          ) : d.type === 'Passport' ? (
+                            <Image
+                              src={`/images/passports/${
+                                d.countryCode?.toLowerCase() ?? 'passport'
+                              }.png`}
+                              layout={'fill'}
+                              alt=""
+                            />
                           ) : (
-                            <Image src="/images/passport.png" layout={'fill'} alt="" />
+                            <Image src="/images/passports/default-img.png" layout={'fill'} alt="" />
                           )}
                         </span>
                       </span>
