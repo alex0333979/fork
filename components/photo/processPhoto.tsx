@@ -366,16 +366,16 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
                 </div>
                 <div className="btn-wrap">
                   <button type="button" className="main-btn big" onClick={goApplication}>
-                    {'Yes, thank you, I would like to save time'}
+                    {'Start Your DS-82/DS-11 Form'}
                   </button>
                   <button type="button" className="main-btn big outline" onClick={goCart}>
-                    {'No, I will take care of it myself'}
+                    {'Skip & Proceed To Checkout'}
                   </button>
                 </div>
               </div>
               <div className="img">
                 <span>
-                  <Image src="/images/up-sale.png" width={429} height={388} alt="" />
+                  <Image src="/images/upsell1.png" width={514} height={372} alt="" />
                 </span>
               </div>
             </div>
