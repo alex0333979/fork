@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AppLayout } from '../components';
 import { NextSeo } from 'next-seo';
 import { SEO } from '../constants';
@@ -15,14 +15,25 @@ export interface HomePageProps {
   document: Country | null;
 }
 
-const HomePage: NextPage<HomePageProps> = ({ country, document }) => (
-  <>
-    <NextSeo title={SEO.home.title} description={SEO.home.description} />
-    <AppLayout>
-      <Home country={country} document={document} />
-    </AppLayout>
-  </>
-);
+const HomePage: NextPage<HomePageProps> = ({ country, document }) => {
+  const title = useMemo(
+    () =>
+      country && document
+        ? `Take Your ${country.country} ${document.type} Online`
+        : country
+        ? `Take Your ${country.country} Passport and Visa Photos Online`
+        : 'Passport and Visa Photos Online',
+    [country, document]
+  );
+  return (
+    <>
+      <NextSeo title={title} description={SEO.home.description} />
+      <AppLayout>
+        <Home country={country} document={document} />
+      </AppLayout>
+    </>
+  );
+};
 
 export default HomePage;
 

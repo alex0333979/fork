@@ -77,19 +77,21 @@ const MainIntro = (
                 <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
               </div>
               <div className="select-country">
-                <div className="form-fields">
-                  <label>
-                    <span className="label">{'What country is this for?'}</span>
-                    <span className="field">
-                      <CountrySelector country={country} onSelectCountry={onSelectedCountry} />
-                    </span>
-                  </label>
-                </div>
+                {!document && (
+                  <div className="form-fields">
+                    <label>
+                      <span className="label">{'What country is this for?'}</span>
+                      <span className="field">
+                        <CountrySelector country={country} onSelectCountry={onSelectedCountry} />
+                      </span>
+                    </label>
+                  </div>
+                )}
                 <div className="submit-btn">
                   {document ? (
                     <>
                       <a className="main-btn big" onClick={() => goTakePhoto(document)}>
-                        {'Start now'}
+                        {`Start Your ${document.type} Photo now`}
                       </a>
                       <div className="choose-text">
                         <a onClick={() => setOpen(true)}>{'Change Country Or Document Type'}</a>
