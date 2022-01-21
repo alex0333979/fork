@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: 'https://www.biometric.com',
+  siteUrl: 'https://passportphotos.com',
   generateRobotsTxt: true
 };
