@@ -2,7 +2,7 @@ import { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 import { AppLayout } from '@/components/index';
 import React from 'react';
 import { NextSeo } from 'next-seo';
-import { SEO } from '../constants';
+import { SEO } from '../../constants';
 import UpSell from '@/components/upSell';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';

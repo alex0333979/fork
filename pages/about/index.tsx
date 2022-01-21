@@ -3,7 +3,7 @@ import { AppLayout } from '@/components/index';
 import React from 'react';
 import About from '@/components/about';
 import { NextSeo } from 'next-seo';
-import { SEO } from '../constants';
+import { SEO } from '../../constants';
 
 const AboutPage: NextPage = () => (
   <>

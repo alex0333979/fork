@@ -3,7 +3,7 @@ import { AppLayout } from '@/components/index';
 import React from 'react';
 import ShippingPolicy from '@/components/shipping-policy';
 import { NextSeo } from 'next-seo';
-import { SEO } from '../constants';
+import { SEO } from '../../constants';
 
 const ShippingPolicyPage: NextPage = () => (
   <>

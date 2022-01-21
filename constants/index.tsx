@@ -13,7 +13,8 @@ export const PAGES = {
     deliveryMethod: '/checkout/',
     shipping: '/checkout/shipping/',
     payment: '/checkout/payment/',
-    review: '/checkout/review/'
+    review: '/checkout/review/',
+    thankYou: '/checkout/thank-you/'
   },
   cart: '/cart/',
   photo: {
@@ -99,6 +100,11 @@ export const SEO = {
   },
   upSell: {
     title: 'PassportPhotos - UpSell',
+    description: '',
+    keywords: ''
+  },
+  thankYou: {
+    title: 'PassportPhotos - Thank you',
     description: '',
     keywords: ''
   }
