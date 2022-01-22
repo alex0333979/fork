@@ -1,24 +1,19 @@
 import { GetServerSideProps } from 'next';
 import { getServerSideSitemap, ISitemapField } from 'next-sitemap';
-import { countries } from '@/lib/utils/countries';
+import { documents } from '../../constants/documents';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const fields: ISitemapField[] = [];
-  for (const c of countries) {
-    const countryName = c.country.toLowerCase().replace(/\s/g, '-');
-    fields.push({
-      loc: `https://passportphotos.com/${countryName}/`,
+  const fields: ISitemapField[] = documents.map((d) => {
+    const countryName = d.country.toLowerCase().replace(/\s/g, '-');
+    const documentType = d.type
+      .toLowerCase()
+      .replace(/[^\w\s]/gi, '')
+      .replace(/\s/g, '-');
+    return {
+      loc: `https://passportphotos.com/${countryName}/${documentType}/`,
       lastmod: new Date().toISOString()
-    });
-    fields.push({
-      loc: `https://passportphotos.com/${countryName}/passport/`,
-      lastmod: new Date().toISOString()
-    });
-    fields.push({
-      loc: `https://passportphotos.com/${countryName}/visa/`,
-      lastmod: new Date().toISOString()
-    });
-  }
+    };
+  });
   return getServerSideSitemap(ctx, fields);
 };
 

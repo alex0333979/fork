@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import Select, { components } from 'react-select';
 import countryList from 'react-select-country-list';
 import { ValueContainerProps } from 'react-select/dist/declarations/src/components/containers';
-import { countries } from '@/lib/utils/countries';
+import { countries } from '../../constants/countries';
 
 export interface iCountry {
   label: string;
