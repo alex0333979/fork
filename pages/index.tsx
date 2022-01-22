@@ -51,7 +51,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
     };
   }
   const country = countries.find(
-    (c) => c.country.toLowerCase().replace(' ', '-') === countryCode.toLowerCase()
+    (c) => c.country.toLowerCase().replace(/\s/g, '-') === countryCode.toLowerCase()
   );
   if (!country) {
     return {
@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         d.type
           .toLowerCase()
           .replace(/[^\w\s]/gi, '')
-          .replace(' ', '') === documentType.toLowerCase().replace('-', '')
+          .replace(/\s/g, '-') === documentType.toLowerCase().replace(/\s/g, '-')
     );
     return {
       props: {
