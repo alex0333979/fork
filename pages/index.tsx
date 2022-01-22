@@ -5,7 +5,7 @@ import { NextSeo } from 'next-seo';
 import { SEO } from '../constants';
 import Home from '@/components/home';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { countries } from '@/lib/utils/countries';
+import { countries } from '../constants/countries';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 import { Country, DocumentsByCountryDocument, DocumentsByCountryQuery } from '@/generated/graphql';
