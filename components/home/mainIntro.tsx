@@ -67,7 +67,7 @@ const MainIntro = (
               <div className="title big">
                 <h1>
                   {country && document ? (
-                    <b>{`Take Your ${country.label} ${document.type} Online`}</b>
+                    <b>{`Take Your ${country.label} ${document.type} Photo Online`}</b>
                   ) : country ? (
                     <b>{`Take Your ${country.label} Passport and Visa Photos Online`}</b>
                   ) : (
