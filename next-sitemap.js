@@ -11,13 +11,9 @@ module.exports = {
       },
       {
         userAgent: '*',
-        disallow: '/server-sitemap.xml'
-      },
-      {
-        userAgent: '*',
         allow: '/'
       }
     ]
   },
-  exclude: ['/cart', 'server-sitemap.xml']
+  exclude: ['/cart']
 };
