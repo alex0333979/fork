@@ -43,17 +43,18 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
   if (token && context.res) {
     context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
   }
+  const entryId = context?.query?.entryId as string;
+  const documentId = context?.query?.documentId as string;
+  if (!documentId && !entryId) {
+    return {
+      redirect: {
+        destination: PAGES.home,
+        permanent: false
+      }
+    };
+  }
   try {
     const client = initializeApollo(null, context);
-    const documentId = context?.query?.documentId as string;
-    if (!documentId) {
-      return {
-        redirect: {
-          destination: PAGES.home,
-          permanent: false
-        }
-      };
-    }
 
     const result: ApolloQueryResult<FormsQuery> = await client.query({
       query: FormsDocument
@@ -64,12 +65,12 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
     if (!form) {
       return {
         redirect: {
-          destination: PAGES.photo.takePhoto,
+          destination: PAGES.home,
           permanent: false
         }
       };
     }
-    const entryId = context?.query?.entryId as string;
+
     if (!entryId) {
       return {
         props: {
@@ -85,10 +86,35 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
       fetchPolicy: 'no-cache'
     });
     const entry = entryResult.data?.Entry.data;
+    if (!entry) {
+      return documentId
+        ? {
+            props: {
+              form,
+              entry: null,
+              documentId
+            }
+          }
+        : {
+            redirect: {
+              destination: PAGES.home,
+              permanent: false
+            }
+          };
+    }
+    const docId = entry.form.steps[0].fields.find((f) => f.name === 'document_id')?.value as string;
+    if (documentId !== docId.toString()) {
+      return {
+        redirect: {
+          destination: `${PAGES.photo.takePhoto}?entryId=${entryId}&documentId=${docId}`,
+          permanent: false
+        }
+      };
+    }
     return {
       props: {
         form,
-        entry: entry ? entry : null,
+        entry,
         documentId
       }
     };
