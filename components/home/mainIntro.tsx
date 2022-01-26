@@ -69,7 +69,7 @@ const MainIntro = (
                   {pCountry && pDoc ? (
                     <b>{`Take Your ${pCountry.country} ${pDoc.type} Photo Online`}</b>
                   ) : (
-                    <b>{'Passport and Visa Photos Online'}</b>
+                    <b>{'Take Your Passport and Visa Photos Online'}</b>
                   )}
                 </h1>
                 <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
