@@ -13,7 +13,7 @@ import {
   FormsDocument,
   FormsQuery
 } from '@/generated/graphql';
-import { initializeApollo } from '@/lib/apolloClient';
+import { COOKIES_TOKEN_NAME, initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
 
 export interface TakePhotoPageProps {
@@ -38,6 +38,10 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
 ) => {
   if (context.res) {
     context.res.setHeader('Cache-Control', 'no-store');
+  }
+  const token = context?.query.token as string;
+  if (token && context.res) {
+    context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
   }
   try {
     const client = initializeApollo(null, context);
