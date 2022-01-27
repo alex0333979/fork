@@ -46,6 +46,7 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
           isDisplayStartCameraError={false}
           onCameraError={handleCameraError}
           isFullscreen={false}
+          isImageMirror={idealFacingMode === FACING_MODES.ENVIRONMENT}
         />
       )}
     </ModalContainer>
