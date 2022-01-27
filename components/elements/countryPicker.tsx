@@ -10,7 +10,7 @@ interface CountryPickerProps {
 }
 
 const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountry, error }) => {
-  const [country, setCountry] = useState<string>(formField.value ? formField.value : 'US');
+  const [country, setCountry] = useState<string>(formField.value ? formField.value : '');
 
   const selectCountry = useCallback(
     (country: string) => {
@@ -21,10 +21,10 @@ const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountr
   );
 
   useEffect(() => {
-    if (!formField.value) {
+    if (!formField.value && formField.required) {
       selectedCountry(formField.name, 'US');
     }
-  }, [formField.name, formField.value, selectedCountry]);
+  }, [formField.name, formField.required, formField.value, selectedCountry]);
 
   return (
     <label className="half-size">
