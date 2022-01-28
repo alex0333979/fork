@@ -145,7 +145,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       if (step === 1) {
         await onAddToCartItem({
           name: getEntityUsername(),
-          description: 'Passport application',
+          description: `Passport application ${result.form.name}`,
           product: ProductType.PassportApplication,
           productId: result.id
         });

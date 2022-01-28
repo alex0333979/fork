@@ -103,7 +103,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
   const goNext = useCallback(async () => {
     await onAddToCartItem({
       name: `${document.country} - ${document.type}`,
-      description: document.type,
+      description: `${document.type} Photos`,
       product: ProductType.PassportPhoto,
       productId: entry.id,
       imageUrl: imageLink
