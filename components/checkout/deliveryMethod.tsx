@@ -91,7 +91,7 @@ const DeliveryMethod: React.FC = () => {
                   className={classNames('', { checked: shippingType !== ShippingType.NoShipping })}>
                   <li>
                     {
-                      'Printed documents - including your photos on the required 4”X6” glossy photo paper.'
+                      'We will print and ship your documents - including your photos on the required 4”X6” glossy photo paper.'
                     }
                   </li>
                   <li>{'4 Photos Per Person'}</li>
