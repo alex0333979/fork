@@ -19,10 +19,10 @@ const HomePage: NextPage<HomePageProps> = ({ country, document }) => {
   const title = useMemo(
     () =>
       country && document
-        ? `Take Your ${country.country} ${document.type} Online`
+        ? `Take Your ${country.country} ${document.type} Photos Online`
         : country
         ? `Take Your ${country.country} Passport and Visa Photos Online`
-        : 'Passport and Visa Photos Online',
+        : 'Take Your Passport and Visa Photos Online',
     [country, document]
   );
   return (

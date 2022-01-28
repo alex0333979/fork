@@ -79,7 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <CookiesProvider>
           <AuthProvider client={apolloClient}>
             <Head>
-              <title>{'Biometric Photos'}</title>
+              <title>{'Passport Photos'}</title>
               <meta
                 name="viewport"
                 content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"

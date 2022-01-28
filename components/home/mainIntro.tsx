@@ -67,7 +67,9 @@ const MainIntro = (
               <div className="title big">
                 <h1>
                   {pCountry && pDoc ? (
-                    <b>{`Take Your ${pCountry.country} ${pDoc.type} Photo Online`}</b>
+                    <b>{`Take Your ${pCountry.country} ${pDoc.type} Photos Online`}</b>
+                  ) : pCountry ? (
+                    <b>{`Take Your ${pCountry.country} Passport and Visa Photos Online`}</b>
                   ) : (
                     <b>{'Take Your Passport and Visa Photos Online'}</b>
                   )}
@@ -75,7 +77,7 @@ const MainIntro = (
                 <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
               </div>
               <div className="select-country">
-                {!document && (
+                {!pDoc && (
                   <div className="form-fields">
                     <label>
                       <span className="label">{'What country is this for?'}</span>
@@ -86,15 +88,19 @@ const MainIntro = (
                   </div>
                 )}
                 <div className="submit-btn">
-                  {document ? (
+                  {pCountry && pDoc ? (
                     <>
                       <a className="main-btn big" onClick={() => goTakePhoto(document)}>
-                        {`Start Your ${document.type} Photo now`}
+                        {`Start Your ${pCountry.country} ${pDoc.type} Photos Now`}
                       </a>
                       <div className="choose-text">
-                        <a onClick={() => setOpen(true)}>{'Change Country Or Document Type'}</a>
+                        <a onClick={() => setOpen(true)}>{'Change Country Or Document'}</a>
                       </div>
                     </>
+                  ) : pCountry ? (
+                    <a className="main-btn big" onClick={() => setOpen(true)}>
+                      {`Choose Document and Start Now`}
+                    </a>
                   ) : (
                     <a className="main-btn big" onClick={() => setOpen(true)}>
                       {'Choose document'}
