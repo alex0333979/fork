@@ -4,7 +4,7 @@ import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter();
@@ -80,23 +80,40 @@ const DeliveryMethod: React.FC = () => {
               <div className="name">
                 {shippingType === ShippingType.NoShipping ? (
                   <h3>
-                    <span>{'Not Included:'}</span>
+                    <span>{'Print at home option Includes:'}</span>
                   </h3>
                 ) : (
                   <h3>{'Included:'}</h3>
                 )}
               </div>
               <div className="text">
-                <ul
-                  className={classNames('', { checked: shippingType !== ShippingType.NoShipping })}>
-                  <li>
-                    {
-                      'We will print and ship your documents - including your photos on the required 4”X6” glossy photo paper.'
-                    }
-                  </li>
-                  <li>{'4 Photos Per Person'}</li>
-                  <li>{'Processing Instructions Guide'}</li>
-                </ul>
+                {shippingType === ShippingType.NoShipping ? (
+                  <>
+                    <ul className="checked">
+                      <li>{'Digital Photos in a JPG  file'}</li>
+                      <li>
+                        {
+                          'Digital Photos File to Print at home (or) send to print at CVS/Walgreens '
+                        }
+                      </li>
+                    </ul>
+                    <ul style={{ paddingTop: 0 }}>
+                      <li>
+                        {'Not including printed photos on the required 4”X6” glossy photo paper.'}
+                      </li>
+                    </ul>
+                  </>
+                ) : (
+                  <ul className="checked">
+                    <li>
+                      {
+                        'We will print and ship your documents - including your photos on the required 4”X6” glossy photo paper.'
+                      }
+                    </li>
+                    <li>{'4 Photos Per Person'}</li>
+                    <li>{'Processing Instructions Guide'}</li>
+                  </ul>
+                )}
               </div>
             </li>
             <li>
