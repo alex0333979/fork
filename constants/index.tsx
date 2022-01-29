@@ -200,9 +200,7 @@ export const PHOTO_STEP = {
   ]
 };
 
-export const START_PRICE = 357;
-export const APPLICATION_PRICE = 947;
-export const CONCIERGE_PRICE = 947;
+export const CONCIERGE_PRICE = 1450;
 
 export const PHOTO_PRICES = [
   {
