@@ -200,22 +200,22 @@ export const PHOTO_STEP = {
   ]
 };
 
-export const CONCIERGE_PRICE = 1450;
+export const CONCIERGE_PRICE = 947;
 
 export const PHOTO_PRICES = [
   {
     text: '2 Photos',
-    price: 2447,
+    price: 1847,
     value: 2
   },
   {
     text: '4 Photos',
-    price: 2847,
+    price: 2447,
     value: 4
   },
   {
     text: '6 Photos',
-    price: 3147,
+    price: 2847,
     value: 6
   }
 ];
