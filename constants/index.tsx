@@ -228,8 +228,8 @@ export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType
   },
   {
     title: 'Standard 3-5 business days',
-    price: 0,
-    value: ShippingType.Free
+    price: 350,
+    value: ShippingType.From3To6
   },
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
