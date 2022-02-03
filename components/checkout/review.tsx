@@ -431,33 +431,33 @@ const ReviewAndPay: React.FC = () => {
               {aCount > 0 && (
                 <div className="name">
                   <h3>{`${aCount} Passport Application`}</h3>
-                  <p>{`$${(aPrice ?? 0) / 100}`}</p>
+                  <p>{`$${((aPrice ?? 0) / 100).toFixed(2)}`}</p>
                 </div>
               )}
               {photoItems.map((item, index) => (
                 <div key={index} className="name">
                   <h3>{item.text}</h3>
-                  <p>{`$${item.price / 100}`}</p>
+                  <p>{`$${(item.price / 100).toFixed(2)}`}</p>
                 </div>
               ))}
             </li>
             <li>
               <div className="name">
                 <h3>{'Concierge service'}</h3>
-                <p>{`$${conciergePrice / 100}`}</p>
+                <p>{`$${(conciergePrice / 100).toFixed(2)}`}</p>
               </div>
               <div className="name">
                 <h3>{'Shipping'}</h3>
-                <p>{`$${(shippingPrice ?? 0) / 100}`}</p>
+                <p>{`$${((shippingPrice ?? 0) / 100).toFixed(2)}`}</p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
-                <p>{`$${subTotal / 100}`}</p>
+                <p>{`$${(subTotal / 100).toFixed(2)}`}</p>
               </div>
               {cart?.billingAddress?.state === 'NY' ? (
                 <div className="name">
                   <h3>{'Sales tax'}</h3>
-                  <p>{`$${tax / 100}`}</p>
+                  <p>{`$${(tax / 100).toFixed(2)}`}</p>
                 </div>
               ) : (
                 <div className="name">
@@ -469,7 +469,7 @@ const ReviewAndPay: React.FC = () => {
             <li>
               <div className="name">
                 <h3>{'Grand Total'}</h3>
-                <p>{`$${total / 100}`}</p>
+                <p>{`$${(total / 100).toFixed(2)}`}</p>
               </div>
             </li>
           </ol>

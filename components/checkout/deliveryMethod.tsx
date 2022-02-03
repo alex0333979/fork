@@ -59,7 +59,9 @@ const DeliveryMethod: React.FC = () => {
               <span className="option">{'Print at home'}</span>
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
-                <b>{`Add concierge service for just $${(CONCIERGE_PRICE ?? 0) / 100}!`} </b>
+                <b>
+                  {`Add concierge service for just $${((CONCIERGE_PRICE ?? 0) / 100).toFixed(2)}!`}{' '}
+                </b>
               </span>
             </span>
           </label>
@@ -71,7 +73,7 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Subtotal'}</h3>
                 <p>
                   {'Just '}
-                  <b>{`$${(subTotal ?? 0) / 100}`}</b>
+                  <b>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
                 </p>
               </div>
             </li>
@@ -125,7 +127,7 @@ const DeliveryMethod: React.FC = () => {
                     <span className="field radio with-price">
                       <span className="name">{option.title}</span>
                       <span className="price">
-                        {option.price > 0 ? `+$${option.price / 100}` : 'FREE'}
+                        {option.price > 0 ? `+$${(option.price / 100).toFixed(2)}` : 'FREE'}
                       </span>
                       <input
                         type="radio"

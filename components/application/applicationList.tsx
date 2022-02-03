@@ -110,14 +110,14 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                     <tbody>
                       <tr>
                         <td>{'Your new package price:'}</td>
-                        <td>{`$${(subTotal ?? 0) / 100}`}</td>
+                        <td>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td>{`Total: ${cart?.items?.length ?? 0}`}</td>
+                        <td>{`Total: ${(cart?.items?.length ?? 0).toFixed(2)}`}</td>
                         <td>
-                          <span>{`$${(subTotal ?? 0) / 100}`}</span>
+                          <span>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</span>
                         </td>
                       </tr>
                     </tfoot>
