@@ -1101,6 +1101,12 @@
   .success-page .data-wrap {
     min-height: calc(100vh - 88px - 62px - 32px);
   }
+  .requirements-box .example-list ul li .text-wrap {
+    padding-left: 20px;
+  }
+  .requirements-box .example-list ul li {
+    font-size: 18px;
+  }
 }
 
 @media screen and (max-width: 1180px) {
@@ -1718,6 +1724,17 @@
   }
   .main-intro .intro-wrap .intro-img .country-flag img {
     width: 38px;
+  }
+  .requirements-box .info-box {
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+  .requirements-box .example-list {
+    width: 100%;
+    padding-top: 5%;
+  }
+  .requirements-box .example-box {
+    width: 100%;
   }
 }
 
@@ -2405,6 +2422,34 @@
   .success-page .data-wrap {
     min-height: calc(100vh - 91px - 207px - 32px);
   }
+
+  .requirements-box .data-wrap {
+    padding: 30px 0 0 0;
+  }
+  .requirements-box .sub-title {
+    padding-bottom: 31px;
+  }
+  .requirements-box .example-list {
+    padding-top: 29px;
+  }
+  .requirements-box .example-list ul li h3 {
+    padding-bottom: 4px;
+  }
+  .requirements-box .example-list ul li p {
+    font-size: 14px;
+  }
+  .requirements-box .example-list ul li .icon-wrap {
+    width: 43px;
+  }
+  .requirements-box .example-list ul li .icon-wrap span {
+    padding: 8px;
+  }
+  .requirements-box .example-list ul li .text-wrap {
+    padding-left: 16px;
+  }
+  .requirements-box .example-list ul li {
+    padding-bottom: 28px;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -2987,6 +3032,10 @@
     max-width: 218px;
     min-height: 48px;
     font-size: 16px;
+  }
+  .requirements-box .example-list ul li {
+    width: 100%;
+    padding-right: 0;
   }
 }
 

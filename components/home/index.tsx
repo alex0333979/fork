@@ -5,6 +5,7 @@ import FaqForm from '@/components/home/faqForm';
 import ReviewsPlatform from '@/components/home/reviewsPlatform';
 import HowTakePhoto from '@/components/home/howTakePhoto';
 import { HomePageProps } from '@/pages/index';
+import RequirementBox from '@/components/home/requirements';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
@@ -33,6 +34,7 @@ const Home: React.FC<HomePageProps> = ({ country, document }) => {
     <>
       <MainIntro ref={target} open={open} setOpen={setOpen} country={country} document={document} />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpen} />
+      <RequirementBox />
       <ReviewsPlatform setOpen={setOpen} />
       <HowTakePhoto />
       {/* <FaqSection setOpen={setOpen} />*/}
