@@ -10,18 +10,17 @@ const DeliveryMethod: React.FC = () => {
   const router = useRouter();
   const { cart, updateCart } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
-  const [shippingType, setShippingType] = useState<string>(cart?.shippingType ?? ShippingType.Free);
+  const [shippingType, setShippingType] = useState<string>(
+    cart?.shippingType ?? ShippingType.From3To6
+  );
   const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
   const subTotal = useMemo(
-    () =>
-      shippingType === ShippingType.NoShipping
-        ? 0
-        : (SHIPPING_TYPES.find((s) => s.value === shippingType)?.price ?? 0) + CONCIERGE_PRICE,
+    () => (shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
     [shippingType]
   );
 
   useEffect(() => {
-    setShippingType(cart?.shippingType ?? ShippingType.Free);
+    setShippingType(cart?.shippingType ?? ShippingType.From3To6);
   }, [cart]);
 
   const onSubmit = useCallback(async () => {
@@ -53,7 +52,7 @@ const DeliveryMethod: React.FC = () => {
               type="checkbox"
               checked={shippingType !== ShippingType.NoShipping}
               onChange={(e) =>
-                setShippingType(e.target.checked ? ShippingType.Free : ShippingType.NoShipping)
+                setShippingType(e.target.checked ? ShippingType.From3To6 : ShippingType.NoShipping)
               }
             />
             <span className="box-wrap">
