@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 const AppHeader: React.FC = () => {
   const router = useRouter();
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
-  const { cart } = useAuth();
+  const { cart, setOpenDocument } = useAuth();
 
   // const logout = useCallback(async () => {
   //   signOut();
@@ -61,7 +61,10 @@ const AppHeader: React.FC = () => {
                 <button
                   type="button"
                   className="main-btn"
-                  onClick={() => router.push(PAGES.photo.index)}>
+                  onClick={async () => {
+                    setOpenDocument(true);
+                    await router.push(PAGES.home);
+                  }}>
                   {'START NOW'}
                 </button>
               </div>
@@ -95,7 +98,10 @@ const AppHeader: React.FC = () => {
               <button
                 type="button"
                 className="main-btn small"
-                onClick={() => router.push(PAGES.photo.index)}>
+                onClick={async () => {
+                  setOpenDocument(true);
+                  await router.push(PAGES.home);
+                }}>
                 {'START NOW'}
               </button>
             </div>

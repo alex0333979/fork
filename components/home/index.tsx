@@ -6,6 +6,7 @@ import ReviewsPlatform from '@/components/home/reviewsPlatform';
 import HowTakePhoto from '@/components/home/howTakePhoto';
 import { HomePageProps } from '@/pages/index';
 import RequirementBox from '@/components/home/requirements';
+import { useAuth } from '@/lib/auth';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
@@ -13,7 +14,7 @@ const Home: React.FC<HomePageProps> = ({ country, document }) => {
   const target = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<WorkingProcessInterface>(null);
   const [running, setRunning] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+  const { openDocument, setOpenDocument } = useAuth();
 
   const listenScrollEvent = useCallback(() => {
     const clientHeight = target?.current?.clientHeight;
@@ -32,10 +33,16 @@ const Home: React.FC<HomePageProps> = ({ country, document }) => {
 
   return (
     <>
-      <MainIntro ref={target} open={open} setOpen={setOpen} country={country} document={document} />
-      <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpen} />
+      <MainIntro
+        ref={target}
+        open={openDocument}
+        setOpen={setOpenDocument}
+        country={country}
+        document={document}
+      />
+      <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpenDocument} />
       {country && document && <RequirementBox country={country} document={document} />}
-      <ReviewsPlatform setOpen={setOpen} />
+      <ReviewsPlatform setOpen={setOpenDocument} />
       <HowTakePhoto />
       {/* <FaqSection setOpen={setOpen} />*/}
       <FaqForm />

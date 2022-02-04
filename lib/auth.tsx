@@ -37,6 +37,8 @@ interface IContextProps {
   toggleSignInModal: (show: boolean) => void;
   openSignUp: boolean;
   toggleSignUpModal: (show: boolean) => void;
+  openDocument: boolean;
+  setOpenDocument: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const authContext = createContext({} as IContextProps);
@@ -60,6 +62,7 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   const [cookies, setCookie, removeCookie] = useCookies([COOKIES_TOKEN_NAME]);
   const [openSignIn, setOpenSignIn] = useState<boolean>(false);
   const [openSignUp, setOpenSignUp] = useState<boolean>(false);
+  const [openDocument, setOpenDocument] = useState<boolean>(false);
 
   const createGuest = useCallback(async () => {
     const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
@@ -170,6 +173,8 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     openSignIn,
     toggleSignInModal,
     openSignUp,
-    toggleSignUpModal
+    toggleSignUpModal,
+    openDocument,
+    setOpenDocument
   };
 }
