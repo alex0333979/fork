@@ -29,7 +29,7 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
     <label className="half-size">
       <span className="label">
         {formField.text}
-        {formField.required ? ' *' : ''}
+        {formField.required && (country === 'US' || country === 'CA') ? ' *' : ''}
       </span>
       <span className="field select">
         <RegionDropdown
