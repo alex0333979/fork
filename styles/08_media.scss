@@ -32,7 +32,7 @@
     max-width: 1326px;
   }
   .container {
-    max-width: 1110px;
+    max-width: 1110px !important;
   }
   .main-btn {
     font-size: 16px;
@@ -482,7 +482,7 @@
   }
 
   .container {
-    max-width: 930px;
+    max-width: 930px !important;
   }
 
   .sub-title h2 {
@@ -980,7 +980,7 @@
   }
   .steps-header .container,
   .steps-page .container {
-    max-width: 1400px;
+    max-width: 1400px !important;
   }
   header .steps-header .toolbar .logo a {
     max-width: 132px;
@@ -1125,7 +1125,7 @@
     font-size: 65px;
   }
   .steps-header .container, .steps-page .container {
-    max-width: 1170px;
+    max-width: 1170px !important;
   }
   header .steps-header .toolbar .logo a {
     max-width: 110px;
@@ -1238,7 +1238,7 @@
 @media screen and (max-width: 991px) {
   .wrapper,
   .container {
-    padding: 0 20px;
+    padding: 0 20px !important;
   }
   body {
     &.scroll-lock {
