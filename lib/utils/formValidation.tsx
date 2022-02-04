@@ -9,6 +9,7 @@ export const formValidation = (fields: FormField[]): ValidationError => {
   const error: ValidationError = {};
   for (const field of fields) {
     if (
+      !field.disabled &&
       field.required &&
       (field.value === undefined || field.value === null || field.value === '')
     ) {

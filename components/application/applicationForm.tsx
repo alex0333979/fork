@@ -100,12 +100,29 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     [formStep]
   );
 
+  const onSetStatePickerDisable = useCallback(
+    (status: boolean) => {
+      if (!formStep) {
+        return;
+      }
+      const fieldIndex = formStep.fields.findIndex((field) => field.type === FieldType.StatePicker);
+      if (fieldIndex === -1) {
+        return;
+      }
+      formStep.fields[fieldIndex].disabled = status;
+      setFormStep(formStep);
+      setError({});
+    },
+    [formStep]
+  );
+
   const onSelectedCountry = useCallback(
     (name: string, value: string) => {
       onValueChange(name, value);
       setCountry(value);
+      onSetStatePickerDisable(!(value === 'US' || value === 'CA'));
     },
-    [onValueChange]
+    [onSetStatePickerDisable, onValueChange]
   );
 
   const onAddToCartItem = useCallback(
