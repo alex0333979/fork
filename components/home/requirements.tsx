@@ -1,12 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
+import { Country } from '@/generated/graphql';
 
-const RequirementBox: React.FC = () => (
+const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
+  country,
+  document
+}) => (
   <div className="requirements-box">
     <div className="container">
       <div className="data-wrap">
         <div className="sub-title">
-          <h2>{`[County] [Document Type] Photo - Biometric Requirements`}</h2>
+          <h2>{`${country.country} ${document.type} Photo - Biometric Requirements`}</h2>
         </div>
         <div className="info-box">
           <div className="example-list">

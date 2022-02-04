@@ -11,6 +11,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .replace(/\s/g, '-');
     return {
       loc: `https://passportphotos.com/${countryName}/${documentType}/`,
+      changefreq: `daily`,
+      priority: 0.7,
       lastmod: new Date().toISOString()
     };
   });

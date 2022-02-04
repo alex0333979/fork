@@ -34,7 +34,7 @@ const Home: React.FC<HomePageProps> = ({ country, document }) => {
     <>
       <MainIntro ref={target} open={open} setOpen={setOpen} country={country} document={document} />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpen} />
-      <RequirementBox />
+      {country && document && <RequirementBox country={country} document={document} />}
       <ReviewsPlatform setOpen={setOpen} />
       <HowTakePhoto />
       {/* <FaqSection setOpen={setOpen} />*/}

@@ -108,11 +108,11 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                     <tbody>
                       <tr>
                         <td>{'Subtotal'}</td>
-                        <td>{`$${(subTotal ?? 0) / 100}`}</td>
+                        <td>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</td>
                       </tr>
                       <tr>
                         <td>{'Tax'}</td>
-                        <td>{`$0.00`}</td>
+                        <td>{`$0`}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -121,7 +121,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                           <b>{'Total'}</b>
                         </td>
                         <td>
-                          <b>{`$${(subTotal ?? 0) / 100}`}</b>
+                          <b>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
                         </td>
                       </tr>
                     </tfoot>
