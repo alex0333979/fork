@@ -30,7 +30,7 @@ const SelectCountry: React.FC<SelectCountryProps> = ({ selectedCountry }) => {
       .then((response) => {
         const data = response.data;
         for (const c of countries ?? []) {
-          if (c.country.toLowerCase() === data.country_name.toLowerCase()) {
+          if (c.country?.toLowerCase() === data.country_name.toLowerCase()) {
             setCountry(c);
             break;
           }
@@ -54,7 +54,7 @@ const SelectCountry: React.FC<SelectCountryProps> = ({ selectedCountry }) => {
   useEffect(() => {
     setFiltered(
       countries?.filter((item) =>
-        item.country.toLowerCase().includes(search?.toLowerCase() ?? '')
+        item.country?.toLowerCase().includes(search?.toLowerCase() ?? '')
       ) ?? []
     );
   }, [search, countries]);

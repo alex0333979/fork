@@ -67,8 +67,8 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
       } else {
         setStatus(Status.failed);
       }
-      setFailed(result.failed);
-      setPassed(result.passed);
+      setFailed(result.failed ?? []);
+      setPassed(result.passed ?? []);
     } else {
       showError(data?.CheckPhoto.message ?? 'Unexpected error');
       setStatus(Status.failed);
@@ -275,7 +275,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
                         passed.map((p, index) => (
                           <li key={`p_${index}`}>
                             <span className="icon" />
-                            <span className="text">{camelCaseToSentence(p.test)}</span>
+                            <span className="text">{camelCaseToSentence(p.test ?? '')}</span>
                           </li>
                         ))}
                     </ul>
