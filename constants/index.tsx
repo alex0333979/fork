@@ -110,8 +110,6 @@ export const SEO = {
   }
 };
 
-export const US_DOCUMENT_ID = 495;
-
 export const TOP_MENUS: NavItemProps[] = [
   // {
   //   title: 'How it works',
@@ -200,22 +198,22 @@ export const PHOTO_STEP = {
   ]
 };
 
-export const CONCIERGE_PRICE = 947;
+export const CONCIERGE_PRICE = 950;
 
 export const PHOTO_PRICES = [
   {
     text: '2 Photos',
-    price: 1847,
+    price: 1850,
     value: 2
   },
   {
     text: '4 Photos',
-    price: 2447,
+    price: 2450,
     value: 4
   },
   {
     text: '6 Photos',
-    price: 2847,
+    price: 2850,
     value: 6
   }
 ];
