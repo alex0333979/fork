@@ -103,7 +103,7 @@ query Countries {
 query DocumentsByCountry($country: String!) {
     DocumentsByCountry(country: $country) {
         data {
-            ...Country
+            ...PDocument
         }
         total
     }
@@ -114,7 +114,7 @@ query Document($id: String!) {
         message
         status
         data {
-            ...Country
+            ...PDocument
         }
     }
 }

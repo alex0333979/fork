@@ -103,27 +103,21 @@ export type CountriesResponse = {
 };
 
 export type Country = {
-  country: Scalars['String'];
-  countryCode: Scalars['String'];
-  id: Scalars['Int'];
-  type: Scalars['String'];
-};
-
-export type CountryResponse = {
-  data?: Maybe<Country>;
-  message: Scalars['String'];
-  status: Scalars['Boolean'];
+  country?: Maybe<Scalars['String']>;
+  countryCode?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type Dictionary = {
-  message: Scalars['String'];
-  test: Scalars['String'];
+  message?: Maybe<Scalars['String']>;
+  test?: Maybe<Scalars['String']>;
 };
 
 export type Dimensions = {
-  height: Scalars['Float'];
-  unit: Scalars['String'];
-  width: Scalars['Float'];
+  height?: Maybe<Scalars['Float']>;
+  unit?: Maybe<Scalars['String']>;
+  width?: Maybe<Scalars['Float']>;
 };
 
 export type EmailToAdminInput = {
@@ -234,8 +228,8 @@ export type FormStepInput = {
 };
 
 export type Head = {
-  Dimensions: Dimensions;
-  position: Position;
+  Dimensions?: Maybe<Dimensions>;
+  position?: Maybe<Position>;
 };
 
 export type Mutation = {
@@ -254,6 +248,7 @@ export type Mutation = {
   SendEmailToAdmin: StringResponse;
   SendOrderConfirmToFulfillmentManually: StringResponse;
   SendOrderConfirmToUserManually: StringResponse;
+  SendOrderEditRequest: StringResponse;
   SetDefaultBillingAddress: BillingAddressResponse;
   SetDefaultShippingAddress: ShippingAddressResponse;
   SetShippingTypeToCart: CartResponse;
@@ -322,6 +317,11 @@ export type MutationSendOrderConfirmToFulfillmentManuallyArgs = {
 
 
 export type MutationSendOrderConfirmToUserManuallyArgs = {
+  orderId: Scalars['String'];
+};
+
+
+export type MutationSendOrderEditRequestArgs = {
   orderId: Scalars['String'];
 };
 
@@ -433,6 +433,29 @@ export type OrderTrack = {
   shipped: TrackStep;
 };
 
+export type PDocument = {
+  background?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  countryCode?: Maybe<Scalars['String']>;
+  dimensions?: Maybe<Dimensions>;
+  dpi?: Maybe<Scalars['Int']>;
+  head?: Maybe<Head>;
+  id?: Maybe<Scalars['Int']>;
+  size?: Maybe<Size>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type PDocumentResponse = {
+  data?: Maybe<PDocument>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
+export type PDocumentsResponse = {
+  data: Array<PDocument>;
+  total: Scalars['Float'];
+};
+
 export type PaymentIntent = {
   clientSecret: Scalars['String'];
 };
@@ -449,9 +472,9 @@ export enum PaymentStatus {
 }
 
 export type Position = {
-  max: Scalars['Float'];
-  min: Scalars['Float'];
-  unit: Unit;
+  max?: Maybe<Scalars['Float']>;
+  min?: Maybe<Scalars['Float']>;
+  unit?: Maybe<Unit>;
 };
 
 export enum ProductType {
@@ -463,8 +486,8 @@ export type Query = {
   Cart: CartResponse;
   CompletedOrders: OrderPaginatedResponse;
   Countries: CountriesResponse;
-  Document: CountryResponse;
-  DocumentsByCountry: CountriesResponse;
+  Document: PDocumentResponse;
+  DocumentsByCountry: PDocumentsResponse;
   Entries: EntryPaginatedResponse;
   Entry: EntryResponse;
   Form: FormResponse;
@@ -591,8 +614,8 @@ export type SignedUrlResponse = {
 };
 
 export type Size = {
-  max: Scalars['Int'];
-  min: Scalars['Int'];
+  max?: Maybe<Scalars['Int']>;
+  min?: Maybe<Scalars['Int']>;
 };
 
 export type StringResponse = {
@@ -602,10 +625,10 @@ export type StringResponse = {
 };
 
 export type TestResult = {
-  code: Code;
-  failed: Array<Dictionary>;
-  message: Scalars['String'];
-  passed: Array<Dictionary>;
+  code?: Maybe<Code>;
+  failed?: Maybe<Array<Dictionary>>;
+  message?: Maybe<Scalars['String']>;
+  passed?: Maybe<Array<Dictionary>>;
 };
 
 export type Token = {
@@ -665,7 +688,7 @@ export type UserResponse = {
 };
 
 export type ValidatedImage = {
-  image: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
 };
 
 export type Validation = {
@@ -721,9 +744,11 @@ export type OrderFragment = { __typename: 'Order', id: string, paymentStatus: Pa
 
 export type SignedUrlFragment = { __typename: 'SignedUrl', url: string, signedUrl: string };
 
-export type TestResultFragment = { __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> };
+export type TestResultFragment = { __typename: 'TestResult', message?: Maybe<string>, code?: Maybe<Code>, failed?: Maybe<Array<{ __typename: 'Dictionary', test?: Maybe<string>, message?: Maybe<string> }>>, passed?: Maybe<Array<{ __typename: 'Dictionary', test?: Maybe<string>, message?: Maybe<string> }>> };
 
-export type CountryFragment = { __typename: 'Country', id: number, country: string, type: string, countryCode: string };
+export type CountryFragment = { __typename: 'Country', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string> };
+
+export type PDocumentFragment = { __typename: 'PDocument', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string>, background?: Maybe<string>, dpi?: Maybe<number>, dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, size?: Maybe<{ __typename: 'Size', max?: Maybe<number>, min?: Maybe<number> }>, head?: Maybe<{ __typename: 'Head', Dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, position?: Maybe<{ __typename: 'Position', max?: Maybe<number>, min?: Maybe<number>, unit?: Maybe<Unit> }> }> };
 
 export type CreateGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -840,7 +865,7 @@ export type CheckPhotoMutationVariables = Exact<{
 }>;
 
 
-export type CheckPhotoMutation = { __typename: 'Mutation', CheckPhoto: { __typename: 'CheckPhotoResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'TestResult', message: string, code: Code, failed: Array<{ __typename: 'Dictionary', test: string, message: string }>, passed: Array<{ __typename: 'Dictionary', test: string, message: string }> }> } };
+export type CheckPhotoMutation = { __typename: 'Mutation', CheckPhoto: { __typename: 'CheckPhotoResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'TestResult', message?: Maybe<string>, code?: Maybe<Code>, failed?: Maybe<Array<{ __typename: 'Dictionary', test?: Maybe<string>, message?: Maybe<string> }>>, passed?: Maybe<Array<{ __typename: 'Dictionary', test?: Maybe<string>, message?: Maybe<string> }>> }> } };
 
 export type SendEmailToAdminMutationVariables = Exact<{
   data: EmailToAdminInput;
@@ -930,21 +955,21 @@ export type GetSignedUrlQuery = { __typename: 'Query', GetSignedUrl: { __typenam
 export type CountriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CountriesQuery = { __typename: 'Query', Countries: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string, countryCode: string }> } };
+export type CountriesQuery = { __typename: 'Query', Countries: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string> }> } };
 
 export type DocumentsByCountryQueryVariables = Exact<{
   country: Scalars['String'];
 }>;
 
 
-export type DocumentsByCountryQuery = { __typename: 'Query', DocumentsByCountry: { __typename: 'CountriesResponse', total: number, data: Array<{ __typename: 'Country', id: number, country: string, type: string, countryCode: string }> } };
+export type DocumentsByCountryQuery = { __typename: 'Query', DocumentsByCountry: { __typename: 'PDocumentsResponse', total: number, data: Array<{ __typename: 'PDocument', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string>, background?: Maybe<string>, dpi?: Maybe<number>, dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, size?: Maybe<{ __typename: 'Size', max?: Maybe<number>, min?: Maybe<number> }>, head?: Maybe<{ __typename: 'Head', Dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, position?: Maybe<{ __typename: 'Position', max?: Maybe<number>, min?: Maybe<number>, unit?: Maybe<Unit> }> }> }> } };
 
 export type DocumentQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type DocumentQuery = { __typename: 'Query', Document: { __typename: 'CountryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Country', id: number, country: string, type: string, countryCode: string }> } };
+export type DocumentQuery = { __typename: 'Query', Document: { __typename: 'PDocumentResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'PDocument', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string>, background?: Maybe<string>, dpi?: Maybe<number>, dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, size?: Maybe<{ __typename: 'Size', max?: Maybe<number>, min?: Maybe<number> }>, head?: Maybe<{ __typename: 'Head', Dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, position?: Maybe<{ __typename: 'Position', max?: Maybe<number>, min?: Maybe<number>, unit?: Maybe<Unit> }> }> }> } };
 
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
@@ -1181,6 +1206,37 @@ export const CountryFragmentDoc = gql`
   country
   type
   countryCode
+}
+    `;
+export const PDocumentFragmentDoc = gql`
+    fragment PDocument on PDocument {
+  id
+  country
+  type
+  countryCode
+  background
+  dpi
+  dimensions {
+    height
+    unit
+    width
+  }
+  size {
+    max
+    min
+  }
+  head {
+    Dimensions {
+      height
+      unit
+      width
+    }
+    position {
+      max
+      min
+      unit
+    }
+  }
 }
     `;
 export const CreateGuestDocument = gql`
@@ -2323,12 +2379,12 @@ export const DocumentsByCountryDocument = gql`
     query DocumentsByCountry($country: String!) {
   DocumentsByCountry(country: $country) {
     data {
-      ...Country
+      ...PDocument
     }
     total
   }
 }
-    ${CountryFragmentDoc}`;
+    ${PDocumentFragmentDoc}`;
 
 /**
  * __useDocumentsByCountryQuery__
@@ -2363,11 +2419,11 @@ export const DocumentDocument = gql`
     message
     status
     data {
-      ...Country
+      ...PDocument
     }
   }
 }
-    ${CountryFragmentDoc}`;
+    ${PDocumentFragmentDoc}`;
 
 /**
  * __useDocumentQuery__

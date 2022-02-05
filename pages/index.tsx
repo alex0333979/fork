@@ -8,11 +8,16 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { countries } from '../constants/countries';
 import { initializeApollo } from '@/lib/apolloClient';
 import { ApolloQueryResult } from '@apollo/client';
-import { Country, DocumentsByCountryDocument, DocumentsByCountryQuery } from '@/generated/graphql';
+import {
+  Country,
+  DocumentsByCountryDocument,
+  DocumentsByCountryQuery,
+  PDocument
+} from '@/generated/graphql';
 
 export interface HomePageProps {
   country: Country | null;
-  document: Country | null;
+  document: PDocument | null;
 }
 
 const HomePage: NextPage<HomePageProps> = ({ country, document }) => {
