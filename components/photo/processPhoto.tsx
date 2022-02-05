@@ -19,6 +19,7 @@ import { camelCaseToSentence } from '@/lib/utils/string';
 import { parse } from 'path';
 import { useAuth } from '@/lib/auth';
 import LoadingMask from '@/components/elements/loadingMask';
+import { Link } from '@material-ui/core';
 
 enum Status {
   loading = 0,
@@ -376,7 +377,9 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document }) =>
               </div>
               <div className="img">
                 <span>
-                  <Image src="/images/upsell1.png" width={514} height={372} alt="" />
+                  <Link href={PAGES.application.create}>
+                    <Image src="/images/upsell1.png" width={514} height={372} alt="" />
+                  </Link>
                 </span>
               </div>
             </div>
