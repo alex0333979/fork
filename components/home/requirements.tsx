@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import { Country } from '@/generated/graphql';
+import { Country, PDocument } from '@/generated/graphql';
 
-const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
+const RequirementBox: React.FC<{ country: Country; document: PDocument }> = ({
   country,
   document
 }) => (
@@ -29,8 +29,11 @@ const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
                 <div className="text-wrap">
                   <h3>{`Size`}</h3>
                   <p>
-                    {`Width: 40 mm`}
-                    <br /> {`Height: 45 mm`}
+                    {`Width: ${document.dimensions?.width ?? 'null'} ${document.dimensions?.unit}`}
+                    <br />
+                    {`Height: ${document.dimensions?.height ?? 'null'} ${
+                      document.dimensions?.unit
+                    }`}
                   </p>
                 </div>
               </li>
@@ -47,7 +50,7 @@ const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
                 </div>
                 <div className="text-wrap">
                   <h3>{`Background Color`}</h3>
-                  <p>{`White`}</p>
+                  <p>{`${document.background ?? 'White'}`}</p>
                 </div>
               </li>
               <li>
@@ -79,7 +82,7 @@ const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
                 </div>
                 <div className="text-wrap">
                   <h3>{`Head Top Position Minimum`}</h3>
-                  <p>{`3.6 mm`}</p>
+                  <p>{`${document.head?.position?.min ?? 'null'} mm`}</p>
                 </div>
               </li>
               <li>
@@ -111,14 +114,14 @@ const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
                 </div>
                 <div className="text-wrap">
                   <h3>{`Resolution - dpi`}</h3>
-                  <p>{`600`}</p>
+                  <p>{`${document.dpi}`}</p>
                 </div>
               </li>
             </ul>
           </div>
           <div className="example-box">
             <div className="top-space">
-              <p>{`3.6`}</p>
+              <p>{`${document.head?.position?.min ?? ''}`}</p>
             </div>
             <div className="face-space">
               <p>
@@ -127,19 +130,23 @@ const RequirementBox: React.FC<{ country: Country; document: Country }> = ({
             </div>
             <div className="height-info">
               <p>
-                <span>{`45 mm`}</span>
+                <span>
+                  {`${document.dimensions?.height ?? 'null'} ${document.dimensions?.unit}`}
+                </span>
               </p>
             </div>
             <div className="width-info">
               <p>
-                <span>{`45 mm`}</span>
+                <span>
+                  {`${document.dimensions?.width ?? 'null'} ${document.dimensions?.unit}`}
+                </span>
               </p>
             </div>
             <div className="img-wrap">
               <span>
                 <Image src={'/images/requirements-img.png'} width={294} height={310} alt="" />
               </span>
-              <p>{`600 dpi`}</p>
+              <p>{`${document.dpi} dpi`}</p>
             </div>
           </div>
         </div>

@@ -209,3 +209,33 @@ fragment Country on Country {
     type
     countryCode
 }
+
+fragment PDocument on PDocument {
+    id
+    country
+    type
+    countryCode
+    background
+    dpi
+    dimensions {
+        height
+        unit
+        width
+    }
+    size {
+        max
+        min
+    }
+    head {
+        Dimensions {
+            height
+            unit
+            width
+        }
+        position {
+            max
+            min
+            unit
+        }
+    }
+}

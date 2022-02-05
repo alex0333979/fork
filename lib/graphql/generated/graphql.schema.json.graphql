@@ -64,15 +64,9 @@ type CountriesResponse {
 
 type Country {
     country: String!
-    countryCode: String!
+    countryCode: String
     id: Int!
     type: String!
-}
-
-type CountryResponse {
-    data: Country
-    message: String!
-    status: Boolean!
 }
 
 type Dictionary {
@@ -150,8 +144,8 @@ type FormStep {
 }
 
 type Head {
-    Dimensions: Dimensions!
-    position: Position!
+    Dimensions: Dimensions
+    position: Position
 }
 
 type Mutation {
@@ -170,6 +164,7 @@ type Mutation {
     SendEmailToAdmin(data: EmailToAdminInput!): StringResponse!
     SendOrderConfirmToFulfillmentManually(orderId: String!): StringResponse!
     SendOrderConfirmToUserManually(orderId: String!): StringResponse!
+    SendOrderEditRequest(orderId: String!): StringResponse!
     SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
     SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
     SetShippingTypeToCart(shippingType: String!): CartResponse!
@@ -222,6 +217,29 @@ type OrderTrack {
     shipped: TrackStep!
 }
 
+type PDocument {
+    background: String!
+    country: String!
+    countryCode: String
+    dimensions: Dimensions
+    dpi: Int!
+    head: Head
+    id: Int!
+    size: Size
+    type: String!
+}
+
+type PDocumentResponse {
+    data: PDocument
+    message: String!
+    status: Boolean!
+}
+
+type PDocumentsResponse {
+    data: [PDocument!]!
+    total: Float!
+}
+
 type PaymentIntent {
     clientSecret: String!
 }
@@ -242,8 +260,8 @@ type Query {
     Cart: CartResponse!
     CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
     Countries: CountriesResponse!
-    Document(id: String!): CountryResponse!
-    DocumentsByCountry(country: String!): CountriesResponse!
+    Document(id: String!): PDocumentResponse!
+    DocumentsByCountry(country: String!): PDocumentsResponse!
     Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
     Entry(entryId: String!): EntryResponse!
     Form(id: String!): FormResponse!

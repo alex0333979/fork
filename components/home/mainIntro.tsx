@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants';
 import { useMediaQuery } from '@material-ui/core';
 import classNames from 'classnames';
-import { Country, useDocumentsByCountryQuery } from '@/generated/graphql';
+import { Country, PDocument, useDocumentsByCountryQuery } from '@/generated/graphql';
 import dynamic from 'next/dynamic';
 import { CountryFlag, iCountry } from '@/components/elements/countrySelector';
 import { Bars } from 'react-loading-icons';
@@ -16,7 +16,7 @@ interface MainIntroProps {
   open: boolean;
   setOpen: React.Dispatch<boolean>;
   country: Country | null;
-  document: Country | null;
+  document: PDocument | null;
 }
 
 const MainIntro = (
@@ -27,7 +27,7 @@ const MainIntro = (
     label: pCountry?.country ?? 'United States',
     value: pCountry?.countryCode ?? 'US'
   });
-  const [documents, setDocuments] = useState<Country[]>([]);
+  const [documents, setDocuments] = useState<PDocument[]>([]);
   const router = useRouter();
   const matches = useMediaQuery('only screen and (min-width: 641px)');
   const { data, loading } = useDocumentsByCountryQuery({
