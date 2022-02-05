@@ -85,7 +85,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
     const document = documents?.find(
       (d) =>
         d.type
-          .toLowerCase()
+          ?.toLowerCase()
           .replace(/[^\w\s]/gi, '')
           .replace(/\s/g, '-') === documentType.toLowerCase().replace(/\s/g, '-')
     );
