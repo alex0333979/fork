@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import classNames from 'classnames';
-import NavItem from './navItem';
-import { PAGES, TOP_MENUS } from '../../constants';
+import { PAGES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
 
@@ -52,9 +51,36 @@ const AppHeader: React.FC = () => {
             <div className={classNames({ 'main-menu': true, open: mobileNavVisible })}>
               <nav>
                 <ul>
-                  {TOP_MENUS.map((menu, index) => (
-                    <NavItem key={index} title={menu.title} link={menu.link} items={menu.items} />
-                  ))}
+                  <li>
+                    <a
+                      onClick={async () => {
+                        setOpenDocument(true);
+                        await router.push(PAGES.home);
+                      }}>
+                      <span>{'Passport Photo'}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <Link href={`${PAGES.home}#faq`}>
+                      <a>
+                        <span>{'How To Take A Photo'}</span>
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={PAGES.about}>
+                      <a>
+                        <span>{'About'}</span>
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={PAGES.contactUs}>
+                      <a>
+                        <span>{'Contact Us'}</span>
+                      </a>
+                    </Link>
+                  </li>
                 </ul>
               </nav>
               <div className="mobile-btn">

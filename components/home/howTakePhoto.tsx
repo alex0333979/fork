@@ -6,7 +6,7 @@ const HowTakePhoto: React.FC = () => (
     <div className="container">
       <div className="data-wrap">
         <div className="sub-title">
-          <h2>{'How To Take A Photo'}</h2>
+          <h2 id="how-to-take-a-photo">{'How To Take A Photo'}</h2>
           <p>{'Biometrically Approved Photos'}</p>
         </div>
         <div className="faq-list">

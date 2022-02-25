@@ -111,27 +111,13 @@ export const SEO = {
 };
 
 export const TOP_MENUS: NavItemProps[] = [
-  // {
-  //   title: 'How it works',
-  //   items: [
-  //     {
-  //       title: 'Passport photo',
-  //       link: '/application/create'
-  //     }
-  //   ]
-  // },
-  // {
-  //   title: 'Pricing',
-  //   link: '/',
-  //   items: []
-  // },
   {
     title: 'Passport Photo',
     link: PAGES.photo.index,
     items: []
   },
   {
-    title: 'FAQ',
+    title: 'How To Take A Photo',
     link: `${PAGES.home}#faq`,
     items: []
   },
