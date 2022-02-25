@@ -345,17 +345,17 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({ form, entry, documentId }) =>
                       <div className="action-btn mobile-column">
                         <button
                           type="button"
-                          className="main-btn big outline"
-                          onClick={() => inputFileRef?.current?.click()}>
-                          <span className="icon-upload" />
-                          {'Upload'}
-                        </button>
-                        <button
-                          type="button"
                           className="main-btn big"
                           onClick={() => setOpenCamera(true)}>
                           <span className="icon-camera" />
                           {'Take A Photo'}
+                        </button>
+                        <button
+                          type="button"
+                          className="main-btn big outline"
+                          onClick={() => inputFileRef?.current?.click()}>
+                          <span className="icon-upload" />
+                          {'Upload'}
                         </button>
                       </div>
                       {/* <div className="info-btn">*/}
