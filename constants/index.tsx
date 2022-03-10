@@ -118,7 +118,7 @@ export const TOP_MENUS: NavItemProps[] = [
   },
   {
     title: 'How To Take A Photo',
-    link: `${PAGES.home}#faq`,
+    link: `${PAGES.home}#how-to-take-a-photo`,
     items: []
   },
   {
