@@ -37,15 +37,15 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
         {formField.text}
         {formField.required ? ' *' : ''}
       </span>
-      <span className="field">
+      <span className="field date-time-field">
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DatePicker
             name={formField.name}
             className={classNames({
               'error-border': !!error
             })}
-            format={'MM/dd/yyyy'}
-            placeholder={'MM/dd/yyyy'}
+            format={'MMddyyyy'}
+            placeholder={'mmddyyyy'}
             value={date}
             onChange={(date: Date | null) => onChange(date)}
             maxDate={maxDate}
