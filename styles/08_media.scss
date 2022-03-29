@@ -2013,13 +2013,14 @@
   }
   .main-intro .intro-wrap.mobile-img {
     .intro-img {
-      order: 1;
+      order: 2;
       display: block;
       padding-bottom: 17px;
+      padding-top: 20px;
     }
 
     .intro-title {
-      order: 2;
+      order: 1;
 
       .title h1,
       .title p {
