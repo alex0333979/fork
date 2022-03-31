@@ -1,13 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import classNames from 'classnames';
+import { useMediaQuery } from '@material-ui/core';
 import { PAGES } from '../../constants';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
+const LanguageCurrencySelector = dynamic(
+  () => import('@/components/elements/languageCurrencySelector'),
+  {
+    ssr: false
+  }
+);
 
 const AppHeader: React.FC = () => {
   const router = useRouter();
+  const matches = useMediaQuery('only screen and (min-width: 641px)');
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
   const { cart, setOpenDocument } = useAuth();
 
@@ -52,6 +61,11 @@ const AppHeader: React.FC = () => {
               <nav>
                 <ul>
                   <li>
+                    {!matches && (
+                      <LanguageCurrencySelector wrapperClass="mobile-language-selector" />
+                    )}
+                  </li>
+                  <li>
                     <a
                       onClick={async () => {
                         setOpenDocument(true);
@@ -61,7 +75,7 @@ const AppHeader: React.FC = () => {
                     </a>
                   </li>
                   <li>
-                    <Link href={`${PAGES.home}#faq`}>
+                    <Link href={`${PAGES.home}#how-to-take-a-photo`}>
                       <a>
                         <span>{'How To Take A Photo'}</span>
                       </a>
@@ -102,19 +116,21 @@ const AppHeader: React.FC = () => {
             </div>
           </div>
           <div className="right-side">
-            {/* <div className="location">*/}
-            {/*  <div className="current">*/}
-            {/*    <p>{'United States'}</p>*/}
-            {/*  </div>*/}
-            {/* </div>*/}
-            {/* <SelectCountry selectedCountry={onSelectedCountry} />*/}
-            {/* <div className="user-btn">*/}
-            {/*  <Link href={PAGES.home}>*/}
-            {/*    <a>*/}
-            {/*      <span className="icon-user" />*/}
-            {/*    </a>*/}
-            {/*  </Link>*/}
-            {/* </div>*/}
+            {matches && <LanguageCurrencySelector />}
+
+            {/* <div className="location">
+              <div className="current">
+                <p>{'United States'}</p>
+              </div>
+            </div> */}
+            {/* <SelectCountry selectedCountry={onSelectedCountry} /> */}
+            {/* <div className="user-btn">
+              <Link href={PAGES.home}>
+                <a>
+                  <span className="icon-user" />
+                </a>
+              </Link>
+            </div> */}
             <div className="cart-btn">
               <a onClick={onClickCart}>
                 <span className="icon-cart" /> {cart?.items?.length ?? 0}

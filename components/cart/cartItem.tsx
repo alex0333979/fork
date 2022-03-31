@@ -7,6 +7,7 @@ import { showError, showSuccess } from '@/lib/utils/toast';
 interface CartItemProps {
   index: number;
   item: CartItem;
+  currency: string;
   onDelete: (id: string) => void;
   onUpdated: (cart: Cart) => void;
   onPreview: (url: string) => void;
@@ -14,6 +15,7 @@ interface CartItemProps {
 
 const ShoppingCartItem: React.FC<CartItemProps> = ({
   item,
+  currency,
   onDelete,
   onUpdated,
   onPreview,
@@ -70,7 +72,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
           <p>
             {'Price: '}
             {item.product === ProductType.PassportApplication && (
-              <span>{item.isComplete ? `$${(item.price / 100).toFixed(2)}` : '$0'}</span>
+              <span>{item.isComplete ? `${(item.price / 100).toFixed(2)}` : `${currency}0`}</span>
             )}
           </p>
         </div>
@@ -80,7 +82,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
               <label key={`${index}-${i}`} className="full-size">
                 <span className="field radio with-price">
                   <span className="name">{option.text}</span>
-                  <span className="price">{`$${(option.price / 100).toFixed(2)}`}</span>
+                  <span className="price">{`${currency}${(option.price / 100).toFixed(2)}`}</span>
                   <input
                     type="radio"
                     name={`price-${index}`}

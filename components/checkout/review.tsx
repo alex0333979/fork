@@ -48,7 +48,7 @@ const CARD_OPTIONS = {
 };
 
 const ReviewAndPay: React.FC = () => {
-  const { cart, updateCart } = useAuth();
+  const { cart, updateCart, currency } = useAuth();
   const [cardName, setCardName] = useState<string>('');
   const [error, setError] = useState<ValidationError>({});
   const [stripeFocus, setStripeFocus] = useState<boolean>(false);
@@ -147,7 +147,9 @@ const ReviewAndPay: React.FC = () => {
   const getClientSecret = useCallback(
     async (order: Order): Promise<string | undefined> => {
       setLoading(true);
-      const { data: intent } = await getPaymentIntent({ variables: { orderId: order.id } });
+      const { data: intent } = await getPaymentIntent({
+        variables: { orderId: order.id, currency: currency.currency?.toLowerCase() || 'usd' }
+      });
       setLoading(false);
       const clientSecret = intent?.GetPaymentIntent.data?.clientSecret;
       if (!clientSecret) {
@@ -160,7 +162,7 @@ const ReviewAndPay: React.FC = () => {
       }
       return clientSecret;
     },
-    [getPaymentIntent]
+    [currency.currency, getPaymentIntent]
   );
 
   const finalizeResult = useCallback(
@@ -190,7 +192,7 @@ const ReviewAndPay: React.FC = () => {
           send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
           transaction_id: order.orderNumber,
           value: order.totalPrice / 100,
-          currency: 'USD',
+          currency: currency.currency,
           tax: tax / 100,
           shipping: shippingPrice,
           items: order.items.map((item) => ({
@@ -204,7 +206,7 @@ const ReviewAndPay: React.FC = () => {
         window.gtag('event', 'purchase', {
           transaction_id: order.orderNumber,
           value: order.totalPrice / 100,
-          currency: 'USD',
+          currency: currency.currency,
           tax: tax / 100,
           shipping: shippingPrice,
           items: order.items.map((item) => ({
@@ -222,7 +224,7 @@ const ReviewAndPay: React.FC = () => {
           // @ts-ignore
           window.ORIBI.api('trackPurchase', {
             totalPrice: order.totalPrice / 100,
-            currency: 'USD',
+            currency: currency.currency,
             orderId: order.orderNumber,
             taxPrice: tax / 100,
             shippingPrice: shippingPrice / 100
@@ -231,7 +233,7 @@ const ReviewAndPay: React.FC = () => {
         await router.push(PAGES.checkout.thankYou);
       }
     },
-    [clearCart, router, shippingPrice, tax, updateCart]
+    [clearCart, currency.currency, router, shippingPrice, tax, updateCart]
   );
 
   const onSubmit = useCallback(async () => {
@@ -289,8 +291,9 @@ const ReviewAndPay: React.FC = () => {
     if (!stripe || !elements) {
       return;
     }
+
     const pr = stripe.paymentRequest({
-      currency: 'usd',
+      currency: currency.currency?.toLowerCase() || 'usd',
       country: 'US',
       total: {
         label: '',
@@ -344,7 +347,8 @@ const ReviewAndPay: React.FC = () => {
     getClientSecret,
     finalizeResult,
     total,
-    tax
+    tax,
+    currency.currency
   ]);
 
   const PaymentStatus = ({ status }: { status: string }) => {
@@ -431,45 +435,45 @@ const ReviewAndPay: React.FC = () => {
               {aCount > 0 && (
                 <div className="name">
                   <h3>{`${aCount} Passport Application`}</h3>
-                  <p>{`$${((aPrice ?? 0) / 100).toFixed(2)}`}</p>
+                  <p>{`${currency.symbol}${((aPrice ?? 0) / 100).toFixed(2)}`}</p>
                 </div>
               )}
               {photoItems.map((item, index) => (
                 <div key={index} className="name">
                   <h3>{item.text}</h3>
-                  <p>{`$${(item.price / 100).toFixed(2)}`}</p>
+                  <p>{`${currency.symbol}${(item.price / 100).toFixed(2)}`}</p>
                 </div>
               ))}
             </li>
             <li>
               <div className="name">
                 <h3>{'Concierge service'}</h3>
-                <p>{`$${(conciergePrice / 100).toFixed(2)}`}</p>
+                <p>{`${currency.symbol}${(conciergePrice / 100).toFixed(2)}`}</p>
               </div>
               <div className="name">
                 <h3>{'Shipping'}</h3>
-                <p>{`$${((shippingPrice ?? 0) / 100).toFixed(2)}`}</p>
+                <p>{`${currency.symbol}${((shippingPrice ?? 0) / 100).toFixed(2)}`}</p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
-                <p>{`$${(subTotal / 100).toFixed(2)}`}</p>
+                <p>{`${currency.symbol}${(subTotal / 100).toFixed(2)}`}</p>
               </div>
               {cart?.billingAddress?.state === 'NY' ? (
                 <div className="name">
                   <h3>{'Sales tax'}</h3>
-                  <p>{`$${(tax / 100).toFixed(2)}`}</p>
+                  <p>{`${currency.symbol}${(tax / 100).toFixed(2)}`}</p>
                 </div>
               ) : (
                 <div className="name">
                   <h3>{'Tax'}</h3>
-                  <p>{`$0`}</p>
+                  <p>{`${currency.symbol}0`}</p>
                 </div>
               )}
             </li>
             <li>
               <div className="name">
                 <h3>{'Grand Total'}</h3>
-                <p>{`$${(total / 100).toFixed(2)}`}</p>
+                <p>{`${currency.symbol}${(total / 100).toFixed(2)}`}</p>
               </div>
             </li>
           </ol>

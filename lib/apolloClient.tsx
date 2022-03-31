@@ -18,6 +18,8 @@ import { showError } from '@/lib/utils/toast';
 
 const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 export const COOKIES_TOKEN_NAME = 'token';
+export const LANGUAGE_COOKIE_NAME = '@lang';
+export const CURRENCY_COOKIE_NAME = '@currency';
 
 const getToken = (req?: IncomingMessage) => {
   const parsedCookie = cookie.parse(

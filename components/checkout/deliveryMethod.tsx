@@ -8,7 +8,7 @@ import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter();
-  const { cart, updateCart } = useAuth();
+  const { cart, updateCart, currency } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [shippingType, setShippingType] = useState<string>(
     cart?.shippingType ?? ShippingType.From3To6
@@ -60,7 +60,9 @@ const DeliveryMethod: React.FC = () => {
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
                 <b>
-                  {`Add concierge service for just $${((CONCIERGE_PRICE ?? 0) / 100).toFixed(2)}!`}{' '}
+                  {`Add concierge service for just ${currency.symbol}${(
+                    (CONCIERGE_PRICE ?? 0) / 100
+                  ).toFixed(2)}!`}{' '}
                 </b>
               </span>
             </span>
@@ -73,7 +75,7 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Subtotal'}</h3>
                 <p>
                   {'Just '}
-                  <b>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
+                  <b>{`${currency.symbol}${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
                 </p>
               </div>
             </li>
@@ -127,7 +129,9 @@ const DeliveryMethod: React.FC = () => {
                     <span className="field radio with-price">
                       <span className="name">{option.title}</span>
                       <span className="price">
-                        {option.price > 0 ? `+$${(option.price / 100).toFixed(2)}` : 'FREE'}
+                        {option.price > 0
+                          ? `+${currency.symbol}${(option.price / 100).toFixed(2)}`
+                          : 'FREE'}
                       </span>
                       <input
                         type="radio"
