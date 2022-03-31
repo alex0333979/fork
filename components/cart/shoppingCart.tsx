@@ -10,7 +10,7 @@ import PreviewPhotoModal from '@/components/elements/previewPhotoModal';
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
   const router = useRouter();
-  const { cart, updateCart } = useAuth();
+  const { cart, updateCart, currency } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
   const [open, setOpen] = useState<boolean>(false);
   const [prevUrl, setPrevUrl] = useState<string>('');
@@ -68,6 +68,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                       <ShoppingCartItem
                         index={index}
                         key={index}
+                        currency={currency.symbol || '$'}
                         item={item}
                         onDelete={onRemoveCartItem}
                         onUpdated={updateCart}
@@ -85,6 +86,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                         index={index}
                         key={index}
                         item={item}
+                        currency={currency.symbol || '$'}
                         onDelete={onRemoveCartItem}
                         onUpdated={updateCart}
                         onPreview={onPreview}
@@ -108,11 +110,11 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                     <tbody>
                       <tr>
                         <td>{'Subtotal'}</td>
-                        <td>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</td>
+                        <td>{`${currency.symbol}${((subTotal ?? 0) / 100).toFixed(2)}`}</td>
                       </tr>
                       <tr>
                         <td>{'Tax'}</td>
-                        <td>{`$0`}</td>
+                        <td>{`${currency.symbol}0`}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -121,7 +123,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                           <b>{'Total'}</b>
                         </td>
                         <td>
-                          <b>{`$${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
+                          <b>{`${currency.symbol}${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
                         </td>
                       </tr>
                     </tfoot>

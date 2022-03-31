@@ -1,0 +1,10 @@
+.drop-down-picker-container {
+  display: flex;
+  flex-direction: column;
+
+  .picker-title {
+    font-size: 1rem;
+    color: #374151;
+    margin-bottom: .375rem;
+  }
+}

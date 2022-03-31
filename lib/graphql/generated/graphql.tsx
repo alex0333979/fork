@@ -232,6 +232,27 @@ export type Head = {
   position?: Maybe<Position>;
 };
 
+export type Log = {
+  createdAt: Scalars['DateTime'];
+  failed: Array<PhotoTest>;
+  hasPassed: Scalars['Boolean'];
+  id: Scalars['ID'];
+  passed?: Maybe<Array<PhotoTest>>;
+  photoUrl: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type LogPaginatedResponse = {
+  data: Array<Log>;
+  total: Scalars['Float'];
+};
+
+export type LogResponse = {
+  data?: Maybe<Log>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
 export type Mutation = {
   AddBillingAddressToCart: CartResponse;
   AddItemsToCart: CartResponse;
@@ -241,6 +262,7 @@ export type Mutation = {
   ClearCart: CartResponse;
   CreateGuest: TokenResponse;
   CreateOrder: OrderResponse;
+  DeleteLogs: LogResponse;
   DeleteOrder: StringResponse;
   GetPaymentIntent: PaymentIntentResponse;
   Login: TokenResponse;
@@ -285,12 +307,18 @@ export type MutationCheckPhotoArgs = {
 };
 
 
+export type MutationDeleteLogsArgs = {
+  ids: Array<Scalars['String']>;
+};
+
+
 export type MutationDeleteOrderArgs = {
   orderId: Scalars['String'];
 };
 
 
 export type MutationGetPaymentIntentArgs = {
+  currency: Scalars['String'];
   orderId: Scalars['String'];
 };
 
@@ -471,6 +499,11 @@ export enum PaymentStatus {
   Pending = 'PENDING'
 }
 
+export type PhotoTest = {
+  message: Scalars['String'];
+  type: Scalars['String'];
+};
+
 export type Position = {
   max?: Maybe<Scalars['Float']>;
   min?: Maybe<Scalars['Float']>;
@@ -493,6 +526,7 @@ export type Query = {
   Form: FormResponse;
   Forms: Array<Form>;
   GetSignedUrl: SignedUrlResponse;
+  Logs: LogPaginatedResponse;
   Me: UserResponse;
   Order: OrderResponse;
   OrderByOrderNumber: OrderResponse;
@@ -534,6 +568,14 @@ export type QueryEntryArgs = {
 
 export type QueryFormArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryLogsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  search?: Maybe<Scalars['String']>;
+  skip?: Maybe<Scalars['Int']>;
 };
 
 
@@ -855,6 +897,7 @@ export type CreateOrderMutation = { __typename: 'Mutation', CreateOrder: { __typ
 
 export type GetPaymentIntentMutationVariables = Exact<{
   orderId: Scalars['String'];
+  currency: Scalars['String'];
 }>;
 
 
@@ -1805,8 +1848,8 @@ export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMuta
 export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
 export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
 export const GetPaymentIntentDocument = gql`
-    mutation GetPaymentIntent($orderId: String!) {
-  GetPaymentIntent(orderId: $orderId) {
+    mutation GetPaymentIntent($orderId: String!, $currency: String!) {
+  GetPaymentIntent(orderId: $orderId, currency: $currency) {
     message
     status
     data {
@@ -1831,6 +1874,7 @@ export type GetPaymentIntentMutationFn = Apollo.MutationFunction<GetPaymentInten
  * const [getPaymentIntentMutation, { data, loading, error }] = useGetPaymentIntentMutation({
  *   variables: {
  *      orderId: // value for 'orderId'
+ *      currency: // value for 'currency'
  *   },
  * });
  */

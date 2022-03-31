@@ -157,8 +157,8 @@ mutation CreateOrder{
     }
 }
 
-mutation GetPaymentIntent($orderId: String!){
-    GetPaymentIntent(orderId: $orderId) {
+mutation GetPaymentIntent($orderId: String!, $currency: String!){
+    GetPaymentIntent(orderId: $orderId, currency: $currency) {
         message
         status
         data {

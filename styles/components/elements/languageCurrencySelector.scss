@@ -1,0 +1,95 @@
+.language-currency-selector-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
+
+  &:hover {
+    span {
+      color: #000000;
+    }
+    .currency-divider {
+      background-color: #222222;
+    }
+  }
+
+  span {
+    padding: 0 5px;
+    color: #333333;
+    font-size: 14px;
+    transition: .2s all linear;
+    -webkit-transition: .2s all linear;
+    -moz-transition: .2s all linear;
+    -ms-transition: .2s all linear;
+    -o-transition: .2s all linear;
+}
+
+  .currency-divider {
+    height: 15px;
+    width: 1px;
+    background-color: #666666;
+    transition: .2s all linear;
+    -webkit-transition: .2s all linear;
+    -moz-transition: .2s all linear;
+    -ms-transition: .2s all linear;
+    -o-transition: .2s all linear;
+  }
+}
+.language-currency-modal {
+  padding: 1.5rem;
+  width: 350px;
+  .modal-title {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--black);
+    width: 100%;
+    text-align: left;
+  }
+
+  .modal-body {
+    padding-top: 30px;
+
+    .currencies {
+      margin-top: 30px;
+    }
+  }
+
+  .modal-footer {
+    margin-top: 40px;
+
+    .apply-button {
+      width: 100%;
+      min-height: 44px;
+    }
+  }
+}
+
+.mobile-language-selector {
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  background: #f3f4f6;
+}
+
+.language-option-container, .currency-option-container {
+  display: flex;
+  align-items: center;
+  padding: 3px 7px;
+}
+.language-value-container, .currency-value-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 7px;
+
+  [class$="ValueContainer"] {
+    height: 36px !important;
+  }
+}
+.currency-option-container, .currency-value-container {
+  display: flex;
+  span {
+    font-size: 1.25rem;
+  }
+}
