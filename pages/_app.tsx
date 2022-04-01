@@ -1,6 +1,7 @@
 import '../styles/index.scss';
 import type { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
+import { I18nextProvider } from 'react-i18next';
 import { AuthProvider } from '@/lib/auth';
 import Head from 'next/head';
 import { CookiesProvider } from 'react-cookie';
@@ -14,6 +15,7 @@ import SignIn from '@/components/elements/signIn';
 import SignUp from '@/components/elements/signUp';
 import { hotjar } from 'react-hotjar';
 import Script from 'next/script';
+import i18n from '../i18n';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -101,21 +103,23 @@ function MyApp({ Component, pageProps }: AppProps) {
       {renderOribiTracking()}
       {renderFacebookPixel()}
       <ApolloProvider client={apolloClient}>
-        <CookiesProvider>
-          <AuthProvider client={apolloClient}>
-            <Head>
-              <title>{'Passport Photos'}</title>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-              />
-            </Head>
-            <SignIn />
-            <SignUp />
-            <Component {...pageProps} />
-            <ToastContainer />
-          </AuthProvider>
-        </CookiesProvider>
+        <I18nextProvider i18n={i18n}>
+          <CookiesProvider>
+            <AuthProvider client={apolloClient}>
+              <Head>
+                <title>{'Passport Photos'}</title>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+                />
+              </Head>
+              <SignIn />
+              <SignUp />
+              <Component {...pageProps} />
+              <ToastContainer />
+            </AuthProvider>
+          </CookiesProvider>
+        </I18nextProvider>
       </ApolloProvider>
     </>
   );
