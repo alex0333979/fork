@@ -83,7 +83,7 @@
   align-items: center;
   padding: 0 7px;
 
-  [class$="ValueContainer"] {
+  & > div:first-of-type {
     height: 36px !important;
   }
 }
