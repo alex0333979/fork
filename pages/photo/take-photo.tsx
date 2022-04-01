@@ -40,6 +40,7 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
     context.res.setHeader('Cache-Control', 'no-store');
   }
   const token = context?.query.token as string;
+  console.log({ query: context.query });
   if (token && context.res) {
     context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
   }
@@ -104,6 +105,7 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
     }
     const docId = entry.form.steps[0].fields.find((f) => f.name === 'document_id')?.value as string;
     if (documentId !== docId.toString()) {
+      console.log('here~~~5')
       return {
         redirect: {
           destination: `${PAGES.photo.takePhoto}?entryId=${entryId}&documentId=${docId}`,
