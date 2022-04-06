@@ -28,7 +28,7 @@ interface ModalContainerProps {
   title?: string;
   label?: string;
   open: boolean;
-  closeModal: () => void;
+  closeModal?: () => void;
   children: React.ReactNode;
 }
 
@@ -46,9 +46,11 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     bodyOpenClassName={'scroll-lock'}
     contentLabel="Example Modal"
     ariaHideApp={false}>
-    <button className="modal-close-button" onClick={closeModal}>
-      <span className="icon-close" />
-    </button>
+    {closeModal && (
+      <button className="modal-close-button" onClick={closeModal}>
+        <span className="icon-close" />
+      </button>
+    )}
     {title ? (
       <div className="modal-header">
         <h2>{title}</h2>

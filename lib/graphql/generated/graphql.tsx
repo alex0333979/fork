@@ -268,6 +268,7 @@ export type Mutation = {
   Login: TokenResponse;
   RemoveItemsFromCart: CartResponse;
   SendEmailToAdmin: StringResponse;
+  SendOTP: OrderEditResponse;
   SendOrderConfirmToFulfillmentManually: StringResponse;
   SendOrderConfirmToUserManually: StringResponse;
   SendOrderEditRequest: StringResponse;
@@ -278,7 +279,10 @@ export type Mutation = {
   SignUp: UserResponse;
   SubmitEntry: EntryResponse;
   UpdateCartItemPrice: CartResponse;
+  UpdateEntryPhoto: EntryResponse;
+  UpdateOrderPhoto: StringResponse;
   UpdateOrderStatus: OrderResponse;
+  VerifyOTP: OrderEditResponse;
 };
 
 
@@ -304,6 +308,13 @@ export type MutationAddShippingAddressToCartArgs = {
 
 export type MutationCheckPhotoArgs = {
   entryId: Scalars['String'];
+  imageResolution: Scalars['String'];
+  userAgent: Scalars['String'];
+};
+
+
+export type MutationCreateGuestArgs = {
+  fingerprint?: Maybe<Scalars['String']>;
 };
 
 
@@ -336,6 +347,12 @@ export type MutationRemoveItemsFromCartArgs = {
 
 export type MutationSendEmailToAdminArgs = {
   data: EmailToAdminInput;
+};
+
+
+export type MutationSendOtpArgs = {
+  accessToken: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
@@ -392,10 +409,28 @@ export type MutationUpdateCartItemPriceArgs = {
 };
 
 
+export type MutationUpdateEntryPhotoArgs = {
+  editToken: Scalars['String'];
+  imageUrl: Scalars['String'];
+};
+
+
+export type MutationUpdateOrderPhotoArgs = {
+  editToken: Scalars['String'];
+  imageUrl: Scalars['String'];
+};
+
+
 export type MutationUpdateOrderStatusArgs = {
   orderId: Scalars['String'];
   orderStatus: OrderStatus;
   orderStatusType: OrderStatusType;
+};
+
+
+export type MutationVerifyOtpArgs = {
+  accessToken: Scalars['String'];
+  otp: Scalars['String'];
 };
 
 export type Option = {
@@ -425,6 +460,19 @@ export type Order = {
   trackingNumber?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   userId: Scalars['ID'];
+};
+
+export type OrderEditRes = {
+  authToken?: Maybe<Scalars['String']>;
+  editToken?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type OrderEditResponse = {
+  data?: Maybe<OrderEditRes>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
 };
 
 export type OrderPaginatedResponse = {
@@ -792,7 +840,9 @@ export type CountryFragment = { __typename: 'Country', id?: Maybe<number>, count
 
 export type PDocumentFragment = { __typename: 'PDocument', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string>, background?: Maybe<string>, dpi?: Maybe<number>, dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, size?: Maybe<{ __typename: 'Size', max?: Maybe<number>, min?: Maybe<number> }>, head?: Maybe<{ __typename: 'Head', Dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, position?: Maybe<{ __typename: 'Position', max?: Maybe<number>, min?: Maybe<number>, unit?: Maybe<Unit> }> }> };
 
-export type CreateGuestMutationVariables = Exact<{ [key: string]: never; }>;
+export type CreateGuestMutationVariables = Exact<{
+  fingerprint?: Maybe<Scalars['String']>;
+}>;
 
 
 export type CreateGuestMutation = { __typename: 'Mutation', CreateGuest: { __typename: 'TokenResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Token', accessToken: string }> } };
@@ -904,6 +954,8 @@ export type GetPaymentIntentMutationVariables = Exact<{
 export type GetPaymentIntentMutation = { __typename: 'Mutation', GetPaymentIntent: { __typename: 'PaymentIntentResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'PaymentIntent', clientSecret: string }> } };
 
 export type CheckPhotoMutationVariables = Exact<{
+  userAgent: Scalars['String'];
+  imageResolution: Scalars['String'];
   entryId: Scalars['String'];
 }>;
 
@@ -923,6 +975,38 @@ export type UpdateCartItemPriceMutationVariables = Exact<{
 
 
 export type UpdateCartItemPriceMutation = { __typename: 'Mutation', UpdateCartItemPrice: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+
+export type SendOtpMutationVariables = Exact<{
+  accessToken: Scalars['String'];
+  email: Scalars['String'];
+}>;
+
+
+export type SendOtpMutation = { __typename: 'Mutation', SendOTP: { __typename: 'OrderEditResponse', message: string, status: boolean } };
+
+export type VerifyOtpMutationVariables = Exact<{
+  accessToken: Scalars['String'];
+  otp: Scalars['String'];
+}>;
+
+
+export type VerifyOtpMutation = { __typename: 'Mutation', VerifyOTP: { __typename: 'OrderEditResponse', status: boolean, message: string, data?: Maybe<{ __typename: 'OrderEditRes', authToken?: Maybe<string>, editToken?: Maybe<string>, imageUrl?: Maybe<string>, user?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> }> } };
+
+export type UpdateEntryPhotoMutationVariables = Exact<{
+  imageUrl: Scalars['String'];
+  editToken: Scalars['String'];
+}>;
+
+
+export type UpdateEntryPhotoMutation = { __typename: 'Mutation', UpdateEntryPhoto: { __typename: 'EntryResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Entry', id: string }> } };
+
+export type UpdateOrderPhotoMutationVariables = Exact<{
+  imageUrl: Scalars['String'];
+  editToken: Scalars['String'];
+}>;
+
+
+export type UpdateOrderPhotoMutation = { __typename: 'Mutation', UpdateOrderPhoto: { __typename: 'StringResponse', message: string, status: boolean } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1283,13 +1367,13 @@ export const PDocumentFragmentDoc = gql`
 }
     `;
 export const CreateGuestDocument = gql`
-    mutation CreateGuest {
-  CreateGuest {
-    message
-    status
+    mutation CreateGuest($fingerprint: String) {
+  CreateGuest(fingerprint: $fingerprint) {
     data {
       accessToken
     }
+    message
+    status
   }
 }
     `;
@@ -1308,6 +1392,7 @@ export type CreateGuestMutationFn = Apollo.MutationFunction<CreateGuestMutation,
  * @example
  * const [createGuestMutation, { data, loading, error }] = useCreateGuestMutation({
  *   variables: {
+ *      fingerprint: // value for 'fingerprint'
  *   },
  * });
  */
@@ -1886,8 +1971,12 @@ export type GetPaymentIntentMutationHookResult = ReturnType<typeof useGetPayment
 export type GetPaymentIntentMutationResult = Apollo.MutationResult<GetPaymentIntentMutation>;
 export type GetPaymentIntentMutationOptions = Apollo.BaseMutationOptions<GetPaymentIntentMutation, GetPaymentIntentMutationVariables>;
 export const CheckPhotoDocument = gql`
-    mutation CheckPhoto($entryId: String!) {
-  CheckPhoto(entryId: $entryId) {
+    mutation CheckPhoto($userAgent: String!, $imageResolution: String!, $entryId: String!) {
+  CheckPhoto(
+    userAgent: $userAgent
+    imageResolution: $imageResolution
+    entryId: $entryId
+  ) {
     message
     status
     data {
@@ -1911,6 +2000,8 @@ export type CheckPhotoMutationFn = Apollo.MutationFunction<CheckPhotoMutation, C
  * @example
  * const [checkPhotoMutation, { data, loading, error }] = useCheckPhotoMutation({
  *   variables: {
+ *      userAgent: // value for 'userAgent'
+ *      imageResolution: // value for 'imageResolution'
  *      entryId: // value for 'entryId'
  *   },
  * });
@@ -1994,6 +2085,157 @@ export function useUpdateCartItemPriceMutation(baseOptions?: Apollo.MutationHook
 export type UpdateCartItemPriceMutationHookResult = ReturnType<typeof useUpdateCartItemPriceMutation>;
 export type UpdateCartItemPriceMutationResult = Apollo.MutationResult<UpdateCartItemPriceMutation>;
 export type UpdateCartItemPriceMutationOptions = Apollo.BaseMutationOptions<UpdateCartItemPriceMutation, UpdateCartItemPriceMutationVariables>;
+export const SendOtpDocument = gql`
+    mutation SendOTP($accessToken: String!, $email: String!) {
+  SendOTP(accessToken: $accessToken, email: $email) {
+    message
+    status
+  }
+}
+    `;
+export type SendOtpMutationFn = Apollo.MutationFunction<SendOtpMutation, SendOtpMutationVariables>;
+
+/**
+ * __useSendOtpMutation__
+ *
+ * To run a mutation, you first call `useSendOtpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendOtpMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendOtpMutation, { data, loading, error }] = useSendOtpMutation({
+ *   variables: {
+ *      accessToken: // value for 'accessToken'
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSendOtpMutation(baseOptions?: Apollo.MutationHookOptions<SendOtpMutation, SendOtpMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendOtpMutation, SendOtpMutationVariables>(SendOtpDocument, options);
+      }
+export type SendOtpMutationHookResult = ReturnType<typeof useSendOtpMutation>;
+export type SendOtpMutationResult = Apollo.MutationResult<SendOtpMutation>;
+export type SendOtpMutationOptions = Apollo.BaseMutationOptions<SendOtpMutation, SendOtpMutationVariables>;
+export const VerifyOtpDocument = gql`
+    mutation VerifyOTP($accessToken: String!, $otp: String!) {
+  VerifyOTP(accessToken: $accessToken, otp: $otp) {
+    data {
+      authToken
+      user {
+        ...User
+      }
+      editToken
+      imageUrl
+    }
+    status
+    message
+  }
+}
+    ${UserFragmentDoc}`;
+export type VerifyOtpMutationFn = Apollo.MutationFunction<VerifyOtpMutation, VerifyOtpMutationVariables>;
+
+/**
+ * __useVerifyOtpMutation__
+ *
+ * To run a mutation, you first call `useVerifyOtpMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyOtpMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyOtpMutation, { data, loading, error }] = useVerifyOtpMutation({
+ *   variables: {
+ *      accessToken: // value for 'accessToken'
+ *      otp: // value for 'otp'
+ *   },
+ * });
+ */
+export function useVerifyOtpMutation(baseOptions?: Apollo.MutationHookOptions<VerifyOtpMutation, VerifyOtpMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyOtpMutation, VerifyOtpMutationVariables>(VerifyOtpDocument, options);
+      }
+export type VerifyOtpMutationHookResult = ReturnType<typeof useVerifyOtpMutation>;
+export type VerifyOtpMutationResult = Apollo.MutationResult<VerifyOtpMutation>;
+export type VerifyOtpMutationOptions = Apollo.BaseMutationOptions<VerifyOtpMutation, VerifyOtpMutationVariables>;
+export const UpdateEntryPhotoDocument = gql`
+    mutation UpdateEntryPhoto($imageUrl: String!, $editToken: String!) {
+  UpdateEntryPhoto(imageUrl: $imageUrl, editToken: $editToken) {
+    message
+    status
+    data {
+      id
+    }
+  }
+}
+    `;
+export type UpdateEntryPhotoMutationFn = Apollo.MutationFunction<UpdateEntryPhotoMutation, UpdateEntryPhotoMutationVariables>;
+
+/**
+ * __useUpdateEntryPhotoMutation__
+ *
+ * To run a mutation, you first call `useUpdateEntryPhotoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEntryPhotoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEntryPhotoMutation, { data, loading, error }] = useUpdateEntryPhotoMutation({
+ *   variables: {
+ *      imageUrl: // value for 'imageUrl'
+ *      editToken: // value for 'editToken'
+ *   },
+ * });
+ */
+export function useUpdateEntryPhotoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEntryPhotoMutation, UpdateEntryPhotoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEntryPhotoMutation, UpdateEntryPhotoMutationVariables>(UpdateEntryPhotoDocument, options);
+      }
+export type UpdateEntryPhotoMutationHookResult = ReturnType<typeof useUpdateEntryPhotoMutation>;
+export type UpdateEntryPhotoMutationResult = Apollo.MutationResult<UpdateEntryPhotoMutation>;
+export type UpdateEntryPhotoMutationOptions = Apollo.BaseMutationOptions<UpdateEntryPhotoMutation, UpdateEntryPhotoMutationVariables>;
+export const UpdateOrderPhotoDocument = gql`
+    mutation UpdateOrderPhoto($imageUrl: String!, $editToken: String!) {
+  UpdateOrderPhoto(imageUrl: $imageUrl, editToken: $editToken) {
+    message
+    status
+  }
+}
+    `;
+export type UpdateOrderPhotoMutationFn = Apollo.MutationFunction<UpdateOrderPhotoMutation, UpdateOrderPhotoMutationVariables>;
+
+/**
+ * __useUpdateOrderPhotoMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrderPhotoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrderPhotoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrderPhotoMutation, { data, loading, error }] = useUpdateOrderPhotoMutation({
+ *   variables: {
+ *      imageUrl: // value for 'imageUrl'
+ *      editToken: // value for 'editToken'
+ *   },
+ * });
+ */
+export function useUpdateOrderPhotoMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrderPhotoMutation, UpdateOrderPhotoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrderPhotoMutation, UpdateOrderPhotoMutationVariables>(UpdateOrderPhotoDocument, options);
+      }
+export type UpdateOrderPhotoMutationHookResult = ReturnType<typeof useUpdateOrderPhotoMutation>;
+export type UpdateOrderPhotoMutationResult = Apollo.MutationResult<UpdateOrderPhotoMutation>;
+export type UpdateOrderPhotoMutationOptions = Apollo.BaseMutationOptions<UpdateOrderPhotoMutation, UpdateOrderPhotoMutationVariables>;
 export const MeDocument = gql`
     query Me {
   Me {

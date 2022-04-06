@@ -3,8 +3,9 @@ import PhotoLayout from '@/components/layout/photoLayout';
 import TakePhoto from '@/components/photo/takePhoto';
 import React from 'react';
 import { NextSeo } from 'next-seo';
-import { PAGES, PHOTO_FORM, SEO } from '../../constants';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { ApolloQueryResult } from '@apollo/client';
+
 import {
   Entry,
   EntryDocument,
@@ -13,8 +14,8 @@ import {
   FormsDocument,
   FormsQuery
 } from '@/generated/graphql';
-import { COOKIES_TOKEN_NAME, initializeApollo } from '@/lib/apolloClient';
-import { ApolloQueryResult } from '@apollo/client';
+import { initializeApollo } from '@/lib/apolloClient';
+import { PAGES, PHOTO_FORM, SEO } from '../../constants';
 
 export interface TakePhotoPageProps {
   form: Form;
@@ -36,23 +37,21 @@ export default TakePhotoPage;
 export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async (
   context: GetServerSidePropsContext
 ) => {
+  const redirectTo = (page: string = PAGES.home) => ({
+    redirect: {
+      destination: page,
+      permanent: false
+    }
+  });
+
   if (context.res) {
     context.res.setHeader('Cache-Control', 'no-store');
   }
-  const token = context?.query.token as string;
-  console.log({ query: context.query });
-  if (token && context.res) {
-    context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
-  }
+
   const entryId = context?.query?.entryId as string;
   const documentId = context?.query?.documentId as string;
   if (!documentId && !entryId) {
-    return {
-      redirect: {
-        destination: PAGES.home,
-        permanent: false
-      }
-    };
+    return redirectTo();
   }
   try {
     const client = initializeApollo(null, context);
@@ -60,17 +59,9 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
     const result: ApolloQueryResult<FormsQuery> = await client.query({
       query: FormsDocument
     });
-    const forms = result.data?.Forms || [];
-    const form = forms.find((f) => f.name === PHOTO_FORM);
+    const form = (result.data?.Forms || []).find((f) => f.name === PHOTO_FORM);
 
-    if (!form) {
-      return {
-        redirect: {
-          destination: PAGES.home,
-          permanent: false
-        }
-      };
-    }
+    if (!form) return redirectTo();
 
     if (!entryId) {
       return {
@@ -88,31 +79,22 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
     });
     const entry = entryResult.data?.Entry.data;
     if (!entry) {
-      return documentId
-        ? {
-            props: {
-              form,
-              entry: null,
-              documentId
-            }
+      if (documentId) {
+        return {
+          props: {
+            form,
+            entry: null,
+            documentId
           }
-        : {
-            redirect: {
-              destination: PAGES.home,
-              permanent: false
-            }
-          };
+        };
+      }
+      return redirectTo();
     }
     const docId = entry.form.steps[0].fields.find((f) => f.name === 'document_id')?.value as string;
     if (documentId !== docId.toString()) {
-      console.log('here~~~5')
-      return {
-        redirect: {
-          destination: `${PAGES.photo.takePhoto}?entryId=${entryId}&documentId=${docId}`,
-          permanent: false
-        }
-      };
+      return redirectTo(`${PAGES.photo.takePhoto}?entryId=${entryId}&documentId=${docId}`);
     }
+
     return {
       props: {
         form,
@@ -121,11 +103,6 @@ export const getServerSideProps: GetServerSideProps<TakePhotoPageProps> = async 
       }
     };
   } catch (e) {
-    return {
-      redirect: {
-        destination: PAGES.photo.takePhoto,
-        permanent: false
-      }
-    };
+    return redirectTo(PAGES.photo.takePhoto);
   }
 };

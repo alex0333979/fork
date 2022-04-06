@@ -21,13 +21,14 @@ export interface ProcessPhotoProps {
   entry: Entry;
   type: string;
   document: Country;
+  imgRes: string;
 }
 
-const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type, document }) => (
+const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({ entry, type, document, imgRes }) => (
   <>
     <NextSeo title={SEO.processPhoto.title} description={SEO.processPhoto.description} />
     <PhotoLayout>
-      <ProcessPhoto entry={entry} type={type} document={document} />
+      <ProcessPhoto entry={entry} type={type} document={document} imgRes={imgRes} />
     </PhotoLayout>
   </>
 );
@@ -41,6 +42,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
     context.res.setHeader('Cache-Control', 'no-store');
   }
   const token = context?.query.token as string;
+  const imgRes = (context?.query?.imgRes as string) || 'x';
   if (token && context.res) {
     context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
   }
@@ -76,13 +78,14 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
       variables: { entryId },
       fetchPolicy: 'no-cache'
     });
-    const entry = entryResult.data?.Entry.data;
+    const entry = entryResult.data?.Entry?.data;
     if (entry && entry.form.name === PHOTO_FORM) {
       return {
         props: {
           entry,
           type: type === FACING_MODES.ENVIRONMENT ? FACING_MODES.ENVIRONMENT : FACING_MODES.USER,
-          document
+          document,
+          imgRes
         }
       };
     }

@@ -8,6 +8,7 @@ import React, {
   useState
 } from 'react';
 import { ApolloClient, ApolloQueryResult, NormalizedCacheObject } from '@apollo/client';
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import {
   Cart,
   CreateGuestDocument,
@@ -20,9 +21,16 @@ import {
   User
 } from '@/generated/graphql';
 import { FetchResult } from '@apollo/client/link/core';
+import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
-import { COOKIES_TOKEN_NAME, LANGUAGE_COOKIE_NAME, CURRENCY_COOKIE_NAME } from '@/lib/apolloClient';
+import {
+  COOKIES_TOKEN_NAME,
+  LANGUAGE_COOKIE_NAME,
+  CURRENCY_COOKIE_NAME,
+  ROUTE_COOKIE_NAME
+} from '@/lib/apolloClient';
 import { currencies, languages, ICurrency, ILanguage } from '@/constants/languageCurrencies';
+import { PRIVATE_ROUTES } from '@/constants/index';
 
 interface IContextProps {
   isAuthenticated: boolean;
@@ -62,27 +70,36 @@ export function AuthProvider({
 export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
+  const router = useRouter();
   const [me, setMe] = useState<User | null>(null);
   const [cookies, setCookie, removeCookie] = useCookies([
     COOKIES_TOKEN_NAME,
     LANGUAGE_COOKIE_NAME,
-    CURRENCY_COOKIE_NAME
+    CURRENCY_COOKIE_NAME,
+    ROUTE_COOKIE_NAME
   ]);
   const [openSignIn, setOpenSignIn] = useState<boolean>(false);
   const [openSignUp, setOpenSignUp] = useState<boolean>(false);
   const [openDocument, setOpenDocument] = useState<boolean>(false);
 
-  const createGuest = useCallback(async () => {
-    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
-      mutation: CreateGuestDocument
-    });
-    if (data?.CreateGuest.data?.accessToken) {
-      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
-        path: '/',
-        maxAge: 604800
+  const createGuest = useCallback(
+    async (fingerprint?: string) => {
+      console.log('creating guest....', fingerprint);
+      const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
+        mutation: CreateGuestDocument,
+        variables: {
+          fingerprint
+        }
       });
-    }
-  }, [apolloClient, setCookie]);
+      if (data?.CreateGuest.data?.accessToken) {
+        setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
+          path: '/',
+          maxAge: 604800
+        });
+      }
+    },
+    [apolloClient, setCookie]
+  );
 
   const onSetPreference = useCallback(
     (lang?: string, cur?: string) => {
@@ -114,24 +131,30 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
 
   useEffect(() => {
     (async () => {
+      const isPrivateRoute = PRIVATE_ROUTES.some((r) => router.pathname.includes(r));
+      if (isPrivateRoute) return;
+
+      const fp = await FingerprintJS.load();
+      const res = await fp.get();
+      const visitorId = res.visitorId; // browser-unique id
       try {
         const token = cookies[COOKIES_TOKEN_NAME];
         if (!token) {
-          await createGuest();
+          await createGuest(visitorId);
         }
         const result = await autoLogin();
         if (!result) {
-          await createGuest();
+          await createGuest(visitorId);
           await autoLogin();
         }
       } catch {
-        await createGuest();
+        await createGuest(visitorId);
         await autoLogin();
       }
     })();
-  }, [autoLogin, cookies, createGuest]);
+  }, [autoLogin, cookies, createGuest, router]);
 
-  const isAuthenticated = useMemo((): boolean => !(!me || (me && me.guest)), [me]);
+  const isAuthenticated = useMemo((): boolean => Boolean(me), [me]);
 
   const getMe = useMemo((): User | null => me, [me]);
 
