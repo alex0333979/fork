@@ -19,7 +19,9 @@ export const PAGES = {
   cart: '/cart/',
   photo: {
     index: '/photo/',
+    editPhoto: '/photo/edit-photo/',
     takePhoto: '/photo/take-photo/',
+    takeNewPhoto: '/photo/take-new-photo/',
     processPhoto: '/photo/process-photo/'
   },
   contactUs: '/contact-us',
@@ -49,6 +51,13 @@ export const SEO = {
   },
   processPhoto: {
     title: 'PassportPhotos - Process Photo',
+    description:
+      'Biometrically Verified Passport Photos From the Comfort of Your Home. Let our AI technology do the work',
+    keywords:
+      'Compliant passport photos, verified passport photos, biometrically approved passport photos.'
+  },
+  editPhoto: {
+    title: 'PassportPhotos - Edit Photo',
     description:
       'Biometrically Verified Passport Photos From the Comfort of Your Home. Let our AI technology do the work',
     keywords:
@@ -390,3 +399,5 @@ export const UK_PASSPORT_IMAGES = [
     image: 'uk-visa.jpeg'
   }
 ];
+
+export const PRIVATE_ROUTES = ['/photo/edit-photo'];

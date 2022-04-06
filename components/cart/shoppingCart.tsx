@@ -3,14 +3,20 @@ import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql
 import ShoppingCartItem from '@/components/cart/cartItem';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import { showError } from '@/lib/utils/toast';
 import { CartPageProps } from '@/pages/cart';
 import { PAGES } from '../../constants';
 import PreviewPhotoModal from '@/components/elements/previewPhotoModal';
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
+  const { t } = useTranslation();
   const router = useRouter();
-  const { cart, updateCart, currency } = useAuth();
+  const {
+    cart,
+    updateCart,
+    currency: { currency }
+  } = useAuth();
   const [removeFromCart] = useRemoveItemsFromCartMutation();
   const [open, setOpen] = useState<boolean>(false);
   const [prevUrl, setPrevUrl] = useState<string>('');
@@ -52,7 +58,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
         <div className="page-title">
           <div className="container">
             <div className="data-wrap">
-              <h1>{'Shopping cart'}</h1>
+              <h1>{t('shoppingCart')}</h1>
             </div>
           </div>
         </div>
@@ -68,7 +74,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                       <ShoppingCartItem
                         index={index}
                         key={index}
-                        currency={currency.symbol || '$'}
+                        currency={currency}
                         item={item}
                         onDelete={onRemoveCartItem}
                         onUpdated={updateCart}
@@ -86,7 +92,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                         index={index}
                         key={index}
                         item={item}
-                        currency={currency.symbol || '$'}
+                        currency={currency}
                         onDelete={onRemoveCartItem}
                         onUpdated={updateCart}
                         onPreview={onPreview}
@@ -110,11 +116,11 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                     <tbody>
                       <tr>
                         <td>{'Subtotal'}</td>
-                        <td>{`${currency.symbol}${((subTotal ?? 0) / 100).toFixed(2)}`}</td>
+                        <td>{t('currency', { value: (subTotal || 0) / 100, currency })}</td>
                       </tr>
                       <tr>
                         <td>{'Tax'}</td>
-                        <td>{`${currency.symbol}0`}</td>
+                        <td>{t('currency', { value: 0, currency })}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -123,7 +129,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
                           <b>{'Total'}</b>
                         </td>
                         <td>
-                          <b>{`${currency.symbol}${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
+                          <b>{t('currency', { value: (subTotal || 0) / 100, currency })}</b>
                         </td>
                       </tr>
                     </tfoot>

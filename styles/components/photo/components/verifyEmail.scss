@@ -1,0 +1,38 @@
+.email-verify-modal {
+  padding: 1.5rem 2rem 0;
+  width: 375px;
+
+  label.full-size {
+    padding: 6px 0;
+  }
+  .custom-title {
+    color: #111827;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .custom-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .resend-otp {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 6px 10px;
+
+    .resend-link {
+      cursor: pointer;
+      text-decoration: underline;
+      color: #0080FF;
+      margin-left: 5px;
+    }
+  }
+  .continue-button:disabled {
+    background-color: var(--shuttle-gray);
+    border-color: transparent;
+  }
+}

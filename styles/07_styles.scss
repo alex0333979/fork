@@ -55,6 +55,12 @@ img {
 button {
   padding: 0;
   cursor: pointer;
+
+  &:disabled {
+    background-color: var(--shuttle-gray) !important;
+    border-color: transparent !important;
+    cursor: not-allowed;
+  }
 }
 
 input,
@@ -568,8 +574,9 @@ select {
           content: "\e901";
           font-size: 21px;
           position: absolute;
-          top: -4px;
+          top: 50%;
           left: 0;
+          transform: translateY(-50%);
         }
       }
     }

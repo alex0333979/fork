@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Cart, CartItem, ProductType, useUpdateCartItemPriceMutation } from '@/generated/graphql';
 import { PAGES, PHOTO_PRICES } from '../../constants';
 import { useRouter } from 'next/router';
@@ -7,7 +8,7 @@ import { showError, showSuccess } from '@/lib/utils/toast';
 interface CartItemProps {
   index: number;
   item: CartItem;
-  currency: string;
+  currency?: string;
   onDelete: (id: string) => void;
   onUpdated: (cart: Cart) => void;
   onPreview: (url: string) => void;
@@ -21,6 +22,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   onPreview,
   index
 }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [updateCartItemPrice] = useUpdateCartItemPriceMutation();
 
@@ -72,7 +74,9 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
           <p>
             {'Price: '}
             {item.product === ProductType.PassportApplication && (
-              <span>{item.isComplete ? `${(item.price / 100).toFixed(2)}` : `${currency}0`}</span>
+              <span>
+                {t('currency', { value: item.isComplete ? item.price / 100 : 0, currency })}
+              </span>
             )}
           </p>
         </div>
@@ -82,7 +86,9 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
               <label key={`${index}-${i}`} className="full-size">
                 <span className="field radio with-price">
                   <span className="name">{option.text}</span>
-                  <span className="price">{`${currency}${(option.price / 100).toFixed(2)}`}</span>
+                  <span className="price">
+                    {t('currency', { value: option.price / 100, currency })}
+                  </span>
                   <input
                     type="radio"
                     name={`price-${index}`}

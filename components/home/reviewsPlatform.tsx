@@ -126,7 +126,7 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                   <div className="reviews-item">
                     <div className="item-wrap">
                       <div className="content">
-                        <p>{review.content}</p>
+                        <p suppressHydrationWarning>{review.content}</p>
                       </div>
                       <div className="author">
                         <div className="picture">
@@ -165,7 +165,9 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                 <SwiperSlide key={`swiper2_${index}`}>
                   <div className="reviews-item">
                     <div className="item-wrap">
-                      <div className="content">{review.content}</div>
+                      <div suppressHydrationWarning className="content">
+                        {review.content}
+                      </div>
                       <div className="author">
                         <div className="picture">
                           <Image

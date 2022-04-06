@@ -1,14 +1,21 @@
+/* eslint-disable max-len */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/graphql';
 import { useAuth } from '@/lib/auth';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
 import CheckoutLayout from '@/components/checkout/checkoutLayout';
 import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
 // import classNames from 'classnames';
 
 const DeliveryMethod: React.FC = () => {
+  const { t } = useTranslation();
   const router = useRouter();
-  const { cart, updateCart, currency } = useAuth();
+  const {
+    cart,
+    updateCart,
+    currency: { currency = 'USD' }
+  } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [shippingType, setShippingType] = useState<string>(
     cart?.shippingType ?? ShippingType.From3To6
@@ -60,9 +67,10 @@ const DeliveryMethod: React.FC = () => {
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
                 <b>
-                  {`Add concierge service for just ${currency.symbol}${(
-                    (CONCIERGE_PRICE ?? 0) / 100
-                  ).toFixed(2)}!`}{' '}
+                  {`Add concierge service for just ${t('currency', {
+                    value: (CONCIERGE_PRICE || 0) / 100,
+                    currency
+                  })}!`}{' '}
                 </b>
               </span>
             </span>
@@ -75,7 +83,7 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Subtotal'}</h3>
                 <p>
                   {'Just '}
-                  <b>{`${currency.symbol}${((subTotal ?? 0) / 100).toFixed(2)}`}</b>
+                  <b>{t('currency', { value: (subTotal || 0) / 100, currency })}</b>
                 </p>
               </div>
             </li>
@@ -130,7 +138,7 @@ const DeliveryMethod: React.FC = () => {
                       <span className="name">{option.title}</span>
                       <span className="price">
                         {option.price > 0
-                          ? `+${currency.symbol}${(option.price / 100).toFixed(2)}`
+                          ? `+${t('currency', { value: option.price / 100, currency })}`
                           : 'FREE'}
                       </span>
                       <input

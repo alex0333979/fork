@@ -1,11 +1,11 @@
-mutation CreateGuest{
-    CreateGuest {
-        message
-        status
-        data {
-            accessToken
-        }
+mutation CreateGuest($fingerprint: String) {
+  CreateGuest(fingerprint: $fingerprint) {
+    data {
+      accessToken
     }
+    message
+    status
+  }
 }
 
 mutation SignUp($user: UserInput!){
@@ -167,8 +167,8 @@ mutation GetPaymentIntent($orderId: String!, $currency: String!){
     }
 }
 
-mutation CheckPhoto($entryId: String!){
-    CheckPhoto(entryId: $entryId) {
+mutation CheckPhoto($userAgent: String!, $imageResolution: String!, $entryId: String!){
+    CheckPhoto(userAgent: $userAgent, imageResolution: $imageResolution, entryId: $entryId) {
         message
         status
         data {
@@ -193,4 +193,43 @@ mutation UpdateCartItemPrice($item: UpdateCartItemPriceInput!) {
             ...Cart
         }
     }
+}
+
+mutation SendOTP($accessToken: String!, $email: String!) {
+  SendOTP(accessToken: $accessToken, email: $email) {
+    message
+    status
+  }
+}
+
+mutation VerifyOTP($accessToken: String!, $otp: String!) {
+  VerifyOTP(accessToken: $accessToken, otp: $otp) {
+    data {
+      authToken
+      user {
+        ...User
+      }
+      editToken
+      imageUrl
+    }
+    status
+    message
+  }
+}
+
+mutation UpdateEntryPhoto($imageUrl: String!, $editToken: String!) {
+  UpdateEntryPhoto(imageUrl: $imageUrl, editToken: $editToken) {
+    message
+    status
+    data {
+      id
+    }
+  }
+}
+
+mutation UpdateOrderPhoto($imageUrl: String!, $editToken: String!) {
+  UpdateOrderPhoto(imageUrl: $imageUrl, editToken: $editToken) {
+    message
+    status
+  }
 }
