@@ -31,6 +31,7 @@ export const getServerSideProps: GetServerSideProps<CartPageProps> = async (
     const result: ApolloQueryResult<CartQuery> = await client.query({
       query: CartDocument
     });
+
     const cart = result.data?.Cart.data || null;
     return {
       props: {

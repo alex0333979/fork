@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, {
   createContext,
   ReactNode,
@@ -174,17 +175,10 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
     return _language || languages[0];
   }, [cookies]);
 
-  const updateCart = useCallback(
-    (cart: Cart | null) => {
-      if (me) {
-        setMe({
-          ...me,
-          cart
-        });
-      }
-    },
-    [me]
-  );
+  const updateCart = useCallback((cart: Cart | null) => {
+    // @ts-ignore
+    setMe((m) => ({ ...(m || {}), cart }));
+  }, []);
 
   const signIn = useCallback(
     async ({ email, password }: LoginMutationVariables) => {
