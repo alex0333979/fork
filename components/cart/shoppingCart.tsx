@@ -9,11 +9,10 @@ import { CartPageProps } from '@/pages/cart';
 import { PAGES } from '../../constants';
 import PreviewPhotoModal from '@/components/elements/previewPhotoModal';
 
-const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
+const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const {
-    cart,
     updateCart,
     currency: { currency }
   } = useAuth();
@@ -21,7 +20,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: pCart }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [prevUrl, setPrevUrl] = useState<string>('');
 
-  useEffect(() => updateCart(pCart), [pCart]);
+  useEffect(() => updateCart(cart), [cart, updateCart]);
 
   const onPreview = useCallback((url: string) => {
     setPrevUrl(url);
