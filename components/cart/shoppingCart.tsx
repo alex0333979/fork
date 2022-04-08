@@ -9,10 +9,11 @@ import { CartPageProps } from '@/pages/cart';
 import { PAGES } from '../../constants';
 import PreviewPhotoModal from '@/components/elements/previewPhotoModal';
 
-const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
+const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const {
+    cart,
     updateCart,
     currency: { currency }
   } = useAuth();
@@ -20,7 +21,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [prevUrl, setPrevUrl] = useState<string>('');
 
-  useEffect(() => updateCart(cart), [cart, updateCart]);
+  useEffect(() => updateCart(_cart), [_cart, updateCart]);
 
   const onPreview = useCallback((url: string) => {
     setPrevUrl(url);
@@ -30,9 +31,9 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart }) => {
   const onRemoveCartItem = useCallback(
     async (id: string) => {
       const { data } = await removeFromCart({ variables: { ids: [id] } });
-      const cart = data?.RemoveItemsFromCart.data;
-      if (cart) {
-        updateCart(cart);
+      const __cart = data?.RemoveItemsFromCart.data;
+      if (__cart) {
+        updateCart(__cart);
       }
     },
     [removeFromCart, updateCart]
