@@ -56,7 +56,7 @@ button {
   padding: 0;
   cursor: pointer;
 
-  &:disabled {
+  &:disabled:not(.MuiButtonBase-root) {
     background-color: var(--shuttle-gray) !important;
     border-color: transparent !important;
     cursor: not-allowed;

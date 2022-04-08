@@ -1,5 +1,5 @@
 import { FieldType, FormField, ValidationType } from '@/generated/graphql';
-import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export interface ValidationError {
   [key: string]: string;
@@ -42,7 +42,7 @@ export const formValidation = (fields: FormField[]): ValidationError => {
             }
             break;
           case ValidationType.IsPhone:
-            if (!isPossiblePhoneNumber(field.value.toString())) {
+            if (!isValidPhoneNumber(field.value.toString())) {
               error[field.name] = `This should have US phone number type.`;
             }
             break;
