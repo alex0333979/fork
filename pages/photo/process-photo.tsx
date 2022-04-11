@@ -13,7 +13,7 @@ import {
   EntryQuery,
   Country
 } from '@/generated/graphql';
-import { PAGES, PHOTO_FORM, SEO } from '../../constants';
+import { PAGES, PHOTO_FORM, SEO, TOKEN_EXPIRE_IN } from '../../constants';
 import { NextSeo } from 'next-seo';
 import { FACING_MODES } from 'react-html5-camera-photo';
 
@@ -44,7 +44,10 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   const token = context?.query.token as string;
   const imgRes = (context?.query?.imgRes as string) || 'x';
   if (token && context.res) {
-    context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
+    context.res.setHeader(
+      'set-cookie',
+      `${COOKIES_TOKEN_NAME}=${token}; Max-Age=${TOKEN_EXPIRE_IN}`
+    );
   }
   try {
     const client = initializeApollo(null, context);

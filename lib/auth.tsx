@@ -9,7 +9,6 @@ import React, {
   useState
 } from 'react';
 import { ApolloClient, ApolloQueryResult, NormalizedCacheObject } from '@apollo/client';
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import {
   Cart,
   CreateGuestDocument,
@@ -22,7 +21,6 @@ import {
   User
 } from '@/generated/graphql';
 import { FetchResult } from '@apollo/client/link/core';
-import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import {
   COOKIES_TOKEN_NAME,
@@ -31,7 +29,7 @@ import {
   ROUTE_COOKIE_NAME
 } from '@/lib/apolloClient';
 import { currencies, languages, ICurrency, ILanguage } from '@/constants/languageCurrencies';
-import { PRIVATE_ROUTES } from '@/constants/index';
+import { PRIVATE_ROUTES, TOKEN_EXPIRE_IN } from '@/constants/index';
 
 interface IContextProps {
   isAuthenticated: boolean;
@@ -71,7 +69,6 @@ export function AuthProvider({
 export const useAuth = (): IContextProps => useContext(authContext);
 
 function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): IContextProps {
-  const router = useRouter();
   const [me, setMe] = useState<User | null>(null);
   const [cookies, setCookie, removeCookie] = useCookies([
     COOKIES_TOKEN_NAME,
@@ -83,24 +80,17 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
   const [openSignUp, setOpenSignUp] = useState<boolean>(false);
   const [openDocument, setOpenDocument] = useState<boolean>(false);
 
-  const createGuest = useCallback(
-    async (fingerprint?: string) => {
-      console.log('creating guest....', fingerprint);
-      const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
-        mutation: CreateGuestDocument,
-        variables: {
-          fingerprint
-        }
+  const createGuest = useCallback(async () => {
+    const { data }: FetchResult<CreateGuestMutation> = await apolloClient.mutate({
+      mutation: CreateGuestDocument
+    });
+    if (data?.CreateGuest.data?.accessToken) {
+      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
+        path: '/',
+        maxAge: TOKEN_EXPIRE_IN
       });
-      if (data?.CreateGuest.data?.accessToken) {
-        setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
-          path: '/',
-          maxAge: 604800
-        });
-      }
-    },
-    [apolloClient, setCookie]
-  );
+    }
+  }, [apolloClient, setCookie]);
 
   const onSetPreference = useCallback(
     (lang?: string, cur?: string) => {
@@ -132,34 +122,34 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
 
   useEffect(() => {
     (async () => {
-      const isPrivateRoute = PRIVATE_ROUTES.some((r) => router.pathname.includes(r));
+      const isPrivateRoute = PRIVATE_ROUTES.some((r) => location.pathname.includes(r));
       if (isPrivateRoute) return;
 
-      const fp = await FingerprintJS.load();
-      const res = await fp.get();
-      const visitorId = res.visitorId; // browser-unique id
       try {
         const token = cookies[COOKIES_TOKEN_NAME];
         if (!token) {
-          await createGuest(visitorId);
+          await createGuest();
         }
         const result = await autoLogin();
         if (!result) {
-          await createGuest(visitorId);
+          await createGuest();
           await autoLogin();
         }
       } catch {
-        await createGuest(visitorId);
+        await createGuest();
         await autoLogin();
       }
     })();
-  }, [autoLogin, cookies, createGuest, router]);
+  }, [autoLogin, cookies, createGuest]);
 
   const isAuthenticated = useMemo((): boolean => Boolean(me), [me]);
 
   const getMe = useMemo((): User | null => me, [me]);
 
-  const cart = useMemo(() => me?.cart ?? null, [me?.cart]);
+  const cart = useMemo(() => {
+    console.log({ meCart: me?.cart });
+    return me?.cart || null;
+  }, [me?.cart]);
 
   const currency: ICurrency = useMemo(() => {
     const _cookieCur = cookies[CURRENCY_COOKIE_NAME] || 'us';
@@ -190,7 +180,10 @@ function useProvideAuth(apolloClient: ApolloClient<NormalizedCacheObject>): ICon
         }
       });
       if (data?.Login.data?.accessToken) {
-        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, { path: '/', maxAge: 604800 });
+        setCookie(COOKIES_TOKEN_NAME, data?.Login.data?.accessToken, {
+          path: '/',
+          maxAge: TOKEN_EXPIRE_IN
+        });
       }
     },
     [apolloClient, setCookie]

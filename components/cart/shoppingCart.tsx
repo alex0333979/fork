@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
 import ShoppingCartItem from '@/components/cart/cartItem';
 import { useAuth } from '@/lib/auth';
+import { CartItem } from '@/lib/graphql/generated/graphql';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import { showError } from '@/lib/utils/toast';
@@ -21,7 +22,9 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [prevUrl, setPrevUrl] = useState<string>('');
 
-  useEffect(() => updateCart(_cart), [_cart, updateCart]);
+  useEffect(() => {
+    updateCart(_cart);
+  }, [_cart, updateCart]);
 
   const onPreview = useCallback((url: string) => {
     setPrevUrl(url);
@@ -52,6 +55,22 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
     }
   }, [cart?.items, router]);
 
+  const [photoItems, applicationItems] = useMemo(() => {
+    const _photoItems: CartItem[] = [];
+    const _applicationItems: CartItem[] = [];
+
+    (cart?.items || []).forEach((item) => {
+      if (item.product === ProductType.PassportPhoto) {
+        _photoItems.push(item);
+      }
+      if (item.product === ProductType.PassportApplication) {
+        _applicationItems.push(item);
+      }
+    });
+
+    return [_photoItems, _applicationItems];
+  }, [cart?.items]);
+
   return (
     <>
       <div className="cart-page">
@@ -66,11 +85,10 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
         <div className="application-form">
           <div className="container">
             <div className="cart-summary">
-              <div className="item-wrap">
-                <ul>
-                  {cart?.items
-                    ?.filter((item) => item.product === ProductType.PassportPhoto)
-                    ?.map((item, index) => (
+              {photoItems.length > 0 && (
+                <div className="item-wrap">
+                  <ul>
+                    {photoItems.map((item, index) => (
                       <ShoppingCartItem
                         index={index}
                         key={index}
@@ -81,34 +99,51 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                         onPreview={onPreview}
                       />
                     ))}
-                </ul>
-              </div>
-              <div className="item-wrap">
-                <ul>
-                  {cart?.items
-                    ?.filter((item) => item.product === ProductType.PassportApplication)
-                    ?.map((item, index) => (
-                      <ShoppingCartItem
-                        index={index}
-                        key={index}
-                        item={item}
-                        currency={currency}
-                        onDelete={onRemoveCartItem}
-                        onUpdated={updateCart}
-                        onPreview={onPreview}
-                      />
-                    ))}
-                </ul>
-                <div className="btn-wrap">
-                  <button
-                    type="button"
-                    className="main-btn small outline"
-                    onClick={() => router.push(PAGES.photo.index)}>
-                    {`Add Another Person's Photo`}
-                    <span className="icon-close" />
-                  </button>
+                  </ul>
                 </div>
-              </div>
+              )}
+
+              {applicationItems.length > 0 && (
+                <div className="item-wrap">
+                  <ul>
+                    {applicationItems.map((item, index) => (
+                      <ShoppingCartItem
+                        index={index}
+                        key={index}
+                        item={item}
+                        currency={currency}
+                        onDelete={onRemoveCartItem}
+                        onUpdated={updateCart}
+                        onPreview={onPreview}
+                      />
+                    ))}
+                  </ul>
+                  {photoItems.length > 0 && (
+                    <div className="btn-wrap">
+                      <button
+                        type="button"
+                        className="main-btn small outline"
+                        onClick={() => router.push(PAGES.photo.index)}>
+                        {`Add Another Person's Photo`}
+                        <span className="icon-close" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+              {(!photoItems.length || !applicationItems.length) && (
+                <div className="item-wrap">
+                  <div className="btn-wrap">
+                    <button
+                      type="button"
+                      className="main-btn small outline"
+                      onClick={() => router.push(PAGES.photo.index)}>
+                      {`Add Another Person's Photo`}
+                      <span className="icon-close" />
+                    </button>
+                  </div>
+                </div>
+              )}
               <div className="item-wrap total-info">
                 <div className="order-summary">
                   <h3>{'Order summary'}</h3>

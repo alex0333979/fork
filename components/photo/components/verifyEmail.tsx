@@ -8,6 +8,7 @@ import { useSendOtpMutation, useVerifyOtpMutation } from '@/generated/graphql';
 import { useAuth } from '@/lib/auth';
 import { showError, showSuccess } from '@/lib/utils/toast';
 import { COOKIES_TOKEN_NAME, COOKIES_EDIT_ORDER_TOKEN_NAME } from '@/lib/apolloClient';
+import { TOKEN_EXPIRE_IN } from '@/constants/index';
 
 interface Props {
   accessToken: string;
@@ -96,11 +97,11 @@ const VerifyEmail: React.FC<Props> = ({ accessToken, onVerified }) => {
         setMe(data?.user || null);
         setCookie(COOKIES_TOKEN_NAME, verifyOtpRes?.VerifyOTP.data?.authToken, {
           path: '/',
-          maxAge: 604800
+          maxAge: TOKEN_EXPIRE_IN
         });
         setCookie(COOKIES_EDIT_ORDER_TOKEN_NAME, verifyOtpRes?.VerifyOTP.data?.editToken, {
           path: '/',
-          maxAge: 604800
+          maxAge: 58800
         });
         onVerified(data?.imageUrl || '');
       } else {

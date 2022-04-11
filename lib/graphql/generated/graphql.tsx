@@ -233,13 +233,17 @@ export type Head = {
 };
 
 export type Log = {
+  apiVersion: Scalars['String'];
   createdAt: Scalars['DateTime'];
   failed: Array<PhotoTest>;
   hasPassed: Scalars['Boolean'];
   id: Scalars['ID'];
+  imageResolution: Scalars['String'];
   passed?: Maybe<Array<PhotoTest>>;
   photoUrl: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+  userAgent: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type LogPaginatedResponse = {
@@ -310,11 +314,6 @@ export type MutationCheckPhotoArgs = {
   entryId: Scalars['String'];
   imageResolution: Scalars['String'];
   userAgent: Scalars['String'];
-};
-
-
-export type MutationCreateGuestArgs = {
-  fingerprint?: Maybe<Scalars['String']>;
 };
 
 
@@ -840,9 +839,7 @@ export type CountryFragment = { __typename: 'Country', id?: Maybe<number>, count
 
 export type PDocumentFragment = { __typename: 'PDocument', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string>, background?: Maybe<string>, dpi?: Maybe<number>, dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, size?: Maybe<{ __typename: 'Size', max?: Maybe<number>, min?: Maybe<number> }>, head?: Maybe<{ __typename: 'Head', Dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, position?: Maybe<{ __typename: 'Position', max?: Maybe<number>, min?: Maybe<number>, unit?: Maybe<Unit> }> }> };
 
-export type CreateGuestMutationVariables = Exact<{
-  fingerprint?: Maybe<Scalars['String']>;
-}>;
+export type CreateGuestMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CreateGuestMutation = { __typename: 'Mutation', CreateGuest: { __typename: 'TokenResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Token', accessToken: string }> } };
@@ -1367,8 +1364,8 @@ export const PDocumentFragmentDoc = gql`
 }
     `;
 export const CreateGuestDocument = gql`
-    mutation CreateGuest($fingerprint: String) {
-  CreateGuest(fingerprint: $fingerprint) {
+    mutation CreateGuest {
+  CreateGuest {
     data {
       accessToken
     }
@@ -1392,7 +1389,6 @@ export type CreateGuestMutationFn = Apollo.MutationFunction<CreateGuestMutation,
  * @example
  * const [createGuestMutation, { data, loading, error }] = useCreateGuestMutation({
  *   variables: {
- *      fingerprint: // value for 'fingerprint'
  *   },
  * });
  */
