@@ -2,6 +2,8 @@ import { NavItemProps } from '@/components/layout/navItem';
 import { ProcessStepProps } from '@/components/elements/processStep';
 import { FieldType, FormField, ShippingType, ValidationType } from '@/generated/graphql';
 
+export const TOKEN_EXPIRE_IN = 31556926; // seconds
+
 export const PAGES = {
   home: '/',
   application: {

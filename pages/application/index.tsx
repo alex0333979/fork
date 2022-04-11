@@ -13,7 +13,7 @@ import {
 } from '@/generated/graphql';
 import { ApolloQueryResult } from '@apollo/client';
 import dynamic from 'next/dynamic';
-import { PAGES, PHOTO_FORM, SEO } from '../../constants';
+import { PAGES, PHOTO_FORM, SEO, TOKEN_EXPIRE_IN } from '../../constants';
 import { NextSeo } from 'next-seo';
 const ApplicationForm = dynamic(() => import('@/components/application/applicationForm'));
 
@@ -48,7 +48,10 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
   const step = context?.params?.step as string;
   const token = context?.query.token as string;
   if (token && context.res) {
-    context.res.setHeader('set-cookie', `${COOKIES_TOKEN_NAME}=${token}`);
+    context.res.setHeader(
+      'set-cookie',
+      `${COOKIES_TOKEN_NAME}=${token}; Max-Age=${TOKEN_EXPIRE_IN}`
+    );
   }
 
   try {

@@ -1,5 +1,5 @@
-mutation CreateGuest($fingerprint: String) {
-  CreateGuest(fingerprint: $fingerprint) {
+mutation CreateGuest {
+  CreateGuest {
     data {
       accessToken
     }
