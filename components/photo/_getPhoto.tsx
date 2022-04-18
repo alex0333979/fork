@@ -166,6 +166,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
       uploadImageToS3(data);
     }
     return () => undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedUrlResponse]);
 
   return (

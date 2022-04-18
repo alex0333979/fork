@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-document-import-in-page */
 /* eslint-disable max-len */
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import React from 'react';
