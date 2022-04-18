@@ -42,7 +42,7 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
               : FACING_MODES.USER
           }
           imageType={IMAGE_TYPES.JPG}
-          idealResolution={{ width: 2000, height: 2000 }}
+          idealResolution={{ width: 1500, height: 1500 }}
           isDisplayStartCameraError={false}
           onCameraError={handleCameraError}
           isFullscreen={false}
