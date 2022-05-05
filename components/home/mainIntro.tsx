@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -17,10 +18,12 @@ interface MainIntroProps {
   setOpen: React.Dispatch<boolean>;
   country: Country | null;
   document: PDocument | null;
+  title?: string;
+  description?: string;
 }
 
 const MainIntro = (
-  { open, setOpen, country: pCountry, document: pDoc }: MainIntroProps,
+  { open, setOpen, country: pCountry, document: pDoc, title, description }: MainIntroProps,
   ref: any
 ) => {
   const [country, setCountry] = useState<iCountry>({
@@ -66,15 +69,9 @@ const MainIntro = (
             <div className="intro-title">
               <div className="title big">
                 <h1>
-                  {pCountry && pDoc ? (
-                    <b>{`Take Your ${pCountry.country} ${pDoc.type} Photos Online`}</b>
-                  ) : pCountry ? (
-                    <b>{`Take Your ${pCountry.country} Passport and Visa Photos Online`}</b>
-                  ) : (
-                    <b>{'Take Your Passport and Visa Photos Online'}</b>
-                  )}
+                  <b>{title}</b>
                 </h1>
-                <p>{'Get your perfect biometric photo (compliance guaranteed)'}</p>
+                <p>{description}</p>
               </div>
               <div className="select-country">
                 {!pDoc && (
