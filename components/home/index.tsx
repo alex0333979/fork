@@ -10,7 +10,7 @@ import { useAuth } from '@/lib/auth';
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>;
 
-const Home: React.FC<HomePageProps> = ({ country, document }) => {
+const Home: React.FC<HomePageProps> = ({ country, document, title, description }) => {
   const target = React.useRef<HTMLDivElement>(null);
   const ref = React.useRef<WorkingProcessInterface>(null);
   const [running, setRunning] = useState<boolean>(false);
@@ -39,6 +39,8 @@ const Home: React.FC<HomePageProps> = ({ country, document }) => {
         setOpen={setOpenDocument}
         country={country}
         document={document}
+        title={title}
+        description={description}
       />
       <WorkingProcess ref={ref} onEndRunning={() => setRunning(false)} setOpen={setOpenDocument} />
       {country && document && <RequirementBox country={country} document={document} />}

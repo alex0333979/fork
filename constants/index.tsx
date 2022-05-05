@@ -403,3 +403,15 @@ export const UK_PASSPORT_IMAGES = [
 ];
 
 export const PRIVATE_ROUTES = ['/photo/edit-photo'];
+
+export const EXTRA_PATH = [
+  'order-passport-photos-online',
+  'take-your-own-passport-photo',
+  'take-your-passport-photo-with-your-phone',
+  'take-passport-photos-at-home',
+  'print-passport-photos-at-home'
+];
+
+export * from './countries';
+export * from './documents';
+export * from './languageCurrencies';
