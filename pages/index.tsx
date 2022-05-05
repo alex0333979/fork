@@ -87,7 +87,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
 ) => {
   const countryCode = context?.params?.country as string;
   const documentType = context?.params?.documentType as string;
-  const extraPath = (context?.params?.extraPath as string) || null;
+  const extraPath = (context?.params?.extrapath as string) || null;
 
   if (!countryCode) {
     return {
