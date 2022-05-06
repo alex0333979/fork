@@ -1,9 +1,6 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import ModalContainer from '@/components/elements/modalContainer';
-import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
-import { showError } from '@/lib/utils/toast';
-import { createFileFromBase64 } from '@/lib/utils/downloadFromBase64';
 
 interface TakePhotoProps {
   open: boolean;
@@ -12,45 +9,10 @@ interface TakePhotoProps {
   takePhoto: (file: File) => void;
 }
 
-const TakePhotoModal: React.FC<TakePhotoProps> = ({
-  open,
-  closeTakePhoto,
-  takePhoto,
-  idealFacingMode
-}) => {
-  const handleTakePhotoAnimationDone = useCallback(
-    (dataUri: string) => {
-      const file = createFileFromBase64(dataUri);
-      takePhoto(file);
-    },
-    [takePhoto]
-  );
-
-  const handleCameraError = useCallback((error: Error) => {
-    console.log(error);
-    showError(error.message);
-  }, []);
-
-  return (
-    <ModalContainer open={open} closeModal={() => closeTakePhoto()}>
-      {open && (
-        <Camera
-          onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
-          idealFacingMode={
-            idealFacingMode === FACING_MODES.ENVIRONMENT
-              ? FACING_MODES.ENVIRONMENT
-              : FACING_MODES.USER
-          }
-          imageType={IMAGE_TYPES.PNG}
-          idealResolution={{ width: 2000, height: 2000 }}
-          isDisplayStartCameraError={false}
-          onCameraError={handleCameraError}
-          isFullscreen={false}
-          isImageMirror={idealFacingMode !== FACING_MODES.ENVIRONMENT}
-        />
-      )}
-    </ModalContainer>
-  );
-};
+const TakePhotoModal: React.FC<TakePhotoProps> = ({ open, closeTakePhoto }) => (
+  <ModalContainer open={open} closeModal={() => closeTakePhoto()}>
+    <div>Deploy test</div>
+  </ModalContainer>
+);
 
 export default TakePhotoModal;
