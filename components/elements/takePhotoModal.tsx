@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useCallback } from 'react';
 import ModalContainer from '@/components/elements/modalContainer';
 import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
