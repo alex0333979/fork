@@ -1,49 +1,58 @@
-import React, { useCallback, useState } from 'react';
-import { useRouter, NextRouter } from 'next/router';
+import React, { useCallback, useState } from 'react'
+import { useRouter, NextRouter } from 'next/router'
 
-import { CartItemInput, ProductType, useAddItemsToCartMutation } from '@/generated/graphql';
-import { showSuccess } from '@/lib/utils/toast';
-import { useAuth } from '@/lib/auth';
+import {
+  CartItemInput,
+  ProductType,
+  useAddItemsToCartMutation,
+} from '@/generated/graphql'
+import { showSuccess } from '@/lib/utils/toast'
+import { useAuth } from '@/lib/auth'
 
-import { PAGES } from '@/constants/index';
-import { ProcessPhotoProps } from '@/pages/photo/process-photo';
-import RetakeButton from './components/retakeButton';
-import SaveModal from './components/saveModal';
-import VerifyPhoto from './_verifyPhoto';
-import { ProcessingStatus } from './types';
+import { PAGES } from '@/constants/index'
+import { ProcessPhotoProps } from '@/pages/photo/process-photo'
+import RetakeButton from './components/retakeButton'
+import SaveModal from './components/saveModal'
+import VerifyPhoto from './_verifyPhoto'
+import { ProcessingStatus } from './types'
 
-const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document, imgRes }) => {
-  const router = useRouter();
-  const { updateCart } = useAuth();
-  const [addToCart] = useAddItemsToCartMutation();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
+const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
+  entry,
+  type,
+  document,
+  imgRes,
+}) => {
+  const router = useRouter()
+  const { updateCart } = useAuth()
+  const [addToCart] = useAddItemsToCartMutation()
+  const [loading, setLoading] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false)
 
   const onAddToCartItem = useCallback(
     async (cartItem: CartItemInput) => {
-      setLoading(true);
+      setLoading(true)
       const { data } = await addToCart({
         variables: {
-          cartItems: [cartItem]
-        }
-      });
-      setLoading(false);
-      const cart = data?.AddItemsToCart.data;
+          cartItems: [cartItem],
+        },
+      })
+      setLoading(false)
+      const cart = data?.AddItemsToCart.data
       if (cart) {
-        updateCart(cart);
-        showSuccess('This entry is added to cart.');
+        updateCart(cart)
+        showSuccess('This entry is added to cart.')
         if (document.id === 495 || document.id === 489) {
           // only for US passport and UK passport
-          setOpen(true);
+          setOpen(true)
           // await router.push(PAGES.upSell);
           // await router.push(PAGES.cart);
         } else {
-          await router.push(PAGES.cart);
+          await router.push(PAGES.cart)
         }
       }
     },
-    [addToCart, document.id, router, updateCart]
-  );
+    [addToCart, document.id, router, updateCart],
+  )
 
   const onCheckout = useCallback(
     async (imageLink: string) => {
@@ -52,27 +61,27 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document, imgR
         description: `${document.type} Photos`,
         product: ProductType.PassportPhoto,
         productId: entry.id,
-        imageUrl: imageLink
-      });
+        imageUrl: imageLink,
+      })
     },
-    [document, entry.id, onAddToCartItem]
-  );
+    [document, entry.id, onAddToCartItem],
+  )
 
   const onChangePhoto = useCallback(() => {
     router.push(
-      `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${document.id}`
-    );
-  }, [document.id, entry.id, router, type]);
+      `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${document.id}`,
+    )
+  }, [document.id, entry.id, router, type])
 
   const goApplication = useCallback(async () => {
-    setOpen(false);
-    await router.push(PAGES.application.create);
-  }, [router]);
+    setOpen(false)
+    await router.push(PAGES.application.create)
+  }, [router])
 
   const goCart = useCallback(async () => {
-    setOpen(false);
-    await router.push(PAGES.cart);
-  }, [router]);
+    setOpen(false)
+    await router.push(PAGES.cart)
+  }, [router])
 
   return (
     <>
@@ -85,8 +94,11 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document, imgR
         onCheckout={onCheckout}
         onChangePhoto={onChangePhoto}
         renderTitle={(s: ProcessingStatus) => {
-          if (s === ProcessingStatus.loading || s === ProcessingStatus.notStarted) {
-            return 'Processing...';
+          if (
+            s === ProcessingStatus.loading ||
+            s === ProcessingStatus.notStarted
+          ) {
+            return 'Processing...'
           }
           if (s === ProcessingStatus.failed) {
             return (
@@ -94,7 +106,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document, imgR
                 <span className="failed">{'Not approved'}</span>
                 {' - See Requirements Below and Retake Photo'}
               </>
-            );
+            )
           }
 
           return (
@@ -102,27 +114,33 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({ entry, type, document, imgR
               <span className="success">{'Success'}</span>
               {' - Proceed To Checkout'}
             </>
-          );
+          )
         }}
         renderRetakeButton={(
           status: ProcessingStatus,
           router: NextRouter,
           onOpenInfo: (v: boolean) => void,
-          imageLink: string
+          imageLink: string,
         ) => (
           <RetakeButton
             loading={loading}
             status={status}
             onRetake={() =>
-              router.push(`${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${document.id}`)
+              router.push(
+                `${PAGES.photo.takePhoto}?entryId=${entry.id}&documentId=${document.id}`,
+              )
             }
             onNext={() => onCheckout(imageLink)}
             onOpenInfo={onOpenInfo}
           />
         )}
       />
-      <SaveModal open={open} onGoApplication={goApplication} onGoCart={goCart} />
+      <SaveModal
+        open={open}
+        onGoApplication={goApplication}
+        onGoCart={goCart}
+      />
     </>
-  );
-};
-export default ProcessPhoto;
+  )
+}
+export default ProcessPhoto

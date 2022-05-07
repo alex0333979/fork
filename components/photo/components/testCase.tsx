@@ -1,15 +1,15 @@
-import React from 'react';
-import { CHECKLIST } from '@/constants/index';
-import { Dictionary } from '@/generated/graphql';
-import classNames from 'classnames';
-import { camelCaseToSentence } from '@/lib/utils/string';
+import React from 'react'
+import { CHECKLIST } from '@/constants/index'
+import { Dictionary } from '@/generated/graphql'
+import classNames from 'classnames'
+import { camelCaseToSentence } from '@/lib/utils/string'
 
-import { ProcessingStatus } from '../types';
+import { ProcessingStatus } from '../types'
 
 interface Props {
-  status: ProcessingStatus;
-  failed: Dictionary[];
-  passed: Dictionary[];
+  status: ProcessingStatus
+  failed: Dictionary[]
+  passed: Dictionary[]
 }
 
 const TestCase: React.FC<Props> = ({ status, failed, passed }) => (
@@ -26,7 +26,7 @@ const TestCase: React.FC<Props> = ({ status, failed, passed }) => (
           <li
             key={`l_${index}`}
             className={classNames({
-              loading: status === ProcessingStatus.loading
+              loading: status === ProcessingStatus.loading,
             })}>
             <span className="icon" />
             <span className="text">{text}</span>
@@ -48,5 +48,5 @@ const TestCase: React.FC<Props> = ({ status, failed, passed }) => (
         ))}
     </ul>
   </div>
-);
-export default TestCase;
+)
+export default TestCase

@@ -1,25 +1,25 @@
-import '../styles/index.scss';
-import type { AppProps } from 'next/app';
-import React, { useEffect } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { AuthProvider } from '@/lib/auth';
-import Head from 'next/head';
-import { CookiesProvider } from 'react-cookie';
-import { useApollo } from '@/lib/apolloClient';
-import { ApolloProvider } from '@apollo/client';
-import Router from 'next/router';
-import NProgress from 'nprogress';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import SignIn from '@/components/elements/signIn';
-import SignUp from '@/components/elements/signUp';
-import { hotjar } from 'react-hotjar';
-import Script from 'next/script';
-import i18n from '../i18n';
+import '../styles/index.scss'
+import type { AppProps } from 'next/app'
+import React, { useEffect } from 'react'
+import { I18nextProvider } from 'react-i18next'
+import { AuthProvider } from '@/lib/auth'
+import Head from 'next/head'
+import { CookiesProvider } from 'react-cookie'
+import { useApollo } from '@/lib/apolloClient'
+import { ApolloProvider } from '@apollo/client'
+import Router from 'next/router'
+import NProgress from 'nprogress'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import SignIn from '@/components/elements/signIn'
+import SignUp from '@/components/elements/signUp'
+import { hotjar } from 'react-hotjar'
+import Script from 'next/script'
+import i18n from '../i18n'
 
-Router.events.on('routeChangeStart', () => NProgress.start());
-Router.events.on('routeChangeComplete', () => NProgress.done());
-Router.events.on('routeChangeError', () => NProgress.done());
+Router.events.on('routeChangeStart', () => NProgress.start())
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 const renderGoogleAds = () => (
   <>
@@ -37,7 +37,7 @@ const renderGoogleAds = () => (
       `}
     </Script>
   </>
-);
+)
 
 const renderGoogleAnalytics = () => (
   <>
@@ -55,7 +55,7 @@ const renderGoogleAnalytics = () => (
       `}
     </Script>
   </>
-);
+)
 
 const renderOribiTracking = () => (
   <Script id="oribi-tracking" strategy="afterInteractive">
@@ -64,7 +64,7 @@ const renderOribiTracking = () => (
     c=o.getElementsByTagName(n)[0];r.async=1;r.src=g;r.id=s+n;c.parentNode.insertBefore(r,c);})
     (window,document,"script","https://cdn.oribi.io/XzE0ODc5MTkxNjI/oribi.js","ORIBI");`}
   </Script>
-);
+)
 
 const renderFacebookPixel = () => (
   <>
@@ -84,17 +84,17 @@ const renderFacebookPixel = () => (
       dangerouslySetInnerHTML={{
         __html: `<img height="1" width="1" style="display:none"
         src="https://www.facebook.com/tr?id=535055860956443&ev=PageView&noscript=1"
-    />`
+    />`,
       }}
     />
   </>
-);
+)
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo(pageProps);
+  const apolloClient = useApollo(pageProps)
   useEffect(() => {
-    hotjar.initialize(2447433, 6);
-  }, []);
+    hotjar.initialize(2447433, 6)
+  }, [])
 
   return (
     <>
@@ -122,7 +122,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </I18nextProvider>
       </ApolloProvider>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

@@ -1,10 +1,10 @@
-import React from 'react';
-import Image from 'next/image';
-import { Country, PDocument } from '@/generated/graphql';
+import React from 'react'
+import Image from 'next/image'
+import { Country, PDocument } from '@/generated/graphql'
 
 const RequirementBox: React.FC<{ country: Country; document: PDocument }> = ({
   country,
-  document
+  document,
 }) => (
   <div className="requirements-box">
     <div className="container">
@@ -29,7 +29,9 @@ const RequirementBox: React.FC<{ country: Country; document: PDocument }> = ({
                 <div className="text-wrap">
                   <h3>{`Size`}</h3>
                   <p>
-                    {`Width: ${document.dimensions?.width ?? 'null'} ${document.dimensions?.unit}`}
+                    {`Width: ${document.dimensions?.width ?? 'null'} ${
+                      document.dimensions?.unit
+                    }`}
                     <br />
                     {`Height: ${document.dimensions?.height ?? 'null'} ${
                       document.dimensions?.unit
@@ -131,20 +133,29 @@ const RequirementBox: React.FC<{ country: Country; document: PDocument }> = ({
             <div className="height-info">
               <p>
                 <span>
-                  {`${document.dimensions?.height ?? 'null'} ${document.dimensions?.unit}`}
+                  {`${document.dimensions?.height ?? 'null'} ${
+                    document.dimensions?.unit
+                  }`}
                 </span>
               </p>
             </div>
             <div className="width-info">
               <p>
                 <span>
-                  {`${document.dimensions?.width ?? 'null'} ${document.dimensions?.unit}`}
+                  {`${document.dimensions?.width ?? 'null'} ${
+                    document.dimensions?.unit
+                  }`}
                 </span>
               </p>
             </div>
             <div className="img-wrap">
               <span>
-                <Image src={'/images/requirements-img.png'} width={294} height={310} alt="" />
+                <Image
+                  src={'/images/requirements-img.png'}
+                  width={294}
+                  height={310}
+                  alt=""
+                />
               </span>
               <p>{`${document.dpi} dpi`}</p>
             </div>
@@ -153,6 +164,6 @@ const RequirementBox: React.FC<{ country: Country; document: PDocument }> = ({
       </div>
     </div>
   </div>
-);
+)
 
-export default RequirementBox;
+export default RequirementBox

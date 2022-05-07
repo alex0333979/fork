@@ -1,35 +1,42 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FormField } from '@/generated/graphql';
-import { RegionDropdown } from 'react-country-region-selector';
-import classNames from 'classnames';
+import React, { useCallback, useEffect, useState } from 'react'
+import { FormField } from '@/generated/graphql'
+import { RegionDropdown } from 'react-country-region-selector'
+import classNames from 'classnames'
 
 interface StatePickerProps {
-  formField: FormField;
-  country: string;
-  selectedState: (name: string, country: string) => void;
-  error: string | undefined;
+  formField: FormField
+  country: string
+  selectedState: (name: string, country: string) => void
+  error: string | undefined
 }
 
-const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedState, error }) => {
-  const [state, setState] = useState<string>('');
+const StatePicker: React.FC<StatePickerProps> = ({
+  formField,
+  country,
+  selectedState,
+  error,
+}) => {
+  const [state, setState] = useState<string>('')
 
   useEffect(() => {
-    setState(formField.value ?? '');
-  }, [formField.value]);
+    setState(formField.value ?? '')
+  }, [formField.value])
 
   const selectState = useCallback(
     (state: string) => {
-      selectedState(formField.name, state);
-      setState(state);
+      selectedState(formField.name, state)
+      setState(state)
     },
-    [formField.name, selectedState]
-  );
+    [formField.name, selectedState],
+  )
 
   return (
     <label className="half-size">
       <span className="label">
         {formField.text}
-        {formField.required && (country === 'US' || country === 'CA') ? ' *' : ''}
+        {formField.required && (country === 'US' || country === 'CA')
+          ? ' *'
+          : ''}
       </span>
       <span className="field select">
         <RegionDropdown
@@ -41,13 +48,13 @@ const StatePicker: React.FC<StatePickerProps> = ({ formField, country, selectedS
           disabled={!(country === 'US' || country === 'CA')}
           onChange={selectState}
           classes={classNames({
-            'error-border': !!error
+            'error-border': !!error,
           })}
         />
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
     </label>
-  );
-};
+  )
+}
 
-export default StatePicker;
+export default StatePicker

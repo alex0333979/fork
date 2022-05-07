@@ -1,29 +1,35 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import NextImage from 'next/image';
-import { FACING_MODES } from 'react-html5-camera-photo';
-import classNames from 'classnames';
-import axios from 'axios';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import NextImage from 'next/image'
+import { FACING_MODES } from 'react-html5-camera-photo'
+import classNames from 'classnames'
+import axios from 'axios'
 
-import ProcessStepPhoto from '@/components/elements/processStepPhoto';
-import FaqItem, { FaqItemProps } from '@/components/home/faqItem';
-import TakePhotoModal from '@/components/elements/takePhotoModal';
-import { showError, showSuccess } from '@/lib/utils/toast';
-import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql';
-import { PHOTO_STEP } from '../../constants';
+import ProcessStepPhoto from '@/components/elements/processStepPhoto'
+import FaqItem, { FaqItemProps } from '@/components/home/faqItem'
+import TakePhotoModal from '@/components/elements/takePhotoModal'
+import { showError, showSuccess } from '@/lib/utils/toast'
+import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql'
+import { PHOTO_STEP } from '../../constants'
 
 interface Props {
   onSubmitEntry: (
     signedUrl: SignedUrl,
     imgResolution: string,
     type: string,
-    setLoading: (l: boolean) => void
-  ) => void;
+    setLoading: (l: boolean) => void,
+  ) => void
 }
 
 const Data: FaqItemProps[] = [
   {
     question: 'Background',
-    answer: <p>{'Stand in front of a background that is plain or white and free of shadows'}</p>
+    answer: (
+      <p>
+        {
+          'Stand in front of a background that is plain or white and free of shadows'
+        }
+      </p>
+    ),
   },
   {
     question: 'Head Position',
@@ -32,25 +38,39 @@ const Data: FaqItemProps[] = [
         <p>{'Position your head inside the green overlay'}</p>
         <div className="img-list">
           <span>
-            <NextImage src="/images/steps/step-faq-01.png" layout={'fill'} alt="" />
+            <NextImage
+              src="/images/steps/step-faq-01.png"
+              layout={'fill'}
+              alt=""
+            />
           </span>
           <span>
-            <NextImage src="/images/steps/step-faq-02.png" layout={'fill'} alt="" />
+            <NextImage
+              src="/images/steps/step-faq-02.png"
+              layout={'fill'}
+              alt=""
+            />
           </span>
           <span>
-            <NextImage src="/images/steps/step-faq-03.png" layout={'fill'} alt="" />
+            <NextImage
+              src="/images/steps/step-faq-03.png"
+              layout={'fill'}
+              alt=""
+            />
           </span>
         </div>
       </>
-    )
+    ),
   },
   {
     question: 'Facial Expression',
     answer: (
       <p>
-        {'Keep a neutral expression and look directly into the camera with full your face in view'}
+        {
+          'Keep a neutral expression and look directly into the camera with full your face in view'
+        }
       </p>
-    )
+    ),
   },
   {
     question: 'Obstructions',
@@ -60,114 +80,119 @@ const Data: FaqItemProps[] = [
           'Don’t wear glasses, headphones or allow your hair or any other items to obstruct your face'
         }
       </p>
-    )
-  }
-];
+    ),
+  },
+]
 
 const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [type, setType] = useState<string>(FACING_MODES.USER);
-  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false);
-  const [imageResolution, setImageResolution] = useState<string>('');
+  const [open, setOpen] = useState<boolean>(false)
+  const [type, setType] = useState<string>(FACING_MODES.USER)
+  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false)
+  const [imageResolution, setImageResolution] = useState<string>('')
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [openCamera, setOpenCamera] = useState<boolean>(false);
-  const inputFileRef = useRef<HTMLInputElement>(null);
-  const [selectedImage, setSelectedImage] = useState<File | undefined>(undefined);
-  const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] = useGetSignedUrlLazyQuery({
-    fetchPolicy: 'no-cache'
-  });
-  const CancelToken = axios.CancelToken;
-  const cancel = useRef<any>(null);
-  const [percentage, setPercentage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false)
+  const [openCamera, setOpenCamera] = useState<boolean>(false)
+  const inputFileRef = useRef<HTMLInputElement>(null)
+  const [selectedImage, setSelectedImage] = useState<File | undefined>(
+    undefined,
+  )
+  const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] =
+    useGetSignedUrlLazyQuery({
+      fetchPolicy: 'no-cache',
+    })
+  const CancelToken = axios.CancelToken
+  const cancel = useRef<any>(null)
+  const [percentage, setPercentage] = useState<number>(0)
 
   const onSubmit = useCallback(async () => {
     if (loading || sLoading) {
-      return;
+      return
     }
-    getSignedUrl({});
-  }, [loading, sLoading, getSignedUrl]);
+    getSignedUrl({})
+  }, [loading, sLoading, getSignedUrl])
 
   const uploadImageToS3 = useCallback(
     (data: SignedUrl) => {
       if (!selectedImage) {
-        showError('Select Image first.');
-        return;
+        showError('Select Image first.')
+        return
       }
       const config = {
         cancelToken: new CancelToken(function executor(c) {
-          cancel.current = c;
+          cancel.current = c
         }),
         onUploadProgress: (progressEvent: any) => {
-          const { loaded, total } = progressEvent;
-          setPercentage(Math.round((loaded * 100) / total));
-        }
-      };
-      setLoading(true);
+          const { loaded, total } = progressEvent
+          setPercentage(Math.round((loaded * 100) / total))
+        },
+      }
+      setLoading(true)
       axios
         .put(data.signedUrl, selectedImage, config)
         .then(async () => {
-          setLoading(false);
-          showSuccess('File upload success.');
-          await onSubmitEntry(data, imageResolution, type, (l: boolean) => setLoading(l));
+          setLoading(false)
+          showSuccess('File upload success.')
+          await onSubmitEntry(data, imageResolution, type, (l: boolean) =>
+            setLoading(l),
+          )
         })
         .catch((err) => {
-          setLoading(false);
-          showError(err.message);
+          setLoading(false)
+          showError(err.message)
           if (inputFileRef?.current) {
-            inputFileRef.current.value = '';
+            inputFileRef.current.value = ''
           }
-        });
+        })
     },
-    [CancelToken, imageResolution, onSubmitEntry, selectedImage, type]
-  );
+    [CancelToken, imageResolution, onSubmitEntry, selectedImage, type],
+  )
 
   const onCancelUploadPhoto = useCallback(() => {
-    cancel.current('Upload cancelled');
-  }, []);
+    cancel.current('Upload cancelled')
+  }, [])
 
   const onLoadImage = useCallback(
     async (file: File) => {
-      const _URL = window.URL || window.webkitURL;
-      const img: HTMLImageElement = new Image();
-      const objectUrl = _URL.createObjectURL(file);
+      const _URL = window.URL || window.webkitURL
+      const img: HTMLImageElement = new Image()
+      const objectUrl = _URL.createObjectURL(file)
       img.onload = function () {
-        setImageResolution(`${img.width} x ${img.height}`);
-        _URL.revokeObjectURL(objectUrl);
-      };
-      img.src = objectUrl;
-      await onSubmit();
+        setImageResolution(`${img.width} x ${img.height}`)
+        _URL.revokeObjectURL(objectUrl)
+      }
+      img.src = objectUrl
+      await onSubmit()
     },
-    [onSubmit]
-  );
+    [onSubmit],
+  )
 
   const takePhoto = useCallback(
     async (file: File) => {
-      setSelectedImage(file);
-      setOpenCamera(false);
-      await onLoadImage(file);
+      setSelectedImage(file)
+      setOpenCamera(false)
+      await onLoadImage(file)
     },
-    [onLoadImage]
-  );
+    [onLoadImage],
+  )
 
   const onFileChange = useCallback(
     async (e) => {
       if (e.target.files && e.target.files.length > 0) {
-        setSelectedImage(e.target.files[0]);
-        await onLoadImage(e.target.files[0]);
+        setSelectedImage(e.target.files[0])
+        await onLoadImage(e.target.files[0])
       }
     },
-    [onLoadImage]
-  );
+    [onLoadImage],
+  )
 
   useEffect(() => {
-    const data = signedUrlResponse?.GetSignedUrl.data;
+    const data = signedUrlResponse?.GetSignedUrl.data
     if (data) {
-      uploadImageToS3(data);
+      uploadImageToS3(data)
     }
-    return () => undefined;
+    return () => undefined
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signedUrlResponse]);
+  }, [signedUrlResponse])
 
   return (
     <>
@@ -188,7 +213,11 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                   <li>
                     <div className="img">
                       <span>
-                        <NextImage src="/images/steps/step-02-00-v2.png" layout={'fill'} alt="" />
+                        <NextImage
+                          src="/images/steps/step-02-00-v2.png"
+                          layout={'fill'}
+                          alt=""
+                        />
                       </span>
                     </div>
                     <div className="text">
@@ -199,7 +228,11 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                   <li>
                     <div className="img">
                       <span>
-                        <NextImage src="/images/steps/step-02-01-v2.png" layout={'fill'} alt="" />
+                        <NextImage
+                          src="/images/steps/step-02-01-v2.png"
+                          layout={'fill'}
+                          alt=""
+                        />
                       </span>
                     </div>
                     <div className="text">
@@ -210,7 +243,11 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                   <li>
                     <div className="img">
                       <span>
-                        <NextImage src="/images/steps/step-02-02-v2.png" layout={'fill'} alt="" />
+                        <NextImage
+                          src="/images/steps/step-02-02-v2.png"
+                          layout={'fill'}
+                          alt=""
+                        />
                       </span>
                     </div>
                     <div className="text">
@@ -254,20 +291,27 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                         <h3>{'Please wait...'}</h3>
                       </div>
                       <div className="progress-line">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 48 48">
                           <circle
                             cx="24"
                             cy="24"
                             r="22.5"
                             fill="transparent"
                             strokeWidth="3"
-                            strokeDasharray={`${(percentage * 295) / 100}%,1000`}
+                            strokeDasharray={`${
+                              (percentage * 295) / 100
+                            }%,1000`}
                             strokeDashoffset="0"
                           />
                         </svg>
                         <span>
                           {selectedImage && (
-                            <img src={URL.createObjectURL(selectedImage)} alt="Thumb" />
+                            <img
+                              src={URL.createObjectURL(selectedImage)}
+                              alt="Thumb"
+                            />
                           )}
                         </span>
                       </div>
@@ -289,7 +333,11 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                 ) : (
                   <>
                     <div className="title">
-                      <h1>{'Taking your shot on your own or having someone take it for you?'}</h1>
+                      <h1>
+                        {
+                          'Taking your shot on your own or having someone take it for you?'
+                        }
+                      </h1>
                       <p>{'Select from the options below'}</p>
                     </div>
                     <div className="method-option">
@@ -370,7 +418,11 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                   <div className="faq-list">
                     <ul>
                       {Data.map((item, index) => (
-                        <FaqItem key={index} answer={item.answer} question={item.question} />
+                        <FaqItem
+                          key={index}
+                          answer={item.answer}
+                          question={item.question}
+                        />
                       ))}
                     </ul>
                   </div>
@@ -402,6 +454,6 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
         takePhoto={takePhoto}
       />
     </>
-  );
-};
-export default GetPhoto;
+  )
+}
+export default GetPhoto

@@ -1,83 +1,92 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import CheckoutLayout from '@/components/checkout/checkoutLayout';
-import { FieldType, FormField, useAddShippingAddressToCartMutation } from '@/generated/graphql';
-import TextInput from '@/components/elements/textInput';
-import PhoneInput from '@/components/elements/phoneInput';
-import SelectBox from '@/components/elements/selectBox';
-import CountryPicker from '@/components/elements/countryPicker';
-import StatePicker from '@/components/elements/statePicker';
-import AppDatePicker from '@/components/elements/datePicker';
-import { PAGES, SHIPPING_BILLING_FORM } from '../../constants';
-import { formValidation, ValidationError } from '@/lib/utils/formValidation';
-import { useAuth } from '@/lib/auth';
+import React, { useCallback, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import CheckoutLayout from '@/components/checkout/checkoutLayout'
+import {
+  FieldType,
+  FormField,
+  useAddShippingAddressToCartMutation,
+} from '@/generated/graphql'
+import TextInput from '@/components/elements/textInput'
+import PhoneInput from '@/components/elements/phoneInput'
+import SelectBox from '@/components/elements/selectBox'
+import CountryPicker from '@/components/elements/countryPicker'
+import StatePicker from '@/components/elements/statePicker'
+import AppDatePicker from '@/components/elements/datePicker'
+import { PAGES, SHIPPING_BILLING_FORM } from '../../constants'
+import { formValidation, ValidationError } from '@/lib/utils/formValidation'
+import { useAuth } from '@/lib/auth'
 
 const ShippingInformation: React.FC = () => {
-  const router = useRouter();
-  const { cart, updateCart, getMe: me } = useAuth();
-  const [shippingForm, setShippingForm] =
-    useState<{ [key: string]: FormField }>(SHIPPING_BILLING_FORM);
-  const [country, setCountry] = useState<string>('US');
-  const [error, setError] = useState<ValidationError>({});
-  const [loading, setLoading] = useState<boolean>(false);
-  const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime());
-  const [addShippingAddress] = useAddShippingAddressToCartMutation();
+  const router = useRouter()
+  const { cart, updateCart, getMe: me } = useAuth()
+  const [shippingForm, setShippingForm] = useState<{
+    [key: string]: FormField
+  }>(SHIPPING_BILLING_FORM)
+  const [country, setCountry] = useState<string>('US')
+  const [error, setError] = useState<ValidationError>({})
+  const [loading, setLoading] = useState<boolean>(false)
+  const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime())
+  const [addShippingAddress] = useAddShippingAddressToCartMutation()
 
   const initializeForm = useCallback(() => {
-    const initialForm = { ...SHIPPING_BILLING_FORM };
-    const _shippingAddress: any = cart?.shippingAddress || me?.shippingAddress;
+    const initialForm = { ...SHIPPING_BILLING_FORM }
+    const _shippingAddress: any = cart?.shippingAddress || me?.shippingAddress
     if (_shippingAddress) {
       Object.keys(_shippingAddress).map((key) => {
         if (key in initialForm) {
-          initialForm[key].value = _shippingAddress[key];
+          initialForm[key].value = _shippingAddress[key]
         }
-      });
+      })
     }
-    setShippingForm(initialForm);
-  }, [cart?.shippingAddress, me?.shippingAddress]);
+    setShippingForm(initialForm)
+  }, [cart?.shippingAddress, me?.shippingAddress])
 
   useEffect(() => {
-    initializeForm();
-    setRefreshKey(new Date().getTime());
-  }, [initializeForm]);
+    initializeForm()
+    setRefreshKey(new Date().getTime())
+  }, [initializeForm])
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
-      const _shippingForm = { ...shippingForm };
-      _shippingForm[name].value = value;
-      setShippingForm(_shippingForm);
-      setError({});
+      const _shippingForm = { ...shippingForm }
+      _shippingForm[name].value = value
+      setShippingForm(_shippingForm)
+      setError({})
     },
-    [shippingForm]
-  );
+    [shippingForm],
+  )
 
   const onSelectedCountry = useCallback(
     (name: string, value: string) => {
-      onValueChange(name, value);
-      setCountry(value);
+      onValueChange(name, value)
+      setCountry(value)
     },
-    [onValueChange]
-  );
+    [onValueChange],
+  )
 
   const onSubmit = useCallback(async () => {
-    const error = formValidation(Object.keys(shippingForm).map((key) => shippingForm[key]));
-    setError(error);
+    const error = formValidation(
+      Object.keys(shippingForm).map((key) => shippingForm[key]),
+    )
+    setError(error)
     if (Object.keys(error).length > 0) {
-      return;
+      return
     }
-    const shippingAddress: any = {};
+    const shippingAddress: any = {}
     Object.keys(shippingForm).map((key) => {
-      shippingAddress[key] = shippingForm[key].value;
-    });
-    setLoading(true);
-    const { data } = await addShippingAddress({ variables: { shippingAddress } });
-    setLoading(false);
-    const cart = data?.AddShippingAddressToCart.data;
+      shippingAddress[key] = shippingForm[key].value
+    })
+    setLoading(true)
+    const { data } = await addShippingAddress({
+      variables: { shippingAddress },
+    })
+    setLoading(false)
+    const cart = data?.AddShippingAddressToCart.data
     if (cart) {
-      updateCart(cart);
-      await router.push(PAGES.checkout.payment);
+      updateCart(cart)
+      await router.push(PAGES.checkout.payment)
     }
-  }, [addShippingAddress, router, shippingForm, updateCart]);
+  }, [addShippingAddress, router, shippingForm, updateCart])
 
   return (
     <CheckoutLayout
@@ -96,7 +105,7 @@ const ShippingInformation: React.FC = () => {
         <form>
           <div className="form-fields">
             {Object.keys(shippingForm).map((key) => {
-              const field = shippingForm[key];
+              const field = shippingForm[key]
               switch (field.type) {
                 case FieldType.Input:
                   return (
@@ -106,7 +115,7 @@ const ShippingInformation: React.FC = () => {
                       onValueChange={onValueChange}
                       error={error[field.name]}
                     />
-                  );
+                  )
                 case FieldType.PhoneInput:
                   return (
                     <PhoneInput
@@ -115,7 +124,7 @@ const ShippingInformation: React.FC = () => {
                       onValueChange={onValueChange}
                       error={error[field.name]}
                     />
-                  );
+                  )
                 case FieldType.Select:
                   return (
                     <SelectBox
@@ -124,7 +133,7 @@ const ShippingInformation: React.FC = () => {
                       onValueChange={onValueChange}
                       error={error[field.name]}
                     />
-                  );
+                  )
                 case FieldType.CountryPicker:
                   return (
                     <CountryPicker
@@ -133,7 +142,7 @@ const ShippingInformation: React.FC = () => {
                       selectedCountry={onSelectedCountry}
                       error={error[field.name]}
                     />
-                  );
+                  )
                 case FieldType.StatePicker:
                   return (
                     <StatePicker
@@ -143,7 +152,7 @@ const ShippingInformation: React.FC = () => {
                       country={country}
                       error={error[field.name]}
                     />
-                  );
+                  )
                 case FieldType.DatePicker:
                   return (
                     <AppDatePicker
@@ -152,14 +161,14 @@ const ShippingInformation: React.FC = () => {
                       onValueChange={onValueChange}
                       error={error[field.name]}
                     />
-                  );
+                  )
               }
             })}
           </div>
         </form>
       </div>
     </CheckoutLayout>
-  );
-};
+  )
+}
 
-export default ShippingInformation;
+export default ShippingInformation

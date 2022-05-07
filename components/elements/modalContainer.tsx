@@ -1,5 +1,5 @@
-import React from 'react';
-import Modal from 'react-modal';
+import React from 'react'
+import Modal from 'react-modal'
 
 const modalStyles = {
   content: {
@@ -15,21 +15,21 @@ const modalStyles = {
     borderRadius: '8px',
     overflow: 'visible',
     maxWidth: '800px',
-    padding: 0
+    padding: 0,
   },
   overlay: {
     zIndex: 1000,
     backgroundColor: '#ebedf0bf',
-    backdropFilter: 'blur(2px)'
-  }
-};
+    backdropFilter: 'blur(2px)',
+  },
+}
 
 interface ModalContainerProps {
-  title?: string;
-  label?: string;
-  open: boolean;
-  closeModal?: () => void;
-  children: React.ReactNode;
+  title?: string
+  label?: string
+  open: boolean
+  closeModal?: () => void
+  children: React.ReactNode
 }
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -37,7 +37,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   label,
   open,
   closeModal,
-  children
+  children,
 }) => (
   <Modal
     isOpen={open}
@@ -62,5 +62,5 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
 
     <div className="modal-content">{children}</div>
   </Modal>
-);
-export default ModalContainer;
+)
+export default ModalContainer

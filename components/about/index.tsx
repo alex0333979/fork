@@ -1,5 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
+import React from 'react'
+import Image from 'next/image'
 
 const About: React.FC = () => (
   <>
@@ -9,7 +9,9 @@ const About: React.FC = () => (
         <div className="row">
           <div className="title col-12 col-lg-5">
             <h1>
-              {'We are all about convenience and speed when it comes to Your Passport Photos'}
+              {
+                'We are all about convenience and speed when it comes to Your Passport Photos'
+              }
             </h1>
             <p className="d-lg-none">
               {`We invest our resources developing most innovative AI software to insure
@@ -22,21 +24,37 @@ const About: React.FC = () => (
             <ul>
               <li className="d-lg-none">{'All process is safe'}</li>
               <li className="d-lg-none">{'Get approved quickly'}</li>
-              <li className="d-none d-lg-block">{'Convenience - Quick & Easy'}</li>
+              <li className="d-none d-lg-block">
+                {'Convenience - Quick & Easy'}
+              </li>
               <li className="d-none d-lg-block">
                 {'Passport photo + Application, everything in one place'}
               </li>
-              <li className="d-none d-lg-block">{'Instant Bio-metric photo approval'}</li>
-              <li className="d-none d-lg-block">{'Ship Directly to your home'}</li>
+              <li className="d-none d-lg-block">
+                {'Instant Bio-metric photo approval'}
+              </li>
+              <li className="d-none d-lg-block">
+                {'Ship Directly to your home'}
+              </li>
             </ul>
           </div>
           <div className="img col-12 col-lg-7">
             <div className="img-wrap">
               <span>
-                <Image src="/images/About/about-1.jpg" width={370} height={434} alt="" />
+                <Image
+                  src="/images/About/about-1.jpg"
+                  width={370}
+                  height={434}
+                  alt=""
+                />
               </span>
               <span className="d-none d-md-flex">
-                <Image src="/images/About/about-2.jpg" width={354} height={455} alt="" />
+                <Image
+                  src="/images/About/about-2.jpg"
+                  width={354}
+                  height={455}
+                  alt=""
+                />
               </span>
             </div>
           </div>
@@ -62,7 +80,12 @@ const About: React.FC = () => (
               <ul>
                 <li>
                   <div className="icon">
-                    <Image src="/images/About/workflow.svg" width={40} height={40} alt="" />
+                    <Image
+                      src="/images/About/workflow.svg"
+                      width={40}
+                      height={40}
+                      alt=""
+                    />
                   </div>
                   <h4>{'Convenience'}</h4>
                   <p>
@@ -73,7 +96,12 @@ const About: React.FC = () => (
                 </li>
                 <li>
                   <div className="icon">
-                    <Image src="/images/About/multiple_shape.svg" width={40} height={40} alt="" />
+                    <Image
+                      src="/images/About/multiple_shape.svg"
+                      width={40}
+                      height={40}
+                      alt=""
+                    />
                   </div>
                   <h4>{'It Is All About The Service'}</h4>
                   <p>
@@ -84,7 +112,12 @@ const About: React.FC = () => (
 
                 <li>
                   <div className="icon">
-                    <Image src="/images/About/like.svg" width={40} height={40} alt="" />
+                    <Image
+                      src="/images/About/like.svg"
+                      width={40}
+                      height={40}
+                      alt=""
+                    />
                   </div>
                   <h4>{'Guaranteed Photo Compliance'}</h4>
                   <p>
@@ -95,7 +128,12 @@ const About: React.FC = () => (
                 </li>
                 <li>
                   <div className="icon">
-                    <Image src="/images/About/integrity.svg" width={40} height={40} alt="" />
+                    <Image
+                      src="/images/About/integrity.svg"
+                      width={40}
+                      height={40}
+                      alt=""
+                    />
                   </div>
                   <h4>{'Integrity'}</h4>
                   <p>
@@ -164,6 +202,6 @@ const About: React.FC = () => (
       </div>
     </div>
   </>
-);
+)
 
-export default About;
+export default About

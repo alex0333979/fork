@@ -5,21 +5,21 @@ import React, {
   useCallback,
   useState,
   useRef,
-  useImperativeHandle
-} from 'react';
-import Image from 'next/image';
-import { scrollToTop } from '@/lib/utils/scrollToTop';
+  useImperativeHandle,
+} from 'react'
+import Image from 'next/image'
+import { scrollToTop } from '@/lib/utils/scrollToTop'
 
 const PROCESS_DATA = [
   {
     label: 'Take your photo',
-    description: <p>{`Take or Upload a Photo With Your Mobile or PC`}</p>
+    description: <p>{`Take or Upload a Photo With Your Mobile or PC`}</p>,
   },
   {
     label: 'AI Software Photo Scan',
     description: (
       <p>{`Our Biometric Software Will Scan and Verify Your Photo for Government Compliance`}</p>
-    )
+    ),
   },
   {
     label: `Photo Compliance`,
@@ -27,34 +27,36 @@ const PROCESS_DATA = [
       <p>
         {`Our Technology Map Your Facial Features and Then Reposition, Size, Crop and Clean Up the Background of Your Shot`}
       </p>
-    )
+    ),
   },
   {
     label: `Delivery`,
-    description: <p>{`We’ll Then Print and Ship Them to You or You May Print Them at Home`}</p>
-  }
-];
+    description: (
+      <p>{`We’ll Then Print and Ship Them to You or You May Print Them at Home`}</p>
+    ),
+  },
+]
 
 const initialData = [
   { active: false, past: false, loaded: false, reset: false },
   { active: false, past: false, loaded: false, reset: false },
   { active: false, past: false, loaded: false, reset: false },
   { active: false, past: false, loaded: false, reset: false },
-  { active: false, past: false, loaded: false, reset: false }
-];
+  { active: false, past: false, loaded: false, reset: false },
+]
 
 interface ProcessItemProps {
-  label: string;
-  description: ReactNode;
-  active: boolean;
-  past: boolean;
-  loaded: boolean;
-  reset: boolean;
-  onClick: () => void;
+  label: string
+  description: ReactNode
+  active: boolean
+  past: boolean
+  loaded: boolean
+  reset: boolean
+  onClick: () => void
 }
 
 interface ChildInterface {
-  startWorkingProcess: () => void;
+  startWorkingProcess: () => void
 }
 
 const ProcessItem: React.FC<ProcessItemProps> = ({
@@ -64,7 +66,7 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
   past,
   loaded,
   reset,
-  onClick
+  onClick,
 }) => (
   <li
     data-active={active}
@@ -82,113 +84,115 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
     </div>
     <div className="description">{description}</div>
   </li>
-);
+)
 
 export interface WorkingProcessProps {
-  onEndRunning: () => void;
-  setOpen: React.Dispatch<boolean>;
+  onEndRunning: () => void
+  setOpen: React.Dispatch<boolean>
 }
 
-const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProcessProps> = (
-  { onEndRunning, setOpen },
-  ref
-) => {
+const WorkingProcess: React.ForwardRefRenderFunction<
+  ChildInterface,
+  WorkingProcessProps
+> = ({ onEndRunning, setOpen }, ref) => {
   const [data, setData] =
-    useState<{ active: boolean; past: boolean; loaded: boolean; reset: boolean }[]>(initialData);
+    useState<
+      { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
+    >(initialData)
 
-  const timeIntervalId = useRef<NodeJS.Timeout | undefined>();
-  const timeOutId = useRef<NodeJS.Timeout | undefined>();
+  const timeIntervalId = useRef<NodeJS.Timeout | undefined>()
+  const timeOutId = useRef<NodeJS.Timeout | undefined>()
 
   const resetProcess = useCallback(() => {
     setData(
       data.map((a) => {
-        a.active = false;
-        a.loaded = false;
-        a.past = false;
-        a.reset = true;
-        return a;
-      })
-    );
-  }, [data]);
+        a.active = false
+        a.loaded = false
+        a.past = false
+        a.reset = true
+        return a
+      }),
+    )
+  }, [data])
 
   const runProcess = useCallback(
     (index: number) => {
       setData(
         data.map((a, i) => {
           if (i < index) {
-            a.active = false;
-            a.loaded = true;
-            a.past = true;
+            a.active = false
+            a.loaded = true
+            a.past = true
           } else if (index === i) {
-            a.active = true;
-            a.loaded = true;
-            a.past = false;
+            a.active = true
+            a.loaded = true
+            a.past = false
           } else {
-            a.active = false;
-            a.loaded = false;
-            a.past = false;
+            a.active = false
+            a.loaded = false
+            a.past = false
           }
-          a.reset = false;
-          return a;
-        })
-      );
+          a.reset = false
+          return a
+        }),
+      )
     },
-    [data]
-  );
+    [data],
+  )
 
   useEffect(
     () => () => {
       if (timeIntervalId.current) {
-        clearInterval(timeIntervalId.current);
+        clearInterval(timeIntervalId.current)
       }
       if (timeOutId.current) {
-        clearTimeout(timeOutId.current);
+        clearTimeout(timeOutId.current)
       }
     },
-    []
-  );
+    [],
+  )
 
   const startProcess = useCallback(
     (index: number) => {
-      resetProcess();
-      timeOutId.current = setTimeout(() => runProcess(index), 300);
+      resetProcess()
+      timeOutId.current = setTimeout(() => runProcess(index), 300)
     },
-    [resetProcess, runProcess]
-  );
+    [resetProcess, runProcess],
+  )
 
   const onClickItem = useCallback(
     (index: number) => {
       if (timeIntervalId.current) {
-        clearInterval(timeIntervalId.current);
+        clearInterval(timeIntervalId.current)
       }
-      startProcess(index);
-      let a = index;
+      startProcess(index)
+      let a = index
       if (index < initialData.length - 1) {
         timeIntervalId.current = setInterval(() => {
-          a += 1;
+          a += 1
           if (a === initialData.length) {
             if (timeIntervalId.current) {
-              onEndRunning();
-              clearInterval(timeIntervalId.current);
+              onEndRunning()
+              clearInterval(timeIntervalId.current)
             }
           } else {
-            startProcess(a);
+            startProcess(a)
           }
-        }, 10000);
+        }, 10000)
       }
     },
-    [onEndRunning, startProcess]
-  );
+    [onEndRunning, startProcess],
+  )
 
   useImperativeHandle(
     ref,
     () => ({
       startWorkingProcess() {
-        onClickItem(0);
-      }
+        onClickItem(0)
+      },
     }),
-    [onClickItem]
-  );
+    [onClickItem],
+  )
 
   return (
     <div className="working-process">
@@ -220,8 +224,8 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
                 <button
                   className="main-btn big"
                   onClick={() => {
-                    scrollToTop();
-                    setOpen(true);
+                    scrollToTop()
+                    setOpen(true)
                   }}>{`Start Now`}</button>
               </div>
             </div>
@@ -240,7 +244,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<ChildInterface, WorkingProc
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default React.forwardRef(WorkingProcess);
+export default React.forwardRef(WorkingProcess)

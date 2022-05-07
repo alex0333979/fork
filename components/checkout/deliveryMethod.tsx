@@ -1,49 +1,54 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ShippingType, useSetShippingTypeToCartMutation } from '@/generated/graphql';
-import { useAuth } from '@/lib/auth';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
-import CheckoutLayout from '@/components/checkout/checkoutLayout';
-import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  ShippingType,
+  useSetShippingTypeToCartMutation,
+} from '@/generated/graphql'
+import { useAuth } from '@/lib/auth'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+import CheckoutLayout from '@/components/checkout/checkoutLayout'
+import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants'
 // import classNames from 'classnames';
 
 const DeliveryMethod: React.FC = () => {
-  const { t } = useTranslation();
-  const router = useRouter();
+  const { t } = useTranslation()
+  const router = useRouter()
   const {
     cart,
     updateCart,
-    currency: { currency = 'USD' }
-  } = useAuth();
-  const [loading, setLoading] = useState<boolean>(false);
+    currency: { currency = 'USD' },
+  } = useAuth()
+  const [loading, setLoading] = useState<boolean>(false)
   const [shippingType, setShippingType] = useState<string>(
-    cart?.shippingType ?? ShippingType.From3To6
-  );
-  const [setShippingTypeToCart] = useSetShippingTypeToCartMutation();
+    cart?.shippingType ?? ShippingType.From3To6,
+  )
+  const [setShippingTypeToCart] = useSetShippingTypeToCartMutation()
   const subTotal = useMemo(
     () => (shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
-    [shippingType]
-  );
+    [shippingType],
+  )
 
   useEffect(() => {
-    setShippingType(cart?.shippingType ?? ShippingType.From3To6);
-  }, [cart]);
+    setShippingType(cart?.shippingType ?? ShippingType.From3To6)
+  }, [cart])
 
   const onSubmit = useCallback(async () => {
-    setLoading(true);
-    const { data } = await setShippingTypeToCart({ variables: { shippingType } });
-    setLoading(false);
-    const cart = data?.SetShippingTypeToCart.data;
+    setLoading(true)
+    const { data } = await setShippingTypeToCart({
+      variables: { shippingType },
+    })
+    setLoading(false)
+    const cart = data?.SetShippingTypeToCart.data
     if (cart) {
-      updateCart(cart);
+      updateCart(cart)
       if (cart.shippingType === ShippingType.NoShipping) {
-        await router.push(PAGES.checkout.payment);
+        await router.push(PAGES.checkout.payment)
       } else {
-        await router.push(PAGES.checkout.shipping);
+        await router.push(PAGES.checkout.shipping)
       }
     }
-  }, [router, setShippingTypeToCart, shippingType, updateCart]);
+  }, [router, setShippingTypeToCart, shippingType, updateCart])
 
   return (
     <CheckoutLayout
@@ -59,7 +64,11 @@ const DeliveryMethod: React.FC = () => {
               type="checkbox"
               checked={shippingType !== ShippingType.NoShipping}
               onChange={(e) =>
-                setShippingType(e.target.checked ? ShippingType.From3To6 : ShippingType.NoShipping)
+                setShippingType(
+                  e.target.checked
+                    ? ShippingType.From3To6
+                    : ShippingType.NoShipping,
+                )
               }
             />
             <span className="box-wrap">
@@ -69,7 +78,7 @@ const DeliveryMethod: React.FC = () => {
                 <b>
                   {`Add concierge service for just ${t('currency', {
                     value: (CONCIERGE_PRICE || 0) / 100,
-                    currency
+                    currency,
                   })}!`}{' '}
                 </b>
               </span>
@@ -83,7 +92,9 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Subtotal'}</h3>
                 <p>
                   {'Just '}
-                  <b>{t('currency', { value: (subTotal || 0) / 100, currency })}</b>
+                  <b>
+                    {t('currency', { value: (subTotal || 0) / 100, currency })}
+                  </b>
                 </p>
               </div>
             </li>
@@ -110,7 +121,9 @@ const DeliveryMethod: React.FC = () => {
                     </ul>
                     <ul style={{ paddingTop: 0 }}>
                       <li>
-                        {'Not including printed photos on the required 4”X6” glossy photo paper.'}
+                        {
+                          'Not including printed photos on the required 4”X6” glossy photo paper.'
+                        }
                       </li>
                     </ul>
                   </>
@@ -138,7 +151,10 @@ const DeliveryMethod: React.FC = () => {
                       <span className="name">{option.title}</span>
                       <span className="price">
                         {option.price > 0
-                          ? `+${t('currency', { value: option.price / 100, currency })}`
+                          ? `+${t('currency', {
+                              value: option.price / 100,
+                              currency,
+                            })}`
                           : 'FREE'}
                       </span>
                       <input
@@ -161,7 +177,7 @@ const DeliveryMethod: React.FC = () => {
         </div>
       </div>
     </CheckoutLayout>
-  );
-};
+  )
+}
 
-export default DeliveryMethod;
+export default DeliveryMethod

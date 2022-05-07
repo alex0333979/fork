@@ -1,36 +1,43 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { FormField } from '@/generated/graphql';
-import classNames from 'classnames';
-import DateFnsUtils from '@date-io/date-fns';
-import moment from 'moment';
+import React, { useCallback, useMemo, useState } from 'react'
+import { FormField } from '@/generated/graphql'
+import classNames from 'classnames'
+import DateFnsUtils from '@date-io/date-fns'
+import moment from 'moment'
 
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 interface AppDatePickerProps {
-  formField: FormField;
-  onValueChange: (name: string, value: string | undefined) => void;
-  error: string | undefined;
+  formField: FormField
+  onValueChange: (name: string, value: string | undefined) => void
+  error: string | undefined
 }
 
-const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange, error }) => {
-  const [date, setDate] = useState<Date | null>(formField.value ? new Date(formField.value) : null);
+const AppDatePicker: React.FC<AppDatePickerProps> = ({
+  formField,
+  onValueChange,
+  error,
+}) => {
+  const [date, setDate] = useState<Date | null>(
+    formField.value ? new Date(formField.value) : null,
+  )
   const onChange = useCallback(
     (value: Date | null) => {
       onValueChange(
         formField.name,
-        value !== null ? moment(value).format('MM/DD/YYYY') : undefined
-      );
-      setDate(value);
+        value !== null ? moment(value).format('MM/DD/YYYY') : undefined,
+      )
+      setDate(value)
     },
-    [formField.name, onValueChange]
-  );
+    [formField.name, onValueChange],
+  )
   const maxDate = useMemo(
     () =>
-      formField.name === 'date_of_return' || formField.name === 'date_of_departure'
+      formField.name === 'date_of_return' ||
+      formField.name === 'date_of_departure'
         ? null
         : new Date(),
-    [formField.name]
-  );
+    [formField.name],
+  )
   return (
     <label className="half-size">
       <span className="label">
@@ -42,7 +49,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
           <DatePicker
             name={formField.name}
             className={classNames({
-              'error-border': !!error
+              'error-border': !!error,
             })}
             format={'MMddyyyy'}
             placeholder={'mmddyyyy'}
@@ -54,7 +61,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({ formField, onValueChange,
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
     </label>
-  );
-};
+  )
+}
 
-export default AppDatePicker;
+export default AppDatePicker

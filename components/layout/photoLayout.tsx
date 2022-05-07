@@ -1,14 +1,14 @@
-import React from 'react';
-import PhotoHeader from '@/components/layout/photoHeader';
+import React from 'react'
+import PhotoHeader from '@/components/layout/photoHeader'
 
 interface AppLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 const PhotoLayout: React.FC<AppLayoutProps> = ({ children }) => (
   <>
     <PhotoHeader />
     <main>{children}</main>
   </>
-);
+)
 
-export default PhotoLayout;
+export default PhotoLayout

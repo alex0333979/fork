@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import React from 'react';
+import React from 'react'
 
-import { Bars } from 'react-loading-icons';
-import { ProcessingStatus } from '../types';
+import { Bars } from 'react-loading-icons'
+import { ProcessingStatus } from '../types'
 
 interface Props {
-  status: ProcessingStatus;
-  onClick: () => void;
-  onOpenInfo: (v: boolean) => void;
+  status: ProcessingStatus
+  onClick: () => void
+  onOpenInfo: (v: boolean) => void
 }
 
 const TryAgainButton: React.FC<Props> = ({ status, onClick, onOpenInfo }) => {
@@ -24,14 +24,17 @@ const TryAgainButton: React.FC<Props> = ({ status, onClick, onOpenInfo }) => {
           </button>
         </div>
         <div className="info-btn">
-          <button type="button" className="main-btn outline" onClick={() => onOpenInfo(true)}>
+          <button
+            type="button"
+            className="main-btn outline"
+            onClick={() => onOpenInfo(true)}>
             <i className="icon-info" />
           </button>
         </div>
       </div>
-    );
+    )
   }
 
-  return null;
-};
-export default TryAgainButton;
+  return null
+}
+export default TryAgainButton

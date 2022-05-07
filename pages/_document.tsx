@@ -1,12 +1,18 @@
 /* eslint-disable @next/next/no-document-import-in-page */
 /* eslint-disable max-len */
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
-import React from 'react';
+import Document, {
+  DocumentContext,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from 'next/document'
+import React from 'react'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
+    const initialProps = await Document.getInitialProps(ctx)
+    return { ...initialProps }
   }
 
   render() {
@@ -94,10 +100,22 @@ class MyDocument extends Document {
           <meta name="application-name" content="&nbsp;" />
           <meta name="msapplication-TileColor" content="#FFFFFF" />
           <meta name="msapplication-TileImage" content="mstile-144x144.png" />
-          <meta name="msapplication-square70x70logo" content="mstile-70x70.png" />
-          <meta name="msapplication-square150x150logo" content="mstile-150x150.png" />
-          <meta name="msapplication-wide310x150logo" content="mstile-310x150.png" />
-          <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
+          <meta
+            name="msapplication-square70x70logo"
+            content="mstile-70x70.png"
+          />
+          <meta
+            name="msapplication-square150x150logo"
+            content="mstile-150x150.png"
+          />
+          <meta
+            name="msapplication-wide310x150logo"
+            content="mstile-310x150.png"
+          />
+          <meta
+            name="msapplication-square310x310logo"
+            content="mstile-310x310.png"
+          />
 
           <meta property="og:site_name" content="Passport Photos" />
           <meta property="og:url" content="https://PassportPhotos.com" />
@@ -113,14 +131,14 @@ class MyDocument extends Document {
           <script
             id="load-uet"
             dangerouslySetInnerHTML={{
-              __html: `(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[] ,f=function(){var o={ti:"148009486"}; o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")} ,n=d.createElement(t),n.src=r,n.async=1,n.onload=n .onreadystatechange=function() {var s=this.readyState;s &&s!=="loaded"&& s!=="complete"||(f(),n.onload=n. onreadystatechange=null)},i= d.getElementsByTagName(t)[0],i. parentNode.insertBefore(n,i)})(window,document,"script"," //bat.bing.com/bat.js","uetq");`
+              __html: `(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[] ,f=function(){var o={ti:"148009486"}; o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")} ,n=d.createElement(t),n.src=r,n.async=1,n.onload=n .onreadystatechange=function() {var s=this.readyState;s &&s!=="loaded"&& s!=="complete"||(f(),n.onload=n. onreadystatechange=null)},i= d.getElementsByTagName(t)[0],i. parentNode.insertBefore(n,i)})(window,document,"script"," //bat.bing.com/bat.js","uetq");`,
             }}
           />
           <script
             id="trigger-uet"
             dangerouslySetInnerHTML={{
               __html: `window.uetq = window.uetq || [];
-                window.uetq.push('event', 'page_view', { page_path: '/' + window.location.pathname });`
+                window.uetq.push('event', 'page_view', { page_path: '/' + window.location.pathname });`,
             }}
           />
         </Head>
@@ -129,8 +147,8 @@ class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MyDocument;
+export default MyDocument

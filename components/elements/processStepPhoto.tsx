@@ -1,13 +1,13 @@
-import React from 'react';
-import classNames from 'classnames';
+import React from 'react'
+import classNames from 'classnames'
 
 export interface ProcessStepPhotoProps {
-  step: number;
+  step: number
   steps: {
-    name: string;
-    step: number;
-    link: string;
-  }[];
+    name: string
+    step: number
+    link: string
+  }[]
 }
 
 const ProcessStepPhoto: React.FC<ProcessStepPhotoProps> = ({ step, steps }) => (
@@ -18,7 +18,7 @@ const ProcessStepPhoto: React.FC<ProcessStepPhotoProps> = ({ step, steps }) => (
           key={index}
           className={classNames({
             done: s.step < step,
-            current: s.step === step
+            current: s.step === step,
           })}>
           <div className="counter">
             <span className="line">
@@ -30,7 +30,11 @@ const ProcessStepPhoto: React.FC<ProcessStepPhotoProps> = ({ step, steps }) => (
                   fill="transparent"
                   strokeWidth="3"
                   strokeDasharray={
-                    s.step < step ? '295%,1000' : s.step === step ? '0%,1000' : '0%,1000'
+                    s.step < step
+                      ? '295%,1000'
+                      : s.step === step
+                      ? '0%,1000'
+                      : '0%,1000'
                   }
                   strokeDashoffset="0"
                 />
@@ -45,6 +49,6 @@ const ProcessStepPhoto: React.FC<ProcessStepPhotoProps> = ({ step, steps }) => (
       ))}
     </ul>
   </div>
-);
+)
 
-export default ProcessStepPhoto;
+export default ProcessStepPhoto

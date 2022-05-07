@@ -1,14 +1,14 @@
-import React from 'react';
-import Image from 'next/image';
-import classNames from 'classnames';
-import { Link } from '@material-ui/core';
+import React from 'react'
+import Image from 'next/image'
+import classNames from 'classnames'
+import { Link } from '@material-ui/core'
 
-import { PAGES } from '@/constants/index';
+import { PAGES } from '@/constants/index'
 
 interface Props {
-  open: boolean;
-  onGoApplication: () => void;
-  onGoCart: () => void;
+  open: boolean
+  onGoApplication: () => void
+  onGoCart: () => void
 }
 
 const SaveModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
@@ -27,10 +27,16 @@ const SaveModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
               </h3>
             </div>
             <div className="btn-wrap">
-              <button type="button" className="main-btn big" onClick={onGoApplication}>
+              <button
+                type="button"
+                className="main-btn big"
+                onClick={onGoApplication}>
                 {'Start Your DS-82/DS-11 Form'}
               </button>
-              <button type="button" className="main-btn big outline" onClick={onGoCart}>
+              <button
+                type="button"
+                className="main-btn big outline"
+                onClick={onGoCart}>
                 {'Skip & Proceed To Checkout'}
               </button>
             </div>
@@ -38,7 +44,12 @@ const SaveModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
           <div className="img">
             <span>
               <Link href={PAGES.application.create}>
-                <Image src="/images/upsell1.png" width={514} height={372} alt="" />
+                <Image
+                  src="/images/upsell1.png"
+                  width={514}
+                  height={372}
+                  alt=""
+                />
               </Link>
             </span>
           </div>
@@ -46,5 +57,5 @@ const SaveModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
       </div>
     </div>
   </div>
-);
-export default SaveModal;
+)
+export default SaveModal

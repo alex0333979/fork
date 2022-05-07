@@ -5,18 +5,18 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   env: {
     browser: true,
     amd: true,
-    node: true
+    node: true,
   },
   extends: [
     'next',
@@ -27,7 +27,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended', // Make sure this is always the last element in the array.
-    'plugin:@next/next/recommended'
+    'plugin:@next/next/recommended',
   ],
   rules: {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
@@ -42,17 +42,17 @@ module.exports = {
     '@typescript-eslint/array-type': [
       'error',
       {
-        default: 'array'
-      }
+        default: 'array',
+      },
     ],
     '@typescript-eslint/ban-types': [
       'error',
       {
         extendDefaults: true,
         types: {
-          '{}': false
-        }
-      }
+          '{}': false,
+        },
+      },
     ],
     '@typescript-eslint/consistent-type-assertions': 'error',
     '@typescript-eslint/consistent-type-definitions': 'error',
@@ -65,13 +65,13 @@ module.exports = {
       {
         multiline: {
           delimiter: 'none',
-          requireLast: true
+          requireLast: true,
         },
         singleline: {
           delimiter: 'semi',
-          requireLast: false
-        }
-      }
+          requireLast: false,
+        },
+      },
     ],
     '@typescript-eslint/member-ordering': 'error',
     '@typescript-eslint/no-empty-function': 'off',
@@ -143,9 +143,9 @@ module.exports = {
           'profile',
           'profileEnd',
           'timeStamp',
-          'context'
-        ]
-      }
+          'context',
+        ],
+      },
     ],
     'no-debugger': 'error',
     'no-duplicate-case': 'error',
@@ -165,8 +165,8 @@ module.exports = {
     'no-shadow': [
       'off',
       {
-        hoist: 'all'
-      }
+        hoist: 'all',
+      },
     ],
     'no-sparse-arrays': 'error',
     'no-template-curly-in-string': 'error',
@@ -191,6 +191,6 @@ module.exports = {
     'space-before-function-paren': 'off',
     'spaced-comment': 'error',
     'use-isnan': 'error',
-    'valid-typeof': 'off'
-  }
-};
+    'valid-typeof': 'off',
+  },
+}

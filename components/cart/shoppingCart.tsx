@@ -1,75 +1,81 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ProductType, useRemoveItemsFromCartMutation } from '@/generated/graphql';
-import ShoppingCartItem from '@/components/cart/cartItem';
-import { useAuth } from '@/lib/auth';
-import { CartItem } from '@/lib/graphql/generated/graphql';
-import { useRouter } from 'next/router';
-import { useTranslation } from 'react-i18next';
-import { showError } from '@/lib/utils/toast';
-import { CartPageProps } from '@/pages/cart';
-import { PAGES } from '../../constants';
-import PreviewPhotoModal from '@/components/elements/previewPhotoModal';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  ProductType,
+  useRemoveItemsFromCartMutation,
+} from '@/generated/graphql'
+import ShoppingCartItem from '@/components/cart/cartItem'
+import { useAuth } from '@/lib/auth'
+import { CartItem } from '@/lib/graphql/generated/graphql'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+import { showError } from '@/lib/utils/toast'
+import { CartPageProps } from '@/pages/cart'
+import { PAGES } from '../../constants'
+import PreviewPhotoModal from '@/components/elements/previewPhotoModal'
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
-  const { t } = useTranslation();
-  const router = useRouter();
+  const { t } = useTranslation()
+  const router = useRouter()
   const {
     cart,
     updateCart,
-    currency: { currency }
-  } = useAuth();
-  const [removeFromCart] = useRemoveItemsFromCartMutation();
-  const [open, setOpen] = useState<boolean>(false);
-  const [prevUrl, setPrevUrl] = useState<string>('');
+    currency: { currency },
+  } = useAuth()
+  const [removeFromCart] = useRemoveItemsFromCartMutation()
+  const [open, setOpen] = useState<boolean>(false)
+  const [prevUrl, setPrevUrl] = useState<string>('')
 
   useEffect(() => {
-    updateCart(_cart);
-  }, [_cart, updateCart]);
+    updateCart(_cart)
+  }, [_cart, updateCart])
 
   const onPreview = useCallback((url: string) => {
-    setPrevUrl(url);
-    setOpen(true);
-  }, []);
+    setPrevUrl(url)
+    setOpen(true)
+  }, [])
 
   const onRemoveCartItem = useCallback(
     async (id: string) => {
-      const { data } = await removeFromCart({ variables: { ids: [id] } });
-      const __cart = data?.RemoveItemsFromCart.data;
+      const { data } = await removeFromCart({ variables: { ids: [id] } })
+      const __cart = data?.RemoveItemsFromCart.data
       if (__cart) {
-        updateCart(__cart);
+        updateCart(__cart)
       }
     },
-    [removeFromCart, updateCart]
-  );
+    [removeFromCart, updateCart],
+  )
 
   const subTotal = useMemo(
-    () => cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0),
-    [cart]
-  );
+    () =>
+      cart?.items
+        ?.filter((i) => i.isComplete)
+        .reduce((a, { price }) => a + price, 0),
+    [cart],
+  )
 
   const onCheckout = useCallback(async () => {
     if (cart?.items?.filter((i) => i.isComplete)?.length ?? 0 > 0) {
-      await router.push(PAGES.checkout.index);
+      await router.push(PAGES.checkout.index)
     } else {
-      showError(`You don't have any completed entries in your cart yet.`);
+      showError(`You don't have any completed entries in your cart yet.`)
     }
-  }, [cart?.items, router]);
+  }, [cart?.items, router])
 
   const [photoItems, applicationItems] = useMemo(() => {
-    const _photoItems: CartItem[] = [];
-    const _applicationItems: CartItem[] = [];
+    const _photoItems: CartItem[] = []
+    const _applicationItems: CartItem[] = []
 
-    (cart?.items || []).forEach((item) => {
+    ;(cart?.items || []).forEach((item) => {
       if (item.product === ProductType.PassportPhoto) {
-        _photoItems.push(item);
+        _photoItems.push(item)
       }
       if (item.product === ProductType.PassportApplication) {
-        _applicationItems.push(item);
+        _applicationItems.push(item)
       }
-    });
+    })
 
-    return [_photoItems, _applicationItems];
-  }, [cart?.items]);
+    return [_photoItems, _applicationItems]
+  }, [cart?.items])
 
   return (
     <>
@@ -151,7 +157,12 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                     <tbody>
                       <tr>
                         <td>{'Subtotal'}</td>
-                        <td>{t('currency', { value: (subTotal || 0) / 100, currency })}</td>
+                        <td>
+                          {t('currency', {
+                            value: (subTotal || 0) / 100,
+                            currency,
+                          })}
+                        </td>
                       </tr>
                       <tr>
                         <td>{'Tax'}</td>
@@ -164,7 +175,12 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                           <b>{'Total'}</b>
                         </td>
                         <td>
-                          <b>{t('currency', { value: (subTotal || 0) / 100, currency })}</b>
+                          <b>
+                            {t('currency', {
+                              value: (subTotal || 0) / 100,
+                              currency,
+                            })}
+                          </b>
                         </td>
                       </tr>
                     </tfoot>
@@ -182,12 +198,12 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
         open={open}
         url={prevUrl}
         closeModal={() => {
-          setPrevUrl('');
-          setOpen(false);
+          setPrevUrl('')
+          setOpen(false)
         }}
       />
     </>
-  );
-};
+  )
+}
 
-export default ShoppingCart;
+export default ShoppingCart

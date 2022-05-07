@@ -1,9 +1,9 @@
-import { NextPage } from 'next';
-import { AppLayout } from '@/components/index';
-import React from 'react';
-import About from '@/components/about';
-import { NextSeo } from 'next-seo';
-import { SEO } from '../../constants';
+import { NextPage } from 'next'
+import { AppLayout } from '@/components/index'
+import React from 'react'
+import About from '@/components/about'
+import { NextSeo } from 'next-seo'
+import { SEO } from '../../constants'
 
 const AboutPage: NextPage = () => (
   <>
@@ -12,6 +12,6 @@ const AboutPage: NextPage = () => (
       <About />
     </AppLayout>
   </>
-);
+)
 
-export default AboutPage;
+export default AboutPage

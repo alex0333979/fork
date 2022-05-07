@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import classNames from 'classnames';
+import React, { useState } from 'react'
+import Link from 'next/link'
+import classNames from 'classnames'
 
 export interface NavItemProps {
-  title: string;
-  link?: string;
+  title: string
+  link?: string
   items: {
-    title: string;
-    link: string;
-  }[];
+    title: string
+    link: string
+  }[]
 }
 
 const NavItem: React.FC<NavItemProps> = ({ title, link = '', items }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false)
   if (items.length > 0) {
     return (
       <li className="with-drop" onClick={() => setOpen(!open)}>
@@ -31,7 +31,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, link = '', items }) => {
           </ul>
         </div>
       </li>
-    );
+    )
   }
   return (
     <li>
@@ -41,7 +41,7 @@ const NavItem: React.FC<NavItemProps> = ({ title, link = '', items }) => {
         </a>
       </Link>
     </li>
-  );
-};
+  )
+}
 
-export default NavItem;
+export default NavItem

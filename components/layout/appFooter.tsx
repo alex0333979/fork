@@ -1,8 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { PAGES } from '../../constants';
-import moment from 'moment';
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { PAGES } from '../../constants'
+import moment from 'moment'
 
 const AppFooter: React.FC = () => (
   <footer>
@@ -74,7 +74,9 @@ const AppFooter: React.FC = () => (
         <div className="data-wrap">
           <ul>
             <li className="hide-m">
-              {`© Copyright ${moment(new Date()).format('YYYY')}. All rights reserved`}
+              {`© Copyright ${moment(new Date()).format(
+                'YYYY',
+              )}. All rights reserved`}
             </li>
             <li>
               <Link href={PAGES.terms}>
@@ -108,11 +110,13 @@ const AppFooter: React.FC = () => (
     <div className="copyright">
       <div className="container">
         <div className="data-wrap">
-          <p>{`© Copyright ${moment(new Date()).format('YYYY')}. All rights reserved`}</p>
+          <p>{`© Copyright ${moment(new Date()).format(
+            'YYYY',
+          )}. All rights reserved`}</p>
         </div>
       </div>
     </div>
   </footer>
-);
+)
 
-export default AppFooter;
+export default AppFooter
