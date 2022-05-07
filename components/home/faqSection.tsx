@@ -5,7 +5,7 @@ import { scrollToTop } from '@/lib/utils/scrollToTop'
 import { Faqs } from './constant'
 import { IFAQ } from './types'
 interface Props {
-  extraPath?: string
+  extraPath?: string | null
 }
 
 const FaqSection: React.FC<Props> = ({ extraPath }) => {

@@ -57,7 +57,7 @@ const Home: React.FC<HomePageProps> = ({
         <RequirementBox country={country} document={document} />
       )}
       <ReviewsPlatform setOpen={setOpenDocument} />
-      <FaqSection />
+      <FaqSection extraPath={extraPath} />
       <FaqForm />
     </>
   )
