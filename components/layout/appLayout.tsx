@@ -1,8 +1,8 @@
-import React from 'react';
-import { AppFooter, AppHeader } from '../index';
+import React from 'react'
+import { AppFooter, AppHeader } from '../index'
 
 interface AppLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
   <>
@@ -10,6 +10,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
     <main>{children}</main>
     <AppFooter />
   </>
-);
+)
 
-export default AppLayout;
+export default AppLayout

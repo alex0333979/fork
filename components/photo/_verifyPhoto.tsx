@@ -1,35 +1,41 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter, NextRouter } from 'next/router';
-import classNames from 'classnames';
-import { parse } from 'path';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRouter, NextRouter } from 'next/router'
+import classNames from 'classnames'
+import { parse } from 'path'
 
-import { PAGES, PHOTO_STEP } from '@/constants/index';
-import ProcessStepPhoto from '@/components/elements/processStepPhoto';
-import LoadingMask from '@/components/elements/loadingMask';
-import { Code, Dictionary, Entry, Country, useCheckPhotoMutation } from '@/generated/graphql';
-import { showError } from '@/lib/utils/toast';
+import { PAGES, PHOTO_STEP } from '@/constants/index'
+import ProcessStepPhoto from '@/components/elements/processStepPhoto'
+import LoadingMask from '@/components/elements/loadingMask'
+import {
+  Code,
+  Dictionary,
+  Entry,
+  Country,
+  useCheckPhotoMutation,
+} from '@/generated/graphql'
+import { showError } from '@/lib/utils/toast'
 
-import StepInfo from './components/stepInfo';
-import TestCase from './components/testCase';
-import { ProcessingStatus } from './types';
+import StepInfo from './components/stepInfo'
+import TestCase from './components/testCase'
+import { ProcessingStatus } from './types'
 
 interface Props {
-  entry?: Entry;
-  type: string;
-  imgRes: string;
-  photoUrl?: string;
-  document?: Country;
-  showStep?: boolean;
-  onCheckout?: (imageLink: string) => void;
-  onChangePhoto: () => void;
-  renderTitle: (status: ProcessingStatus) => React.ReactNode;
+  entry?: Entry
+  type: string
+  imgRes: string
+  photoUrl?: string
+  document?: Country
+  showStep?: boolean
+  onCheckout?: (imageLink: string) => void
+  onChangePhoto: () => void
+  renderTitle: (status: ProcessingStatus) => React.ReactNode
   renderRetakeButton: (
     status: ProcessingStatus,
     router: NextRouter,
     onOpenInfo: (v: boolean) => void,
-    imageLink: string
-  ) => React.ReactNode;
+    imageLink: string,
+  ) => React.ReactNode
 }
 
 const VerifyPhoto: React.FC<Props> = ({
@@ -41,68 +47,74 @@ const VerifyPhoto: React.FC<Props> = ({
   showStep,
   onCheckout,
   renderTitle,
-  renderRetakeButton
+  renderRetakeButton,
 }) => {
-  const router = useRouter();
-  const [checkPhoto] = useCheckPhotoMutation();
-  const [status, setStatus] = useState<ProcessingStatus>(ProcessingStatus.notStarted);
-  const [failed, setFailed] = useState<Dictionary[]>([]);
-  const [passed, setPassed] = useState<Dictionary[]>([]);
-  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false);
+  const router = useRouter()
+  const [checkPhoto] = useCheckPhotoMutation()
+  const [status, setStatus] = useState<ProcessingStatus>(
+    ProcessingStatus.notStarted,
+  )
+  const [failed, setFailed] = useState<Dictionary[]>([])
+  const [passed, setPassed] = useState<Dictionary[]>([])
+  const [openStepInfo, setOpenStepInfo] = useState<boolean>(false)
 
   const imageUrl = useMemo(
-    () => entry?.form.steps[0].fields.find((f) => f.name === 'image_url')?.value || photoUrl,
-    [entry?.form.steps, photoUrl]
-  );
+    () =>
+      entry?.form.steps[0].fields.find((f) => f.name === 'image_url')?.value ||
+      photoUrl,
+    [entry?.form.steps, photoUrl],
+  )
 
   const imageLink = useMemo<string>(() => {
     if (imageUrl) {
       return status === ProcessingStatus.success
-        ? `${parse(imageUrl).dir}/${parse(imageUrl).name}_watermark${parse(imageUrl).ext}`
-        : imageUrl;
+        ? `${parse(imageUrl).dir}/${parse(imageUrl).name}_watermark${
+            parse(imageUrl).ext
+          }`
+        : imageUrl
     } else {
-      return '/images/steps/step-02-03.png';
+      return '/images/steps/step-02-03.png'
     }
-  }, [imageUrl, status]);
+  }, [imageUrl, status])
 
   const processPhoto = useCallback(async () => {
-    if (!entry?.id) return;
+    if (!entry?.id) return
 
-    setStatus(ProcessingStatus.loading);
-    const userAgent = navigator.userAgent;
+    setStatus(ProcessingStatus.loading)
+    const userAgent = navigator.userAgent
     const { data } = await checkPhoto({
       variables: { entryId: entry.id, userAgent, imageResolution: imgRes },
-      fetchPolicy: 'no-cache'
-    });
-    const result = data?.CheckPhoto.data;
+      fetchPolicy: 'no-cache',
+    })
+    const result = data?.CheckPhoto.data
     if (result) {
       if (result.code === Code.Code200) {
-        setStatus(ProcessingStatus.success);
+        setStatus(ProcessingStatus.success)
       } else {
-        setStatus(ProcessingStatus.failed);
+        setStatus(ProcessingStatus.failed)
       }
-      setFailed(result.failed ?? []);
-      setPassed(result.passed ?? []);
+      setFailed(result.failed ?? [])
+      setPassed(result.passed ?? [])
     } else {
-      showError(data?.CheckPhoto.message ?? 'Unexpected error');
-      setStatus(ProcessingStatus.failed);
+      showError(data?.CheckPhoto.message ?? 'Unexpected error')
+      setStatus(ProcessingStatus.failed)
     }
-  }, [checkPhoto, entry?.id, imgRes]);
+  }, [checkPhoto, entry?.id, imgRes])
 
   const onChangePhoto = useCallback(() => {
     if (entry?.id && document?.id) {
       router.push(
-        `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${document.id}`
-      );
+        `${PAGES.photo.takePhoto}?entryId=${entry.id}&type=${type}&documentId=${document.id}`,
+      )
     } else {
-      router.push(PAGES.photo.takeNewPhoto);
+      router.push(PAGES.photo.takeNewPhoto)
     }
-  }, [document?.id, entry?.id, router, type]);
+  }, [document?.id, entry?.id, router, type])
 
   useEffect(() => {
-    (async () => processPhoto())();
-    return () => undefined;
-  }, [processPhoto]);
+    ;(async () => processPhoto())()
+    return () => undefined
+  }, [processPhoto])
 
   return (
     <>
@@ -131,7 +143,7 @@ const VerifyPhoto: React.FC<Props> = ({
               <div className="photo-requirements">
                 <div
                   className={classNames('requirements-wrap', {
-                    failed: status === ProcessingStatus.failed
+                    failed: status === ProcessingStatus.failed,
                   })}>
                   <div className="img">
                     <span>
@@ -145,7 +157,10 @@ const VerifyPhoto: React.FC<Props> = ({
                         Proceed To Checkout
                       </button>
                     )}
-                    <button type="button" className="main-btn no-border" onClick={onChangePhoto}>
+                    <button
+                      type="button"
+                      className="main-btn no-border"
+                      onClick={onChangePhoto}>
                       <i className="icon-camera" />
                       Change Photo
                     </button>
@@ -162,6 +177,6 @@ const VerifyPhoto: React.FC<Props> = ({
         </div>
       </div>
     </>
-  );
-};
-export default VerifyPhoto;
+  )
+}
+export default VerifyPhoto

@@ -1,8 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import { Link } from '@material-ui/core';
-import { PAGES } from '../../constants';
-import { UpSellPageProps } from '@/pages/up-sell';
+import React from 'react'
+import Image from 'next/image'
+import { Link } from '@material-ui/core'
+import { PAGES } from '../../constants'
+import { UpSellPageProps } from '@/pages/up-sell'
 
 const UpSell: React.FC<UpSellPageProps> = ({ ds11, ds82 }) => (
   <div className="online-forms">
@@ -66,13 +66,15 @@ const UpSell: React.FC<UpSellPageProps> = ({ ds11, ds82 }) => (
         </div>
         <div className="proceed-btn">
           <Link href={PAGES.cart}>
-            <button className="main-btn big outline">{'Proceed to photo cart'}</button>
+            <button className="main-btn big outline">
+              {'Proceed to photo cart'}
+            </button>
           </Link>
           <p>{'Without filling out an application'}</p>
         </div>
       </div>
     </div>
   </div>
-);
+)
 
-export default UpSell;
+export default UpSell

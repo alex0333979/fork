@@ -1,39 +1,39 @@
 export interface ILanguage {
-  label: string;
-  value: string;
+  label: string
+  value: string
 }
 
 export interface ICurrency {
-  label: string;
-  currency?: string;
-  symbol?: string;
-  value: string;
+  label: string
+  currency?: string
+  symbol?: string
+  value: string
 }
 
 export const languages: ILanguage[] = [
   {
     label: 'English',
-    value: 'en'
-  }
-];
+    value: 'en',
+  },
+]
 
 export const currencies: ICurrency[] = [
   {
     label: 'USA Dollar',
     currency: 'USD',
     symbol: '$',
-    value: 'us'
+    value: 'us',
   },
   {
     label: 'Euro',
     currency: 'EUR',
     symbol: '€',
-    value: 'eu'
+    value: 'eu',
   },
   {
     label: 'Pound Sterling',
     currency: 'GBP',
     symbol: '£',
-    value: 'gb'
-  }
-];
+    value: 'gb',
+  },
+]

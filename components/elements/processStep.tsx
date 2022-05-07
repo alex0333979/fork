@@ -1,28 +1,32 @@
-import React, { useCallback } from 'react';
-import classNames from 'classnames';
-import { useRouter } from 'next/router';
+import React, { useCallback } from 'react'
+import classNames from 'classnames'
+import { useRouter } from 'next/router'
 
 export interface ProcessStepProps {
-  title: string;
-  step: number;
-  completeStep: number;
+  title: string
+  step: number
+  completeStep: number
   steps: {
-    name: string;
-    step: number;
-    link: string;
-  }[];
+    name: string
+    step: number
+    link: string
+  }[]
 }
 
-const ProcessStep: React.FC<ProcessStepProps> = ({ step, completeStep, steps }) => {
-  const router = useRouter();
+const ProcessStep: React.FC<ProcessStepProps> = ({
+  step,
+  completeStep,
+  steps,
+}) => {
+  const router = useRouter()
   const onClickStep = useCallback(
     async (s: { name: string; step: number; link: string }) => {
       if (s.step < completeStep + 2) {
-        await router.push(s.link);
+        await router.push(s.link)
       }
     },
-    [completeStep, router]
-  );
+    [completeStep, router],
+  )
 
   return (
     <div className="progress-wrap">
@@ -33,7 +37,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({ step, completeStep, steps }) 
             key={index}
             className={classNames({
               done: s.step < step,
-              current: s.step === step
+              current: s.step === step,
             })}
             onClick={() => onClickStep(s)}>
             <div className="counter">
@@ -46,7 +50,11 @@ const ProcessStep: React.FC<ProcessStepProps> = ({ step, completeStep, steps }) 
                     fill="transparent"
                     strokeWidth="3"
                     strokeDasharray={
-                      s.step < step ? '295%,1000' : s.step === step ? '295%,1000' : '0%,1000'
+                      s.step < step
+                        ? '295%,1000'
+                        : s.step === step
+                        ? '295%,1000'
+                        : '0%,1000'
                     }
                     strokeDashoffset="0"
                   />
@@ -62,7 +70,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({ step, completeStep, steps }) 
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default ProcessStep;
+export default ProcessStep

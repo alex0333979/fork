@@ -1,28 +1,37 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import CheckoutLayout from '@/components/checkout/checkoutLayout';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import CheckoutLayout from '@/components/checkout/checkoutLayout'
 import {
   CardElement,
   PaymentRequestButtonElement,
   useElements,
-  useStripe
-} from '@stripe/react-stripe-js';
-import { useTranslation } from 'react-i18next';
-import { CONCIERGE_PRICE, PAGES, PHOTO_PRICES, SHIPPING_TYPES } from '../../constants';
-import { useAuth } from '@/lib/auth';
+  useStripe,
+} from '@stripe/react-stripe-js'
+import { useTranslation } from 'react-i18next'
+import {
+  CONCIERGE_PRICE,
+  PAGES,
+  PHOTO_PRICES,
+  SHIPPING_TYPES,
+} from '../../constants'
+import { useAuth } from '@/lib/auth'
 import {
   Order,
   ProductType,
   ShippingType,
   useClearCartMutation,
   useCreateOrderMutation,
-  useGetPaymentIntentMutation
-} from '@/generated/graphql';
-import classNames from 'classnames';
-import { ValidationError } from '@/lib/utils/formValidation';
-import { showError, showSuccess } from '@/lib/utils/toast';
-import { humanize } from '@/lib/utils/string';
-import { PaymentIntent, StripeCardElement, StripeError } from '@stripe/stripe-js';
-import { useRouter } from 'next/router';
+  useGetPaymentIntentMutation,
+} from '@/generated/graphql'
+import classNames from 'classnames'
+import { ValidationError } from '@/lib/utils/formValidation'
+import { showError, showSuccess } from '@/lib/utils/toast'
+import { humanize } from '@/lib/utils/string'
+import {
+  PaymentIntent,
+  StripeCardElement,
+  StripeError,
+} from '@stripe/stripe-js'
+import { useRouter } from 'next/router'
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -35,164 +44,173 @@ const CARD_OPTIONS = {
       fontSize: '14px',
       fontSmoothing: 'antialiased',
       ':-webkit-autofill': {
-        color: '#fce883'
+        color: '#fce883',
       },
       '::placeholder': {
-        color: '#5b616e'
-      }
+        color: '#5b616e',
+      },
     },
     invalid: {
       iconColor: '#ef2961',
-      color: '#ef2961'
-    }
-  }
-};
+      color: '#ef2961',
+    },
+  },
+}
 
 const ReviewAndPay: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const {
     cart,
     updateCart,
-    currency: { currency = 'USD' }
-  } = useAuth();
-  const [cardName, setCardName] = useState<string>('');
-  const [error, setError] = useState<ValidationError>({});
-  const [stripeFocus, setStripeFocus] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [payment, setPayment] = useState({ status: 'initial' });
-  const [createOrder] = useCreateOrderMutation();
-  const [getPaymentIntent] = useGetPaymentIntentMutation();
-  const [clearCart] = useClearCartMutation();
-  const [paymentRequest, setPaymentRequest] = useState<any>(null);
-  const router = useRouter();
+    currency: { currency = 'USD' },
+  } = useAuth()
+  const [cardName, setCardName] = useState<string>('')
+  const [error, setError] = useState<ValidationError>({})
+  const [stripeFocus, setStripeFocus] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [payment, setPayment] = useState({ status: 'initial' })
+  const [createOrder] = useCreateOrderMutation()
+  const [getPaymentIntent] = useGetPaymentIntentMutation()
+  const [clearCart] = useClearCartMutation()
+  const [paymentRequest, setPaymentRequest] = useState<any>(null)
+  const router = useRouter()
 
-  const stripe = useStripe();
-  const elements = useElements();
+  const stripe = useStripe()
+  const elements = useElements()
 
   const shippingPrice = useMemo(
-    () => SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
-    [cart]
-  );
+    () =>
+      SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
+    [cart],
+  )
 
   const aPrice = useMemo(
     () =>
       cart?.items
-        ?.filter((c) => c.product === ProductType.PassportApplication && c.isComplete)
+        ?.filter(
+          (c) => c.product === ProductType.PassportApplication && c.isComplete,
+        )
         .reduce((a, { price }) => a + price, 0),
-    [cart]
-  );
+    [cart],
+  )
 
   const aCount = useMemo(
     () =>
-      cart?.items?.filter((c) => c.product === ProductType.PassportApplication && c.isComplete)
-        .length ?? 0,
-    [cart?.items]
-  );
+      cart?.items?.filter(
+        (c) => c.product === ProductType.PassportApplication && c.isComplete,
+      ).length ?? 0,
+    [cart?.items],
+  )
 
   const photoItems = useMemo(
     () =>
       cart?.items
         ?.filter((c) => c.product === ProductType.PassportPhoto)
         ?.map((item) => {
-          const price = PHOTO_PRICES.find((p) => p.price === item.price);
+          const price = PHOTO_PRICES.find((p) => p.price === item.price)
           return {
-            text: price ? `${price.value} ${item.description} Photos` : 'Photos',
-            price: item.price
-          };
+            text: price
+              ? `${price.value} ${item.description} Photos`
+              : 'Photos',
+            price: item.price,
+          }
         }) ?? [],
-    [cart?.items]
-  );
+    [cart?.items],
+  )
 
   const conciergePrice = useMemo(
-    () => (cart?.shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
-    [cart?.shippingType]
-  );
+    () =>
+      cart?.shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE,
+    [cart?.shippingType],
+  )
 
   const subTotal = useMemo(
     () =>
-      (cart?.items?.filter((i) => i.isComplete).reduce((a, { price }) => a + price, 0) ?? 0) +
+      (cart?.items
+        ?.filter((i) => i.isComplete)
+        .reduce((a, { price }) => a + price, 0) ?? 0) +
       conciergePrice +
       shippingPrice,
-    [cart?.items, conciergePrice, shippingPrice]
-  );
+    [cart?.items, conciergePrice, shippingPrice],
+  )
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(subTotal * 0.08875);
+      return Math.ceil(subTotal * 0.08875)
     }
-    return 0;
-  }, [cart?.billingAddress?.state, subTotal]);
+    return 0
+  }, [cart?.billingAddress?.state, subTotal])
 
-  const total = useMemo(() => subTotal + tax, [tax, subTotal]);
+  const total = useMemo(() => subTotal + tax, [tax, subTotal])
 
   const handleInputChange = useCallback((e) => {
     setError((errors) => ({
       ...errors,
-      cardName: ''
-    }));
-    setCardName(e.target.value);
-  }, []);
+      cardName: '',
+    }))
+    setCardName(e.target.value)
+  }, [])
 
   const onCreateOrder = useCallback(async (): Promise<Order | undefined> => {
-    setLoading(true);
-    const { data } = await createOrder({});
-    setLoading(false);
+    setLoading(true)
+    const { data } = await createOrder({})
+    setLoading(false)
 
-    const order = data?.CreateOrder.data;
+    const order = data?.CreateOrder.data
     if (!order) {
-      setPayment({ status: 'error' });
+      setPayment({ status: 'error' })
       setError((errors) => ({
         ...errors,
-        result: 'Create order is failed.'
-      }));
-      return;
+        result: 'Create order is failed.',
+      }))
+      return
     }
-    return order;
-  }, [createOrder]);
+    return order
+  }, [createOrder])
 
   const getClientSecret = useCallback(
     async (order: Order): Promise<string | undefined> => {
-      setLoading(true);
+      setLoading(true)
       const { data: intent } = await getPaymentIntent({
-        variables: { orderId: order.id, currency: currency.toLowerCase() }
-      });
-      setLoading(false);
-      const clientSecret = intent?.GetPaymentIntent.data?.clientSecret;
+        variables: { orderId: order.id, currency: currency.toLowerCase() },
+      })
+      setLoading(false)
+      const clientSecret = intent?.GetPaymentIntent.data?.clientSecret
       if (!clientSecret) {
-        setPayment({ status: 'error' });
+        setPayment({ status: 'error' })
         setError((errors) => ({
           ...errors,
-          result: 'Get payment intent is failed'
-        }));
-        return;
+          result: 'Get payment intent is failed',
+        }))
+        return
       }
-      return clientSecret;
+      return clientSecret
     },
-    [currency, getPaymentIntent]
-  );
+    [currency, getPaymentIntent],
+  )
 
   const finalizeResult = useCallback(
     async (
       order: Order,
       cardElement: StripeCardElement | undefined,
       error: StripeError | undefined,
-      paymentIntent: PaymentIntent | undefined
+      paymentIntent: PaymentIntent | undefined,
     ) => {
       if (error) {
-        showError(error.message ?? 'An unknown error occurred');
-        setPayment({ status: 'error' });
+        showError(error.message ?? 'An unknown error occurred')
+        setPayment({ status: 'error' })
         setError((errors) => ({
           ...errors,
-          result: error.message ?? 'An unknown error occurred'
-        }));
-        cardElement?.clear();
+          result: error.message ?? 'An unknown error occurred',
+        }))
+        cardElement?.clear()
       } else if (paymentIntent) {
-        showSuccess('Payment is done successfully.');
-        setPayment(paymentIntent);
-        const { data } = await clearCart({});
-        const cart = data?.ClearCart.data;
+        showSuccess('Payment is done successfully.')
+        setPayment(paymentIntent)
+        const { data } = await clearCart({})
+        const cart = data?.ClearCart.data
         if (cart) {
-          updateCart(cart);
+          updateCart(cart)
         }
         window.gtag('event', 'conversion', {
           send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
@@ -205,9 +223,9 @@ const ReviewAndPay: React.FC = () => {
             id: item.productId,
             name: item.name,
             category: humanize(item.product),
-            price: item.price / 100
-          }))
-        });
+            price: item.price / 100,
+          })),
+        })
 
         window.gtag('event', 'purchase', {
           transaction_id: order.orderNumber,
@@ -219,9 +237,9 @@ const ReviewAndPay: React.FC = () => {
             id: item.productId,
             name: item.name,
             category: humanize(item.product),
-            price: item.price / 100
-          }))
-        });
+            price: item.price / 100,
+          })),
+        })
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -233,55 +251,58 @@ const ReviewAndPay: React.FC = () => {
             currency,
             orderId: order.orderNumber,
             taxPrice: tax / 100,
-            shippingPrice: shippingPrice / 100
-          });
+            shippingPrice: shippingPrice / 100,
+          })
         }
-        await router.push(PAGES.checkout.thankYou);
+        await router.push(PAGES.checkout.thankYou)
       }
     },
-    [clearCart, currency, router, shippingPrice, tax, updateCart]
-  );
+    [clearCart, currency, router, shippingPrice, tax, updateCart],
+  )
 
   const onSubmit = useCallback(async () => {
-    const cardElement = elements?.getElement(CardElement);
+    const cardElement = elements?.getElement(CardElement)
     if (!cardElement || !stripe) {
-      return;
+      return
     }
 
     if (!cardName) {
       setError((errors) => ({
         ...errors,
-        cardName: 'This field is required'
-      }));
-      return;
+        cardName: 'This field is required',
+      }))
+      return
     } else if (error.cardNumber) {
-      return;
+      return
     }
 
-    const order = await onCreateOrder();
+    const order = await onCreateOrder()
     if (!order) {
-      return;
+      return
     }
 
-    const clientSecret = await getClientSecret(order);
+    const clientSecret = await getClientSecret(order)
     if (!clientSecret) {
-      return;
+      return
     }
 
-    setLoading(true);
-    const { error: pError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: { name: cardName },
-        metadata: { order_id: order.id }
-      }
-    });
-    setLoading(false);
+    setLoading(true)
+    const { error: pError, paymentIntent } = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card: cardElement,
+          billing_details: { name: cardName },
+          metadata: { order_id: order.id },
+        },
+      },
+    )
+    setLoading(false)
 
-    await finalizeResult(order, cardElement, pError, paymentIntent);
+    await finalizeResult(order, cardElement, pError, paymentIntent)
 
     if (paymentIntent?.status === 'requires_action') {
-      stripe?.confirmCardPayment(clientSecret);
+      stripe?.confirmCardPayment(clientSecret)
     }
   }, [
     cardName,
@@ -290,12 +311,12 @@ const ReviewAndPay: React.FC = () => {
     finalizeResult,
     getClientSecret,
     onCreateOrder,
-    stripe
-  ]);
+    stripe,
+  ])
 
   useEffect(() => {
     if (!stripe || !elements) {
-      return;
+      return
     }
 
     const pr = stripe.paymentRequest({
@@ -303,46 +324,46 @@ const ReviewAndPay: React.FC = () => {
       country: 'US',
       total: {
         label: '',
-        amount: total + tax
+        amount: total + tax,
       },
       requestPayerEmail: true,
-      requestPayerName: true
-    });
+      requestPayerName: true,
+    })
     pr.canMakePayment().then((result) => {
       if (result) {
-        setPaymentRequest(pr);
+        setPaymentRequest(pr)
       }
-    });
+    })
 
     pr.on('paymentmethod', async ({ paymentMethod }) => {
-      const order = await onCreateOrder();
+      const order = await onCreateOrder()
       if (!order) {
-        return;
+        return
       }
 
-      const clientSecret = await getClientSecret(order);
+      const clientSecret = await getClientSecret(order)
       if (!clientSecret) {
-        return;
+        return
       }
 
-      setLoading(true);
+      setLoading(true)
       const { error, paymentIntent } = await stripe.confirmCardPayment(
         clientSecret,
         {
-          payment_method: paymentMethod.id
+          payment_method: paymentMethod.id,
         },
         {
-          handleActions: false
-        }
-      );
-      setLoading(false);
+          handleActions: false,
+        },
+      )
+      setLoading(false)
 
-      await finalizeResult(order, undefined, error, paymentIntent);
+      await finalizeResult(order, undefined, error, paymentIntent)
 
       if (paymentIntent?.status === 'requires_action') {
-        stripe?.confirmCardPayment(clientSecret);
+        stripe?.confirmCardPayment(clientSecret)
       }
-    });
+    })
   }, [
     stripe,
     elements,
@@ -354,8 +375,8 @@ const ReviewAndPay: React.FC = () => {
     finalizeResult,
     total,
     tax,
-    currency
-  ]);
+    currency,
+  ])
 
   const PaymentStatus = ({ status }: { status: string }) => {
     switch (status) {
@@ -371,7 +392,7 @@ const ReviewAndPay: React.FC = () => {
               </p>
             </div>
           </div>
-        );
+        )
 
       case 'requires_action':
         return (
@@ -383,7 +404,7 @@ const ReviewAndPay: React.FC = () => {
               </p>
             </div>
           </div>
-        );
+        )
 
       case 'succeeded':
         return (
@@ -395,7 +416,7 @@ const ReviewAndPay: React.FC = () => {
               </p>
             </div>
           </div>
-        );
+        )
 
       case 'error':
         return (
@@ -407,12 +428,12 @@ const ReviewAndPay: React.FC = () => {
               </p>
             </div>
           </div>
-        );
+        )
 
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <CheckoutLayout
@@ -420,7 +441,9 @@ const ReviewAndPay: React.FC = () => {
       loading={loading}
       backLink={PAGES.checkout.payment}
       nextButtonText={'Check out'}
-      disableSubmit={!['initial', 'succeeded', 'error'].includes(payment.status) || !stripe}
+      disableSubmit={
+        !['initial', 'succeeded', 'error'].includes(payment.status) || !stripe
+      }
       onSubmit={onSubmit}
       completeStep={3}>
       <div className="form-wrap">
@@ -441,7 +464,9 @@ const ReviewAndPay: React.FC = () => {
               {aCount > 0 && (
                 <div className="name">
                   <h3>{`${aCount} Passport Application`}</h3>
-                  <p>{t('currency', { value: (aPrice || 0) / 100, currency })}</p>
+                  <p>
+                    {t('currency', { value: (aPrice || 0) / 100, currency })}
+                  </p>
                 </div>
               )}
               {photoItems.map((item, index) => (
@@ -454,11 +479,18 @@ const ReviewAndPay: React.FC = () => {
             <li>
               <div className="name">
                 <h3>{'Concierge service'}</h3>
-                <p>{t('currency', { value: conciergePrice / 100, currency })}</p>
+                <p>
+                  {t('currency', { value: conciergePrice / 100, currency })}
+                </p>
               </div>
               <div className="name">
                 <h3>{'Shipping'}</h3>
-                <p>{t('currency', { value: (shippingPrice || 0) / 100, currency })}</p>
+                <p>
+                  {t('currency', {
+                    value: (shippingPrice || 0) / 100,
+                    currency,
+                  })}
+                </p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
@@ -493,7 +525,9 @@ const ReviewAndPay: React.FC = () => {
                     <div className="form-fields">
                       <label className="full-size">
                         <span className="field">
-                          <PaymentRequestButtonElement options={{ paymentRequest }} />
+                          <PaymentRequestButtonElement
+                            options={{ paymentRequest }}
+                          />
                         </span>
                       </label>
                     </div>
@@ -520,7 +554,7 @@ const ReviewAndPay: React.FC = () => {
                       <input
                         type="text"
                         className={classNames({
-                          'error-border': !!error.cardName
+                          'error-border': !!error.cardName,
                         })}
                         name="cardName"
                         placeholder="Name on the card"
@@ -528,7 +562,11 @@ const ReviewAndPay: React.FC = () => {
                         onChange={handleInputChange}
                       />
                     </span>
-                    {error.cardName ? <span className="attention">{error.cardName}</span> : <></>}
+                    {error.cardName ? (
+                      <span className="attention">{error.cardName}</span>
+                    ) : (
+                      <></>
+                    )}
                   </label>
                   <label className="full-size">
                     <span className="label">{'Card number'}</span>
@@ -536,19 +574,21 @@ const ReviewAndPay: React.FC = () => {
                       <span
                         className={classNames('stripe-input', {
                           focus: stripeFocus,
-                          'error-border': !!error.cardNumber
+                          'error-border': !!error.cardNumber,
                         })}>
                         <CardElement
                           options={CARD_OPTIONS}
                           onFocus={() => setStripeFocus(true)}
                           onBlur={() => setStripeFocus(false)}
                           onChange={(e) => {
-                            setError({});
+                            setError({})
                             if (e.error) {
                               setError((errors) => ({
                                 ...errors,
-                                cardNumber: e.error?.message ?? 'An unknown error occurred'
-                              }));
+                                cardNumber:
+                                  e.error?.message ??
+                                  'An unknown error occurred',
+                              }))
                             }
                           }}
                         />
@@ -567,7 +607,7 @@ const ReviewAndPay: React.FC = () => {
         </div>
       </div>
     </CheckoutLayout>
-  );
-};
+  )
+}
 
-export default ReviewAndPay;
+export default ReviewAndPay

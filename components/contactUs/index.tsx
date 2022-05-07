@@ -1,52 +1,52 @@
-import React, { useCallback, useState } from 'react';
-import Image from 'next/image';
-import { useSendEmailToAdminMutation } from '@/generated/graphql';
-import { useForm, Controller } from 'react-hook-form';
-import { showError, showSuccess } from '@/lib/utils/toast';
-import classNames from 'classnames';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
-import { Bars } from 'react-loading-icons';
-import Input from 'react-phone-number-input/input';
+import React, { useCallback, useState } from 'react'
+import Image from 'next/image'
+import { useSendEmailToAdminMutation } from '@/generated/graphql'
+import { useForm, Controller } from 'react-hook-form'
+import { showError, showSuccess } from '@/lib/utils/toast'
+import classNames from 'classnames'
+import { isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+import { Bars } from 'react-loading-icons'
+import Input from 'react-phone-number-input/input'
 
 const ContactUs: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [sendEmailToAdmin] = useSendEmailToAdminMutation();
+  const [loading, setLoading] = useState<boolean>(false)
+  const [sendEmailToAdmin] = useSendEmailToAdminMutation()
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors }
-  } = useForm();
+    formState: { errors },
+  } = useForm()
 
   const onSubmit = useCallback(
     async (input: {
-      email: string;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      message: string;
+      email: string
+      firstName: string
+      lastName: string
+      phone: string
+      message: string
     }) => {
-      setLoading(true);
+      setLoading(true)
       const { data } = await sendEmailToAdmin({
         variables: {
           data: {
             name: `${input.firstName} ${input.lastName}`,
             email: input.email,
             phone: input.phone,
-            question: input.message
-          }
-        }
-      });
+            question: input.message,
+          },
+        },
+      })
       if (data?.SendEmailToAdmin.status ?? false) {
-        showSuccess('Your email is sent to admin successfully.');
+        showSuccess('Your email is sent to admin successfully.')
       } else {
-        showError('Send email to admin is failed');
+        showError('Send email to admin is failed')
       }
-      setLoading(false);
+      setLoading(false)
     },
-    [sendEmailToAdmin]
-  );
+    [sendEmailToAdmin],
+  )
 
   return (
     <>
@@ -54,7 +54,12 @@ const ContactUs: React.FC = () => {
         <div className="container">
           <div className="title">
             <div className="contacts-bg">
-              <Image src="/images/Contacts/contacts-bg.jpg" width={1328} height={659} alt="" />
+              <Image
+                src="/images/Contacts/contacts-bg.jpg"
+                width={1328}
+                height={659}
+                alt=""
+              />
             </div>
             <h1>
               {'The premier online passport photo service.'}
@@ -83,7 +88,9 @@ const ContactUs: React.FC = () => {
                   <li>
                     <h3>{'EMAIL SUPPORT'}</h3>
                     <p>
-                      <a href="mailto:support@passportphotos.com">{'support@passportphotos.com'}</a>
+                      <a href="mailto:support@passportphotos.com">
+                        {'support@passportphotos.com'}
+                      </a>
                     </p>
                   </li>
                   <li>
@@ -115,7 +122,7 @@ const ContactUs: React.FC = () => {
                     type="text"
                     placeholder="First Name"
                     className={classNames({
-                      'error-border': errors.firstName
+                      'error-border': errors.firstName,
                     })}
                     {...register('firstName', { required: true })}
                   />
@@ -126,7 +133,7 @@ const ContactUs: React.FC = () => {
                     type="text"
                     placeholder="Last Name"
                     className={classNames({
-                      'error-border': errors.lastName
+                      'error-border': errors.lastName,
                     })}
                     {...register('lastName', { required: true })}
                   />
@@ -137,11 +144,11 @@ const ContactUs: React.FC = () => {
                     type="email"
                     placeholder="Email Address"
                     className={classNames({
-                      'error-border': errors.email
+                      'error-border': errors.email,
                     })}
                     {...register('email', {
                       required: true,
-                      pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+                      pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
                     })}
                   />
                 </label>
@@ -151,7 +158,7 @@ const ContactUs: React.FC = () => {
                     name="phone"
                     control={control}
                     rules={{
-                      validate: (value) => isValidPhoneNumber(value ?? '')
+                      validate: (value) => isValidPhoneNumber(value ?? ''),
                     }}
                     render={({ field: { onChange, value } }) => (
                       <Input
@@ -161,7 +168,7 @@ const ContactUs: React.FC = () => {
                         value={value}
                         onChange={onChange}
                         className={classNames({
-                          'error-border': errors.phone
+                          'error-border': errors.phone,
                         })}
                       />
                       // <PhoneInput
@@ -184,7 +191,7 @@ const ContactUs: React.FC = () => {
                   <textarea
                     placeholder="Message"
                     className={classNames({
-                      'error-border': errors.message
+                      'error-border': errors.message,
                     })}
                     {...register('message', { required: true })}
                   />
@@ -192,7 +199,11 @@ const ContactUs: React.FC = () => {
                 <div className="form-submit submit-btn col-12">
                   <button type="submit" className="main-btn">
                     {loading ? (
-                      <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
+                      <Bars
+                        height={25}
+                        fill={'#FFFFFF'}
+                        stroke={'transparent'}
+                      />
                     ) : (
                       <>{'Send'}</>
                     )}
@@ -224,7 +235,7 @@ const ContactUs: React.FC = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ContactUs;
+export default ContactUs

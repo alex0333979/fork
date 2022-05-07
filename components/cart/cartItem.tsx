@@ -1,17 +1,22 @@
-import React, { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Cart, CartItem, ProductType, useUpdateCartItemPriceMutation } from '@/generated/graphql';
-import { PAGES, PHOTO_PRICES } from '../../constants';
-import { useRouter } from 'next/router';
-import { showError, showSuccess } from '@/lib/utils/toast';
+import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+import {
+  Cart,
+  CartItem,
+  ProductType,
+  useUpdateCartItemPriceMutation,
+} from '@/generated/graphql'
+import { PAGES, PHOTO_PRICES } from '../../constants'
+import { useRouter } from 'next/router'
+import { showError, showSuccess } from '@/lib/utils/toast'
 
 interface CartItemProps {
-  index: number;
-  item: CartItem;
-  currency?: string;
-  onDelete: (id: string) => void;
-  onUpdated: (cart: Cart) => void;
-  onPreview: (url: string) => void;
+  index: number
+  item: CartItem
+  currency?: string
+  onDelete: (id: string) => void
+  onUpdated: (cart: Cart) => void
+  onPreview: (url: string) => void
 }
 
 const ShoppingCartItem: React.FC<CartItemProps> = ({
@@ -20,38 +25,38 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   onDelete,
   onUpdated,
   onPreview,
-  index
+  index,
 }) => {
-  const { t } = useTranslation();
-  const router = useRouter();
-  const [updateCartItemPrice] = useUpdateCartItemPriceMutation();
+  const { t } = useTranslation()
+  const router = useRouter()
+  const [updateCartItemPrice] = useUpdateCartItemPriceMutation()
 
   const onChangeOption = useCallback(
     async (price: number) => {
       const { data } = await updateCartItemPrice({
-        variables: { item: { price, itemId: item.id } }
-      });
-      const cart = data?.UpdateCartItemPrice.data;
+        variables: { item: { price, itemId: item.id } },
+      })
+      const cart = data?.UpdateCartItemPrice.data
       if (cart) {
-        showSuccess('CartItem is updated.');
-        onUpdated(cart);
+        showSuccess('CartItem is updated.')
+        onUpdated(cart)
       } else {
-        showError('CartItem update failed.');
+        showError('CartItem update failed.')
       }
     },
-    [item.id, onUpdated, updateCartItemPrice]
-  );
+    [item.id, onUpdated, updateCartItemPrice],
+  )
 
   const onClickItem = useCallback(
     async (item: CartItem) => {
       if (item.product === ProductType.PassportApplication) {
-        await router.push(`${PAGES.application.index}${item.productId}`);
+        await router.push(`${PAGES.application.index}${item.productId}`)
       } else {
-        onPreview(item.imageUrl ?? '');
+        onPreview(item.imageUrl ?? '')
       }
     },
-    [onPreview, router]
-  );
+    [onPreview, router],
+  )
 
   return (
     <li>
@@ -75,7 +80,10 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             {'Price: '}
             {item.product === ProductType.PassportApplication && (
               <span>
-                {t('currency', { value: item.isComplete ? item.price / 100 : 0, currency })}
+                {t('currency', {
+                  value: item.isComplete ? item.price / 100 : 0,
+                  currency,
+                })}
               </span>
             )}
           </p>
@@ -110,12 +118,14 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             type="button"
             className="main-btn small outline"
             onClick={() => onClickItem(item)}>
-            {item.product === ProductType.PassportApplication ? 'Review' : 'Preview'}
+            {item.product === ProductType.PassportApplication
+              ? 'Review'
+              : 'Preview'}
           </button>
         </div>
       </div>
     </li>
-  );
-};
+  )
+}
 
-export default ShoppingCartItem;
+export default ShoppingCartItem

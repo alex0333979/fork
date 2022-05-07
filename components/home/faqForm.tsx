@@ -1,32 +1,32 @@
-import React, { useCallback, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import classNames from 'classnames';
-import { Bars } from 'react-loading-icons';
-import { useSendEmailToAdminMutation } from '@/generated/graphql';
-import { showError, showSuccess } from '@/lib/utils/toast';
+import React, { useCallback, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import classNames from 'classnames'
+import { Bars } from 'react-loading-icons'
+import { useSendEmailToAdminMutation } from '@/generated/graphql'
+import { showError, showSuccess } from '@/lib/utils/toast'
 
 const FaqForm: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [sendEmailToAdmin] = useSendEmailToAdminMutation();
+  const [loading, setLoading] = useState<boolean>(false)
+  const [sendEmailToAdmin] = useSendEmailToAdminMutation()
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm();
+    formState: { errors },
+  } = useForm()
 
   const onSubmit = useCallback(
     async (input: { email: string; name: string; question: string }) => {
-      setLoading(true);
-      const { data } = await sendEmailToAdmin({ variables: { data: input } });
+      setLoading(true)
+      const { data } = await sendEmailToAdmin({ variables: { data: input } })
       if (data?.SendEmailToAdmin.status ?? false) {
-        showSuccess('Your question is sent to admin successfully.');
+        showSuccess('Your question is sent to admin successfully.')
       } else {
-        showError('Send email to admin is failed');
+        showError('Send email to admin is failed')
       }
-      setLoading(false);
+      setLoading(false)
     },
-    [sendEmailToAdmin]
-  );
+    [sendEmailToAdmin],
+  )
 
   return (
     <div className="faq-form">
@@ -46,7 +46,7 @@ const FaqForm: React.FC = () => {
                       type="text"
                       placeholder="Your name"
                       className={classNames({
-                        'error-border': errors.name
+                        'error-border': errors.name,
                       })}
                       {...register('name', { required: true })}
                     />
@@ -60,11 +60,11 @@ const FaqForm: React.FC = () => {
                       type="email"
                       placeholder="Your E-mail"
                       className={classNames({
-                        'error-border': errors.email
+                        'error-border': errors.email,
                       })}
                       {...register('email', {
                         required: true,
-                        pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+                        pattern: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
                       })}
                     />
                   </span>
@@ -75,7 +75,7 @@ const FaqForm: React.FC = () => {
                     <textarea
                       placeholder="Your question"
                       className={classNames({
-                        'error-border': errors.question
+                        'error-border': errors.question,
                       })}
                       {...register('question', { required: true })}
                     />
@@ -97,7 +97,7 @@ const FaqForm: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FaqForm;
+export default FaqForm

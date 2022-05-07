@@ -1,13 +1,13 @@
-import React from 'react';
-import Image from 'next/image';
-import classNames from 'classnames';
+import React from 'react'
+import Image from 'next/image'
+import classNames from 'classnames'
 
-import { ProcessingStatus } from '../types';
+import { ProcessingStatus } from '../types'
 
 interface Props {
-  status: ProcessingStatus;
-  openInfo: boolean;
-  onOpenInfo: (v: boolean) => void;
+  status: ProcessingStatus
+  openInfo: boolean
+  onOpenInfo: (v: boolean) => void
 }
 
 const StepInfo: React.FC<Props> = ({ status, openInfo, onOpenInfo }) => (
@@ -26,33 +26,45 @@ const StepInfo: React.FC<Props> = ({ status, openInfo, onOpenInfo }) => (
           <li>
             <div className="img">
               <span>
-                <Image src="/images/steps/step-02-00-v2.png" layout={'fill'} alt="" />
+                <Image
+                  src="/images/steps/step-02-00-v2.png"
+                  layout={'fill'}
+                  alt=""
+                />
               </span>
             </div>
             <div className="text">
               <p>
-                Background is uniform, plain, and free of shadows. Use a neutral expression with
-                eyes clearly visible
+                Background is uniform, plain, and free of shadows. Use a neutral
+                expression with eyes clearly visible
               </p>
             </div>
           </li>
           <li>
             <div className="img">
               <span>
-                <Image src="/images/steps/step-02-01-v2.png" layout={'fill'} alt="" />
+                <Image
+                  src="/images/steps/step-02-01-v2.png"
+                  layout={'fill'}
+                  alt=""
+                />
               </span>
             </div>
             <div className="text">
               <p>
-                Position your head inside the green overlay. No glasses allowed. Your hair or
-                clothing may not obscure your face
+                Position your head inside the green overlay. No glasses allowed.
+                Your hair or clothing may not obscure your face
               </p>
             </div>
           </li>
           <li>
             <div className="img">
               <span>
-                <Image src="/images/steps/step-02-02-v2.png" layout={'fill'} alt="" />
+                <Image
+                  src="/images/steps/step-02-02-v2.png"
+                  layout={'fill'}
+                  alt=""
+                />
               </span>
             </div>
             <div className="text">
@@ -69,15 +81,25 @@ const StepInfo: React.FC<Props> = ({ status, openInfo, onOpenInfo }) => (
         <div className="info-wrap">
           <div className="img">
             {status === ProcessingStatus.failed ? (
-              <Image src={'/images/steps/step-03-00.png'} width={340} height={326} alt="" />
+              <Image
+                src={'/images/steps/step-03-00.png'}
+                width={340}
+                height={326}
+                alt=""
+              />
             ) : (
-              <Image src={'/images/steps/step-03-01.png'} width={392} height={299} alt="" />
+              <Image
+                src={'/images/steps/step-03-01.png'}
+                width={392}
+                height={299}
+                alt=""
+              />
             )}
           </div>
         </div>
       </div>
     )}
   </div>
-);
+)
 
-export default StepInfo;
+export default StepInfo

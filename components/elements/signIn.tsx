@@ -1,22 +1,22 @@
-import React, { useCallback, useState } from 'react';
-import { useAuth } from '@/lib/auth';
-import ModalContainer from '@/components/elements/modalContainer';
-import classNames from 'classnames';
-import { Bars } from 'react-loading-icons';
+import React, { useCallback, useState } from 'react'
+import { useAuth } from '@/lib/auth'
+import ModalContainer from '@/components/elements/modalContainer'
+import classNames from 'classnames'
+import { Bars } from 'react-loading-icons'
 
 const SignIn: React.FC = () => {
-  const { openSignIn, toggleSignInModal, toggleSignUpModal } = useAuth();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { openSignIn, toggleSignInModal, toggleSignUpModal } = useAuth()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const onValueChange = useCallback((name: string, value: string) => {
-    console.log('======', name, value);
-  }, []);
+    console.log('======', name, value)
+  }, [])
 
   const onSubmit = useCallback(() => {
-    setLoading(true);
-    console.log('=======');
-    setLoading(false);
-  }, []);
+    setLoading(true)
+    console.log('=======')
+    setLoading(false)
+  }, [])
 
   return (
     <ModalContainer
@@ -32,7 +32,7 @@ const SignIn: React.FC = () => {
               <input
                 type="email"
                 className={classNames({
-                  'error-border': false
+                  'error-border': false,
                 })}
                 name="email"
                 value={''}
@@ -48,7 +48,7 @@ const SignIn: React.FC = () => {
               <input
                 type="password"
                 className={classNames({
-                  'error-border': false
+                  'error-border': false,
                 })}
                 name="password"
                 value={''}
@@ -86,7 +86,7 @@ const SignIn: React.FC = () => {
         </div>
       </form>
     </ModalContainer>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn

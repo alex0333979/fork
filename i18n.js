@@ -1,7 +1,7 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import enTranslation from './public/locales/en/common.json';
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import enTranslation from './public/locales/en/common.json'
 
 i18n
   // learn more: https://github.com/i18next/i18next-browser-languageDetector
@@ -14,17 +14,17 @@ i18n
     fallbackLng: 'en',
     debug: false,
     react: {
-      useSuspense: false
+      useSuspense: false,
     },
     defaultLocale: 'en',
     locales: ['en'],
     interpolation: {
-      escapeValue: false // not needed for react as it escapes by default
+      escapeValue: false, // not needed for react as it escapes by default
     },
     resources: {
       en: {
-        translation: { ...enTranslation }
-      }
-    }
-  });
-export default i18n;
+        translation: { ...enTranslation },
+      },
+    },
+  })
+export default i18n

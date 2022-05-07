@@ -1,13 +1,18 @@
-import React from 'react';
+import React from 'react'
 
 interface CheckBoxProps {
-  text: string;
-  placeholder?: string;
-  value?: boolean;
-  onChange: (status: boolean) => void;
+  text: string
+  placeholder?: string
+  value?: boolean
+  onChange: (status: boolean) => void
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({ text, placeholder = '', value = false, onChange }) => (
+const CheckBox: React.FC<CheckBoxProps> = ({
+  text,
+  placeholder = '',
+  value = false,
+  onChange,
+}) => (
   <label className="full-size">
     <span className="field checkbox">
       <span className="name">{text}</span>
@@ -24,6 +29,6 @@ const CheckBox: React.FC<CheckBoxProps> = ({ text, placeholder = '', value = fal
     </span>
     <span className="warning">{'Warning message'}</span>
   </label>
-);
+)
 
-export default CheckBox;
+export default CheckBox

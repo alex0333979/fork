@@ -1,14 +1,19 @@
-import { NavItemProps } from '@/components/layout/navItem';
-import { ProcessStepProps } from '@/components/elements/processStep';
-import { FieldType, FormField, ShippingType, ValidationType } from '@/generated/graphql';
+import { NavItemProps } from '@/components/layout/navItem'
+import { ProcessStepProps } from '@/components/elements/processStep'
+import {
+  FieldType,
+  FormField,
+  ShippingType,
+  ValidationType,
+} from '@/generated/graphql'
 
-export const TOKEN_EXPIRE_IN = 31556926; // seconds
+export const TOKEN_EXPIRE_IN = 31556926 // seconds
 
 export const PAGES = {
   home: '/',
   application: {
     index: '/application/',
-    create: '/application/create/'
+    create: '/application/create/',
   },
   checkout: {
     index: '/checkout/',
@@ -16,7 +21,7 @@ export const PAGES = {
     shipping: '/checkout/shipping/',
     payment: '/checkout/payment/',
     review: '/checkout/review/',
-    thankYou: '/checkout/thank-you/'
+    thankYou: '/checkout/thank-you/',
   },
   cart: '/cart/',
   photo: {
@@ -24,14 +29,14 @@ export const PAGES = {
     editPhoto: '/photo/edit-photo/',
     takePhoto: '/photo/take-photo/',
     takeNewPhoto: '/photo/take-new-photo/',
-    processPhoto: '/photo/process-photo/'
+    processPhoto: '/photo/process-photo/',
   },
-  contactUs: '/contact-us',
-  about: '/about',
-  terms: '/terms',
-  shippingPolicy: '/shipping-policy',
-  upSell: '/up-sell'
-};
+  contactUs: '/contact-us/',
+  about: '/about/',
+  terms: '/terms/',
+  shippingPolicy: '/shipping-policy/',
+  upSell: '/up-sell/',
+}
 
 export const SEO = {
   home: {
@@ -39,112 +44,115 @@ export const SEO = {
     description:
       'Take Your Own Passport Photo From Anywhere - Use Your Cellphone and Get Instant Compliance and Verification',
     keywords:
-      'ake passport photo at home, print your own passport photo, cellphone passport photos, passport photos online'
+      'ake passport photo at home, print your own passport photo, cellphone passport photos, passport photos online',
   },
   selectType: {
     title: 'PassportPhotos - Select type',
-    description: 'Taking your passport photo on your own or having someone take it for you',
-    keywords: 'diy passport photo, passport photos online, how to take a passport photo at home'
+    description:
+      'Taking your passport photo on your own or having someone take it for you',
+    keywords:
+      'diy passport photo, passport photos online, how to take a passport photo at home',
   },
   takePhoto: {
     title: 'PassportPhotos - Take a photo',
     description: `It's Your Shot, On Your Own Time, and From Anywhere With your cellphone or upload an existing photo.`,
-    keywords: 'digital passport photo, cellphone passport photo, take a passport photo'
+    keywords:
+      'digital passport photo, cellphone passport photo, take a passport photo',
   },
   processPhoto: {
     title: 'PassportPhotos - Process Photo',
     description:
       'Biometrically Verified Passport Photos From the Comfort of Your Home. Let our AI technology do the work',
     keywords:
-      'Compliant passport photos, verified passport photos, biometrically approved passport photos.'
+      'Compliant passport photos, verified passport photos, biometrically approved passport photos.',
   },
   editPhoto: {
     title: 'PassportPhotos - Edit Photo',
     description:
       'Biometrically Verified Passport Photos From the Comfort of Your Home. Let our AI technology do the work',
     keywords:
-      'Compliant passport photos, verified passport photos, biometrically approved passport photos.'
+      'Compliant passport photos, verified passport photos, biometrically approved passport photos.',
   },
   passportApplication: {
     title: 'PassportPhotos - Passport Application Page',
     description: `Add a passport application to your passport photo purchase. 
                   Convenient, easy and secure passport application completion.`,
     keywords:
-      'Online passport applications, digital passport application form, passport application forms'
+      'Online passport applications, digital passport application form, passport application forms',
   },
   checkout: {
     title: 'PassportPhotos - Checkout',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   contactUs: {
     title: 'PassportPhotos - Contact Us',
     description:
       'Take Your Own Passport Photo From Anywhere - Use Your Cellphone and Get Instant Compliance and Verification',
     keywords:
-      'take passport photo at home, print your own passport photo, cellphone passport photos, passport photos online'
+      'take passport photo at home, print your own passport photo, cellphone passport photos, passport photos online',
   },
   about: {
     title: 'PassportPhotos - About',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   faq: {
     title: 'PassportPhotos - FAQ',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   shippingPolicy: {
     title: 'PassportPhotos - Shipping Policy',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   terms: {
     title: 'PassportPhotos - Terms of Use',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   shoppingCart: {
     title: 'PassportPhotos - Shopping cart',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   upSell: {
     title: 'PassportPhotos - UpSell',
     description: '',
-    keywords: ''
+    keywords: '',
   },
   thankYou: {
     title: 'PassportPhotos - Thank you',
     description: '',
-    keywords: ''
-  }
-};
+    keywords: '',
+  },
+}
 
 export const TOP_MENUS: NavItemProps[] = [
   {
     title: 'Passport Photo',
     link: PAGES.photo.index,
-    items: []
+    items: [],
   },
   {
-    title: 'How To Take A Photo',
-    link: `${PAGES.home}#how-to-take-a-photo`,
-    items: []
+    title: 'FAQ',
+    link: `${PAGES.home}#faq`,
+    items: [],
   },
   {
     title: 'About',
     link: PAGES.about,
-    items: []
+    items: [],
   },
   {
     title: 'Contact Us',
     link: PAGES.contactUs,
-    items: []
-  }
-];
+    items: [],
+  },
+]
 
-export const PHOTO_FORM = 'Photo';
+export const PHOTO_FORM = 'Photo'
 
 export const CHECKOUT_STEPS: ProcessStepProps = {
   title: 'New passport application',
@@ -154,25 +162,25 @@ export const CHECKOUT_STEPS: ProcessStepProps = {
     {
       name: 'Delivery Method',
       step: 1,
-      link: PAGES.checkout.index
+      link: PAGES.checkout.index,
     },
     {
       name: 'Shipping Information',
       step: 2,
-      link: PAGES.checkout.shipping
+      link: PAGES.checkout.shipping,
     },
     {
       name: 'Payment Information',
       step: 3,
-      link: PAGES.checkout.payment
+      link: PAGES.checkout.payment,
     },
     {
       name: 'Review and Pay',
       step: 4,
-      link: PAGES.checkout.review
-    }
-  ]
-};
+      link: PAGES.checkout.review,
+    },
+  ],
+}
 
 export const PHOTO_STEP = {
   step: 1,
@@ -180,58 +188,62 @@ export const PHOTO_STEP = {
     {
       name: 'Take Photo',
       step: 1,
-      link: PAGES.photo.takePhoto
+      link: PAGES.photo.takePhoto,
     },
     {
       name: 'Biometric Verification',
       step: 2,
-      link: PAGES.photo.takePhoto
+      link: PAGES.photo.takePhoto,
     },
     {
       name: 'Checkout & Delivery',
       step: 3,
-      link: PAGES.photo.processPhoto
-    }
-  ]
-};
+      link: PAGES.photo.processPhoto,
+    },
+  ],
+}
 
-export const CONCIERGE_PRICE = 950;
+export const CONCIERGE_PRICE = 950
 
 export const PHOTO_PRICES = [
   {
     text: '2 Photos',
     price: 1850,
-    value: 2
+    value: 2,
   },
   {
     text: '4 Photos',
     price: 2450,
-    value: 4
+    value: 4,
   },
   {
     text: '6 Photos',
     price: 2850,
-    value: 6
-  }
-];
+    value: 6,
+  },
+]
 
-export const SHIPPING_TYPES: { title: string; price: number; value: ShippingType }[] = [
+export const SHIPPING_TYPES: {
+  title: string
+  price: number
+  value: ShippingType
+}[] = [
   {
     title: 'Expedited 1-2 business days',
     price: 1950,
-    value: ShippingType.From1To2
+    value: ShippingType.From1To2,
   },
   {
     title: 'Standard 3-5 business days',
     price: 350,
-    value: ShippingType.From3To6
+    value: ShippingType.From3To6,
   },
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
     price: 0,
-    value: ShippingType.NoShipping
-  }
-];
+    value: ShippingType.NoShipping,
+  },
+]
 
 export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
   firstName: {
@@ -240,7 +252,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'firstName',
     text: 'First Name',
     required: true,
-    placeholder: 'Input First name'
+    placeholder: 'Input First name',
   },
   lastName: {
     index: 1,
@@ -248,7 +260,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'lastName',
     text: 'Last Name',
     required: true,
-    placeholder: 'Input Last name'
+    placeholder: 'Input Last name',
   },
   address1: {
     index: 2,
@@ -256,7 +268,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'address1',
     text: 'Address 1',
     required: true,
-    placeholder: 'Input address1'
+    placeholder: 'Input address1',
   },
   address2: {
     index: 3,
@@ -264,7 +276,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'address2',
     text: 'Address 2',
     required: false,
-    placeholder: 'Input address2'
+    placeholder: 'Input address2',
   },
   city: {
     index: 4,
@@ -272,7 +284,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'city',
     text: 'City',
     required: true,
-    placeholder: 'Input City'
+    placeholder: 'Input City',
   },
   postalCode: {
     index: 5,
@@ -284,19 +296,19 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     validations: [
       {
         type: ValidationType.IsNumber,
-        message: 'Use correct US Zio code format'
+        message: 'Use correct US Zio code format',
       },
       {
         type: ValidationType.MaxLength,
         message: 'Use correct US Zio code format',
-        value: 5
+        value: 5,
       },
       {
         type: ValidationType.MinLength,
         message: 'Use correct US Zio code format',
-        value: 5
-      }
-    ]
+        value: 5,
+      },
+    ],
   },
   state: {
     index: 6,
@@ -304,7 +316,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'state',
     text: 'State',
     required: true,
-    placeholder: 'Please Select'
+    placeholder: 'Please Select',
   },
   country: {
     index: 7,
@@ -313,7 +325,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     text: 'Country',
     required: true,
     placeholder: 'Select Country',
-    defaultValue: 'US'
+    defaultValue: 'US',
   },
   email: {
     index: 8,
@@ -322,12 +334,13 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     text: 'Email',
     required: true,
     placeholder: 'Input Email',
-    notes: 'Please enter your valid email address in the format - yourname@domainname.com',
+    notes:
+      'Please enter your valid email address in the format - yourname@domainname.com',
     validations: [
       {
-        type: ValidationType.IsEmail
-      }
-    ]
+        type: ValidationType.IsEmail,
+      },
+    ],
   },
   phone: {
     index: 9,
@@ -340,11 +353,11 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     validations: [
       {
         type: ValidationType.IsPhone,
-        message: 'Input correct (US) phone Number format'
-      }
-    ]
-  }
-};
+        message: 'Input correct (US) phone Number format',
+      },
+    ],
+  },
+}
 
 export const CHECKLIST = [
   'Head Pose',
@@ -357,61 +370,61 @@ export const CHECKLIST = [
   'Expression',
   'Diagonal Face',
   'Eyes Open',
-  'Pupils'
-];
+  'Pupils',
+]
 
 export const US_PASSPORT_IMAGES = [
   {
     name: 'Visa',
-    image: 'us-visa.png'
+    image: 'us-visa.png',
   },
   {
     name: 'USCIS Forms Photo',
-    image: 'us-uscis.png'
+    image: 'us-uscis.png',
   },
   {
     name: 'Green Card (Permanent Resident)',
-    image: 'us-green-card.png'
+    image: 'us-green-card.png',
   },
   {
     name: 'NY Gun License',
-    image: 'us-gun-license.png'
-  }
-];
+    image: 'us-gun-license.png',
+  },
+]
 
 export const UK_PASSPORT_IMAGES = [
   {
     name: 'Passport',
-    image: 'uk-passport-photo.png'
+    image: 'uk-passport-photo.png',
   },
   {
     name: 'Passport (ONLINE)',
-    image: 'uk-passport-photo.png'
+    image: 'uk-passport-photo.png',
   },
   {
     name: 'Driving Licence',
-    image: 'uk-driving-license.png'
+    image: 'uk-driving-license.png',
   },
   {
     name: 'ID / residence card',
-    image: 'uk-res-card.png'
+    image: 'uk-res-card.png',
   },
   {
     name: 'Visa',
-    image: 'uk-visa.jpeg'
-  }
-];
+    image: 'uk-visa.jpeg',
+  },
+]
 
-export const PRIVATE_ROUTES = ['/photo/edit-photo'];
+export const PRIVATE_ROUTES = ['/photo/edit-photo']
 
 export const EXTRA_PATH = [
   'order-passport-photos-online',
   'take-your-own-passport-photo',
   'take-your-passport-photo-with-your-phone',
   'take-passport-photos-at-home',
-  'print-passport-photos-at-home'
-];
+  'print-passport-photos-at-home',
+]
 
-export * from './countries';
-export * from './documents';
-export * from './languageCurrencies';
+export * from './countries'
+export * from './documents'
+export * from './languageCurrencies'

@@ -1,24 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
-import classNames from 'classnames';
-import { useMediaQuery } from '@material-ui/core';
-import { PAGES } from '../../constants';
-import { useAuth } from '@/lib/auth';
-import { useRouter } from 'next/router';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import classNames from 'classnames'
+import { useMediaQuery } from '@material-ui/core'
+import { PAGES } from '../../constants'
+import { useAuth } from '@/lib/auth'
+import { useRouter } from 'next/router'
 const LanguageCurrencySelector = dynamic(
   () => import('@/components/elements/languageCurrencySelector'),
   {
-    ssr: false
-  }
-);
+    ssr: false,
+  },
+)
 
 const AppHeader: React.FC = () => {
-  const router = useRouter();
-  const matches = useMediaQuery('only screen and (min-width: 641px)');
-  const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false);
-  const { cart, setOpenDocument } = useAuth();
+  const router = useRouter()
+  const matches = useMediaQuery('only screen and (min-width: 641px)')
+  const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false)
+  const { cart, setOpenDocument } = useAuth()
 
   // const logout = useCallback(async () => {
   //   signOut();
@@ -31,19 +32,29 @@ const AppHeader: React.FC = () => {
 
   const onClickCart = useCallback(async () => {
     if (cart?.items?.length ?? 0 > 0) {
-      await router.push(PAGES.cart);
+      await router.push(PAGES.cart)
     } else {
-      await router.push(PAGES.photo.index);
+      await router.push(PAGES.photo.index)
     }
-  }, [cart?.items?.length, router]);
+  }, [cart?.items?.length, router])
 
   useEffect(() => {
     if (mobileNavVisible) {
-      document.body.classList.add('scroll-lock');
+      document.body.classList.add('scroll-lock')
     } else {
-      document.body.classList.remove('scroll-lock');
+      document.body.classList.remove('scroll-lock')
     }
-  }, [mobileNavVisible]);
+  }, [mobileNavVisible])
+
+  const faqLink = useMemo(() => {
+    const path = router.asPath
+    const isNonHomePage = Object.keys(PAGES).some(
+      // @ts-ignore
+      (_pathName) => _pathName !== 'home' && path === PAGES[_pathName],
+    )
+
+    return isNonHomePage ? `${PAGES.home}#faq` : '#faq'
+  }, [router.asPath])
 
   return (
     <header>
@@ -53,11 +64,20 @@ const AppHeader: React.FC = () => {
             <div className="logo">
               <Link href={PAGES.home}>
                 <a>
-                  <Image src="/images/logo.svg" alt="" width={450} height={141} />
+                  <Image
+                    src="/images/logo.svg"
+                    alt=""
+                    width={450}
+                    height={141}
+                  />
                 </a>
               </Link>
             </div>
-            <div className={classNames({ 'main-menu': true, open: mobileNavVisible })}>
+            <div
+              className={classNames({
+                'main-menu': true,
+                open: mobileNavVisible,
+              })}>
               <nav>
                 <ul>
                   <li>
@@ -68,16 +88,16 @@ const AppHeader: React.FC = () => {
                   <li>
                     <a
                       onClick={async () => {
-                        setOpenDocument(true);
-                        await router.push(PAGES.home);
+                        setOpenDocument(true)
+                        await router.push(PAGES.home)
                       }}>
                       <span>{'Passport Photo'}</span>
                     </a>
                   </li>
                   <li>
-                    <Link href={`${PAGES.home}#how-to-take-a-photo`}>
+                    <Link href={faqLink}>
                       <a>
-                        <span>{'How To Take A Photo'}</span>
+                        <span>FAQ</span>
                       </a>
                     </Link>
                   </li>
@@ -102,8 +122,8 @@ const AppHeader: React.FC = () => {
                   type="button"
                   className="main-btn"
                   onClick={async () => {
-                    setOpenDocument(true);
-                    await router.push(PAGES.home);
+                    setOpenDocument(true)
+                    await router.push(PAGES.home)
                   }}>
                   {'START NOW'}
                 </button>
@@ -141,8 +161,8 @@ const AppHeader: React.FC = () => {
                 type="button"
                 className="main-btn small"
                 onClick={async () => {
-                  setOpenDocument(true);
-                  await router.push(PAGES.home);
+                  setOpenDocument(true)
+                  await router.push(PAGES.home)
                 }}>
                 {'START NOW'}
               </button>
@@ -160,8 +180,14 @@ const AppHeader: React.FC = () => {
             {/*    </button>*/}
             {/*  </div>*/}
             {/* )}*/}
-            <div className={classNames({ 'menu-btn': true, open: mobileNavVisible })}>
-              <button type="button" onClick={() => setMobileNavVisible(!mobileNavVisible)}>
+            <div
+              className={classNames({
+                'menu-btn': true,
+                open: mobileNavVisible,
+              })}>
+              <button
+                type="button"
+                onClick={() => setMobileNavVisible(!mobileNavVisible)}>
                 <span className="icon-menu" />
               </button>
             </div>
@@ -169,7 +195,7 @@ const AppHeader: React.FC = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default AppHeader;
+export default AppHeader

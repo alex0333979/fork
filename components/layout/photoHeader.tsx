@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const PhotoHeader: React.FC = () => (
   <header>
@@ -11,7 +11,12 @@ const PhotoHeader: React.FC = () => (
             <div className="logo">
               <Link href={'/'}>
                 <a>
-                  <Image src="/images/logo.svg" alt="" width={450} height={141} />
+                  <Image
+                    src="/images/logo.svg"
+                    alt=""
+                    width={450}
+                    height={141}
+                  />
                 </a>
               </Link>
             </div>
@@ -38,5 +43,5 @@ const PhotoHeader: React.FC = () => (
       </div>
     </div>
   </header>
-);
-export default PhotoHeader;
+)
+export default PhotoHeader

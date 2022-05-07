@@ -1,65 +1,81 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants';
-import { useMediaQuery } from '@material-ui/core';
-import classNames from 'classnames';
-import { Country, PDocument, useDocumentsByCountryQuery } from '@/generated/graphql';
-import dynamic from 'next/dynamic';
-import { CountryFlag, iCountry } from '@/components/elements/countrySelector';
-import { Bars } from 'react-loading-icons';
-const CountrySelector = dynamic(() => import('@/components/elements/countrySelector'), {
-  ssr: false
-});
+import React, { useCallback, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants'
+import { useMediaQuery } from '@material-ui/core'
+import classNames from 'classnames'
+import {
+  Country,
+  PDocument,
+  useDocumentsByCountryQuery,
+} from '@/generated/graphql'
+import dynamic from 'next/dynamic'
+import { CountryFlag, iCountry } from '@/components/elements/countrySelector'
+import { Bars } from 'react-loading-icons'
+const CountrySelector = dynamic(
+  () => import('@/components/elements/countrySelector'),
+  {
+    ssr: false,
+  },
+)
 
 interface MainIntroProps {
-  open: boolean;
-  setOpen: React.Dispatch<boolean>;
-  country: Country | null;
-  document: PDocument | null;
-  title?: string;
-  description?: string;
+  open: boolean
+  setOpen: React.Dispatch<boolean>
+  country: Country | null
+  document: PDocument | null
+  title?: string
+  description?: string
 }
 
 const MainIntro = (
-  { open, setOpen, country: pCountry, document: pDoc, title, description }: MainIntroProps,
-  ref: any
+  {
+    open,
+    setOpen,
+    country: pCountry,
+    document: pDoc,
+    title,
+    description,
+  }: MainIntroProps,
+  ref: any,
 ) => {
   const [country, setCountry] = useState<iCountry>({
     label: pCountry?.country ?? 'United States',
-    value: pCountry?.countryCode ?? 'US'
-  });
-  const [documents, setDocuments] = useState<PDocument[]>([]);
-  const router = useRouter();
-  const matches = useMediaQuery('only screen and (min-width: 641px)');
+    value: pCountry?.countryCode ?? 'US',
+  })
+  const [documents, setDocuments] = useState<PDocument[]>([])
+  const router = useRouter()
+  const matches = useMediaQuery('only screen and (min-width: 641px)')
   const { data, loading } = useDocumentsByCountryQuery({
     variables: { country: country.label },
-    fetchPolicy: 'no-cache'
-  });
-  const [document, setDocument] = useState<Country | undefined>(pDoc ?? undefined);
+    fetchPolicy: 'no-cache',
+  })
+  const [document, setDocument] = useState<Country | undefined>(
+    pDoc ?? undefined,
+  )
 
   useEffect(() => {
     if (data?.DocumentsByCountry.data) {
-      setDocuments(data.DocumentsByCountry.data);
+      setDocuments(data.DocumentsByCountry.data)
     }
-  }, [data?.DocumentsByCountry.data]);
+  }, [data?.DocumentsByCountry.data])
 
   const goTakePhoto = useCallback(
     async (d: Country | undefined) => {
       if (!d) {
-        return;
+        return
       }
-      setDocument(d);
-      await router.push(`${PAGES.photo.takePhoto}?documentId=${d.id}`);
+      setDocument(d)
+      await router.push(`${PAGES.photo.takePhoto}?documentId=${d.id}`)
     },
-    [router]
-  );
+    [router],
+  )
 
   const onSelectedCountry = useCallback((country: iCountry) => {
-    setCountry(country);
-    setDocument(undefined);
-  }, []);
+    setCountry(country)
+    setDocument(undefined)
+  }, [])
 
   return (
     <>
@@ -77,9 +93,14 @@ const MainIntro = (
                 {!pDoc && (
                   <div className="form-fields">
                     <label>
-                      <span className="label">{'What country is this for?'}</span>
+                      <span className="label">
+                        {'What country is this for?'}
+                      </span>
                       <span className="field">
-                        <CountrySelector country={country} onSelectCountry={onSelectedCountry} />
+                        <CountrySelector
+                          country={country}
+                          onSelectCountry={onSelectedCountry}
+                        />
                       </span>
                     </label>
                   </div>
@@ -87,11 +108,15 @@ const MainIntro = (
                 <div className="submit-btn">
                   {pCountry && pDoc ? (
                     <>
-                      <a className="main-btn big" onClick={() => goTakePhoto(document)}>
+                      <a
+                        className="main-btn big"
+                        onClick={() => goTakePhoto(document)}>
                         {`Start Your ${pCountry.country} ${pDoc.type} Photos Now`}
                       </a>
                       <div className="choose-text">
-                        <a onClick={() => setOpen(true)}>{'Change Country Or Document'}</a>
+                        <a onClick={() => setOpen(true)}>
+                          {'Change Country Or Document'}
+                        </a>
                       </div>
                     </>
                   ) : pCountry ? (
@@ -108,15 +133,28 @@ const MainIntro = (
             </div>
             <div className="intro-img">
               <div className="country-flag">
-                <CountryFlag size={'30px'} code={country.value.toLocaleLowerCase()} />
+                <CountryFlag
+                  size={'30px'}
+                  code={country.value.toLocaleLowerCase()}
+                />
                 {/* <Image src={'/images/emoji/british-flag.png'} width={40} height={40} alt="" />*/}
               </div>
               <span>
                 <picture>
                   {matches ? (
-                    <Image src={'/images/intro-01.png'} width={737} height={747} alt={''} />
+                    <Image
+                      src={'/images/intro-01.png'}
+                      width={737}
+                      height={747}
+                      alt={''}
+                    />
                   ) : (
-                    <Image src={'/images/intro-01-3-m.png'} width={271} height={254} alt="" />
+                    <Image
+                      src={'/images/intro-01-3-m.png'}
+                      width={271}
+                      height={254}
+                      alt=""
+                    />
                   )}
                 </picture>
               </span>
@@ -141,7 +179,10 @@ const MainIntro = (
             <div className="select-document">
               <div className="form-fields">
                 <label>
-                  <CountrySelector country={country} onSelectCountry={onSelectedCountry} />
+                  <CountrySelector
+                    country={country}
+                    onSelectCountry={onSelectedCountry}
+                  />
                 </label>
               </div>
               <div className="document-options">
@@ -160,16 +201,22 @@ const MainIntro = (
                           US_PASSPORT_IMAGES.find((i) => i.name === d.type) ? (
                             <Image
                               src={`/images/passports/${
-                                US_PASSPORT_IMAGES.find((i) => i.name === d.type)?.image
+                                US_PASSPORT_IMAGES.find(
+                                  (i) => i.name === d.type,
+                                )?.image
                               }`}
                               layout={'fill'}
                               alt=""
                             />
                           ) : d.country === 'United Kingdom' &&
-                            UK_PASSPORT_IMAGES.find((i) => i.name === d.type) ? (
+                            UK_PASSPORT_IMAGES.find(
+                              (i) => i.name === d.type,
+                            ) ? (
                             <Image
                               src={`/images/passports/${
-                                UK_PASSPORT_IMAGES.find((i) => i.name === d.type)?.image
+                                UK_PASSPORT_IMAGES.find(
+                                  (i) => i.name === d.type,
+                                )?.image
                               }`}
                               layout={'fill'}
                               alt=""
@@ -183,7 +230,11 @@ const MainIntro = (
                               alt=""
                             />
                           ) : (
-                            <Image src="/images/passports/default-img.png" layout={'fill'} alt="" />
+                            <Image
+                              src="/images/passports/default-img.png"
+                              layout={'fill'}
+                              alt=""
+                            />
                           )}
                         </span>
                       </span>
@@ -193,7 +244,9 @@ const MainIntro = (
                 ))}
               </div>
               <div className="submit-btn">
-                <a className="main-btn big outline" onClick={() => goTakePhoto(document)}>
+                <a
+                  className="main-btn big outline"
+                  onClick={() => goTakePhoto(document)}>
                   <i className="icon-camera" />
                   {'Take A Photo'}
                 </a>
@@ -203,7 +256,7 @@ const MainIntro = (
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default React.forwardRef(MainIntro);
+export default React.forwardRef(MainIntro)

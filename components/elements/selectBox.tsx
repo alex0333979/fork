@@ -1,30 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FormField } from '@/generated/graphql';
-import classNames from 'classnames';
+import React, { useCallback, useEffect, useState } from 'react'
+import { FormField } from '@/generated/graphql'
+import classNames from 'classnames'
 
 interface SelectBoxProps {
-  formField: FormField;
-  onValueChange: (name: string, value: string | number) => void;
-  error: string | undefined;
+  formField: FormField
+  onValueChange: (name: string, value: string | number) => void
+  error: string | undefined
 }
 
-const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, error }) => {
-  const [value, setValue] = useState<string | number>('default');
+const SelectBox: React.FC<SelectBoxProps> = ({
+  formField,
+  onValueChange,
+  error,
+}) => {
+  const [value, setValue] = useState<string | number>('default')
 
   useEffect(() => {
-    setValue(formField.value ?? formField.defaultValue ?? 'default');
+    setValue(formField.value ?? formField.defaultValue ?? 'default')
     if (!formField.value && formField.defaultValue !== undefined) {
-      onValueChange(formField.name, formField.defaultValue);
+      onValueChange(formField.name, formField.defaultValue)
     }
-  }, [formField.defaultValue, formField.name, formField.value, onValueChange]);
+  }, [formField.defaultValue, formField.name, formField.value, onValueChange])
 
   const onChange = useCallback(
     (value: string | number) => {
-      onValueChange(formField.name, value);
-      setValue(value);
+      onValueChange(formField.name, value)
+      setValue(value)
     },
-    [formField.name, onValueChange]
-  );
+    [formField.name, onValueChange],
+  )
 
   return (
     <label className="half-size">
@@ -39,7 +43,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, error }
             value={value}
             onChange={(e) => onChange(e.target.value)}
             className={classNames({
-              'error-border': !!error
+              'error-border': !!error,
             })}>
             <option value="default" disabled hidden>
               {formField.placeholder ?? ''}
@@ -54,7 +58,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ formField, onValueChange, error }
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
     </label>
-  );
-};
+  )
+}
 
-export default SelectBox;
+export default SelectBox

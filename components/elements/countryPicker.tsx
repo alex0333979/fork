@@ -1,30 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { FormField } from '@/generated/graphql';
-import { CountryDropdown } from 'react-country-region-selector';
-import classNames from 'classnames';
+import React, { useCallback, useEffect, useState } from 'react'
+import { FormField } from '@/generated/graphql'
+import { CountryDropdown } from 'react-country-region-selector'
+import classNames from 'classnames'
 
 interface CountryPickerProps {
-  formField: FormField;
-  selectedCountry: (name: string, country: string) => void;
-  error: string | undefined;
+  formField: FormField
+  selectedCountry: (name: string, country: string) => void
+  error: string | undefined
 }
 
-const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountry, error }) => {
-  const [country, setCountry] = useState<string>(formField.value ? formField.value : '');
+const CountryPicker: React.FC<CountryPickerProps> = ({
+  formField,
+  selectedCountry,
+  error,
+}) => {
+  const [country, setCountry] = useState<string>(
+    formField.value ? formField.value : '',
+  )
 
   const selectCountry = useCallback(
     (country: string) => {
-      selectedCountry(formField.name, country);
-      setCountry(country);
+      selectedCountry(formField.name, country)
+      setCountry(country)
     },
-    [formField.name, selectedCountry]
-  );
+    [formField.name, selectedCountry],
+  )
 
   useEffect(() => {
     if (!formField.value && formField.required) {
-      selectedCountry(formField.name, 'US');
+      selectedCountry(formField.name, 'US')
     }
-  }, [formField.name, formField.required, formField.value, selectedCountry]);
+  }, [formField.name, formField.required, formField.value, selectedCountry])
 
   return (
     <label className="half-size">
@@ -39,13 +45,13 @@ const CountryPicker: React.FC<CountryPickerProps> = ({ formField, selectedCountr
           value={country}
           onChange={selectCountry}
           classes={classNames({
-            'error-border': !!error
+            'error-border': !!error,
           })}
         />
       </span>
       {error ? <span className="attention">{error}</span> : <></>}
     </label>
-  );
-};
+  )
+}
 
-export default CountryPicker;
+export default CountryPicker

@@ -1,17 +1,17 @@
-import React from 'react';
-import { CHECKOUT_STEPS } from '../../constants';
-import ProcessStep from '@/components/elements/processStep';
-import ApplicationToolbar from '@/components/elements/applicationToolbar';
+import React from 'react'
+import { CHECKOUT_STEPS } from '../../constants'
+import ProcessStep from '@/components/elements/processStep'
+import ApplicationToolbar from '@/components/elements/applicationToolbar'
 
 interface CheckoutLayoutProps {
-  step: number;
-  completeStep: number;
-  loading: boolean;
-  backLink: string | undefined;
-  onSubmit: () => void;
-  nextButtonText?: string;
-  disableSubmit?: boolean;
-  children: React.ReactNode;
+  step: number
+  completeStep: number
+  loading: boolean
+  backLink: string | undefined
+  onSubmit: () => void
+  nextButtonText?: string
+  disableSubmit?: boolean
+  children: React.ReactNode
 }
 
 const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
@@ -22,7 +22,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
   children,
   nextButtonText = 'Next',
   disableSubmit,
-  onSubmit
+  onSubmit,
 }) => (
   <div className="cart-page">
     <div className="page-title">
@@ -58,6 +58,6 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
       />
     </div>
   </div>
-);
+)
 
-export default CheckoutLayout;
+export default CheckoutLayout

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAuth } from '@/lib/auth';
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAuth } from '@/lib/auth'
 import {
   CartItemInput,
   FieldType,
@@ -7,50 +7,56 @@ import {
   FormStep,
   ProductType,
   useAddItemsToCartMutation,
-  useSubmitEntryMutation
-} from '@/generated/graphql';
-import ApplicationList from '@/components/application/applicationList';
-import classNames from 'classnames';
-import RadioOption from '@/components/elements/radioOption';
-import TextInput from '@/components/elements/textInput';
-import CountryPicker from '@/components/elements/countryPicker';
-import StatePicker from '@/components/elements/statePicker';
-import AppDatePicker from '@/components/elements/datePicker';
-import SelectBox from '@/components/elements/selectBox';
-import { useRouter } from 'next/router';
-import PhoneInput from '@/components/elements/phoneInput';
-import ProcessStep, { ProcessStepProps } from '@/components/elements/processStep';
-import ApplicationToolbar from '@/components/elements/applicationToolbar';
-import { formValidation, ValidationError } from '@/lib/utils/formValidation';
-import { PAGES } from '../../constants';
+  useSubmitEntryMutation,
+} from '@/generated/graphql'
+import ApplicationList from '@/components/application/applicationList'
+import classNames from 'classnames'
+import RadioOption from '@/components/elements/radioOption'
+import TextInput from '@/components/elements/textInput'
+import CountryPicker from '@/components/elements/countryPicker'
+import StatePicker from '@/components/elements/statePicker'
+import AppDatePicker from '@/components/elements/datePicker'
+import SelectBox from '@/components/elements/selectBox'
+import { useRouter } from 'next/router'
+import PhoneInput from '@/components/elements/phoneInput'
+import ProcessStep, {
+  ProcessStepProps,
+} from '@/components/elements/processStep'
+import ApplicationToolbar from '@/components/elements/applicationToolbar'
+import { formValidation, ValidationError } from '@/lib/utils/formValidation'
+import { PAGES } from '../../constants'
 
 interface ApplicationFormProps {
-  forms: Form[];
-  entry: IEntry;
-  step: number;
+  forms: Form[]
+  entry: IEntry
+  step: number
 }
 
 interface IEntry {
-  id: string | null;
-  currentStep: number;
-  completeStep: number;
-  form: Form;
-  formId: string;
+  id: string | null
+  currentStep: number
+  completeStep: number
+  form: Form
+  formId: string
 }
 
-const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step }) => {
-  const router = useRouter();
+const ApplicationForm: React.FC<ApplicationFormProps> = ({
+  forms,
+  entry,
+  step,
+}) => {
+  const router = useRouter()
   const [formStep, setFormStep] = useState<FormStep | undefined>(
-    entry.form.steps.find((s) => s.step === step)
-  );
-  const [country, setCountry] = useState<string>('US');
-  const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false);
-  const [error, setError] = useState<ValidationError>({});
-  const [loading, setLoading] = useState<boolean>(false);
+    entry.form.steps.find((s) => s.step === step),
+  )
+  const [country, setCountry] = useState<string>('US')
+  const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false)
+  const [error, setError] = useState<ValidationError>({})
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const { updateCart } = useAuth();
-  const [submitEntry] = useSubmitEntryMutation();
-  const [addToCart] = useAddItemsToCartMutation();
+  const { updateCart } = useAuth()
+  const [submitEntry] = useSubmitEntryMutation()
+  const [addToCart] = useAddItemsToCartMutation()
 
   const process: ProcessStepProps = useMemo(
     () => ({
@@ -60,117 +66,133 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
       steps: entry.form.steps.map((s) => ({
         name: s.name,
         step: s.step,
-        link: entry.id ? `${PAGES.application.index}${entry.id}/${s.step}` : PAGES.application.index
-      }))
+        link: entry.id
+          ? `${PAGES.application.index}${entry.id}/${s.step}`
+          : PAGES.application.index,
+      })),
     }),
-    [entry.completeStep, entry.form.description, entry.form.steps, entry.id, step]
-  );
+    [
+      entry.completeStep,
+      entry.form.description,
+      entry.form.steps,
+      entry.id,
+      step,
+    ],
+  )
 
   const getEntityUsername = useCallback((): string => {
-    const a = formStep?.fields.find((f) => f.name === 'first_name');
-    const b = formStep?.fields.find((l) => l.name === 'last_name');
-    return `${a?.value ?? ''} ${b?.value ?? ''}`;
-  }, [formStep?.fields]);
+    const a = formStep?.fields.find((f) => f.name === 'first_name')
+    const b = formStep?.fields.find((l) => l.name === 'last_name')
+    return `${a?.value ?? ''} ${b?.value ?? ''}`
+  }, [formStep?.fields])
 
   useEffect(() => {
-    setFormStep(entry.form.steps.find((s) => s.step === step));
-    setCountry('US');
-  }, [entry.form.steps, formStep, step]);
+    setFormStep(entry.form.steps.find((s) => s.step === step))
+    setCountry('US')
+  }, [entry.form.steps, formStep, step])
 
   const selectForm = useCallback(
     (formId: string) => {
-      router.push(`${PAGES.application.create}?formId=${formId}`).then();
+      router.push(`${PAGES.application.create}?formId=${formId}`).then()
     },
-    [router]
-  );
+    [router],
+  )
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
       if (!formStep) {
-        return;
+        return
       }
-      const fieldIndex = formStep.fields.findIndex((field) => field.name === name);
+      const fieldIndex = formStep.fields.findIndex(
+        (field) => field.name === name,
+      )
       if (fieldIndex === -1) {
-        return;
+        return
       }
-      formStep.fields[fieldIndex].value = value;
-      setFormStep(formStep);
-      setError({});
+      formStep.fields[fieldIndex].value = value
+      setFormStep(formStep)
+      setError({})
     },
-    [formStep]
-  );
+    [formStep],
+  )
 
   const onSetStatePickerDisable = useCallback(
     (status: boolean) => {
       if (!formStep) {
-        return;
+        return
       }
-      const fieldIndex = formStep.fields.findIndex((field) => field.type === FieldType.StatePicker);
+      const fieldIndex = formStep.fields.findIndex(
+        (field) => field.type === FieldType.StatePicker,
+      )
       if (fieldIndex === -1) {
-        return;
+        return
       }
-      formStep.fields[fieldIndex].disabled = status;
-      setFormStep(formStep);
-      setError({});
+      formStep.fields[fieldIndex].disabled = status
+      setFormStep(formStep)
+      setError({})
     },
-    [formStep]
-  );
+    [formStep],
+  )
 
   const onSelectedCountry = useCallback(
     (name: string, value: string) => {
-      onValueChange(name, value);
-      setCountry(value);
-      onSetStatePickerDisable(!(value === 'US' || value === 'CA'));
+      onValueChange(name, value)
+      setCountry(value)
+      onSetStatePickerDisable(!(value === 'US' || value === 'CA'))
     },
-    [onSetStatePickerDisable, onValueChange]
-  );
+    [onSetStatePickerDisable, onValueChange],
+  )
 
   const onAddToCartItem = useCallback(
     async (cartItem: CartItemInput) => {
-      setLoading(true);
+      setLoading(true)
       const { data } = await addToCart({
         variables: {
-          cartItems: [cartItem]
-        }
-      });
-      setLoading(false);
-      const cart = data?.AddItemsToCart.data;
+          cartItems: [cartItem],
+        },
+      })
+      setLoading(false)
+      const cart = data?.AddItemsToCart.data
       if (cart) {
-        updateCart(cart);
-        await router.push(`${PAGES.application.index}${cartItem.productId}/${step + 1}`);
+        updateCart(cart)
+        await router.push(
+          `${PAGES.application.index}${cartItem.productId}/${step + 1}`,
+        )
       }
     },
-    [addToCart, router, step, updateCart]
-  );
+    [addToCart, router, step, updateCart],
+  )
 
   const onSubmit = useCallback(async () => {
     if (!formStep) {
-      return;
+      return
     }
-    const error = formValidation(formStep.fields);
-    setError(error);
+    const error = formValidation(formStep.fields)
+    setError(error)
     if (Object.keys(error).length > 0) {
-      return;
+      return
     }
-    setLoading(true);
+    setLoading(true)
     const { data } = await submitEntry({
-      variables: { entryId: entry.id, formId: entry.formId, formStep }
-    });
-    setLoading(false);
-    const result = data?.SubmitEntry.data;
+      variables: { entryId: entry.id, formId: entry.formId, formStep },
+    })
+    setLoading(false)
+    const result = data?.SubmitEntry.data
     if (result) {
       if (step === 1) {
         await onAddToCartItem({
           name: getEntityUsername(),
           description: `Passport application ${result.form.name}`,
           product: ProductType.PassportApplication,
-          productId: result.id
-        });
+          productId: result.id,
+        })
       } else {
         if (step > entry.form.steps.length - 1) {
-          await router.push(PAGES.cart);
+          await router.push(PAGES.cart)
         } else {
-          await router.push(`${PAGES.application.index}${result.id}/${step + 1}`);
+          await router.push(
+            `${PAGES.application.index}${result.id}/${step + 1}`,
+          )
         }
       }
     }
@@ -183,8 +205,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
     step,
     onAddToCartItem,
     getEntityUsername,
-    router
-  ]);
+    router,
+  ])
 
   return (
     <div className="application-page">
@@ -194,7 +216,8 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
         openAddForm={setIsOpenAddForm}
       />
       <div className="floating-wrap">
-        <div className={classNames('application-form', { blur: isOpenAddForm })}>
+        <div
+          className={classNames('application-form', { blur: isOpenAddForm })}>
           <div className="container">
             <div className="data-wrap horizontal">
               <ProcessStep
@@ -219,7 +242,9 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                 {step === 1 ? (
                   <div className="form-fields">
                     <div className="extra-info">
-                      <h3>{'Before start, please select an application type'}</h3>
+                      <h3>
+                        {'Before start, please select an application type'}
+                      </h3>
                     </div>
                     <div className="group">
                       {forms.map((form, index) => (
@@ -227,7 +252,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                           key={index}
                           className={classNames({
                             'third-size': forms.length > 2,
-                            'half-size': !(forms.length > 2)
+                            'half-size': !(forms.length > 2),
                           })}>
                           <span className="field radio">
                             <span className="name">
@@ -266,7 +291,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               onValueChange={onValueChange}
                               error={error[field.name]}
                             />
-                          );
+                          )
                         case FieldType.Input:
                           return (
                             <TextInput
@@ -275,7 +300,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               onValueChange={onValueChange}
                               error={error[field.name]}
                             />
-                          );
+                          )
                         case FieldType.PhoneInput:
                           return (
                             <PhoneInput
@@ -284,7 +309,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               onValueChange={onValueChange}
                               error={error[field.name]}
                             />
-                          );
+                          )
                         case FieldType.Select:
                           return (
                             <SelectBox
@@ -293,7 +318,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               onValueChange={onValueChange}
                               error={error[field.name]}
                             />
-                          );
+                          )
                         case FieldType.CountryPicker:
                           return (
                             <CountryPicker
@@ -302,7 +327,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               selectedCountry={onSelectedCountry}
                               error={error[field.name]}
                             />
-                          );
+                          )
                         case FieldType.StatePicker:
                           return (
                             <StatePicker
@@ -312,7 +337,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               country={country}
                               error={error[field.name]}
                             />
-                          );
+                          )
                         case FieldType.DatePicker:
                           return (
                             <AppDatePicker
@@ -321,7 +346,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
                               onValueChange={onValueChange}
                               error={error[field.name]}
                             />
-                          );
+                          )
                       }
                     })}
                   </div>
@@ -331,14 +356,18 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({ forms, entry, step })
           </div>
         </div>
         <ApplicationToolbar
-          backLink={step > 1 ? `${PAGES.application.index}${entry.id}/${step - 1}` : undefined}
+          backLink={
+            step > 1
+              ? `${PAGES.application.index}${entry.id}/${step - 1}`
+              : undefined
+          }
           loading={loading}
           blur={isOpenAddForm}
           onNext={onSubmit}
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ApplicationForm;
+export default ApplicationForm

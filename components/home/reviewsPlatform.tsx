@@ -1,10 +1,10 @@
-import React from 'react';
-import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/bundle';
-import { Autoplay, Mousewheel, Navigation } from 'swiper';
-import { scrollToTop } from '@/lib/utils/scrollToTop';
+import React from 'react'
+import Image from 'next/image'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/bundle'
+import { Autoplay, Mousewheel, Navigation } from 'swiper'
+import { scrollToTop } from '@/lib/utils/scrollToTop'
 
 const REVIEWS1 = [
   {
@@ -16,8 +16,8 @@ const REVIEWS1 = [
     author: {
       picture: '/images/reviews/Issac_Ross.png',
       name: 'Isaac Ross, NY',
-      occupation: 'Billing Coordinator'
-    }
+      occupation: 'Billing Coordinator',
+    },
   },
   {
     content: `I love that they do not just print the photo, 
@@ -26,8 +26,8 @@ const REVIEWS1 = [
     author: {
       picture: '/images/reviews/Tia_Webb.png',
       name: 'Tia Webb, NC',
-      occupation: 'Regional Manager'
-    }
+      occupation: 'Regional Manager',
+    },
   },
   {
     content: `Brilliant service - each photo I took was analyzed and where it was not sufficient quality 
@@ -38,8 +38,8 @@ const REVIEWS1 = [
     author: {
       picture: '/images/reviews/George_Pearce.png',
       name: 'George Pearce, TX',
-      occupation: 'Recruiter'
-    }
+      occupation: 'Recruiter',
+    },
   },
   {
     content: `Fast, reliable, great service. 
@@ -48,10 +48,10 @@ const REVIEWS1 = [
     author: {
       picture: '/images/reviews/Isabelle_Parry.png',
       name: 'Isabelle Parry, NM',
-      occupation: 'IT Director'
-    }
-  }
-];
+      occupation: 'IT Director',
+    },
+  },
+]
 
 const REVIEWS2 = [
   {
@@ -60,8 +60,8 @@ const REVIEWS2 = [
     author: {
       picture: '/images/reviews/Alex_Gradner.png',
       name: 'Alex Gardner, NJ',
-      occupation: 'Payroll Specialist'
-    }
+      occupation: 'Payroll Specialist',
+    },
   },
   {
     content: `If I’m going to need my passport for 10 years, getting the shot I wanted made sense. 
@@ -69,8 +69,8 @@ const REVIEWS2 = [
     author: {
       picture: '/images/reviews/Daniel_Marcolina.png',
       name: 'Daniel Marcolina, NJ',
-      occupation: 'Internal Auditor'
-    }
+      occupation: 'Internal Auditor',
+    },
   },
   {
     content: `Very good, it was convenient and easy way to take passport pictures, 
@@ -78,8 +78,8 @@ const REVIEWS2 = [
     author: {
       picture: '/images/reviews/Ace_Jonas.png',
       name: 'Ace Jonas, NY',
-      occupation: 'Regional Group Sales'
-    }
+      occupation: 'Regional Group Sales',
+    },
   },
   {
     content: `Very impressed by how easy it was to navigate and follow instructions on the site. 
@@ -89,13 +89,13 @@ const REVIEWS2 = [
     author: {
       picture: '/images/reviews/Ariah_Clay.png',
       name: 'Ariah Clay, CA',
-      occupation: 'Financial Consultant'
-    }
-  }
-];
+      occupation: 'Financial Consultant',
+    },
+  },
+]
 
 interface ReviewsPlatformProps {
-  setOpen: React.Dispatch<boolean>;
+  setOpen: React.Dispatch<boolean>
 }
 
 const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
@@ -120,7 +120,11 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
               loopAdditionalSlides={4}
               speed={10000}
               grabCursor={true}
-              autoplay={{ delay: 10, disableOnInteraction: true, reverseDirection: false }}>
+              autoplay={{
+                delay: 10,
+                disableOnInteraction: true,
+                reverseDirection: false,
+              }}>
               {REVIEWS1.map((review, index) => (
                 <SwiperSlide key={`swiper1_${index}`}>
                   <div className="reviews-item">
@@ -160,7 +164,11 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
               loopAdditionalSlides={4}
               speed={10000}
               grabCursor={true}
-              autoplay={{ delay: 10, disableOnInteraction: true, reverseDirection: true }}>
+              autoplay={{
+                delay: 10,
+                disableOnInteraction: true,
+                reverseDirection: true,
+              }}>
               {REVIEWS2.map((review, index) => (
                 <SwiperSlide key={`swiper2_${index}`}>
                   <div className="reviews-item">
@@ -202,18 +210,18 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
               grabCursor={true}
               navigation={{
                 prevEl: '.button-prev',
-                nextEl: '.button-next'
+                nextEl: '.button-next',
               }}
               breakpoints={{
                 320: {
-                  slidesPerView: 1
+                  slidesPerView: 1,
                 },
                 480: {
-                  slidesPerView: 2
+                  slidesPerView: 2,
                 },
                 810: {
-                  slidesPerView: 3
-                }
+                  slidesPerView: 3,
+                },
               }}>
               {REVIEWS1.concat(REVIEWS2).map((review, index) => (
                 <SwiperSlide key={`swiper_mobile_${index}`}>
@@ -254,13 +262,13 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
           <button
             className="main-btn big"
             onClick={() => {
-              scrollToTop();
-              setOpen(true);
+              scrollToTop()
+              setOpen(true)
             }}>{`Start Now`}</button>
         </div>
       </div>
     </div>
   </div>
-);
+)
 
-export default ReviewsPlatform;
+export default ReviewsPlatform

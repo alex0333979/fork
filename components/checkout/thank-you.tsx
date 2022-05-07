@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import { Link } from '@material-ui/core';
-import { PAGES } from '../../constants';
+import React from 'react'
+import Image from 'next/image'
+import { Link } from '@material-ui/core'
+import { PAGES } from '../../constants'
 
 const ThankYou: React.FC = () => (
   <div className="success-page">
@@ -24,6 +24,6 @@ const ThankYou: React.FC = () => (
       </div>
     </div>
   </div>
-);
+)
 
-export default ThankYou;
+export default ThankYou

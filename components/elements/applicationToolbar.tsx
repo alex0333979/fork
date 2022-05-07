@@ -1,15 +1,15 @@
-import React from 'react';
-import { Bars } from 'react-loading-icons';
-import classNames from 'classnames';
-import { useRouter } from 'next/router';
+import React from 'react'
+import { Bars } from 'react-loading-icons'
+import classNames from 'classnames'
+import { useRouter } from 'next/router'
 
 interface ApplicationToolbarProps {
-  backLink: string | undefined;
-  loading: boolean;
-  blur?: boolean;
-  onNext: () => void;
-  nextButtonText?: string;
-  disableSubmit?: boolean;
+  backLink: string | undefined
+  loading: boolean
+  blur?: boolean
+  onNext: () => void
+  nextButtonText?: string
+  disableSubmit?: boolean
 }
 
 const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
@@ -18,9 +18,9 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
   blur = false,
   onNext,
   nextButtonText = 'Next',
-  disableSubmit = false
+  disableSubmit = false,
 }) => {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div className={classNames('application-toolbar', { blur })}>
@@ -41,7 +41,9 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
           <div className="next-btn">
             <button
               type="button"
-              className={classNames('main-btn big', { disabled: disableSubmit })}
+              className={classNames('main-btn big', {
+                disabled: disableSubmit,
+              })}
               disabled={disableSubmit}
               onClick={onNext}>
               {loading ? (
@@ -56,7 +58,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ApplicationToolbar;
+export default ApplicationToolbar

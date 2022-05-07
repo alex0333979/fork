@@ -1,19 +1,22 @@
-const siteUrl = 'https://passportphotos.com';
+const siteUrl = 'https://passportphotos.com'
 module.exports = {
   siteUrl,
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    additionalSitemaps: [`${siteUrl}/sitemap.xml`, `${siteUrl}/server-sitemap.xml`],
+    additionalSitemaps: [
+      `${siteUrl}/sitemap.xml`,
+      `${siteUrl}/server-sitemap.xml`,
+    ],
     policies: [
       {
         userAgent: '*',
-        disallow: '/cart'
+        disallow: '/cart',
       },
       {
         userAgent: '*',
-        allow: '/'
-      }
-    ]
+        allow: '/',
+      },
+    ],
   },
-  exclude: ['/cart']
-};
+  exclude: ['/cart'],
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const styles: React.CSSProperties = {
   position: 'fixed',
@@ -6,9 +6,9 @@ const styles: React.CSSProperties = {
   right: 0,
   bottom: 0,
   left: 0,
-  zIndex: 1000
-};
+  zIndex: 1000,
+}
 
-const LoadingMask: React.FC = () => <div style={styles} />;
+const LoadingMask: React.FC = () => <div style={styles} />
 
-export default LoadingMask;
+export default LoadingMask
