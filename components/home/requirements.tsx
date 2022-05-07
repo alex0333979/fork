@@ -78,7 +78,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     const maxResolution: IRequirement = {
       label: 'Maximum Resolution',
       imagePath: '/images/requirements-item/item-06.svg',
-      requirement: extraPath ? <p>1200</p> : <p>{document.dpi}</p>,
+      requirement: extraPath ? <p>1200 dpi</p> : <p>{`${document.dpi} dpi`}</p>,
     }
 
     return [
