@@ -2,23 +2,6 @@ import { IFAQ } from './types'
 
 const commonFaqs: IFAQ[] = [
   {
-    key: 'faq1',
-    question: 'How much do your charge for the photos?',
-    answer: (
-      <p>
-        2 photos cost $18.50
-        <br />
-        4 photos cost $24.50
-        <br />
-        6 photos cost $28.50
-        <br />
-        <br />
-        The digital version of the photos comes in a JPEG format that you can
-        download for your device to print at home or at a local drugstore.
-      </p>
-    ),
-  },
-  {
     key: 'faq2',
     question: 'What are your delivery options? (Home & Digital Delivery)',
     answer: (
