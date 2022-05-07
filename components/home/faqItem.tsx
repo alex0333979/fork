@@ -4,8 +4,8 @@ import classNames from 'classnames'
 import { IFAQ } from './types'
 interface Props {
   faq: IFAQ
-  allClosed: boolean
-  onOpen: () => void
+  allClosed?: boolean
+  onOpen?: () => void
 }
 
 const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
@@ -23,7 +23,7 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
       <div className="question">
         <h3
           onClick={() => {
-            onOpen()
+            if (onOpen) onOpen()
             setShow(!show)
           }}>
           {faq.question} <span className="icon-close" />

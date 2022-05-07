@@ -31,11 +31,11 @@ export const PAGES = {
     takeNewPhoto: '/photo/take-new-photo/',
     processPhoto: '/photo/process-photo/',
   },
-  contactUs: '/contact-us',
-  about: '/about',
-  terms: '/terms',
-  shippingPolicy: '/shipping-policy',
-  upSell: '/up-sell',
+  contactUs: '/contact-us/',
+  about: '/about/',
+  terms: '/terms/',
+  shippingPolicy: '/shipping-policy/',
+  upSell: '/up-sell/',
 }
 
 export const SEO = {

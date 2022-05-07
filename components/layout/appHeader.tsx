@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -45,6 +46,16 @@ const AppHeader: React.FC = () => {
     }
   }, [mobileNavVisible])
 
+  const faqLink = useMemo(() => {
+    const path = router.asPath
+    const isNonHomePage = Object.keys(PAGES).some(
+      // @ts-ignore
+      (_pathName) => _pathName !== 'home' && path === PAGES[_pathName],
+    )
+
+    return isNonHomePage ? `${PAGES.home}#faq` : '#faq'
+  }, [router.asPath])
+
   return (
     <header>
       <div className="wrapper">
@@ -84,7 +95,7 @@ const AppHeader: React.FC = () => {
                     </a>
                   </li>
                   <li>
-                    <Link href={`${PAGES.home}#faq`}>
+                    <Link href={faqLink}>
                       <a>
                         <span>FAQ</span>
                       </a>

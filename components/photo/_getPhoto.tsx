@@ -5,7 +5,8 @@ import classNames from 'classnames'
 import axios from 'axios'
 
 import ProcessStepPhoto from '@/components/elements/processStepPhoto'
-import FaqItem, { FaqItemProps } from '@/components/home/faqItem'
+import FaqItem from '@/components/home/faqItem'
+import { IFAQ } from '@/components/home/types'
 import TakePhotoModal from '@/components/elements/takePhotoModal'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql'
@@ -20,8 +21,9 @@ interface Props {
   ) => void
 }
 
-const Data: FaqItemProps[] = [
+const Data: IFAQ[] = [
   {
+    key: 'faq1',
     question: 'Background',
     answer: (
       <p>
@@ -32,6 +34,7 @@ const Data: FaqItemProps[] = [
     ),
   },
   {
+    key: 'faq2',
     question: 'Head Position',
     answer: (
       <>
@@ -63,6 +66,7 @@ const Data: FaqItemProps[] = [
     ),
   },
   {
+    key: 'faq3',
     question: 'Facial Expression',
     answer: (
       <p>
@@ -73,6 +77,7 @@ const Data: FaqItemProps[] = [
     ),
   },
   {
+    key: 'faq4',
     question: 'Obstructions',
     answer: (
       <p>
@@ -417,12 +422,8 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                 <div className="faq-section">
                   <div className="faq-list">
                     <ul>
-                      {Data.map((item, index) => (
-                        <FaqItem
-                          key={index}
-                          answer={item.answer}
-                          question={item.question}
-                        />
+                      {Data.map((item) => (
+                        <FaqItem key={item.key} faq={item} />
                       ))}
                     </ul>
                   </div>

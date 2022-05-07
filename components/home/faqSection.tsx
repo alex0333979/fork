@@ -21,6 +21,7 @@ const FaqSection: React.FC<Props> = ({ extraPath }) => {
   }, [])
 
   const faqs: IFAQ[] = useMemo(() => {
+    console.log({ extraPath })
     if (!extraPath) return Faqs.default
 
     return Faqs[extraPath] || Faqs.default
