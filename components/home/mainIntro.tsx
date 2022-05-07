@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants'
@@ -77,6 +77,13 @@ const MainIntro = (
     setDocument(undefined)
   }, [])
 
+  const countryName = useMemo(() => {
+    if (!pCountry) return ''
+    if (pCountry.countryCode?.toLowerCase() === 'us') return 'US'
+
+    return pCountry.country || ''
+  }, [pCountry])
+
   return (
     <>
       <div className="main-intro" ref={ref}>
@@ -111,7 +118,7 @@ const MainIntro = (
                       <a
                         className="main-btn big"
                         onClick={() => goTakePhoto(document)}>
-                        {`Start Your ${pCountry.country} ${pDoc.type} Photos Now`}
+                        {`Take Your ${countryName} ${pDoc.type} Photo Now`}
                       </a>
                       <div className="choose-text">
                         <a onClick={() => setOpen(true)}>
