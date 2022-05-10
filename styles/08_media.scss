@@ -1958,6 +1958,10 @@
     &.big {
       min-height: 70px;
     }
+
+    &.upload-button {
+      display: none;
+    }
   }
 
   .main-intro .intro-wrap .intro-title {

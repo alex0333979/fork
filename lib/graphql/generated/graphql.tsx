@@ -232,31 +232,6 @@ export type Head = {
   position?: Maybe<Position>;
 };
 
-export type Log = {
-  apiVersion: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  failed: Array<PhotoTest>;
-  hasPassed: Scalars['Boolean'];
-  id: Scalars['ID'];
-  imageResolution: Scalars['String'];
-  passed?: Maybe<Array<PhotoTest>>;
-  photoUrl: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  userAgent: Scalars['String'];
-  userId: Scalars['String'];
-};
-
-export type LogPaginatedResponse = {
-  data: Array<Log>;
-  total: Scalars['Float'];
-};
-
-export type LogResponse = {
-  data?: Maybe<Log>;
-  message: Scalars['String'];
-  status: Scalars['Boolean'];
-};
-
 export type Mutation = {
   AddBillingAddressToCart: CartResponse;
   AddItemsToCart: CartResponse;
@@ -266,7 +241,6 @@ export type Mutation = {
   ClearCart: CartResponse;
   CreateGuest: TokenResponse;
   CreateOrder: OrderResponse;
-  DeleteLogs: LogResponse;
   DeleteOrder: StringResponse;
   GetPaymentIntent: PaymentIntentResponse;
   Login: TokenResponse;
@@ -314,11 +288,6 @@ export type MutationCheckPhotoArgs = {
   entryId: Scalars['String'];
   imageResolution: Scalars['String'];
   userAgent: Scalars['String'];
-};
-
-
-export type MutationDeleteLogsArgs = {
-  ids: Array<Scalars['String']>;
 };
 
 
@@ -546,11 +515,6 @@ export enum PaymentStatus {
   Pending = 'PENDING'
 }
 
-export type PhotoTest = {
-  message: Scalars['String'];
-  type: Scalars['String'];
-};
-
 export type Position = {
   max?: Maybe<Scalars['Float']>;
   min?: Maybe<Scalars['Float']>;
@@ -573,10 +537,10 @@ export type Query = {
   Form: FormResponse;
   Forms: Array<Form>;
   GetSignedUrl: SignedUrlResponse;
-  Logs: LogPaginatedResponse;
   Me: UserResponse;
   Order: OrderResponse;
   OrderByOrderNumber: OrderResponse;
+  OrderSkusByOrderNumber: StringsResponse;
   Orders: OrderPaginatedResponse;
   OrdersForAdmin: OrderPaginatedResponse;
 };
@@ -618,20 +582,17 @@ export type QueryFormArgs = {
 };
 
 
-export type QueryLogsArgs = {
-  page?: Maybe<Scalars['Int']>;
-  pageSize?: Maybe<Scalars['Int']>;
-  search?: Maybe<Scalars['String']>;
-  skip?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryOrderArgs = {
   orderId: Scalars['String'];
 };
 
 
 export type QueryOrderByOrderNumberArgs = {
+  orderNumber: Scalars['Float'];
+};
+
+
+export type QueryOrderSkusByOrderNumberArgs = {
   orderNumber: Scalars['Float'];
 };
 
@@ -709,6 +670,12 @@ export type Size = {
 
 export type StringResponse = {
   data?: Maybe<Scalars['String']>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
+export type StringsResponse = {
+  data: Array<Scalars['String']>;
   message: Scalars['String'];
   status: Scalars['Boolean'];
 };
@@ -1070,6 +1037,13 @@ export type OrderByOrderNumberQueryVariables = Exact<{
 
 
 export type OrderByOrderNumberQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+
+export type OrderSkusByOrderNumberQueryVariables = Exact<{
+  orderNumber: Scalars['Float'];
+}>;
+
+
+export type OrderSkusByOrderNumberQuery = { __typename: 'Query', OrderSkusByOrderNumber: { __typename: 'StringsResponse', message: string, status: boolean, data: Array<string> } };
 
 export type GetSignedUrlQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2582,6 +2556,43 @@ export function useOrderByOrderNumberLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type OrderByOrderNumberQueryHookResult = ReturnType<typeof useOrderByOrderNumberQuery>;
 export type OrderByOrderNumberLazyQueryHookResult = ReturnType<typeof useOrderByOrderNumberLazyQuery>;
 export type OrderByOrderNumberQueryResult = Apollo.QueryResult<OrderByOrderNumberQuery, OrderByOrderNumberQueryVariables>;
+export const OrderSkusByOrderNumberDocument = gql`
+    query OrderSkusByOrderNumber($orderNumber: Float!) {
+  OrderSkusByOrderNumber(orderNumber: $orderNumber) {
+    message
+    status
+    data
+  }
+}
+    `;
+
+/**
+ * __useOrderSkusByOrderNumberQuery__
+ *
+ * To run a query within a React component, call `useOrderSkusByOrderNumberQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderSkusByOrderNumberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrderSkusByOrderNumberQuery({
+ *   variables: {
+ *      orderNumber: // value for 'orderNumber'
+ *   },
+ * });
+ */
+export function useOrderSkusByOrderNumberQuery(baseOptions: Apollo.QueryHookOptions<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>(OrderSkusByOrderNumberDocument, options);
+      }
+export function useOrderSkusByOrderNumberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>(OrderSkusByOrderNumberDocument, options);
+        }
+export type OrderSkusByOrderNumberQueryHookResult = ReturnType<typeof useOrderSkusByOrderNumberQuery>;
+export type OrderSkusByOrderNumberLazyQueryHookResult = ReturnType<typeof useOrderSkusByOrderNumberLazyQuery>;
+export type OrderSkusByOrderNumberQueryResult = Apollo.QueryResult<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>;
 export const GetSignedUrlDocument = gql`
     query GetSignedUrl {
   GetSignedUrl {

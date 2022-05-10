@@ -254,7 +254,7 @@ const ReviewAndPay: React.FC = () => {
             shippingPrice: shippingPrice / 100,
           })
         }
-        await router.push(PAGES.checkout.thankYou)
+        await router.push(`${PAGES.checkout.thankYou}?n=${order.orderNumber}`)
       }
     },
     [clearCart, currency, router, shippingPrice, tax, updateCart],
