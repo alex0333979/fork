@@ -81,6 +81,14 @@ query OrderByOrderNumber($orderNumber: Float!) {
     }
 }
 
+query OrderSkusByOrderNumber($orderNumber: Float!) {
+    OrderSkusByOrderNumber(orderNumber: $orderNumber) {
+        message
+        status
+        data
+    }
+}
+
 query GetSignedUrl {
     GetSignedUrl {
         message

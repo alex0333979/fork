@@ -399,7 +399,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                         </button>
                         <button
                           type="button"
-                          className="main-btn big outline"
+                          className="main-btn big outline upload-button"
                           onClick={() => inputFileRef?.current?.click()}>
                           <span className="icon-upload" />
                           {'Upload'}
