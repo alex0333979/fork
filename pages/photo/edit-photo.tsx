@@ -16,14 +16,12 @@ export interface EditPhotoProps {
   accessToken?: string
   entry?: Entry
   type?: string
-  imgRes?: string
 }
 
 const EditPhotoPage: NextPage<EditPhotoProps> = ({
   accessToken,
   entry,
   type,
-  imgRes,
 }) => (
   <>
     <NextSeo
@@ -31,12 +29,7 @@ const EditPhotoPage: NextPage<EditPhotoProps> = ({
       description={SEO.editPhoto.description}
     />
     <PhotoLayout>
-      <EditPhoto
-        accessToken={accessToken}
-        entry={entry}
-        type={type}
-        imgRes={imgRes}
-      />
+      <EditPhoto accessToken={accessToken} entry={entry} type={type} />
     </PhotoLayout>
   </>
 )
@@ -54,7 +47,6 @@ export const getServerSideProps: GetServerSideProps<EditPhotoProps> = async (
   const accessToken = context?.query?.accessToken as string
   const entryId = context?.query?.entryId as string
   const type = context?.query?.type as string
-  const imgRes = (context?.query?.imgRes as string) || 'x'
 
   if (!entryId && !accessToken) {
     return {
@@ -81,7 +73,6 @@ export const getServerSideProps: GetServerSideProps<EditPhotoProps> = async (
             type === FACING_MODES.ENVIRONMENT
               ? FACING_MODES.ENVIRONMENT
               : FACING_MODES.USER,
-          imgRes,
         },
       }
     }

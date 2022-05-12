@@ -5,14 +5,14 @@ import classNames from 'classnames'
 
 interface StatePickerProps {
   formField: FormField
-  country: string
+  country?: string
   selectedState: (name: string, country: string) => void
   error: string | undefined
 }
 
 const StatePicker: React.FC<StatePickerProps> = ({
   formField,
-  country,
+  country = 'US',
   selectedState,
   error,
 }) => {

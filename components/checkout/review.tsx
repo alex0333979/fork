@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCookies } from 'react-cookie'
 import CheckoutLayout from '@/components/checkout/checkoutLayout'
 import {
   CardElement,
@@ -32,6 +33,7 @@ import {
   StripeError,
 } from '@stripe/stripe-js'
 import { useRouter } from 'next/router'
+import { TEMP_ORDER_NUM } from '@/lib/apolloClient'
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -59,6 +61,7 @@ const CARD_OPTIONS = {
 
 const ReviewAndPay: React.FC = () => {
   const { t } = useTranslation()
+  const [, setCookie] = useCookies([TEMP_ORDER_NUM])
   const {
     cart,
     updateCart,
@@ -254,10 +257,13 @@ const ReviewAndPay: React.FC = () => {
             shippingPrice: shippingPrice / 100,
           })
         }
-        await router.push(`${PAGES.checkout.thankYou}?n=${order.orderNumber}`)
+        setCookie(TEMP_ORDER_NUM, order.orderNumber, {
+          path: '/',
+        })
+        await router.push(PAGES.checkout.thankYou)
       }
     },
-    [clearCart, currency, router, shippingPrice, tax, updateCart],
+    [clearCart, currency, router, setCookie, shippingPrice, tax, updateCart],
   )
 
   const onSubmit = useCallback(async () => {

@@ -81,11 +81,13 @@ query OrderByOrderNumber($orderNumber: Float!) {
     }
 }
 
-query OrderSkusByOrderNumber($orderNumber: Float!) {
-    OrderSkusByOrderNumber(orderNumber: $orderNumber) {
+query OrderSkus($orderNumber: Float!) {
+    OrderByOrderNumber(orderNumber: $orderNumber) {
         message
         status
-        data
+        data {
+            skus
+        }
     }
 }
 

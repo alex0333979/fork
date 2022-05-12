@@ -1,10 +1,12 @@
 /* eslint-disable max-len */
 import React, { useCallback } from 'react'
 import { useRouter } from 'next/router'
+import { useCookies } from 'react-cookie'
 
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { TakePhotoPageProps } from '@/pages/photo/take-photo'
 import { SignedUrl, useSubmitEntryMutation } from '@/generated/graphql'
+import { TEMP_IMG_DIM } from '@/lib/apolloClient'
 import { PAGES } from '../../constants'
 import GetPhoto from './_getPhoto'
 
@@ -14,6 +16,7 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
   documentId,
 }) => {
   const router = useRouter()
+  const [, setCookie] = useCookies([TEMP_IMG_DIM])
 
   const [submitEntry] = useSubmitEntryMutation()
 
@@ -55,12 +58,23 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
         } else {
           showSuccess('Entry is created.')
         }
+        setCookie(TEMP_IMG_DIM, imgResolution, {
+          path: '/',
+        })
         await router.push(
-          `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${type}&documentId=${documentId}&imgRes=${imgResolution}`,
+          `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${type}&documentId=${documentId}`,
         )
       }
     },
-    [documentId, entry?.id, form.id, form.steps, router, submitEntry],
+    [
+      documentId,
+      entry?.id,
+      form.id,
+      form.steps,
+      router,
+      setCookie,
+      submitEntry,
+    ],
   )
 
   return <GetPhoto onSubmitEntry={createEntry} />

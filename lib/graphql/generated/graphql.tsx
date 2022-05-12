@@ -227,6 +227,11 @@ export type FormStepInput = {
   step: Scalars['Int'];
 };
 
+export enum FulfillmentCenter {
+  Europe = 'Europe',
+  Us = 'US'
+}
+
 export type Head = {
   Dimensions?: Maybe<Dimensions>;
   position?: Maybe<Position>;
@@ -421,8 +426,10 @@ export type Order = {
   orderNumber: Scalars['Int'];
   paymentStatus: PaymentStatus;
   promoCode?: Maybe<Scalars['String']>;
+  shipStation?: Maybe<OrderShipStation>;
   shippingAddress?: Maybe<ShippingAddress>;
   shippingType: ShippingType;
+  skus?: Maybe<Array<Scalars['String']>>;
   status: OrderTrack;
   totalPrice: Scalars['Float'];
   trackingNumber?: Maybe<Scalars['String']>;
@@ -452,6 +459,13 @@ export type OrderResponse = {
   data?: Maybe<Order>;
   message: Scalars['String'];
   status: Scalars['Boolean'];
+};
+
+export type OrderShipStation = {
+  fulfillmentCenter: FulfillmentCenter;
+  orderId: Scalars['Int'];
+  status?: Maybe<Array<ShipStationStatus>>;
+  trackingNumber?: Maybe<Scalars['String']>;
 };
 
 export enum OrderStatus {
@@ -540,7 +554,6 @@ export type Query = {
   Me: UserResponse;
   Order: OrderResponse;
   OrderByOrderNumber: OrderResponse;
-  OrderSkusByOrderNumber: StringsResponse;
   Orders: OrderPaginatedResponse;
   OrdersForAdmin: OrderPaginatedResponse;
 };
@@ -592,11 +605,6 @@ export type QueryOrderByOrderNumberArgs = {
 };
 
 
-export type QueryOrderSkusByOrderNumberArgs = {
-  orderNumber: Scalars['Float'];
-};
-
-
 export type QueryOrdersArgs = {
   page?: Maybe<Scalars['Int']>;
   pageSize?: Maybe<Scalars['Int']>;
@@ -610,6 +618,11 @@ export type QueryOrdersForAdminArgs = {
   pageSize?: Maybe<Scalars['Int']>;
   search?: Maybe<Scalars['String']>;
   skip?: Maybe<Scalars['Int']>;
+};
+
+export type ShipStationStatus = {
+  date: Scalars['String'];
+  status: Scalars['String'];
 };
 
 export type ShippingAddress = {
@@ -674,12 +687,6 @@ export type StringResponse = {
   status: Scalars['Boolean'];
 };
 
-export type StringsResponse = {
-  data: Array<Scalars['String']>;
-  message: Scalars['String'];
-  status: Scalars['Boolean'];
-};
-
 export type TestResult = {
   code?: Maybe<Code>;
   failed?: Maybe<Array<Dictionary>>;
@@ -698,7 +705,6 @@ export type TokenResponse = {
 };
 
 export type TrackStep = {
-  createdAt: Scalars['DateTime'];
   status: OrderStatus;
   updatedAt: Scalars['DateTime'];
 };
@@ -792,11 +798,11 @@ export type FormFragment = { __typename: 'Form', id: string, name: string, descr
 
 export type EntryFragment = { __typename: 'Entry', id: string, userId: string, currentStep: number, completeStep: number, isComplete: boolean, formId: string, createdAt: any, updatedAt: any, form: { __typename: 'Form', id: string, name: string, description: string, steps: Array<{ __typename: 'FormStep', name: string, step: number, notes?: Maybe<string>, fields: Array<{ __typename: 'FormField', index?: Maybe<number>, name: string, type: FieldType, text?: Maybe<string>, required?: Maybe<boolean>, value?: Maybe<any>, defaultValue?: Maybe<any>, disabled?: Maybe<boolean>, hidden?: Maybe<boolean>, notes?: Maybe<string>, placeholder?: Maybe<string>, options?: Maybe<Array<{ __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any }>>, validations?: Maybe<Array<{ __typename: 'Validation', message?: Maybe<string>, type: ValidationType, value?: Maybe<number> }>> }> }> } };
 
-export type TrackStepFragment = { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any };
+export type TrackStepFragment = { __typename: 'TrackStep', status: OrderStatus, updatedAt: any };
 
-export type OrderTrackFragment = { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } };
+export type OrderTrackFragment = { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } };
 
-export type OrderFragment = { __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } };
+export type OrderFragment = { __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } };
 
 export type SignedUrlFragment = { __typename: 'SignedUrl', url: string, signedUrl: string };
 
@@ -846,7 +852,7 @@ export type SetTrackingNumberMutationVariables = Exact<{
 }>;
 
 
-export type SetTrackingNumberMutation = { __typename: 'Mutation', SetTrackingNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+export type SetTrackingNumberMutation = { __typename: 'Mutation', SetTrackingNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type SubmitEntryMutationVariables = Exact<{
   entryId?: Maybe<Scalars['ID']>;
@@ -907,7 +913,7 @@ export type AddPromoCodeToCartMutation = { __typename: 'Mutation', AddPromoCodeT
 export type CreateOrderMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreateOrderMutation = { __typename: 'Mutation', CreateOrder: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+export type CreateOrderMutation = { __typename: 'Mutation', CreateOrder: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type GetPaymentIntentMutationVariables = Exact<{
   orderId: Scalars['String'];
@@ -1014,7 +1020,7 @@ export type OrdersQueryVariables = Exact<{
 }>;
 
 
-export type OrdersQuery = { __typename: 'Query', Orders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+export type OrdersQuery = { __typename: 'Query', Orders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type CartQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1029,21 +1035,21 @@ export type CompletedOrdersQueryVariables = Exact<{
 }>;
 
 
-export type CompletedOrdersQuery = { __typename: 'Query', CompletedOrders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+export type CompletedOrdersQuery = { __typename: 'Query', CompletedOrders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type OrderByOrderNumberQueryVariables = Exact<{
   orderNumber: Scalars['Float'];
 }>;
 
 
-export type OrderByOrderNumberQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, createdAt: any, updatedAt: any } } }> } };
+export type OrderByOrderNumberQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
-export type OrderSkusByOrderNumberQueryVariables = Exact<{
+export type OrderSkusQueryVariables = Exact<{
   orderNumber: Scalars['Float'];
 }>;
 
 
-export type OrderSkusByOrderNumberQuery = { __typename: 'Query', OrderSkusByOrderNumber: { __typename: 'StringsResponse', message: string, status: boolean, data: Array<string> } };
+export type OrderSkusQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', skus?: Maybe<Array<string>> }> } };
 
 export type GetSignedUrlQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1226,7 +1232,6 @@ export const EntryFragmentDoc = gql`
 export const TrackStepFragmentDoc = gql`
     fragment TrackStep on TrackStep {
   status
-  createdAt
   updatedAt
 }
     `;
@@ -2556,43 +2561,45 @@ export function useOrderByOrderNumberLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type OrderByOrderNumberQueryHookResult = ReturnType<typeof useOrderByOrderNumberQuery>;
 export type OrderByOrderNumberLazyQueryHookResult = ReturnType<typeof useOrderByOrderNumberLazyQuery>;
 export type OrderByOrderNumberQueryResult = Apollo.QueryResult<OrderByOrderNumberQuery, OrderByOrderNumberQueryVariables>;
-export const OrderSkusByOrderNumberDocument = gql`
-    query OrderSkusByOrderNumber($orderNumber: Float!) {
-  OrderSkusByOrderNumber(orderNumber: $orderNumber) {
+export const OrderSkusDocument = gql`
+    query OrderSkus($orderNumber: Float!) {
+  OrderByOrderNumber(orderNumber: $orderNumber) {
     message
     status
-    data
+    data {
+      skus
+    }
   }
 }
     `;
 
 /**
- * __useOrderSkusByOrderNumberQuery__
+ * __useOrderSkusQuery__
  *
- * To run a query within a React component, call `useOrderSkusByOrderNumberQuery` and pass it any options that fit your needs.
- * When your component renders, `useOrderSkusByOrderNumberQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOrderSkusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrderSkusQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOrderSkusByOrderNumberQuery({
+ * const { data, loading, error } = useOrderSkusQuery({
  *   variables: {
  *      orderNumber: // value for 'orderNumber'
  *   },
  * });
  */
-export function useOrderSkusByOrderNumberQuery(baseOptions: Apollo.QueryHookOptions<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>) {
+export function useOrderSkusQuery(baseOptions: Apollo.QueryHookOptions<OrderSkusQuery, OrderSkusQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>(OrderSkusByOrderNumberDocument, options);
+        return Apollo.useQuery<OrderSkusQuery, OrderSkusQueryVariables>(OrderSkusDocument, options);
       }
-export function useOrderSkusByOrderNumberLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>) {
+export function useOrderSkusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrderSkusQuery, OrderSkusQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>(OrderSkusByOrderNumberDocument, options);
+          return Apollo.useLazyQuery<OrderSkusQuery, OrderSkusQueryVariables>(OrderSkusDocument, options);
         }
-export type OrderSkusByOrderNumberQueryHookResult = ReturnType<typeof useOrderSkusByOrderNumberQuery>;
-export type OrderSkusByOrderNumberLazyQueryHookResult = ReturnType<typeof useOrderSkusByOrderNumberLazyQuery>;
-export type OrderSkusByOrderNumberQueryResult = Apollo.QueryResult<OrderSkusByOrderNumberQuery, OrderSkusByOrderNumberQueryVariables>;
+export type OrderSkusQueryHookResult = ReturnType<typeof useOrderSkusQuery>;
+export type OrderSkusLazyQueryHookResult = ReturnType<typeof useOrderSkusLazyQuery>;
+export type OrderSkusQueryResult = Apollo.QueryResult<OrderSkusQuery, OrderSkusQueryVariables>;
 export const GetSignedUrlDocument = gql`
     query GetSignedUrl {
   GetSignedUrl {

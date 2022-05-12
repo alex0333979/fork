@@ -22,7 +22,7 @@ const ShippingInformation: React.FC = () => {
   const [shippingForm, setShippingForm] = useState<{
     [key: string]: FormField
   }>(SHIPPING_BILLING_FORM)
-  const [country, setCountry] = useState<string>('US')
+  const [country, setCountry] = useState<string | undefined>()
   const [error, setError] = useState<ValidationError>({})
   const [loading, setLoading] = useState<boolean>(false)
   const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime())
@@ -38,6 +38,8 @@ const ShippingInformation: React.FC = () => {
         }
       })
     }
+    setCountry(initialForm?.country?.value || 'US')
+
     setShippingForm(initialForm)
   }, [cart?.shippingAddress, me?.shippingAddress])
 
@@ -67,6 +69,7 @@ const ShippingInformation: React.FC = () => {
   const onSubmit = useCallback(async () => {
     const error = formValidation(
       Object.keys(shippingForm).map((key) => shippingForm[key]),
+      country,
     )
     setError(error)
     if (Object.keys(error).length > 0) {
@@ -86,7 +89,7 @@ const ShippingInformation: React.FC = () => {
       updateCart(cart)
       await router.push(PAGES.checkout.payment)
     }
-  }, [addShippingAddress, router, shippingForm, updateCart])
+  }, [addShippingAddress, country, router, shippingForm, updateCart])
 
   return (
     <CheckoutLayout
@@ -120,6 +123,7 @@ const ShippingInformation: React.FC = () => {
                   return (
                     <PhoneInput
                       key={key}
+                      country={country}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}

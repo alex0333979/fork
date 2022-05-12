@@ -167,7 +167,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
     if (!formStep) {
       return
     }
-    const error = formValidation(formStep.fields)
+    const error = formValidation(formStep.fields, country)
     setError(error)
     if (Object.keys(error).length > 0) {
       return
@@ -198,6 +198,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
     }
   }, [
     formStep,
+    country,
     submitEntry,
     entry.id,
     entry.formId,
@@ -305,6 +306,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
                           return (
                             <PhoneInput
                               key={`${index}_${step}`}
+                              country={country}
                               formField={field}
                               onValueChange={onValueChange}
                               error={error[field.name]}

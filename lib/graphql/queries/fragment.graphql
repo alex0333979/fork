@@ -138,7 +138,6 @@ fragment Entry on Entry {
 
 fragment TrackStep on TrackStep {
     status
-    createdAt
     updatedAt
 }
 

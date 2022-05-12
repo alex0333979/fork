@@ -23,7 +23,7 @@ const PaymentInformation: React.FC = () => {
   const [billingForm, setBillingForm] = useState<{ [key: string]: FormField }>(
     SHIPPING_BILLING_FORM,
   )
-  const [country, setCountry] = useState<string>('US')
+  const [country, setCountry] = useState<string | undefined>()
   const [error, setError] = useState<ValidationError>({})
   const [loading, setLoading] = useState<boolean>(false)
   const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime())
@@ -47,6 +47,7 @@ const PaymentInformation: React.FC = () => {
         }
       })
     }
+    setCountry(initialForm?.country?.value || 'US')
     setBillingForm(initialForm)
     setRefreshKey(new Date().getTime())
   }, [
@@ -100,6 +101,7 @@ const PaymentInformation: React.FC = () => {
   const onSubmit = useCallback(async () => {
     const error = formValidation(
       Object.keys(billingForm).map((key) => billingForm[key]),
+      country,
     )
     setError(error)
     if (Object.keys(error).length > 0) {
@@ -109,6 +111,7 @@ const PaymentInformation: React.FC = () => {
     Object.keys(billingForm).map((key) => {
       billingAddress[key] = billingForm[key].value
     })
+
     setLoading(true)
     const { data } = await addBillingAddress({ variables: { billingAddress } })
     setLoading(false)
@@ -117,7 +120,7 @@ const PaymentInformation: React.FC = () => {
       updateCart(cart)
       await router.push(PAGES.checkout.review)
     }
-  }, [addBillingAddress, billingForm, router, updateCart])
+  }, [addBillingAddress, billingForm, country, router, updateCart])
 
   return (
     <CheckoutLayout
@@ -156,6 +159,7 @@ const PaymentInformation: React.FC = () => {
                   return (
                     <PhoneInput
                       key={key}
+                      country={country}
                       formField={field}
                       onValueChange={onValueChange}
                       error={error[field.name]}
