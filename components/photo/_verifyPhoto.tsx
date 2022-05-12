@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 import classNames from 'classnames'
 import { parse } from 'path'
+import { useCookies } from 'react-cookie'
 
 import { PAGES, PHOTO_STEP } from '@/constants/index'
 import ProcessStepPhoto from '@/components/elements/processStepPhoto'
@@ -15,6 +16,7 @@ import {
   useCheckPhotoMutation,
 } from '@/generated/graphql'
 import { showError } from '@/lib/utils/toast'
+import { TEMP_IMG_DIM } from '@/lib/apolloClient'
 
 import StepInfo from './components/stepInfo'
 import TestCase from './components/testCase'
@@ -23,7 +25,6 @@ import { ProcessingStatus } from './types'
 interface Props {
   entry?: Entry
   type: string
-  imgRes: string
   photoUrl?: string
   document?: Country
   showStep?: boolean
@@ -42,7 +43,6 @@ const VerifyPhoto: React.FC<Props> = ({
   entry,
   photoUrl,
   type,
-  imgRes,
   document,
   showStep,
   onCheckout,
@@ -50,13 +50,39 @@ const VerifyPhoto: React.FC<Props> = ({
   renderRetakeButton,
 }) => {
   const router = useRouter()
-  const [checkPhoto] = useCheckPhotoMutation()
+  const [cookie, , removeCookie] = useCookies([TEMP_IMG_DIM])
   const [status, setStatus] = useState<ProcessingStatus>(
     ProcessingStatus.notStarted,
   )
   const [failed, setFailed] = useState<Dictionary[]>([])
   const [passed, setPassed] = useState<Dictionary[]>([])
   const [openStepInfo, setOpenStepInfo] = useState<boolean>(false)
+  const [checkPhoto] = useCheckPhotoMutation({
+    fetchPolicy: 'no-cache',
+    onCompleted: (data) => {
+      const result = data?.CheckPhoto.data
+      if (result) {
+        if (result.code === Code.Code200) {
+          setStatus(ProcessingStatus.success)
+        } else {
+          setStatus(ProcessingStatus.failed)
+        }
+        setFailed(result.failed ?? [])
+        setPassed(result.passed ?? [])
+      } else {
+        showError(data?.CheckPhoto.message ?? 'Unexpected error')
+        setStatus(ProcessingStatus.failed)
+      }
+      removeCookie(TEMP_IMG_DIM)
+    },
+  })
+
+  useEffect(
+    () => () => {
+      setStatus(ProcessingStatus.notStarted)
+    },
+    [],
+  )
 
   const imageUrl = useMemo(
     () =>
@@ -77,30 +103,6 @@ const VerifyPhoto: React.FC<Props> = ({
     }
   }, [imageUrl, status])
 
-  const processPhoto = useCallback(async () => {
-    if (!entry?.id) return
-
-    setStatus(ProcessingStatus.loading)
-    const userAgent = navigator.userAgent
-    const { data } = await checkPhoto({
-      variables: { entryId: entry.id, userAgent, imageResolution: imgRes },
-      fetchPolicy: 'no-cache',
-    })
-    const result = data?.CheckPhoto.data
-    if (result) {
-      if (result.code === Code.Code200) {
-        setStatus(ProcessingStatus.success)
-      } else {
-        setStatus(ProcessingStatus.failed)
-      }
-      setFailed(result.failed ?? [])
-      setPassed(result.passed ?? [])
-    } else {
-      showError(data?.CheckPhoto.message ?? 'Unexpected error')
-      setStatus(ProcessingStatus.failed)
-    }
-  }, [checkPhoto, entry?.id, imgRes])
-
   const onChangePhoto = useCallback(() => {
     if (entry?.id && document?.id) {
       router.push(
@@ -112,9 +114,20 @@ const VerifyPhoto: React.FC<Props> = ({
   }, [document?.id, entry?.id, router, type])
 
   useEffect(() => {
-    ;(async () => processPhoto())()
-    return () => undefined
-  }, [processPhoto])
+    if (!entry?.id) return
+    if (status !== ProcessingStatus.notStarted) return
+
+    setStatus(ProcessingStatus.loading)
+    const userAgent = navigator.userAgent
+    checkPhoto({
+      variables: {
+        entryId: entry.id,
+        userAgent,
+        imageResolution: cookie[TEMP_IMG_DIM] || 'x',
+      },
+      fetchPolicy: 'no-cache',
+    })
+  }, [checkPhoto, cookie, entry?.id, status])
 
   return (
     <>

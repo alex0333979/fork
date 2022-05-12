@@ -9,12 +9,14 @@ const ReactTooltip = dynamic(() => import('react-tooltip'), {
 })
 
 interface PhoneInputProps {
+  country?: string
   formField: FormField
   onValueChange: (name: string, value: string | undefined) => void
   error: string | undefined
 }
 
 const PhoneInput: React.FC<PhoneInputProps> = ({
+  country = 'US',
   formField,
   onValueChange,
   error,
@@ -46,7 +48,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
       </span>
       <span className="field">
         <Input
-          country="US"
+          country={country}
           international
           withCountryCallingCode
           value={value}

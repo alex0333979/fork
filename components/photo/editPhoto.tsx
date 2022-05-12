@@ -13,12 +13,7 @@ import VerifyEmail from './components/verifyEmail'
 import VerifyPhoto from './_verifyPhoto'
 import { ProcessingStatus } from './types'
 
-const EditPhoto: React.FC<EditPhotoProps> = ({
-  accessToken,
-  entry,
-  type,
-  imgRes,
-}) => {
+const EditPhoto: React.FC<EditPhotoProps> = ({ accessToken, entry, type }) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState<string | undefined>()
@@ -63,7 +58,6 @@ const EditPhoto: React.FC<EditPhotoProps> = ({
       <VerifyPhoto
         entry={entry}
         type={type || FACING_MODES.USER}
-        imgRes={imgRes || 'x'}
         photoUrl={imageUrl}
         onChangePhoto={onChangePhoto}
         renderTitle={(s: ProcessingStatus) => {

@@ -20,7 +20,6 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
   entry,
   type,
   document,
-  imgRes,
 }) => {
   const router = useRouter()
   const { updateCart } = useAuth()
@@ -89,7 +88,6 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
         showStep
         entry={entry}
         type={type}
-        imgRes={imgRes}
         document={document}
         onCheckout={onCheckout}
         onChangePhoto={onChangePhoto}

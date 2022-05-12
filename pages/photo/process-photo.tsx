@@ -21,14 +21,12 @@ export interface ProcessPhotoProps {
   entry: Entry
   type: string
   document: Country
-  imgRes: string
 }
 
 const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({
   entry,
   type,
   document,
-  imgRes,
 }) => (
   <>
     <NextSeo
@@ -36,12 +34,7 @@ const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({
       description={SEO.processPhoto.description}
     />
     <PhotoLayout>
-      <ProcessPhoto
-        entry={entry}
-        type={type}
-        document={document}
-        imgRes={imgRes}
-      />
+      <ProcessPhoto entry={entry} type={type} document={document} />
     </PhotoLayout>
   </>
 )
@@ -55,7 +48,6 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
     context.res.setHeader('Cache-Control', 'no-store')
   }
   const token = context?.query.token as string
-  const imgRes = (context?.query?.imgRes as string) || 'x'
   if (token && context.res) {
     context.res.setHeader(
       'set-cookie',
@@ -106,7 +98,6 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
               ? FACING_MODES.ENVIRONMENT
               : FACING_MODES.USER,
           document,
-          imgRes,
         },
       }
     }

@@ -4,12 +4,16 @@ import { useRouter } from 'next/router'
 
 import { SignedUrl, useUpdateEntryPhotoMutation } from '@/generated/graphql'
 import { COOKIES_EDIT_ORDER_TOKEN_NAME } from '@/lib/apolloClient'
+import { TEMP_IMG_DIM } from '@/lib/apolloClient'
 import { PAGES } from '../../constants'
 import GetPhoto from './_getPhoto'
 
 const TakeNewPhoto: React.FC = () => {
   const router = useRouter()
-  const [cookie] = useCookies([COOKIES_EDIT_ORDER_TOKEN_NAME])
+  const [cookie, setCookie] = useCookies([
+    COOKIES_EDIT_ORDER_TOKEN_NAME,
+    TEMP_IMG_DIM,
+  ])
 
   const [updateEntryPhoto] = useUpdateEntryPhotoMutation()
 
@@ -31,13 +35,14 @@ const TakeNewPhoto: React.FC = () => {
       setLoading(false)
       const result = data?.UpdateEntryPhoto.data
 
+      setCookie(TEMP_IMG_DIM, imgResolution, {
+        path: '/',
+      })
       await router.push(
-        `${PAGES.photo.editPhoto}?entryId=${
-          result?.id || ''
-        }&type=${type}&imgRes=${imgResolution}`,
+        `${PAGES.photo.editPhoto}?entryId=${result?.id || ''}&type=${type}`,
       )
     },
-    [cookie, router, updateEntryPhoto],
+    [cookie, router, setCookie, updateEntryPhoto],
   )
 
   return <GetPhoto onSubmitEntry={updateEntry} />
