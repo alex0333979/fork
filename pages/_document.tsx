@@ -9,6 +9,10 @@ import Document, {
 } from 'next/document'
 import React from 'react'
 
+import WoopraScript from '@/components/trackingTags/woopra'
+import MicrosoftUETScript from '@/components/trackingTags/msUet'
+import OribiAlternativeScript from '@/components/trackingTags/oribiAlternative'
+
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -128,23 +132,13 @@ class MyDocument extends Document {
           <meta property="og:image" content="template.png" />
           <meta property="og:locale" content="us_EN" />
           {/* Microsoft UET tag */}
-          <script
-            id="load-uet"
-            dangerouslySetInnerHTML={{
-              __html: `(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[] ,f=function(){var o={ti:"148009486"}; o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")} ,n=d.createElement(t),n.src=r,n.async=1,n.onload=n .onreadystatechange=function() {var s=this.readyState;s &&s!=="loaded"&& s!=="complete"||(f(),n.onload=n. onreadystatechange=null)},i= d.getElementsByTagName(t)[0],i. parentNode.insertBefore(n,i)})(window,document,"script"," //bat.bing.com/bat.js","uetq");`,
-            }}
-          />
-          <script
-            id="trigger-uet"
-            dangerouslySetInnerHTML={{
-              __html: `window.uetq = window.uetq || [];
-                window.uetq.push('event', 'page_view', { page_path: '/' + window.location.pathname });`,
-            }}
-          />
+          <MicrosoftUETScript />
+          <OribiAlternativeScript />
         </Head>
         <body>
           <Main />
           <NextScript />
+          <WoopraScript />
         </body>
       </Html>
     )
