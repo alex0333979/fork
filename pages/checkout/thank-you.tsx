@@ -20,7 +20,6 @@ const ThankYouPage: NextPage = () => {
     },
     skip: isNaN(+cookie[TEMP_ORDER_NUM]),
     onCompleted: () => {
-      console.log('here~!!@#!@#!@')
       removeCookie(TEMP_ORDER_NUM)
     },
   })

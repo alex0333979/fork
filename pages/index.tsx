@@ -5,8 +5,9 @@ import { AppLayout } from '../components'
 import { NextSeo } from 'next-seo'
 import { SEO } from '../constants'
 import Home from '@/components/home'
+import { HomepageContent } from '@/components/home/constant'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { countries, EXTRA_PATH } from '../constants'
+import { countries, ExtraPath } from '../constants'
 import { initializeApollo } from '@/lib/apolloClient'
 import { ApolloQueryResult } from '@apollo/client'
 import {
@@ -30,33 +31,12 @@ const HomePage: NextPage<HomePageProps> = ({
   extraPath,
 }) => {
   const { title, description } = useMemo(() => {
-    let _title = 'Take Your Passport and Visa Photos Online'
-    let _desc = 'Get your perfect biometric photo (compliance guaranteed)'
-    if (extraPath && EXTRA_PATH.includes(extraPath)) {
-      if (extraPath === 'order-passport-photos-online') {
-        _title =
-          'Order Your Passport Photos Online With Our Simple Digital Tool'
-        _desc =
-          'Use your cell phone and order your passport photos online. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.'
-      } else if (extraPath === 'take-your-own-passport-photo') {
-        _title = 'Yes! You Can Take Your Own Passport Photo.'
-        _desc =
-          'Take your own passport photo with your cell phone. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.'
-      } else if (extraPath === 'take-your-passport-photo-with-your-phone') {
-        _title = 'Go Ahead, Take Your Passport Photo With Your Phone'
-        _desc =
-          'Take your passport photo with your cell phone, we’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.'
-      } else if (extraPath === 'take-passport-photos-at-home') {
-        _title = 'Take Your Passport Photo at Home, With Our Simple to Tool'
-        _desc =
-          'From home or virtually anywhere, take your passport photo with your cell phone or desktop. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.'
-      } else if (extraPath === 'print-passport-photos-at-home') {
-        _title = 'Print Your Passport Photo at Home, With Our Simple to Tool'
-        _desc =
-          'Use your cell phone and print your passport photo at home. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.'
-      }
+    let _title = HomepageContent.default.title
+    let _desc = HomepageContent.default.description
+    if (extraPath && ExtraPath.includes(extraPath)) {
+      _title = HomepageContent[extraPath].title
+      _desc = HomepageContent[extraPath].description
     } else {
-      _desc = 'Get your perfect biometric photo (compliance guaranteed)'
       if (country && document) {
         _title = `Take Your ${country.country} ${document.type} Photos Online`
       } else if (country) {
