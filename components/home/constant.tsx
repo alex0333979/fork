@@ -64,6 +64,7 @@ const commonFaqs: IFAQ[] = [
 ]
 
 // eslint-disable-next-line no-unused-vars
+/*
 const faq1: IFAQ = {
   key: 'faq1',
   question: 'How much do you charge for the photos?',
@@ -81,6 +82,7 @@ const faq1: IFAQ = {
     </p>
   ),
 }
+*/
 
 const faq5: IFAQ = {
   key: 'faq5',
