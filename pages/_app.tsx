@@ -16,7 +16,6 @@ import SignUp from '@/components/elements/signUp'
 import GoogledAdsScript from '@/components/trackingTags/googleAds'
 import GoogledAnalyticsScript from '@/components/trackingTags/googleAnalytics'
 import IntercomScript from '@/components/trackingTags/intercom'
-import OribiTrackingScript from '@/components/trackingTags/oribiTracking'
 import FacebookPixelScript from '@/components/trackingTags/fbPixel'
 import { hotjar } from 'react-hotjar'
 import i18n from '../i18n'
@@ -37,7 +36,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <IntercomScript />
       <GoogledAdsScript />
       <GoogledAnalyticsScript />
-      <OribiTrackingScript />
       <FacebookPixelScript />
       <ApolloProvider client={apolloClient}>
         <I18nextProvider i18n={i18n}>

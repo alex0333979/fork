@@ -63,6 +63,7 @@ const commonFaqs: IFAQ[] = [
   },
 ]
 
+// eslint-disable-next-line no-unused-vars
 const faq1: IFAQ = {
   key: 'faq1',
   question: 'How much do you charge for the photos?',
@@ -295,19 +296,12 @@ export const HomepageContent: Record<
 }
 
 export const Faqs: Record<string, IFAQ[]> = {
-  default: [faq1, ...commonFaqs, faq5, faq6, faq7],
-  'order-passport-photos-online': [faq1, ...commonFaqs, faq5, faq6, faq7],
-  'take-your-own-passport-photo': [faq1, ...commonFaqs, faq5, faq6, faq7],
-  'take-your-passport-photo-with-your-phone': [
-    faq1,
-    ...commonFaqs,
-    faq5,
-    faq6,
-    faq7,
-  ],
-  'take-passport-photos-at-home': [faq1, ...commonFaqs, faq5, faq6, faq7],
+  default: [...commonFaqs, faq5, faq6, faq7],
+  'order-passport-photos-online': [...commonFaqs, faq5, faq6, faq7],
+  'take-your-own-passport-photo': [...commonFaqs, faq5, faq6, faq7],
+  'take-your-passport-photo-with-your-phone': [...commonFaqs, faq5, faq6, faq7],
+  'take-passport-photos-at-home': [...commonFaqs, faq5, faq6, faq7],
   'print-passport-photos-at-home': [
-    faq1,
     ...commonFaqs,
     faq5_print,
     faq6_print,
