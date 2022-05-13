@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import CheckoutLayout from '@/components/checkout/checkoutLayout'
@@ -244,17 +245,16 @@ const ReviewAndPay: React.FC = () => {
           })),
         })
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        if (window && window.ORIBI) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        if (window && window.woopra) {
           // @ts-ignore
-          window.ORIBI.api('trackPurchase', {
-            totalPrice: order.totalPrice / 100,
-            currency,
-            orderId: order.orderNumber,
-            taxPrice: tax / 100,
-            shippingPrice: shippingPrice / 100,
+          window.woopra.track('checkout', {
+            total_items: order.items.length,
+            discount_amount: 0,
+            tax_amount: tax / 100,
+            shipping_amount: shippingPrice,
+            total_amount: order.totalPrice / 100,
+            order_id: order.orderNumber,
           })
         }
         setCookie(TEMP_ORDER_NUM, order.orderNumber, {
