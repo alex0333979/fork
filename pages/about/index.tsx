@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
-import { AppLayout } from '@/components/index'
 import React from 'react'
+import { AppLayout } from '@/components/index'
 import About from '@/components/about'
 import { NextSeo } from 'next-seo'
 import { SEO } from '../../constants'

@@ -11,6 +11,7 @@ import TakePhotoModal from '@/components/elements/takePhotoModal'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql'
 import { PHOTO_STEP } from '../../constants'
+import PhotoHelper from './components/photoHelperVideoModal'
 
 interface Props {
   onSubmitEntry: (
@@ -416,9 +417,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                     </div>
                   </>
                 )}
-                <div className="info-link">
-                  <span>{'How to take a photo'}</span>
-                </div>
+                <PhotoHelper />
                 <div className="faq-section">
                   <div className="faq-list">
                     <ul>
