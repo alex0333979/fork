@@ -6,7 +6,7 @@ const PhotoHelper: React.FC = () => {
 
   return (
     <>
-      <div className="info-link" onClick={() => setOpen(true)}>
+      <div className="info-link">
         <span>{'How to take a photo'}</span>
       </div>
       {open && (
