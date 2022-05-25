@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import type { NextPage } from 'next'
+import ErrorPage from 'next/error'
 import React, { useMemo } from 'react'
 import { AppLayout } from '../components'
 import { NextSeo } from 'next-seo'
@@ -23,32 +24,37 @@ export interface HomePageProps {
   extraPath: string | null
   title?: string
   description?: string
+  errorCode?: number
 }
 
 const HomePage: NextPage<HomePageProps> = ({
   country,
   document,
   extraPath,
+  errorCode = 200,
 }) => {
   const { title, description } = useMemo(() => {
     let _title = HomepageContent.default.title
     let _desc = HomepageContent.default.description
     if (extraPath && ExtraPath.includes(extraPath)) {
-      _title = HomepageContent[extraPath].title
-      _desc = HomepageContent[extraPath].description
+      if (country?.countryCode === 'US') {
+        _title = HomepageContent[extraPath].title
+        _desc = HomepageContent[extraPath].description
+      }
     } else {
       if (country && document) {
         _title = `Take Your ${country.country} ${document.type} Photos Online`
       } else if (country) {
         _title = `Take Your ${country.country} Passport and Visa Photos Online`
-      } else {
-        _title = `Take Your Passport and Visa Photos Online`
       }
     }
 
     return { title: _title, description: _desc }
   }, [country, document, extraPath])
 
+  if (errorCode === 404) {
+    return <ErrorPage statusCode={errorCode} />
+  }
   return (
     <>
       <NextSeo title={title} description={SEO.home.description} />
@@ -73,6 +79,21 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   const countryCode = context?.params?.country as string
   const documentType = context?.params?.documentType as string
   const extraPath = (context?.params?.extraPath as string) || null
+
+  if (
+    extraPath &&
+    ExtraPath.includes(extraPath) &&
+    countryCode !== 'united-states'
+  ) {
+    return {
+      props: {
+        country: null,
+        document: null,
+        extraPath,
+        errorCode: 404,
+      },
+    }
+  }
 
   if (!countryCode) {
     return {
