@@ -8,6 +8,7 @@ import { useMediaQuery } from '@material-ui/core'
 import { PAGES } from '../../constants'
 import { useAuth } from '@/lib/auth'
 import { useRouter } from 'next/router'
+import { getFaqLink } from './utils'
 const LanguageCurrencySelector = dynamic(
   () => import('@/components/elements/languageCurrencySelector'),
   {
@@ -46,15 +47,7 @@ const AppHeader: React.FC = () => {
     }
   }, [mobileNavVisible])
 
-  const faqLink = useMemo(() => {
-    const path = router.asPath
-    const isNonHomePage = Object.keys(PAGES).some(
-      // @ts-ignore
-      (_pathName) => _pathName !== 'home' && path === PAGES[_pathName],
-    )
-
-    return isNonHomePage ? `${PAGES.home}#faq` : '#faq'
-  }, [router.asPath])
+  const faqLink = useMemo(() => getFaqLink(router.asPath), [router.asPath])
 
   return (
     <header>

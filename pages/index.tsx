@@ -80,18 +80,26 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   const documentType = context?.params?.documentType as string
   const extraPath = (context?.params?.extraPath as string) || null
 
-  if (
-    extraPath &&
-    ExtraPath.includes(extraPath) &&
-    countryCode !== 'united-states'
-  ) {
-    return {
+  if (extraPath && ExtraPath.includes(extraPath)) {
+    const _props = {
       props: {
         country: null,
         document: null,
         extraPath,
         errorCode: 404,
       },
+    }
+    if (!countryCode) return _props
+
+    if (countryCode !== 'united-states') {
+      if (
+        !(
+          countryCode === 'united-kingdom' &&
+          extraPath.includes('take-passport-photos-at-home')
+        )
+      ) {
+        return _props
+      }
     }
   }
 
@@ -114,6 +122,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country: null,
         document: null,
         extraPath,
+        errorCode: 404,
       },
     }
   }

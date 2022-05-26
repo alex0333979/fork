@@ -1,5 +1,5 @@
 import React from 'react'
-import WoopraScript from '@/components/trackingTags/woopra'
+import WoopraScript from '@/components/scripts/woopra'
 import { AppFooter, AppHeader } from '../index'
 
 interface AppLayoutProps {

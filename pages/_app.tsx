@@ -13,10 +13,9 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import SignIn from '@/components/elements/signIn'
 import SignUp from '@/components/elements/signUp'
-import GoogledAdsScript from '@/components/trackingTags/googleAds'
-import GoogledAnalyticsScript from '@/components/trackingTags/googleAnalytics'
-import IntercomScript from '@/components/trackingTags/intercom'
-import FacebookPixelScript from '@/components/trackingTags/fbPixel'
+import GoogledAdsScript from '@/components/scripts/googleAds'
+import GoogledAnalyticsScript from '@/components/scripts/googleAnalytics'
+import FacebookPixelScript from '@/components/scripts/fbPixel'
 import { hotjar } from 'react-hotjar'
 import i18n from '../i18n'
 
@@ -33,7 +32,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <IntercomScript />
       <GoogledAdsScript />
       <GoogledAnalyticsScript />
       <FacebookPixelScript />

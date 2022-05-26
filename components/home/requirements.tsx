@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import { Country, PDocument } from '@/generated/graphql'
 
@@ -15,70 +15,163 @@ interface IRequirement {
 }
 
 const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
-  const requirements: IRequirement[] = useMemo(() => {
-    const sizeReq: IRequirement = {
-      label: 'Size',
-      imagePath: '/images/requirements-item/item-01.svg',
-      requirement: extraPath ? (
+  const getSizeReq = useCallback(() => {
+    const defaultReq = (
+      <p>
+        {`Width: ${document.dimensions?.width ?? 'null'} ${
+          document.dimensions?.unit
+        }`}
+        <br />
+        {`Height: ${document.dimensions?.height ?? 'null'} ${
+          document.dimensions?.unit
+        }`}
+      </p>
+    )
+    if (!extraPath) {
+      return defaultReq
+    }
+    if (country.countryCode?.toLowerCase() === 'us') {
+      return (
         <p>
           Width: 2 Inch / 50.8 mm
           <br />
           Height: 2 Inch / 50.8 mm
         </p>
-      ) : (
-        <p>
-          {`Width: ${document.dimensions?.width ?? 'null'} ${
-            document.dimensions?.unit
-          }`}
-          <br />
-          {`Height: ${document.dimensions?.height ?? 'null'} ${
-            document.dimensions?.unit
-          }`}
-        </p>
-      ),
+      )
+    }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return <p>45 x 35 mm</p>
+    }
+
+    return defaultReq
+  }, [
+    country.countryCode,
+    document.dimensions?.height,
+    document.dimensions?.unit,
+    document.dimensions?.width,
+    extraPath,
+  ])
+
+  const getBgColorReq = useCallback(() => {
+    const defaultReq = (
+      <p>
+        {!document.background ||
+        document.background?.toLowerCase() === '#ffffff'
+          ? 'White'
+          : document.background}
+      </p>
+    )
+    if (!extraPath) return defaultReq
+    if (country.countryCode?.toLowerCase() === 'us') {
+      return <p>White</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return <p>White or Neutral Colour</p>
+    }
+
+    return defaultReq
+  }, [country.countryCode, document.background, extraPath])
+
+  const getHdHeightMinReq = useCallback(() => {
+    const defaultReq = <p>32.8 mm</p>
+
+    if (!extraPath) return defaultReq
+
+    if (country.countryCode?.toLowerCase() === 'us') {
+      return <p>1 Inch / 25.4 mm</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return null
+    }
+
+    return defaultReq
+  }, [country.countryCode, extraPath])
+
+  const getHdHeightMax = useCallback(() => {
+    const defaultReq = <p>null</p>
+
+    if (!extraPath) return defaultReq
+
+    if (country.countryCode?.toLowerCase() === 'us') {
+      return <p>1.4 Inch / 35 mm</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return null
+    }
+
+    return defaultReq
+  }, [country.countryCode, extraPath])
+
+  const getMinResolution = useCallback(() => {
+    const defaultReq = (
+      <p>
+        {document.head?.position?.min
+          ? `${document.head?.position?.min} mm`
+          : 'null'}
+      </p>
+    )
+
+    if (!extraPath) return defaultReq
+
+    if (country.countryCode?.toLowerCase() === 'us') {
+      return <p>600 dpi</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return null
+    }
+
+    return defaultReq
+  }, [country.countryCode, document.head?.position?.min, extraPath])
+
+  const getMaxResolution = useCallback(() => {
+    const defaultReq = <p>{`${document.dpi} dpi`}</p>
+
+    if (!extraPath) return defaultReq
+
+    if (country.countryCode?.toLowerCase() === 'us') {
+      return <p>1200 dpi</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return <p>600 x 750 px</p>
+    }
+
+    return defaultReq
+  }, [country.countryCode, document.dpi, extraPath])
+
+  const requirements: IRequirement[] = useMemo(() => {
+    const sizeReq: IRequirement = {
+      label: 'Size',
+      imagePath: '/images/requirements-item/item-01.svg',
+      requirement: getSizeReq(),
     }
 
     const bgColorReq: IRequirement = {
       label: 'Background Color',
       imagePath: '/images/requirements-item/item-02.svg',
-      requirement: extraPath ? (
-        <p>White</p>
-      ) : (
-        <p>
-          {!document.background ||
-          document.background?.toLowerCase() === '#ffffff'
-            ? 'White'
-            : document.background}
-        </p>
-      ),
+      requirement: getBgColorReq(),
     }
     const hdHeightMin: IRequirement = {
       label: 'Head Height Minimum',
       imagePath: '/images/requirements-item/item-03.svg',
-      requirement: extraPath ? <p>1 Inch / 25.4 mm</p> : <p>32.8 mm</p>,
-    }
-    const minResolution: IRequirement = {
-      label: 'Minimum Resolution',
-      imagePath: '/images/requirements-item/item-04.svg',
-      requirement: extraPath ? (
-        <p>600 dpi</p>
-      ) : (
-        <p>
-          {document.head?.position?.min
-            ? `${document.head?.position?.min} mm`
-            : 'null'}
-        </p>
-      ),
+      requirement: getHdHeightMinReq(),
     }
     const hdHeightMax: IRequirement = {
       label: 'Head Height Maximum',
       imagePath: '/images/requirements-item/item-05.svg',
-      requirement: extraPath ? <p>1.4 Inch / 35 mm</p> : <p>null</p>,
+      requirement: getHdHeightMax(),
+    }
+    const minResolution: IRequirement = {
+      label: 'Minimum Resolution',
+      imagePath: '/images/requirements-item/item-04.svg',
+      requirement: getMinResolution(),
     }
     const maxResolution: IRequirement = {
-      label: 'Maximum Resolution',
+      label:
+        country.countryCode?.toLowerCase() === 'gb'
+          ? 'Resolution'
+          : 'Maximum Resolution',
       imagePath: '/images/requirements-item/item-06.svg',
-      requirement: extraPath ? <p>1200 dpi</p> : <p>{`${document.dpi} dpi`}</p>,
+      requirement: getMaxResolution(),
     }
 
     return [
@@ -90,43 +183,53 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
       maxResolution,
     ]
   }, [
-    document.background,
-    document.dimensions?.height,
-    document.dimensions?.unit,
-    document.dimensions?.width,
-    document.dpi,
-    document.head?.position?.min,
-    extraPath,
+    country?.countryCode,
+    getBgColorReq,
+    getHdHeightMax,
+    getHdHeightMinReq,
+    getMaxResolution,
+    getMinResolution,
+    getSizeReq,
   ])
+
+  const countryName = useMemo(() => {
+    if (!country) return ''
+    if (country.countryCode?.toLowerCase() === 'us') return 'United States'
+    if (country.countryCode?.toLowerCase() === 'gb') return 'UK'
+
+    return country.country || ''
+  }, [country])
 
   return (
     <div className="requirements-box">
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2>{`${country.country} ${document.type} Photo - Biometric Requirements`}</h2>
+            <h2>{`${countryName} ${document.type} Photo - Biometric Requirements`}</h2>
           </div>
           <div className="info-box">
             <div className="example-list">
               <ul>
-                {requirements.map((req, index) => (
-                  <li key={index}>
-                    <div className="icon-wrap">
-                      <span>
-                        <Image
-                          src={req.imagePath}
-                          width={27}
-                          height={27}
-                          alt={req.label}
-                        />
-                      </span>
-                    </div>
-                    <div className="text-wrap">
-                      <h3>{req.label}</h3>
-                      {req.requirement}
-                    </div>
-                  </li>
-                ))}
+                {requirements
+                  .filter((req) => !!req.requirement)
+                  .map((req, index) => (
+                    <li key={index}>
+                      <div className="icon-wrap">
+                        <span>
+                          <Image
+                            src={req.imagePath}
+                            width={27}
+                            height={27}
+                            alt={req.label}
+                          />
+                        </span>
+                      </div>
+                      <div className="text-wrap">
+                        <h3>{req.label}</h3>
+                        {req.requirement}
+                      </div>
+                    </li>
+                  ))}
               </ul>
             </div>
             <div className="example-box">

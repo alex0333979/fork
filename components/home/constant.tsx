@@ -257,6 +257,42 @@ const faq7_print: IFAQ = {
   ),
 }
 
+const faqUk1: IFAQ = {
+  key: 'faq1',
+  question: 'What is your print and ship service?',
+  answer: (
+    <p>
+      - We will print and ship to you
+      <br />
+      - On required glossy photo paper
+      <br />
+      - 2 to 6 Photos Per Person
+      <br />- Processing Instruction Guide
+    </p>
+  ),
+}
+
+const faqUk2: IFAQ = {
+  key: 'faq2',
+  question: 'What are your delivery options? (Home & Digital Delivery)',
+  answer: (
+    <p>
+      <b>Home Delivery:</b>
+      <br />
+      We offer 2 shipping options with our Print & Ship service:
+      <br /> - Expedited 1-2 business days
+      <br /> - Standard 3-5 business days
+      <br />
+      <br />
+      <b>Digital / Online Delivery:</b>
+      <br />
+      Photos arrive as a .jpeg for you to print or present with you digital
+      application. You may also choose to have it sent to a retail store where
+      passport photo printing is available.
+    </p>
+  ),
+}
+
 export const HomepageContent: Record<
   string,
   { title: string; description: string }
@@ -310,4 +346,5 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq7_print,
   ],
   'passport-photo-app': [...commonFaqs, faq5_print, faq6_print, faq7_print],
+  'take-passport-photos-at-home-gb': [faqUk1, faqUk2],
 }
