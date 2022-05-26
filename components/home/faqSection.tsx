@@ -1,14 +1,16 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import FaqItem from '@/components/home/faqItem'
 import { scrollToTop } from '@/lib/utils/scrollToTop'
+import { Country } from '@/generated/graphql'
 
 import { Faqs } from './constant'
 import { IFAQ } from './types'
 interface Props {
+  country: Country | null
   extraPath?: string | null
 }
 
-const FaqSection: React.FC<Props> = ({ extraPath }) => {
+const FaqSection: React.FC<Props> = ({ country, extraPath }) => {
   const [allClosed, setAllClosed] = useState<boolean>(false)
 
   const onStart = useCallback(() => {
@@ -21,11 +23,13 @@ const FaqSection: React.FC<Props> = ({ extraPath }) => {
   }, [])
 
   const faqs: IFAQ[] = useMemo(() => {
-    console.log({ extraPath })
     if (!extraPath) return Faqs.default
+    if (country?.countryCode?.toLowerCase() === 'gb') {
+      return Faqs[`${extraPath}-gb`]
+    }
 
     return Faqs[extraPath] || Faqs.default
-  }, [extraPath])
+  }, [country?.countryCode, extraPath])
 
   return (
     <div className="faq-section" id="faq">

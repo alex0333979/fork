@@ -9,9 +9,10 @@ import Document, {
 } from 'next/document'
 import React from 'react'
 
-import WoopraScript from '@/components/trackingTags/woopra'
-import MicrosoftUETScript from '@/components/trackingTags/msUet'
-import OribiAlternativeScript from '@/components/trackingTags/oribiAlternative'
+import WoopraScript from '@/components/scripts/woopra'
+import MicrosoftUETScript from '@/components/scripts/msUet'
+import ZendeskScript from '@/components/scripts/zendesk'
+import OribiAlternativeScript from '@/components/scripts/oribiAlternative'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -139,6 +140,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
           <WoopraScript />
+          <ZendeskScript />
         </body>
       </Html>
     )

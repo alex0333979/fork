@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants'
-import { useMediaQuery } from '@material-ui/core'
 import classNames from 'classnames'
 import {
   Country,
@@ -11,7 +10,7 @@ import {
   useDocumentsByCountryQuery,
 } from '@/generated/graphql'
 import dynamic from 'next/dynamic'
-import { CountryFlag, iCountry } from '@/components/elements/countrySelector'
+import { iCountry } from '@/components/elements/countrySelector'
 import { Bars } from 'react-loading-icons'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
@@ -46,7 +45,6 @@ const MainIntro = (
   })
   const [documents, setDocuments] = useState<PDocument[]>([])
   const router = useRouter()
-  const matches = useMediaQuery('only screen and (min-width: 641px)')
   const { data, loading } = useDocumentsByCountryQuery({
     variables: { country: country.label },
     fetchPolicy: 'no-cache',
@@ -80,6 +78,7 @@ const MainIntro = (
   const countryName = useMemo(() => {
     if (!pCountry) return ''
     if (pCountry.countryCode?.toLowerCase() === 'us') return 'US'
+    if (pCountry.countryCode?.toLowerCase() === 'gb') return 'UK'
 
     return pCountry.country || ''
   }, [pCountry])
@@ -139,30 +138,14 @@ const MainIntro = (
               </div>
             </div>
             <div className="intro-img">
-              <div className="country-flag">
-                <CountryFlag
-                  size={'30px'}
-                  code={country.value.toLocaleLowerCase()}
-                />
-                {/* <Image src={'/images/emoji/british-flag.png'} width={40} height={40} alt="" />*/}
-              </div>
               <span>
                 <picture>
-                  {matches ? (
-                    <Image
-                      src={'/images/intro-01.png'}
-                      width={737}
-                      height={747}
-                      alt={''}
-                    />
-                  ) : (
-                    <Image
-                      src={'/images/intro-01-3-m.png'}
-                      width={271}
-                      height={254}
-                      alt=""
-                    />
-                  )}
+                  <Image
+                    src={'/images/intro.png'}
+                    width={650}
+                    height={637}
+                    alt={''}
+                  />
                 </picture>
               </span>
             </div>

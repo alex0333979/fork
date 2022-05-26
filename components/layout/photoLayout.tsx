@@ -1,6 +1,6 @@
 import React from 'react'
 import PhotoHeader from '@/components/layout/photoHeader'
-import WoopraScript from '@/components/trackingTags/woopra'
+import WoopraScript from '@/components/scripts/woopra'
 
 interface AppLayoutProps {
   children: React.ReactNode
