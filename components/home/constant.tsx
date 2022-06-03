@@ -305,9 +305,16 @@ const faqUk3: IFAQ = {
       <br />
       <b>Step 1: </b>Open this confirmation email on your PC/Mobile.
       <br />
-      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Photos For Print”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Photos For Print”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <b>Step 2: </b>When you use your mobile device, please make sure to press
+      on the link (“Download Your Photos For Print”) and then click “save” your
+      photos to your “photos library”. If you use your PC, press “Right Click”
+      on the photo link (“Download Your Photos For Print”) placed under your
+      “Order items” section (above) {'->'} and then choose “save link as” {'->'}{' '}
+      save it as a “.jpg” image file.
       <br />
-      <b>Step 3: </b>Before going to the store, you will need to upload your digital photo file to the store's website. Go online to this link: <a
+      <b>Step 3: </b>Before going to the store, you will need to upload your
+      digital photo file to the store&apos;s website. Go online to this link:{' '}
+      <a
         href="https://www.tescophoto.com/photo-printing.html"
         target="_blank"
         rel="noreferrer">
@@ -316,33 +323,44 @@ const faqUk3: IFAQ = {
       <br />
       <b>Step 4: </b>Choose the “Order Now” option.
       <br />
-      <b>Step 5: </b>Make sure to choose the “6” X 4” Print” paper size option. Click on “Choose Your Photos” 
+      <b>Step 5: </b>Make sure to choose the “6” X 4” Print” paper size option.
+      Click on “Choose Your Photos”
       <br />
-      <b>Step 6: </b>Uploading your saved photos: Choose the “Upload from files” option and upload your saved photo -> Click “Continue”
+      <b>Step 6: </b>Uploading your saved photos: Choose the “Upload from files”
+      option and upload your saved photo {'->'} Click “Continue”
       <br />
-      <b>Step 7: </b>Proceed to Checkout and Pay online. The photos will be waiting for you at the store.
+      <b>Step 7: </b>Proceed to Checkout and Pay online. The photos will be
+      waiting for you at the store.
       <br />
       <b>Step 8: </b>Pick up your photos and enjoy your future travels.
       <br />
       <br />
       <b>Printing at ASDA for only £0.11:</b>
       <br />
-      <b>Step 1: </b>Open this confirmation email on your PC/Mobile. 
+      <b>Step 1: </b>Open this confirmation email on your PC/Mobile.
       <br />
-      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Photos For Print”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Photos For Print”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <b>Step 2: </b>When you use your mobile device, please make sure to press
+      on the link (“Download Your Photos For Print”) and then click “save” your
+      photos to your “photos library”. If you use your PC, press “Right Click”
+      on the photo link (“Download Your Photos For Print”) placed under your
+      “Order items” section (above) {'->'} and then choose “save link as” {'->'}{' '}
+      save it as a “.jpg” image file.
       <br />
-      <b>Step 3: </b>Before going to the store, you will need to upload your digital photo file to the store's website. Go online to this link: <a
-        href="https://www.asda-photo.co.uk/"
-        target="_blank"
-        rel="noreferrer">
+      <b>Step 3: </b>Before going to the store, you will need to upload your
+      digital photo file to the store&apos;s website. Go online to this link:{' '}
+      <a href="https://www.asda-photo.co.uk/" target="_blank" rel="noreferrer">
         https://www.asda-photo.co.uk/
       </a>
       <br />
-      <b>Step 4: </b>Choose the “Order Prints” option on the top right section of the page.
+      <b>Step 4: </b>Choose the “Order Prints” option on the top right section
+      of the page.
       <br />
-      <b>Step 5: </b>Click on “Upload Photos” -> Make sure to choose the “6” X 4” Print” paper size option -> Click “Add”-> Click on “Add to Basket” 
+      <b>Step 5: </b>Click on “Upload Photos” {'->'} Make sure to choose the “6”
+      X 4” Print” paper size option {'->'} Click “Add” {'->'} Click on “Add to
+      Basket”
       <br />
-      <b>Step 6: </b>Proceed to Checkout and Pay online. The photos will be waiting for you at the store.
+      <b>Step 6: </b>Proceed to Checkout and Pay online. The photos will be
+      waiting for you at the store.
       <br />
       <b>Step 7: </b>Pick up your photos and enjoy your future travels.
       <br />
@@ -352,17 +370,25 @@ const faqUk3: IFAQ = {
 
 const faqUk4: IFAQ = {
   key: 'faq4',
-  question:
-    'How do I print my photo at home using my home printer?',
+  question: 'How do I print my photo at home using my home printer?',
   answer: (
     <p>
       First, please be sure to have 4”X6” glossy photo paper at home.
       <br />
-      <br /><b>Step 1: </b>Open this confirmation email on your PC.
       <br />
-      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Photos For Print”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Photos For Print”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <b>Step 1: </b>Open this confirmation email on your PC.
       <br />
-      <b>Step 3: </b>Prest “Ctrl+P” or right click “Print” and your print settings will appear. Make sure to pick 4”X6” size paper, with a minimum 600 dpi for quality. Also, make sure that you remove all border spaces/gaps, and print! 
+      <b>Step 2: </b>When you use your mobile device, please make sure to press
+      on the link (“Download Your Photos For Print”) and then click “save” your
+      photos to your “photos library”. If you use your PC, press “Right Click”
+      on the photo link (“Download Your Photos For Print”) placed under your
+      “Order items” section (above) {'->'} and then choose “save link as” {'->'}{' '}
+      save it as a “.jpg” image file.
+      <br />
+      <b>Step 3: </b>Prest “Ctrl+P” or right click “Print” and your print
+      settings will appear. Make sure to pick 4”X6” size paper, with a minimum
+      600 dpi for quality. Also, make sure that you remove all border
+      spaces/gaps, and print!
     </p>
   ),
 }
@@ -375,26 +401,31 @@ const faqUk5: IFAQ = {
     <p>
       <b>Step 1: </b>Open this confirmation email on your PC.
       <br />
-      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Single Digital Photo”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Single Digital Photo”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <b>Step 2: </b>When you use your mobile device, please make sure to press
+      on the link (“Download Your Single Digital Photo”) and then click “save”
+      your photos to your “photos library”. If you use your PC, press “Right
+      Click” on the photo link (“Download Your Single Digital Photo”) placed
+      under your “Order items” section (above) {'->'} and then choose “save link
+      as” {'->'} save it as a “.jpg” image file.
       <br />
-      <b>Step 3: </b>You may now upload your digital (single) photo at the <a
+      <b>Step 3: </b>You may now upload your digital (single) photo at the{' '}
+      <a
         href="https://www.passport.service.gov.uk/filter/overseas"
         target="_blank"
         rel="noreferrer">
         Passport Service Gov Link
-      </a> for renewal or print it for your paper application.
-
+      </a>{' '}
+      for renewal or print it for your paper application.
       <br />
-      <br />
-      * Please note: This option is not available for new passport applications.
+      <br />* Please note: This option is not available for new passport
+      applications.
     </p>
   ),
 }
 
 const faqUk6: IFAQ = {
   key: 'faq6',
-  question:
-    'How to take your digital passport photo?',
+  question: 'How to take your digital passport photo?',
   answer: (
     <p>
       <b>Use a plain light-coloured background</b>
@@ -413,7 +444,8 @@ const faqUk6: IFAQ = {
       <br />
       <b>Stand in the right position</b>
       <br />
-      - Stand 0.5 metres (1.5 feet) away from your background (this reduces shadow)
+      - Stand 0.5 metres (1.5 feet) away from your background (this reduces
+      shadow)
       <br />
       - The person taking the photo should stand 1.5 metres (5 feet) from you
       <br />
@@ -446,8 +478,7 @@ const faqUk6: IFAQ = {
       <b>If you need to keep glasses on</b>
       <br />
       - Your eyes must be visible without any glare or reflections
-      <br />
-      - No sunglasses or tinted glasses
+      <br />- No sunglasses or tinted glasses
     </p>
   ),
 }
@@ -518,5 +549,12 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq7_print,
   ],
   'passport-photo-app': [...commonFaqs, faq5_print, faq6_print, faq7_print],
-  'take-passport-photos-at-home-gb': [faqUk1, faqUk2, faqUk3, faqUk4, faqUk5, faqUk6],
+  'take-passport-photos-at-home-gb': [
+    faqUk1,
+    faqUk2,
+    faqUk3,
+    faqUk4,
+    faqUk5,
+    faqUk6,
+  ],
 }
