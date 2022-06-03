@@ -25,7 +25,7 @@ interface MainIntroProps {
   country: Country | null
   document: PDocument | null
   title?: string
-  description?: string
+  description?: any
 }
 
 const MainIntro = (
