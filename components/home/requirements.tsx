@@ -40,7 +40,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
       )
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
-      return <p>45 x 35 mm</p>
+      return <p>35 x 45 mm</p>
     }
 
     return defaultReq
@@ -81,7 +81,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
       return <p>1 Inch / 25.4 mm</p>
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
-      return null
+      return <p>29 mm</p>
     }
 
     return defaultReq
@@ -96,7 +96,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
       return <p>1.4 Inch / 35 mm</p>
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
-      return null
+      return <p>34 mm</p>
     }
 
     return defaultReq
@@ -117,7 +117,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
       return <p>600 dpi</p>
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
-      return null
+      return <p>600 px</p>
     }
 
     return defaultReq
@@ -132,7 +132,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
       return <p>1200 dpi</p>
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
-      return <p>600 x 750 px</p>
+      return <p>750 px</p>
     }
 
     return defaultReq
@@ -168,7 +168,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     const maxResolution: IRequirement = {
       label:
         country.countryCode?.toLowerCase() === 'gb'
-          ? 'Resolution'
+          ? 'Maximum Resolution'
           : 'Maximum Resolution',
       imagePath: '/images/requirements-item/item-06.svg',
       requirement: getMaxResolution(),

@@ -259,7 +259,7 @@ const faq7_print: IFAQ = {
 
 const faqUk1: IFAQ = {
   key: 'faq1',
-  question: 'What is your print and ship service?',
+  question: 'What is your passport photo print and ship service?',
   answer: (
     <p>
       - We will print and ship to you
@@ -274,28 +274,187 @@ const faqUk1: IFAQ = {
 
 const faqUk2: IFAQ = {
   key: 'faq2',
-  question: 'What are your delivery options? (Home & Digital Delivery)',
+  question:
+    'What are your passport photo delivery options? (Home & Digital Delivery)',
   answer: (
     <p>
       <b>Home Delivery:</b>
       <br />
-      We offer 2 shipping options with our Print & Ship service:
-      <br /> - Expedited 1-2 business days
-      <br /> - Standard 3-5 business days
+      - Standard Shipping (Royal Mail): 2-3 working days, including Saturdays
+      <br />- Priority Service Shipping (Royal Mail): The next working day –
+      including Saturdays
       <br />
       <br />
       <b>Digital / Online Delivery:</b>
       <br />
       Photos arrive as a .jpeg for you to print or present with you digital
-      application. You may also choose to have it sent to a retail store where
-      passport photo printing is available.
+      application. You may also choose to have it sent to a local retail store
+      (Tesco, ASDA, Sainsbury’s, Boots, etc.) where passport photo printing is
+      available.
+    </p>
+  ),
+}
+
+const faqUk3: IFAQ = {
+  key: 'faq3',
+  question:
+    'How do I print my passport photos at a local printer (Tesco, ASDA, Etc.)?',
+  answer: (
+    <p>
+      <b>Printing at Tesco for only £0.70:</b>
+      <br />
+      <b>Step 1: </b>Open this confirmation email on your PC/Mobile.
+      <br />
+      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Photos For Print”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Photos For Print”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <br />
+      <b>Step 3: </b>Before going to the store, you will need to upload your digital photo file to the store's website. Go online to this link: <a
+        href="https://www.tescophoto.com/photo-printing.html"
+        target="_blank"
+        rel="noreferrer">
+        https://www.tescophoto.com/photo-printing.html
+      </a>
+      <br />
+      <b>Step 4: </b>Choose the “Order Now” option.
+      <br />
+      <b>Step 5: </b>Make sure to choose the “6” X 4” Print” paper size option. Click on “Choose Your Photos” 
+      <br />
+      <b>Step 6: </b>Uploading your saved photos: Choose the “Upload from files” option and upload your saved photo -> Click “Continue”
+      <br />
+      <b>Step 7: </b>Proceed to Checkout and Pay online. The photos will be waiting for you at the store.
+      <br />
+      <b>Step 8: </b>Pick up your photos and enjoy your future travels.
+      <br />
+      <br />
+      <b>Printing at ASDA for only £0.11:</b>
+      <br />
+      <b>Step 1: </b>Open this confirmation email on your PC/Mobile. 
+      <br />
+      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Photos For Print”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Photos For Print”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <br />
+      <b>Step 3: </b>Before going to the store, you will need to upload your digital photo file to the store's website. Go online to this link: <a
+        href="https://www.asda-photo.co.uk/"
+        target="_blank"
+        rel="noreferrer">
+        https://www.asda-photo.co.uk/
+      </a>
+      <br />
+      <b>Step 4: </b>Choose the “Order Prints” option on the top right section of the page.
+      <br />
+      <b>Step 5: </b>Click on “Upload Photos” -> Make sure to choose the “6” X 4” Print” paper size option -> Click “Add”-> Click on “Add to Basket” 
+      <br />
+      <b>Step 6: </b>Proceed to Checkout and Pay online. The photos will be waiting for you at the store.
+      <br />
+      <b>Step 7: </b>Pick up your photos and enjoy your future travels.
+      <br />
+    </p>
+  ),
+}
+
+const faqUk4: IFAQ = {
+  key: 'faq4',
+  question:
+    'How do I print my photo at home using my home printer?',
+  answer: (
+    <p>
+      First, please be sure to have 4”X6” glossy photo paper at home.
+      <br />
+      <br /><b>Step 1: </b>Open this confirmation email on your PC.
+      <br />
+      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Photos For Print”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Photos For Print”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <br />
+      <b>Step 3: </b>Prest “Ctrl+P” or right click “Print” and your print settings will appear. Make sure to pick 4”X6” size paper, with a minimum 600 dpi for quality. Also, make sure that you remove all border spaces/gaps, and print! 
+    </p>
+  ),
+}
+
+const faqUk5: IFAQ = {
+  key: 'faq5',
+  question:
+    'How do I upload my digital photo to renew my passport (Passport Renewal Only)?',
+  answer: (
+    <p>
+      <b>Step 1: </b>Open this confirmation email on your PC.
+      <br />
+      <b>Step 2: </b>When you use your mobile device, please make sure to press on the link (“Download Your Single Digital Photo”) and then click “save” your photos to your “photos library”. If you use your PC, press “Right Click” on the photo link (“Download Your Single Digital Photo”) placed under your “Order items” section (above) -> and then choose “save link as”-> save it as a “.jpg” image file.
+      <br />
+      <b>Step 3: </b>You may now upload your digital (single) photo at the <a
+        href="https://www.passport.service.gov.uk/filter/overseas"
+        target="_blank"
+        rel="noreferrer">
+        Passport Service Gov Link
+      </a> for renewal or print it for your paper application.
+
+      <br />
+      <br />
+      * Please note: This option is not available for new passport applications.
+    </p>
+  ),
+}
+
+const faqUk6: IFAQ = {
+  key: 'faq6',
+  question:
+    'How to take your digital passport photo?',
+  answer: (
+    <p>
+      <b>Use a plain light-coloured background</b>
+      <br />
+      - No texture or patterns
+      <br />
+      - No objects behind you
+      <br />
+      <br />
+      <b>Even lighting and no shadows</b>
+      <br />
+      - Balanced light - no shadows on your face or behind you
+      <br />
+      - It’s best to use natural sunlight, for example facing a window
+      <br />
+      <br />
+      <b>Stand in the right position</b>
+      <br />
+      - Stand 0.5 metres (1.5 feet) away from your background (this reduces shadow)
+      <br />
+      - The person taking the photo should stand 1.5 metres (5 feet) from you
+      <br />
+      - Include your head, shoulders and upper body in the photo
+      <br />
+      - Don’t crop your photo - it will be done for you
+      <br />
+      <br />
+      <b>Plain expression and face in full view</b>
+      <br />
+      - Face front on to the camera
+      <br />
+      - Don’t smile or frown - eyes open and mouth closed
+      <br />
+      - Your photo should be a good likeness and taken in the last month
+      <br />
+      <br />
+      <b>No headwear</b>
+      <br />
+      - Unless it’s for religious or medical reasons
+      <br />
+      <br />
+      <b>Eyes fully visible</b>
+      <br />
+      - Hair away from your face and eyes
+      <br />
+      - Take your glasses off (if you can)
+      <br />
+      <br />
+      <b>If you need to keep glasses on</b>
+      <br />
+      - Your eyes must be visible without any glare or reflections
+      <br />
+      - No sunglasses or tinted glasses
     </p>
   ),
 }
 
 export const HomepageContent: Record<
   string,
-  { title: string; description: string }
+  { title: string; description: any; seo?: string[] }
 > = {
   default: {
     title: 'Take Your Passport and Visa Photos Online',
@@ -320,6 +479,19 @@ export const HomepageContent: Record<
     title: 'Take Your Passport Photo at Home, With Our Simple to Tool',
     description:
       'From home or virtually anywhere, take your passport photo with your cell phone or desktop. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
+  },
+  'take-passport-photos-at-home-gb': {
+    title: 'Go Ahead, Take Your Passport Photo With Your Phone',
+    description: (
+      <>
+        * Take your Passport Photo with your cellphone
+        <br />
+        * Our software verifies government compliance
+        <br />
+        * Ready for your digital or paper application
+        <br />* We will print and ship them to you or print them at home
+      </>
+    ),
   },
   'print-passport-photos-at-home': {
     title: 'Print Your Passport Photo at Home, With Our Simple to Tool',
@@ -346,5 +518,5 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq7_print,
   ],
   'passport-photo-app': [...commonFaqs, faq5_print, faq6_print, faq7_print],
-  'take-passport-photos-at-home-gb': [faqUk1, faqUk2],
+  'take-passport-photos-at-home-gb': [faqUk1, faqUk2, faqUk3, faqUk4, faqUk5, faqUk6],
 }

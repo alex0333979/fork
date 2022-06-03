@@ -23,7 +23,7 @@ export interface HomePageProps {
   document: PDocument | null
   extraPath: string | null
   title?: string
-  description?: string
+  description?: any
   errorCode?: number
 }
 
@@ -33,13 +33,19 @@ const HomePage: NextPage<HomePageProps> = ({
   extraPath,
   errorCode = 200,
 }) => {
-  const { title, description } = useMemo(() => {
+  const { title, description, seo } = useMemo(() => {
     let _title = HomepageContent.default.title
     let _desc = HomepageContent.default.description
+    let _seo = HomepageContent.default.seo || []
     if (extraPath && ExtraPath.includes(extraPath)) {
       if (country?.countryCode === 'US') {
         _title = HomepageContent[extraPath].title
         _desc = HomepageContent[extraPath].description
+        _seo = HomepageContent[extraPath].seo || []
+      } else if (country?.countryCode === 'GB') {
+        _title = HomepageContent[`${extraPath}-gb`].title
+        _desc = HomepageContent[`${extraPath}-gb`].description
+        _seo = HomepageContent[`${extraPath}-gb`].seo || []
       }
     } else {
       if (country && document) {
@@ -49,7 +55,7 @@ const HomePage: NextPage<HomePageProps> = ({
       }
     }
 
-    return { title: _title, description: _desc }
+    return { title: _title, description: _desc, seo: _seo }
   }, [country, document, extraPath])
 
   if (errorCode === 404) {
@@ -57,7 +63,10 @@ const HomePage: NextPage<HomePageProps> = ({
   }
   return (
     <>
-      <NextSeo title={title} description={SEO.home.description} />
+      <NextSeo
+        title={title}
+        description={seo?.length ? seo.join(', ') : SEO.home.description}
+      />
       <AppLayout>
         <Home
           country={country}
