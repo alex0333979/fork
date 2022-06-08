@@ -205,24 +205,6 @@ export const PHOTO_STEP = {
 
 export const CONCIERGE_PRICE = 950
 
-export const PHOTO_PRICES = [
-  {
-    text: '2 Photos',
-    price: 1850,
-    value: 2,
-  },
-  {
-    text: '4 Photos',
-    price: 2450,
-    value: 4,
-  },
-  {
-    text: '6 Photos',
-    price: 2850,
-    value: 6,
-  },
-]
-
 export const SHIPPING_TYPES: {
   title: string
   price: number

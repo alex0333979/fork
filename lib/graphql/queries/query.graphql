@@ -128,3 +128,18 @@ query Document($id: String!) {
         }
     }
 }
+
+query CartPrices($currencyValue: String!) {
+  CartPrices(currencyValue: $currencyValue) {
+    data {
+      currency
+      description
+      priceId
+      currencySymbol
+      price
+      currencyValue
+    }
+    message
+    status
+  }
+}

@@ -27,9 +27,13 @@ fragment ShippingAddress on ShippingAddress {
 fragment CartItem on CartItem {
     id
     name
-    price
     product
     productId
+    priceId
+    price
+    currency
+    currencyValue
+    currencySymbol
     description
     imageUrl
     isComplete

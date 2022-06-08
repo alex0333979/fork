@@ -160,10 +160,7 @@ function useProvideAuth(
 
   const getMe = useMemo((): User | null => me, [me])
 
-  const cart = useMemo(() => {
-    console.log({ meCart: me?.cart })
-    return me?.cart || null
-  }, [me?.cart])
+  const cart = useMemo(() => me?.cart || null, [me?.cart])
 
   const currency: ICurrency = useMemo(() => {
     const _cookieCur = cookies[CURRENCY_COOKIE_NAME] || 'us'

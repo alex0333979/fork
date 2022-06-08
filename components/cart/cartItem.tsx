@@ -1,17 +1,22 @@
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
+import { omit } from 'lodash'
+
 import {
   Cart,
   CartItem,
+  CartPrice,
   ProductType,
   useUpdateCartItemPriceMutation,
 } from '@/generated/graphql'
-import { PAGES, PHOTO_PRICES } from '../../constants'
-import { useRouter } from 'next/router'
 import { showError, showSuccess } from '@/lib/utils/toast'
+import { usePrices } from '@/hooks/index'
+import { PAGES } from '../../constants'
+
+import PriceItem from './priceItem'
 
 interface CartItemProps {
-  index: number
   item: CartItem
   currency?: string
   onDelete: (id: string) => void
@@ -25,16 +30,18 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   onDelete,
   onUpdated,
   onPreview,
-  index,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { prices } = usePrices()
   const [updateCartItemPrice] = useUpdateCartItemPriceMutation()
 
   const onChangeOption = useCallback(
-    async (price: number) => {
+    async (price: CartPrice) => {
       const { data } = await updateCartItemPrice({
-        variables: { item: { price, itemId: item.id } },
+        variables: {
+          item: { ...omit(price, ['description']), itemId: item.id },
+        },
       })
       const cart = data?.UpdateCartItemPrice.data
       if (cart) {
@@ -81,7 +88,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             {item.product === ProductType.PassportApplication && (
               <span>
                 {t('currency', {
-                  value: item.isComplete ? item.price / 100 : 0,
+                  value: item.isComplete ? item.price : 0,
                   currency,
                 })}
               </span>
@@ -90,26 +97,16 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
         </div>
         {item.product === ProductType.PassportPhoto && (
           <div className="form-fields">
-            {PHOTO_PRICES.map((option, i) => (
-              <label key={`${index}-${i}`} className="full-size">
-                <span className="field radio with-price">
-                  <span className="name">{option.text}</span>
-                  <span className="price">
-                    {t('currency', { value: option.price / 100, currency })}
-                  </span>
-                  <input
-                    type="radio"
-                    name={`price-${index}`}
-                    checked={item.price === option.price}
-                    onChange={() => onChangeOption(option.price)}
+            {prices.map(
+              (price) =>
+                price.priceId.toLowerCase().includes('photos') && (
+                  <PriceItem
+                    price={price}
+                    selected={item.price}
+                    onSelect={onChangeOption}
                   />
-                  <span className="wrap">
-                    <span className="bullet" />
-                    <span className="border" />
-                  </span>
-                </span>
-              </label>
-            ))}
+                ),
+            )}
           </div>
         )}
 

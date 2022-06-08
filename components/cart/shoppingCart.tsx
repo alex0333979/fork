@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+
 import {
+  CartItem,
   ProductType,
   useRemoveItemsFromCartMutation,
 } from '@/generated/graphql'
 import ShoppingCartItem from '@/components/cart/cartItem'
+import PreviewPhotoModal from '@/components/elements/previewPhotoModal'
 import { useAuth } from '@/lib/auth'
-import { CartItem } from '@/lib/graphql/generated/graphql'
-import { useRouter } from 'next/router'
-import { useTranslation } from 'react-i18next'
 import { showError } from '@/lib/utils/toast'
 import { CartPageProps } from '@/pages/cart'
 import { PAGES } from '../../constants'
-import PreviewPhotoModal from '@/components/elements/previewPhotoModal'
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
   const { t } = useTranslation()
@@ -96,7 +97,6 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                   <ul>
                     {photoItems.map((item, index) => (
                       <ShoppingCartItem
-                        index={index}
                         key={index}
                         currency={currency}
                         item={item}
@@ -114,7 +114,6 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                   <ul>
                     {applicationItems.map((item, index) => (
                       <ShoppingCartItem
-                        index={index}
                         key={index}
                         item={item}
                         currency={currency}
