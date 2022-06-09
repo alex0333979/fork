@@ -1,33 +1,29 @@
 /* eslint-disable max-len */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+
 import {
   ShippingType,
   useSetShippingTypeToCartMutation,
+  CartPriceType,
 } from '@/generated/graphql'
 import { useAuth } from '@/lib/auth'
-import { useRouter } from 'next/router'
-import { useTranslation } from 'react-i18next'
 import CheckoutLayout from '@/components/checkout/checkoutLayout'
-import { CONCIERGE_PRICE, PAGES, SHIPPING_TYPES } from '../../constants'
-// import classNames from 'classnames';
+import { usePrices } from '@/hooks/index'
+import { PAGES, SHIPPING_TYPES } from '../../constants'
+import DeliveryMethodItem from './deliveryMethodItem'
 
 const DeliveryMethod: React.FC = () => {
   const { t } = useTranslation()
   const router = useRouter()
-  const {
-    cart,
-    updateCart,
-    currency: { currency = 'USD' },
-  } = useAuth()
+  const { prices } = usePrices()
+  const { cart, updateCart } = useAuth()
   const [loading, setLoading] = useState<boolean>(false)
   const [shippingType, setShippingType] = useState<string>(
     cart?.shippingType ?? ShippingType.From3To6,
   )
   const [setShippingTypeToCart] = useSetShippingTypeToCartMutation()
-  const subTotal = useMemo(
-    () => (shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE),
-    [shippingType],
-  )
 
   useEffect(() => {
     setShippingType(cart?.shippingType ?? ShippingType.From3To6)
@@ -49,6 +45,22 @@ const DeliveryMethod: React.FC = () => {
       }
     }
   }, [router, setShippingTypeToCart, shippingType, updateCart])
+
+  console.log({ prices })
+
+  const printPrice = useMemo(
+    () =>
+      prices.find(
+        (_price) => _price.priceId === CartPriceType.PrintShipService,
+      ),
+    [prices],
+  )
+
+  const subTotal = useMemo(
+    () =>
+      shippingType === ShippingType.NoShipping ? 0 : printPrice?.price || 0,
+    [printPrice?.price, shippingType],
+  )
 
   return (
     <CheckoutLayout
@@ -77,8 +89,8 @@ const DeliveryMethod: React.FC = () => {
               <span className="option" data-status={'Recommended'}>
                 <b>
                   {`Add concierge service for just ${t('currency', {
-                    value: (CONCIERGE_PRICE || 0) / 100,
-                    currency,
+                    value: printPrice?.price || 0,
+                    currency: printPrice?.currency,
                   })}!`}{' '}
                 </b>
               </span>
@@ -93,7 +105,10 @@ const DeliveryMethod: React.FC = () => {
                 <p>
                   {'Just '}
                   <b>
-                    {t('currency', { value: (subTotal || 0) / 100, currency })}
+                    {t('currency', {
+                      value: subTotal,
+                      currency: printPrice?.currency,
+                    })}
                   </b>
                 </p>
               </div>
@@ -145,31 +160,13 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Delivery method'}</h3>
               </div>
               <div className="form-fields">
-                {SHIPPING_TYPES.map((option, index) => (
-                  <label key={index} className="full-size">
-                    <span className="field radio with-price">
-                      <span className="name">{option.title}</span>
-                      <span className="price">
-                        {option.price > 0
-                          ? `+${t('currency', {
-                              value: option.price / 100,
-                              currency,
-                            })}`
-                          : 'FREE'}
-                      </span>
-                      <input
-                        type="radio"
-                        name="delivery"
-                        checked={shippingType === option.value}
-                        placeholder="delivery"
-                        onChange={() => setShippingType(option.value)}
-                      />
-                      <span className="wrap">
-                        <span className="bullet" />
-                        <span className="border" />
-                      </span>
-                    </span>
-                  </label>
+                {SHIPPING_TYPES.map((sType) => (
+                  <DeliveryMethodItem
+                    key={sType.priceId}
+                    selected={shippingType}
+                    shippingType={sType}
+                    onSelect={setShippingType}
+                  />
                 ))}
               </div>
             </li>

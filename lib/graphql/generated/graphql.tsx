@@ -99,6 +99,7 @@ export type CartPrice = {
 export enum CartPriceType {
   ExpeditedShipping = 'expeditedShipping',
   FourPhotos = 'fourPhotos',
+  Free = 'free',
   PrintShipService = 'printShipService',
   PriorityService = 'priorityService',
   SixPhotos = 'sixPhotos',

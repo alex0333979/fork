@@ -158,7 +158,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                         <td>{'Subtotal'}</td>
                         <td>
                           {t('currency', {
-                            value: (subTotal || 0) / 100,
+                            value: subTotal,
                             currency,
                           })}
                         </td>
@@ -176,7 +176,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                         <td>
                           <b>
                             {t('currency', {
-                              value: (subTotal || 0) / 100,
+                              value: subTotal,
                               currency,
                             })}
                           </b>

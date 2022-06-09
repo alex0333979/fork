@@ -5,6 +5,7 @@ import {
   FormField,
   ShippingType,
   ValidationType,
+  CartPriceType,
 } from '@/generated/graphql'
 
 export const TOKEN_EXPIRE_IN = 31556926 // seconds
@@ -207,22 +208,27 @@ export const CONCIERGE_PRICE = 950
 
 export const SHIPPING_TYPES: {
   title: string
-  price: number
+  priceId: CartPriceType
   value: ShippingType
 }[] = [
   {
     title: 'Expedited 1-2 business days',
-    price: 1950,
+    priceId: CartPriceType.ExpeditedShipping,
+    value: ShippingType.From1To2,
+  },
+  {
+    title: 'Priority Service 1-2 business days',
+    priceId: CartPriceType.PriorityService,
     value: ShippingType.From1To2,
   },
   {
     title: 'Standard 3-5 business days',
-    price: 350,
+    priceId: CartPriceType.StandardShipping,
     value: ShippingType.From3To6,
   },
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
-    price: 0,
+    priceId: CartPriceType.Free,
     value: ShippingType.NoShipping,
   },
 ]
