@@ -41,7 +41,7 @@ export type BillingAddressInput = {
   lastName: Scalars['String'];
   phone: Scalars['String'];
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
 };
 
 export type BillingAddressResponse = {
@@ -700,7 +700,7 @@ export type ShippingAddressInput = {
   lastName: Scalars['String'];
   phone: Scalars['String'];
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
 };
 
 export type ShippingAddressResponse = {

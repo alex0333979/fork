@@ -204,8 +204,6 @@ export const PHOTO_STEP = {
   ],
 }
 
-export const CONCIERGE_PRICE = 950
-
 export const SHIPPING_TYPES: {
   title: string
   priceId: CartPriceType

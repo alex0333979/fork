@@ -46,8 +46,6 @@ const DeliveryMethod: React.FC = () => {
     }
   }, [router, setShippingTypeToCart, shippingType, updateCart])
 
-  console.log({ prices })
-
   const printPrice = useMemo(
     () =>
       prices.find(
