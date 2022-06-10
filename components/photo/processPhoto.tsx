@@ -3,6 +3,9 @@ import { useRouter, NextRouter } from 'next/router'
 
 import {
   CartItemInput,
+  CartPriceType,
+  CurrencyCode,
+  CurrencyType,
   ProductType,
   useAddItemsToCartMutation,
 } from '@/generated/graphql'
@@ -22,7 +25,14 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
   document,
 }) => {
   const router = useRouter()
-  const { updateCart } = useAuth()
+  const {
+    updateCart,
+    currency: {
+      currency = CurrencyType.Usd,
+      value: currencyValue = CurrencyCode.Us,
+      symbol: currencySymbol = '$',
+    },
+  } = useAuth()
   const [addToCart] = useAddItemsToCartMutation()
   const [loading, setLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
@@ -61,9 +71,21 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
         product: ProductType.PassportPhoto,
         productId: entry.id,
         imageUrl: imageLink,
+        priceId: CartPriceType.FourPhotos,
+        currency: currency as CurrencyType,
+        currencyValue: currencyValue as CurrencyCode,
+        currencySymbol,
       })
     },
-    [document, entry.id, onAddToCartItem],
+    [
+      currency,
+      currencySymbol,
+      currencyValue,
+      document.country,
+      document.type,
+      entry.id,
+      onAddToCartItem,
+    ],
   )
 
   const onChangePhoto = useCallback(() => {
