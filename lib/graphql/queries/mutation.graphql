@@ -48,6 +48,16 @@ mutation SetDefaultShippingAddress($shippingAddress: ShippingAddressInput!) {
     }
 }
 
+mutation SetDefaultCurrency($currency: CurrencyInput!) {
+    SetDefaultCurrency(currency: $currency) {
+        message
+        status
+        data {
+            ...Cart
+        }
+    }
+}
+
 mutation SetTrackingNumber($trackingNumber: String!, $orderId: String!) {
     SetTrackingNumber(trackingNumber: $trackingNumber, orderId: $orderId) {
         message

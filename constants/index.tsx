@@ -5,7 +5,7 @@ import {
   FormField,
   ShippingType,
   ValidationType,
-  CartPriceType,
+  ProductSku,
 } from '@/generated/graphql'
 
 export const TOKEN_EXPIRE_IN = 31556926 // seconds
@@ -206,27 +206,27 @@ export const PHOTO_STEP = {
 
 export const SHIPPING_TYPES: {
   title: string
-  priceId: CartPriceType
+  productSku: ProductSku
   value: ShippingType
 }[] = [
   {
     title: 'Expedited 1-2 business days',
-    priceId: CartPriceType.ExpeditedShipping,
+    productSku: ProductSku.ExpeditedShipping,
     value: ShippingType.From1To2,
   },
   {
     title: 'Priority Service 1-2 business days',
-    priceId: CartPriceType.PriorityService,
+    productSku: ProductSku.PriorityService,
     value: ShippingType.From1To2,
   },
   {
     title: 'Standard 3-5 business days',
-    priceId: CartPriceType.StandardShipping,
+    productSku: ProductSku.StandardShipping,
     value: ShippingType.From3To6,
   },
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
-    priceId: CartPriceType.Free,
+    productSku: ProductSku.Free,
     value: ShippingType.NoShipping,
   },
 ]
@@ -414,4 +414,3 @@ export const ExtraPath = [
 
 export * from './countries'
 export * from './documents'
-export * from './languageCurrencies'

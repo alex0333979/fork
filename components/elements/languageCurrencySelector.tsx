@@ -1,16 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { components } from 'react-select'
 import { ValueContainerProps } from 'react-select/dist/declarations/src/components/containers'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
-import { useAuth } from '@/lib/auth'
-import {
-  languages,
-  currencies,
-  ILanguage,
-  ICurrency,
-} from '@/constants/languageCurrencies'
+import { Currency, CurrencyCode } from '@/generated/graphql'
+import { IDropdownOption } from '@/components/elements/dropdownPicker'
+import { useCurrency, useLanguage, ILanguage } from '@/hooks/index'
 
 const Modal = dynamic(() => import('@/components/elements/modalContainer'), {
   ssr: false,
@@ -48,22 +44,24 @@ const CurrencyOptionContainer = (props: any) => {
           style={{
             paddingLeft: 8,
             flex: 1,
-          }}>{`${option.currency}, ${option?.label}`}</div>
+          }}>{`${option.displayLabel}, ${option?.label}`}</div>
         <div>{option?.symbol}</div>
       </div>
     </components.Option>
   )
 }
 
-const CountryFlagValueContainer: React.FC<ValueContainerProps<ICurrency>> = ({
+const CountryFlagValueContainer: React.FC<ValueContainerProps<Currency>> = ({
   children,
   ...props
 }) => {
   const selected = props.getValue()[0]
+  if (!selected) return null
+
   return (
     <div className="currency-value-container">
-      {props.hasValue && !!selected.value && (
-        <span className={`flag-icon flag-icon-${selected.value}`} />
+      {props.hasValue && !!selected.code && (
+        <span className={`flag-icon flag-icon-${selected.code}`} />
       )}
       <components.ValueContainer {...props}>
         {children}
@@ -76,29 +74,77 @@ const CountryFlagValueContainer: React.FC<ValueContainerProps<ICurrency>> = ({
 const LanguageCurrencySelector: React.FC<{ wrapperClass?: string }> = ({
   wrapperClass,
 }) => {
-  const { language, currency, onSetPreference } = useAuth()
+  const { currentLanguage, languages, onChangeLanguage } = useLanguage()
+  const {
+    currentCurrency,
+    currencies,
+    loading: loadingCurrency,
+    onChangeCurrency,
+  } = useCurrency()
   const [open, setOpen] = useState<boolean>(false)
   const [lang, setLang] = useState<ILanguage | undefined>()
-  const [cur, setCur] = useState<ICurrency | undefined>()
+  const [cur, setCur] = useState<IDropdownOption | undefined>()
+
+  const getCurrencyLabel = useCallback((code: CurrencyCode) => {
+    let label = ''
+    if (code === CurrencyCode.Us) {
+      label = 'USA Dollar'
+    } else if (code === CurrencyCode.Eu) {
+      label = 'Euro'
+    } else if (code === CurrencyCode.Gb) {
+      label = 'Pound Sterling'
+    }
+
+    return label
+  }, [])
+
+  const currencyOptions = useMemo(
+    () =>
+      currencies.map((_currency) => ({
+        ..._currency,
+        displayLabel: _currency.label,
+        label: getCurrencyLabel(_currency.code),
+        value: _currency.code,
+      })),
+    [currencies, getCurrencyLabel],
+  )
 
   useEffect(() => {
     if (!lang) {
-      const _lang = languages.find((l) => l.value === language.value)
-      setLang(_lang)
+      setLang(currentLanguage)
     }
+  }, [currentLanguage, lang])
 
-    if (!cur) {
-      const _cur = currencies.find((c) => c.value === currency.value)
-      setCur(_cur)
-    }
-  }, [cur, currency, lang, language])
+  useEffect(() => {
+    setCur({
+      ...currentCurrency,
+      displayLabel: currentCurrency.label,
+      label: getCurrencyLabel(currentCurrency.code),
+      value: currentCurrency.code,
+    })
+  }, [currentCurrency, getCurrencyLabel])
 
   const onApply = useCallback(() => {
-    onSetPreference(lang?.value, cur?.value)
+    onChangeLanguage(lang?.value)
+    onChangeCurrency({
+      code: cur?.code,
+      label: cur?.displayLabel,
+      symbol: cur?.symbol,
+    })
     setOpen(false)
-  }, [cur?.value, lang?.value, onSetPreference])
+  }, [cur, lang?.value, onChangeCurrency, onChangeLanguage])
 
-  if (!lang || !cur) return null
+  const onCloseModal = useCallback(() => {
+    setOpen(false)
+    setCur({
+      ...currentCurrency,
+      displayLabel: currentCurrency.label,
+      label: getCurrencyLabel(currentCurrency.code),
+      value: currentCurrency.code,
+    })
+  }, [currentCurrency, getCurrencyLabel])
+
+  if (!lang || !cur || loadingCurrency) return null
 
   return (
     <div className={wrapperClass}>
@@ -113,7 +159,7 @@ const LanguageCurrencySelector: React.FC<{ wrapperClass?: string }> = ({
         />
         <span>{lang.label}</span>
         <div className="currency-divider" />
-        <span>{`${cur.symbol} (${cur.currency})`}</span>
+        <span>{`${currentCurrency.symbol} (${currentCurrency.label})`}</span>
         <Image
           src="/images/icons/chevron-right.svg"
           width={18}
@@ -121,7 +167,7 @@ const LanguageCurrencySelector: React.FC<{ wrapperClass?: string }> = ({
           alt="An SVG of an chevron"
         />
       </div>
-      <Modal open={open} closeModal={() => setOpen(false)}>
+      <Modal open={open} closeModal={onCloseModal}>
         <div className="language-currency-modal">
           <span className="modal-title">Language & Currency setting</span>
           <div className="modal-body">
@@ -137,11 +183,11 @@ const LanguageCurrencySelector: React.FC<{ wrapperClass?: string }> = ({
             <DropdownPicker
               className="currencies"
               label="Select currency"
-              options={currencies}
+              options={currencyOptions}
               value={cur}
               optionContainer={CurrencyOptionContainer}
               valueContainer={CountryFlagValueContainer}
-              onChange={(v: ICurrency) => setCur(v)}
+              onChange={(v) => setCur(v)}
             />
           </div>
           <div className="modal-footer">

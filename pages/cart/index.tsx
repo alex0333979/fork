@@ -1,13 +1,13 @@
-import type { NextPage } from 'next'
 import React from 'react'
+import { NextPage, GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { NextSeo } from 'next-seo'
+import { ApolloQueryResult } from '@apollo/client'
+
 import { AppLayout } from '@/components/index'
 import ShoppingCart from '@/components/cart/shoppingCart'
 import { Cart, CartDocument, CartQuery } from '@/generated/graphql'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { initializeApollo } from '@/lib/apolloClient'
-import { ApolloQueryResult } from '@apollo/client'
 import { PAGES, SEO } from '../../constants'
-import { NextSeo } from 'next-seo'
 
 export interface CartPageProps {
   cart: Cart | null

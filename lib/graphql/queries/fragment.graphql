@@ -1,3 +1,19 @@
+fragment Currency on Currency {
+    label
+    code
+    symbol
+}
+
+fragment Product on Product {
+    sku
+    price
+    currency {
+        ...Currency
+    }
+    category
+    description
+}
+
 fragment BillingAddress on BillingAddress {
     address1
     address2
@@ -26,22 +42,21 @@ fragment ShippingAddress on ShippingAddress {
 
 fragment CartItem on CartItem {
     id
-    name
-    product
     productId
-    priceId
-    price
-    currency
-    currencyValue
-    currencySymbol
+    name
     description
     imageUrl
+    productCategory
+    productSku
     isComplete
     createdAt
     updatedAt
 }
 
 fragment Cart on Cart {
+    defaultCurrency {
+        ...Currency
+    }
     billingAddress {
         ...BillingAddress
     }

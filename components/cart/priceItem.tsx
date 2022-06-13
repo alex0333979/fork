@@ -1,28 +1,31 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CartPrice } from '@/generated/graphql'
+import { Maybe, Product, ProductSku } from '@/generated/graphql'
 
 interface Props {
-  price: CartPrice
-  selected: number
-  onSelect: (price: CartPrice) => void
+  product: Product
+  selected: Maybe<ProductSku> | undefined
+  onSelect: (product: Product) => void
 }
 
-const PriceItem: React.FC<Props> = ({ price, selected, onSelect }) => {
+const PriceItem: React.FC<Props> = ({ product, selected, onSelect }) => {
   const { t } = useTranslation()
 
   return (
     <label className="full-size">
       <span className="field radio with-price">
-        <span className="name">{price.description}</span>
+        <span className="name">{product.description}</span>
         <span className="price">
-          {t('currency', { value: price.price, currency: price.currency })}
+          {t('currency', {
+            value: product.price,
+            currency: product.currency.label,
+          })}
         </span>
         <input
           type="radio"
-          checked={price.price === selected}
-          onChange={() => onSelect(price)}
+          checked={product.sku === selected}
+          onChange={() => onSelect(product)}
         />
         <span className="wrap">
           <span className="bullet" />

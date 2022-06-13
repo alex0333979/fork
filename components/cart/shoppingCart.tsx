@@ -3,25 +3,25 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'react-i18next'
 
 import {
+  Product,
   CartItem,
-  ProductType,
+  ProductCategory,
   useRemoveItemsFromCartMutation,
 } from '@/generated/graphql'
 import ShoppingCartItem from '@/components/cart/cartItem'
 import PreviewPhotoModal from '@/components/elements/previewPhotoModal'
 import { useAuth } from '@/lib/auth'
 import { showError } from '@/lib/utils/toast'
+import { useCurrency, useProducts } from '@/hooks/index'
 import { CartPageProps } from '@/pages/cart'
 import { PAGES } from '../../constants'
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const {
-    cart,
-    updateCart,
-    currency: { currency },
-  } = useAuth()
+  const { cart, updateCart } = useAuth()
+  const { currentCurrency } = useCurrency()
+  const { getProduct } = useProducts()
   const [removeFromCart] = useRemoveItemsFromCartMutation()
   const [open, setOpen] = useState<boolean>(false)
   const [prevUrl, setPrevUrl] = useState<string>('')
@@ -50,8 +50,11 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
     () =>
       cart?.items
         ?.filter((i) => i.isComplete)
-        .reduce((a, { price }) => a + price, 0),
-    [cart],
+        .reduce((a, item) => {
+          const product: Product | undefined = getProduct(item.productSku)
+          return a + (product?.price || 0)
+        }, 0),
+    [cart?.items, getProduct],
   )
 
   const onCheckout = useCallback(async () => {
@@ -67,10 +70,10 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
     const _applicationItems: CartItem[] = []
 
     ;(cart?.items || []).forEach((item) => {
-      if (item.product === ProductType.PassportPhoto) {
+      if (item.productCategory === ProductCategory.Photo) {
         _photoItems.push(item)
       }
-      if (item.product === ProductType.PassportApplication) {
+      if (item.productCategory === ProductCategory.Application) {
         _applicationItems.push(item)
       }
     })
@@ -98,7 +101,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                     {photoItems.map((item, index) => (
                       <ShoppingCartItem
                         key={index}
-                        currency={currency}
+                        currency={currentCurrency}
                         item={item}
                         onDelete={onRemoveCartItem}
                         onUpdated={updateCart}
@@ -116,7 +119,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                       <ShoppingCartItem
                         key={index}
                         item={item}
-                        currency={currency}
+                        currency={currentCurrency}
                         onDelete={onRemoveCartItem}
                         onUpdated={updateCart}
                         onPreview={onPreview}
@@ -159,13 +162,18 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                         <td>
                           {t('currency', {
                             value: subTotal,
-                            currency,
+                            currency: currentCurrency.label,
                           })}
                         </td>
                       </tr>
                       <tr>
                         <td>{'Tax'}</td>
-                        <td>{t('currency', { value: 0, currency })}</td>
+                        <td>
+                          {t('currency', {
+                            value: 0,
+                            currency: currentCurrency.label,
+                          })}
+                        </td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -177,7 +185,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                           <b>
                             {t('currency', {
                               value: subTotal,
-                              currency,
+                              currency: currentCurrency.label,
                             })}
                           </b>
                         </td>

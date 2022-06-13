@@ -20,17 +20,18 @@ import CheckoutLayout from '@/components/checkout/checkoutLayout'
 import { useAuth } from '@/lib/auth'
 import {
   Order,
-  ProductType,
+  CurrencyCode,
+  ProductCategory,
+  ProductSku,
   ShippingType,
   useClearCartMutation,
   useCreateOrderMutation,
   useGetPaymentIntentMutation,
-  CartPriceType,
 } from '@/generated/graphql'
 import { ValidationError } from '@/lib/utils/formValidation'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { TEMP_ORDER_NUM } from '@/lib/apolloClient'
-import { usePrices } from '@/hooks/index'
+import { useProducts, useCurrency } from '@/hooks/index'
 import { PAGES, SHIPPING_TYPES } from '../../constants'
 
 const CARD_OPTIONS = {
@@ -59,13 +60,10 @@ const CARD_OPTIONS = {
 
 const ReviewAndPay: React.FC = () => {
   const { t } = useTranslation()
-  const { prices } = usePrices()
+  const { getProduct } = useProducts()
   const [, setCookie] = useCookies([TEMP_ORDER_NUM])
-  const {
-    cart,
-    updateCart,
-    currency: { currency = 'USD', value: currencyCode },
-  } = useAuth()
+  const { cart, updateCart } = useAuth()
+  const { currentCurrency } = useCurrency()
   const [cardName, setCardName] = useState<string>('')
   const [error, setError] = useState<ValidationError>({})
   const [stripeFocus, setStripeFocus] = useState<boolean>(false)
@@ -82,29 +80,34 @@ const ReviewAndPay: React.FC = () => {
   const elements = useElements()
 
   const shippingPrice = useMemo(() => {
-    const priceId = SHIPPING_TYPES.find(
+    const productSku = SHIPPING_TYPES.find(
       (s) => s.value === cart?.shippingType,
-    )?.priceId
+    )?.productSku
 
-    if (!priceId) return 0
+    if (!productSku) return 0
 
-    return prices.find((p) => p.priceId === priceId)?.price || 0
-  }, [cart?.shippingType, prices])
+    return getProduct(productSku)?.price || 0
+  }, [cart?.shippingType, getProduct])
 
   const aPrice = useMemo(
     () =>
       cart?.items
         ?.filter(
-          (c) => c.product === ProductType.PassportApplication && c.isComplete,
+          (c) =>
+            c.productCategory === ProductCategory.Application && c.isComplete,
         )
-        .reduce((a, { price }) => a + price, 0),
-    [cart],
+        .reduce((a, item) => {
+          const product = getProduct(item.productSku)
+          return a + (product?.price || 0)
+        }, 0),
+    [cart?.items, getProduct],
   )
 
   const aCount = useMemo(
     () =>
       cart?.items?.filter(
-        (c) => c.product === ProductType.PassportApplication && c.isComplete,
+        (c) =>
+          c.productCategory === ProductCategory.Application && c.isComplete,
       ).length ?? 0,
     [cart?.items],
   )
@@ -112,46 +115,49 @@ const ReviewAndPay: React.FC = () => {
   const photoItems = useMemo(
     () =>
       cart?.items
-        ?.filter((c) => c.product === ProductType.PassportPhoto)
-        ?.map((item) => {
-          const { priceId, price } = item
+        ?.filter((c) => c.productCategory === ProductCategory.Photo)
+        ?.map(({ productSku, description }) => {
+          const product = getProduct(productSku)
           let text = ''
-          if (priceId === CartPriceType.TwoPhotos) {
-            text = `2 ${item.description}`
-          } else if (priceId === CartPriceType.FourPhotos) {
-            text = `4 ${item.description}`
-          } else if (priceId === CartPriceType.SixPhotos) {
-            text = `6 ${item.description}`
+          if (productSku === ProductSku.TwoPhotos) {
+            text = `2 ${description}`
+          } else if (productSku === ProductSku.FourPhotos) {
+            text = `4 ${description}`
+          } else if (productSku === ProductSku.SixPhotos) {
+            text = `6 ${description}`
           } else {
             text = 'Photos'
           }
           return {
             text,
-            price,
+            price: product?.price || 0,
           }
         }) ?? [],
-    [cart?.items],
+    [cart?.items, getProduct],
   )
 
   const conciergePrice = useMemo(() => {
     if (cart?.shippingType === ShippingType.NoShipping) return 0
-    const _price = prices.find((p) =>
-      currencyCode === 'gb'
-        ? p.priceId === CartPriceType.PriorityService
-        : p.priceId === CartPriceType.ExpeditedShipping,
+    const product = getProduct(
+      currentCurrency.code === CurrencyCode.Gb
+        ? ProductSku.PriorityService
+        : ProductSku.ExpeditedShipping,
     )
 
-    return _price?.price || 0
-  }, [cart?.shippingType, currencyCode, prices])
+    return product?.price || 0
+  }, [cart?.shippingType, currentCurrency.code, getProduct])
 
   const subTotal = useMemo(
     () =>
       (cart?.items
         ?.filter((i) => i.isComplete)
-        .reduce((a, { price }) => a + price, 0) ?? 0) +
+        .reduce((a, { productSku }) => {
+          const product = getProduct(productSku)
+          return a + (product?.price || 0)
+        }, 0) ?? 0) +
       conciergePrice +
       shippingPrice,
-    [cart?.items, conciergePrice, shippingPrice],
+    [cart?.items, conciergePrice, getProduct, shippingPrice],
   )
 
   const tax = useMemo(() => {
@@ -192,7 +198,10 @@ const ReviewAndPay: React.FC = () => {
     async (order: Order): Promise<string | undefined> => {
       setLoading(true)
       const { data: intent } = await getPaymentIntent({
-        variables: { orderId: order.id, currency: currency.toLowerCase() },
+        variables: {
+          orderId: order.id,
+          currency: currentCurrency.label.toLowerCase(),
+        },
       })
       setLoading(false)
       const clientSecret = intent?.GetPaymentIntent.data?.clientSecret
@@ -206,7 +215,7 @@ const ReviewAndPay: React.FC = () => {
       }
       return clientSecret
     },
-    [currency, getPaymentIntent],
+    [currentCurrency.label, getPaymentIntent],
   )
 
   const finalizeResult = useCallback(
@@ -236,29 +245,37 @@ const ReviewAndPay: React.FC = () => {
           send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
           transaction_id: order.orderNumber,
           value: order.totalPrice,
-          currency,
+          currency: currentCurrency.label,
           tax,
           shipping: shippingPrice,
-          items: order.items.map((item) => ({
-            id: item.productId,
-            name: item.name,
-            category: humanize(item.product),
-            price: item.price,
-          })),
+          items: order.items.map((item) => {
+            const product = getProduct(item.productSku)
+
+            return {
+              id: item.productId,
+              name: item.name,
+              category: humanize(item.productCategory as string),
+              price: product?.price || 0,
+            }
+          }),
         })
 
         window.gtag('event', 'purchase', {
           transaction_id: order.orderNumber,
           value: order.totalPrice,
-          currency,
+          currency: currentCurrency.label,
           tax,
           shipping: shippingPrice,
-          items: order.items.map((item) => ({
-            id: item.productId,
-            name: item.name,
-            category: humanize(item.product),
-            price: item.price,
-          })),
+          items: order.items.map((item) => {
+            const product = getProduct(item.productSku)
+
+            return {
+              id: item.productId,
+              name: item.name,
+              category: humanize(item.productCategory as string),
+              price: product?.price || 0,
+            }
+          }),
         })
 
         // @ts-ignore
@@ -279,7 +296,16 @@ const ReviewAndPay: React.FC = () => {
         await router.push(PAGES.checkout.thankYou)
       }
     },
-    [clearCart, currency, router, setCookie, shippingPrice, tax, updateCart],
+    [
+      clearCart,
+      currentCurrency.label,
+      getProduct,
+      router,
+      setCookie,
+      shippingPrice,
+      tax,
+      updateCart,
+    ],
   )
 
   const onSubmit = useCallback(async () => {
@@ -343,8 +369,9 @@ const ReviewAndPay: React.FC = () => {
     }
 
     timer.current = setTimeout(() => {
+      console.log({ total: total + tax })
       const pr = stripe.paymentRequest({
-        currency: currency.toLowerCase(),
+        currency: currentCurrency.label.toLowerCase(),
         country: 'US',
         total: {
           label: '',
@@ -404,7 +431,8 @@ const ReviewAndPay: React.FC = () => {
     finalizeResult,
     total,
     tax,
-    currency,
+    currentCurrency.symbol,
+    currentCurrency.label,
   ])
 
   const PaymentStatus = ({ status }: { status: string }) => {
@@ -493,50 +521,85 @@ const ReviewAndPay: React.FC = () => {
               {aCount > 0 && (
                 <div className="name">
                   <h3>{`${aCount} Passport Application`}</h3>
-                  <p>{t('currency', { value: aPrice || 0, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: aPrice || 0,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               )}
               {photoItems.map((item, index) => (
                 <div key={index} className="name">
                   <h3>{item.text}</h3>
-                  <p>{t('currency', { value: item.price, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: item.price,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               ))}
             </li>
             <li>
               <div className="name">
                 <h3>{'Concierge service'}</h3>
-                <p>{t('currency', { value: conciergePrice, currency })}</p>
+                <p>
+                  {t('currency', {
+                    value: conciergePrice,
+                    currency: currentCurrency.label,
+                  })}
+                </p>
               </div>
               <div className="name">
                 <h3>{'Shipping'}</h3>
                 <p>
                   {t('currency', {
                     value: shippingPrice || 0,
-                    currency,
+                    currency: currentCurrency.label,
                   })}
                 </p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
-                <p>{t('currency', { value: subTotal, currency })}</p>
+                <p>
+                  {t('currency', {
+                    value: subTotal,
+                    currency: currentCurrency.label,
+                  })}
+                </p>
               </div>
               {cart?.billingAddress?.state === 'NY' ? (
                 <div className="name">
                   <h3>{'Sales tax'}</h3>
-                  <p>{t('currency', { value: tax, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: tax,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               ) : (
                 <div className="name">
                   <h3>{'Tax'}</h3>
-                  <p>{t('currency', { value: 0, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: 0,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               )}
             </li>
             <li>
               <div className="name">
                 <h3>{'Grand Total'}</h3>
-                <p>{t('currency', { value: total, currency })}</p>
+                <p>
+                  {t('currency', {
+                    value: total,
+                    currency: currentCurrency.label,
+                  })}
+                </p>
               </div>
             </li>
           </ol>

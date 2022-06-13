@@ -2,14 +2,14 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ShippingType, CartPriceType } from '@/generated/graphql'
-import { usePrices } from '@/hooks/index'
+import { ShippingType, ProductSku } from '@/generated/graphql'
+import { useProducts } from '@/hooks/index'
 
 interface Props {
   selected: string
   shippingType: {
     title: string
-    priceId: CartPriceType
+    productSku: ProductSku
     value: ShippingType
   }
   onSelect: (v: string) => void
@@ -21,11 +21,11 @@ const DeliveryMethodItem: React.FC<Props> = ({
   onSelect,
 }) => {
   const { t } = useTranslation()
-  const { prices } = usePrices()
+  const { getProduct } = useProducts()
 
   const price = useMemo(
-    () => prices.find((p) => p.priceId === shippingType.priceId),
-    [prices, shippingType.priceId],
+    () => getProduct(shippingType.productSku),
+    [getProduct, shippingType.productSku],
   )
 
   if (!price) return null
@@ -37,8 +37,8 @@ const DeliveryMethodItem: React.FC<Props> = ({
         <span className="price">
           {price.price > 0
             ? `+${t('currency', {
-                value: price.price,
-                currency: price.currency,
+                value: price?.price || 0,
+                currency: price?.currency.label,
               })}`
             : 'FREE'}
         </span>

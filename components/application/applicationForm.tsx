@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@/lib/auth'
 import {
   CartItemInput,
-  CurrencyCode,
-  CurrencyType,
   FieldType,
   Form,
   FormStep,
-  ProductType,
+  ProductSku,
+  ProductCategory,
   useAddItemsToCartMutation,
   useSubmitEntryMutation,
 } from '@/generated/graphql'
@@ -56,14 +55,7 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
   const [error, setError] = useState<ValidationError>({})
   const [loading, setLoading] = useState<boolean>(false)
 
-  const {
-    updateCart,
-    currency: {
-      currency = CurrencyType.Usd,
-      value: currencyValue = CurrencyCode.Us,
-      symbol: currencySymbol = '$',
-    },
-  } = useAuth()
+  const { updateCart } = useAuth()
   const [submitEntry] = useSubmitEntryMutation()
   const [addToCart] = useAddItemsToCartMutation()
 
@@ -192,11 +184,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
         await onAddToCartItem({
           name: getEntityUsername(),
           description: `Passport application ${result.form.name}`,
-          product: ProductType.PassportApplication,
           productId: result.id,
-          currency: currency as CurrencyType,
-          currencyValue: currencyValue as CurrencyCode,
-          currencySymbol,
+
+          productSku: ProductSku.Application,
+          productCategory: ProductCategory.Application,
         })
       } else {
         if (step > entry.form.steps.length - 1) {

@@ -5,19 +5,19 @@ import { useTranslation } from 'react-i18next'
 
 import {
   ShippingType,
+  ProductSku,
   useSetShippingTypeToCartMutation,
-  CartPriceType,
 } from '@/generated/graphql'
 import { useAuth } from '@/lib/auth'
 import CheckoutLayout from '@/components/checkout/checkoutLayout'
-import { usePrices } from '@/hooks/index'
+import { useProducts } from '@/hooks/index'
 import { PAGES, SHIPPING_TYPES } from '../../constants'
 import DeliveryMethodItem from './deliveryMethodItem'
 
 const DeliveryMethod: React.FC = () => {
   const { t } = useTranslation()
   const router = useRouter()
-  const { prices } = usePrices()
+  const { getProduct } = useProducts()
   const { cart, updateCart } = useAuth()
   const [loading, setLoading] = useState<boolean>(false)
   const [shippingType, setShippingType] = useState<string>(
@@ -47,11 +47,8 @@ const DeliveryMethod: React.FC = () => {
   }, [router, setShippingTypeToCart, shippingType, updateCart])
 
   const printPrice = useMemo(
-    () =>
-      prices.find(
-        (_price) => _price.priceId === CartPriceType.PrintShipService,
-      ),
-    [prices],
+    () => getProduct(ProductSku.PrintShipService),
+    [getProduct],
   )
 
   const subTotal = useMemo(
@@ -88,7 +85,7 @@ const DeliveryMethod: React.FC = () => {
                 <b>
                   {`Add concierge service for just ${t('currency', {
                     value: printPrice?.price || 0,
-                    currency: printPrice?.currency,
+                    currency: printPrice?.currency.label,
                   })}!`}{' '}
                 </b>
               </span>
@@ -105,7 +102,7 @@ const DeliveryMethod: React.FC = () => {
                   <b>
                     {t('currency', {
                       value: subTotal,
-                      currency: printPrice?.currency,
+                      currency: printPrice?.currency.label,
                     })}
                   </b>
                 </p>
@@ -160,7 +157,7 @@ const DeliveryMethod: React.FC = () => {
               <div className="form-fields">
                 {SHIPPING_TYPES.map((sType) => (
                   <DeliveryMethodItem
-                    key={sType.priceId}
+                    key={sType.productSku}
                     selected={shippingType}
                     shippingType={sType}
                     onSelect={setShippingType}

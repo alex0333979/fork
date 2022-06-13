@@ -8,6 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import { useCookies } from 'react-cookie'
 import {
   ApolloClient,
   ApolloQueryResult,
@@ -25,19 +26,8 @@ import {
   User,
 } from '@/generated/graphql'
 import { FetchResult } from '@apollo/client/link/core'
-import { useCookies } from 'react-cookie'
-import {
-  COOKIES_TOKEN_NAME,
-  LANGUAGE_COOKIE_NAME,
-  CURRENCY_COOKIE_NAME,
-  ROUTE_COOKIE_NAME,
-} from '@/lib/apolloClient'
-import {
-  currencies,
-  languages,
-  ICurrency,
-  ILanguage,
-} from '@/constants/languageCurrencies'
+import { COOKIES_TOKEN_NAME, ROUTE_COOKIE_NAME } from '@/lib/apolloClient'
+
 import { PRIVATE_ROUTES, TOKEN_EXPIRE_IN } from '@/constants/index'
 
 interface IContextProps {
@@ -56,9 +46,6 @@ interface IContextProps {
   toggleSignUpModal: (show: boolean) => void
   openDocument: boolean
   setOpenDocument: React.Dispatch<React.SetStateAction<boolean>>
-  language: ILanguage
-  currency: ICurrency
-  onSetPreference: (language?: string, currency?: string) => void
 }
 
 const authContext = createContext({} as IContextProps)
@@ -83,8 +70,6 @@ function useProvideAuth(
   const [me, setMe] = useState<User | null>(null)
   const [cookies, setCookie, removeCookie] = useCookies([
     COOKIES_TOKEN_NAME,
-    LANGUAGE_COOKIE_NAME,
-    CURRENCY_COOKIE_NAME,
     ROUTE_COOKIE_NAME,
   ])
   const [openSignIn, setOpenSignIn] = useState<boolean>(false)
@@ -103,22 +88,6 @@ function useProvideAuth(
       })
     }
   }, [apolloClient, setCookie])
-
-  const onSetPreference = useCallback(
-    (lang?: string, cur?: string) => {
-      if (lang) {
-        setCookie(LANGUAGE_COOKIE_NAME, lang, {
-          path: '/',
-        })
-      }
-      if (cur) {
-        setCookie(CURRENCY_COOKIE_NAME, cur, {
-          path: '/',
-        })
-      }
-    },
-    [setCookie],
-  )
 
   const autoLogin = useCallback(async (): Promise<boolean> => {
     const { data }: ApolloQueryResult<MeQuery> = await apolloClient.query({
@@ -161,24 +130,6 @@ function useProvideAuth(
   const getMe = useMemo((): User | null => me, [me])
 
   const cart = useMemo(() => me?.cart || null, [me?.cart])
-
-  const currency: ICurrency = useMemo(() => {
-    const _cookieCur = cookies[CURRENCY_COOKIE_NAME] || 'us'
-    const _currency: ICurrency | undefined = currencies.find(
-      (c) => c.value === _cookieCur,
-    )
-
-    return _currency || currencies[0]
-  }, [cookies])
-
-  const language: ILanguage = useMemo(() => {
-    const _cookieLang = cookies[LANGUAGE_COOKIE_NAME] || 'en'
-    const _language: ILanguage | undefined = languages.find(
-      (c) => c.value === _cookieLang,
-    )
-
-    return _language || languages[0]
-  }, [cookies])
 
   const updateCart = useCallback((cart: Cart | null) => {
     // @ts-ignore
@@ -239,8 +190,5 @@ function useProvideAuth(
     toggleSignUpModal,
     openDocument,
     setOpenDocument,
-    language,
-    currency,
-    onSetPreference,
   }
 }

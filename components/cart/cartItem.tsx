@@ -1,24 +1,24 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
-import { omit } from 'lodash'
 
 import {
   Cart,
   CartItem,
-  CartPrice,
-  ProductType,
+  Currency,
+  Product,
+  ProductCategory,
   useUpdateCartItemPriceMutation,
 } from '@/generated/graphql'
 import { showError, showSuccess } from '@/lib/utils/toast'
-import { usePrices } from '@/hooks/index'
+import { useProducts } from '@/hooks/index'
 import { PAGES } from '../../constants'
 
 import PriceItem from './priceItem'
 
 interface CartItemProps {
   item: CartItem
-  currency?: string
+  currency?: Currency
   onDelete: (id: string) => void
   onUpdated: (cart: Cart) => void
   onPreview: (url: string) => void
@@ -33,14 +33,19 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const { prices } = usePrices()
+  const { products, getProduct } = useProducts()
   const [updateCartItemPrice] = useUpdateCartItemPriceMutation()
 
+  const product: Product | undefined = useMemo(
+    () => getProduct(item.productSku),
+    [getProduct, item.productSku],
+  )
+
   const onChangeOption = useCallback(
-    async (price: CartPrice) => {
+    async (product: Product) => {
       const { data } = await updateCartItemPrice({
         variables: {
-          item: { ...omit(price, ['description']), itemId: item.id },
+          item: { productSku: product.sku, itemId: item.id },
         },
       })
       const cart = data?.UpdateCartItemPrice.data
@@ -56,7 +61,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
 
   const onClickItem = useCallback(
     async (item: CartItem) => {
-      if (item.product === ProductType.PassportApplication) {
+      if (item.productCategory === ProductCategory.Application) {
         await router.push(`${PAGES.application.index}${item.productId}`)
       } else {
         onPreview(item.imageUrl ?? '')
@@ -68,7 +73,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   return (
     <li>
       <div className="name">
-        {item.product === ProductType.PassportPhoto ? (
+        {item.productCategory === ProductCategory.Photo ? (
           <div className="img">
             <img src={item.imageUrl ?? ''} alt="" />
           </div>
@@ -85,24 +90,24 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
         <div className="price">
           <p>
             {'Price: '}
-            {item.product === ProductType.PassportApplication && (
+            {item.productCategory === ProductCategory.Application && (
               <span>
                 {t('currency', {
-                  value: item.isComplete ? item.price : 0,
-                  currency,
+                  value: item.isComplete ? product?.price : 0,
+                  currency: currency?.label,
                 })}
               </span>
             )}
           </p>
         </div>
-        {item.product === ProductType.PassportPhoto && (
+        {item.productCategory === ProductCategory.Photo && (
           <div className="form-fields">
-            {prices.map(
-              (price) =>
-                price.priceId.toLowerCase().includes('photos') && (
+            {products.map(
+              (product) =>
+                product.category === ProductCategory.Photo && (
                   <PriceItem
-                    price={price}
-                    selected={item.price}
+                    product={product}
+                    selected={item.productSku}
                     onSelect={onChangeOption}
                   />
                 ),
@@ -115,7 +120,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             type="button"
             className="main-btn small outline"
             onClick={() => onClickItem(item)}>
-            {item.product === ProductType.PassportApplication
+            {item.productCategory === ProductCategory.Application
               ? 'Review'
               : 'Preview'}
           </button>
