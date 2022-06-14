@@ -20,7 +20,6 @@ import CheckoutLayout from '@/components/checkout/checkoutLayout'
 import { useAuth } from '@/lib/auth'
 import {
   Order,
-  CurrencyCode,
   ProductCategory,
   ProductSku,
   ShippingType,
@@ -31,8 +30,8 @@ import {
 import { ValidationError } from '@/lib/utils/formValidation'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { TEMP_ORDER_NUM } from '@/lib/apolloClient'
-import { useProducts, useCurrency } from '@/hooks/index'
-import { PAGES, SHIPPING_TYPES } from '../../constants'
+import { useProducts, useCurrency, useLanguage } from '@/hooks/index'
+import { PAGES, shippingTypes } from '../../constants'
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -64,6 +63,7 @@ const ReviewAndPay: React.FC = () => {
   const [, setCookie] = useCookies([TEMP_ORDER_NUM])
   const { cart, updateCart } = useAuth()
   const { currentCurrency } = useCurrency()
+  const { country } = useLanguage()
   const [cardName, setCardName] = useState<string>('')
   const [error, setError] = useState<ValidationError>({})
   const [stripeFocus, setStripeFocus] = useState<boolean>(false)
@@ -80,14 +80,14 @@ const ReviewAndPay: React.FC = () => {
   const elements = useElements()
 
   const shippingPrice = useMemo(() => {
-    const productSku = SHIPPING_TYPES.find(
+    const productSku = shippingTypes(currentCurrency.code).find(
       (s) => s.value === cart?.shippingType,
     )?.productSku
 
     if (!productSku) return 0
 
     return getProduct(productSku)?.price || 0
-  }, [cart?.shippingType, getProduct])
+  }, [cart?.shippingType, currentCurrency.code, getProduct])
 
   const aPrice = useMemo(
     () =>
@@ -138,14 +138,10 @@ const ReviewAndPay: React.FC = () => {
 
   const conciergePrice = useMemo(() => {
     if (cart?.shippingType === ShippingType.NoShipping) return 0
-    const product = getProduct(
-      currentCurrency.code === CurrencyCode.Gb
-        ? ProductSku.PriorityService
-        : ProductSku.ExpeditedShipping,
-    )
+    const product = getProduct(ProductSku.PrintShipService)
 
     return product?.price || 0
-  }, [cart?.shippingType, currentCurrency.code, getProduct])
+  }, [cart?.shippingType, getProduct])
 
   const subTotal = useMemo(
     () =>
@@ -162,7 +158,7 @@ const ReviewAndPay: React.FC = () => {
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(subTotal * 0.08875)
+      return Math.ceil(100 * subTotal * 0.08875)
     }
     return 0
   }, [cart?.billingAddress?.state, subTotal])
@@ -247,7 +243,7 @@ const ReviewAndPay: React.FC = () => {
           value: order.totalPrice,
           currency: currentCurrency.label,
           tax,
-          shipping: shippingPrice,
+          shipping: 100 * shippingPrice,
           items: order.items.map((item) => {
             const product = getProduct(item.productSku)
 
@@ -255,7 +251,7 @@ const ReviewAndPay: React.FC = () => {
               id: item.productId,
               name: item.name,
               category: humanize(item.productCategory as string),
-              price: product?.price || 0,
+              price: 100 * (product?.price || 0),
             }
           }),
         })
@@ -265,7 +261,7 @@ const ReviewAndPay: React.FC = () => {
           value: order.totalPrice,
           currency: currentCurrency.label,
           tax,
-          shipping: shippingPrice,
+          shipping: 100 * shippingPrice,
           items: order.items.map((item) => {
             const product = getProduct(item.productSku)
 
@@ -273,7 +269,7 @@ const ReviewAndPay: React.FC = () => {
               id: item.productId,
               name: item.name,
               category: humanize(item.productCategory as string),
-              price: product?.price || 0,
+              price: 100 * (product?.price || 0),
             }
           }),
         })
@@ -285,7 +281,7 @@ const ReviewAndPay: React.FC = () => {
             total_items: order.items.length,
             discount_amount: 0,
             tax_amount: tax,
-            shipping_amount: shippingPrice,
+            shipping_amount: 100 * shippingPrice,
             total_amount: order.totalPrice,
             order_id: order.orderNumber,
           })
@@ -369,13 +365,12 @@ const ReviewAndPay: React.FC = () => {
     }
 
     timer.current = setTimeout(() => {
-      console.log({ total: total + tax })
       const pr = stripe.paymentRequest({
         currency: currentCurrency.label.toLowerCase(),
-        country: 'US',
+        country,
         total: {
           label: '',
-          amount: total + tax,
+          amount: 100 * total,
         },
         requestPayerEmail: true,
         requestPayerName: true,
@@ -433,6 +428,7 @@ const ReviewAndPay: React.FC = () => {
     tax,
     currentCurrency.symbol,
     currentCurrency.label,
+    country,
   ])
 
   const PaymentStatus = ({ status }: { status: string }) => {

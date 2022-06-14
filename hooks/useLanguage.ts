@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useCookies } from 'react-cookie'
 
 import { LANGUAGE_COOKIE_NAME } from '@/lib/apolloClient'
@@ -9,6 +9,7 @@ export interface ILanguage {
 }
 
 export const useLanguage = () => {
+  const [country, setCountry] = useState<string>('US')
   const [cookies, setCookie] = useCookies([LANGUAGE_COOKIE_NAME])
 
   const languages: ILanguage[] = useMemo(
@@ -42,6 +43,7 @@ export const useLanguage = () => {
   )
 
   return {
+    country,
     currentLanguage,
     languages,
     onChangeLanguage,

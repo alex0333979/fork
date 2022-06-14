@@ -10,14 +10,15 @@ import {
 } from '@/generated/graphql'
 import { useAuth } from '@/lib/auth'
 import CheckoutLayout from '@/components/checkout/checkoutLayout'
-import { useProducts } from '@/hooks/index'
-import { PAGES, SHIPPING_TYPES } from '../../constants'
+import { useProducts, useCurrency } from '@/hooks/index'
+import { PAGES, shippingTypes } from '../../constants'
 import DeliveryMethodItem from './deliveryMethodItem'
 
 const DeliveryMethod: React.FC = () => {
   const { t } = useTranslation()
   const router = useRouter()
   const { getProduct } = useProducts()
+  const { currentCurrency } = useCurrency()
   const { cart, updateCart } = useAuth()
   const [loading, setLoading] = useState<boolean>(false)
   const [shippingType, setShippingType] = useState<string>(
@@ -155,7 +156,7 @@ const DeliveryMethod: React.FC = () => {
                 <h3>{'Delivery method'}</h3>
               </div>
               <div className="form-fields">
-                {SHIPPING_TYPES.map((sType) => (
+                {shippingTypes(currentCurrency.code).map((sType) => (
                   <DeliveryMethodItem
                     key={sType.productSku}
                     selected={shippingType}
