@@ -13,11 +13,7 @@ export const useCurrency = () => {
   const { cart, updateCart } = useAuth()
 
   const [currencies, setCurrencies] = useState<Currency[] | undefined>()
-  const [currentCurrency, setCurrentCurrency] = useState<Currency>({
-    code: CurrencyCode.Us,
-    label: CurrencyType.Usd,
-    symbol: '$',
-  })
+  const [currentCurrency, setCurrentCurrency] = useState<Currency | undefined>()
 
   const [fetchCurrencies, { loading }] = useCurrenciesLazyQuery({
     fetchPolicy: 'no-cache',
@@ -38,12 +34,6 @@ export const useCurrency = () => {
     fetchCurrencies()
   }, [currencies, fetchCurrencies])
 
-  useEffect(() => {
-    if (cart?.defaultCurrency) {
-      setCurrentCurrency(cart.defaultCurrency)
-    }
-  }, [cart?.defaultCurrency])
-
   const onChangeCurrency = useCallback(
     (currency: Currency | undefined) => {
       if (!currency) return
@@ -57,10 +47,26 @@ export const useCurrency = () => {
     [setDefaultCurrency],
   )
 
+  useEffect(() => {
+    if (!cart || currentCurrency) return
+
+    const defaultCurrency: Currency = cart.defaultCurrency || {
+      code: CurrencyCode.Us,
+      label: CurrencyType.Usd,
+      symbol: '$',
+    }
+
+    onChangeCurrency(defaultCurrency)
+  }, [cart, currentCurrency, onChangeCurrency])
+
   return {
     currencies: currencies || [],
     loading,
-    currentCurrency,
+    currentCurrency: currentCurrency || {
+      code: CurrencyCode.Us,
+      label: CurrencyType.Usd,
+      symbol: '$',
+    },
     onChangeCurrency,
   }
 }
