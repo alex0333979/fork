@@ -1,11 +1,14 @@
 import React, { useCallback, useMemo } from 'react'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
+
 import { useAuth } from '@/lib/auth'
 import {
-  ProductType,
+  Product,
+  ProductCategory,
   useRemoveItemsFromCartMutation,
 } from '@/generated/graphql'
-import { useRouter } from 'next/router'
+import { useProducts } from '@/hooks/index'
 import { PAGES } from '../../constants'
 
 interface ApplicationListProps {
@@ -21,11 +24,17 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
 }) => {
   const router = useRouter()
   const { cart, updateCart } = useAuth()
+
+  const { getProduct } = useProducts()
   const [removeFromCart] = useRemoveItemsFromCartMutation()
 
   const subTotal = useMemo(
-    () => cart?.items?.reduce((a, { price }) => a + price, 0),
-    [cart],
+    () =>
+      cart?.items?.reduce((a, item) => {
+        const product: Product | undefined = getProduct(item.productSku)
+        return a + (product?.price || 0)
+      }, 0),
+    [cart?.items, getProduct],
   )
 
   const onRemoveCartItem = useCallback(
@@ -40,7 +49,9 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
         updateCart(cart)
         const items = cart.items ?? []
         if (items.length > 0) {
-          await router.push(`${PAGES.application.index}${items[0].product}/`)
+          await router.push(
+            `${PAGES.application.index}${items[0].productCategory}/`,
+          )
         } else {
           await router.push(PAGES.application.create)
         }
@@ -61,7 +72,7 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
           <ul>
             {cart?.items
               ?.filter(
-                (item) => item.product === ProductType.PassportApplication,
+                (item) => item.productCategory === ProductCategory.Application,
               )
               ?.map((item, index) => (
                 <li key={index}>
@@ -97,7 +108,8 @@ const ApplicationList: React.FC<ApplicationListProps> = ({
                   onClick={() => router.push(PAGES.application.create)}>
                   Application №
                   {(cart?.items?.filter(
-                    (item) => item.product === ProductType.PassportApplication,
+                    (item) =>
+                      item.productCategory === ProductCategory.Application,
                   ).length ?? 0) + 1}
                 </button>
               </li>

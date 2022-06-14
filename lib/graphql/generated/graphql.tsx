@@ -459,6 +459,7 @@ export type OptionInput = {
 export type Order = {
   billingAddress: BillingAddress;
   createdAt: Scalars['DateTime'];
+  currency?: Maybe<Currency>;
   id: Scalars['ID'];
   items: Array<CartItem>;
   orderNumber: Scalars['Int'];
@@ -625,6 +626,7 @@ export type Query = {
   Orders: OrderPaginatedResponse;
   OrdersForAdmin: OrderPaginatedResponse;
   Products: ProductsResponse;
+  Test: StringResponse;
 };
 
 
