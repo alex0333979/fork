@@ -103,8 +103,8 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
     <div className="container">
       <div className="data-wrap">
         <div className="sub-title">
-          <h2>{'See what our customer says about us'}</h2>
-          <p>{'A quick pick'}</p>
+          <h2>{'See what our customers say about us'}</h2>
+          <p>{'A quick peek'}</p>
         </div>
         <div className="reviews-wrap">
           <div className="slider-shade" />
@@ -133,7 +133,7 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                         <p suppressHydrationWarning>{review.content}</p>
                       </div>
                       <div className="author">
-                        <div className="picture">
+                        {/* <div className="picture">
                           <Image
                             src={review.author.picture}
                             priority={true}
@@ -141,10 +141,10 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                             layout={'fill'}
                             alt=""
                           />
-                        </div>
+                        </div> */}
                         <div className="name">
                           <h3>{review.author.name}</h3>
-                          <p>{review.author.occupation}</p>
+                          {/* <p>{review.author.occupation}</p> */}
                         </div>
                       </div>
                     </div>
