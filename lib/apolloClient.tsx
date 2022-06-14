@@ -22,7 +22,6 @@ export const TEMP_IMG_DIM = '@dim'
 export const TEMP_ORDER_NUM = '@n'
 export const COOKIES_EDIT_ORDER_TOKEN_NAME = 'EOtoken'
 export const LANGUAGE_COOKIE_NAME = '@lang'
-export const CURRENCY_COOKIE_NAME = '@currency'
 export const ROUTE_COOKIE_NAME = '@nextUrl'
 
 const getToken = (req?: IncomingMessage) => {

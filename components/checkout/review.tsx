@@ -1,40 +1,37 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCookies } from 'react-cookie'
-import CheckoutLayout from '@/components/checkout/checkoutLayout'
-import {
-  CardElement,
-  PaymentRequestButtonElement,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js'
-import { useTranslation } from 'react-i18next'
-import {
-  CONCIERGE_PRICE,
-  PAGES,
-  PHOTO_PRICES,
-  SHIPPING_TYPES,
-} from '../../constants'
-import { useAuth } from '@/lib/auth'
-import {
-  Order,
-  ProductType,
-  ShippingType,
-  useClearCartMutation,
-  useCreateOrderMutation,
-  useGetPaymentIntentMutation,
-} from '@/generated/graphql'
 import classNames from 'classnames'
-import { ValidationError } from '@/lib/utils/formValidation'
-import { showError, showSuccess } from '@/lib/utils/toast'
 import { humanize } from '@/lib/utils/string'
 import {
   PaymentIntent,
   StripeCardElement,
   StripeError,
 } from '@stripe/stripe-js'
+import {
+  CardElement,
+  PaymentRequestButtonElement,
+  useElements,
+  useStripe,
+} from '@stripe/react-stripe-js'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'react-i18next'
+import CheckoutLayout from '@/components/checkout/checkoutLayout'
+import { useAuth } from '@/lib/auth'
+import {
+  Order,
+  ProductCategory,
+  ProductSku,
+  ShippingType,
+  useClearCartMutation,
+  useCreateOrderMutation,
+  useGetPaymentIntentMutation,
+} from '@/generated/graphql'
+import { ValidationError } from '@/lib/utils/formValidation'
+import { showError, showSuccess } from '@/lib/utils/toast'
 import { TEMP_ORDER_NUM } from '@/lib/apolloClient'
+import { useProducts, useCurrency, useLanguage } from '@/hooks/index'
+import { PAGES, shippingTypes } from '../../constants'
 
 const CARD_OPTIONS = {
   iconStyle: 'solid' as const,
@@ -62,12 +59,11 @@ const CARD_OPTIONS = {
 
 const ReviewAndPay: React.FC = () => {
   const { t } = useTranslation()
+  const { getProduct } = useProducts()
   const [, setCookie] = useCookies([TEMP_ORDER_NUM])
-  const {
-    cart,
-    updateCart,
-    currency: { currency = 'USD' },
-  } = useAuth()
+  const { cart, updateCart } = useAuth()
+  const { currentCurrency } = useCurrency()
+  const { country } = useLanguage()
   const [cardName, setCardName] = useState<string>('')
   const [error, setError] = useState<ValidationError>({})
   const [stripeFocus, setStripeFocus] = useState<boolean>(false)
@@ -78,30 +74,40 @@ const ReviewAndPay: React.FC = () => {
   const [clearCart] = useClearCartMutation()
   const [paymentRequest, setPaymentRequest] = useState<any>(null)
   const router = useRouter()
+  const timer = useRef<NodeJS.Timeout | null>()
 
   const stripe = useStripe()
   const elements = useElements()
 
-  const shippingPrice = useMemo(
-    () =>
-      SHIPPING_TYPES.find((s) => s.value === cart?.shippingType)?.price ?? 0,
-    [cart],
-  )
+  const shippingPrice = useMemo(() => {
+    const productSku = shippingTypes(currentCurrency.code).find(
+      (s) => s.value === cart?.shippingType,
+    )?.productSku
+
+    if (!productSku) return 0
+
+    return getProduct(productSku)?.price || 0
+  }, [cart?.shippingType, currentCurrency.code, getProduct])
 
   const aPrice = useMemo(
     () =>
       cart?.items
         ?.filter(
-          (c) => c.product === ProductType.PassportApplication && c.isComplete,
+          (c) =>
+            c.productCategory === ProductCategory.Application && c.isComplete,
         )
-        .reduce((a, { price }) => a + price, 0),
-    [cart],
+        .reduce((a, item) => {
+          const product = getProduct(item.productSku)
+          return a + (product?.price || 0)
+        }, 0),
+    [cart?.items, getProduct],
   )
 
   const aCount = useMemo(
     () =>
       cart?.items?.filter(
-        (c) => c.product === ProductType.PassportApplication && c.isComplete,
+        (c) =>
+          c.productCategory === ProductCategory.Application && c.isComplete,
       ).length ?? 0,
     [cart?.items],
   )
@@ -109,38 +115,50 @@ const ReviewAndPay: React.FC = () => {
   const photoItems = useMemo(
     () =>
       cart?.items
-        ?.filter((c) => c.product === ProductType.PassportPhoto)
-        ?.map((item) => {
-          const price = PHOTO_PRICES.find((p) => p.price === item.price)
+        ?.filter((c) => c.productCategory === ProductCategory.Photo)
+        ?.map(({ productSku, description }) => {
+          const product = getProduct(productSku)
+          let text = ''
+          if (productSku === ProductSku.TwoPhotos) {
+            text = `2 ${description}`
+          } else if (productSku === ProductSku.FourPhotos) {
+            text = `4 ${description}`
+          } else if (productSku === ProductSku.SixPhotos) {
+            text = `6 ${description}`
+          } else {
+            text = 'Photos'
+          }
           return {
-            text: price
-              ? `${price.value} ${item.description} Photos`
-              : 'Photos',
-            price: item.price,
+            text,
+            price: product?.price || 0,
           }
         }) ?? [],
-    [cart?.items],
+    [cart?.items, getProduct],
   )
 
-  const conciergePrice = useMemo(
-    () =>
-      cart?.shippingType === ShippingType.NoShipping ? 0 : CONCIERGE_PRICE,
-    [cart?.shippingType],
-  )
+  const conciergePrice = useMemo(() => {
+    if (cart?.shippingType === ShippingType.NoShipping) return 0
+    const product = getProduct(ProductSku.PrintShipService)
+
+    return product?.price || 0
+  }, [cart?.shippingType, getProduct])
 
   const subTotal = useMemo(
     () =>
       (cart?.items
         ?.filter((i) => i.isComplete)
-        .reduce((a, { price }) => a + price, 0) ?? 0) +
+        .reduce((a, { productSku }) => {
+          const product = getProduct(productSku)
+          return a + (product?.price || 0)
+        }, 0) ?? 0) +
       conciergePrice +
       shippingPrice,
-    [cart?.items, conciergePrice, shippingPrice],
+    [cart?.items, conciergePrice, getProduct, shippingPrice],
   )
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(subTotal * 0.08875)
+      return Math.ceil(100 * subTotal * 0.08875)
     }
     return 0
   }, [cart?.billingAddress?.state, subTotal])
@@ -176,7 +194,10 @@ const ReviewAndPay: React.FC = () => {
     async (order: Order): Promise<string | undefined> => {
       setLoading(true)
       const { data: intent } = await getPaymentIntent({
-        variables: { orderId: order.id, currency: currency.toLowerCase() },
+        variables: {
+          orderId: order.id,
+          currency: currentCurrency.label.toLowerCase(),
+        },
       })
       setLoading(false)
       const clientSecret = intent?.GetPaymentIntent.data?.clientSecret
@@ -190,7 +211,7 @@ const ReviewAndPay: React.FC = () => {
       }
       return clientSecret
     },
-    [currency, getPaymentIntent],
+    [currentCurrency.label, getPaymentIntent],
   )
 
   const finalizeResult = useCallback(
@@ -219,30 +240,38 @@ const ReviewAndPay: React.FC = () => {
         window.gtag('event', 'conversion', {
           send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
           transaction_id: order.orderNumber,
-          value: order.totalPrice / 100,
-          currency,
-          tax: tax / 100,
-          shipping: shippingPrice,
-          items: order.items.map((item) => ({
-            id: item.productId,
-            name: item.name,
-            category: humanize(item.product),
-            price: item.price / 100,
-          })),
+          value: order.totalPrice,
+          currency: currentCurrency.label,
+          tax,
+          shipping: 100 * shippingPrice,
+          items: order.items.map((item) => {
+            const product = getProduct(item.productSku)
+
+            return {
+              id: item.productId,
+              name: item.name,
+              category: humanize(item.productCategory as string),
+              price: 100 * (product?.price || 0),
+            }
+          }),
         })
 
         window.gtag('event', 'purchase', {
           transaction_id: order.orderNumber,
-          value: order.totalPrice / 100,
-          currency,
-          tax: tax / 100,
-          shipping: shippingPrice,
-          items: order.items.map((item) => ({
-            id: item.productId,
-            name: item.name,
-            category: humanize(item.product),
-            price: item.price / 100,
-          })),
+          value: order.totalPrice,
+          currency: currentCurrency.label,
+          tax,
+          shipping: 100 * shippingPrice,
+          items: order.items.map((item) => {
+            const product = getProduct(item.productSku)
+
+            return {
+              id: item.productId,
+              name: item.name,
+              category: humanize(item.productCategory as string),
+              price: 100 * (product?.price || 0),
+            }
+          }),
         })
 
         // @ts-ignore
@@ -251,9 +280,9 @@ const ReviewAndPay: React.FC = () => {
           window.woopra.track('checkout', {
             total_items: order.items.length,
             discount_amount: 0,
-            tax_amount: tax / 100,
-            shipping_amount: shippingPrice,
-            total_amount: order.totalPrice / 100,
+            tax_amount: tax,
+            shipping_amount: 100 * shippingPrice,
+            total_amount: order.totalPrice,
             order_id: order.orderNumber,
           })
         }
@@ -263,7 +292,16 @@ const ReviewAndPay: React.FC = () => {
         await router.push(PAGES.checkout.thankYou)
       }
     },
-    [clearCart, currency, router, setCookie, shippingPrice, tax, updateCart],
+    [
+      clearCart,
+      currentCurrency.label,
+      getProduct,
+      router,
+      setCookie,
+      shippingPrice,
+      tax,
+      updateCart,
+    ],
   )
 
   const onSubmit = useCallback(async () => {
@@ -321,55 +359,62 @@ const ReviewAndPay: React.FC = () => {
   ])
 
   useEffect(() => {
+    if (timer.current) clearTimeout(timer.current)
     if (!stripe || !elements) {
       return
     }
 
-    const pr = stripe.paymentRequest({
-      currency: currency.toLowerCase(),
-      country: 'US',
-      total: {
-        label: '',
-        amount: total + tax,
-      },
-      requestPayerEmail: true,
-      requestPayerName: true,
-    })
-    pr.canMakePayment().then((result) => {
-      if (result) {
-        setPaymentRequest(pr)
-      }
-    })
-
-    pr.on('paymentmethod', async ({ paymentMethod }) => {
-      const order = await onCreateOrder()
-      if (!order) {
-        return
-      }
-
-      const clientSecret = await getClientSecret(order)
-      if (!clientSecret) {
-        return
-      }
-
-      setLoading(true)
-      const { error, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: paymentMethod.id,
+    timer.current = setTimeout(() => {
+      const pr = stripe.paymentRequest({
+        currency: currentCurrency.label.toLowerCase(),
+        country,
+        total: {
+          label: '',
+          amount: 100 * total,
         },
-        {
-          handleActions: false,
-        },
-      )
-      setLoading(false)
+        requestPayerEmail: true,
+        requestPayerName: true,
+      })
+      pr.canMakePayment().then((result) => {
+        if (result) {
+          setPaymentRequest(pr)
+        }
+      })
 
-      await finalizeResult(order, undefined, error, paymentIntent)
+      pr.on('paymentmethod', async ({ paymentMethod }) => {
+        const order = await onCreateOrder()
+        if (!order) {
+          return
+        }
 
-      if (paymentIntent?.status === 'requires_action') {
-        stripe?.confirmCardPayment(clientSecret)
-      }
-    })
+        const clientSecret = await getClientSecret(order)
+        if (!clientSecret) {
+          return
+        }
+
+        setLoading(true)
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
+          clientSecret,
+          {
+            payment_method: paymentMethod.id,
+          },
+          {
+            handleActions: false,
+          },
+        )
+        setLoading(false)
+
+        await finalizeResult(order, undefined, error, paymentIntent)
+
+        if (paymentIntent?.status === 'requires_action') {
+          stripe?.confirmCardPayment(clientSecret)
+        }
+      })
+    }, 1500)
+
+    return () => {
+      if (timer.current) clearTimeout(timer.current)
+    }
   }, [
     stripe,
     elements,
@@ -381,7 +426,9 @@ const ReviewAndPay: React.FC = () => {
     finalizeResult,
     total,
     tax,
-    currency,
+    currentCurrency.symbol,
+    currentCurrency.label,
+    country,
   ])
 
   const PaymentStatus = ({ status }: { status: string }) => {
@@ -471,14 +518,22 @@ const ReviewAndPay: React.FC = () => {
                 <div className="name">
                   <h3>{`${aCount} Passport Application`}</h3>
                   <p>
-                    {t('currency', { value: (aPrice || 0) / 100, currency })}
+                    {t('currency', {
+                      value: aPrice || 0,
+                      currency: currentCurrency.label,
+                    })}
                   </p>
                 </div>
               )}
               {photoItems.map((item, index) => (
                 <div key={index} className="name">
                   <h3>{item.text}</h3>
-                  <p>{t('currency', { value: item.price / 100, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: item.price,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               ))}
             </li>
@@ -486,38 +541,61 @@ const ReviewAndPay: React.FC = () => {
               <div className="name">
                 <h3>{'Concierge service'}</h3>
                 <p>
-                  {t('currency', { value: conciergePrice / 100, currency })}
+                  {t('currency', {
+                    value: conciergePrice,
+                    currency: currentCurrency.label,
+                  })}
                 </p>
               </div>
               <div className="name">
                 <h3>{'Shipping'}</h3>
                 <p>
                   {t('currency', {
-                    value: (shippingPrice || 0) / 100,
-                    currency,
+                    value: shippingPrice || 0,
+                    currency: currentCurrency.label,
                   })}
                 </p>
               </div>
               <div className="name">
                 <h3>{'SubTotal'}</h3>
-                <p>{t('currency', { value: subTotal / 100, currency })}</p>
+                <p>
+                  {t('currency', {
+                    value: subTotal,
+                    currency: currentCurrency.label,
+                  })}
+                </p>
               </div>
               {cart?.billingAddress?.state === 'NY' ? (
                 <div className="name">
                   <h3>{'Sales tax'}</h3>
-                  <p>{t('currency', { value: tax / 100, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: tax,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               ) : (
                 <div className="name">
                   <h3>{'Tax'}</h3>
-                  <p>{t('currency', { value: 0, currency })}</p>
+                  <p>
+                    {t('currency', {
+                      value: 0,
+                      currency: currentCurrency.label,
+                    })}
+                  </p>
                 </div>
               )}
             </li>
             <li>
               <div className="name">
                 <h3>{'Grand Total'}</h3>
-                <p>{t('currency', { value: total / 100, currency })}</p>
+                <p>
+                  {t('currency', {
+                    value: total,
+                    currency: currentCurrency.label,
+                  })}
+                </p>
               </div>
             </li>
           </ol>

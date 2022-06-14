@@ -5,7 +5,8 @@ import {
   FieldType,
   Form,
   FormStep,
-  ProductType,
+  ProductSku,
+  ProductCategory,
   useAddItemsToCartMutation,
   useSubmitEntryMutation,
 } from '@/generated/graphql'
@@ -183,8 +184,10 @@ const ApplicationForm: React.FC<ApplicationFormProps> = ({
         await onAddToCartItem({
           name: getEntityUsername(),
           description: `Passport application ${result.form.name}`,
-          product: ProductType.PassportApplication,
           productId: result.id,
+
+          productSku: ProductSku.Application,
+          productCategory: ProductCategory.Application,
         })
       } else {
         if (step > entry.form.steps.length - 1) {

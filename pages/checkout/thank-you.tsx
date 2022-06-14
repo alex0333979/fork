@@ -1,18 +1,20 @@
 /* eslint-disable max-len */
+import React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { useCookies } from 'react-cookie'
-import { AppLayout } from '@/components/index'
-import React from 'react'
 import { NextSeo } from 'next-seo'
-import { useAuth } from '@/lib/auth'
-import { SEO } from '../../constants'
+
+import { useCurrency } from '@/hooks/index'
+import { AppLayout } from '@/components/index'
 import ThankYou from '@/components/checkout/thank-you'
 import { useOrderSkusQuery } from '@/generated/graphql'
 import { TEMP_ORDER_NUM } from '@/lib/apolloClient'
+import { SEO } from '../../constants'
 
 const ThankYouPage: NextPage = () => {
   const [cookie, , removeCookie] = useCookies([TEMP_ORDER_NUM])
+  const { currentCurrency } = useCurrency()
 
   const { data } = useOrderSkusQuery({
     variables: {
@@ -23,10 +25,6 @@ const ThankYouPage: NextPage = () => {
       removeCookie(TEMP_ORDER_NUM)
     },
   })
-
-  const {
-    currency: { currency },
-  } = useAuth()
 
   return (
     <>
@@ -42,7 +40,7 @@ const ThankYouPage: NextPage = () => {
               __html: `window.uetq = window.uetq || [];
             ${data.OrderByOrderNumber.data.skus?.map(
               (sku: string) =>
-                `window.uetq.push('event', 'PRODUCT_PURCHASE', {"ecomm_prodid":"${sku}","ecomm_pagetype":"PURCHASE","revenue_value":1,"currency":"${currency}"});`,
+                `window.uetq.push('event', 'PRODUCT_PURCHASE', {"ecomm_prodid":"${sku}","ecomm_pagetype":"PURCHASE","revenue_value":1,"currency":"${currentCurrency.symbol}"});`,
             )}`,
             }}
           />

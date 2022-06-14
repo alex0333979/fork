@@ -128,3 +128,24 @@ query Document($id: String!) {
         }
     }
 }
+
+query Products($currencyCode: CurrencyCode) {
+  Products(currencyCode: $currencyCode) {
+    data {
+      ...Product
+    }
+    message
+    status
+  }
+}
+
+query Currencies {
+  Currencies {
+    data {
+      ...Currency
+    }
+    message
+    status
+  }
+}
+

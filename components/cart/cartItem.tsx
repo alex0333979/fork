@@ -1,19 +1,24 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
+
 import {
   Cart,
   CartItem,
-  ProductType,
+  Currency,
+  Product,
+  ProductCategory,
   useUpdateCartItemPriceMutation,
 } from '@/generated/graphql'
-import { PAGES, PHOTO_PRICES } from '../../constants'
-import { useRouter } from 'next/router'
 import { showError, showSuccess } from '@/lib/utils/toast'
+import { useProducts } from '@/hooks/index'
+import { PAGES } from '../../constants'
+
+import PriceItem from './priceItem'
 
 interface CartItemProps {
-  index: number
   item: CartItem
-  currency?: string
+  currency?: Currency
   onDelete: (id: string) => void
   onUpdated: (cart: Cart) => void
   onPreview: (url: string) => void
@@ -25,16 +30,23 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   onDelete,
   onUpdated,
   onPreview,
-  index,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { products, getProduct } = useProducts()
   const [updateCartItemPrice] = useUpdateCartItemPriceMutation()
 
+  const product: Product | undefined = useMemo(
+    () => getProduct(item.productSku),
+    [getProduct, item.productSku],
+  )
+
   const onChangeOption = useCallback(
-    async (price: number) => {
+    async (product: Product) => {
       const { data } = await updateCartItemPrice({
-        variables: { item: { price, itemId: item.id } },
+        variables: {
+          item: { productSku: product.sku, itemId: item.id },
+        },
       })
       const cart = data?.UpdateCartItemPrice.data
       if (cart) {
@@ -49,7 +61,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
 
   const onClickItem = useCallback(
     async (item: CartItem) => {
-      if (item.product === ProductType.PassportApplication) {
+      if (item.productCategory === ProductCategory.Application) {
         await router.push(`${PAGES.application.index}${item.productId}`)
       } else {
         onPreview(item.imageUrl ?? '')
@@ -61,7 +73,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   return (
     <li>
       <div className="name">
-        {item.product === ProductType.PassportPhoto ? (
+        {item.productCategory === ProductCategory.Photo ? (
           <div className="img">
             <img src={item.imageUrl ?? ''} alt="" />
           </div>
@@ -78,38 +90,28 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
         <div className="price">
           <p>
             {'Price: '}
-            {item.product === ProductType.PassportApplication && (
+            {item.productCategory === ProductCategory.Application && (
               <span>
                 {t('currency', {
-                  value: item.isComplete ? item.price / 100 : 0,
-                  currency,
+                  value: item.isComplete ? product?.price : 0,
+                  currency: currency?.label,
                 })}
               </span>
             )}
           </p>
         </div>
-        {item.product === ProductType.PassportPhoto && (
+        {item.productCategory === ProductCategory.Photo && (
           <div className="form-fields">
-            {PHOTO_PRICES.map((option, i) => (
-              <label key={`${index}-${i}`} className="full-size">
-                <span className="field radio with-price">
-                  <span className="name">{option.text}</span>
-                  <span className="price">
-                    {t('currency', { value: option.price / 100, currency })}
-                  </span>
-                  <input
-                    type="radio"
-                    name={`price-${index}`}
-                    checked={item.price === option.price}
-                    onChange={() => onChangeOption(option.price)}
+            {products.map(
+              (product) =>
+                product.category === ProductCategory.Photo && (
+                  <PriceItem
+                    product={product}
+                    selected={item.productSku}
+                    onSelect={onChangeOption}
                   />
-                  <span className="wrap">
-                    <span className="bullet" />
-                    <span className="border" />
-                  </span>
-                </span>
-              </label>
-            ))}
+                ),
+            )}
           </div>
         )}
 
@@ -118,7 +120,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             type="button"
             className="main-btn small outline"
             onClick={() => onClickItem(item)}>
-            {item.product === ProductType.PassportApplication
+            {item.productCategory === ProductCategory.Application
               ? 'Review'
               : 'Preview'}
           </button>

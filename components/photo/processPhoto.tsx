@@ -3,7 +3,8 @@ import { useRouter, NextRouter } from 'next/router'
 
 import {
   CartItemInput,
-  ProductType,
+  ProductSku,
+  ProductCategory,
   useAddItemsToCartMutation,
 } from '@/generated/graphql'
 import { showSuccess } from '@/lib/utils/toast'
@@ -58,12 +59,13 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
       await onAddToCartItem({
         name: `${document.country} - ${document.type}`,
         description: `${document.type} Photos`,
-        product: ProductType.PassportPhoto,
-        productId: entry.id,
         imageUrl: imageLink,
+        productSku: ProductSku.FourPhotos,
+        productCategory: ProductCategory.Photo,
+        productId: entry.id,
       })
     },
-    [document, entry.id, onAddToCartItem],
+    [document.country, document.type, entry.id, onAddToCartItem],
   )
 
   const onChangePhoto = useCallback(() => {

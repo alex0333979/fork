@@ -28,7 +28,7 @@ export type BillingAddress = {
   lastName: Scalars['String'];
   phone: Scalars['String'];
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
 };
 
 export type BillingAddressInput = {
@@ -41,7 +41,7 @@ export type BillingAddressInput = {
   lastName: Scalars['String'];
   phone: Scalars['String'];
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
 };
 
 export type BillingAddressResponse = {
@@ -52,6 +52,7 @@ export type BillingAddressResponse = {
 
 export type Cart = {
   billingAddress?: Maybe<BillingAddress>;
+  defaultCurrency?: Maybe<Currency>;
   items?: Maybe<Array<CartItem>>;
   promoCode?: Maybe<Scalars['String']>;
   shippingAddress?: Maybe<ShippingAddress>;
@@ -65,9 +66,9 @@ export type CartItem = {
   imageUrl?: Maybe<Scalars['String']>;
   isComplete: Scalars['Boolean'];
   name: Scalars['String'];
-  price: Scalars['Float'];
-  product: ProductType;
+  productCategory?: Maybe<ProductCategory>;
   productId: Scalars['ID'];
+  productSku?: Maybe<ProductSku>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
@@ -75,8 +76,9 @@ export type CartItemInput = {
   description: Scalars['String'];
   imageUrl?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  product: ProductType;
+  productCategory?: Maybe<ProductCategory>;
   productId: Scalars['ID'];
+  productSku: ProductSku;
 };
 
 export type CartResponse = {
@@ -108,6 +110,36 @@ export type Country = {
   id?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
 };
+
+export type CurrenciesResponse = {
+  data: Array<Currency>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
+
+export type Currency = {
+  code: CurrencyCode;
+  label: CurrencyType;
+  symbol: Scalars['String'];
+};
+
+export enum CurrencyCode {
+  Eu = 'eu',
+  Gb = 'gb',
+  Us = 'us'
+}
+
+export type CurrencyInput = {
+  code: CurrencyCode;
+  label: CurrencyType;
+  symbol: Scalars['String'];
+};
+
+export enum CurrencyType {
+  Eur = 'EUR',
+  Gbp = 'GBP',
+  Usd = 'USD'
+}
 
 export type Dictionary = {
   message?: Maybe<Scalars['String']>;
@@ -256,6 +288,7 @@ export type Mutation = {
   SendOrderConfirmToUserManually: StringResponse;
   SendOrderEditRequest: StringResponse;
   SetDefaultBillingAddress: BillingAddressResponse;
+  SetDefaultCurrency: CartResponse;
   SetDefaultShippingAddress: ShippingAddressResponse;
   SetShippingTypeToCart: CartResponse;
   SetTrackingNumber: OrderResponse;
@@ -346,6 +379,11 @@ export type MutationSendOrderEditRequestArgs = {
 
 export type MutationSetDefaultBillingAddressArgs = {
   billingAddress: BillingAddressInput;
+};
+
+
+export type MutationSetDefaultCurrencyArgs = {
+  currency: CurrencyInput;
 };
 
 
@@ -535,15 +573,45 @@ export type Position = {
   unit?: Maybe<Unit>;
 };
 
-export enum ProductType {
-  PassportApplication = 'PASSPORT_APPLICATION',
-  PassportPhoto = 'PASSPORT_PHOTO'
+export type Product = {
+  category: ProductCategory;
+  currency: Currency;
+  description?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  sku: ProductSku;
+};
+
+export enum ProductCategory {
+  Application = 'Application',
+  Photo = 'Photo',
+  Shipping = 'Shipping',
+  Upsell = 'Upsell'
 }
+
+export enum ProductSku {
+  Application = 'Application',
+  ExpeditedShipping = 'ExpeditedShipping',
+  FourPhotos = 'FourPhotos',
+  Free = 'Free',
+  PrintShipService = 'PrintShipService',
+  PriorityService = 'PriorityService',
+  SixPhotos = 'SixPhotos',
+  StandardShipping = 'StandardShipping',
+  TwoPhotos = 'TwoPhotos',
+  Upsell = 'Upsell'
+}
+
+export type ProductsResponse = {
+  data: Array<Product>;
+  message: Scalars['String'];
+  status: Scalars['Boolean'];
+};
 
 export type Query = {
   Cart: CartResponse;
   CompletedOrders: OrderPaginatedResponse;
   Countries: CountriesResponse;
+  Currencies: CurrenciesResponse;
   Document: PDocumentResponse;
   DocumentsByCountry: PDocumentsResponse;
   Entries: EntryPaginatedResponse;
@@ -556,6 +624,7 @@ export type Query = {
   OrderByOrderNumber: OrderResponse;
   Orders: OrderPaginatedResponse;
   OrdersForAdmin: OrderPaginatedResponse;
+  Products: ProductsResponse;
 };
 
 
@@ -620,6 +689,11 @@ export type QueryOrdersForAdminArgs = {
   skip?: Maybe<Scalars['Int']>;
 };
 
+
+export type QueryProductsArgs = {
+  currencyCode?: Maybe<CurrencyCode>;
+};
+
 export type ShipStationStatus = {
   date: Scalars['String'];
   status: Scalars['String'];
@@ -635,7 +709,7 @@ export type ShippingAddress = {
   lastName: Scalars['String'];
   phone: Scalars['String'];
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
 };
 
 export type ShippingAddressInput = {
@@ -648,7 +722,7 @@ export type ShippingAddressInput = {
   lastName: Scalars['String'];
   phone: Scalars['String'];
   postalCode: Scalars['String'];
-  state: Scalars['String'];
+  state?: Maybe<Scalars['String']>;
 };
 
 export type ShippingAddressResponse = {
@@ -717,7 +791,7 @@ export enum Unit {
 
 export type UpdateCartItemPriceInput = {
   itemId: Scalars['ID'];
-  price: Scalars['Int'];
+  productSku: ProductSku;
 };
 
 export type User = {
@@ -776,15 +850,19 @@ export enum ValidationType {
   Nullable = 'Nullable'
 }
 
-export type BillingAddressFragment = { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string };
+export type CurrencyFragment = { __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string };
 
-export type ShippingAddressFragment = { __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string };
+export type ProductFragment = { __typename: 'Product', sku: ProductSku, price: number, category: ProductCategory, description?: Maybe<string>, currency: { __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string } };
 
-export type CartItemFragment = { __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> };
+export type BillingAddressFragment = { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string };
 
-export type CartFragment = { __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> };
+export type ShippingAddressFragment = { __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string };
 
-export type UserFragment = { __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> };
+export type CartItemFragment = { __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> };
+
+export type CartFragment = { __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> };
+
+export type UserFragment = { __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> };
 
 export type OptionFragment = { __typename: 'Option', notes?: Maybe<string>, text?: Maybe<string>, value: any };
 
@@ -802,7 +880,7 @@ export type TrackStepFragment = { __typename: 'TrackStep', status: OrderStatus, 
 
 export type OrderTrackFragment = { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } };
 
-export type OrderFragment = { __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } };
+export type OrderFragment = { __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } };
 
 export type SignedUrlFragment = { __typename: 'SignedUrl', url: string, signedUrl: string };
 
@@ -822,7 +900,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename: 'Mutation', SignUp: { __typename: 'UserResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> } };
+export type SignUpMutation = { __typename: 'Mutation', SignUp: { __typename: 'UserResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> } };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -837,14 +915,21 @@ export type SetDefaultBillingAddressMutationVariables = Exact<{
 }>;
 
 
-export type SetDefaultBillingAddressMutation = { __typename: 'Mutation', SetDefaultBillingAddress: { __typename: 'BillingAddressResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }> } };
+export type SetDefaultBillingAddressMutation = { __typename: 'Mutation', SetDefaultBillingAddress: { __typename: 'BillingAddressResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }> } };
 
 export type SetDefaultShippingAddressMutationVariables = Exact<{
   shippingAddress: ShippingAddressInput;
 }>;
 
 
-export type SetDefaultShippingAddressMutation = { __typename: 'Mutation', SetDefaultShippingAddress: { __typename: 'ShippingAddressResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }> } };
+export type SetDefaultShippingAddressMutation = { __typename: 'Mutation', SetDefaultShippingAddress: { __typename: 'ShippingAddressResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }> } };
+
+export type SetDefaultCurrencyMutationVariables = Exact<{
+  currency: CurrencyInput;
+}>;
+
+
+export type SetDefaultCurrencyMutation = { __typename: 'Mutation', SetDefaultCurrency: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type SetTrackingNumberMutationVariables = Exact<{
   trackingNumber: Scalars['String'];
@@ -852,7 +937,7 @@ export type SetTrackingNumberMutationVariables = Exact<{
 }>;
 
 
-export type SetTrackingNumberMutation = { __typename: 'Mutation', SetTrackingNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
+export type SetTrackingNumberMutation = { __typename: 'Mutation', SetTrackingNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type SubmitEntryMutationVariables = Exact<{
   entryId?: Maybe<Scalars['ID']>;
@@ -868,52 +953,52 @@ export type AddItemsToCartMutationVariables = Exact<{
 }>;
 
 
-export type AddItemsToCartMutation = { __typename: 'Mutation', AddItemsToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type AddItemsToCartMutation = { __typename: 'Mutation', AddItemsToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type ClearCartMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ClearCartMutation = { __typename: 'Mutation', ClearCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type ClearCartMutation = { __typename: 'Mutation', ClearCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type RemoveItemsFromCartMutationVariables = Exact<{
   ids: Array<Scalars['ID']> | Scalars['ID'];
 }>;
 
 
-export type RemoveItemsFromCartMutation = { __typename: 'Mutation', RemoveItemsFromCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type RemoveItemsFromCartMutation = { __typename: 'Mutation', RemoveItemsFromCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type AddShippingAddressToCartMutationVariables = Exact<{
   shippingAddress: ShippingAddressInput;
 }>;
 
 
-export type AddShippingAddressToCartMutation = { __typename: 'Mutation', AddShippingAddressToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type AddShippingAddressToCartMutation = { __typename: 'Mutation', AddShippingAddressToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type AddBillingAddressToCartMutationVariables = Exact<{
   billingAddress: BillingAddressInput;
 }>;
 
 
-export type AddBillingAddressToCartMutation = { __typename: 'Mutation', AddBillingAddressToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type AddBillingAddressToCartMutation = { __typename: 'Mutation', AddBillingAddressToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type SetShippingTypeToCartMutationVariables = Exact<{
   shippingType: Scalars['String'];
 }>;
 
 
-export type SetShippingTypeToCartMutation = { __typename: 'Mutation', SetShippingTypeToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type SetShippingTypeToCartMutation = { __typename: 'Mutation', SetShippingTypeToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type AddPromoCodeToCartMutationVariables = Exact<{
   promoCode: Scalars['String'];
 }>;
 
 
-export type AddPromoCodeToCartMutation = { __typename: 'Mutation', AddPromoCodeToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type AddPromoCodeToCartMutation = { __typename: 'Mutation', AddPromoCodeToCart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type CreateOrderMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreateOrderMutation = { __typename: 'Mutation', CreateOrder: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
+export type CreateOrderMutation = { __typename: 'Mutation', CreateOrder: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type GetPaymentIntentMutationVariables = Exact<{
   orderId: Scalars['String'];
@@ -944,7 +1029,7 @@ export type UpdateCartItemPriceMutationVariables = Exact<{
 }>;
 
 
-export type UpdateCartItemPriceMutation = { __typename: 'Mutation', UpdateCartItemPrice: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type UpdateCartItemPriceMutation = { __typename: 'Mutation', UpdateCartItemPrice: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type SendOtpMutationVariables = Exact<{
   accessToken: Scalars['String'];
@@ -960,7 +1045,7 @@ export type VerifyOtpMutationVariables = Exact<{
 }>;
 
 
-export type VerifyOtpMutation = { __typename: 'Mutation', VerifyOTP: { __typename: 'OrderEditResponse', status: boolean, message: string, data?: Maybe<{ __typename: 'OrderEditRes', authToken?: Maybe<string>, editToken?: Maybe<string>, imageUrl?: Maybe<string>, user?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> }> } };
+export type VerifyOtpMutation = { __typename: 'Mutation', VerifyOTP: { __typename: 'OrderEditResponse', status: boolean, message: string, data?: Maybe<{ __typename: 'OrderEditRes', authToken?: Maybe<string>, editToken?: Maybe<string>, imageUrl?: Maybe<string>, user?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> }> } };
 
 export type UpdateEntryPhotoMutationVariables = Exact<{
   imageUrl: Scalars['String'];
@@ -981,7 +1066,7 @@ export type UpdateOrderPhotoMutation = { __typename: 'Mutation', UpdateOrderPhot
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename: 'Query', Me: { __typename: 'UserResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> } };
+export type MeQuery = { __typename: 'Query', Me: { __typename: 'UserResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'User', id: string, email?: Maybe<string>, firstName?: Maybe<string>, lastName?: Maybe<string>, phone?: Maybe<string>, guest: boolean, isAdmin: boolean, createdAt: any, updatedAt: any, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, cart?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> }> } };
 
 export type FormsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1020,12 +1105,12 @@ export type OrdersQueryVariables = Exact<{
 }>;
 
 
-export type OrdersQuery = { __typename: 'Query', Orders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
+export type OrdersQuery = { __typename: 'Query', Orders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type CartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CartQuery = { __typename: 'Query', Cart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
+export type CartQuery = { __typename: 'Query', Cart: { __typename: 'CartResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> }> } };
 
 export type CompletedOrdersQueryVariables = Exact<{
   page?: Maybe<Scalars['Int']>;
@@ -1035,14 +1120,14 @@ export type CompletedOrdersQueryVariables = Exact<{
 }>;
 
 
-export type CompletedOrdersQuery = { __typename: 'Query', CompletedOrders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
+export type CompletedOrdersQuery = { __typename: 'Query', CompletedOrders: { __typename: 'OrderPaginatedResponse', total: number, data: Array<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type OrderByOrderNumberQueryVariables = Exact<{
   orderNumber: Scalars['Float'];
 }>;
 
 
-export type OrderByOrderNumberQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, name: string, price: number, product: ProductType, productId: string, description: string, imageUrl?: Maybe<string>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state: string, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
+export type OrderByOrderNumberQuery = { __typename: 'Query', OrderByOrderNumber: { __typename: 'OrderResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'Order', id: string, paymentStatus: PaymentStatus, userId: string, totalPrice: number, promoCode?: Maybe<string>, orderNumber: number, shippingType: ShippingType, trackingNumber?: Maybe<string>, createdAt: any, updatedAt: any, items: Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>, billingAddress: { __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, status: { __typename: 'OrderTrack', confirmOrder: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, productPrepared: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, shipped: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, outForDelivery: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any }, delivered: { __typename: 'TrackStep', status: OrderStatus, updatedAt: any } } }> } };
 
 export type OrderSkusQueryVariables = Exact<{
   orderNumber: Scalars['Float'];
@@ -1075,6 +1160,36 @@ export type DocumentQueryVariables = Exact<{
 
 export type DocumentQuery = { __typename: 'Query', Document: { __typename: 'PDocumentResponse', message: string, status: boolean, data?: Maybe<{ __typename: 'PDocument', id?: Maybe<number>, country?: Maybe<string>, type?: Maybe<string>, countryCode?: Maybe<string>, background?: Maybe<string>, dpi?: Maybe<number>, dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, size?: Maybe<{ __typename: 'Size', max?: Maybe<number>, min?: Maybe<number> }>, head?: Maybe<{ __typename: 'Head', Dimensions?: Maybe<{ __typename: 'Dimensions', height?: Maybe<number>, unit?: Maybe<string>, width?: Maybe<number> }>, position?: Maybe<{ __typename: 'Position', max?: Maybe<number>, min?: Maybe<number>, unit?: Maybe<Unit> }> }> }> } };
 
+export type ProductsQueryVariables = Exact<{
+  currencyCode?: Maybe<CurrencyCode>;
+}>;
+
+
+export type ProductsQuery = { __typename: 'Query', Products: { __typename: 'ProductsResponse', message: string, status: boolean, data: Array<{ __typename: 'Product', sku: ProductSku, price: number, category: ProductCategory, description?: Maybe<string>, currency: { __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string } }> } };
+
+export type CurrenciesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrenciesQuery = { __typename: 'Query', Currencies: { __typename: 'CurrenciesResponse', message: string, status: boolean, data: Array<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }> } };
+
+export const CurrencyFragmentDoc = gql`
+    fragment Currency on Currency {
+  label
+  code
+  symbol
+}
+    `;
+export const ProductFragmentDoc = gql`
+    fragment Product on Product {
+  sku
+  price
+  currency {
+    ...Currency
+  }
+  category
+  description
+}
+    ${CurrencyFragmentDoc}`;
 export const BillingAddressFragmentDoc = gql`
     fragment BillingAddress on BillingAddress {
   address1
@@ -1106,12 +1221,12 @@ export const ShippingAddressFragmentDoc = gql`
 export const CartItemFragmentDoc = gql`
     fragment CartItem on CartItem {
   id
-  name
-  price
-  product
   productId
+  name
   description
   imageUrl
+  productCategory
+  productSku
   isComplete
   createdAt
   updatedAt
@@ -1119,6 +1234,9 @@ export const CartItemFragmentDoc = gql`
     `;
 export const CartFragmentDoc = gql`
     fragment Cart on Cart {
+  defaultCurrency {
+    ...Currency
+  }
   billingAddress {
     ...BillingAddress
   }
@@ -1131,7 +1249,8 @@ export const CartFragmentDoc = gql`
   promoCode
   shippingType
 }
-    ${BillingAddressFragmentDoc}
+    ${CurrencyFragmentDoc}
+${BillingAddressFragmentDoc}
 ${ShippingAddressFragmentDoc}
 ${CartItemFragmentDoc}`;
 export const UserFragmentDoc = gql`
@@ -1527,6 +1646,43 @@ export function useSetDefaultShippingAddressMutation(baseOptions?: Apollo.Mutati
 export type SetDefaultShippingAddressMutationHookResult = ReturnType<typeof useSetDefaultShippingAddressMutation>;
 export type SetDefaultShippingAddressMutationResult = Apollo.MutationResult<SetDefaultShippingAddressMutation>;
 export type SetDefaultShippingAddressMutationOptions = Apollo.BaseMutationOptions<SetDefaultShippingAddressMutation, SetDefaultShippingAddressMutationVariables>;
+export const SetDefaultCurrencyDocument = gql`
+    mutation SetDefaultCurrency($currency: CurrencyInput!) {
+  SetDefaultCurrency(currency: $currency) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}
+    ${CartFragmentDoc}`;
+export type SetDefaultCurrencyMutationFn = Apollo.MutationFunction<SetDefaultCurrencyMutation, SetDefaultCurrencyMutationVariables>;
+
+/**
+ * __useSetDefaultCurrencyMutation__
+ *
+ * To run a mutation, you first call `useSetDefaultCurrencyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetDefaultCurrencyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setDefaultCurrencyMutation, { data, loading, error }] = useSetDefaultCurrencyMutation({
+ *   variables: {
+ *      currency: // value for 'currency'
+ *   },
+ * });
+ */
+export function useSetDefaultCurrencyMutation(baseOptions?: Apollo.MutationHookOptions<SetDefaultCurrencyMutation, SetDefaultCurrencyMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetDefaultCurrencyMutation, SetDefaultCurrencyMutationVariables>(SetDefaultCurrencyDocument, options);
+      }
+export type SetDefaultCurrencyMutationHookResult = ReturnType<typeof useSetDefaultCurrencyMutation>;
+export type SetDefaultCurrencyMutationResult = Apollo.MutationResult<SetDefaultCurrencyMutation>;
+export type SetDefaultCurrencyMutationOptions = Apollo.BaseMutationOptions<SetDefaultCurrencyMutation, SetDefaultCurrencyMutationVariables>;
 export const SetTrackingNumberDocument = gql`
     mutation SetTrackingNumber($trackingNumber: String!, $orderId: String!) {
   SetTrackingNumber(trackingNumber: $trackingNumber, orderId: $orderId) {
@@ -2752,3 +2908,80 @@ export function useDocumentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<D
 export type DocumentQueryHookResult = ReturnType<typeof useDocumentQuery>;
 export type DocumentLazyQueryHookResult = ReturnType<typeof useDocumentLazyQuery>;
 export type DocumentQueryResult = Apollo.QueryResult<DocumentQuery, DocumentQueryVariables>;
+export const ProductsDocument = gql`
+    query Products($currencyCode: CurrencyCode) {
+  Products(currencyCode: $currencyCode) {
+    data {
+      ...Product
+    }
+    message
+    status
+  }
+}
+    ${ProductFragmentDoc}`;
+
+/**
+ * __useProductsQuery__
+ *
+ * To run a query within a React component, call `useProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsQuery({
+ *   variables: {
+ *      currencyCode: // value for 'currencyCode'
+ *   },
+ * });
+ */
+export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+      }
+export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+        }
+export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
+export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
+export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
+export const CurrenciesDocument = gql`
+    query Currencies {
+  Currencies {
+    data {
+      ...Currency
+    }
+    message
+    status
+  }
+}
+    ${CurrencyFragmentDoc}`;
+
+/**
+ * __useCurrenciesQuery__
+ *
+ * To run a query within a React component, call `useCurrenciesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrenciesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrenciesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrenciesQuery(baseOptions?: Apollo.QueryHookOptions<CurrenciesQuery, CurrenciesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CurrenciesQuery, CurrenciesQueryVariables>(CurrenciesDocument, options);
+      }
+export function useCurrenciesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CurrenciesQuery, CurrenciesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CurrenciesQuery, CurrenciesQueryVariables>(CurrenciesDocument, options);
+        }
+export type CurrenciesQueryHookResult = ReturnType<typeof useCurrenciesQuery>;
+export type CurrenciesLazyQueryHookResult = ReturnType<typeof useCurrenciesLazyQuery>;
+export type CurrenciesQueryResult = Apollo.QueryResult<CurrenciesQuery, CurrenciesQueryVariables>;

@@ -146,7 +146,10 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     }
 
     const bgColorReq: IRequirement = {
-      label: 'Background Color',
+      label:
+        country.countryCode?.toLowerCase() === 'gb'
+          ? 'Background Colour'
+          : 'Background Color',
       imagePath: '/images/requirements-item/item-02.svg',
       requirement: getBgColorReq(),
     }

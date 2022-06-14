@@ -303,7 +303,7 @@ const faqUk3: IFAQ = {
     <p>
       <b>Printing at Tesco for only £0.70:</b>
       <br />
-      <b>Step 1: </b>Open this confirmation email on your PC/Mobile.
+      <b>Step 1: </b>Open the confirmation email on your PC/Mobile.
       <br />
       <b>Step 2: </b>When you use your mobile device, please make sure to press
       on the link (“Download Your Photos For Print”) and then click “save” your
@@ -337,7 +337,7 @@ const faqUk3: IFAQ = {
       <br />
       <b>Printing at ASDA for only £0.11:</b>
       <br />
-      <b>Step 1: </b>Open this confirmation email on your PC/Mobile.
+      <b>Step 1: </b>Open the confirmation email on your PC/Mobile.
       <br />
       <b>Step 2: </b>When you use your mobile device, please make sure to press
       on the link (“Download Your Photos For Print”) and then click “save” your
@@ -376,7 +376,7 @@ const faqUk4: IFAQ = {
       First, please be sure to have 4”X6” glossy photo paper at home.
       <br />
       <br />
-      <b>Step 1: </b>Open this confirmation email on your PC.
+      <b>Step 1: </b>Open the confirmation email on your PC.
       <br />
       <b>Step 2: </b>When you use your mobile device, please make sure to press
       on the link (“Download Your Photos For Print”) and then click “save” your
@@ -399,7 +399,7 @@ const faqUk5: IFAQ = {
     'How do I upload my digital photo to renew my passport (Passport Renewal Only)?',
   answer: (
     <p>
-      <b>Step 1: </b>Open this confirmation email on your PC.
+      <b>Step 1: </b>Open the confirmation email on your PC.
       <br />
       <b>Step 2: </b>When you use your mobile device, please make sure to press
       on the link (“Download Your Single Digital Photo”) and then click “save”
@@ -515,12 +515,12 @@ export const HomepageContent: Record<
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description: (
       <>
-        * Take your Passport Photo with your cellphone
+        ✓ Take your Passport Photo with your cellphone
         <br />
-        * Our software verifies government compliance
+        ✓ Our software verifies government compliance
         <br />
-        * Ready for your digital or paper application
-        <br />* We will print and ship them to you or print them at home
+        ✓ Ready for your digital or paper application
+        <br />✓ We will print and ship them to you or print them at home
       </>
     ),
   },

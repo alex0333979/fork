@@ -5,6 +5,8 @@ import {
   FormField,
   ShippingType,
   ValidationType,
+  ProductSku,
+  CurrencyCode,
 } from '@/generated/graphql'
 
 export const TOKEN_EXPIRE_IN = 31556926 // seconds
@@ -203,44 +205,32 @@ export const PHOTO_STEP = {
   ],
 }
 
-export const CONCIERGE_PRICE = 950
-
-export const PHOTO_PRICES = [
-  {
-    text: '2 Photos',
-    price: 1850,
-    value: 2,
-  },
-  {
-    text: '4 Photos',
-    price: 2450,
-    value: 4,
-  },
-  {
-    text: '6 Photos',
-    price: 2850,
-    value: 6,
-  },
-]
-
-export const SHIPPING_TYPES: {
+export const shippingTypes = (
+  currencyCode: CurrencyCode = CurrencyCode.Us,
+): {
   title: string
-  price: number
+  productSku: ProductSku
   value: ShippingType
-}[] = [
+}[] => [
   {
-    title: 'Expedited 1-2 business days',
-    price: 1950,
+    title:
+      currencyCode === CurrencyCode.Gb
+        ? 'Priority Service 1-2 business days'
+        : 'Expedited 1-2 business days',
+    productSku:
+      currencyCode === CurrencyCode.Gb
+        ? ProductSku.PriorityService
+        : ProductSku.ExpeditedShipping,
     value: ShippingType.From1To2,
   },
   {
     title: 'Standard 3-5 business days',
-    price: 350,
+    productSku: ProductSku.StandardShipping,
     value: ShippingType.From3To6,
   },
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
-    price: 0,
+    productSku: ProductSku.Free,
     value: ShippingType.NoShipping,
   },
 ]
@@ -428,4 +418,3 @@ export const ExtraPath = [
 
 export * from './countries'
 export * from './documents'
-export * from './languageCurrencies'
