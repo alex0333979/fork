@@ -9,7 +9,7 @@ export interface ILanguage {
 }
 
 export const useLanguage = () => {
-  const [country, setCountry] = useState<string>('US')
+  const [country] = useState<string>('US')
   const [cookies, setCookie] = useCookies([LANGUAGE_COOKIE_NAME])
 
   const languages: ILanguage[] = useMemo(
