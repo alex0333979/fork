@@ -28,7 +28,6 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
   )
 
   const handleCameraError = useCallback((error: Error) => {
-    console.log(error)
     showError(error.message)
   }, [])
 

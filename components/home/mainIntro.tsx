@@ -1,17 +1,22 @@
 /* eslint-disable max-len */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '../../constants'
 import classNames from 'classnames'
+import { Bars } from 'react-loading-icons'
 import {
   Country,
   PDocument,
-  useDocumentsByCountryQuery,
+  useDocumentsByCountryLazyQuery,
 } from '@/generated/graphql'
-import dynamic from 'next/dynamic'
+import { useLocation } from '@/hooks/index'
 import { iCountry } from '@/components/elements/countrySelector'
-import { Bars } from 'react-loading-icons'
+import {
+  PAGES,
+  UK_PASSPORT_IMAGES,
+  US_PASSPORT_IMAGES,
+} from '@/constants/index'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
   {
@@ -39,25 +44,59 @@ const MainIntro = (
   }: MainIntroProps,
   ref: any,
 ) => {
-  const [country, setCountry] = useState<iCountry>({
-    label: pCountry?.country ?? 'United States',
-    value: pCountry?.countryCode ?? 'US',
-  })
+  const { country: currentCountry, onChangeCountry } = useLocation()
+  const [country, setCountry] = useState<iCountry | undefined>(
+    pCountry
+      ? {
+          label: pCountry.country || '',
+          value: pCountry.countryCode || '',
+        }
+      : undefined,
+  )
   const [documents, setDocuments] = useState<PDocument[]>([])
   const router = useRouter()
-  const { data, loading } = useDocumentsByCountryQuery({
-    variables: { country: country.label },
+  const [fetchDocuments, { loading }] = useDocumentsByCountryLazyQuery({
     fetchPolicy: 'no-cache',
+    onCompleted: (res) => {
+      if (res?.DocumentsByCountry.data) {
+        setDocuments(res.DocumentsByCountry.data)
+      }
+    },
   })
+
   const [document, setDocument] = useState<Country | undefined>(
     pDoc ?? undefined,
   )
 
   useEffect(() => {
-    if (data?.DocumentsByCountry.data) {
-      setDocuments(data.DocumentsByCountry.data)
+    if (country === undefined && currentCountry) {
+      setCountry(
+        currentCountry
+          ? currentCountry
+          : {
+              label: 'United States',
+              value: 'US',
+            },
+      )
     }
-  }, [data?.DocumentsByCountry.data])
+  }, [country, currentCountry])
+
+  useEffect(() => {
+    if (country?.label) {
+      fetchDocuments({
+        variables: { country: country.label },
+      })
+    }
+  }, [country?.label, fetchDocuments])
+
+  useEffect(() => {
+    if (pCountry?.country && pCountry.countryCode) {
+      onChangeCountry({
+        label: pCountry.country,
+        value: pCountry.countryCode,
+      })
+    }
+  }, [onChangeCountry, pCountry?.country, pCountry?.countryCode])
 
   const goTakePhoto = useCallback(
     async (d: Country | undefined) => {
@@ -70,10 +109,14 @@ const MainIntro = (
     [router],
   )
 
-  const onSelectedCountry = useCallback((country: iCountry) => {
-    setCountry(country)
-    setDocument(undefined)
-  }, [])
+  const onSelectedCountry = useCallback(
+    (country: iCountry) => {
+      setCountry(country)
+      onChangeCountry(country)
+      setDocument(undefined)
+    },
+    [onChangeCountry],
+  )
 
   const countryName = useMemo(() => {
     if (!pCountry) return ''

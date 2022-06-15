@@ -78,6 +78,7 @@ fragment User on User {
     phone
     guest
     isAdmin
+    country
     createdAt
     updatedAt
     billingAddress {

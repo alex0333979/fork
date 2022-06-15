@@ -60,7 +60,7 @@ const styles = {
 }
 
 export interface CountrySelectorProps {
-  country: iCountry
+  country: iCountry | undefined
   onSelectCountry: (value: iCountry) => void
 }
 

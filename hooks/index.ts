@@ -1,3 +1,3 @@
 export * from './useCurrency'
-export * from './useLanguage'
+export * from './useLocation'
 export * from './useProducts'
