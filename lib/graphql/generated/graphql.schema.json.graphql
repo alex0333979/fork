@@ -15,7 +15,7 @@ type BillingAddress {
     lastName: String!
     phone: String!
     postalCode: String!
-    state: String!
+    state: String
 }
 
 type BillingAddressResponse {
@@ -26,6 +26,7 @@ type BillingAddressResponse {
 
 type Cart {
     billingAddress: BillingAddress
+    defaultCurrency: Currency
     items: [CartItem!]
     promoCode: String
     shippingAddress: ShippingAddress
@@ -39,9 +40,9 @@ type CartItem {
     imageUrl: String
     isComplete: Boolean!
     name: String!
-    price: Float!
-    product: ProductType!
+    productCategory: ProductCategory
     productId: ID!
+    productSku: ProductSku
     updatedAt: DateTime
 }
 
@@ -63,21 +64,33 @@ type CountriesResponse {
 }
 
 type Country {
-    country: String!
+    country: String
     countryCode: String
-    id: Int!
-    type: String!
+    id: Int
+    type: String
+}
+
+type CurrenciesResponse {
+    data: [Currency!]!
+    message: String!
+    status: Boolean!
+}
+
+type Currency {
+    code: CurrencyCode!
+    label: CurrencyType!
+    symbol: String!
 }
 
 type Dictionary {
-    message: String!
-    test: String!
+    message: String
+    test: String
 }
 
 type Dimensions {
-    height: Float!
-    unit: String!
-    width: Float!
+    height: Float
+    unit: String
+    width: Float
 }
 
 type Entry {
@@ -153,26 +166,31 @@ type Mutation {
     AddItemsToCart(items: [CartItemInput!]!): CartResponse!
     AddPromoCodeToCart(promoCode: String!): CartResponse!
     AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
-    CheckPhoto(entryId: String!): CheckPhotoResponse!
+    CheckPhoto(entryId: String!, imageResolution: String!, userAgent: String!): CheckPhotoResponse!
     ClearCart: CartResponse!
     CreateGuest: TokenResponse!
     CreateOrder: OrderResponse!
     DeleteOrder(orderId: String!): StringResponse!
-    GetPaymentIntent(orderId: String!): PaymentIntentResponse!
+    GetPaymentIntent(currency: String!, orderId: String!): PaymentIntentResponse!
     Login(email: String!, password: String!): TokenResponse!
     RemoveItemsFromCart(ids: [ID!]!): CartResponse!
     SendEmailToAdmin(data: EmailToAdminInput!): StringResponse!
+    SendOTP(accessToken: String!, email: String!): OrderEditResponse!
     SendOrderConfirmToFulfillmentManually(orderId: String!): StringResponse!
     SendOrderConfirmToUserManually(orderId: String!): StringResponse!
     SendOrderEditRequest(orderId: String!): StringResponse!
     SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
+    SetDefaultCurrency(currency: CurrencyInput!): CartResponse!
     SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
     SetShippingTypeToCart(shippingType: String!): CartResponse!
     SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
     SignUp(user: UserInput!): UserResponse!
     SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
     UpdateCartItemPrice(item: UpdateCartItemPriceInput!): CartResponse!
+    UpdateEntryPhoto(editToken: String!, imageUrl: String!): EntryResponse!
+    UpdateOrderPhoto(editToken: String!, imageUrl: String!): StringResponse!
     UpdateOrderStatus(orderId: String!, orderStatus: OrderStatus!, orderStatusType: OrderStatusType!): OrderResponse!
+    VerifyOTP(accessToken: String!, otp: String!): OrderEditResponse!
 }
 
 type Option {
@@ -184,18 +202,34 @@ type Option {
 type Order {
     billingAddress: BillingAddress!
     createdAt: DateTime!
+    currency: Currency
     id: ID!
     items: [CartItem!]!
     orderNumber: Int!
     paymentStatus: PaymentStatus!
     promoCode: String
+    shipStation: OrderShipStation
     shippingAddress: ShippingAddress
     shippingType: ShippingType!
+    skus: [String!]
     status: OrderTrack!
     totalPrice: Float!
     trackingNumber: String
     updatedAt: DateTime!
     userId: ID!
+}
+
+type OrderEditRes {
+    authToken: String
+    editToken: String
+    imageUrl: String
+    user: User
+}
+
+type OrderEditResponse {
+    data: OrderEditRes
+    message: String!
+    status: Boolean!
 }
 
 type OrderPaginatedResponse {
@@ -209,6 +243,13 @@ type OrderResponse {
     status: Boolean!
 }
 
+type OrderShipStation {
+    fulfillmentCenter: FulfillmentCenter!
+    orderId: Int!
+    status: [ShipStationStatus!]
+    trackingNumber: String
+}
+
 type OrderTrack {
     confirmOrder: TrackStep!
     delivered: TrackStep!
@@ -218,15 +259,15 @@ type OrderTrack {
 }
 
 type PDocument {
-    background: String!
-    country: String!
+    background: String
+    country: String
     countryCode: String
     dimensions: Dimensions
-    dpi: Int!
+    dpi: Int
     head: Head
-    id: Int!
+    id: Int
     size: Size
-    type: String!
+    type: String
 }
 
 type PDocumentResponse {
@@ -251,15 +292,30 @@ type PaymentIntentResponse {
 }
 
 type Position {
-    max: Float!
-    min: Float!
-    unit: Unit!
+    max: Float
+    min: Float
+    unit: Unit
+}
+
+type Product {
+    category: ProductCategory!
+    currency: Currency!
+    description: String
+    price: Float!
+    sku: ProductSku!
+}
+
+type ProductsResponse {
+    data: [Product!]!
+    message: String!
+    status: Boolean!
 }
 
 type Query {
     Cart: CartResponse!
     CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
     Countries: CountriesResponse!
+    Currencies: CurrenciesResponse!
     Document(id: String!): PDocumentResponse!
     DocumentsByCountry(country: String!): PDocumentsResponse!
     Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
@@ -272,6 +328,13 @@ type Query {
     OrderByOrderNumber(orderNumber: Float!): OrderResponse!
     Orders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
     OrdersForAdmin(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+    Products(currencyCode: CurrencyCode): ProductsResponse!
+    Test: StringResponse!
+}
+
+type ShipStationStatus {
+    date: String!
+    status: String!
 }
 
 type ShippingAddress {
@@ -284,7 +347,7 @@ type ShippingAddress {
     lastName: String!
     phone: String!
     postalCode: String!
-    state: String!
+    state: String
 }
 
 type ShippingAddressResponse {
@@ -305,8 +368,8 @@ type SignedUrlResponse {
 }
 
 type Size {
-    max: Int!
-    min: Int!
+    max: Int
+    min: Int
 }
 
 type StringResponse {
@@ -316,10 +379,10 @@ type StringResponse {
 }
 
 type TestResult {
-    code: Code!
-    failed: [Dictionary!]!
-    message: String!
-    passed: [Dictionary!]!
+    code: Code
+    failed: [Dictionary!]
+    message: String
+    passed: [Dictionary!]
 }
 
 type Token {
@@ -333,7 +396,6 @@ type TokenResponse {
 }
 
 type TrackStep {
-    createdAt: DateTime!
     status: OrderStatus!
     updatedAt: DateTime!
 }
@@ -360,7 +422,7 @@ type UserResponse {
 }
 
 type ValidatedImage {
-    image: String!
+    image: String
 }
 
 type Validation {
@@ -375,6 +437,18 @@ enum Code {
     Code500
 }
 
+enum CurrencyCode {
+    eu
+    gb
+    us
+}
+
+enum CurrencyType {
+    EUR
+    GBP
+    USD
+}
+
 enum FieldType {
     Button
     CheckBox
@@ -387,6 +461,11 @@ enum FieldType {
     Select
     StatePicker
     TextArea
+}
+
+enum FulfillmentCenter {
+    Europe
+    US
 }
 
 enum OrderStatus {
@@ -409,9 +488,24 @@ enum PaymentStatus {
     PENDING
 }
 
-enum ProductType {
-    PASSPORT_APPLICATION
-    PASSPORT_PHOTO
+enum ProductCategory {
+    Application
+    Photo
+    Shipping
+    Upsell
+}
+
+enum ProductSku {
+    Application
+    ExpeditedShipping
+    FourPhotos
+    Free
+    PrintShipService
+    PriorityService
+    SixPhotos
+    StandardShipping
+    TwoPhotos
+    Upsell
 }
 
 enum ShippingType {
@@ -449,15 +543,22 @@ input BillingAddressInput {
     lastName: String!
     phone: String!
     postalCode: String!
-    state: String!
+    state: String = ""
 }
 
 input CartItemInput {
     description: String!
     imageUrl: String
     name: String!
-    product: ProductType!
+    productCategory: ProductCategory
     productId: ID!
+    productSku: ProductSku!
+}
+
+input CurrencyInput {
+    code: CurrencyCode!
+    label: CurrencyType!
+    symbol: String!
 }
 
 input EmailToAdminInput {
@@ -506,12 +607,12 @@ input ShippingAddressInput {
     lastName: String!
     phone: String!
     postalCode: String!
-    state: String!
+    state: String = ""
 }
 
 input UpdateCartItemPriceInput {
     itemId: ID!
-    price: Int!
+    productSku: ProductSku!
 }
 
 input UserInput {
