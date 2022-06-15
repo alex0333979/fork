@@ -30,7 +30,7 @@ import {
 import { ValidationError } from '@/lib/utils/formValidation'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { TEMP_ORDER_NUM } from '@/lib/apolloClient'
-import { useProducts, useCurrency, useLanguage } from '@/hooks/index'
+import { useProducts, useCurrency, useLocation } from '@/hooks/index'
 import { PAGES, shippingTypes } from '../../constants'
 
 const CARD_OPTIONS = {
@@ -63,7 +63,7 @@ const ReviewAndPay: React.FC = () => {
   const [, setCookie] = useCookies([TEMP_ORDER_NUM])
   const { cart, updateCart } = useAuth()
   const { currentCurrency } = useCurrency()
-  const { country } = useLanguage()
+  const { country } = useLocation()
   const [cardName, setCardName] = useState<string>('')
   const [error, setError] = useState<ValidationError>({})
   const [stripeFocus, setStripeFocus] = useState<boolean>(false)
@@ -367,7 +367,7 @@ const ReviewAndPay: React.FC = () => {
     timer.current = setTimeout(() => {
       const pr = stripe.paymentRequest({
         currency: currentCurrency.label.toLowerCase(),
-        country,
+        country: country?.value || 'US',
         total: {
           label: '',
           amount: 100 * total,

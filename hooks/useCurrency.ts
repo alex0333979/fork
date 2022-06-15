@@ -37,6 +37,7 @@ export const useCurrency = () => {
   const onChangeCurrency = useCallback(
     (currency: Currency | undefined) => {
       if (!currency) return
+
       setCurrentCurrency(currency)
       setDefaultCurrency({
         variables: {

@@ -14,7 +14,6 @@ const SignIn: React.FC = () => {
 
   const onSubmit = useCallback(() => {
     setLoading(true)
-    console.log('=======')
     setLoading(false)
   }, [])
 
