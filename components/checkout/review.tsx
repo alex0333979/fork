@@ -158,7 +158,7 @@ const ReviewAndPay: React.FC = () => {
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(100 * subTotal * 0.08875)
+      return Math.ceil(subTotal * 0.08875)
     }
     return 0
   }, [cart?.billingAddress?.state, subTotal])
@@ -243,7 +243,7 @@ const ReviewAndPay: React.FC = () => {
           value: order.totalPrice,
           currency: currentCurrency.label,
           tax,
-          shipping: 100 * shippingPrice,
+          shipping: shippingPrice,
           items: order.items.map((item) => {
             const product = getProduct(item.productSku)
 
@@ -251,7 +251,7 @@ const ReviewAndPay: React.FC = () => {
               id: item.productId,
               name: item.name,
               category: humanize(item.productCategory as string),
-              price: 100 * (product?.price || 0),
+              price: (product?.price || 0),
             }
           }),
         })
@@ -261,7 +261,7 @@ const ReviewAndPay: React.FC = () => {
           value: order.totalPrice,
           currency: currentCurrency.label,
           tax,
-          shipping: 100 * shippingPrice,
+          shipping: shippingPrice,
           items: order.items.map((item) => {
             const product = getProduct(item.productSku)
 
@@ -269,7 +269,7 @@ const ReviewAndPay: React.FC = () => {
               id: item.productId,
               name: item.name,
               category: humanize(item.productCategory as string),
-              price: 100 * (product?.price || 0),
+              price: (product?.price || 0),
             }
           }),
         })
@@ -281,7 +281,7 @@ const ReviewAndPay: React.FC = () => {
             total_items: order.items.length,
             discount_amount: 0,
             tax_amount: tax,
-            shipping_amount: 100 * shippingPrice,
+            shipping_amount: shippingPrice,
             total_amount: order.totalPrice,
             order_id: order.orderNumber,
           })
