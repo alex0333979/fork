@@ -251,7 +251,7 @@ const ReviewAndPay: React.FC = () => {
               id: item.productId,
               name: item.name,
               category: humanize(item.productCategory as string),
-              price: (product?.price || 0),
+              price: product?.price || 0,
             }
           }),
         })
@@ -269,7 +269,7 @@ const ReviewAndPay: React.FC = () => {
               id: item.productId,
               name: item.name,
               category: humanize(item.productCategory as string),
-              price: (product?.price || 0),
+              price: product?.price || 0,
             }
           }),
         })
