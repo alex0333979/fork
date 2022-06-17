@@ -45,11 +45,9 @@ export const useCurrency = () => {
   const onChangeCurrency = useCallback(
     (currency: Currency | undefined) => {
       if (!currency) return
-      console.log({ aa: currentCurrency?.code, bb: currency.code })
       if (currency.code === currentCurrency?.code) return
 
       setCurrentCurrency(currency)
-      console.log('herer')
       setDefaultCurrency({
         variables: {
           currency,

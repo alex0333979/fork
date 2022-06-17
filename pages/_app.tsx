@@ -1,4 +1,3 @@
-import '../styles/index.scss'
 import type { AppProps } from 'next/app'
 import React, { useEffect } from 'react'
 import { I18nextProvider } from 'react-i18next'
@@ -18,6 +17,7 @@ import GoogledAnalyticsScript from '@/components/scripts/googleAnalytics'
 import FacebookPixelScript from '@/components/scripts/fbPixel'
 import { hotjar } from 'react-hotjar'
 import i18n from '../i18n'
+import '../styles/index.scss'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
