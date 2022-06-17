@@ -37,6 +37,8 @@ export const useCurrency = () => {
   const onChangeCurrency = useCallback(
     (currency: Currency | undefined) => {
       if (!currency) return
+      console.log({ aa: cart?.defaultCurrency?.code, bb: currency.code })
+      if (currency.code === cart?.defaultCurrency?.code) return
 
       setCurrentCurrency(currency)
       setDefaultCurrency({
@@ -45,7 +47,7 @@ export const useCurrency = () => {
         },
       })
     },
-    [setDefaultCurrency],
+    [cart?.defaultCurrency?.code, setDefaultCurrency],
   )
 
   useEffect(() => {

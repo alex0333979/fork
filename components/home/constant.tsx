@@ -515,12 +515,22 @@ export const HomepageContent: Record<
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description: (
       <>
-        ✓ Take your Passport Photo with your cellphone
-        <br />
-        ✓ Our software verifies government compliance
-        <br />
-        ✓ Ready for your digital or paper application
-        <br />✓ We will print and ship them to you or print them at home
+        <div className="uk-landing-page-desc">
+          <div />
+          Take your Passport Photo with your cellphone
+        </div>
+        <div className="uk-landing-page-desc">
+          <div />
+          Our software verifies government compliance
+        </div>
+        <div className="uk-landing-page-desc">
+          <div />
+          Ready for your digital or paper application
+        </div>
+        <div className="uk-landing-page-desc">
+          <div />
+          We will print and ship them to you or print them at home
+        </div>
       </>
     ),
   },
