@@ -14,6 +14,7 @@ export const useCurrency = () => {
 
   const [currencies, setCurrencies] = useState<Currency[] | undefined>()
   const [currentCurrency, setCurrentCurrency] = useState<Currency | undefined>()
+  const [initial, setInitial] = useState<boolean>(true)
 
   const [fetchCurrencies, { loading }] = useCurrenciesLazyQuery({
     fetchPolicy: 'no-cache',
@@ -23,7 +24,7 @@ export const useCurrency = () => {
   })
 
   const [setDefaultCurrency] = useSetDefaultCurrencyMutation({
-    fetchPolicy: 'no-cache',
+    fetchPolicy: 'network-only',
     onCompleted: (res) => {
       updateCart(res.SetDefaultCurrency.data || cart)
     },
@@ -34,20 +35,28 @@ export const useCurrency = () => {
     fetchCurrencies()
   }, [currencies, fetchCurrencies])
 
+  useEffect(() => {
+    if (initial && cart?.defaultCurrency) {
+      setCurrentCurrency(cart.defaultCurrency)
+      setInitial(false)
+    }
+  }, [initial, cart?.defaultCurrency])
+
   const onChangeCurrency = useCallback(
     (currency: Currency | undefined) => {
       if (!currency) return
-      console.log({ aa: cart?.defaultCurrency?.code, bb: currency.code })
-      if (currency.code === cart?.defaultCurrency?.code) return
+      console.log({ aa: currentCurrency?.code, bb: currency.code })
+      if (currency.code === currentCurrency?.code) return
 
       setCurrentCurrency(currency)
+      console.log('herer')
       setDefaultCurrency({
         variables: {
           currency,
         },
       })
     },
-    [cart?.defaultCurrency?.code, setDefaultCurrency],
+    [currentCurrency?.code, setDefaultCurrency],
   )
 
   useEffect(() => {
