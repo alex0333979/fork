@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import CheckoutLayout from '@/components/checkout/checkoutLayout'
 import { useAuth } from '@/lib/auth'
 import {
+  CurrencyType,
   Order,
   ProductCategory,
   ProductSku,
@@ -289,12 +290,12 @@ const ReviewAndPay: React.FC = () => {
         }
 
         // @ts-ignore
-        if(window && window.uetq) {
+        if (window && window.uetq) {
           // @ts-ignore
           window.uetq.push('event', 'purchase', {
-            'revenue_value': order.totalPrice / 100, 
-            'currency': order.currency?.label || 'USD' 
-          });    
+            revenue_value: order.totalPrice / 100,
+            currency: order.currency?.label || CurrencyType.Usd,
+          })
         }
 
         // bing
