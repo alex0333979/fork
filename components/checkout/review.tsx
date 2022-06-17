@@ -159,7 +159,7 @@ const ReviewAndPay: React.FC = () => {
 
   const tax = useMemo(() => {
     if (cart?.billingAddress?.state === 'NY') {
-      return Math.ceil(subTotal * 0.08875)
+      return parseFloat((subTotal * 0.08875).toFixed(2))
     }
     return 0
   }, [cart?.billingAddress?.state, subTotal])
