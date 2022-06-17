@@ -237,6 +237,7 @@ const ReviewAndPay: React.FC = () => {
         if (cart) {
           updateCart(cart)
         }
+
         window.gtag('event', 'conversion', {
           send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
           transaction_id: order.orderNumber,
@@ -286,6 +287,18 @@ const ReviewAndPay: React.FC = () => {
             order_id: order.orderNumber,
           })
         }
+
+        // @ts-ignore
+        if(window && window.uetq) {
+          // @ts-ignore
+          window.uetq.push('event', 'purchase', {
+            'revenue_value': order.totalPrice / 100, 
+            'currency': order.currency?.label || 'USD' 
+          });    
+        }
+
+        // bing
+        // ..
         setCookie(TEMP_ORDER_NUM, order.orderNumber, {
           path: '/',
         })
