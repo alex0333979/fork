@@ -36,16 +36,16 @@ export const useCurrency = () => {
   }, [currencies, fetchCurrencies])
 
   useEffect(() => {
-    if (initial && cart?.defaultCurrency) {
+    if (initial && !currentCurrency && cart?.defaultCurrency) {
       setCurrentCurrency(cart.defaultCurrency)
       setInitial(false)
     }
-  }, [initial, cart?.defaultCurrency])
+  }, [initial, cart?.defaultCurrency, currentCurrency])
 
   const onChangeCurrency = useCallback(
     (currency: Currency | undefined) => {
-      if (!currency) return
-      if (currency.code === currentCurrency?.code) return
+      if (!currency || !currentCurrency) return
+      if (currency.code === currentCurrency.code) return
 
       setCurrentCurrency(currency)
       setDefaultCurrency({
@@ -54,20 +54,8 @@ export const useCurrency = () => {
         },
       })
     },
-    [currentCurrency?.code, setDefaultCurrency],
+    [currentCurrency, setDefaultCurrency],
   )
-
-  useEffect(() => {
-    if (!cart || currentCurrency) return
-
-    const defaultCurrency: Currency = cart.defaultCurrency || {
-      code: CurrencyCode.Us,
-      label: CurrencyType.Usd,
-      symbol: '$',
-    }
-
-    onChangeCurrency(defaultCurrency)
-  }, [cart, currentCurrency, onChangeCurrency])
 
   return {
     currencies: currencies || [],
