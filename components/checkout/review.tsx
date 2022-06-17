@@ -240,7 +240,7 @@ const ReviewAndPay: React.FC = () => {
         window.gtag('event', 'conversion', {
           send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
           transaction_id: order.orderNumber,
-          value: order.totalPrice,
+          value: order.totalPrice / 100,
           currency: currentCurrency.label,
           tax,
           shipping: shippingPrice,
@@ -258,7 +258,7 @@ const ReviewAndPay: React.FC = () => {
 
         window.gtag('event', 'purchase', {
           transaction_id: order.orderNumber,
-          value: order.totalPrice,
+          value: order.totalPrice / 100,
           currency: currentCurrency.label,
           tax,
           shipping: shippingPrice,
@@ -282,7 +282,7 @@ const ReviewAndPay: React.FC = () => {
             discount_amount: 0,
             tax_amount: tax,
             shipping_amount: shippingPrice,
-            total_amount: order.totalPrice,
+            total_amount: order.totalPrice / 100,
             order_id: order.orderNumber,
           })
         }
