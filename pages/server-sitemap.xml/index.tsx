@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { getServerSideSitemap, ISitemapField } from 'next-sitemap'
-import { documents, ExtraPath } from '../../constants'
+import { documents } from '../../constants'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const fields: ISitemapField[] = []
