@@ -18,14 +18,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       priority: 0.7,
       lastmod: new Date().toISOString(),
     })
-    ExtraPath.forEach((p) => {
-      fields.push({
-        loc: `https://passportphotos.com/${countryName}/${documentType}/${p}/`,
-        changefreq: `daily`,
-        priority: 0.7,
-        lastmod: new Date().toISOString(),
-      })
-    })
   })
   return getServerSideSitemap(ctx, fields)
 }
