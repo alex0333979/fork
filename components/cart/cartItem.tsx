@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 import {
   Cart,
@@ -75,7 +76,13 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
       <div className="name">
         {item.productCategory === ProductCategory.Photo ? (
           <div className="img">
-            <img src={item.imageUrl ?? ''} alt="" />
+            <Image
+              src={item.imageUrl ?? ''}
+              width="100%"
+              height="100%"
+              alt=""
+              layout="fill"
+            />
           </div>
         ) : (
           <></>
