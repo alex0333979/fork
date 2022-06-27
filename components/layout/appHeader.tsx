@@ -108,6 +108,13 @@ const AppHeader: React.FC = () => {
                       </a>
                     </Link>
                   </li>
+                  <li>
+                    <Link href={PAGES.blogs}>
+                      <a>
+                        <span>{'Blog'}</span>
+                      </a>
+                    </Link>
+                  </li>
                 </ul>
               </nav>
               <div className="mobile-btn">

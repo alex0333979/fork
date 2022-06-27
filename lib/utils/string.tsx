@@ -11,3 +11,10 @@ export function humanize(str: string): string {
   }
   return frags.join(' ')
 }
+
+export function toSlug(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '')
+}
