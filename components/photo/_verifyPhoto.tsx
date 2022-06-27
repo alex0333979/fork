@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
+import NextImage from 'next/image'
 import classNames from 'classnames'
 import { parse } from 'path'
 import { useCookies } from 'react-cookie'
@@ -160,7 +161,13 @@ const VerifyPhoto: React.FC<Props> = ({
                   })}>
                   <div className="img">
                     <span>
-                      <img src={imageLink} alt="" />
+                      <NextImage
+                        width="100%"
+                        height="100%"
+                        layout="fill"
+                        src={imageLink}
+                        alt=""
+                      />
                     </span>
                     {status === ProcessingStatus.success && onCheckout && (
                       <button

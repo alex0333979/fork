@@ -314,8 +314,11 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                         </svg>
                         <span>
                           {selectedImage && (
-                            <img
+                            <NextImage
                               src={URL.createObjectURL(selectedImage)}
+                              width="100%"
+                              height="100%"
+                              layout="fill"
                               alt="Thumb"
                             />
                           )}

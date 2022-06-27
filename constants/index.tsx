@@ -38,6 +38,7 @@ export const PAGES = {
   terms: '/terms/',
   shippingPolicy: '/shipping-policy/',
   upSell: '/up-sell/',
+  blogs: '/blogs/',
 }
 
 export const SEO = {
@@ -81,6 +82,16 @@ export const SEO = {
                   Convenient, easy and secure passport application completion.`,
     keywords:
       'Online passport applications, digital passport application form, passport application forms',
+  },
+  blogs: {
+    title: 'PassportPhotos - Blogs Page',
+    description: ``,
+    keywords: '',
+  },
+  blog: {
+    title: 'PassportPhotos - Blog Page',
+    description: ``,
+    keywords: '',
   },
   checkout: {
     title: 'PassportPhotos - Checkout',

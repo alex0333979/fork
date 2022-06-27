@@ -15,6 +15,7 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
+      "@/images/*": ["./public/images/*"],
       "@/constants/*": ["./constants/*"],
       "@/components/*": ["./components/*"],
       "@/generated/*": ["./lib/graphql/generated/*"],
