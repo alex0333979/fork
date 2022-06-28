@@ -535,7 +535,7 @@ export const HomepageContent: Record<
     ),
   },
   'print-passport-photos-at-home': {
-    title: 'Print Your Passport Photo at Home, With Our Simple to Tool',
+    title: 'Print Your Passport Photo at Home, With Our Simple Tool',
     description:
       'Use your cell phone and print your passport photo at home. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
