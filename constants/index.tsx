@@ -224,6 +224,11 @@ export const shippingTypes = (
   value: ShippingType
 }[] => [
   {
+    title: 'Standard 3-5 business days',
+    productSku: ProductSku.StandardShipping,
+    value: ShippingType.From3To6,
+  },
+  {
     title:
       currencyCode === CurrencyCode.Gb
         ? 'Priority Service 1-2 business days'
@@ -233,17 +238,14 @@ export const shippingTypes = (
         ? ProductSku.PriorityService
         : ProductSku.ExpeditedShipping,
     value: ShippingType.From1To2,
-  },
-  {
-    title: 'Standard 3-5 business days',
-    productSku: ProductSku.StandardShipping,
-    value: ShippingType.From3To6,
-  },
+  }
+  /*
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
     productSku: ProductSku.Free,
     value: ShippingType.NoShipping,
   },
+  */
 ]
 
 export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
@@ -293,23 +295,25 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'postalCode',
     text: 'Postal Code',
     required: true,
-    placeholder: 'Input Zip Code',
+    placeholder: 'Input Zip Code'
+    /*
     validations: [
       {
         type: ValidationType.IsNumber,
-        message: 'Use correct US Zio code format',
+        message: 'Use correct US Zip code format',
       },
       {
         type: ValidationType.MaxLength,
-        message: 'Use correct US Zio code format',
+        message: 'Use correct US Zip code format',
         value: 5,
       },
       {
         type: ValidationType.MinLength,
-        message: 'Use correct US Zio code format',
+        message: 'Use correct US Zip code format',
         value: 5,
-      },
+      }
     ],
+    */
   },
   state: {
     index: 6,

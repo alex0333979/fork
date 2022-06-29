@@ -80,14 +80,11 @@ const DeliveryMethod: React.FC = () => {
               }
             />
             <span className="box-wrap">
-              <span className="option">{'Print at home'}</span>
+              <span className="option">{'Digital Photo (Only)'}</span>
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
                 <b>
-                  {`Add concierge service for just ${t('currency', {
-                    value: printPrice?.price || 0,
-                    currency: printPrice?.currency.label,
-                  })}!`}{' '}
+                  {'Print & Ship To My Address (Free Delivery)'}
                 </b>
               </span>
             </span>
@@ -113,27 +110,32 @@ const DeliveryMethod: React.FC = () => {
               <div className="name">
                 {shippingType === ShippingType.NoShipping ? (
                   <h3>
-                    <span>{'Print at home option Includes:'}</span>
+                    <span>{'Digital Photo (Only) Includes:'}</span>
                   </h3>
                 ) : (
-                  <h3>{'Included:'}</h3>
+                  <h3>{'Print & Ship Service Includes:'}</h3>
                 )}
               </div>
               <div className="text">
                 {shippingType === ShippingType.NoShipping ? (
                   <>
                     <ul className="checked">
-                      <li>{'Digital Photos in a JPG  file'}</li>
+                      <li>{'High resolution single photo in a JPG file format for official website submission'}</li>
                       <li>
                         {
-                          'Digital Photos File to Print at home (or) send to print at CVS/Walgreens '
+                          'A "ready to print" high resolution template with all your photos for a local printer (store/home)'
+                        }
+                      </li>
+                      <li>
+                        {
+                          'Additional photo expert Review to ensure biometric requirements'
                         }
                       </li>
                     </ul>
                     <ul style={{ paddingTop: 0 }}>
                       <li>
                         {
-                          'Not including printed photos on the required 4”X6” glossy photo paper.'
+                          'Not Including printed photos on a premium glossy photo paper'
                         }
                       </li>
                     </ul>
@@ -142,11 +144,12 @@ const DeliveryMethod: React.FC = () => {
                   <ul className="checked">
                     <li>
                       {
-                        'We will print and ship your documents - including your photos on the required 4”X6” glossy photo paper.'
+                        'We print and ship your photos on a premium glossy photo paper (along with other official documents)'
                       }
                     </li>
-                    <li>{'4 Photos Per Person'}</li>
-                    <li>{'Processing Instructions Guide'}</li>
+                    <li>{'1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)'}</li>
+                    <li>{'Additional photo expert Review to ensure biometric requirements'}</li>
+                    <li>{'Free Delivery'}</li>
                   </ul>
                 )}
               </div>
