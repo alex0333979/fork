@@ -120,7 +120,11 @@ const DeliveryMethod: React.FC = () => {
                 {shippingType === ShippingType.NoShipping ? (
                   <>
                     <ul className="checked">
-                      <li>{'High resolution single photo in a JPG file format for official website submission'}</li>
+                      <li>
+                        {
+                          'High resolution single photo in a JPG file format for official website submission'
+                        }
+                      </li>
                       <li>
                         {
                           'A "ready to print" high resolution template with all your photos for a local printer (store/home)'
@@ -147,8 +151,16 @@ const DeliveryMethod: React.FC = () => {
                         'We print and ship your photos on a premium glossy photo paper (along with other official documents)'
                       }
                     </li>
-                    <li>{'1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)'}</li>
-                    <li>{'Additional photo expert Review to ensure biometric requirements'}</li>
+                    <li>
+                      {
+                      '1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)'
+                      }
+                    </li>
+                    <li>
+                      {
+                        'Additional photo expert Review to ensure biometric requirements'
+                      }
+                    </li>
                     <li>{'Free Delivery'}</li>
                   </ul>
                 )}
