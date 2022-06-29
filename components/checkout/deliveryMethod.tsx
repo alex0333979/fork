@@ -151,7 +151,7 @@ const DeliveryMethod: React.FC = () => {
                     </li>
                     <li>
                       {
-                      '1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)'
+                        '1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)'
                       }
                     </li>
                     <li>
