@@ -41,7 +41,8 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
       if (cart) {
         updateCart(cart)
         showSuccess('This entry is added to cart.')
-        if (document.id === 495 || document.id === 489) {
+        if (document.id === 495) {
+          // document.id === 489
           // only for US passport and UK passport
           setOpen(true)
           // await router.push(PAGES.upSell);
