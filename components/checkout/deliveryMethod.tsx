@@ -84,9 +84,7 @@ const DeliveryMethod: React.FC = () => {
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
                 <b>
-                  {
-                    'Print & Ship To My Address (Free Delivery)'
-                  }
+                  {'Print & Ship To My Address (Free Delivery)'}
                 </b>
               </span>
             </span>
