@@ -571,7 +571,7 @@ const ReviewAndPay: React.FC = () => {
                 </p>
               </div>
               <div className="name">
-                <h3>{'SubTotal'}</h3>
+                <h3>Print & Ship Service Cost</h3>
                 <p>
                   {t('currency', {
                     value: subTotal,

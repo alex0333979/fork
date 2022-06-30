@@ -15,10 +15,12 @@ import AppDatePicker from '@/components/elements/datePicker'
 import { PAGES, SHIPPING_BILLING_FORM } from '../../constants'
 import { formValidation, ValidationError } from '@/lib/utils/formValidation'
 import { useAuth } from '@/lib/auth'
+import { useLocation } from '@/hooks/index'
 
 const ShippingInformation: React.FC = () => {
   const router = useRouter()
   const { cart, updateCart, getMe: me } = useAuth()
+  const { country: defaultCountry } = useLocation()
   const [shippingForm, setShippingForm] = useState<{
     [key: string]: FormField
   }>(SHIPPING_BILLING_FORM)
@@ -27,6 +29,12 @@ const ShippingInformation: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime())
   const [addShippingAddress] = useAddShippingAddressToCartMutation()
+
+  useEffect(() => {
+    if (!country && me) {
+      setCountry(me?.country || 'US')
+    }
+  }, [country, defaultCountry, me])
 
   const initializeForm = useCallback(() => {
     const initialForm = { ...SHIPPING_BILLING_FORM }
@@ -38,10 +46,16 @@ const ShippingInformation: React.FC = () => {
         }
       })
     }
-    setCountry(initialForm?.country?.value || 'US')
 
-    setShippingForm(initialForm)
-  }, [cart?.shippingAddress, me?.shippingAddress])
+    setShippingForm({
+      ...initialForm,
+      country: {
+        ...initialForm.country,
+        defaultValue: me?.country || 'US',
+        value: me?.country || 'US',
+      },
+    })
+  }, [cart?.shippingAddress, me?.country, me?.shippingAddress])
 
   useEffect(() => {
     initializeForm()
