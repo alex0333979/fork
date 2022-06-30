@@ -238,7 +238,7 @@ export const shippingTypes = (
         ? ProductSku.PriorityService
         : ProductSku.ExpeditedShipping,
     value: ShippingType.From1To2,
-  }
+  },
   /*
   {
     title: `No, I'm sure I don't want the concierge service and I will print my photos on my own.`,
@@ -295,7 +295,7 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'postalCode',
     text: 'Postal Code',
     required: true,
-    placeholder: 'Input Zip Code'
+    placeholder: 'Input Zip Code',
     /*
     validations: [
       {
