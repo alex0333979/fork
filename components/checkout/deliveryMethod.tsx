@@ -83,7 +83,7 @@ const DeliveryMethod: React.FC = () => {
               <span className="option">{'Digital Photo (Only)'}</span>
               <span className="slider" />
               <span className="option" data-status={'Recommended'}>
-                <b>{'Print & Ship To My Address (Free Delivery)'}</b>
+                <b>{'Print & Ship To My Address'}</b>
               </span>
             </span>
           </label>
@@ -159,7 +159,6 @@ const DeliveryMethod: React.FC = () => {
                         'Additional photo expert Review to ensure biometric requirements'
                       }
                     </li>
-                    <li>{'Free Delivery'}</li>
                   </ul>
                 )}
               </div>
