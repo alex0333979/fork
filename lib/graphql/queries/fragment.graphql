@@ -40,6 +40,19 @@ fragment ShippingAddress on ShippingAddress {
     phone
 }
 
+fragment OrderItem on OrderItem {
+    id
+    productId
+    name
+    description
+    imageUrl
+    productCategory
+    productSku
+    isComplete
+    createdAt
+    updatedAt
+}
+
 fragment CartItem on CartItem {
     id
     productId
@@ -182,7 +195,7 @@ fragment OrderTrack on OrderTrack {
 fragment Order on Order {
     id
     items {
-        ...CartItem
+        ...OrderItem
     }
     billingAddress {
         ...BillingAddress
