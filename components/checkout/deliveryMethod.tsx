@@ -92,7 +92,7 @@ const DeliveryMethod: React.FC = () => {
           <ol>
             <li>
               <div className="name">
-                <h3>Subtotal</h3>
+                <h3>Print & Ship Service Cost</h3>
                 <p>
                   {'Just '}
                   <b>
