@@ -104,7 +104,12 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       if (
         !(
           countryCode === 'united-kingdom' &&
-          extraPath.includes('take-passport-photos-at-home')
+          (extraPath.includes('take-passport-photos-at-home') ||
+            extraPath.includes('order-passport-photos-online') ||
+            extraPath.includes('take-your-own-passport-photo') ||
+            extraPath.includes('take-your-passport-photo-with-your-phone') ||
+            extraPath.includes('print-passport-photos-at-home') ||
+            extraPath.includes('passport/passport-photo-app'))
         )
       ) {
         return _props
