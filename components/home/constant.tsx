@@ -162,7 +162,7 @@ const faq7: IFAQ = {
       on the photo link (“Download Your Photos For Print”) placed under your
       “Order items” section, then choose “save link as” & save it as a .jpeg.
       <br />
-      <b>Step4:</b> Prest “Ctrl+P” or right click “Print” and your print
+      <b>Step4:</b> Press “Ctrl+P” or right click “Print” and your print
       settings will appear. Make sure to pick 4X6” size paper, with a minimum
       600 dpi for quality. Also, make sure that your remove all border
       spaces/gaps, and print.
@@ -185,7 +185,7 @@ const faq5_print: IFAQ = {
       on the photo link (“Download Your Photos For Print”) placed under your
       “Order items” section, then choose “save link as” & save it as a .jpeg.
       <br />
-      <b>Step4:</b> Prest “Ctrl+P” or right click “Print” and your print
+      <b>Step4:</b> Press “Ctrl+P” or right click “Print” and your print
       settings will appear. Make sure to pick 4”X6” size paper, with a minimum
       600 dpi for quality. Also, make sure that your remove all border
       spaces/gaps, and print.
@@ -295,6 +295,33 @@ const faqUk2: IFAQ = {
   ),
 }
 
+const faqUk2_online: IFAQ = {
+  key: 'faq2',
+  question: 'What are your delivery options? (Home & Digital Delivery)',
+  answer: (
+    <p>
+      <b>Home Delivery:</b>
+      <br />
+      We offer 2 shipping options with our Print & Ship service:
+      <br />
+      - Expedited 1-2 business days
+      <br />- Standard 3-5 business days
+      <br />
+      <br />
+      <b>Digital / Online Delivery:</b>
+      <br />
+      Photos arrive as a .jpeg for your to print on your own. your may also
+      choose to have it sent to a retail store with passport picture printing
+      available. (CVS, Walgreens, etc.)
+    </p>
+  ),
+}
+
+const faqUk2_own: IFAQ = faqUk2_online
+const faqUk2_phone: IFAQ = faqUk2_online
+const faqUk2_print: IFAQ = faqUk2_online
+const faqUk2_app: IFAQ = faqUk2_online
+
 const faqUk3: IFAQ = {
   key: 'faq3',
   question:
@@ -373,7 +400,7 @@ const faqUk4: IFAQ = {
   question: 'How do I print my photo at home using my home printer?',
   answer: (
     <p>
-      First, please be sure to have 4”X6” glossy photo paper at home.
+      First, please be sure to have 10 x 15 cm glossy photo paper at home.
       <br />
       <br />
       <b>Step 1: </b>Open the confirmation email on your PC.
@@ -385,7 +412,7 @@ const faqUk4: IFAQ = {
       “Order items” section (above) {'->'} and then choose “save link as” {'->'}{' '}
       save it as a “.jpg” image file.
       <br />
-      <b>Step 3: </b>Prest “Ctrl+P” or right click “Print” and your print
+      <b>Step 3: </b>Press “Ctrl+P” or right click “Print” and your print
       settings will appear. Make sure to pick 4”X6” size paper, with a minimum
       600 dpi for quality. Also, make sure that you remove all border
       spaces/gaps, and print!
@@ -483,6 +510,32 @@ const faqUk6: IFAQ = {
   ),
 }
 
+const faqUk7_online: IFAQ = {
+  key: 'faq7',
+  question: 'How long does it take to process my order?',
+  answer: (
+    <p>
+      Your “Digital Photos” in a PNG & JPEG files will be emailed to your within
+      minutes. When choosing the “Printed Version” where we will print and ship
+      your photos to you with through our concierge service - the processing the
+      order usually takes place on the same day, if you place your order by 4
+      PM. If not, do not worry. We will process your order within 24 hours,
+      during normal business hours and days (Monday - Friday).
+      <br />
+      <br />
+      Standard shipping is 3-5 business days
+      <br />
+      Expedited shipping is 1-2 business days
+      <br />
+    </p>
+  ),
+}
+
+const faqUk7_own: IFAQ = faqUk7_online
+const faqUk7_phone: IFAQ = faqUk7_online
+const faqUk7_print: IFAQ = faqUk7_online
+const faqUk7_app: IFAQ = faqUk7_online
+
 export const HomepageContent: Record<
   string,
   { title: string; description: any; seo?: string[] }
@@ -496,15 +549,30 @@ export const HomepageContent: Record<
     description:
       'Use your cell phone and order your passport photos online. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
+  'order-passport-photos-online-gb': {
+    title: 'Order Your Passport Photos Online With Our Simple DIgital Tool',
+    description:
+      "Use your cell phone and order your passport photos online. We've made it easy. Our software makes sure it’s verified and your'll receive it ready for your application.",
+  },
   'take-your-own-passport-photo': {
     title: 'Yes! You Can Take Your Own Passport Photo.',
     description:
       'Take your own passport photo with your cell phone. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
+  'take-your-own-passport-photo-gb': {
+    title: 'Yes! You Can Take Your Own Passport Photo With Your Phone',
+    description:
+      "Take your own passport photo with your cell phone. We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
+  },
   'take-your-passport-photo-with-your-phone': {
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description:
       'Take your passport photo with your cell phone, we’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
+  },
+  'take-your-passport-photo-with-your-phone-gb': {
+    title: 'Go Ahead, Take Your Passport Photo With Your Phone',
+    description:
+      "Take your passport photo with your cell phone, We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
   },
   'take-passport-photos-at-home': {
     title: 'Take Your Passport Photo at Home, With Our Simple to Tool',
@@ -539,26 +607,56 @@ export const HomepageContent: Record<
     description:
       'Use your cell phone and print your passport photo at home. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
+  'print-passport-photos-at-home-gb': {
+    title: 'Print Your Passport Photo at Home, With Our Simple Tool',
+    description:
+      "Use your cell phone and print your passport photo at home. We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
+  },
   'passport-photo-app': {
     title: "You Don't Need an App For A Photo That'll Last You 10 Years",
     description:
       "Our web based passport photo verification tool is all you'll need to get the shot you want.  From home or virtually anywhere, take your photo with your cell phone.",
+  },
+  'passport-photo-app-gb': {
+    title: "You Don't Need an App For A Photo That'll Last You 10 Years",
+    description:
+      "Our web based passport photo verification tool is all you'll need to get the shot you want.  From home or virtually anywhere, take your photo with your cell phone. ",
   },
 }
 
 export const Faqs: Record<string, IFAQ[]> = {
   default: [...commonFaqs, faq5, faq6, faq7],
   'order-passport-photos-online': [...commonFaqs, faq5, faq6, faq7],
-  'take-your-own-passport-photo': [...commonFaqs, faq5, faq6, faq7],
-  'take-your-passport-photo-with-your-phone': [...commonFaqs, faq5, faq6, faq7],
-  'take-passport-photos-at-home': [...commonFaqs, faq5, faq6, faq7],
-  'print-passport-photos-at-home': [
-    ...commonFaqs,
-    faq5_print,
-    faq6_print,
-    faq7_print,
+  'order-passport-photos-online-gb': [
+    faqUk1,
+    faqUk2_online,
+    faqUk3,
+    faqUk4,
+    faqUk5,
+    faq6,
+    faqUk7_online,
   ],
-  'passport-photo-app': [...commonFaqs, faq5_print, faq6_print, faq7_print],
+  'take-your-own-passport-photo': [...commonFaqs, faq5, faq6, faq7],
+  'take-your-own-passport-photo-gb': [
+    faqUk1,
+    faqUk2_own,
+    faqUk3,
+    faqUk4,
+    faqUk5,
+    faq6,
+    faqUk7_own,
+  ],
+  'take-your-passport-photo-with-your-phone': [...commonFaqs, faq5, faq6, faq7],
+  'take-your-passport-photo-with-your-phone-gb': [
+    faqUk1,
+    faqUk2_phone,
+    faqUk3,
+    faqUk4,
+    faqUk5,
+    faq6,
+    faqUk7_phone,
+  ],
+  'take-passport-photos-at-home': [...commonFaqs, faq5, faq6, faq7],
   'take-passport-photos-at-home-gb': [
     faqUk1,
     faqUk2,
@@ -566,5 +664,30 @@ export const Faqs: Record<string, IFAQ[]> = {
     faqUk4,
     faqUk5,
     faqUk6,
+  ],
+  'print-passport-photos-at-home': [
+    ...commonFaqs,
+    faq5_print,
+    faq6_print,
+    faq7_print,
+  ],
+  'print-passport-photos-at-home-gb': [
+    faqUk1,
+    faqUk2_print,
+    faqUk3,
+    faqUk4,
+    faqUk5,
+    faq6,
+    faqUk7_print,
+  ],
+  'passport-photo-app': [...commonFaqs, faq5_print, faq6_print, faq7_print],
+  'passport-photo-app-gb': [
+    faqUk1,
+    faqUk2_app,
+    faqUk3,
+    faqUk4,
+    faqUk5,
+    faq6,
+    faqUk7_app,
   ],
 }

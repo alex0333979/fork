@@ -553,7 +553,7 @@ const ReviewAndPay: React.FC = () => {
             </li>
             <li>
               <div className="name">
-                <h3>{'Concierge service'}</h3>
+                <h3>Print & Ship Service</h3>
                 <p>
                   {t('currency', {
                     value: conciergePrice,
@@ -571,7 +571,7 @@ const ReviewAndPay: React.FC = () => {
                 </p>
               </div>
               <div className="name">
-                <h3>Subtotal</h3>
+                <h3>Subtotal Cost</h3>
                 <p>
                   {t('currency', {
                     value: subTotal,

@@ -125,7 +125,7 @@ export type ChecklistItemInput = {
 };
 
 export type ChecklistResponse = {
-  data?: Maybe<Checklist>;
+  data: Array<Checklist>;
   message: Scalars['String'];
   status: Scalars['Boolean'];
 };
