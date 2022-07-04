@@ -53,6 +53,19 @@ fragment CartItem on CartItem {
     updatedAt
 }
 
+fragment OrderItem on OrderItem {
+    id
+    productId
+    name
+    description
+    imageUrl
+    productCategory
+    productSku
+    isComplete
+    createdAt
+    updatedAt
+}
+
 fragment Cart on Cart {
     defaultCurrency {
         ...Currency
@@ -182,7 +195,7 @@ fragment OrderTrack on OrderTrack {
 fragment Order on Order {
     id
     items {
-        ...CartItem
+        ...OrderItem
     }
     billingAddress {
         ...BillingAddress
