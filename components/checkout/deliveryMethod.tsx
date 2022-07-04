@@ -120,12 +120,12 @@ const DeliveryMethod: React.FC = () => {
                     <ul className="checked">
                       <li>
                         {
-                          'High resolution single photo in a JPG file format for official website submission'
+                          'All your photos on a "ready to print" template to be printed in any store or at home'
                         }
                       </li>
                       <li>
                         {
-                          'A "ready to print" high resolution template with all your photos for a local printer (store/home)'
+                          '1 digital photo in a JPG format for offical web submission'
                         }
                       </li>
                       <li>
