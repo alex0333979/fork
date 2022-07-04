@@ -204,7 +204,7 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                       <div className="author">
                         <div className="name">
                           <h3>{review.author.name}</h3>
-                          <p>{review.author.occupation}</p>
+                          {/* <p>{review.author.occupation}</p> */}
                         </div>
                       </div>
                     </div>
