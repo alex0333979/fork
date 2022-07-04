@@ -228,7 +228,7 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                     <div className="item-wrap">
                       <div className="content">{review.content}</div>
                       <div className="author">
-                        { /*<div className="picture">
+                        {/* <div className="picture">
                           <Image
                             src={review.author.picture}
                             priority={true}
@@ -236,10 +236,10 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                             layout={'fill'}
                             alt=""
                           />
-                        </div>*/ }
+                        </div> */}
                         <div className="name">
                           <h3>{review.author.name}</h3>
-                          <p>{review.author.occupation}</p>
+                          {/* <p>{review.author.occupation}</p> */}
                         </div>
                       </div>
                     </div>
