@@ -184,8 +184,13 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
   const onFileChange = useCallback(
     async (e) => {
       if (e.target.files && e.target.files.length > 0) {
-        setSelectedImage(e.target.files[0])
-        await onLoadImage(e.target.files[0])
+        console.log({ type: e.target.files[0].type })
+        if (e.target.files[0].type.match('image/png')) {
+          setSelectedImage(e.target.files[0])
+          await onLoadImage(e.target.files[0])
+        } else {
+          showError('Unsupported file type')
+        }
       }
     },
     [onLoadImage],
