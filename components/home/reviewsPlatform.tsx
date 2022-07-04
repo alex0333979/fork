@@ -14,7 +14,6 @@ const REVIEWS1 = [
      The tips provided, on how to take a good passport photo by your cell phone camera, 
      are extremely useful. Thanks.`,
     author: {
-      picture: '/images/reviews/Issac_Ross.png',
       name: 'Isaac Ross, NY',
       occupation: 'Billing Coordinator',
     },
@@ -24,7 +23,6 @@ const REVIEWS1 = [
     they ensure the quality of the photo will be accepted by the passport authority. 
     They do not stop until they get it right. Awesome service. Can't wait to get my photos!`,
     author: {
-      picture: '/images/reviews/Tia_Webb.png',
       name: 'Tia Webb, NC',
       occupation: 'Regional Manager',
     },
@@ -36,7 +34,6 @@ const REVIEWS1 = [
     The one sent got accepted no problem. 
     I would definitely recommend as probably the only way to pretty much guarantee your photo will be accepted.`,
     author: {
-      picture: '/images/reviews/George_Pearce.png',
       name: 'George Pearce, TX',
       occupation: 'Recruiter',
     },
@@ -46,7 +43,6 @@ const REVIEWS1 = [
     Quality of pics was just what I needed and I got the shot that I wanted to have for 10 years. 
     Would certainly use again.`,
     author: {
-      picture: '/images/reviews/Isabelle_Parry.png',
       name: 'Isabelle Parry, NM',
       occupation: 'IT Director',
     },
@@ -58,7 +54,6 @@ const REVIEWS2 = [
     content: `This site is very user friendly and is very easy to navigate through.
     I had little or no issue using this site. I am very pleased with my results.`,
     author: {
-      picture: '/images/reviews/Alex_Gradner.png',
       name: 'Alex Gardner, NJ',
       occupation: 'Payroll Specialist',
     },
@@ -67,7 +62,6 @@ const REVIEWS2 = [
     content: `If I’m going to need my passport for 10 years, getting the shot I wanted made sense. 
     I got it here.  Thank you.`,
     author: {
-      picture: '/images/reviews/Daniel_Marcolina.png',
       name: 'Daniel Marcolina, NJ',
       occupation: 'Internal Auditor',
     },
@@ -76,7 +70,6 @@ const REVIEWS2 = [
     content: `Very good, it was convenient and easy way to take passport pictures, 
     it  beats going to the drug store and waiting for someone to help.`,
     author: {
-      picture: '/images/reviews/Ace_Jonas.png',
       name: 'Ace Jonas, NY',
       occupation: 'Regional Group Sales',
     },
@@ -87,7 +80,6 @@ const REVIEWS2 = [
     I am also very impressed with the quick processing time, my order shipped the same day as I placed it! 
     The pricing is perfect and I will definitely recommend it to my friends.`,
     author: {
-      picture: '/images/reviews/Ariah_Clay.png',
       name: 'Ariah Clay, CA',
       occupation: 'Financial Consultant',
     },
