@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/bundle'
@@ -125,15 +124,6 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                         <p suppressHydrationWarning>{review.content}</p>
                       </div>
                       <div className="author">
-                        {/* <div className="picture">
-                          <Image
-                            src={review.author.picture}
-                            priority={true}
-                            placeholder="empty"
-                            layout={'fill'}
-                            alt=""
-                          />
-                        </div> */}
                         <div className="name">
                           <h3>{review.author.name}</h3>
                           {/* <p>{review.author.occupation}</p> */}
@@ -169,15 +159,6 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                         {review.content}
                       </div>
                       <div className="author">
-                        {/* <div className="picture">
-                          <Image
-                            src={review.author.picture}
-                            priority={true}
-                            placeholder="empty"
-                            layout={'fill'}
-                            alt=""
-                          />
-                        </div> */}
                         <div className="name">
                           <h3>{review.author.name}</h3>
                           {/* <p>{review.author.occupation}</p> */}
@@ -221,15 +202,6 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
                     <div className="item-wrap">
                       <div className="content">{review.content}</div>
                       <div className="author">
-                        { /*<div className="picture">
-                          <Image
-                            src={review.author.picture}
-                            priority={true}
-                            placeholder="empty"
-                            layout={'fill'}
-                            alt=""
-                          />
-                        </div>*/ }
                         <div className="name">
                           <h3>{review.author.name}</h3>
                           <p>{review.author.occupation}</p>
