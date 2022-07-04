@@ -99,8 +99,8 @@ export type CheckPhotoResponse = {
 
 export type Checklist = {
   confirmed?: Maybe<Scalars['Boolean']>;
+  id: Scalars['String'];
   items: Array<ChecklistItem>;
-  orderItemId: Scalars['String'];
   photoUrl: Scalars['String'];
   refusalReason?: Maybe<Scalars['String']>;
   sellerName?: Maybe<Scalars['String']>;
@@ -108,8 +108,8 @@ export type Checklist = {
 
 export type ChecklistInput = {
   confirmed: Scalars['Boolean'];
+  id: Scalars['String'];
   items: Array<ChecklistItemInput>;
-  orderItemId: Scalars['String'];
   refusalReason?: Maybe<Scalars['String']>;
   sellerName: Scalars['String'];
 };
@@ -125,7 +125,7 @@ export type ChecklistItemInput = {
 };
 
 export type ChecklistResponse = {
-  data?: Maybe<Checklist>;
+  data: Array<Checklist>;
   message: Scalars['String'];
   status: Scalars['Boolean'];
 };
@@ -930,9 +930,9 @@ export type BillingAddressFragment = { __typename: 'BillingAddress', address1: s
 
 export type ShippingAddressFragment = { __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string };
 
-export type CartItemFragment = { __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> };
-
 export type OrderItemFragment = { __typename: 'OrderItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> };
+
+export type CartItemFragment = { __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> };
 
 export type CartFragment = { __typename: 'Cart', promoCode?: Maybe<string>, shippingType: ShippingType, defaultCurrency?: Maybe<{ __typename: 'Currency', label: CurrencyType, code: CurrencyCode, symbol: string }>, billingAddress?: Maybe<{ __typename: 'BillingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, shippingAddress?: Maybe<{ __typename: 'ShippingAddress', address1: string, address2?: Maybe<string>, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: Maybe<string>, email: string, phone: string }>, items?: Maybe<Array<{ __typename: 'CartItem', id: string, productId: string, name: string, description: string, imageUrl?: Maybe<string>, productCategory?: Maybe<ProductCategory>, productSku?: Maybe<ProductSku>, isComplete: boolean, createdAt?: Maybe<any>, updatedAt?: Maybe<any> }>> };
 
