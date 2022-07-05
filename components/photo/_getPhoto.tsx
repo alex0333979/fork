@@ -10,6 +10,7 @@ import { IFAQ } from '@/components/home/types'
 import TakePhotoModal from '@/components/elements/takePhotoModal'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { SignedUrl, useGetSignedUrlLazyQuery } from '@/generated/graphql'
+import { useMediaQuery } from '@material-ui/core'
 import { PHOTO_STEP } from '../../constants'
 import PhotoHelper from './components/photoHelperVideoModal'
 
@@ -95,6 +96,8 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
   const [type, setType] = useState<string>(FACING_MODES.USER)
   const [openStepInfo, setOpenStepInfo] = useState<boolean>(false)
   const [imageResolution, setImageResolution] = useState<string>('')
+
+  const matches = useMediaQuery('only screen and (max-width: 1024px)')
 
   const [loading, setLoading] = useState<boolean>(false)
   const [openCamera, setOpenCamera] = useState<boolean>(false)
@@ -376,26 +379,28 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                         </span>
                       </label>
 
-                      <label>
-                        <input
-                          type="radio"
-                          name="method"
-                          checked={type === FACING_MODES.ENVIRONMENT}
-                          hidden
-                          onChange={() => setType(FACING_MODES.ENVIRONMENT)}
-                        />
-                        <span className="option-wrap">
-                          <span className="bullet" />
-                          <span className="img">
-                            <NextImage
-                              src="/images/steps/step-01-02-v2.png"
-                              layout={'fill'}
-                              alt=""
-                            />
+                      {matches && (
+                        <label>
+                          <input
+                            type="radio"
+                            name="method"
+                            checked={type === FACING_MODES.ENVIRONMENT}
+                            hidden
+                            onChange={() => setType(FACING_MODES.ENVIRONMENT)}
+                          />
+                          <span className="option-wrap">
+                            <span className="bullet" />
+                            <span className="img">
+                              <NextImage
+                                src="/images/steps/step-01-02-v2.png"
+                                layout={'fill'}
+                                alt=""
+                              />
+                            </span>
+                            <span className="name">{`Someone’s taking my photo`}</span>
                           </span>
-                          <span className="name">{`Someone’s taking my photo`}</span>
-                        </span>
-                      </label>
+                        </label>
+                      )}
                     </div>
                     <div className="btn-wrap">
                       <div className="action-btn mobile-column">

@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+  createContext,
+} from 'react'
 
 import { useAuth } from '@/lib/auth'
 import {
@@ -9,7 +15,21 @@ import {
   useProductsLazyQuery,
 } from '@/generated/graphql'
 
-export const useProducts = () => {
+interface IProductsContext {
+  products: Product[]
+  loading: boolean
+  getProduct: (sku: Maybe<ProductSku> | undefined) => Product | undefined
+}
+
+export const ProductsContext = createContext<IProductsContext>({
+  products: [],
+  loading: false,
+  getProduct: () => undefined,
+})
+
+export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const { cart } = useAuth()
 
   const [products, setProducts] = useState<Product[]>([])
@@ -34,6 +54,16 @@ export const useProducts = () => {
       products.find((p) => p.sku === sku),
     [products],
   )
+
+  return (
+    <ProductsContext.Provider value={{ products, loading, getProduct }}>
+      {children}
+    </ProductsContext.Provider>
+  )
+}
+
+export const useProducts = () => {
+  const { products, loading, getProduct } = useContext(ProductsContext)
 
   return { products, loading, getProduct }
 }

@@ -10,7 +10,7 @@ import {
   PDocument,
   useDocumentsByCountryLazyQuery,
 } from '@/generated/graphql'
-import { useLocation } from '@/hooks/index'
+import { useLocation, useCurrency } from '@/hooks/index'
 import { iCountry } from '@/components/elements/countrySelector'
 import {
   PAGES,
@@ -45,6 +45,7 @@ const MainIntro = (
   ref: any,
 ) => {
   const { country: currentCountry, onChangeCountry } = useLocation()
+  const { onChangeCurrencyByCountry } = useCurrency()
   const [country, setCountry] = useState<iCountry | undefined>(
     pCountry
       ? {
@@ -66,6 +67,16 @@ const MainIntro = (
 
   const [document, setDocument] = useState<Country | undefined>(
     pDoc ?? undefined,
+  )
+
+  const onCountryChanged = useCallback(
+    (c: iCountry) => {
+      if (country?.value === c.value) return
+      setCountry(c)
+      onChangeCountry(c)
+      onChangeCurrencyByCountry(c.value)
+    },
+    [country, onChangeCountry, onChangeCurrencyByCountry],
   )
 
   useEffect(() => {
@@ -91,12 +102,12 @@ const MainIntro = (
 
   useEffect(() => {
     if (pCountry?.country && pCountry.countryCode) {
-      onChangeCountry({
+      onCountryChanged({
         label: pCountry.country,
         value: pCountry.countryCode,
       })
     }
-  }, [onChangeCountry, pCountry?.country, pCountry?.countryCode])
+  }, [onCountryChanged, pCountry?.country, pCountry?.countryCode])
 
   const goTakePhoto = useCallback(
     async (d: Country | undefined) => {
@@ -111,11 +122,10 @@ const MainIntro = (
 
   const onSelectedCountry = useCallback(
     (country: iCountry) => {
-      setCountry(country)
-      onChangeCountry(country)
+      onCountryChanged(country)
       setDocument(undefined)
     },
-    [onChangeCountry],
+    [onCountryChanged],
   )
 
   const countryName = useMemo(() => {
