@@ -17,6 +17,9 @@ import GoogledAnalyticsScript from '@/components/scripts/googleAnalytics'
 import FacebookPixelScript from '@/components/scripts/fbPixel'
 import { hotjar } from 'react-hotjar'
 import i18n from '../i18n'
+import { LocationProvider } from '@/hooks/useLocation'
+import { CurrencyProvider } from '@/hooks/useCurrency'
+import { ProductsProvider } from '@/hooks/useProducts'
 import '../styles/index.scss'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
@@ -39,17 +42,23 @@ function MyApp({ Component, pageProps }: AppProps) {
         <I18nextProvider i18n={i18n}>
           <CookiesProvider>
             <AuthProvider client={apolloClient}>
-              <Head>
-                <title>{'Passport Photos'}</title>
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-                />
-              </Head>
-              <SignIn />
-              <SignUp />
-              <Component {...pageProps} />
-              <ToastContainer />
+              <LocationProvider>
+                <CurrencyProvider>
+                  <ProductsProvider>
+                    <Head>
+                      <title>{'Passport Photos'}</title>
+                      <meta
+                        name="viewport"
+                        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+                      />
+                    </Head>
+                    <SignIn />
+                    <SignUp />
+                    <Component {...pageProps} />
+                    <ToastContainer />
+                  </ProductsProvider>
+                </CurrencyProvider>
+              </LocationProvider>
             </AuthProvider>
           </CookiesProvider>
         </I18nextProvider>

@@ -76,9 +76,11 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
         console.log(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
         )
-        showError(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-        )
+        if (message !== 'Unauthorized') {
+          showError(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+          )
+        }
       })
     }
 
