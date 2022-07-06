@@ -550,9 +550,9 @@ export const HomepageContent: Record<
       'Use your cell phone and order your passport photos online. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
   'order-passport-photos-online-gb': {
-    title: 'Order Your Passport Photos Online With Our Simple DIgital Tool',
+    title: 'Order Your Passport Photos Online With Our Simple Digital Tool',
     description:
-      "Use your cell phone and order your passport photos online. We've made it easy. Our software makes sure it’s verified and your'll receive it ready for your application.",
+      "Use your cell phone and order your passport photos online. We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
   'take-your-own-passport-photo': {
     title: 'Yes! You Can Take Your Own Passport Photo.',
@@ -562,7 +562,7 @@ export const HomepageContent: Record<
   'take-your-own-passport-photo-gb': {
     title: 'Yes! You Can Take Your Own Passport Photo With Your Phone',
     description:
-      "Take your own passport photo with your cell phone. We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
+      "Take your own passport photo with your cell phone. We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
   'take-your-passport-photo-with-your-phone': {
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
@@ -572,7 +572,7 @@ export const HomepageContent: Record<
   'take-your-passport-photo-with-your-phone-gb': {
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description:
-      "Take your passport photo with your cell phone, We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
+      "Take your passport photo with your cell phone, We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
   'take-passport-photos-at-home': {
     title: 'Take Your Passport Photo at Home, With Our Simple to Tool',
@@ -610,7 +610,7 @@ export const HomepageContent: Record<
   'print-passport-photos-at-home-gb': {
     title: 'Print Your Passport Photo at Home, With Our Simple Tool',
     description:
-      "Use your cell phone and print your passport photo at home. We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
+      "Use your cell phone and print your passport photo at home. We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
   'passport-photo-app': {
     title: "You Don't Need an App For A Photo That'll Last You 10 Years",
