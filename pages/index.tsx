@@ -109,7 +109,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
             extraPath.includes('take-your-own-passport-photo') ||
             extraPath.includes('take-your-passport-photo-with-your-phone') ||
             extraPath.includes('print-passport-photos-at-home') ||
-            extraPath.includes('passport/passport-photo-app'))
+            extraPath.includes('passport-photo-app'))
         )
       ) {
         return _props
