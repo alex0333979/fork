@@ -9,7 +9,10 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['passport-photos-ai.s3.us-east-1.amazonaws.com'],
+    domains: [
+      'passport-photos-ai.s3.us-east-1.amazonaws.com',
+      'biometric-backend.s3.eu-central-1.amazonaws.com',
+    ],
   },
   env: {
     API_BASE_URL: process.env.API_BASE_URL,

@@ -162,6 +162,7 @@ const VerifyPhoto: React.FC<Props> = ({
                   <div className="img">
                     <span>
                       <NextImage
+                        key={imageLink}
                         width="100%"
                         height="100%"
                         layout="fill"
