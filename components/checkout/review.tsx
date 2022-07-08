@@ -81,14 +81,14 @@ const ReviewAndPay: React.FC = () => {
   const elements = useElements()
 
   const shippingPrice = useMemo(() => {
-    const productSku = shippingTypes(currentCurrency.code).find(
+    const productSku = shippingTypes(country?.value).find(
       (s) => s.value === cart?.shippingType,
     )?.productSku
 
     if (!productSku) return 0
 
     return getProduct(productSku)?.price || 0
-  }, [cart?.shippingType, currentCurrency.code, getProduct])
+  }, [cart?.shippingType, country?.value, getProduct])
 
   const aPrice = useMemo(
     () =>

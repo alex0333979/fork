@@ -59,7 +59,6 @@ export const CurrencyProvider: React.FC<{
   const onChangeCurrencyByCountry = useCallback(
     (countryCode: Maybe<string> | undefined) => {
       if (!countryCode) return
-      console.log('hererewrwerwe', countryCode)
       let _currency: Currency = {
         label: CurrencyType.Usd,
         code: CurrencyCode.Us,
