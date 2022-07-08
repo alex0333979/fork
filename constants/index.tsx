@@ -226,7 +226,7 @@ export const shippingTypes = (
     title:
       countryCode === 'GB'
         ? 'Standard Shipping (2-3 Working Days)'
-        : 'Standard 3-5 business days',
+        : 'Standard Shipping (2-3 Working Days)',
     productSku: ProductSku.StandardShipping,
     value: ShippingType.From3To6,
   },
