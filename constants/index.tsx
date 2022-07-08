@@ -6,7 +6,6 @@ import {
   ShippingType,
   ValidationType,
   ProductSku,
-  CurrencyCode,
 } from '@/generated/graphql'
 
 export const TOKEN_EXPIRE_IN = 31556926 // seconds
@@ -217,24 +216,27 @@ export const PHOTO_STEP = {
 }
 
 export const shippingTypes = (
-  currencyCode: CurrencyCode = CurrencyCode.Us,
+  countryCode = 'US',
 ): {
   title: string
   productSku: ProductSku
   value: ShippingType
 }[] => [
   {
-    title: 'Standard 3-5 business days',
+    title:
+      countryCode === 'GB'
+        ? 'Standard Shipping (2-3 Working Days)'
+        : 'Standard 3-5 business days',
     productSku: ProductSku.StandardShipping,
     value: ShippingType.From3To6,
   },
   {
     title:
-      currencyCode === CurrencyCode.Gb
-        ? 'Priority Service 1-2 business days'
+      countryCode === 'GB'
+        ? 'Priority Service (Next Working Day)'
         : 'Expedited 1-2 business days',
     productSku:
-      currencyCode === CurrencyCode.Gb
+      countryCode === 'GB'
         ? ProductSku.PriorityService
         : ProductSku.ExpeditedShipping,
     value: ShippingType.From1To2,
