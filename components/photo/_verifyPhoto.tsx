@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { Bars } from 'react-loading-icons'
 import { useRouter, NextRouter } from 'next/router'
 import NextImage from 'next/image'
 import classNames from 'classnames'
@@ -160,15 +161,29 @@ const VerifyPhoto: React.FC<Props> = ({
                     failed: status === ProcessingStatus.failed,
                   })}>
                   <div className="img">
-                    <span>
-                      <NextImage
-                        key={imageLink}
-                        width="100%"
-                        height="100%"
-                        layout="fill"
-                        src={imageLink}
-                        alt=""
-                      />
+                    <span
+                      className={classNames('verified-image-wrapper', {
+                        processing:
+                          !!imageUrl && status !== ProcessingStatus.success,
+                      })}>
+                      {!!imageUrl && status !== ProcessingStatus.success ? (
+                        <div className="image-loading-wrapper">
+                          <Bars
+                            height={25}
+                            fill={'#0080FF'}
+                            stroke={'transparent'}
+                          />
+                        </div>
+                      ) : (
+                        <NextImage
+                          key={imageLink}
+                          width="100%"
+                          height="100%"
+                          layout="fill"
+                          src={imageLink}
+                          alt=""
+                        />
+                      )}
                     </span>
                     {status === ProcessingStatus.success && onCheckout && (
                       <button

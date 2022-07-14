@@ -89,6 +89,33 @@ const Terms: React.FC = () => (
             in this Site or the others including in regards to any of our
             content, copyrights, trademarks or other intellectual property
             rights owned or displayed by us on such sites.
+            <br />
+            <br />
+            <b>5. REFUND POLICY.</b> At PassportPhotos.com we pride ourselves on
+            our superior biometric technology. We want to make sure you are
+            satisfied with your order and our service. As a digital product, we
+            must address our policies with care.
+            <br />
+            <br />
+            We have addressed this in 2 ways:
+            <br />
+            <br />
+            <ol>
+              <li style={{ paddingLeft: '25px' }}>
+                1. If your photo has been reviewed by our team, and deemed
+                unviable, you will receive a credit for the full amount of the
+                photo total cost. You will then have the opportunity to take the
+                photo again.
+              </li>
+              <br />
+              <li style={{ paddingLeft: '25px' }}>
+                2. If your photo has been processed digitally by email or by our
+                Print and Ship service, unfortunately, no refund is available
+                unless your photo is rejected by the relevant authority. In that
+                case and upon reception of proof of rejection, our team will
+                re-process the photo at no cost and issue a refund.
+              </li>
+            </ol>
           </p>
         </div>
       </div>

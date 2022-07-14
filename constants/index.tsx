@@ -431,6 +431,8 @@ export const ExtraPath = [
   'take-passport-photos-at-home',
   'print-passport-photos-at-home',
   'passport-photo-app',
+  'print-my-passport-photo-at-cvs',
+  'print-my-passport-photo-at-walgreens',
 ]
 
 export * from './countries'
