@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -30,6 +30,7 @@ interface MainIntroProps {
   country: Country | null
   document: PDocument | null
   title?: string
+  buttonTitle?: string
   description?: any
 }
 
@@ -41,6 +42,7 @@ const MainIntro = (
     document: pDoc,
     title,
     description,
+    buttonTitle,
   }: MainIntroProps,
   ref: any,
 ) => {
@@ -128,14 +130,6 @@ const MainIntro = (
     [onCountryChanged],
   )
 
-  const countryName = useMemo(() => {
-    if (!pCountry) return ''
-    if (pCountry.countryCode?.toLowerCase() === 'us') return 'US'
-    if (pCountry.countryCode?.toLowerCase() === 'gb') return 'UK'
-
-    return pCountry.country || ''
-  }, [pCountry])
-
   return (
     <>
       <div className="main-intro" ref={ref}>
@@ -170,7 +164,7 @@ const MainIntro = (
                       <a
                         className="main-btn big"
                         onClick={() => goTakePhoto(document)}>
-                        {`Take Your ${countryName} ${pDoc.type} Photo Now`}
+                        {buttonTitle}
                       </a>
                       <div className="choose-text">
                         <a onClick={() => setOpen(true)}>

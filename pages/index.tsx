@@ -23,6 +23,7 @@ export interface HomePageProps {
   document: PDocument | null
   extraPath: string | null
   title?: string
+  buttonTitle?: string
   description?: any
   errorCode?: number
 }
@@ -33,10 +34,20 @@ const HomePage: NextPage<HomePageProps> = ({
   extraPath,
   errorCode = 200,
 }) => {
-  const { title, description, seo } = useMemo(() => {
+  const { title, description, seo, buttonTitle } = useMemo(() => {
+    let countryName = ''
+    if (country?.countryCode?.toLowerCase() === 'us') {
+      countryName = 'US'
+    } else if (country?.countryCode?.toLowerCase() === 'gb') {
+      countryName = 'UK'
+    }
+
     let _title = HomepageContent.default.title
     let _desc = HomepageContent.default.description
     let _seo = HomepageContent.default.seo || []
+    let _buttonTitle = `Take Your ${countryName} ${
+      document?.type || ''
+    } Photo Now`
     if (extraPath && ExtraPath.includes(extraPath)) {
       if (country?.countryCode === 'US') {
         _title = HomepageContent[extraPath].title
@@ -55,7 +66,22 @@ const HomePage: NextPage<HomePageProps> = ({
       }
     }
 
-    return { title: _title, description: _desc, seo: _seo }
+    if (
+      extraPath &&
+      [
+        'print-my-passport-photo-at-cvs',
+        'print-my-passport-photo-at-walgreens',
+      ].includes(extraPath)
+    ) {
+      _buttonTitle = 'Get Started'
+    }
+
+    return {
+      title: _title,
+      description: _desc,
+      seo: _seo,
+      buttonTitle: _buttonTitle,
+    }
   }, [country, document, extraPath])
 
   if (errorCode === 404) {
@@ -74,6 +100,7 @@ const HomePage: NextPage<HomePageProps> = ({
           extraPath={extraPath}
           title={title}
           description={description}
+          buttonTitle={buttonTitle}
         />
       </AppLayout>
     </>

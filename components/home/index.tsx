@@ -15,6 +15,7 @@ const Home: React.FC<HomePageProps> = ({
   document,
   title,
   description,
+  buttonTitle,
   extraPath,
 }) => {
   const target = React.useRef<HTMLDivElement>(null)
@@ -47,6 +48,7 @@ const Home: React.FC<HomePageProps> = ({
         document={document}
         title={title}
         description={description}
+        buttonTitle={buttonTitle}
       />
       <WorkingProcess
         ref={ref}

@@ -1,67 +1,67 @@
 /* eslint-disable max-len */
 import { IFAQ } from './types'
 
-const commonFaqs: IFAQ[] = [
-  {
-    key: 'faq2',
-    question: 'What are your delivery options? (Home & Digital Delivery)',
-    answer: (
-      <p>
-        Home Delivery:
-        <br />
-        We offer 2 shipping options with our concierge service:
-        <br />
-        - Expedited 1-2 business days
-        <br />
-        - Standard 3-5 business days
-        <br />
-        <br />
-        Digital / Online Delivery:
-        <br />
-        Photos arrive as a .jpeg for you to print on your own. You may also
-        choose to have it sent to a retail store with passport picture printing
-        available. (CVS, Walgreens, etc.)
-      </p>
-    ),
-  },
-  {
-    key: 'faq3',
-    question: 'What is your concierge service?',
-    answer: (
-      <p>
-        - We will print and ship your documents
-        <br />
-        - On required glossy photo paper.
-        <br />
-        - 2 to 6 Photos Per Person
-        <br />
-        - Processing Instruction Guide
-        <br />
-      </p>
-    ),
-  },
-  {
-    key: 'faq4',
-    question: 'How long does it take to process my order?',
-    answer: (
-      <p>
-        Your “Digital Photos” in a PNG & JPEG files will be emailed to your
-        within minutes. When choosing the “Printed Version” where we will print
-        and ship your photos to you with through our concierge service - the
-        processing the order usually takes place on the same day, if you place
-        your order by 4 PM. If not, do not worry. We will process your order
-        within 24 hours, during normal business hours and days (Monday -
-        Friday).
-        <br />
-        <br />
-        Standard shipping is 3-5 business days
-        <br />
-        Expedited shipping is 1-2 business days
-        <br />
-      </p>
-    ),
-  },
-]
+const faq2: IFAQ = {
+  key: 'faq2',
+  question: 'What are your delivery options? (Home & Digital Delivery)',
+  answer: (
+    <p>
+      Home Delivery:
+      <br />
+      We offer 2 shipping options with our concierge service:
+      <br />
+      - Expedited 1-2 business days
+      <br />
+      - Standard 3-5 business days
+      <br />
+      <br />
+      Digital / Online Delivery:
+      <br />
+      Photos arrive as a .jpeg for you to print on your own. You may also choose
+      to have it sent to a retail store with passport picture printing
+      available. (CVS, Walgreens, etc.)
+    </p>
+  ),
+}
+
+const faq3 = {
+  key: 'faq3',
+  question: 'What is your concierge service?',
+  answer: (
+    <p>
+      - We will print and ship your documents
+      <br />
+      - On required glossy photo paper.
+      <br />
+      - 2 to 6 Photos Per Person
+      <br />
+      - Processing Instruction Guide
+      <br />
+    </p>
+  ),
+}
+
+const faq4 = {
+  key: 'faq4',
+  question: 'How long does it take to process my order?',
+  answer: (
+    <p>
+      Your “Digital Photos” in a PNG & JPEG files will be emailed to your within
+      minutes. When choosing the “Printed Version” where we will print and ship
+      your photos to you with through our concierge service - the processing the
+      order usually takes place on the same day, if you place your order by 4
+      PM. If not, do not worry. We will process your order within 24 hours,
+      during normal business hours and days (Monday - Friday).
+      <br />
+      <br />
+      Standard shipping is 3-5 business days
+      <br />
+      Expedited shipping is 1-2 business days
+      <br />
+    </p>
+  ),
+}
+const commonFaqs: IFAQ[] = [faq2, faq3, faq4]
 
 // eslint-disable-next-line no-unused-vars
 /*
@@ -531,6 +531,83 @@ const faqUk7_online: IFAQ = {
   ),
 }
 
+const faq1_cvs: IFAQ = {
+  key: 'faq1',
+  question: 'How do I take my digital photo',
+  answer: (
+    <p>
+      <b>Use a plain light-colored background</b>
+      <br />
+      - No background textures or patters
+      <br />
+      - No objects behind you
+      <br />
+      - Our software will create an even background
+      <br />
+      <br />
+      <b>Even lighting and no shadows</b>
+      <br />
+      - Use balanced lighting and avoid shadows on your face or within your
+      surrounding
+      <br />
+      - It&apos;s best to use natural sunlight. For examble, facing a window
+      <br />
+      <br />
+      <b>Stand in the right position</b>
+      <br />
+      - Stand 1.5 feet (0.5 meters) away from the background (this reduces
+      shadows)
+      <br />
+      - Alighn yourself with the overlay
+      <br />
+      - No need to crop your photo, or software will line you up perfectly
+      <br />
+      <br />
+      <b>Plain expressionand face in full view</b>
+      <br />
+      - When possible, use the front facing camera. You may need to ask a friend
+      to help.
+      <br />
+      - Don&apos;t smile or frown, keep your eyes open and look into the camera
+      <br />
+      <br />
+      <b>No Headwear</b>
+      <br />
+      - Unless it&apos;s for religious or medical reasons
+      <br />
+      <br />
+      <b>Eyes fully visible</b>
+      <br />
+      - Be sure to have your hair pulled back away from the full view of your
+      face
+      <br />- Glasses are not permitted
+    </p>
+  ),
+}
+
+const faq1_walgreens: IFAQ = faq1_cvs
+
+const faq3_cvs: IFAQ = {
+  key: 'faq3',
+  question: 'What is your Print & Ship service?',
+  answer: (
+    <p>
+      - We will print and ship your documents
+      <br />
+      - On required glossy photo paper.
+      <br />
+      - 2 to 6 Photos Per Person
+      <br />
+      - Processing Instruction Guide
+      <br />
+      <br />
+      *Additional Fee Applies
+    </p>
+  ),
+}
+
+const faq3_walgreens: IFAQ = faq3_cvs
+
 const faqUk7_own: IFAQ = faqUk7_online
 const faqUk7_phone: IFAQ = faqUk7_online
 const faqUk7_print: IFAQ = faqUk7_online
@@ -622,6 +699,30 @@ export const HomepageContent: Record<
     description:
       "Our web based passport photo verification tool is all you'll need to get the shot you want.  From home or virtually anywhere, take your photo with your cell phone. ",
   },
+  'print-my-passport-photo-at-cvs': {
+    title: 'Take Your Own Shot and Have it Printed at CVS',
+    description:
+      "Take the perfect passport photo. When you're satisfied, send it over to CVS for printing. We've made it easy. Our software makes sure it’s verified and you'll receive it ready for your application.",
+    seo: [
+      'print my passport photo at cvs',
+      'order passport photos at cvs',
+      'best passport photo app to send to cvs',
+      'cvs passport photos',
+      'order passport photos online from cvs',
+    ],
+  },
+  'print-my-passport-photo-at-walgreens': {
+    title: 'Take Your Own Shot and Have it Printed at Walgreens',
+    description:
+      "Take the perfect passport photo. When you're satisfied,  send it over to Walgreens for printing. We've made it easy. Our software makes sure it’s verified and you'll receive it ready for your application.",
+    seo: [
+      'print my passport photo at walgreens ',
+      'order passport photos at walgreens ',
+      'best passport photo app to send to walgreens',
+      'walgreens passport photos',
+      'order passport photos online from walgreens',
+    ],
+  },
 }
 
 export const Faqs: Record<string, IFAQ[]> = {
@@ -689,5 +790,23 @@ export const Faqs: Record<string, IFAQ[]> = {
     faqUk5,
     faq6,
     faqUk7_app,
+  ],
+  'print-my-passport-photo-at-cvs': [
+    faq1_cvs,
+    faq2,
+    faq3_cvs,
+    faq4,
+    faq5,
+    faq6,
+    faq7,
+  ],
+  'print-my-passport-photo-at-walgreens': [
+    faq1_walgreens,
+    faq2,
+    faq3_walgreens,
+    faq4,
+    faq5,
+    faq6,
+    faq7,
   ],
 }
