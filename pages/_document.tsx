@@ -11,7 +11,6 @@ import React from 'react'
 
 import WoopraScript from '@/components/scripts/woopra'
 import MicrosoftUETScript from '@/components/scripts/msUet'
-import ZendeskScript from '@/components/scripts/zendesk'
 import OribiAlternativeScript from '@/components/scripts/oribiAlternative'
 
 class MyDocument extends Document {
@@ -140,7 +139,6 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
           <WoopraScript />
-          <ZendeskScript />
         </body>
       </Html>
     )

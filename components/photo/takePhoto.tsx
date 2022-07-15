@@ -45,12 +45,10 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
         }
         formStep.fields[index].value = a[key]
       })
-      setLoading(true)
       const { data } = await submitEntry({
         variables: { entryId: entry?.id, formId: form.id, formStep },
         fetchPolicy: 'no-cache',
       })
-      setLoading(false)
       const result = data?.SubmitEntry.data
       if (result) {
         if (entry?.id) {
@@ -64,6 +62,7 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
         await router.push(
           `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${type}&documentId=${documentId}`,
         )
+        setLoading(false)
       }
     },
     [

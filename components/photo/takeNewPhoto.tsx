@@ -24,7 +24,6 @@ const TakeNewPhoto: React.FC = () => {
       type: string,
       setLoading: (l: boolean) => void,
     ) => {
-      setLoading(true)
       const { data } = await updateEntryPhoto({
         variables: {
           imageUrl: signedUrl.url,
@@ -32,7 +31,6 @@ const TakeNewPhoto: React.FC = () => {
         },
         fetchPolicy: 'no-cache',
       })
-      setLoading(false)
       const result = data?.UpdateEntryPhoto.data
 
       setCookie(TEMP_IMG_DIM, imgResolution, {
@@ -41,6 +39,7 @@ const TakeNewPhoto: React.FC = () => {
       await router.push(
         `${PAGES.photo.editPhoto}?entryId=${result?.id || ''}&type=${type}`,
       )
+      setLoading(false)
     },
     [cookie, router, setCookie, updateEntryPhoto],
   )
