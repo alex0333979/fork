@@ -164,9 +164,9 @@ const VerifyPhoto: React.FC<Props> = ({
                     <span
                       className={classNames('verified-image-wrapper', {
                         processing:
-                          !!imageUrl && status !== ProcessingStatus.success,
+                          !!imageUrl && status === ProcessingStatus.loading,
                       })}>
-                      {!!imageUrl && status !== ProcessingStatus.success ? (
+                      {!!imageUrl && status === ProcessingStatus.loading ? (
                         <div className="image-loading-wrapper">
                           <Bars
                             height={25}
