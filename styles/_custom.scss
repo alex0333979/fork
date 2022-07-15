@@ -33,10 +33,8 @@
 }
 
 .verified-image-wrapper {
-  border: 1px solid transparent;
-  &.processing {
-    border-color: #0080FF;
-  }
+  border: 1px solid #0080FF;
+  background-color: #FFFFFF;
 }
 .image-loading-wrapper {
   position: absolute;

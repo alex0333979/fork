@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import NextImage from 'next/image'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import classNames from 'classnames'
@@ -108,6 +108,9 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
   const [getSignedUrl, { data: signedUrlResponse, loading: sLoading }] =
     useGetSignedUrlLazyQuery({
       fetchPolicy: 'no-cache',
+      onError: () => {
+        setLoading(false)
+      },
     })
   const CancelToken = axios.CancelToken
   const cancel = useRef<any>(null)
@@ -117,6 +120,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
     if (loading || sLoading) {
       return
     }
+    setLoading(true)
     getSignedUrl({})
   }, [loading, sLoading, getSignedUrl])
 
@@ -139,7 +143,6 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
       axios
         .put(data.signedUrl, selectedImage, config)
         .then(async () => {
-          setLoading(false)
           showSuccess('File upload success.')
           await onSubmitEntry(data, imageResolution, type, (l: boolean) =>
             setLoading(l),
@@ -198,6 +201,26 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
     },
     [onLoadImage],
   )
+
+  const UserImage = useMemo(() => {
+    if (selectedImage) {
+      return (
+        <span>
+          <NextImage
+            src={URL.createObjectURL(selectedImage)}
+            width="100%"
+            height="100%"
+            layout="fill"
+            alt="Thumb"
+          />
+        </span>
+      )
+    }
+
+    return null
+  }, [selectedImage])
+
+  const _loading = useMemo(() => loading || sLoading, [loading, sLoading])
 
   useEffect(() => {
     const data = signedUrlResponse?.GetSignedUrl.data
@@ -298,7 +321,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                   ref={inputFileRef}
                   onChange={onFileChange}
                 />
-                {loading || sLoading ? (
+                {_loading ? (
                   <div className="step-tab">
                     <div className="uploading-progress">
                       <div className="sub-title">
@@ -320,17 +343,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                             strokeDashoffset="0"
                           />
                         </svg>
-                        <span>
-                          {selectedImage && (
-                            <NextImage
-                              src={URL.createObjectURL(selectedImage)}
-                              width="100%"
-                              height="100%"
-                              layout="fill"
-                              alt="Thumb"
-                            />
-                          )}
-                        </span>
+                        {UserImage}
                       </div>
                       <div className="text">
                         <p>{`${percentage}%`}</p>

@@ -161,29 +161,25 @@ const VerifyPhoto: React.FC<Props> = ({
                     failed: status === ProcessingStatus.failed,
                   })}>
                   <div className="img">
-                    <span
-                      className={classNames('verified-image-wrapper', {
-                        processing:
-                          !!imageUrl && status === ProcessingStatus.loading,
-                      })}>
-                      {!!imageUrl && status === ProcessingStatus.loading ? (
-                        <div className="image-loading-wrapper">
-                          <Bars
-                            height={25}
-                            fill={'#0080FF'}
-                            stroke={'transparent'}
-                          />
-                        </div>
-                      ) : (
-                        <NextImage
-                          key={imageLink}
-                          width="100%"
-                          height="100%"
-                          layout="fill"
-                          src={imageLink}
-                          alt=""
+                    <span className="verified-image-wrapper">
+                      <div className="image-loading-wrapper">
+                        <Bars
+                          height={20}
+                          fill={'#0080FF'}
+                          stroke={'transparent'}
                         />
-                      )}
+                      </div>
+                      {!imageUrl ||
+                        (status !== ProcessingStatus.loading && (
+                          <NextImage
+                            key={imageLink}
+                            width="100%"
+                            height="100%"
+                            layout="fill"
+                            src={imageLink}
+                            alt=""
+                          />
+                        ))}
                     </span>
                     {status === ProcessingStatus.success && onCheckout && (
                       <button
