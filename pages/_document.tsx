@@ -11,7 +11,6 @@ import React from 'react'
 
 import WoopraScript from '@/components/scripts/woopra'
 import MicrosoftUETScript from '@/components/scripts/msUet'
-import OribiAlternativeScript from '@/components/scripts/oribiAlternative'
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -133,7 +132,6 @@ class MyDocument extends Document {
           <meta property="og:locale" content="us_EN" />
           {/* Microsoft UET tag */}
           <MicrosoftUETScript />
-          <OribiAlternativeScript />
         </Head>
         <body>
           <Main />
