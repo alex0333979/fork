@@ -275,15 +275,6 @@ const ReviewAndPay: React.FC = () => {
             }
           }),
         })
-        
-        // @ts-ignore
-        if(window && window.fbq) {
-          // @ts-ignore
-          window.fbq('track', 'Purchase', {
-            currency: currentCurrency.label,
-            value: order.totalPrice / 100
-          });
-        }
 
         // @ts-ignore
         if (window && window.woopra) {
