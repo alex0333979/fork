@@ -1,5 +1,6 @@
 import React from 'react'
 import ModalContainer from '@/components/elements/modalContainer'
+import LoadingSpinner from '@/components/loadingSpinner'
 
 interface PreviewPhotoModalProps {
   open: boolean
@@ -13,7 +14,12 @@ const PreviewPhotoModal: React.FC<PreviewPhotoModalProps> = ({
   url,
 }) => (
   <ModalContainer open={open} closeModal={() => closeModal()}>
-    {open && <img src={url} alt={''} />}
+    {open && (
+      <div className="preview-cart-item">
+        <LoadingSpinner size={40} variant="oval" />
+        <img src={url} alt="" />
+      </div>
+    )}
   </ModalContainer>
 )
 
