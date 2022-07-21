@@ -13,6 +13,7 @@ import {
 } from '@/generated/graphql'
 import { showError, showSuccess } from '@/lib/utils/toast'
 import { useProducts } from '@/hooks/index'
+import LoadingSpinner from '@/components/loadingSpinner'
 import { PAGES } from '../../constants'
 
 import PriceItem from './priceItem'
@@ -76,6 +77,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
       <div className="name">
         {item.productCategory === ProductCategory.Photo ? (
           <div className="img">
+            <LoadingSpinner size={12} variant="oval" />
             <Image
               src={item.imageUrl ?? ''}
               width="100%"

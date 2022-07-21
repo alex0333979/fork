@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Bars } from 'react-loading-icons'
 import { useRouter, NextRouter } from 'next/router'
 import NextImage from 'next/image'
 import classNames from 'classnames'
@@ -10,6 +9,7 @@ import { useCookies } from 'react-cookie'
 import { PAGES, PHOTO_STEP } from '@/constants/index'
 import ProcessStepPhoto from '@/components/elements/processStepPhoto'
 import LoadingMask from '@/components/elements/loadingMask'
+import LoadingSpinner from '@/components/loadingSpinner'
 import {
   Code,
   Dictionary,
@@ -162,13 +162,7 @@ const VerifyPhoto: React.FC<Props> = ({
                   })}>
                   <div className="img">
                     <span className="verified-image-wrapper">
-                      <div className="image-loading-wrapper">
-                        <Bars
-                          height={20}
-                          fill={'#0080FF'}
-                          stroke={'transparent'}
-                        />
-                      </div>
+                      <LoadingSpinner variant="oval" />
                       {!imageUrl ||
                         (status !== ProcessingStatus.loading && (
                           <NextImage

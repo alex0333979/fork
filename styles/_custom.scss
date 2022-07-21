@@ -46,3 +46,19 @@
   align-items: center;
   justify-content: center;
 }
+
+.cart-summary .item-wrap ul li .name .img {
+  position: relative;
+}
+
+.preview-cart-item {
+  position: relative;
+  min-height: 300px;
+  min-width: 300px;
+
+  img {
+    position: relative;
+    max-height: 90vh;
+    max-width: 90vw;
+  }
+}
