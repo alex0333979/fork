@@ -4583,7 +4583,6 @@ footer {
 }
 
 .modal-wrap {
-  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -4594,12 +4593,12 @@ footer {
   bottom: 0;
   z-index: 50;
   opacity: 0;
-  visibility: hidden;
+  display: none;
   transition: opacity var(--transition), visibility var(--transition);
 
   &.open {
     opacity: 1;
-    visibility: visible;
+    display: flex;
   }
 
   .overlay {
