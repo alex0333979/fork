@@ -295,14 +295,14 @@ const ReviewAndPay: React.FC = () => {
           window.uetq.push('event', 'purchase', {
             revenue_value: order.totalPrice / 100,
             currency: order.currency?.label || CurrencyType.Usd,
-          });
+          })
           // @ts-ignore
           window.uetq.push('event', 'PRODUCT_PURCHASE', {
-            "ecomm_prodid": "PHOTO",
-            "ecomm_pagetype": "PURCHASE",
-            "revenue_value": order.totalPrice / 100,
-            "currency": order.currency?.label || CurrencyType.Usd
-          });
+            ecomm_prodid: 'PHOTO',
+            ecomm_pagetype: 'PURCHASE',
+            revenue_value: order.totalPrice / 100,
+            currency: order.currency?.label || CurrencyType.Usd,
+          })
         }
 
         // bing
