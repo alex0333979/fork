@@ -11,7 +11,7 @@ import {
   Entry,
   EntryDocument,
   EntryQuery,
-  Country,
+  PDocument,
 } from '@/generated/graphql'
 import { PAGES, PHOTO_FORM, SEO, TOKEN_EXPIRE_IN } from '../../constants'
 import { NextSeo } from 'next-seo'
@@ -20,7 +20,7 @@ import { FACING_MODES } from 'react-html5-camera-photo'
 export interface ProcessPhotoProps {
   entry: Entry
   type: string
-  document: Country
+  document: PDocument
 }
 
 const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({

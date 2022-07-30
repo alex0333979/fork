@@ -14,8 +14,8 @@ import {
   Code,
   Dictionary,
   Entry,
-  Country,
   useCheckPhotoMutation,
+  PDocument,
 } from '@/generated/graphql'
 import { showError } from '@/lib/utils/toast'
 import { TEMP_IMG_DIM } from '@/lib/apolloClient'
@@ -28,7 +28,7 @@ interface Props {
   entry?: Entry
   type: string
   photoUrl?: string
-  document?: Country
+  document?: PDocument
   showStep?: boolean
   onCheckout?: (imageLink: string) => void
   onChangePhoto: () => void
@@ -79,6 +79,7 @@ const VerifyPhoto: React.FC<Props> = ({
     },
   })
 
+  console.log({ document })
   useEffect(
     () => () => {
       setStatus(ProcessingStatus.notStarted)
@@ -131,6 +132,25 @@ const VerifyPhoto: React.FC<Props> = ({
     })
   }, [checkPhoto, cookie, entry?.id, status])
 
+  const { width, height } = useMemo(() => {
+    if (
+      document?.dimensions?.width &&
+      document?.dimensions?.height &&
+      document?.dimensions?.unit
+    ) {
+      return {
+        width: `${document?.dimensions?.width}${document?.dimensions?.unit}`,
+        height: `${document?.dimensions?.height}${document?.dimensions?.unit}`,
+      }
+    }
+
+    return { width: 'unset', height: 'unset' }
+  }, [
+    document?.dimensions?.height,
+    document?.dimensions?.unit,
+    document?.dimensions?.width,
+  ])
+
   return (
     <>
       {status === ProcessingStatus.loading && <LoadingMask />}
@@ -161,7 +181,12 @@ const VerifyPhoto: React.FC<Props> = ({
                     failed: status === ProcessingStatus.failed,
                   })}>
                   <div className="img">
-                    <span className="verified-image-wrapper">
+                    <span
+                      className="verified-image-wrapper"
+                      style={{
+                        width,
+                        height,
+                      }}>
                       <LoadingSpinner variant="oval" />
                       {!imageUrl ||
                         (status !== ProcessingStatus.loading && (
