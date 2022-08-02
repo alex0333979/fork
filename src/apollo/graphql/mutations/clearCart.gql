@@ -1,0 +1,9 @@
+mutation ClearCart {
+  ClearCart {
+      message
+      status
+      data {
+        ...Cart
+      }
+  }
+}

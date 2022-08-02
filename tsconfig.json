@@ -15,16 +15,9 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@/images/*": ["./public/images/*"],
-      "@/constants/*": ["./constants/*"],
-      "@/components/*": ["./components/*"],
-      "@/generated/*": ["./lib/graphql/generated/*"],
-      "@/graphql/*": ["./lib/graphql/*"],
-      "@/hooks/*": ["./hooks/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/pages/*": ["./pages/*"]
+      "@/*": ["./src/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["./src", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }

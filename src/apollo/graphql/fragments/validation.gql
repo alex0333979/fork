@@ -1,0 +1,5 @@
+fragment Validation on Validation {
+  message
+  type
+  value
+}

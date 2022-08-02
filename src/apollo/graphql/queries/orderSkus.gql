@@ -1,0 +1,9 @@
+query OrderSkus($orderNumber: Float!) {
+  OrderByOrderNumber(orderNumber: $orderNumber) {
+    message
+    status
+    data {
+      skus
+    }
+  }
+}

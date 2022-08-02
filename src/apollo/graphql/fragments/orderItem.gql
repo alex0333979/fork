@@ -1,0 +1,12 @@
+fragment OrderItem on OrderItem {
+  id
+  productId
+  name
+  description
+  imageUrl
+  productCategory
+  productSku
+  isComplete
+  createdAt
+  updatedAt
+}

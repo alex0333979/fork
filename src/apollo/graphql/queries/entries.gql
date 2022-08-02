@@ -1,0 +1,8 @@
+query Entries($page: Int, $pageSize: Int, $skip: Int, $search: String) {
+  Entries(page: $page, pageSize: $pageSize, skip: $skip, search: $search) {
+    total
+    data {
+      ...Entry
+    }
+  }
+}

@@ -1,0 +1,6 @@
+fragment Country on Country {
+  id
+  country
+  type
+  countryCode
+}

@@ -1,0 +1,9 @@
+query Currencies {
+  Currencies {
+    data {
+      ...Currency
+    }
+    message
+    status
+  }
+}

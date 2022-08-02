@@ -1,0 +1,16 @@
+fragment Cart on Cart {
+  defaultCurrency {
+    ...Currency
+  }
+  billingAddress {
+    ...BillingAddress
+  }
+  shippingAddress {
+    ...ShippingAddress
+  }
+  items {
+    ...CartItem
+  }
+  promoCode
+  shippingType
+}

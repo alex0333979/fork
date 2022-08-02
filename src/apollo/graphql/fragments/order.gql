@@ -1,0 +1,24 @@
+fragment Order on Order {
+  id
+  items {
+    ...OrderItem
+  }
+  billingAddress {
+    ...BillingAddress
+  }
+  shippingAddress {
+    ...ShippingAddress
+  }
+  status {
+    ...OrderTrack
+  }
+  paymentStatus
+  userId
+  totalPrice
+  promoCode
+  orderNumber
+  shippingType
+  trackingNumber
+  createdAt
+  updatedAt
+}

@@ -1,0 +1,9 @@
+mutation SignUp($user: UserInput!) {
+  SignUp(user: $user) {
+    message
+    status
+    data {
+      ...User
+    }
+  }
+}

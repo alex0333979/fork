@@ -1,0 +1,9 @@
+mutation SetDefaultCurrency($currency: CurrencyInput!) {
+  SetDefaultCurrency(currency: $currency) {
+    message
+    status
+    data {
+        ...Cart
+    }
+  }
+}

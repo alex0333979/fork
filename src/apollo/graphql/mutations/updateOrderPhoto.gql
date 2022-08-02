@@ -1,0 +1,6 @@
+mutation UpdateOrderPhoto($imageUrl: String!, $editToken: String!) {
+  UpdateOrderPhoto(imageUrl: $imageUrl, editToken: $editToken) {
+    message
+    status
+  }
+}

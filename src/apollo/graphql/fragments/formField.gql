@@ -1,0 +1,19 @@
+fragment FormField on FormField {
+  index
+  name
+  type
+  text
+  required
+  value
+  defaultValue
+  disabled
+  hidden
+  notes
+  placeholder
+  options {
+    ...Option
+  }
+  validations {
+    ...Validation
+  }
+}

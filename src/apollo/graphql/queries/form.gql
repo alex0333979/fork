@@ -1,0 +1,9 @@
+query Form($formId: String!) {
+  Form(id: $formId) {
+    message
+    status
+    data {
+      ...Form
+    }
+  }
+}

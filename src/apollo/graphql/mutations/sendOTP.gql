@@ -1,0 +1,6 @@
+mutation SendOTP($accessToken: String!, $email: String!) {
+  SendOTP(accessToken: $accessToken, email: $email) {
+    message
+    status
+  }
+}

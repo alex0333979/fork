@@ -1,0 +1,22 @@
+fragment TrackStep on TrackStep {
+  status
+  updatedAt
+}
+
+fragment OrderTrack on OrderTrack {
+  confirmOrder {
+    ...TrackStep
+  }
+  productPrepared {
+    ...TrackStep
+  }
+  shipped {
+    ...TrackStep
+  }
+  outForDelivery {
+    ...TrackStep
+  }
+  delivered {
+    ...TrackStep
+  }
+}
