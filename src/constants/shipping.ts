@@ -4,7 +4,7 @@ import {
   ValidationType,
   FieldType,
   FormField,
-} from '@/generated/types'
+} from '@/apollo'
 
 export const shippingTypes = (
   countryCode = 'US',

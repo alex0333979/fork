@@ -37,7 +37,9 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
         number_of_copies: 4,
       }
       Object.keys(a).map((key) => {
-        const index = formStep.fields.findIndex((field) => field.name === key)
+        const index = formStep.fields.findIndex(
+          (field: any) => field.name === key,
+        )
         if (index === -1) {
           showError(`Create Entry Error, ${key} field not found.`)
           return

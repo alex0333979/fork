@@ -1,11 +1,3 @@
-import blog1 from '@/assets/images/blog/01.png'
-import blog2 from '@/assets/images/blog/02.png'
-import blog3 from '@/assets/images/blog/03.png'
-import blog4 from '@/assets/images/blog/04.png'
-import blog5 from '@/assets/images/blog/05.png'
-import blog6 from '@/assets/images/blog/06.png'
-import blog7 from '@/assets/images/blog/07.png'
-
 export interface IBlog {
   id: string
   subject: string
@@ -21,7 +13,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'main-brief',
-    image: blog1,
+    image: '../../public/images/blog/01.png',
   },
   {
     id: 'wi-fi-on-cruise-ships-5-things-to-know-about-internet-use',
@@ -29,28 +21,28 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'main-brief',
-    image: blog2,
+    image: '../../public/images/blog/02.png',
   },
   {
     id: 'explore-utahs-national-parks-with-tpgs-guide-to-the',
     subject: 'Explore Utah’s national parks with TPG’s guide to the',
     description: '',
     category: 'related',
-    image: blog3,
+    image: '../../public/images/blog/03.png',
   },
   {
     id: 'everything-you-need-to-know-about-the-best-seats-on',
     subject: 'Everything you need to know about the best seats on',
     description: '',
     category: 'related',
-    image: blog4,
+    image: '../../public/images/blog/04.png',
   },
   {
     id: '9-things-to-consider-when-choosing-to-book-via-a-portal',
     subject: '9 things to consider when choosing to book via a portal',
     description: '',
     category: 'related',
-    image: blog4,
+    image: '../../public/images/blog/04.png',
   },
   {
     id: 'your-guide-to-the-chase-ink-business-credit-cards',
@@ -58,7 +50,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'recommended',
-    image: blog4,
+    image: '../../public/images/blog/04.png',
   },
   {
     id: 'everything-you-need-to-know-about-traveling-with-medication',
@@ -66,7 +58,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'recommended',
-    image: blog5,
+    image: '../../public/images/blog/05.png',
   },
   {
     id: 'escape-crowded-national-parks-at-these-7-alternate-destinations',
@@ -74,7 +66,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'recommended',
-    image: blog6,
+    image: '../../public/images/blog/06.png',
   },
   {
     id: 'from-airports-to-hotels-tips-for-skipping-long-lines-when-you',
@@ -82,28 +74,28 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'recommended',
-    image: blog6,
+    image: '../../public/images/blog/06.png',
   },
   {
     id: 'current-shortage-of-airline-pilots-could-take-years-to-refine',
     subject: 'Current Shortage of Airline Pilots Could Take Years to Refine',
     description: '',
     category: 'related',
-    image: blog3,
+    image: '../../public/images/blog/03.png',
   },
   {
     id: 'switzerland-from-may-2-entry-restrictions-lifted',
     subject: 'Switzerland: From May 2 Entry Restrictions Lifted',
     description: '',
     category: 'related',
-    image: blog4,
+    image: '../../public/images/blog/04.png',
   },
   {
     id: 'spain-relaxes-the-requirement-for-wearing-masks-i',
     subject: 'Switzerland: From May 2 Entry Restrictions Lifted',
     description: '',
     category: 'related',
-    image: blog7,
+    image: '../../public/images/blog/07.png',
   },
   {
     id: 'earn-easy-hilton-points-by-eating-at-your-favorite-restaurants',
@@ -111,7 +103,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'main',
-    image: blog2,
+    image: '../../public/images/blog/02.png',
   },
   {
     id: 'bonaire-new-tourism-tax-and-covid-entry-requirements',
@@ -119,7 +111,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'main-brief',
-    image: blog4,
+    image: '../../public/images/blog/04.png',
   },
   {
     id: 'study-shows-gas-prices-surpass-covid-as-major-travel',
@@ -127,7 +119,7 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'main-brief',
-    image: blog5,
+    image: '../../public/images/blog/05.png',
   },
   {
     id: 'eu-countries-starting-to-reopen-their-embassies-in',
@@ -135,6 +127,6 @@ export const blogs: IBlog[] = [
     description:
       'But don’t stress — it can be done. From all the official rules about passport photos to tips and',
     category: 'main-brief',
-    image: blog6,
+    image: '../../public/images/blog/06.png',
   },
 ]

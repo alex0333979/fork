@@ -5,3 +5,9 @@ export interface IFAQ {
   question: string
   answer: React.ReactNode
 }
+
+export interface IFAQForm {
+  email: string
+  name: string
+  question: string
+}

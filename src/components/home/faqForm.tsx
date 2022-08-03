@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { Bars } from 'react-loading-icons'
 import { useSendEmailToAdminMutation } from '@/apollo'
 import { showError, showSuccess } from '@/utils'
+import { IFAQForm } from './types'
 
 const FaqForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -12,10 +13,10 @@ const FaqForm: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm<IFAQForm>()
 
   const onSubmit = useCallback(
-    async (input: { email: string; name: string; question: string }) => {
+    async (input: IFAQForm) => {
       setLoading(true)
       const { data } = await sendEmailToAdmin({ variables: { data: input } })
       if (data?.SendEmailToAdmin.status ?? false) {

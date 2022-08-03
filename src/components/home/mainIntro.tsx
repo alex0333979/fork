@@ -5,18 +5,11 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import classNames from 'classnames'
 import { Bars } from 'react-loading-icons'
-import {
-  Country,
-  PDocument,
-  useDocumentsByCountryLazyQuery,
-} from '@/apollo'
+import { Country, PDocument, useDocumentsByCountryLazyQuery } from '@/apollo'
 import { useLocation, useCurrency } from '@/hooks'
 import { iCountry } from '@/components/elements/countrySelector'
-import {
-  PAGES,
-  UK_PASSPORT_IMAGES,
-  US_PASSPORT_IMAGES,
-} from '@/constants'
+import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '@/constants'
+import { Maybe } from '@/types'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
   {
@@ -67,9 +60,7 @@ const MainIntro = (
     },
   })
 
-  const [document, setDocument] = useState<Country | undefined>(
-    pDoc ?? undefined,
-  )
+  const [document, setDocument] = useState<Maybe<PDocument>>(pDoc)
 
   const onCountryChanged = useCallback(
     (c: iCountry) => {
@@ -112,7 +103,7 @@ const MainIntro = (
   }, [onCountryChanged, pCountry?.country, pCountry?.countryCode])
 
   const goTakePhoto = useCallback(
-    async (d: Country | undefined) => {
+    async (d: Maybe<PDocument>) => {
       if (!d) {
         return
       }

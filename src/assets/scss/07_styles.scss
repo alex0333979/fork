@@ -1061,7 +1061,7 @@ header {
   margin-top: -68px;
   position: relative;
   z-index: 1;
-  background: url(../public/images/intro-bg.png) center no-repeat;
+  background: url(../../../public/images/intro-bg.png) center no-repeat;
   background-size: contain;
   overflow: hidden;
 
@@ -1535,7 +1535,7 @@ header {
 }
 
 .reviews-platform {
-  background: url(../public/images/reviews-bg.png) center no-repeat;
+  background: url(../../../public/images/reviews-bg.png) center no-repeat;
   background-size: contain;
   overflow: hidden;
 
@@ -4272,7 +4272,7 @@ footer {
             top: -17px;
             right: 96%;
             z-index: 3;
-            background: url(../public/images/curly-arrow.png) top right no-repeat;
+            background: url(../../../public/images/curly-arrow.png) top right no-repeat;
             background-size: contain;
             pointer-events: none;
           }

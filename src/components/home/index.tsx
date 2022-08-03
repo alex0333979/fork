@@ -5,7 +5,7 @@ import FaqForm from '@/components/home/faqForm'
 import ReviewsPlatform from '@/components/home/reviewsPlatform'
 import { HomePageProps } from '@/pages'
 import RequirementBox from '@/components/home/requirements'
-import { useAuth } from '@/hooks'
+import { useApp } from '@/hooks'
 import FaqSection from './faqSection'
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>
@@ -21,7 +21,7 @@ const Home: React.FC<HomePageProps> = ({
   const target = React.useRef<HTMLDivElement>(null)
   const ref = React.useRef<WorkingProcessInterface>(null)
   const [running, setRunning] = useState<boolean>(false)
-  const { openDocument, setOpenDocument } = useAuth()
+  const { openDocument, setOpenDocument } = useApp()
 
   const listenScrollEvent = useCallback(() => {
     const clientHeight = target?.current?.clientHeight
