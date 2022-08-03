@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useContext,
-  createContext,
-} from 'react'
+import React, { useCallback, useEffect, useState, createContext } from 'react'
 
 import {
   Maybe,
@@ -12,8 +6,8 @@ import {
   CurrencyCode,
   ProductSku,
   useProductsLazyQuery,
-} from '@/apollo/index'
-import { useAuth } from './authContext'
+} from '@/apollo'
+import { useAuth } from '@/hooks'
 
 interface IProductsContext {
   products: Product[]
@@ -60,10 +54,4 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </ProductsContext.Provider>
   )
-}
-
-export const useProducts = () => {
-  const { products, loading, getProduct } = useContext(ProductsContext)
-
-  return { products, loading, getProduct }
 }

@@ -1,6 +1,5 @@
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -9,8 +8,8 @@ import React, {
 import { useCookies } from 'react-cookie'
 
 import { iCountry } from '@/components/elements/countrySelector'
-import { countries, LANGUAGE_COOKIE_NAME } from '@/constants/index'
-import { useAuth } from './authContext'
+import { useAuth } from '@/hooks'
+import { countries, LANGUAGE_COOKIE_NAME } from '@/constants'
 
 interface ILocationContext {
   country: iCountry | undefined
@@ -101,22 +100,4 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </LocationContext.Provider>
   )
-}
-
-export const useLocation = () => {
-  const {
-    country,
-    currentLanguage,
-    languages,
-    onChangeCountry,
-    onChangeLanguage,
-  } = useContext(LocationContext)
-
-  return {
-    country,
-    currentLanguage,
-    languages,
-    onChangeLanguage,
-    onChangeCountry,
-  }
 }

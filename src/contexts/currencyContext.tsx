@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  createContext,
-} from 'react'
+import React, { useCallback, useEffect, useState, createContext } from 'react'
 
 import {
   Currency,
@@ -13,8 +7,8 @@ import {
   useCurrenciesLazyQuery,
   useSetDefaultCurrencyMutation,
   Maybe,
-} from '@/apollo/index'
-import { useAuth } from './authContext'
+} from '@/apollo'
+import { useAuth } from '@/hooks'
 
 interface ICurrencyContext {
   currencies: Currency[] | undefined
@@ -132,26 +126,4 @@ export const CurrencyProvider: React.FC<{
       {children}
     </CurrencyContext.Provider>
   )
-}
-
-export const useCurrency = () => {
-  const {
-    currencies,
-    currentCurrency,
-    loading,
-    onChangeCurrency,
-    onChangeCurrencyByCountry,
-  } = useContext(CurrencyContext)
-
-  return {
-    currencies: currencies || [],
-    currentCurrency: currentCurrency || {
-      code: CurrencyCode.Us,
-      label: CurrencyType.Usd,
-      symbol: '$',
-    },
-    loading,
-    onChangeCurrency,
-    onChangeCurrencyByCountry,
-  }
 }

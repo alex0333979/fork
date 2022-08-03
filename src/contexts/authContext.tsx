@@ -2,30 +2,27 @@ import React, {
   createContext,
   ReactNode,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react'
 import { useCookies } from 'react-cookie'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-import { FetchResult } from '@apollo/client/link/core'
 import {
   Cart,
   useCreateGuestMutation,
   useMeLazyQuery,
-  LoginDocument,
-  LoginMutation,
+  useLoginMutation,
   LoginMutationVariables,
   User,
-} from '@/apollo/index'
+} from '@/apollo'
 
 import {
   COOKIES_TOKEN_NAME,
   ROUTE_COOKIE_NAME,
   PRIVATE_ROUTES,
   TOKEN_EXPIRE_IN,
-} from '@/constants/index'
+} from '@/constants'
 
 interface IContextProps {
   isAuthenticated: boolean
@@ -43,25 +40,14 @@ interface IContextProps {
   toggleSignUpModal: (show: boolean) => void
 }
 
-const AuthContext = createContext({} as IContextProps)
+export const AuthContext = createContext({} as IContextProps)
 
-export function AuthProvider({
+export const AuthProvider = ({
   children,
-  client,
 }: {
   children: ReactNode
   client: ApolloClient<NormalizedCacheObject>
-}) {
-  const auth = useProvideAuth(client)
-
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
-}
-
-export const useAuth = (): IContextProps => useContext(AuthContext)
-
-function useProvideAuth(
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-): IContextProps {
+}) => {
   const [me, setMe] = useState<User | null>(null)
   const [cookies, setCookie, removeCookie] = useCookies([
     COOKIES_TOKEN_NAME,
@@ -74,6 +60,7 @@ function useProvideAuth(
   const [fetchMe] = useMeLazyQuery({
     fetchPolicy: 'network-only',
   })
+  const [login] = useLoginMutation()
 
   const onCreateGuest = useCallback(async () => {
     const { data } = await createGuest()
@@ -133,8 +120,7 @@ function useProvideAuth(
 
   const signIn = useCallback(
     async ({ email, password }: LoginMutationVariables) => {
-      const { data }: FetchResult<LoginMutation> = await apolloClient.mutate({
-        mutation: LoginDocument,
+      const { data } = await login({
         variables: {
           email,
           password,
@@ -147,7 +133,7 @@ function useProvideAuth(
         })
       }
     },
-    [apolloClient, setCookie],
+    [login, setCookie],
   )
 
   const signOut = useCallback(() => {
@@ -169,19 +155,24 @@ function useProvideAuth(
     setOpenSignUp(show)
   }, [])
 
-  return {
-    isAuthenticated,
-    me,
-    setMe,
-    autoLogin,
-    createGuest: onCreateGuest,
-    signIn,
-    signOut,
-    cart,
-    updateCart,
-    openSignIn,
-    toggleSignInModal,
-    openSignUp,
-    toggleSignUpModal,
-  }
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        me,
+        setMe,
+        autoLogin,
+        createGuest: onCreateGuest,
+        signIn,
+        signOut,
+        cart,
+        updateCart,
+        openSignIn,
+        toggleSignInModal,
+        openSignUp,
+        toggleSignUpModal,
+      }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }

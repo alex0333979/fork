@@ -1,12 +1,10 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react'
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
-
+import React, { createContext, ReactNode, useState } from 'react'
 interface IContextProps {
   openDocument: boolean
   setOpenDocument: (open?: boolean) => void
 }
 
-const AppContext = createContext<IContextProps>({
+export const AppContext = createContext<IContextProps>({
   openDocument: false,
   setOpenDocument: () => null,
 })
@@ -24,5 +22,3 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     </AppContext.Provider>
   )
 }
-
-export const useApp = (): IContextProps => useContext(AppContext)

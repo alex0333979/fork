@@ -15,8 +15,8 @@ import merge from 'deepmerge'
 import { IncomingMessage } from 'http'
 import isEqual from 'lodash/isEqual'
 
-import { showError } from '@/hooks/index'
-import { COOKIES_TOKEN_NAME, APOLLO_STATE_PROP_NAME } from '@/constants/index'
+import { showError } from '@/hooks'
+import { COOKIES_TOKEN_NAME, APOLLO_STATE_PROP_NAME } from '@/constants'
 
 const getToken = (req?: IncomingMessage) => {
   const parsedCookie = cookie.parse(

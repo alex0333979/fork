@@ -22,7 +22,7 @@ import {
   LocationProvider,
   CurrencyProvider,
   ProductsProvider,
-} from '@/contexts/index'
+} from '@/contexts'
 import { useApollo } from '@/apollo/client'
 import '@/assets/scss/index.scss'
 

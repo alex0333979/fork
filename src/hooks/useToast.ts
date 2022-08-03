@@ -20,15 +20,3 @@ export const useToast = () => {
 
   return addToast
 }
-
-export const showSuccess = (message: string) => {
-  if (!message) return
-
-  toast.success(message)
-}
-
-export const showError = (message: string) => {
-  if (!message) return
-
-  toast.error(message)
-}
