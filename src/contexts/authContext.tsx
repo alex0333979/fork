@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, {
   createContext,
   ReactNode,
@@ -104,14 +105,10 @@ export const AuthProvider = ({
 
   const cart = useMemo(() => me?.cart || null, [me?.cart])
 
-  const updateMe = useCallback(
-    (d: Partial<User>) => {
-      if (!me) return
-
-      setMe({ ...me, ...d })
-    },
-    [me],
-  )
+  const updateMe = useCallback((d: Partial<User>) => {
+    // @ts-ignore
+    setMe((m) => ({ ...(m || {}), ...d }))
+  }, [])
 
   const signIn = useCallback(
     async ({ email, password }: LoginMutationVariables) => {

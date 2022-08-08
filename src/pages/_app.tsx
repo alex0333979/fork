@@ -25,6 +25,7 @@ import {
 } from '@/contexts'
 import { useApollo } from '@/apollo/client'
 import '@/assets/scss/index.scss'
+import 'react-toastify/dist/ReactToastify.css'
 
 Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())

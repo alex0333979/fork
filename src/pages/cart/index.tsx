@@ -4,9 +4,9 @@ import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
 
 import { AppLayout } from '@/components/index'
-import ShoppingCart from '@/components/cart/shoppingCart'
-import { Cart, CartDocument, CartQuery } from '@/apollo'
+import ShoppingCart from '@/modules/cart'
 import { initializeApollo } from '@/apollo/client'
+import { Cart, CartDocument, CartQuery } from '@/apollo'
 import { PAGES, SEO } from '@/constants'
 
 export interface CartPageProps {

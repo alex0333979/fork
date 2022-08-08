@@ -5,8 +5,8 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import classNames from 'classnames'
 import { useMediaQuery } from '@material-ui/core'
-import { PAGES } from '../../constants'
-import { useAuth } from '@/hooks'
+import { PAGES } from '@/constants'
+import { useAuth, useApp } from '@/hooks'
 import { useRouter } from 'next/router'
 import { getFaqLink } from './utils'
 const LanguageCurrencySelector = dynamic(
@@ -20,7 +20,8 @@ const AppHeader: React.FC = () => {
   const router = useRouter()
   const matches = useMediaQuery('only screen and (min-width: 641px)')
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false)
-  const { cart, setOpenDocument } = useAuth()
+  const { cart } = useAuth()
+  const { setOpenDocument } = useApp()
 
   // const logout = useCallback(async () => {
   //   signOut();

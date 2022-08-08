@@ -14,7 +14,7 @@ import {
 import { showError, showSuccess } from '@/utils'
 import { useProducts } from '@/hooks'
 import LoadingSpinner from '@/components/loadingSpinner'
-import { PAGES } from '../../constants'
+import { PAGES } from '@/constants'
 
 import PriceItem from './priceItem'
 
@@ -62,9 +62,9 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   )
 
   const onClickItem = useCallback(
-    async (item: CartItem) => {
+    (item: CartItem) => {
       if (item.productCategory === ProductCategory.Application) {
-        await router.push(`${PAGES.application.index}${item.productId}`)
+        router.push(`${PAGES.application.index}${item.productId}`)
       } else {
         onPreview(item.imageUrl ?? '')
       }
@@ -75,7 +75,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   return (
     <li>
       <div className="name">
-        {item.productCategory === ProductCategory.Photo ? (
+        {item.productCategory === ProductCategory.Photo && (
           <div className="img">
             <LoadingSpinner size={12} variant="oval" />
             <Image
@@ -86,8 +86,6 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
               layout="fill"
             />
           </div>
-        ) : (
-          <></>
         )}
         <div className="text">
           <h4>{item.name}</h4>
@@ -115,6 +113,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
               (product) =>
                 product.category === ProductCategory.Photo && (
                   <PriceItem
+                    key={product.sku}
                     product={product}
                     selected={item.productSku}
                     onSelect={onChangeOption}
