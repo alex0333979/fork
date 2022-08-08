@@ -1,9 +1,10 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { initializeApollo } from '@/apollo/client'
 import { ApolloQueryResult } from '@apollo/client'
+
+import { initializeApollo } from '@/apollo/client'
 import { FormsDocument, FormsQuery } from '@/apollo'
-import { EntryPageProps } from '@/pages/application/index'
 import { PAGES, PHOTO_FORM } from '@/constants'
+import { EntryPageProps } from '.'
 
 export { default } from './index'
 
@@ -16,6 +17,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     const result: ApolloQueryResult<FormsQuery> = await client.query({
       query: FormsDocument,
     })
+
     const forms = result.data?.Forms || []
     if (forms.length === 0) {
       return {
@@ -29,6 +31,7 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     const formId = context?.query?.formId as string
     const applicationForms = forms.filter((f) => f.name !== PHOTO_FORM)
     const form = applicationForms.find((f) => f.id === formId)
+
     return {
       props: {
         forms: applicationForms,

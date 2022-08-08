@@ -19,7 +19,7 @@ const DeliveryMethod: React.FC = () => {
   const router = useRouter()
   const { getProduct } = useProducts()
   const { country } = useLocation()
-  const { cart, updateCart } = useAuth()
+  const { cart, updateMe } = useAuth()
   const [loading, setLoading] = useState<boolean>(false)
   const [shippingType, setShippingType] = useState<string>(
     cart?.shippingType ?? ShippingType.From3To6,
@@ -38,14 +38,14 @@ const DeliveryMethod: React.FC = () => {
     setLoading(false)
     const cart = data?.SetShippingTypeToCart.data
     if (cart) {
-      updateCart(cart)
+      updateMe({ cart })
       if (cart.shippingType === ShippingType.NoShipping) {
         await router.push(PAGES.checkout.payment)
       } else {
         await router.push(PAGES.checkout.shipping)
       }
     }
-  }, [router, setShippingTypeToCart, shippingType, updateCart])
+  }, [router, setShippingTypeToCart, shippingType, updateMe])
 
   const printPrice = useMemo(
     () => getProduct(ProductSku.PrintShipService),

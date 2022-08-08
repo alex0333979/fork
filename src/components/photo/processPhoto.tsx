@@ -23,7 +23,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
   document,
 }) => {
   const router = useRouter()
-  const { updateCart } = useAuth()
+  const { updateMe } = useAuth()
   const [addToCart] = useAddItemsToCartMutation()
   const [loading, setLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false)
@@ -39,7 +39,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
       setLoading(false)
       const cart = data?.AddItemsToCart.data
       if (cart) {
-        updateCart(cart)
+        updateMe({ cart })
         showSuccess('This entry is added to cart.')
         if (document.id === 495) {
           // document.id === 489
@@ -52,7 +52,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
         }
       }
     },
-    [addToCart, document.id, router, updateCart],
+    [addToCart, document.id, router, updateMe],
   )
 
   const onCheckout = useCallback(

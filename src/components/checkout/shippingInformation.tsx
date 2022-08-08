@@ -20,7 +20,7 @@ import { useLocation } from '@/hooks'
 
 const ShippingInformation: React.FC = () => {
   const router = useRouter()
-  const { cart, updateCart, me } = useAuth()
+  const { cart, updateMe, me } = useAuth()
   const { country: defaultCountry } = useLocation()
   const [shippingForm, setShippingForm] = useState<{
     [key: string]: FormField
@@ -101,10 +101,10 @@ const ShippingInformation: React.FC = () => {
     setLoading(false)
     const cart = data?.AddShippingAddressToCart.data
     if (cart) {
-      updateCart(cart)
+      updateMe({ cart })
       await router.push(PAGES.checkout.payment)
     }
-  }, [addShippingAddress, country, router, shippingForm, updateCart])
+  }, [addShippingAddress, country, router, shippingForm, updateMe])
 
   return (
     <CheckoutLayout

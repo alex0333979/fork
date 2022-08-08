@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 import {
-  Cart,
+  User,
   CartItem,
   Currency,
   Product,
@@ -22,7 +22,7 @@ interface CartItemProps {
   item: CartItem
   currency?: Currency
   onDelete: (id: string) => void
-  onUpdated: (cart: Cart) => void
+  onUpdated: (d: Partial<User>) => void
   onPreview: (url: string) => void
 }
 
@@ -53,7 +53,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
       const cart = data?.UpdateCartItemPrice.data
       if (cart) {
         showSuccess('CartItem is updated.')
-        onUpdated(cart)
+        onUpdated({ cart })
       } else {
         showError('CartItem update failed.')
       }

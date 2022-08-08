@@ -19,7 +19,7 @@ import { PAGES } from '../../constants'
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const { cart, updateCart } = useAuth()
+  const { cart, updateMe } = useAuth()
   const { currentCurrency } = useCurrency()
   const { getProduct } = useProducts()
   const [removeFromCart] = useRemoveItemsFromCartMutation()
@@ -27,8 +27,8 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
   const [prevUrl, setPrevUrl] = useState<string>('')
 
   useEffect(() => {
-    updateCart(_cart)
-  }, [_cart, updateCart])
+    updateMe({ cart: _cart })
+  }, [_cart, updateMe])
 
   const onPreview = useCallback((url: string) => {
     setPrevUrl(url)
@@ -40,10 +40,10 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
       const { data } = await removeFromCart({ variables: { ids: [id] } })
       const __cart = data?.RemoveItemsFromCart.data
       if (__cart) {
-        updateCart(__cart)
+        updateMe({ cart: __cart })
       }
     },
-    [removeFromCart, updateCart],
+    [removeFromCart, updateMe],
   )
 
   const subTotal = useMemo(
@@ -104,7 +104,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                         currency={currentCurrency}
                         item={item}
                         onDelete={onRemoveCartItem}
-                        onUpdated={updateCart}
+                        onUpdated={updateMe}
                         onPreview={onPreview}
                       />
                     ))}
@@ -121,7 +121,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                         item={item}
                         currency={currentCurrency}
                         onDelete={onRemoveCartItem}
-                        onUpdated={updateCart}
+                        onUpdated={updateMe}
                         onPreview={onPreview}
                       />
                     ))}

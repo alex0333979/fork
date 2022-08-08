@@ -1,9 +1,14 @@
+import React from 'react'
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
   NextPage,
 } from 'next'
-import React from 'react'
+import dynamic from 'next/dynamic'
+import { NextSeo } from 'next-seo'
+
+import { ApolloQueryResult } from '@apollo/client'
+
 import { AppLayout } from '@/components/index'
 import { initializeApollo } from '@/apollo/client'
 import {
@@ -15,8 +20,6 @@ import {
   FormsDocument,
   FormsQuery,
 } from '@/apollo'
-import { ApolloQueryResult } from '@apollo/client'
-import dynamic from 'next/dynamic'
 import {
   PAGES,
   PHOTO_FORM,
@@ -24,9 +27,9 @@ import {
   TOKEN_EXPIRE_IN,
   COOKIES_TOKEN_NAME,
 } from '@/constants'
-import { NextSeo } from 'next-seo'
+
 const ApplicationForm = dynamic(
-  () => import('@/components/application/applicationForm'),
+  () => import('@/modules/application/applicationForm'),
 )
 
 export interface EntryPageProps {

@@ -20,7 +20,7 @@ import CheckBox from '@/components/elements/checkBox'
 
 const PaymentInformation: React.FC = () => {
   const router = useRouter()
-  const { cart, updateCart, me } = useAuth()
+  const { cart, updateMe, me } = useAuth()
   const [billingForm, setBillingForm] = useState<{ [key: string]: FormField }>(
     SHIPPING_BILLING_FORM,
   )
@@ -118,10 +118,10 @@ const PaymentInformation: React.FC = () => {
     setLoading(false)
     const cart = data?.AddBillingAddressToCart.data
     if (cart) {
-      updateCart(cart)
+      updateMe({ cart })
       await router.push(PAGES.checkout.review)
     }
-  }, [addBillingAddress, billingForm, country, router, updateCart])
+  }, [addBillingAddress, billingForm, country, router, updateMe])
 
   return (
     <CheckoutLayout

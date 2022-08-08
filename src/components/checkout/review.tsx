@@ -61,7 +61,7 @@ const ReviewAndPay: React.FC = () => {
   const { t } = useTranslation()
   const { getProduct } = useProducts()
   const [, setCookie] = useCookies([TEMP_ORDER_NUM])
-  const { cart, updateCart } = useAuth()
+  const { cart, updateMe } = useAuth()
   const { currentCurrency } = useCurrency()
   const { country } = useLocation()
   const [cardName, setCardName] = useState<string>('')
@@ -238,7 +238,7 @@ const ReviewAndPay: React.FC = () => {
         const { data } = await clearCart({})
         const cart = data?.ClearCart.data
         if (cart) {
-          updateCart(cart)
+          updateMe({ cart })
         }
 
         window.gtag('event', 'conversion', {
@@ -323,7 +323,7 @@ const ReviewAndPay: React.FC = () => {
       setCookie,
       shippingPrice,
       tax,
-      updateCart,
+      updateMe,
     ],
   )
 

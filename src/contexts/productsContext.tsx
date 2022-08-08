@@ -24,7 +24,7 @@ export const ProductsContext = createContext<IProductsContext>({
 export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { cart } = useAuth()
+  const { me, cart } = useAuth()
 
   const [products, setProducts] = useState<Product[]>([])
 
@@ -36,12 +36,13 @@ export const ProductsProvider: React.FC<{ children: React.ReactNode }> = ({
   })
 
   useEffect(() => {
+    if (!me?.id) return
     fetchProducts({
       variables: {
         currencyCode: cart?.defaultCurrency?.code || CurrencyCode.Us,
       },
     })
-  }, [cart?.defaultCurrency?.code, fetchProducts])
+  }, [cart?.defaultCurrency?.code, fetchProducts, me?.id])
 
   const getProduct = useCallback(
     (sku: Maybe<ProductSku> | undefined): Product | undefined =>

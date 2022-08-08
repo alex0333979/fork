@@ -5,13 +5,14 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from 'react'
 import { useCookies } from 'react-cookie'
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import {
   Cart,
   useCreateGuestMutation,
-  useMeLazyQuery,
+  useMeQuery,
   useLoginMutation,
   LoginMutationVariables,
   User,
@@ -28,12 +29,10 @@ interface IContextProps {
   isAuthenticated: boolean
   me: User | null
   setMe: React.Dispatch<React.SetStateAction<User | null>>
-  createGuest: () => void
-  autoLogin: () => void
   signIn: ({ email, password }: LoginMutationVariables) => void
   signOut: () => void
   cart: Cart | null
-  updateCart: (cart: Cart | null) => void
+  updateMe: (d: Partial<User>) => void
   openSignIn: boolean
   toggleSignInModal: (show: boolean) => void
   openSignUp: boolean
@@ -56,64 +55,60 @@ export const AuthProvider = ({
   const [openSignIn, setOpenSignIn] = useState<boolean>(false)
   const [openSignUp, setOpenSignUp] = useState<boolean>(false)
 
-  const [createGuest] = useCreateGuestMutation()
-  const [fetchMe] = useMeLazyQuery({
+  const timer = useRef<NodeJS.Timeout | null>(null)
+
+  useMeQuery({
+    skip: !cookies[COOKIES_TOKEN_NAME],
     fetchPolicy: 'network-only',
+    onCompleted: (res) => {
+      if (res.Me.data) {
+        setMe(res.Me.data)
+      }
+    },
   })
+
+  const [createGuest, { loading: creatingGuest }] = useCreateGuestMutation({
+    onCompleted: (res) => {
+      if (res.CreateGuest.data?.accessToken) {
+        setCookie(COOKIES_TOKEN_NAME, res?.CreateGuest.data?.accessToken, {
+          path: '/',
+          maxAge: TOKEN_EXPIRE_IN,
+        })
+      }
+    },
+  })
+
   const [login] = useLoginMutation()
 
-  const onCreateGuest = useCallback(async () => {
-    const { data } = await createGuest()
-
-    if (data?.CreateGuest.data?.accessToken) {
-      setCookie(COOKIES_TOKEN_NAME, data?.CreateGuest.data?.accessToken, {
-        path: '/',
-        maxAge: TOKEN_EXPIRE_IN,
-      })
-    }
-  }, [createGuest, setCookie])
-
-  const autoLogin = useCallback(async (): Promise<boolean> => {
-    const { data } = await fetchMe()
-    if (data?.Me.data) {
-      setMe(data.Me.data)
-      return true
-    }
-    return false
-  }, [fetchMe])
-
   useEffect(() => {
-    ;(async () => {
-      const isPrivateRoute = PRIVATE_ROUTES.some((r) =>
-        location.pathname.includes(r),
-      )
-      if (isPrivateRoute) return
-
-      try {
+    if (timer.current) clearTimeout(timer.current)
+    const isPrivateRoute = PRIVATE_ROUTES.some((r) =>
+      location.pathname.includes(r),
+    )
+    if (!isPrivateRoute) {
+      timer.current = setTimeout(() => {
         const token = cookies[COOKIES_TOKEN_NAME]
+        console.log({ token })
         if (!token) {
-          await createGuest()
+          createGuest()
         }
-        const result = await autoLogin()
-        if (!result) {
-          await createGuest()
-          await autoLogin()
-        }
-      } catch {
-        await createGuest()
-        await autoLogin()
-      }
-    })()
-  }, [autoLogin, cookies, createGuest])
+      }, 300)
+    }
+
+    return () => {
+      if (timer.current) clearTimeout(timer.current)
+    }
+  }, [cookies, createGuest, creatingGuest])
 
   const isAuthenticated = useMemo((): boolean => Boolean(me), [me])
 
   const cart = useMemo(() => me?.cart || null, [me?.cart])
 
-  const updateCart = useCallback(
-    (cart: Cart | null) => {
+  const updateMe = useCallback(
+    (d: Partial<User>) => {
       if (!me) return
-      setMe({ ...me, cart })
+
+      setMe({ ...me, ...d })
     },
     [me],
   )
@@ -161,12 +156,10 @@ export const AuthProvider = ({
         isAuthenticated,
         me,
         setMe,
-        autoLogin,
-        createGuest: onCreateGuest,
         signIn,
         signOut,
         cart,
-        updateCart,
+        updateMe,
         openSignIn,
         toggleSignInModal,
         openSignUp,

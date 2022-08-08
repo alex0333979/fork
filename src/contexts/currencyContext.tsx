@@ -31,7 +31,7 @@ export const CurrencyContext = createContext<ICurrencyContext>(initialValue)
 export const CurrencyProvider: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
-  const { me: user, cart, updateCart } = useAuth()
+  const { me: user, cart, updateMe } = useAuth()
 
   const [currencies, setCurrencies] = useState<Currency[] | undefined>()
   const [currentCurrency, setCurrentCurrency] = useState<Currency | undefined>()
@@ -46,7 +46,7 @@ export const CurrencyProvider: React.FC<{
   const [setDefaultCurrency] = useSetDefaultCurrencyMutation({
     fetchPolicy: 'network-only',
     onCompleted: (res) => {
-      updateCart(res.SetDefaultCurrency.data || cart)
+      updateMe({ cart: res.SetDefaultCurrency.data || cart })
     },
   })
 
