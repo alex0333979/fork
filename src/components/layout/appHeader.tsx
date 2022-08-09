@@ -16,7 +16,9 @@ const LanguageCurrencySelector = dynamic(
   },
 )
 
-const AppHeader: React.FC = () => {
+const AppHeader: React.FC<{
+  showNav?: boolean
+}> = ({ showNav = true }) => {
   const router = useRouter()
   const matches = useMediaQuery('only screen and (min-width: 641px)')
   const [mobileNavVisible, setMobileNavVisible] = useState<boolean>(false)
@@ -67,54 +69,96 @@ const AppHeader: React.FC = () => {
                 </a>
               </Link>
             </div>
-            <div
-              className={classNames({
-                'main-menu': true,
-                open: mobileNavVisible,
-              })}>
-              <nav>
-                <ul>
-                  <li>
-                    {!matches && (
-                      <LanguageCurrencySelector wrapperClass="mobile-language-selector" />
-                    )}
-                  </li>
-                  <li>
-                    <a
-                      onClick={async () => {
-                        setOpenDocument(true)
-                        await router.push(PAGES.home)
-                      }}>
-                      <span>{'Passport Photo'}</span>
-                    </a>
-                  </li>
-                  <li>
-                    <Link href={faqLink}>
-                      <a>
-                        <span>FAQ</span>
+            {showNav && (
+              <div
+                className={classNames({
+                  'main-menu': true,
+                  open: mobileNavVisible,
+                })}>
+                <nav>
+                  <ul>
+                    <li>
+                      {!matches && (
+                        <LanguageCurrencySelector wrapperClass="mobile-language-selector" />
+                      )}
+                    </li>
+                    <li>
+                      <a
+                        onClick={async () => {
+                          setOpenDocument(true)
+                          await router.push(PAGES.home)
+                        }}>
+                        <span>Passport Photo</span>
                       </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={PAGES.about}>
-                      <a>
-                        <span>{'About'}</span>
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={PAGES.contactUs}>
-                      <a>
-                        <span>{'Contact Us'}</span>
-                      </a>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-              <div className="mobile-btn">
+                    </li>
+                    <li>
+                      <Link href={faqLink}>
+                        <a>
+                          <span>FAQ</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href={PAGES.about}>
+                        <a>
+                          <span>About</span>
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href={PAGES.contactUs}>
+                        <a>
+                          <span>Contact Us</span>
+                        </a>
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+                <div className="mobile-btn">
+                  <button
+                    type="button"
+                    className="main-btn"
+                    onClick={async () => {
+                      setOpenDocument(true)
+                      await router.push(PAGES.home)
+                    }}>
+                    START NOW
+                  </button>
+                </div>
+                {/* <div>*/}
+                {/*  <div class="">*/}
+                {/*    <button type="button" class="main-btn big">Select a packages</button>*/}
+                {/*  </div>*/}
+                {/* </div>*/}
+              </div>
+            )}
+          </div>
+          {showNav && (
+            <div className="right-side">
+              {matches && <LanguageCurrencySelector />}
+
+              {/* <div className="location">
+              <div className="current">
+                <p>{'United States'}</p>
+              </div>
+            </div> */}
+              {/* <SelectCountry selectedCountry={onSelectedCountry} /> */}
+              {/* <div className="user-btn">
+              <Link href={PAGES.home}>
+                <a>
+                  <span className="icon-user" />
+                </a>
+              </Link>
+            </div> */}
+              <div className="cart-btn">
+                <a onClick={onClickCart}>
+                  <span className="icon-cart" /> {cart?.items?.length ?? 0}
+                </a>
+              </div>
+              <div className="sign-btn">
                 <button
                   type="button"
-                  className="main-btn"
+                  className="main-btn small"
                   onClick={async () => {
                     setOpenDocument(true)
                     await router.push(PAGES.home)
@@ -122,70 +166,32 @@ const AppHeader: React.FC = () => {
                   {'START NOW'}
                 </button>
               </div>
-              {/* <div>*/}
-              {/*  <div class="">*/}
-              {/*    <button type="button" class="main-btn big">Select a packages</button>*/}
+              {/* {isAuthenticated ? (*/}
+              {/*  <div className="sign-btn">*/}
+              {/*    <button type="button" className="main-btn small blank" onClick={logout}>*/}
+              {/*      {'Sign Out'}*/}
+              {/*    </button>*/}
               {/*  </div>*/}
-              {/* </div>*/}
-            </div>
-          </div>
-          <div className="right-side">
-            {matches && <LanguageCurrencySelector />}
-
-            {/* <div className="location">
-              <div className="current">
-                <p>{'United States'}</p>
+              {/* ) : (*/}
+              {/*  <div className="sign-btn">*/}
+              {/*    <button type="button" className="main-btn small blank">*/}
+              {/*      {'Sign In'}*/}
+              {/*    </button>*/}
+              {/*  </div>*/}
+              {/* )}*/}
+              <div
+                className={classNames({
+                  'menu-btn': true,
+                  open: mobileNavVisible,
+                })}>
+                <button
+                  type="button"
+                  onClick={() => setMobileNavVisible(!mobileNavVisible)}>
+                  <span className="icon-menu" />
+                </button>
               </div>
-            </div> */}
-            {/* <SelectCountry selectedCountry={onSelectedCountry} /> */}
-            {/* <div className="user-btn">
-              <Link href={PAGES.home}>
-                <a>
-                  <span className="icon-user" />
-                </a>
-              </Link>
-            </div> */}
-            <div className="cart-btn">
-              <a onClick={onClickCart}>
-                <span className="icon-cart" /> {cart?.items?.length ?? 0}
-              </a>
             </div>
-            <div className="sign-btn">
-              <button
-                type="button"
-                className="main-btn small"
-                onClick={async () => {
-                  setOpenDocument(true)
-                  await router.push(PAGES.home)
-                }}>
-                {'START NOW'}
-              </button>
-            </div>
-            {/* {isAuthenticated ? (*/}
-            {/*  <div className="sign-btn">*/}
-            {/*    <button type="button" className="main-btn small blank" onClick={logout}>*/}
-            {/*      {'Sign Out'}*/}
-            {/*    </button>*/}
-            {/*  </div>*/}
-            {/* ) : (*/}
-            {/*  <div className="sign-btn">*/}
-            {/*    <button type="button" className="main-btn small blank">*/}
-            {/*      {'Sign In'}*/}
-            {/*    </button>*/}
-            {/*  </div>*/}
-            {/* )}*/}
-            <div
-              className={classNames({
-                'menu-btn': true,
-                open: mobileNavVisible,
-              })}>
-              <button
-                type="button"
-                onClick={() => setMobileNavVisible(!mobileNavVisible)}>
-                <span className="icon-menu" />
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </header>

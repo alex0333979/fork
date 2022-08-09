@@ -2,13 +2,14 @@ import React from 'react'
 import { AppFooter, AppHeader } from '../index'
 
 interface AppLayoutProps {
+  showNav?: boolean
   children: React.ReactNode
 }
-const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
+const AppLayout: React.FC<AppLayoutProps> = ({ showNav = true, children }) => (
   <>
-    <AppHeader />
+    <AppHeader showNav={showNav} />
     <main>{children}</main>
-    <AppFooter />
+    <AppFooter showNav={showNav} />
   </>
 )
 

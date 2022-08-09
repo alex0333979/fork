@@ -6,11 +6,22 @@ import { PAGES } from '../../constants'
 import moment from 'moment'
 import { getFaqLink } from './utils'
 
-const AppFooter: React.FC = () => {
+const AppFooter: React.FC<{ showNav?: boolean }> = ({ showNav = true }) => {
   const router = useRouter()
 
   const faqLink = useMemo(() => getFaqLink(router.asPath), [router.asPath])
 
+  if (!showNav) {
+    return (
+      <footer>
+        <div className="additional-menu">
+          <div className="container">
+            <div className="data-wrap" />
+          </div>
+        </div>
+      </footer>
+    )
+  }
   return (
     <footer>
       <div className="additional-menu">

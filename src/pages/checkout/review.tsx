@@ -18,7 +18,7 @@ const ReviewAndPayPage: NextPage = () => (
       title={SEO.checkout.title}
       description={SEO.checkout.description}
     />
-    <AppLayout>
+    <AppLayout showNav={false}>
       <Elements stripe={getStripe()}>
         <ReviewAndPay />
       </Elements>

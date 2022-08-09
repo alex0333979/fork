@@ -19,7 +19,7 @@ const CartPage: NextPage<CartPageProps> = ({ cart }) => (
       title={SEO.shoppingCart.title}
       description={SEO.shoppingCart.description}
     />
-    <AppLayout>
+    <AppLayout showNav={false}>
       <ShoppingCart cart={cart} />
     </AppLayout>
   </>

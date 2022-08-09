@@ -16,7 +16,7 @@ const PaymentInfoPage: NextPage = () => (
       title={SEO.checkout.title}
       description={SEO.checkout.description}
     />
-    <AppLayout>
+    <AppLayout showNav={false}>
       <PaymentInformation />
     </AppLayout>
   </>

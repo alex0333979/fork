@@ -1,9 +1,15 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import dynamic from 'next/dynamic'
 
 import { Product } from '@/apollo'
-
 import { useProducts } from '@/hooks'
+const LanguageCurrencySelector = dynamic(
+  () => import('@/components/elements/languageCurrencySelector'),
+  {
+    ssr: false,
+  },
+)
 
 import { SummaryProps } from './types'
 
@@ -25,7 +31,10 @@ const Summary: React.FC<SummaryProps> = ({ cart, currency, onCheckout }) => {
   return (
     <div className="item-wrap total-info">
       <div className="order-summary">
-        <h3>Order summary</h3>
+        <div className="summary-header">
+          <h3>Order summary</h3>
+          <LanguageCurrencySelector wrapperClass="language-selector" />
+        </div>
         <table>
           <tbody>
             <tr>

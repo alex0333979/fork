@@ -45,7 +45,7 @@ const ThankYouPage: NextPage = () => {
           />
         )}
       </Head>
-      <AppLayout>
+      <AppLayout showNav={false}>
         <ThankYou />
       </AppLayout>
     </>

@@ -77,7 +77,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
         <div className="page-title">
           <div className="container">
             <div className="data-wrap">
-              <h1>{t('shoppingCart')}</h1>
+              <h1>Shopping cart</h1>
             </div>
           </div>
         </div>
