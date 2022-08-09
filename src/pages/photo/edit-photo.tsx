@@ -5,10 +5,10 @@ import { NextSeo } from 'next-seo'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { ApolloQueryResult } from '@apollo/client'
 
-import PhotoLayout from '@/components/layout/photoLayout'
 import { initializeApollo } from '@/apollo/client'
-import EditPhoto from '@/components/photo/editPhoto'
 import { EntryDocument, EntryQuery, Entry } from '@/apollo'
+import PhotoLayout from '@/components/layout/photoLayout'
+import EditPhoto from '@/modules/photo/editPhoto'
 
 import { PAGES, SEO, PHOTO_FORM } from '@/constants'
 

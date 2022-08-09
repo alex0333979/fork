@@ -2,12 +2,12 @@
 import React from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
-import { useCookies } from 'react-cookie'
 import { NextSeo } from 'next-seo'
+import { useCookies } from 'react-cookie'
 
-import { useCurrency } from '@/hooks/index'
+import { useCurrency } from '@/hooks'
 import { AppLayout } from '@/components/index'
-import ThankYou from '@/components/checkout/thank-you'
+import ThankYou from '@/modules/checkout/thank-you'
 import { useOrderSkusQuery } from '@/apollo'
 import { SEO, TEMP_ORDER_NUM } from '@/constants'
 
@@ -19,7 +19,7 @@ const ThankYouPage: NextPage = () => {
     variables: {
       orderNumber: +(cookie[TEMP_ORDER_NUM] || 0),
     },
-    skip: isNaN(+cookie[TEMP_ORDER_NUM]),
+    skip: isNaN(+cookie[TEMP_ORDER_NUM]) || +cookie[TEMP_ORDER_NUM] === 0,
     onCompleted: () => {
       removeCookie(TEMP_ORDER_NUM)
     },

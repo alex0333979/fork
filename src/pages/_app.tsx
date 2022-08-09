@@ -10,8 +10,8 @@ import NProgress from 'nprogress'
 import { I18nextProvider } from 'react-i18next'
 
 import i18n from '@/i18n'
-import SignIn from '@/components/elements/signIn'
-import SignUp from '@/components/elements/signUp'
+import SignIn from '@/modules/auth/signIn'
+import SignUp from '@/modules/auth/signUp'
 import GoogledAdsScript from '@/scripts/googleAds'
 import GoogledAnalyticsScript from '@/scripts/googleAnalytics'
 import FacebookPixelScript from '@/scripts/fbPixel'
@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <CurrencyProvider>
                     <ProductsProvider>
                       <Head>
-                        <title>{'Passport Photos'}</title>
+                        <title>Passport Photos</title>
                         <meta
                           name="viewport"
                           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"

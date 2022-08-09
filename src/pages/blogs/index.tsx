@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { AppLayout } from '@/components/index'
 import { SEO } from '@/constants/index'
 import { blogs as staticBlogs, IBlog } from '@/constants/blogs'
-const Blogs = dynamic(() => import('@/components/blog/blogs'))
+const Blogs = dynamic(() => import('@/modules/blog/blogs'))
 
 export interface ArticlePageProps {
   blogs: IBlog[]

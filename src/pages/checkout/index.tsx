@@ -1,13 +1,14 @@
-import type { NextPage } from 'next'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import React from 'react'
-import { AppLayout } from '@/components'
-import DeliveryMethod from '@/components/checkout/deliveryMethod'
-import { initializeApollo } from '@/apollo/client'
-import { ApolloQueryResult } from '@apollo/client'
-import { CartDocument, CartQuery } from '@/apollo'
-import { PAGES, SEO } from '@/constants'
+import type { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { ApolloQueryResult } from '@apollo/client'
+
+import { initializeApollo } from '@/apollo/client'
+import { CartDocument, CartQuery } from '@/apollo'
+import { AppLayout } from '@/components'
+import DeliveryMethod from '@/modules/checkout/deliveryMethod'
+import { PAGES, SEO } from '@/constants'
 
 const CheckoutPage: NextPage = () => (
   <>

@@ -1,10 +1,14 @@
-import type { NextPage } from 'next'
-import PhotoLayout from '@/components/layout/photoLayout'
 import React from 'react'
-import ProcessPhoto from '@/components/photo/processPhoto'
+import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { initializeApollo } from '@/apollo/client'
+import { NextSeo } from 'next-seo'
+import { FACING_MODES } from 'react-html5-camera-photo'
 import { ApolloQueryResult } from '@apollo/client'
+
+import PhotoLayout from '@/components/layout/photoLayout'
+import ProcessPhoto from '@/modules/photo/processPhoto'
+
+import { initializeApollo } from '@/apollo/client'
 import {
   DocumentDocument,
   DocumentQuery,
@@ -20,8 +24,6 @@ import {
   TOKEN_EXPIRE_IN,
   COOKIES_TOKEN_NAME,
 } from '@/constants'
-import { NextSeo } from 'next-seo'
-import { FACING_MODES } from 'react-html5-camera-photo'
 
 export interface ProcessPhotoProps {
   entry: Entry

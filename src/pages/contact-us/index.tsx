@@ -1,8 +1,9 @@
-import { NextPage } from 'next'
-import { AppLayout } from '@/components/index'
 import React from 'react'
-import ContactUs from '@/components/contactUs'
+import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
+
+import { AppLayout } from '@/components'
+import ContactUs from '@/modules/contactUs'
 import { SEO } from '@/constants'
 
 const ContactUsPage: NextPage = () => (

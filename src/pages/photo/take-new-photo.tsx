@@ -1,9 +1,10 @@
-import type { NextPage } from 'next'
-import PhotoLayout from '@/components/layout/photoLayout'
-import TakeNewPhoto from '@/components/photo/takeNewPhoto'
 import React from 'react'
-import { NextSeo } from 'next-seo'
+import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { NextSeo } from 'next-seo'
+
+import PhotoLayout from '@/components/layout/photoLayout'
+import TakeNewPhoto from '@/modules/photo/takeNewPhoto'
 
 import { SEO } from '@/constants'
 

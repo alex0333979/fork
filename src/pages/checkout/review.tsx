@@ -1,15 +1,16 @@
-import type { NextPage } from 'next'
 import React from 'react'
-import { AppLayout } from '@/components'
-import ReviewAndPay from '@/components/checkout/review'
-import { Elements } from '@stripe/react-stripe-js'
-import { getStripe } from '@/utils'
+import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { initializeApollo } from '@/apollo/client'
+import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
+import { Elements } from '@stripe/react-stripe-js'
+
+import { AppLayout } from '@/components'
+import ReviewAndPay from '@/modules/checkout/review'
+import { getStripe } from '@/utils'
+import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery, ShippingType } from '@/apollo'
 import { PAGES, SEO } from '@/constants'
-import { NextSeo } from 'next-seo'
 
 const ReviewAndPayPage: NextPage = () => (
   <>
@@ -36,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (
     })
     const cart = result.data.Cart.data
 
-    if (cart?.items?.filter((i) => i.isComplete).length ?? 0 > 0) {
+    if (cart?.items?.some((i) => i.isComplete)) {
       if (
         cart?.shippingType !== ShippingType.NoShipping &&
         !cart?.shippingAddress

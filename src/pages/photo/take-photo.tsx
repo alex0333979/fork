@@ -1,10 +1,11 @@
-import type { NextPage } from 'next'
-import PhotoLayout from '@/components/layout/photoLayout'
-import TakePhoto from '@/components/photo/takePhoto'
 import React from 'react'
-import { NextSeo } from 'next-seo'
+import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
+
+import PhotoLayout from '@/components/layout/photoLayout'
+import TakePhoto from '@/modules/photo/takePhoto'
 
 import {
   Entry,
@@ -15,7 +16,7 @@ import {
   FormsQuery,
 } from '@/apollo'
 import { initializeApollo } from '@/apollo/client'
-import { PAGES, PHOTO_FORM, SEO } from '../../constants'
+import { PAGES, PHOTO_FORM, SEO } from '@/constants'
 
 export interface TakePhotoPageProps {
   form: Form

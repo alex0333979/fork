@@ -1,8 +1,9 @@
-import { NextPage } from 'next'
-import { AppLayout } from '@/components/index'
 import React from 'react'
-import ShippingPolicy from '@/components/shipping-policy'
+import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
+
+import { AppLayout } from '@/components/index'
+import ShippingPolicy from '@/modules/shippingPolicy'
 import { SEO } from '@/constants'
 
 const ShippingPolicyPage: NextPage = () => (

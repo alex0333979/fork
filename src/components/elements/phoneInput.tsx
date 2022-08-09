@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { FormField } from '@/apollo'
-import Input from 'react-phone-number-input/input'
+import Input, { Country } from 'react-phone-number-input/input'
 import classNames from 'classnames'
 import dynamic from 'next/dynamic'
 
@@ -48,7 +48,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
       </span>
       <span className="field">
         <Input
-          country={country}
+          country={country as Country}
           international
           withCountryCallingCode
           value={value}

@@ -7,8 +7,8 @@ import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
 
 import { AppLayout } from '@/components'
-import Home from '@/components/home'
-import { HomepageContent } from '@/components/home/constant'
+import Home from '@/modules/home'
+import { HomepageContent } from '@/modules/home/constant'
 import { SEO, countries, ExtraPath } from '@/constants'
 import { initializeApollo } from '@/apollo/client'
 import {

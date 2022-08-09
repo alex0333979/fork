@@ -52,9 +52,9 @@ const TextInput: React.FC<TextInputProps> = ({
     }
   }, [formField.validations])
 
-  const isNumberInput = useCallback((value): boolean => {
+  const isNumberInput = useCallback((value: string | number): boolean => {
     const re = /^[0-9\b]+$/
-    return value === '' || re.test(value)
+    return value === '' || re.test(value.toString())
   }, [])
 
   const onChange = useCallback(

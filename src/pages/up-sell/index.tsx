@@ -1,12 +1,13 @@
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
-import { AppLayout } from '@/components/index'
 import React from 'react'
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { SEO } from '@/constants'
-import UpSell from '@/components/upSell'
-import { initializeApollo } from '@/apollo/client'
 import { ApolloQueryResult } from '@apollo/client'
+
+import { AppLayout } from '@/components/index'
+import UpSell from '@/modules/upSell'
+import { initializeApollo } from '@/apollo/client'
 import { FormsDocument, FormsQuery } from '@/apollo'
+import { SEO } from '@/constants'
 
 export interface UpSellPageProps {
   ds11: string | null

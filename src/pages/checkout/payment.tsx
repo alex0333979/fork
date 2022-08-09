@@ -1,13 +1,14 @@
+import React from 'react'
 import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import React from 'react'
-import { AppLayout } from '@/components'
-import PaymentInformation from '@/components/checkout/paymentInformation'
-import { initializeApollo } from '@/apollo/client'
-import { ApolloQueryResult } from '@apollo/client'
-import { CartDocument, CartQuery, ShippingType } from '@/apollo'
-import { PAGES, SEO } from '../../constants'
 import { NextSeo } from 'next-seo'
+import { ApolloQueryResult } from '@apollo/client'
+
+import { AppLayout } from '@/components'
+import PaymentInformation from '@/modules/checkout/paymentInformation'
+import { initializeApollo } from '@/apollo/client'
+import { CartDocument, CartQuery, ShippingType } from '@/apollo'
+import { PAGES, SEO } from '@/constants'
 
 const PaymentInfoPage: NextPage = () => (
   <>
@@ -32,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (
     })
     const cart = result.data.Cart.data
 
-    if (cart?.items?.filter((i) => i.isComplete).length ?? 0 > 0) {
+    if (cart?.items?.some((i) => i.isComplete)) {
       if (
         cart?.shippingType !== ShippingType.NoShipping &&
         !cart?.shippingAddress
