@@ -32,7 +32,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
                 type="button"
                 className="main-btn big outline"
                 onClick={() => router.push(backLink)}>
-                <span className="icon-left" /> {'Back'}
+                <span className="icon-left" /> Back
               </button>
             ) : (
               <></>
@@ -47,7 +47,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
               disabled={disableSubmit}
               onClick={onNext}>
               {loading ? (
-                <Bars height={25} fill={'#FFFFFF'} stroke={'transparent'} />
+                <Bars height={25} fill="#FFFFFF" stroke="transparent" />
               ) : (
                 <>
                   {nextButtonText} <span className="icon-right" />

@@ -88,21 +88,21 @@ export const SHIPPING_BILLING_FORM: { [key: string]: FormField } = {
     name: 'postalCode',
     text: 'Postal Code',
     required: true,
-    placeholder: 'Input Zip Code',
+    placeholder: 'Input Postal Code',
     /*
     validations: [
       {
         type: ValidationType.IsNumber,
-        message: 'Use correct US Zip code format',
+        message: 'Use correct US Postal code format',
       },
       {
         type: ValidationType.MaxLength,
-        message: 'Use correct US Zip code format',
+        message: 'Use correct US Postal code format',
         value: 5,
       },
       {
         type: ValidationType.MinLength,
-        message: 'Use correct US Zip code format',
+        message: 'Use correct US Postal code format',
         value: 5,
       }
     ],

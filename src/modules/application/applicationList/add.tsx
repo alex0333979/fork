@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 
 import { Product } from '@/apollo'
 import { useAuth, useProducts, useCurrency } from '@/hooks'
+import { showError } from '@/utils'
+import { PAGES } from '@/constants'
 import { AddProps } from './types'
 
 const Add: React.FC<AddProps> = ({ isOpenAddFrom, openAddForm, onCreate }) => {
@@ -12,6 +14,14 @@ const Add: React.FC<AddProps> = ({ isOpenAddFrom, openAddForm, onCreate }) => {
   const { currentCurrency } = useCurrency()
 
   const { getProduct } = useProducts()
+
+  const onAddAnother = useCallback(() => {
+    if (location.pathname === PAGES.application.create) {
+      showError('You have pending application.')
+    } else {
+      openAddForm(!isOpenAddFrom)
+    }
+  }, [isOpenAddFrom, openAddForm])
 
   const subTotal = useMemo(
     () =>
@@ -28,10 +38,7 @@ const Add: React.FC<AddProps> = ({ isOpenAddFrom, openAddForm, onCreate }) => {
         'add-application': true,
         active: isOpenAddFrom,
       })}>
-      <button
-        type="button"
-        className="add-btn"
-        onClick={() => openAddForm(!isOpenAddFrom)}>
+      <button type="button" className="add-btn" onClick={onAddAnother}>
         <span className="icon-close" />
         Add application
       </button>

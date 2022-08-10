@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
-import { useTranslation } from 'react-i18next'
 
 import {
   CartItem,
@@ -19,7 +18,6 @@ import AddAnotherButton from './addAnotherButton'
 import Summary from './summary'
 
 const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
-  const { t } = useTranslation()
   const router = useRouter()
   const { cart, updateMe } = useAuth()
   const { currentCurrency } = useCurrency()

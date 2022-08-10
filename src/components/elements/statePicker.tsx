@@ -30,6 +30,8 @@ const StatePicker: React.FC<StatePickerProps> = ({
     [formField.name, selectedState],
   )
 
+  if (!['US', 'CA'].includes(country)) return null
+
   return (
     <label className="half-size">
       <span className="label">

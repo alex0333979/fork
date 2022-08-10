@@ -46,6 +46,7 @@ export const CurrencyProvider: React.FC<{
   const [setDefaultCurrency] = useSetDefaultCurrencyMutation({
     fetchPolicy: 'network-only',
     onCompleted: (res) => {
+      console.log({ res })
       updateMe({ cart: res.SetDefaultCurrency.data || cart })
     },
   })

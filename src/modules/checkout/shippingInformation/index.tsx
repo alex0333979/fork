@@ -24,7 +24,7 @@ const ShippingInformation: React.FC = () => {
 
   useEffect(() => {
     if (!country && me) {
-      setCountry(me?.country || 'US')
+      setCountry(defaultCountry?.value || me?.country || 'US')
     }
   }, [country, defaultCountry, me])
 
