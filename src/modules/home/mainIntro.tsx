@@ -3,14 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import classNames from 'classnames'
-import { Bars } from 'react-loading-icons'
 
-import { Country, PDocument, useDocumentsByCountryLazyQuery } from '@/apollo'
+import { Country, PDocument } from '@/apollo'
 import { useLocation, useCurrency } from '@/hooks'
 import { Maybe } from '@/types'
-import { iCountry } from '@/components/elements/countrySelector'
-import { PAGES, UK_PASSPORT_IMAGES, US_PASSPORT_IMAGES } from '@/constants'
+import { ICountry } from '@/components/elements/countrySelector'
+import { PAGES } from '@/constants'
+import DocModal from './docModal'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
   {
@@ -42,7 +41,7 @@ const MainIntro = (
 ) => {
   const { country: currentCountry, onChangeCountry } = useLocation()
   const { onChangeCurrencyByCountry } = useCurrency()
-  const [country, setCountry] = useState<iCountry | undefined>(
+  const [country, setCountry] = useState<ICountry | undefined>(
     pCountry
       ? {
           label: pCountry.country || '',
@@ -50,23 +49,15 @@ const MainIntro = (
         }
       : undefined,
   )
-  const [documents, setDocuments] = useState<PDocument[]>([])
   const router = useRouter()
-  const [fetchDocuments, { loading }] = useDocumentsByCountryLazyQuery({
-    fetchPolicy: 'no-cache',
-    onCompleted: (res) => {
-      if (res?.DocumentsByCountry.data) {
-        setDocuments(res.DocumentsByCountry.data)
-      }
-    },
-  })
 
   const [document, setDocument] = useState<Maybe<PDocument>>(pDoc)
 
   const onCountryChanged = useCallback(
-    (c: iCountry) => {
+    (c: ICountry) => {
       if (country?.value === c.value) return
       setCountry(c)
+      console.log({ c })
       onChangeCountry(c)
       onChangeCurrencyByCountry(c.value)
     },
@@ -85,14 +76,6 @@ const MainIntro = (
       )
     }
   }, [country, currentCountry])
-
-  useEffect(() => {
-    if (country?.label) {
-      fetchDocuments({
-        variables: { country: country.label },
-      })
-    }
-  }, [country?.label, fetchDocuments])
 
   useEffect(() => {
     if (pCountry?.country && pCountry.countryCode) {
@@ -115,7 +98,7 @@ const MainIntro = (
   )
 
   const onSelectedCountry = useCallback(
-    (country: iCountry) => {
+    (country: ICountry) => {
       onCountryChanged(country)
       setDocument(undefined)
     },
@@ -189,99 +172,14 @@ const MainIntro = (
           </div>
         </div>
       </div>
-      <div className={classNames('modal-wrap doc-type', { open })}>
-        <div className="overlay" />
-        <div className="modal-content">
-          {loading && (
-            <div className="loading-wrapper">
-              <Bars height={50} fill="#0080FF" stroke="transparent" />
-            </div>
-          )}
-          <div className="close-btn">
-            <button type="button" onClick={() => setOpen(false)}>
-              <span className="icon-close" />
-            </button>
-          </div>
-          <div className="content-scroll">
-            <div className="select-document">
-              <div className="form-fields">
-                <label>
-                  <CountrySelector
-                    country={country}
-                    onSelectCountry={onSelectedCountry}
-                  />
-                </label>
-              </div>
-              <div className="document-options">
-                {documents.map((d, i) => (
-                  <label key={i}>
-                    <input
-                      type="radio"
-                      name={`document-${i}`}
-                      checked={document?.id === d.id}
-                      onChange={() => goTakePhoto(d)}
-                    />
-                    <span className="wrap-box">
-                      <span className="bullet">
-                        <span className="img">
-                          {d.country === 'United States' &&
-                          US_PASSPORT_IMAGES.find((i) => i.name === d.type) ? (
-                            <Image
-                              src={`/images/passports/${
-                                US_PASSPORT_IMAGES.find(
-                                  (i) => i.name === d.type,
-                                )?.image
-                              }`}
-                              layout="fill"
-                              alt=""
-                            />
-                          ) : d.country === 'United Kingdom' &&
-                            UK_PASSPORT_IMAGES.find(
-                              (i) => i.name === d.type,
-                            ) ? (
-                            <Image
-                              src={`/images/passports/${
-                                UK_PASSPORT_IMAGES.find(
-                                  (i) => i.name === d.type,
-                                )?.image
-                              }`}
-                              layout="fill"
-                              alt=""
-                            />
-                          ) : d.type === 'Passport' ? (
-                            <Image
-                              src={`/images/passports/${
-                                d.countryCode?.toLowerCase() ?? 'passport'
-                              }.png`}
-                              layout="fill"
-                              alt=""
-                            />
-                          ) : (
-                            <Image
-                              src="/images/passports/default-img.png"
-                              layout="fill"
-                              alt=""
-                            />
-                          )}
-                        </span>
-                      </span>
-                      <span className="name">{d.type}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
-              <div className="submit-btn">
-                <a
-                  className="main-btn big outline"
-                  onClick={() => goTakePhoto(document)}>
-                  <i className="icon-camera" />
-                  Take A Photo
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DocModal
+        open={open}
+        onClose={() => setOpen(false)}
+        country={country}
+        onSelectedCountry={onSelectedCountry}
+        document={document}
+        onSelectDocument={goTakePhoto}
+      />
     </>
   )
 }

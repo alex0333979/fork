@@ -7,15 +7,15 @@ import React, {
 } from 'react'
 import { useCookies } from 'react-cookie'
 
-import { iCountry } from '@/components/elements/countrySelector'
+import { ICountry } from '@/components/elements/countrySelector'
 import { useAuth } from '@/hooks'
 import { countries, LANGUAGE_COOKIE_NAME } from '@/constants'
 
 interface ILocationContext {
-  country: iCountry | undefined
+  country: ICountry | undefined
   currentLanguage: ILanguage | undefined
   languages: ILanguage[]
-  onChangeCountry: (c: iCountry) => void
+  onChangeCountry: (c: ICountry) => void
   onChangeLanguage: (l?: string) => void
 }
 export interface ILanguage {
@@ -36,7 +36,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const { me: user } = useAuth()
 
-  const [country, setCountry] = useState<iCountry | undefined>()
+  const [country, setCountry] = useState<ICountry | undefined>()
   const [cookies, setCookie] = useCookies([LANGUAGE_COOKIE_NAME])
 
   useEffect(() => {
@@ -84,7 +84,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
     [setCookie],
   )
 
-  const onChangeCountry = useCallback((_country: iCountry) => {
+  const onChangeCountry = useCallback((_country: ICountry) => {
     setCountry(_country)
   }, [])
 
