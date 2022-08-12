@@ -3,23 +3,25 @@ import React, {
   useContext,
   useCallback,
   useEffect,
+  useMemo,
   ReactNode,
   useState,
 } from 'react'
 import { useRouter } from 'next/router'
 
-import { PDocument } from '@/apollo'
+import { Form, PDocument, useFormsQuery } from '@/apollo'
 import { useLocation, useCurrency } from '@/hooks'
 import { Maybe } from '@/types'
 import { ICountry } from '@/components/elements/countrySelector'
-import { PAGES } from '@/constants'
+import { PAGES, PHOTO_FORM } from '@/constants'
 import { TModalType } from './types'
 
 interface IContextProps {
   modalType: TModalType
   country: ICountry | undefined
   document: Maybe<PDocument>
-  onCloseDocModal: () => void
+  form: Maybe<Form>
+  onCloseModal: () => void
   onSelectCountry: (c: ICountry) => void
   onSelectDocument: (d: Maybe<PDocument>) => void
 }
@@ -28,7 +30,8 @@ export const OneClickContext = createContext<IContextProps>({
   modalType: 'select-doc',
   country: undefined,
   document: null,
-  onCloseDocModal: () => null,
+  form: null,
+  onCloseModal: () => null,
   onSelectCountry: () => null,
   onSelectDocument: () => null,
 })
@@ -44,6 +47,10 @@ export const OneClickProvider = ({
   const { onChangeCurrencyByCountry } = useCurrency()
   const [country, setCountry] = useState<ICountry | undefined>()
   const [document, setDocument] = useState<Maybe<PDocument>>()
+
+  const { data: formsRes } = useFormsQuery({
+    fetchPolicy: 'cache-first',
+  })
 
   const onCountryChanged = useCallback(
     (c: ICountry) => {
@@ -83,24 +90,43 @@ export const OneClickProvider = ({
     [onCountryChanged],
   )
 
+  const onCloseModal = useCallback(() => {
+    if (modalType === 'select-doc') {
+      router.push(PAGES.home)
+    } else {
+      setModalType('select-doc')
+    }
+  }, [modalType, router])
+
+  const form = useMemo(
+    () => (formsRes?.Forms || []).find((f) => f.name === PHOTO_FORM),
+    [formsRes?.Forms],
+  )
+
+  const values = useMemo(
+    () => ({
+      modalType,
+      country,
+      document,
+      form,
+      onCloseModal,
+      onSelectCountry,
+      onSelectDocument,
+    }),
+    [
+      country,
+      document,
+      form,
+      modalType,
+      onCloseModal,
+      onSelectCountry,
+      onSelectDocument,
+    ],
+  )
+
   return (
-    <OneClickContext.Provider
-      value={{
-        modalType,
-        country,
-        document,
-        onCloseDocModal: () => router.push(PAGES.home),
-        onSelectCountry,
-        onSelectDocument,
-      }}>
-      {children({
-        modalType,
-        country,
-        document,
-        onCloseDocModal: () => router.push(PAGES.home),
-        onSelectCountry,
-        onSelectDocument,
-      })}
+    <OneClickContext.Provider value={values}>
+      {children(values)}
     </OneClickContext.Provider>
   )
 }

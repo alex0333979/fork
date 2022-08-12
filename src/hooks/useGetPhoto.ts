@@ -73,6 +73,7 @@ export const useGetPhoto = ({ fileRef, onSubmitEntry }: IUseGetPhoto) => {
           )
         })
         .catch((err) => {
+          console.log(err)
           setLoading(false)
           showError(err.message)
           if (fileRef?.current) {

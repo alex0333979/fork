@@ -1,5 +1,6 @@
 import React from 'react'
-import classNames from 'classnames'
+
+import Modal from '@/components/elements/modal'
 
 interface Props {
   className?: string
@@ -14,17 +15,9 @@ const OneClickModal: React.FC<Props> = ({
   onClose,
   children,
 }) => (
-  <div className={classNames('modal-wrap', { className: !!className, open })}>
-    <div className="overlay" />
-    <div className="modal-content">
-      <div className="close-btn">
-        <button type="button" onClick={onClose}>
-          <span className="icon-close" />
-        </button>
-      </div>
-      <div className="content-scroll">{children}</div>
-    </div>
-  </div>
+  <Modal className={`general ${className || ''}`} open={open} onClose={onClose}>
+    <div className="content-scroll">{children}</div>
+  </Modal>
 )
 
 export default OneClickModal

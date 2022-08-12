@@ -1,12 +1,10 @@
-/* eslint-disable max-len */
 import React, { useCallback, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 
 import { showError, showSuccess } from '@/utils'
 import { useGetPhoto } from '@/hooks'
-import { TakePhotoPageProps } from '@/pages/photo/take-photo'
-import { SignedUrl, useSubmitEntryMutation } from '@/apollo'
+import { SignedUrl, useSubmitEntryMutation, Form } from '@/apollo'
 import { TEMP_IMG_DIM, PAGES, PHOTO_STEP } from '@/constants'
 
 import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
@@ -14,11 +12,12 @@ import PhotoHelper from '@/modules/photo/components/photoHelperVideoModal'
 import ProcessingPhoto from '@/modules/photo/components/photoProcessing'
 import UploadPhoto from '@/modules/photo/components/uploadPhoto'
 
-const TakePhoto: React.FC<TakePhotoPageProps> = ({
-  form,
-  entry,
-  documentId,
-}) => {
+interface Props {
+  documentId: string
+  form: Form
+}
+
+const TakePhoto: React.FC<Props> = ({ documentId, form }) => {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -38,32 +37,28 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
         showError('Create Entry Error, formStep not found.')
         return
       }
+
       const a: any = {
         image_url: signedUrl.url,
         document_id: documentId,
         number_of_copies: 4,
       }
+
       Object.keys(a).map((key) => {
-        const index = formStep.fields.findIndex(
-          (field: any) => field.name === key,
-        )
-        if (index === -1) {
-          showError(`Create Entry Error, ${key} field not found.`)
-          return
+        for (const field of formStep.fields) {
+          if (field.name === key) {
+            field.value = a[key]
+            break
+          }
         }
-        formStep.fields[index].value = a[key]
       })
       const { data } = await submitEntry({
-        variables: { entryId: entry?.id, formId: form.id, formStep },
+        variables: { formId: form.id, formStep },
         fetchPolicy: 'no-cache',
       })
       const result = data?.SubmitEntry.data
       if (result) {
-        if (entry?.id) {
-          showSuccess('Entry image is updated.')
-        } else {
-          showSuccess('Entry is created.')
-        }
+        showSuccess('Entry is created.')
         setCookie(TEMP_IMG_DIM, imgResolution, {
           path: '/',
         })
@@ -73,15 +68,7 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
         setLoading(false)
       }
     },
-    [
-      documentId,
-      entry?.id,
-      form.id,
-      form.steps,
-      router,
-      setCookie,
-      submitEntry,
-    ],
+    [documentId, form.id, form.steps, router, setCookie, submitEntry],
   )
 
   const {
@@ -99,31 +86,33 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
   })
 
   return (
-    <div className="step-data">
-      <div className="data-wrap">
-        <ProcessStepPhoto step={1} steps={PHOTO_STEP.steps} />
-        <input
-          type="file"
-          hidden
-          accept="image/png"
-          ref={fileRef}
-          onChange={onFileChange}
-        />
-        {inProgress ? (
-          <ProcessingPhoto
-            selectedImage={selectedImage}
-            percentage={percentage}
-            onCancelUpload={onCancelUpload}
+    <div className="steps-content">
+      <div className="step-data">
+        <div className="data-wrap">
+          <ProcessStepPhoto step={1} steps={PHOTO_STEP.steps} />
+          <input
+            type="file"
+            hidden
+            accept="image/png"
+            ref={fileRef}
+            onChange={onFileChange}
           />
-        ) : (
-          <UploadPhoto
-            camera={camera}
-            onChangeCamera={onChangeCamera}
-            onStartUpload={() => fileRef?.current?.click()}
-            onPhotoTaken={onPhotoTaken}
-          />
-        )}
-        <PhotoHelper />
+          {inProgress ? (
+            <ProcessingPhoto
+              selectedImage={selectedImage}
+              percentage={percentage}
+              onCancelUpload={onCancelUpload}
+            />
+          ) : (
+            <UploadPhoto
+              camera={camera}
+              onChangeCamera={onChangeCamera}
+              onStartUpload={() => fileRef?.current?.click()}
+              onPhotoTaken={onPhotoTaken}
+            />
+          )}
+          <PhotoHelper />
+        </div>
       </div>
     </div>
   )

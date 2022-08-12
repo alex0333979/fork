@@ -3499,7 +3499,7 @@ footer {
 }
 
 
-.steps-page {
+.steps-page, .one-click-take-photo {
   overflow: hidden;
 
   .container {
@@ -4861,7 +4861,7 @@ footer {
     }
   }
 
-  &.doc-type {
+  &.general {
     .overlay {
       background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);

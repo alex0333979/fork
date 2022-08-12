@@ -68,3 +68,15 @@
 .spacer {
   flex-grow: 1;
 }
+
+.one-click-take-photo {
+  .step-data {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+
+    .action-btn {
+      justify-content: center;
+    }
+  }
+}
