@@ -6,8 +6,7 @@ import { AppLayout } from '@/components'
 import Home from '@/modules/home'
 import { HomepageContent } from '@/modules/home/constant'
 import { SEO } from '@/constants'
-import DocModal from '@/modules/home/docModal'
-import { OneClickProvider } from './oneClickContext'
+import OneClick from '@/modules/oneClick'
 
 const OneClickHomePage: NextPage = () => (
   <>
@@ -25,27 +24,7 @@ const OneClickHomePage: NextPage = () => (
         buttonTitle="Choose document"
       />
     </AppLayout>
-    <OneClickProvider>
-      {({
-        modalType,
-        country,
-        document,
-        onCloseDocModal,
-        onSelectCountry,
-        onSelectDocument,
-      }) => (
-        <>
-          <DocModal
-            open={modalType === 'select-doc'}
-            onClose={onCloseDocModal}
-            country={country}
-            onSelectCountry={onSelectCountry}
-            document={document}
-            onSelectDocument={onSelectDocument}
-          />
-        </>
-      )}
-    </OneClickProvider>
+    <OneClick />
   </>
 )
 
