@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/router'
 
 import { SignedUrl, useUpdateEntryPhotoMutation } from '@/apollo'
+import { TCamera } from '@/types'
 import { PAGES, COOKIES_EDIT_ORDER_TOKEN_NAME, TEMP_IMG_DIM } from '@/constants'
 import GetPhoto from './_getPhoto'
 
@@ -19,7 +20,7 @@ const TakeNewPhoto: React.FC = () => {
     async (
       signedUrl: SignedUrl,
       imgResolution: string,
-      type: string,
+      camera: TCamera,
       setLoading: (l: boolean) => void,
     ) => {
       const { data } = await updateEntryPhoto({
@@ -35,7 +36,7 @@ const TakeNewPhoto: React.FC = () => {
         path: '/',
       })
       await router.push(
-        `${PAGES.photo.editPhoto}?entryId=${result?.id || ''}&type=${type}`,
+        `${PAGES.photo.editPhoto}?entryId=${result?.id || ''}&type=${camera}`,
       )
       setLoading(false)
     },

@@ -11,17 +11,20 @@ import axios from 'axios'
 
 import { SignedUrl, useGetSignedUrlLazyQuery } from '@/apollo'
 import { showSuccess, showError } from '@/utils'
-import { TOnSubmitEntry } from '@/types'
+import { Maybe, TCamera, TOnSubmitEntry } from '@/types'
 
 interface IUseGetPhoto {
   fileRef: RefObject<HTMLInputElement>
+  camera?: Maybe<TCamera>
   onSubmitEntry: TOnSubmitEntry
 }
 
-export const useGetPhoto = ({ fileRef, onSubmitEntry }: IUseGetPhoto) => {
-  const [camera, setCamera] = useState<'user' | 'environment'>(
-    FACING_MODES.USER,
-  )
+export const useGetPhoto = ({
+  fileRef,
+  camera: _camera,
+  onSubmitEntry,
+}: IUseGetPhoto) => {
+  const [camera, setCamera] = useState<TCamera>(_camera || FACING_MODES.USER)
   const [imageResolution, setImageResolution] = useState<string>('')
 
   const [loading, setLoading] = useState<boolean>(false)

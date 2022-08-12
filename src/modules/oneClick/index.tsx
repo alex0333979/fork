@@ -12,9 +12,12 @@ const OneClick: React.FC = () => (
       country,
       document,
       form,
+      entry,
+      camera,
       onCloseModal,
       onSelectCountry,
       onSelectDocument,
+      onEntrySubmitted,
     }) => (
       <>
         <DocModal
@@ -31,7 +34,13 @@ const OneClick: React.FC = () => (
             className="one-click-take-photo"
             onClose={onCloseModal}>
             {modalType === 'take-photo' && (
-              <TakePhoto documentId={document.id.toString()} form={form} />
+              <TakePhoto
+                documentId={document.id.toString()}
+                form={form}
+                entry={entry}
+                camera={camera}
+                onEntrySubmitted={onEntrySubmitted}
+              />
             )}
           </OneClickModal>
         )}

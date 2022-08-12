@@ -1,11 +1,12 @@
 import React, { useCallback, useRef } from 'react'
-import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
+import cloneDeep from 'lodash/cloneDeep'
 
 import { showError, showSuccess } from '@/utils'
 import { useGetPhoto } from '@/hooks'
-import { SignedUrl, useSubmitEntryMutation, Form } from '@/apollo'
-import { TEMP_IMG_DIM, PAGES, PHOTO_STEP } from '@/constants'
+import { SignedUrl, useSubmitEntryMutation, Form, Entry } from '@/apollo'
+import { Maybe, TCamera } from '@/types'
+import { TEMP_IMG_DIM, PHOTO_STEP } from '@/constants'
 
 import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
 import PhotoHelper from '@/modules/photo/components/photoHelperVideoModal'
@@ -15,10 +16,18 @@ import UploadPhoto from '@/modules/photo/components/uploadPhoto'
 interface Props {
   documentId: string
   form: Form
+  entry: Maybe<Entry>
+  camera: TCamera
+  onEntrySubmitted: (eId: string, camera: TCamera) => void
 }
 
-const TakePhoto: React.FC<Props> = ({ documentId, form }) => {
-  const router = useRouter()
+const TakePhoto: React.FC<Props> = ({
+  documentId,
+  form,
+  entry,
+  camera: _camera,
+  onEntrySubmitted,
+}) => {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const [, setCookie] = useCookies([TEMP_IMG_DIM])
@@ -29,10 +38,10 @@ const TakePhoto: React.FC<Props> = ({ documentId, form }) => {
     async (
       signedUrl: SignedUrl,
       imgResolution: string,
-      type: string,
+      camera: TCamera,
       setLoading: (l: boolean) => void,
     ) => {
-      const formStep = form.steps[0]
+      const formStep = cloneDeep(form.steps[0])
       if (!formStep) {
         showError('Create Entry Error, formStep not found.')
         return
@@ -53,22 +62,32 @@ const TakePhoto: React.FC<Props> = ({ documentId, form }) => {
         }
       })
       const { data } = await submitEntry({
-        variables: { formId: form.id, formStep },
+        variables: { entryId: entry?.id, formId: form.id, formStep },
         fetchPolicy: 'no-cache',
       })
       const result = data?.SubmitEntry.data
       if (result) {
-        showSuccess('Entry is created.')
+        if (entry?.id) {
+          showSuccess('Entry image is updated.')
+        } else {
+          showSuccess('Entry is created.')
+        }
         setCookie(TEMP_IMG_DIM, imgResolution, {
           path: '/',
         })
-        await router.push(
-          `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${type}&documentId=${documentId}`,
-        )
+        onEntrySubmitted(result.id, camera)
         setLoading(false)
       }
     },
-    [documentId, form.id, form.steps, router, setCookie, submitEntry],
+    [
+      documentId,
+      entry?.id,
+      form.id,
+      form.steps,
+      onEntrySubmitted,
+      setCookie,
+      submitEntry,
+    ],
   )
 
   const {
@@ -81,6 +100,7 @@ const TakePhoto: React.FC<Props> = ({ documentId, form }) => {
     onPhotoTaken,
     onCancelUpload,
   } = useGetPhoto({
+    camera: _camera,
     fileRef,
     onSubmitEntry,
   })
