@@ -79,7 +79,6 @@ const VerifyPhoto: React.FC<Props> = ({
     },
   })
 
-  console.log({ document })
   useEffect(
     () => () => {
       setStatus(ProcessingStatus.notStarted)

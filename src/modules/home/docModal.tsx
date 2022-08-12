@@ -19,7 +19,7 @@ interface Props {
   open: boolean
   onClose: () => void
   country: ICountry | undefined
-  onSelectedCountry: (country: ICountry) => void
+  onSelectCountry: (country: ICountry) => void
   document: Maybe<PDocument>
   onSelectDocument: (d: Maybe<PDocument>) => void
 }
@@ -28,7 +28,7 @@ const DocModal = ({
   open,
   onClose,
   country,
-  onSelectedCountry,
+  onSelectCountry,
   document,
   onSelectDocument,
 }: Props) => {
@@ -71,7 +71,7 @@ const DocModal = ({
               <label>
                 <CountrySelector
                   country={country}
-                  onSelectCountry={onSelectedCountry}
+                  onSelectCountry={onSelectCountry}
                 />
               </label>
             </div>
@@ -131,7 +131,9 @@ const DocModal = ({
             </div>
             <div className="submit-btn">
               <a
-                className="main-btn big outline"
+                className={classNames('main-btn big outline', {
+                  disabled: !document,
+                })}
                 onClick={() => onSelectDocument(document)}>
                 <i className="icon-camera" />
                 Take A Photo

@@ -25,7 +25,27 @@ const OneClickHomePage: NextPage = () => (
         buttonTitle="Choose document"
       />
     </AppLayout>
-    <DocModal />
+    <OneClickProvider>
+      {({
+        modalType,
+        country,
+        document,
+        onCloseDocModal,
+        onSelectCountry,
+        onSelectDocument,
+      }) => (
+        <>
+          <DocModal
+            open={modalType === 'select-doc'}
+            onClose={onCloseDocModal}
+            country={country}
+            onSelectCountry={onSelectCountry}
+            document={document}
+            onSelectDocument={onSelectDocument}
+          />
+        </>
+      )}
+    </OneClickProvider>
   </>
 )
 

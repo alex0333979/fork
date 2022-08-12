@@ -57,7 +57,6 @@ const MainIntro = (
     (c: ICountry) => {
       if (country?.value === c.value) return
       setCountry(c)
-      console.log({ c })
       onChangeCountry(c)
       onChangeCurrencyByCountry(c.value)
     },
@@ -97,7 +96,7 @@ const MainIntro = (
     [router],
   )
 
-  const onSelectedCountry = useCallback(
+  const onSelectCountry = useCallback(
     (country: ICountry) => {
       onCountryChanged(country)
       setDocument(undefined)
@@ -125,7 +124,7 @@ const MainIntro = (
                       <span className="field">
                         <CountrySelector
                           country={country}
-                          onSelectCountry={onSelectedCountry}
+                          onSelectCountry={onSelectCountry}
                         />
                       </span>
                     </label>
@@ -176,7 +175,7 @@ const MainIntro = (
         open={open}
         onClose={() => setOpen(false)}
         country={country}
-        onSelectedCountry={onSelectedCountry}
+        onSelectCountry={onSelectCountry}
         document={document}
         onSelectDocument={goTakePhoto}
       />

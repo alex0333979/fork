@@ -8,35 +8,47 @@ import React, {
 } from 'react'
 import { useRouter } from 'next/router'
 
-import { Country, PDocument } from '@/apollo'
+import { PDocument } from '@/apollo'
 import { useLocation, useCurrency } from '@/hooks'
 import { Maybe } from '@/types'
 import { ICountry } from '@/components/elements/countrySelector'
+import { PAGES } from '@/constants'
+import { TModalType } from './types'
 
 interface IContextProps {
+  modalType: TModalType
   country: ICountry | undefined
-  setOpenDocument: (open?: boolean) => void
+  document: Maybe<PDocument>
+  onCloseDocModal: () => void
+  onSelectCountry: (c: ICountry) => void
+  onSelectDocument: (d: Maybe<PDocument>) => void
 }
 
 export const OneClickContext = createContext<IContextProps>({
-  openDocument: false,
-  setOpenDocument: () => null,
+  modalType: 'select-doc',
+  country: undefined,
+  document: null,
+  onCloseDocModal: () => null,
+  onSelectCountry: () => null,
+  onSelectDocument: () => null,
 })
 
-export const OneClickProvider = ({ children }: { children: ReactNode }) => {
+export const OneClickProvider = ({
+  children,
+}: {
+  children: (v: IContextProps) => ReactNode
+}) => {
   const router = useRouter()
-  const [openDocument, setOpenDocument] = useState<boolean>(false)
+  const [modalType, setModalType] = useState<TModalType>('select-doc')
   const { country: currentCountry, onChangeCountry } = useLocation()
   const { onChangeCurrencyByCountry } = useCurrency()
   const [country, setCountry] = useState<ICountry | undefined>()
-
   const [document, setDocument] = useState<Maybe<PDocument>>()
 
   const onCountryChanged = useCallback(
     (c: ICountry) => {
       if (country?.value === c.value) return
       setCountry(c)
-      console.log({ c })
       onChangeCountry(c)
       onChangeCurrencyByCountry(c.value)
     },
@@ -56,16 +68,12 @@ export const OneClickProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [country, currentCountry])
 
-  const goTakePhoto = useCallback(
-    async (d: Maybe<PDocument>) => {
-      if (!d) {
-        return
-      }
+  const onSelectDocument = useCallback(async (d: Maybe<PDocument>) => {
+    if (d) {
       setDocument(d)
-      // do something
-    },
-    [router],
-  )
+      setModalType('take-photo')
+    }
+  }, [])
 
   const onSelectCountry = useCallback(
     (country: ICountry) => {
@@ -78,10 +86,21 @@ export const OneClickProvider = ({ children }: { children: ReactNode }) => {
   return (
     <OneClickContext.Provider
       value={{
-        openDocument,
-        setOpenDocument: (o?: boolean) => setOpenDocument(Boolean(o)),
+        modalType,
+        country,
+        document,
+        onCloseDocModal: () => router.push(PAGES.home),
+        onSelectCountry,
+        onSelectDocument,
       }}>
-      {children}
+      {children({
+        modalType,
+        country,
+        document,
+        onCloseDocModal: () => router.push(PAGES.home),
+        onSelectCountry,
+        onSelectDocument,
+      })}
     </OneClickContext.Provider>
   )
 }
