@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NextImage from 'next/image'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
+
+import TakePhotoModal from '@/components/elements/takePhotoModal'
 
 interface Props {
   camera: 'user' | 'environment'
   onChangeCamera: (c: 'user' | 'environment') => void
   onStartUpload: () => void
-  onOpenCamera: () => void
+  onPhotoTaken: (f: File) => Promise<void>
 }
 
 const UploadPhoto: React.FC<Props> = ({
   camera,
   onStartUpload,
   onChangeCamera,
-  onOpenCamera,
+  onPhotoTaken,
 }) => {
+  const [openCamera, setOpenCamera] = useState<boolean>(false)
   const matches = useMediaQuery('only screen and (max-width: 1024px)')
 
   return (
@@ -74,7 +77,7 @@ const UploadPhoto: React.FC<Props> = ({
           <button
             type="button"
             className="main-btn big"
-            onClick={() => onOpenCamera()}>
+            onClick={() => setOpenCamera(true)}>
             <span className="icon-camera" />
             Take A Photo
           </button>
@@ -87,6 +90,15 @@ const UploadPhoto: React.FC<Props> = ({
           </button>
         </div>
       </div>
+      <TakePhotoModal
+        open={openCamera}
+        idealFacingMode={camera}
+        closeTakePhoto={() => setOpenCamera(false)}
+        takePhoto={async (f: File) => {
+          setOpenCamera(false)
+          await onPhotoTaken(f)
+        }}
+      />
     </>
   )
 }

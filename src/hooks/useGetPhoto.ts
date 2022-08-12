@@ -25,7 +25,6 @@ export const useGetPhoto = ({ fileRef, onSubmitEntry }: IUseGetPhoto) => {
   const [imageResolution, setImageResolution] = useState<string>('')
 
   const [loading, setLoading] = useState<boolean>(false)
-  const [openCamera, setOpenCamera] = useState<boolean>(false)
   const [selectedImage, setSelectedImage] = useState<File | undefined>(
     undefined,
   )
@@ -113,7 +112,6 @@ export const useGetPhoto = ({ fileRef, onSubmitEntry }: IUseGetPhoto) => {
   const onPhotoTaken = useCallback(
     async (file: File) => {
       setSelectedImage(file)
-      setOpenCamera(false)
       await onLoadImage(file)
     },
     [onLoadImage],
@@ -150,9 +148,7 @@ export const useGetPhoto = ({ fileRef, onSubmitEntry }: IUseGetPhoto) => {
     percentage,
     selectedImage,
     camera,
-    openCamera,
     onChangeCamera: (m: 'user' | 'environment') => setCamera(m),
-    onOpenCamera: (opened: boolean) => setOpenCamera(opened),
     onFileChange,
     onPhotoTaken,
     onCancelUpload,

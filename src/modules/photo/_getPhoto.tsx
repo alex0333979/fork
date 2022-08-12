@@ -1,10 +1,9 @@
 import React, { useRef } from 'react'
 
-import ProcessStepPhoto from '@/components/elements/processStepPhoto'
-import TakePhotoModal from '@/components/elements/takePhotoModal'
 import { PHOTO_STEP } from '@/constants'
 import { TOnSubmitEntry } from '@/types'
 import { useGetPhoto } from '@/hooks'
+import ProcessStepPhoto from './components/processStepPhoto'
 import PhotoHelper from './components/photoHelperVideoModal'
 import PhotoStepInfo from './components/photoStepInfo'
 import ProcessingPhoto from './components/photoProcessing'
@@ -23,9 +22,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
     percentage,
     selectedImage,
     camera,
-    openCamera,
     onChangeCamera,
-    onOpenCamera,
     onFileChange,
     onPhotoTaken,
     onCancelUpload,
@@ -61,7 +58,7 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
                     camera={camera}
                     onChangeCamera={onChangeCamera}
                     onStartUpload={() => fileRef?.current?.click()}
-                    onOpenCamera={() => onOpenCamera(true)}
+                    onPhotoTaken={onPhotoTaken}
                   />
                 )}
                 <PhotoHelper />
@@ -71,12 +68,6 @@ const GetPhoto: React.FC<Props> = ({ onSubmitEntry }) => {
           </div>
         </div>
       </div>
-      <TakePhotoModal
-        open={openCamera}
-        idealFacingMode={camera}
-        closeTakePhoto={() => onOpenCamera(false)}
-        takePhoto={onPhotoTaken}
-      />
     </>
   )
 }

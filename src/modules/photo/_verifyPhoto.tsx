@@ -7,7 +7,6 @@ import { parse } from 'path'
 import { useCookies } from 'react-cookie'
 
 import { PAGES, PHOTO_STEP } from '@/constants'
-import ProcessStepPhoto from '@/components/elements/processStepPhoto'
 import LoadingMask from '@/components/elements/loadingMask'
 import LoadingSpinner from '@/components/loadingSpinner'
 import {
@@ -20,6 +19,7 @@ import {
 import { showError } from '@/utils'
 import { TEMP_IMG_DIM } from '@/constants'
 
+import ProcessStepPhoto from './components/processStepPhoto'
 import StepInfo from './components/stepInfo'
 import TestCase from './components/testCase'
 import { ProcessingStatus } from './types'

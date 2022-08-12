@@ -1,14 +1,18 @@
 /* eslint-disable max-len */
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
 
 import { showError, showSuccess } from '@/utils'
+import { useGetPhoto } from '@/hooks'
 import { TakePhotoPageProps } from '@/pages/photo/take-photo'
 import { SignedUrl, useSubmitEntryMutation } from '@/apollo'
-import { TEMP_IMG_DIM, PAGES } from '@/constants'
-import GetPhoto from '../photo/_getPhoto'
-import PhotoProcessing from './photoProcessing'
+import { TEMP_IMG_DIM, PAGES, PHOTO_STEP } from '@/constants'
+
+import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
+import PhotoHelper from '@/modules/photo/components/photoHelperVideoModal'
+import ProcessingPhoto from '@/modules/photo/components/photoProcessing'
+import UploadPhoto from '@/modules/photo/components/uploadPhoto'
 
 const TakePhoto: React.FC<TakePhotoPageProps> = ({
   form,
@@ -16,11 +20,13 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
   documentId,
 }) => {
   const router = useRouter()
+  const fileRef = useRef<HTMLInputElement>(null)
+
   const [, setCookie] = useCookies([TEMP_IMG_DIM])
 
   const [submitEntry] = useSubmitEntryMutation()
 
-  const createEntry = useCallback(
+  const onSubmitEntry = useCallback(
     async (
       signedUrl: SignedUrl,
       imgResolution: string,
@@ -78,6 +84,48 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
     ],
   )
 
-  return <GetPhoto onSubmitEntry={createEntry} />
+  const {
+    inProgress,
+    percentage,
+    selectedImage,
+    camera,
+    onChangeCamera,
+    onFileChange,
+    onPhotoTaken,
+    onCancelUpload,
+  } = useGetPhoto({
+    fileRef,
+    onSubmitEntry,
+  })
+
+  return (
+    <div className="step-data">
+      <div className="data-wrap">
+        <ProcessStepPhoto step={1} steps={PHOTO_STEP.steps} />
+        <input
+          type="file"
+          hidden
+          accept="image/png"
+          ref={fileRef}
+          onChange={onFileChange}
+        />
+        {inProgress ? (
+          <ProcessingPhoto
+            selectedImage={selectedImage}
+            percentage={percentage}
+            onCancelUpload={onCancelUpload}
+          />
+        ) : (
+          <UploadPhoto
+            camera={camera}
+            onChangeCamera={onChangeCamera}
+            onStartUpload={() => fileRef?.current?.click()}
+            onPhotoTaken={onPhotoTaken}
+          />
+        )}
+        <PhotoHelper />
+      </div>
+    </div>
+  )
 }
 export default TakePhoto
