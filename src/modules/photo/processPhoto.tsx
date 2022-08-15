@@ -4,10 +4,10 @@ import { useRouter, NextRouter } from 'next/router'
 import { ProcessPhotoProps } from '@/pages/photo/process-photo'
 import { PAGES } from '@/constants'
 import { useProcessPhoto } from '@/hooks'
+import { ProcessingStatus } from '@/types'
 import RetakeButton from './components/retakeButton'
 import ApplicationModal from './components/applicationModal'
 import VerifyPhoto from './_verifyPhoto'
-import { ProcessingStatus } from './types'
 
 const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
   entry,

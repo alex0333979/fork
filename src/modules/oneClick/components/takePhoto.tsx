@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -104,6 +104,12 @@ const TakePhoto: React.FC<Props> = ({
     fileRef,
     onSubmitEntry,
   })
+
+  useEffect(() => {
+    if (fileRef.current) {
+      fileRef.current.value = ''
+    }
+  }, [])
 
   return (
     <div className="steps-content">

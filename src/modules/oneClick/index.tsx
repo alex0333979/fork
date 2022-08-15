@@ -4,6 +4,7 @@ import DocModal from '@/modules/home/docModal'
 import OneClickModal from './components/oneClickModal'
 import { OneClickProvider } from './oneClickContext'
 import TakePhoto from './components/takePhoto'
+import ProcessPhoto from './components/processPhoto'
 
 const OneClick: React.FC = () => (
   <OneClickProvider>
@@ -14,12 +15,15 @@ const OneClick: React.FC = () => (
       form,
       entry,
       camera,
+      modalClass,
       onCloseModal,
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
+      onChangePhoto,
     }) => (
       <>
+        {console.log({ modalType })}
         <DocModal
           open={modalType === 'select-doc'}
           onClose={onCloseModal}
@@ -30,8 +34,8 @@ const OneClick: React.FC = () => (
         />
         {!!document?.id && form && (
           <OneClickModal
-            open={modalType === 'take-photo'}
-            className="one-click-take-photo"
+            open={['take-photo', 'process-photo'].includes(modalType)}
+            className={modalClass}
             onClose={onCloseModal}>
             {modalType === 'take-photo' && (
               <TakePhoto
@@ -40,6 +44,13 @@ const OneClick: React.FC = () => (
                 entry={entry}
                 camera={camera}
                 onEntrySubmitted={onEntrySubmitted}
+              />
+            )}
+            {modalType === 'process-photo' && entry && (
+              <ProcessPhoto
+                document={document}
+                entry={entry}
+                onChangePhoto={onChangePhoto}
               />
             )}
           </OneClickModal>

@@ -21,6 +21,7 @@ import { Maybe, TCamera } from '@/types'
 import { ICountry } from '@/components/elements/countrySelector'
 import { PAGES, PHOTO_FORM } from '@/constants'
 import { TModalType } from './types'
+import { showError } from '@/utils'
 
 interface IContextProps {
   modalType: TModalType
@@ -29,10 +30,12 @@ interface IContextProps {
   form: Maybe<Form>
   entry: Maybe<Entry>
   camera: TCamera
+  modalClass: string
   onCloseModal: () => void
   onSelectCountry: (c: ICountry) => void
   onSelectDocument: (d: Maybe<PDocument>) => void
   onEntrySubmitted: (eId: string, camera: TCamera) => void
+  onChangePhoto: () => void
 }
 
 export const OneClickContext = createContext<IContextProps>({
@@ -42,10 +45,12 @@ export const OneClickContext = createContext<IContextProps>({
   form: null,
   entry: null,
   camera: 'user',
+  modalClass: '',
   onCloseModal: () => null,
   onSelectCountry: () => null,
   onSelectDocument: () => null,
   onEntrySubmitted: () => null,
+  onChangePhoto: () => null,
 })
 
 export const OneClickProvider = ({
@@ -69,6 +74,9 @@ export const OneClickProvider = ({
   const [fetchEntry] = useEntryLazyQuery({
     onCompleted: (res) => {
       setEntry(res.Entry.data)
+    },
+    onError: () => {
+      showError('Something went wrong while fetching entry')
     },
   })
 
@@ -118,9 +126,14 @@ export const OneClickProvider = ({
           entryId: _entryId,
         },
       })
+      setModalType('process-photo')
     },
     [fetchEntry],
   )
+
+  const onChangePhoto = useCallback(() => {
+    setModalType('take-photo')
+  }, [])
 
   const onCloseModal = useCallback(() => {
     if (modalType === 'select-doc') {
@@ -137,6 +150,13 @@ export const OneClickProvider = ({
     [formsRes?.Forms],
   )
 
+  const modalClass = useMemo(() => {
+    if (modalType === 'take-photo') return 'one-click-take-photo'
+    else if (modalType === 'process-photo') return 'one-click-process-photo'
+
+    return ''
+  }, [modalType])
+
   const values: IContextProps = useMemo(
     () => ({
       modalType,
@@ -145,10 +165,12 @@ export const OneClickProvider = ({
       form,
       entry,
       camera,
+      modalClass,
       onCloseModal,
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
+      onChangePhoto,
     }),
     [
       country,
@@ -157,10 +179,12 @@ export const OneClickProvider = ({
       entry,
       camera,
       modalType,
+      modalClass,
       onCloseModal,
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
+      onChangePhoto,
     ],
   )
 

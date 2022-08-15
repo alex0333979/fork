@@ -3499,7 +3499,7 @@ footer {
 }
 
 
-.steps-page, .one-click-take-photo {
+.steps-page, [class*="one-click-"] {
   overflow: hidden;
 
   .container {

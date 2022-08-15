@@ -74,11 +74,33 @@
     width: 100% !important;
     display: flex;
     justify-content: center;
+    align-items: center;
 
     .data-wrap {
       width: 85%;
     }
     .action-btn {
+      justify-content: center;
+    }
+  }
+}
+
+.one-click-process-photo {
+  .step-data {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .data-wrap {
+      width: 100%;
+      max-width: 100% !important;
+    }
+    .action-btn {
+      justify-content: center;
+    }
+    .requirements-wrap {
+      display: flex;
       justify-content: center;
     }
   }

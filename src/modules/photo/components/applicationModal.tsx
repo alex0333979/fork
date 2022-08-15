@@ -11,7 +11,11 @@ interface Props {
   onGoCart: () => void
 }
 
-const ApplicationModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
+const ApplicationModal: React.FC<Props> = ({
+  open,
+  onGoApplication,
+  onGoCart,
+}) => (
   <Modal open={open}>
     <div className="content-scroll">
       <div className="up-sale">
