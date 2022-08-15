@@ -11,7 +11,7 @@ interface Props {
   onGoCart: () => void
 }
 
-const SaveModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
+const ApplicationModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
   <Modal open={open}>
     <div className="content-scroll">
       <div className="up-sale">
@@ -56,4 +56,4 @@ const SaveModal: React.FC<Props> = ({ open, onGoApplication, onGoCart }) => (
   </Modal>
 )
 
-export default SaveModal
+export default ApplicationModal
