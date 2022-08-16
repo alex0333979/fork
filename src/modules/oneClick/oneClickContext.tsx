@@ -39,6 +39,9 @@ interface IContextProps {
   onCheckCart: () => void
   onSetDeliveryMethod: () => void
   onAddAnother: () => void
+  onSetShippingInfo: () => void
+  onSetBillingInfo: () => void
+  onBack: () => void
 }
 
 export const OneClickContext = createContext<IContextProps>({
@@ -57,6 +60,9 @@ export const OneClickContext = createContext<IContextProps>({
   onCheckCart: () => null,
   onSetDeliveryMethod: () => null,
   onAddAnother: () => null,
+  onSetShippingInfo: () => null,
+  onSetBillingInfo: () => null,
+  onBack: () => null,
 })
 
 export const OneClickProvider = ({
@@ -141,6 +147,12 @@ export const OneClickProvider = ({
     setModalType(type)
   }, [])
 
+  const onBack = useCallback(() => {
+    if (modalType === 'delivery-method') {
+      setModalType('check-cart')
+    }
+  }, [modalType])
+
   const onCloseModal = useCallback(() => {
     if (modalType === 'select-doc') {
       router.push(PAGES.home)
@@ -180,6 +192,9 @@ export const OneClickProvider = ({
       onCheckCart: () => onChangeModal('check-cart'),
       onSetDeliveryMethod: () => onChangeModal('delivery-method'),
       onAddAnother: () => onChangeModal('select-doc'),
+      onSetShippingInfo: () => onChangeModal('set-shipping'),
+      onSetBillingInfo: () => onChangeModal('set-billing'),
+      onBack,
     }),
     [
       modalType,
@@ -194,6 +209,7 @@ export const OneClickProvider = ({
       onSelectDocument,
       onEntrySubmitted,
       onChangeModal,
+      onBack,
     ],
   )
 

@@ -4,3 +4,6 @@ export type TModalType =
   | 'process-photo'
   | 'check-cart'
   | 'delivery-method'
+  | 'set-shipping'
+  | 'set-billing'
+  | 'handle-payment'

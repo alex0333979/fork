@@ -6,6 +6,7 @@ import { OneClickProvider } from './oneClickContext'
 import TakePhoto from './components/takePhoto'
 import ProcessPhoto from './components/processPhoto'
 import CheckCart from './components/checkCart'
+import CheckDeliveryMethod from './components/checkDeliveryMethod'
 
 const OneClick: React.FC = () => (
   <OneClickProvider>
@@ -25,6 +26,9 @@ const OneClick: React.FC = () => (
       onCheckCart,
       onSetDeliveryMethod,
       onAddAnother,
+      onSetShippingInfo,
+      onSetBillingInfo,
+      onBack,
     }) => (
       <>
         <DocModal
@@ -37,9 +41,12 @@ const OneClick: React.FC = () => (
         />
         {!!document?.id && form && (
           <OneClickModal
-            open={['take-photo', 'process-photo', 'check-cart'].includes(
-              modalType,
-            )}
+            open={[
+              'take-photo',
+              'process-photo',
+              'check-cart',
+              'delivery-method',
+            ].includes(modalType)}
             className={modalClass}
             onClose={onCloseModal}>
             {modalType === 'take-photo' && (
@@ -63,6 +70,13 @@ const OneClick: React.FC = () => (
               <CheckCart
                 onCheckout={onSetDeliveryMethod}
                 onAddAnother={onAddAnother}
+              />
+            )}
+            {modalType === 'delivery-method' && (
+              <CheckDeliveryMethod
+                onSetShippingInfo={onSetShippingInfo}
+                onSetBillingInfo={onSetBillingInfo}
+                onBack={onBack}
               />
             )}
           </OneClickModal>

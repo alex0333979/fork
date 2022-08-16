@@ -105,3 +105,11 @@
     }
   }
 }
+
+.one-click-toolbar {
+  padding: 15px 0;
+  background-color: var(--catskill-white);
+  box-shadow: unset !important;
+  position: relative !important;
+  z-index: 3;
+}
