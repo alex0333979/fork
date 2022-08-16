@@ -2,13 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 import { ShippingType, useSetShippingTypeToCartMutation } from '@/apollo'
 import { useAuth } from '@/hooks'
-import { CHECKOUT_STEPS } from '@/constants'
 
-import ProcessStep from '@/components/elements/processStep'
 import Header from '@/modules/checkout/deliveryMethod/header'
 import Services from '@/modules/checkout/deliveryMethod/services'
 import Methods from '@/modules/checkout/deliveryMethod/methods'
-import BottomButtons from './bottomButtons'
+import OneClickCheckoutLayout from './oneClickCheckoutLayout'
 
 interface Props {
   onSetShippingInfo: () => void
@@ -56,50 +54,30 @@ const CheckDeliveryMethod: React.FC<Props> = ({
   ])
 
   return (
-    <div className="cart-page">
-      <div className="page-title">
-        <div className="container">
-          <div className="data-wrap">
-            <h1>Checkout</h1>
-          </div>
-        </div>
-      </div>
-      <div className="floating-wrap">
-        <div className="application-form">
-          <div className="container">
-            <div className="data-wrap horizontal">
-              <ProcessStep
-                title={CHECKOUT_STEPS.title}
-                step={1}
-                steps={CHECKOUT_STEPS.steps}
-                completeStep={0}
-              />
-              <div className="form-wrap">
-                <Header
-                  shippingType={shippingType}
-                  onChangeShippingType={setShippingType}
-                />
-                <div className="shipping-data">
-                  <ol>
-                    <Services shippingType={shippingType} />
-                    <Methods
-                      shippingType={shippingType}
-                      onChangeShippingType={setShippingType}
-                    />
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <BottomButtons
-          loading={loading}
-          submitDisabled={false}
-          onBack={onBack}
-          onNext={onSubmit}
+    <OneClickCheckoutLayout
+      step={1}
+      completedStep={0}
+      loading={loading}
+      onSubmit={onSubmit}
+      onBack={onBack}
+      submitDisabled={false}
+      nextButtonText="Next">
+      <div className="form-wrap">
+        <Header
+          shippingType={shippingType}
+          onChangeShippingType={setShippingType}
         />
+        <div className="shipping-data">
+          <ol>
+            <Services shippingType={shippingType} />
+            <Methods
+              shippingType={shippingType}
+              onChangeShippingType={setShippingType}
+            />
+          </ol>
+        </div>
       </div>
-    </div>
+    </OneClickCheckoutLayout>
   )
 }
 

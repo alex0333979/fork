@@ -36,7 +36,7 @@ interface IContextProps {
   onSelectDocument: (d: Maybe<PDocument>) => void
   onEntrySubmitted: (eId: string, camera: TCamera) => void
   onChangePhoto: () => void
-  onCheckCart: () => void
+  onCheckout: () => void
   onSetDeliveryMethod: () => void
   onAddAnother: () => void
   onSetShippingInfo: () => void
@@ -57,7 +57,7 @@ export const OneClickContext = createContext<IContextProps>({
   onSelectDocument: () => null,
   onEntrySubmitted: () => null,
   onChangePhoto: () => null,
-  onCheckCart: () => null,
+  onCheckout: () => null,
   onSetDeliveryMethod: () => null,
   onAddAnother: () => null,
   onSetShippingInfo: () => null,
@@ -189,7 +189,7 @@ export const OneClickProvider = ({
       onSelectDocument,
       onEntrySubmitted,
       onChangePhoto: () => onChangeModal('take-photo'),
-      onCheckCart: () => onChangeModal('check-cart'),
+      onCheckout: () => onChangeModal('checkout'),
       onSetDeliveryMethod: () => onChangeModal('delivery-method'),
       onAddAnother: () => onChangeModal('select-doc'),
       onSetShippingInfo: () => onChangeModal('set-shipping'),

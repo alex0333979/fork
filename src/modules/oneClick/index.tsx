@@ -5,9 +5,6 @@ import OneClickModal from './components/oneClickModal'
 import { OneClickProvider } from './oneClickContext'
 import TakePhoto from './components/takePhoto'
 import ProcessPhoto from './components/processPhoto'
-import CheckCart from './components/checkCart'
-import CheckDeliveryMethod from './components/checkDeliveryMethod'
-import ShippingInfo from './components/shippingInfo'
 
 const OneClick: React.FC = () => (
   <OneClickProvider>
@@ -45,7 +42,7 @@ const OneClick: React.FC = () => (
             open={[
               'take-photo',
               'process-photo',
-              'check-cart',
+              'checkout',
               'delivery-method',
             ].includes(modalType)}
             className={modalClass}
@@ -64,23 +61,9 @@ const OneClick: React.FC = () => (
                 document={document}
                 entry={entry}
                 onChangePhoto={onChangePhoto}
-                onCheckCart={onCheckCart}
+                onCheckout={onCheckCart}
               />
             )}
-            {modalType === 'check-cart' && (
-              <CheckCart
-                onCheckout={onSetDeliveryMethod}
-                onAddAnother={onAddAnother}
-              />
-            )}
-            {modalType === 'delivery-method' && (
-              <CheckDeliveryMethod
-                onSetShippingInfo={onSetShippingInfo}
-                onSetBillingInfo={onSetBillingInfo}
-                onBack={onBack}
-              />
-            )}
-            {modalType === 'set-shipping' && <ShippingInfo />}
           </OneClickModal>
         )}
       </>

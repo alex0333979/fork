@@ -3,6 +3,7 @@ export type TModalType =
   | 'take-photo'
   | 'process-photo'
   | 'check-cart'
+  | 'checkout'
   | 'delivery-method'
   | 'set-shipping'
   | 'set-billing'

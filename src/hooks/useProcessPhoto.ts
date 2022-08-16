@@ -10,25 +10,20 @@ import {
 } from '@/apollo'
 
 import { useAuth } from '@/hooks'
-import { showSuccess } from '@/utils'
-
 interface IUseProcessPhoto {
   document: PDocument
   entry: Entry
-  onGoCart: () => void
-  onGoToApplication: () => void
+  onItemAddedToCart: () => void
 }
 
 export const useProcessPhoto = ({
   document,
   entry,
-  onGoCart,
-  onGoToApplication,
+  onItemAddedToCart,
 }: IUseProcessPhoto) => {
   const { updateMe } = useAuth()
   const [addToCart] = useAddItemsToCartMutation()
   const [loading, setLoading] = useState<boolean>(false)
-  const [openApplication, setOpenApplication] = useState<boolean>(false)
 
   const onAddToCartItem = useCallback(
     async (cartItem: CartItemInput) => {
@@ -42,19 +37,10 @@ export const useProcessPhoto = ({
       const cart = data?.AddItemsToCart.data
       if (cart) {
         updateMe({ cart })
-        showSuccess('This entry is added to cart.')
-        if (document.id === 495) {
-          // document.id === 489
-          // only for US passport and UK passport
-          setOpenApplication(true)
-          // await router.push(PAGES.upSell);
-          // await router.push(PAGES.cart);
-        } else {
-          onGoCart()
-        }
+        onItemAddedToCart()
       }
     },
-    [addToCart, document.id, onGoCart, updateMe],
+    [addToCart, onItemAddedToCart, updateMe],
   )
 
   const onCheckout = useCallback(
@@ -73,15 +59,6 @@ export const useProcessPhoto = ({
 
   return {
     loading,
-    openApplication,
     onCheckout,
-    onGoToCart: () => {
-      setOpenApplication(false)
-      onGoCart()
-    },
-    onGoToApplication: () => {
-      setOpenApplication(false)
-      onGoToApplication()
-    },
   }
 }

@@ -5,6 +5,7 @@ import classNames from 'classnames'
 interface Props {
   loading: boolean
   submitDisabled?: boolean
+  nextButtonText?: string
   onBack: () => void
   onNext: () => void
 }
@@ -12,6 +13,7 @@ interface Props {
 const BottomButtons: React.FC<Props> = ({
   loading,
   submitDisabled = false,
+  nextButtonText = 'Next',
   onBack,
   onNext,
 }) => (
@@ -38,7 +40,7 @@ const BottomButtons: React.FC<Props> = ({
               <Bars height={25} fill="#FFFFFF" stroke="transparent" />
             ) : (
               <>
-                Next <span className="icon-right" />
+                {nextButtonText} <span className="icon-right" />
               </>
             )}
           </button>

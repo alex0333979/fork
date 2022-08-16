@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react'
-import { useRouter } from 'next/router'
 import NextImage from 'next/image'
 import classNames from 'classnames'
 
-import { PAGES, PHOTO_STEP } from '@/constants'
+import { PHOTO_STEP } from '@/constants'
 import LoadingMask from '@/components/elements/loadingMask'
 import LoadingSpinner from '@/components/loadingSpinner'
 import { Entry, PDocument } from '@/apollo'
@@ -13,34 +12,26 @@ import { useProcessPhoto, useVerifyPhoto } from '@/hooks'
 import RetakeButton from '@/modules/photo/components/retakeButton'
 import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
 import TestCase from '@/modules/photo/components/testCase'
-import ApplicationModal from '@/modules/photo/components/applicationModal'
 
 interface Props {
   entry: Entry
   document: PDocument
   onChangePhoto: () => void
-  onCheckCart: () => void
+  onCheckout: () => void
 }
 
 const ProcessPhoto: React.FC<Props> = ({
   entry,
   document,
   onChangePhoto,
-  onCheckCart,
+  onCheckout: _onCheckout,
 }) => {
-  const router = useRouter()
-
-  const {
-    loading,
-    openApplication,
-    onCheckout,
-    onGoToCart,
-    onGoToApplication,
-  } = useProcessPhoto({
+  const { loading, onCheckout } = useProcessPhoto({
     document,
     entry,
-    onGoCart: onCheckCart,
-    onGoToApplication: () => router.push(PAGES.application.create),
+    onItemAddedToCart: () => {
+      _onCheckout()
+    },
   })
 
   const { status, imageUrl, imageLink, width, height, passed, failed } =
@@ -140,12 +131,6 @@ const ProcessPhoto: React.FC<Props> = ({
           </div>
         </div>
       </div>
-
-      <ApplicationModal
-        open={openApplication}
-        onGoApplication={onGoToApplication}
-        onGoCart={onGoToCart}
-      />
     </>
   )
 }

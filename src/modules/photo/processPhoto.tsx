@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 
 import { ProcessPhotoProps } from '@/pages/photo/process-photo'
 import { PAGES } from '@/constants'
 import { useProcessPhoto } from '@/hooks'
 import { ProcessingStatus } from '@/types'
+import { showSuccess } from '@/utils'
 import RetakeButton from './components/retakeButton'
 import ApplicationModal from './components/applicationModal'
 import VerifyPhoto from './_verifyPhoto'
@@ -15,18 +16,23 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
   document,
 }) => {
   const router = useRouter()
+  const [openApplication, setOpenApplication] = useState<boolean>(false)
 
-  const {
-    loading,
-    openApplication,
-    onCheckout,
-    onGoToCart,
-    onGoToApplication,
-  } = useProcessPhoto({
+  const { loading, onCheckout } = useProcessPhoto({
     document,
     entry,
-    onGoCart: () => router.push(PAGES.cart),
-    onGoToApplication: () => router.push(PAGES.application.create),
+    onItemAddedToCart: () => {
+      showSuccess('This entry is added to cart.')
+      if (document.id === 495) {
+        // document.id === 489
+        // only for US passport and UK passport
+        setOpenApplication(true)
+        // await router.push(PAGES.upSell);
+        // await router.push(PAGES.cart);
+      } else {
+        router.push(PAGES.cart)
+      }
+    },
   })
 
   return (
@@ -85,8 +91,14 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
       />
       <ApplicationModal
         open={openApplication}
-        onGoApplication={onGoToApplication}
-        onGoCart={onGoToCart}
+        onGoApplication={() => {
+          setOpenApplication(false)
+          router.push(PAGES.application.create)
+        }}
+        onGoCart={() => {
+          setOpenApplication(false)
+          router.push(PAGES.cart)
+        }}
       />
     </>
   )
