@@ -7,6 +7,7 @@ import TakePhoto from './components/takePhoto'
 import ProcessPhoto from './components/processPhoto'
 import CheckCart from './components/checkCart'
 import CheckDeliveryMethod from './components/checkDeliveryMethod'
+import ShippingInfo from './components/shippingInfo'
 
 const OneClick: React.FC = () => (
   <OneClickProvider>
@@ -79,6 +80,7 @@ const OneClick: React.FC = () => (
                 onBack={onBack}
               />
             )}
+            {modalType === 'set-shipping' && <ShippingInfo />}
           </OneClickModal>
         )}
       </>
