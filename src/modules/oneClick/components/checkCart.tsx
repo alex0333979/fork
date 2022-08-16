@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
+import React, { useCallback, useMemo, useState } from 'react'
 
 import {
   CartItem,
@@ -9,20 +8,18 @@ import {
 import PreviewPhotoModal from '@/components/elements/previewPhotoModal'
 import { showError } from '@/utils'
 import { useCurrency, useAuth } from '@/hooks'
-import { CartPageProps } from '@/pages/cart'
-import { PAGES } from '@/constants'
 
-import PhotoItems from './photoItems'
-import ApplicationItems from './applicationItems'
-import AddAnotherButton from './addAnotherButton'
-import Summary from './summary'
+import PhotoItems from '@/modules/cart/photoItems'
+import ApplicationItems from '@/modules/cart/applicationItems'
+import AddAnotherButton from '@/modules/cart/addAnotherButton'
+import Summary from '@/modules/cart/summary'
 
 interface Props {
   onCheckout: () => void
+  onAddAnother: () => void
 }
 
-const CheckCart: React.FC<Props> = ({ onCheckout }) => {
-  const router = useRouter()
+const CheckCart: React.FC<Props> = ({ onCheckout, onAddAnother }) => {
   const { cart, updateMe } = useAuth()
   const { currentCurrency } = useCurrency()
   const [removeFromCart] = useRemoveItemsFromCartMutation()
@@ -45,13 +42,13 @@ const CheckCart: React.FC<Props> = ({ onCheckout }) => {
     [removeFromCart, updateMe],
   )
 
-  const onCheckout = useCallback(async () => {
+  const _onCheckout = useCallback(async () => {
     if (cart?.items?.filter((i) => i.isComplete)?.length ?? 0 > 0) {
-      await router.push(PAGES.checkout.index)
+      onCheckout()
     } else {
       showError(`You don't have any completed entries in your cart yet.`)
     }
-  }, [cart?.items, router])
+  }, [cart?.items, onCheckout])
 
   const [photoItems, applicationItems] = useMemo(() => {
     const _photoItems: CartItem[] = []
@@ -98,20 +95,18 @@ const CheckCart: React.FC<Props> = ({ onCheckout }) => {
                 onRemoveItem={onRemoveCartItem}
                 onUpdated={updateMe}
                 onPreview={onPreview}
-                onAddAnother={() => router.push(PAGES.photo.index)}
+                onAddAnother={onAddAnother}
               />
 
               {(!photoItems.length || !applicationItems.length) && (
                 <div className="item-wrap">
-                  <AddAnotherButton
-                    onAddAnother={() => router.push(PAGES.photo.index)}
-                  />
+                  <AddAnotherButton onAddAnother={onAddAnother} />
                 </div>
               )}
               <Summary
                 cart={cart}
                 currency={currentCurrency}
-                onCheckout={onCheckout}
+                onCheckout={_onCheckout}
               />
             </div>
           </div>

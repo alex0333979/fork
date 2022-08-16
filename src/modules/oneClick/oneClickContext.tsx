@@ -38,6 +38,7 @@ interface IContextProps {
   onChangePhoto: () => void
   onCheckCart: () => void
   onSetDeliveryMethod: () => void
+  onAddAnother: () => void
 }
 
 export const OneClickContext = createContext<IContextProps>({
@@ -55,6 +56,7 @@ export const OneClickContext = createContext<IContextProps>({
   onChangePhoto: () => null,
   onCheckCart: () => null,
   onSetDeliveryMethod: () => null,
+  onAddAnother: () => null,
 })
 
 export const OneClickProvider = ({
@@ -177,6 +179,7 @@ export const OneClickProvider = ({
       onChangePhoto: () => onChangeModal('take-photo'),
       onCheckCart: () => onChangeModal('check-cart'),
       onSetDeliveryMethod: () => onChangeModal('delivery-method'),
+      onAddAnother: () => onChangeModal('select-doc'),
     }),
     [
       modalType,

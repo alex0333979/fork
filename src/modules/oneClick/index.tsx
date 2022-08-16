@@ -24,6 +24,7 @@ const OneClick: React.FC = () => (
       onChangePhoto,
       onCheckCart,
       onSetDeliveryMethod,
+      onAddAnother,
     }) => (
       <>
         <DocModal
@@ -61,6 +62,7 @@ const OneClick: React.FC = () => (
             {modalType === 'check-cart' && (
               <CheckCart
                 onCheckout={onSetDeliveryMethod}
+                onAddAnother={onAddAnother}
               />
             )}
           </OneClickModal>
