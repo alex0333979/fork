@@ -19,9 +19,15 @@ interface Props {
   entry: Entry
   document: PDocument
   onChangePhoto: () => void
+  onCheckCart: () => void
 }
 
-const ProcessPhoto: React.FC<Props> = ({ entry, document, onChangePhoto }) => {
+const ProcessPhoto: React.FC<Props> = ({
+  entry,
+  document,
+  onChangePhoto,
+  onCheckCart,
+}) => {
   const router = useRouter()
 
   const {
@@ -33,7 +39,7 @@ const ProcessPhoto: React.FC<Props> = ({ entry, document, onChangePhoto }) => {
   } = useProcessPhoto({
     document,
     entry,
-    onGoCart: () => router.push(PAGES.cart),
+    onGoCart: onCheckCart,
     onGoToApplication: () => router.push(PAGES.application.create),
   })
 
@@ -98,9 +104,6 @@ const ProcessPhoto: React.FC<Props> = ({ entry, document, onChangePhoto }) => {
                     (status !== ProcessingStatus.loading && (
                       <NextImage
                         key={imageLink}
-                        style={{ maxWidth: 'unset', maxHeight: 'unset' }}
-                        width="100%"
-                        height="100%"
                         layout="fill"
                         src={imageLink}
                         alt=""

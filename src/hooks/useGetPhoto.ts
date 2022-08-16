@@ -124,7 +124,6 @@ export const useGetPhoto = ({
   const onFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
-        console.log({ type: e.target.files[0].type })
         if (e.target.files[0].type.match('image/png')) {
           setSelectedImage(e.target.files[0])
           await onLoadImage(e.target.files[0])

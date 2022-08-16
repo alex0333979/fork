@@ -36,6 +36,8 @@ interface IContextProps {
   onSelectDocument: (d: Maybe<PDocument>) => void
   onEntrySubmitted: (eId: string, camera: TCamera) => void
   onChangePhoto: () => void
+  onCheckCart: () => void
+  onSetDeliveryMethod: () => void
 }
 
 export const OneClickContext = createContext<IContextProps>({
@@ -51,6 +53,8 @@ export const OneClickContext = createContext<IContextProps>({
   onSelectDocument: () => null,
   onEntrySubmitted: () => null,
   onChangePhoto: () => null,
+  onCheckCart: () => null,
+  onSetDeliveryMethod: () => null,
 })
 
 export const OneClickProvider = ({
@@ -131,8 +135,8 @@ export const OneClickProvider = ({
     [fetchEntry],
   )
 
-  const onChangePhoto = useCallback(() => {
-    setModalType('take-photo')
+  const onChangeModal = useCallback((type: TModalType) => {
+    setModalType(type)
   }, [])
 
   const onCloseModal = useCallback(() => {
@@ -170,21 +174,23 @@ export const OneClickProvider = ({
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
-      onChangePhoto,
+      onChangePhoto: () => onChangeModal('take-photo'),
+      onCheckCart: () => onChangeModal('check-cart'),
+      onSetDeliveryMethod: () => onChangeModal('delivery-method'),
     }),
     [
+      modalType,
       country,
       document,
       form,
       entry,
       camera,
-      modalType,
       modalClass,
       onCloseModal,
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
-      onChangePhoto,
+      onChangeModal,
     ],
   )
 
