@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FormField } from '@/apollo'
 import { CountryDropdown } from 'react-country-region-selector'
 import classNames from 'classnames'
 
+import { FormField } from '@/apollo'
+
 interface CountryPickerProps {
+  className?: string | undefined
   formField: FormField
   selectedCountry: (name: string, country: string) => void
   error: string | undefined
 }
 
 const CountryPicker: React.FC<CountryPickerProps> = ({
+  className = 'half-size',
   formField,
   selectedCountry,
   error,
@@ -33,7 +36,7 @@ const CountryPicker: React.FC<CountryPickerProps> = ({
   }, [formField.name, formField.required, formField.value, selectedCountry])
 
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}

@@ -241,6 +241,9 @@ type FormField {
   options: [Option!]
   placeholder: String
   required: Boolean
+
+  """half-size | full-size"""
+  size: String
   text: String
   type: FieldType!
   validations: [Validation!]
@@ -342,6 +345,7 @@ type Order {
   billingAddress: BillingAddress!
   createdAt: DateTime!
   currency: Currency
+  fulfillmentFires: Float!
   id: ID!
   items: [OrderItem!]!
   orderNumber: Int!

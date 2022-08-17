@@ -4,6 +4,7 @@ import { RegionDropdown } from 'react-country-region-selector'
 import classNames from 'classnames'
 
 interface StatePickerProps {
+  className?: string | undefined
   formField: FormField
   country?: string
   selectedState: (name: string, country: string) => void
@@ -11,6 +12,7 @@ interface StatePickerProps {
 }
 
 const StatePicker: React.FC<StatePickerProps> = ({
+  className = 'half-size',
   formField,
   country = 'US',
   selectedState,
@@ -33,7 +35,7 @@ const StatePicker: React.FC<StatePickerProps> = ({
   if (!['US', 'CA'].includes(country)) return null
 
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required && (country === 'US' || country === 'CA')

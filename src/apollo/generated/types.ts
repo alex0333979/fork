@@ -271,6 +271,8 @@ export type FormField = {
   options?: Maybe<Array<Option>>;
   placeholder?: Maybe<Scalars['String']>;
   required?: Maybe<Scalars['Boolean']>;
+  /** half-size | full-size */
+  size?: Maybe<Scalars['String']>;
   text?: Maybe<Scalars['String']>;
   type: FieldType;
   validations?: Maybe<Array<Validation>>;
@@ -527,6 +529,7 @@ export type Order = {
   billingAddress: BillingAddress;
   createdAt: Scalars['DateTime'];
   currency?: Maybe<Currency>;
+  fulfillmentFires: Scalars['Float'];
   id: Scalars['ID'];
   items: Array<OrderItem>;
   orderNumber: Scalars['Int'];

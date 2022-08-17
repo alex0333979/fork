@@ -95,7 +95,9 @@ export const useGetPhoto = ({
   )
 
   const onCancelUpload = useCallback(() => {
-    cancel.current('Upload cancelled')
+    if (cancel.current) {
+      cancel.current('Upload cancelled')
+    }
   }, [])
 
   const onLoadImage = useCallback(

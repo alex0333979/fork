@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import classNames from 'classnames'
 
 interface Props {
-  className?: string
+  className?: string | undefined
   open?: boolean
   onClose?: () => void
   preventBodyScroll?: boolean

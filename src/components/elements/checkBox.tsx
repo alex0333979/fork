@@ -1,6 +1,6 @@
 import React from 'react'
-
 interface CheckBoxProps {
+  className?: string | undefined
   text: string
   placeholder?: string
   value?: boolean
@@ -8,12 +8,13 @@ interface CheckBoxProps {
 }
 
 const CheckBox: React.FC<CheckBoxProps> = ({
+  className = 'full-size',
   text,
   placeholder = '',
   value = false,
   onChange,
 }) => (
-  <label className="full-size">
+  <label className={className}>
     <span className="field checkbox">
       <span className="name">{text}</span>
       <input

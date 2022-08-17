@@ -9,7 +9,7 @@ export interface IDropdownOption {
 }
 
 interface Props {
-  className?: string
+  className?: string | undefined
   label?: string
   options: IDropdownOption[]
   optionContainer: React.FC<any>

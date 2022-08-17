@@ -3,12 +3,14 @@ import { FormField } from '@/apollo'
 import classNames from 'classnames'
 
 interface SelectBoxProps {
+  className?: string | undefined
   formField: FormField
   onValueChange: (name: string, value: string | number) => void
   error: string | undefined
 }
 
 const SelectBox: React.FC<SelectBoxProps> = ({
+  className = 'half-size',
   formField,
   onValueChange,
   error,
@@ -31,7 +33,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({
   )
 
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}

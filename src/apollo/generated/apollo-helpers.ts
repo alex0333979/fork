@@ -143,7 +143,7 @@ export type FormFieldPolicy = {
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	steps?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type FormFieldKeySpecifier = ('defaultValue' | 'disabled' | 'hidden' | 'index' | 'name' | 'notes' | 'options' | 'placeholder' | 'required' | 'text' | 'type' | 'validations' | 'value' | FormFieldKeySpecifier)[];
+export type FormFieldKeySpecifier = ('defaultValue' | 'disabled' | 'hidden' | 'index' | 'name' | 'notes' | 'options' | 'placeholder' | 'required' | 'size' | 'text' | 'type' | 'validations' | 'value' | FormFieldKeySpecifier)[];
 export type FormFieldFieldPolicy = {
 	defaultValue?: FieldPolicy<any> | FieldReadFunction<any>,
 	disabled?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -154,6 +154,7 @@ export type FormFieldFieldPolicy = {
 	options?: FieldPolicy<any> | FieldReadFunction<any>,
 	placeholder?: FieldPolicy<any> | FieldReadFunction<any>,
 	required?: FieldPolicy<any> | FieldReadFunction<any>,
+	size?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	validations?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -216,11 +217,12 @@ export type OptionFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
+export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
 export type OrderFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	currency?: FieldPolicy<any> | FieldReadFunction<any>,
+	fulfillmentFires?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	orderNumber?: FieldPolicy<any> | FieldReadFunction<any>,

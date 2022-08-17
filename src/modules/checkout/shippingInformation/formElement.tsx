@@ -30,6 +30,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.Input) {
     return (
       <TextInput
+        className={field.size || undefined}
         formField={field}
         onValueChange={onValueChange}
         error={error}
@@ -40,6 +41,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.PhoneInput) {
     return (
       <PhoneInput
+        className={field.size || undefined}
         country={country}
         formField={field}
         onValueChange={onValueChange}
@@ -51,6 +53,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.Select) {
     return (
       <SelectBox
+        className={field.size || undefined}
         formField={field}
         onValueChange={onValueChange}
         error={error}
@@ -61,6 +64,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.CountryPicker) {
     return (
       <CountryPicker
+        className={field.size || undefined}
         formField={field}
         selectedCountry={onSelectCountry}
         error={error}
@@ -71,6 +75,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.StatePicker) {
     return (
       <StatePicker
+        className={field.size || undefined}
         formField={field}
         selectedState={onValueChange}
         country={country}
@@ -82,6 +87,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.DatePicker) {
     return (
       <AppDatePicker
+        className={field.size || undefined}
         formField={field}
         onValueChange={onValueChange}
         error={error}
@@ -92,6 +98,7 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.Radio) {
     return (
       <RadioOption
+        className={field.size || undefined}
         formField={field}
         onValueChange={onValueChange}
         error={error}
