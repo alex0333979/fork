@@ -37,10 +37,6 @@ interface IContextProps {
   onEntrySubmitted: (eId: string, camera: TCamera) => void
   onChangePhoto: () => void
   onCheckout: () => void
-  onSetDeliveryMethod: () => void
-  onAddAnother: () => void
-  onSetShippingInfo: () => void
-  onSetBillingInfo: () => void
   onBack: () => void
 }
 
@@ -58,10 +54,6 @@ export const OneClickContext = createContext<IContextProps>({
   onEntrySubmitted: () => null,
   onChangePhoto: () => null,
   onCheckout: () => null,
-  onSetDeliveryMethod: () => null,
-  onAddAnother: () => null,
-  onSetShippingInfo: () => null,
-  onSetBillingInfo: () => null,
   onBack: () => null,
 })
 
@@ -154,12 +146,8 @@ export const OneClickProvider = ({
   }, [modalType])
 
   const onCloseModal = useCallback(() => {
-    if (modalType === 'select-doc') {
+    if (['select-doc', 'completed'].includes(modalType)) {
       router.push(PAGES.home)
-    } else {
-      setModalType('select-doc')
-      setEntry(undefined)
-      setCamera('user')
     }
   }, [modalType, router])
 
@@ -169,10 +157,16 @@ export const OneClickProvider = ({
   )
 
   const modalClass = useMemo(() => {
-    if (modalType === 'take-photo') return 'one-click-take-photo'
-    else if (modalType === 'process-photo') return 'one-click-process-photo'
+    const defaultClass = 'one-click-modal green-c one-click'
+    if (modalType === 'take-photo') {
+      return `${defaultClass} one-click-take-photo`
+    } else if (modalType === 'process-photo') {
+      return `${defaultClass} one-click-process-photo`
+    } else if (modalType === 'checkout') {
+      return `${defaultClass} checkout`
+    }
 
-    return ''
+    return defaultClass
   }, [modalType])
 
   const values: IContextProps = useMemo(
@@ -190,10 +184,6 @@ export const OneClickProvider = ({
       onEntrySubmitted,
       onChangePhoto: () => onChangeModal('take-photo'),
       onCheckout: () => onChangeModal('checkout'),
-      onSetDeliveryMethod: () => onChangeModal('delivery-method'),
-      onAddAnother: () => onChangeModal('select-doc'),
-      onSetShippingInfo: () => onChangeModal('set-shipping'),
-      onSetBillingInfo: () => onChangeModal('set-billing'),
       onBack,
     }),
     [

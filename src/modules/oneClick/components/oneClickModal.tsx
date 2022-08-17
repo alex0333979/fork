@@ -5,7 +5,7 @@ import Modal from '@/components/elements/modal'
 interface Props {
   className?: string
   open: boolean
-  onClose: () => void
+  onClose: () => void | undefined
   children: React.ReactNode
 }
 

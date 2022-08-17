@@ -5,6 +5,8 @@ import OneClickModal from './components/oneClickModal'
 import { OneClickProvider } from './oneClickContext'
 import TakePhoto from './components/takePhoto'
 import ProcessPhoto from './components/processPhoto'
+import CheckoutForm from './components/checkoutForm'
+import CheckoutSuccess from './components/checkoutSuccess'
 
 const OneClick: React.FC = () => (
   <OneClickProvider>
@@ -21,11 +23,7 @@ const OneClick: React.FC = () => (
       onSelectDocument,
       onEntrySubmitted,
       onChangePhoto,
-      onCheckCart,
-      onSetDeliveryMethod,
-      onAddAnother,
-      onSetShippingInfo,
-      onSetBillingInfo,
+      onCheckout,
       onBack,
     }) => (
       <>
@@ -43,10 +41,12 @@ const OneClick: React.FC = () => (
               'take-photo',
               'process-photo',
               'checkout',
-              'delivery-method',
+              'completed',
             ].includes(modalType)}
             className={modalClass}
-            onClose={onCloseModal}>
+            onClose={() =>
+              modalType === 'completed' ? onCloseModal() : undefined
+            }>
             {modalType === 'take-photo' && (
               <TakePhoto
                 documentId={document.id.toString()}
@@ -61,8 +61,12 @@ const OneClick: React.FC = () => (
                 document={document}
                 entry={entry}
                 onChangePhoto={onChangePhoto}
-                onCheckout={onCheckCart}
+                onCheckout={onCheckout}
               />
+            )}
+            {modalType === 'checkout' && <CheckoutForm />}
+            {modalType === 'completed' && (
+              <CheckoutSuccess onClose={onCloseModal} />
             )}
           </OneClickModal>
         )}

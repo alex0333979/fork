@@ -18,11 +18,9 @@ const Modal: React.FC<Props> = ({
 }) => {
   useEffect(() => {
     if (open && preventBodyScroll) {
-      document.body.style.overflow = 'hidden'
-      document.body.style.maxHeight = '100vh'
+      document.body.classList.add('scroll-lock')
     } else {
-      document.body.style.overflow = 'inherit'
-      document.body.style.maxHeight = 'inherit'
+      document.body.classList.remove('scroll-lock')
     }
   }, [open, preventBodyScroll])
 
