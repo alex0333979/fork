@@ -1,12 +1,19 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { FormField, ShippingType, useAddShippingAddressToCartMutation } from '@/apollo'
+import { FormField, ShippingType, useAddOneClickInfoMutation } from '@/apollo'
 import { formValidation } from '@/utils'
 import { ValidationError } from '@/types'
 import { useAuth, useLocation } from '@/hooks'
 import { ONE_CLICK__BILLING_FORM } from '@/constants'
+import { ICountry } from '@/components/elements/countrySelector'
 
-export const useOneClickCheckout = () => {
+interface IUseOneClickCheckout {
+  initialCountry: ICountry | undefined
+}
+
+export const useOneClickCheckout = ({
+  initialCountry,
+}: IUseOneClickCheckout) => {
   const { cart, updateMe, me } = useAuth()
   const { country: defaultCountry } = useLocation()
   const [billingForm, setBillingForm] = useState<{
@@ -14,14 +21,15 @@ export const useOneClickCheckout = () => {
   }>(ONE_CLICK__BILLING_FORM)
   const [country, setCountry] = useState<string | undefined>()
   const [error, setError] = useState<ValidationError>({})
-  const [loading, setLoading] = useState<boolean>(false)
-  const [addShippingAddress] = useAddShippingAddressToCartMutation()
+  const [addInfo] = useAddOneClickInfoMutation()
 
   useEffect(() => {
     if (!country && me) {
-      setCountry(defaultCountry?.value || me?.country || 'US')
+      const _country =
+        initialCountry?.value || defaultCountry?.value || me?.country || 'US'
+      setCountry(_country)
     }
-  }, [country, defaultCountry, me])
+  }, [country, defaultCountry, initialCountry?.value, me])
 
   const initializeForm = useCallback(() => {
     const initialForm = { ...ONE_CLICK__BILLING_FORM }
@@ -38,11 +46,11 @@ export const useOneClickCheckout = () => {
       ...initialForm,
       country: {
         ...initialForm.country,
-        defaultValue: me?.country || 'US',
-        value: me?.country || 'US',
+        defaultValue: country || 'US',
+        value: country || 'US',
       },
     })
-  }, [cart?.billingAddress, me?.billingAddress, me?.country])
+  }, [cart?.billingAddress, country, me?.billingAddress])
 
   useEffect(() => {
     initializeForm()
@@ -67,7 +75,7 @@ export const useOneClickCheckout = () => {
   )
 
   const onSubmit = useCallback(
-    async (before: () => void, after: () => void) => {
+    async (before: () => void, after: (isSuccess?: boolean) => void) => {
       const error = formValidation(
         Object.keys(billingForm).map((key) => billingForm[key]),
         country,
@@ -75,37 +83,31 @@ export const useOneClickCheckout = () => {
       setError(error)
       if (Object.keys(error).length > 0) return
 
-      const shippingAddress: any = {}
+      const input: any = {}
       Object.keys(billingForm).map((key) => {
         if (key !== 'confirmPP') {
           if (key === 'shippingType') {
-            shippingAddress[key] = billingForm[key].value || ShippingType.NoShipping
+            input[key] = billingForm[key].value || ShippingType.NoShipping
           } else {
-            shippingAddress[key] = billingForm[key].value
+            input[key] = billingForm[key].value
           }
         }
       })
       before()
-      console.log({ shippingAddress })
-      setTimeout(() => {
-        after()
-      }, 3000)
-      // setLoading(true)
-      // const { data } = await addShippingAddress({
-      //   variables: { shippingAddress },
-      // })
-      // // setLoading(false)
-      // const cart = data?.AddShippingAddressToCart.data
-      // if (cart) {
-      //   updateMe({ cart })
-      //   callback()
-      // }
+      const { data } = await addInfo({
+        variables: { input },
+      })
+      const cart = data?.AddOneClickInfo.data
+      if (cart) {
+        updateMe({ cart })
+        after(true)
+      }
+      after(false)
     },
-    [addShippingAddress, billingForm, country, updateMe],
+    [addInfo, billingForm, country, updateMe],
   )
 
   return {
-    loading,
     error,
     country,
     billingForm,

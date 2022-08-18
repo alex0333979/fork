@@ -114,9 +114,9 @@ export const usePayment = ({
 
   const onCreateOrder = useCallback(async (): Promise<Order | undefined> => {
     if (newOrder) return newOrder
-    // setLoading(true)
+    setLoading(true)
     const { data } = await createOrder({})
-    // setLoading(false)
+    setLoading(false)
 
     const order = data?.CreateOrder.data
     if (!order) {
@@ -133,14 +133,14 @@ export const usePayment = ({
 
   const getClientSecret = useCallback(
     async (order: Order): Promise<string | undefined> => {
-      // setLoading(true)
+      setLoading(true)
       const { data: intent } = await getPaymentIntent({
         variables: {
           orderId: order.id,
           currency: currentCurrency.label.toLowerCase(),
         },
       })
-      // setLoading(false)
+      setLoading(false)
       const clientSecret = intent?.GetPaymentIntent.data?.clientSecret
       if (!clientSecret) {
         setPayment({ status: 'error' })
@@ -285,9 +285,6 @@ export const usePayment = ({
       return
     }
 
-    callback(true)
-    return
-
     const order = await onCreateOrder()
     if (!order) {
       callback(false)
@@ -300,7 +297,7 @@ export const usePayment = ({
       return
     }
 
-    // setLoading(true)
+    setLoading(true)
     const { error: pError, paymentIntent } = await stripe.confirmCardPayment(
       clientSecret,
       {
@@ -311,7 +308,7 @@ export const usePayment = ({
         },
       },
     )
-    // setLoading(false)
+    setLoading(false)
 
     await finalizeResult(order, cardElement, pError, paymentIntent)
 
@@ -363,7 +360,7 @@ export const usePayment = ({
           return
         }
 
-        // setLoading(true)
+        setLoading(true)
         const { error, paymentIntent } = await stripe.confirmCardPayment(
           clientSecret,
           {
@@ -373,7 +370,7 @@ export const usePayment = ({
             handleActions: false,
           },
         )
-        // setLoading(false)
+        setLoading(false)
 
         await finalizeResult(order, undefined, error, paymentIntent)
 
@@ -413,6 +410,7 @@ export const usePayment = ({
     cardName,
     payment,
     stripeFocus,
+    loading,
     submitDisabled:
       !['initial', 'succeeded', 'error'].includes(payment.status) ||
       !stripe ||

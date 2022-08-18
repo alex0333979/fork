@@ -13,4 +13,5 @@ fragment Cart on Cart {
   }
   promoCode
   shippingType
+  remarks
 }

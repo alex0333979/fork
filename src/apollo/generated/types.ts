@@ -54,6 +54,7 @@ export type Cart = {
   defaultCurrency?: Maybe<Currency>;
   items?: Maybe<Array<CartItem>>;
   promoCode?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
   shippingAddress?: Maybe<ShippingAddress>;
   shippingType: ShippingType;
 };
@@ -332,6 +333,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   AddBillingAddressToCart: CartResponse;
   AddItemsToCart: CartResponse;
+  AddOneClickInfo: CartResponse;
   AddPromoCodeToCart: CartResponse;
   AddShippingAddressToCart: CartResponse;
   CheckPhoto: CheckPhotoResponse;
@@ -370,6 +372,11 @@ export type MutationAddBillingAddressToCartArgs = {
 
 export type MutationAddItemsToCartArgs = {
   items: Array<CartItemInput>;
+};
+
+
+export type MutationAddOneClickInfoArgs = {
+  input: OneClickInfoInput;
 };
 
 
@@ -511,6 +518,21 @@ export type MutationVerifyOtpArgs = {
   otp: Scalars['String'];
 };
 
+export type OneClickInfoInput = {
+  address1: Scalars['String'];
+  address2?: InputMaybe<Scalars['String']>;
+  city: Scalars['String'];
+  country: Scalars['String'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
+  postalCode: Scalars['String'];
+  remarks: Scalars['String'];
+  shippingType: ShippingType;
+  state?: InputMaybe<Scalars['String']>;
+};
+
 export type Option = {
   __typename?: 'Option';
   notes?: Maybe<Scalars['String']>;
@@ -535,6 +557,7 @@ export type Order = {
   orderNumber: Scalars['Int'];
   paymentStatus: PaymentStatus;
   promoCode?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
   shipStation?: Maybe<OrderShipStation>;
   shippingAddress?: Maybe<ShippingAddress>;
   shippingType: ShippingType;

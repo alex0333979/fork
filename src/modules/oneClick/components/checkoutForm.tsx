@@ -1,11 +1,19 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useElements, useStripe } from '@stripe/react-stripe-js'
 
 import { ShippingType } from '@/apollo'
-import { useOneClickCheckout, useCurrency, useAuth, usePayment } from '@/hooks'
-import FormElement from '@/modules/checkout/shippingInformation/formElement'
+import { shippingTypes } from '@/constants'
+import {
+  useOneClickCheckout,
+  useCurrency,
+  useProducts,
+  useAuth,
+  usePayment,
+} from '@/hooks'
 import CheckBox from '@/components/elements/checkBox'
+import { ICountry } from '@/components/elements/countrySelector'
+import FormElement from '@/modules/checkout/shippingInformation/formElement'
 import PaymentStatus from '@/modules/checkout/review/paymentStatus'
 import PaymentButtons from '@/modules/checkout/review/paymentButtons'
 import PayWithCard from '@/modules/checkout/review/payWithCard'
@@ -13,14 +21,20 @@ import OneClickCheckoutLayout from './oneClickCheckoutLayout'
 import CheckoutTotalInfo from './checkoutTotalInfo'
 
 interface Props {
+  country: ICountry | undefined
   onBack: () => void
   onPayDone: () => void
 }
 
-const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
+const CheckoutForm: React.FC<Props> = ({
+  country: selectedCountry,
+  onBack,
+  onPayDone,
+}) => {
   const { t } = useTranslation()
   const { currentCurrency } = useCurrency()
   const { cart } = useAuth()
+  const { getProduct } = useProducts()
   const stripe = useStripe()
   const stripeElements = useElements()
 
@@ -33,12 +47,13 @@ const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
     onValueChange,
     onSelectCountry,
     onSubmit: onSubmitBillingInfo,
-  } = useOneClickCheckout()
+  } = useOneClickCheckout({
+    initialCountry: selectedCountry,
+  })
 
   const {
     cardName,
     payment,
-    shippingPrice,
     subTotal,
     total,
     paymentRequest,
@@ -52,14 +67,26 @@ const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
   } = usePayment({
     stripe,
     stripeElements,
-    shippingType: cart?.shippingType,
+    shippingType: billingForm.shippingType.value || ShippingType.NoShipping,
     items: cart?.items && cart.items[0] ? [cart.items[0]] : [],
     billingAddressState: billingForm.state.value,
-    onPayDone: () => {
+    callback: (isSuccess?: boolean) => {
       setLoading(false)
-      onPayDone()
+      if (isSuccess) {
+        onPayDone()
+      }
     },
   })
+
+  const freeShippingPrice = useMemo(() => {
+    const productSku = shippingTypes(country).find(
+      (s) => s.value === ShippingType.Free,
+    )?.productSku
+
+    if (!productSku) return 0
+
+    return getProduct(productSku)?.price || 0
+  }, [country, getProduct])
 
   const renderFormElement = useCallback(
     (field: string) => {
@@ -73,7 +100,7 @@ const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
                 i18nKey={billingForm[field].text || ''}
                 values={{
                   value: t('currency', {
-                    value: shippingPrice,
+                    value: freeShippingPrice,
                     currency: currentCurrency.label,
                   }),
                 }}
@@ -122,23 +149,28 @@ const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
       billingInfoError,
       country,
       currentCurrency.label,
+      freeShippingPrice,
       onSelectCountry,
       onValueChange,
-      shippingPrice,
       t,
     ],
   )
 
   const onSubmitForm = useCallback(async () => {
-    onSubmitBillingInfo(
-      () => setLoading(true),
-      async () => {
-        onPay()
-      },
-    )
-  }, [onPay, onSubmitBillingInfo])
+    if (billingForm.confirmPP) {
+      onSubmitBillingInfo(
+        () => setLoading(true),
+        async (isSuccess?: boolean) => {
+          if (isSuccess) {
+            onPay()
+          } else {
+            setLoading(false)
+          }
+        },
+      )
+    }
+  }, [billingForm.confirmPP, onPay, onSubmitBillingInfo])
 
-  console.log({ billingForm })
   return (
     <OneClickCheckoutLayout
       step={3}

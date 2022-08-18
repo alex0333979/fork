@@ -18,12 +18,13 @@ export type BillingAddressResponseFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CartKeySpecifier = ('billingAddress' | 'defaultCurrency' | 'items' | 'promoCode' | 'shippingAddress' | 'shippingType' | CartKeySpecifier)[];
+export type CartKeySpecifier = ('billingAddress' | 'defaultCurrency' | 'items' | 'promoCode' | 'remarks' | 'shippingAddress' | 'shippingType' | CartKeySpecifier)[];
 export type CartFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	defaultCurrency?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	promoCode?: FieldPolicy<any> | FieldReadFunction<any>,
+	remarks?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingType?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -178,10 +179,11 @@ export type HeadFieldPolicy = {
 	Dimensions?: FieldPolicy<any> | FieldReadFunction<any>,
 	position?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('AddBillingAddressToCart' | 'AddItemsToCart' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	AddBillingAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddItemsToCart?: FieldPolicy<any> | FieldReadFunction<any>,
+	AddOneClickInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddPromoCodeToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddShippingAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	CheckPhoto?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -217,7 +219,7 @@ export type OptionFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
+export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
 export type OrderFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -228,6 +230,7 @@ export type OrderFieldPolicy = {
 	orderNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	paymentStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	promoCode?: FieldPolicy<any> | FieldReadFunction<any>,
+	remarks?: FieldPolicy<any> | FieldReadFunction<any>,
 	shipStation?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingType?: FieldPolicy<any> | FieldReadFunction<any>,

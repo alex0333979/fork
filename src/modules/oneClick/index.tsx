@@ -69,7 +69,11 @@ const OneClick: React.FC = () => (
             )}
             {modalType === 'checkout' && (
               <Elements stripe={getStripe()}>
-                <CheckoutForm onBack={onBack} onPayDone={onPayDone} />
+                <CheckoutForm
+                  country={country}
+                  onBack={onBack}
+                  onPayDone={onPayDone}
+                />
               </Elements>
             )}
             {modalType === 'completed' && (

@@ -40,7 +40,11 @@ const ReviewAndPay: React.FC = () => {
     shippingType: cart?.shippingType,
     items: cart?.items || [],
     billingAddressState: cart?.billingAddress?.state,
-    onPayDone: () => router.push(PAGES.checkout.thankYou),
+    callback: (isSuccess?: boolean) => {
+      if (isSuccess) {
+        router.push(PAGES.checkout.thankYou)
+      }
+    },
   })
 
   return (

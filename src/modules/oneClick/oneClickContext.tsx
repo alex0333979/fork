@@ -153,12 +153,6 @@ export const OneClickProvider = ({
     }
   }, [modalType, router])
 
-  const onPayDone = useCallback(() => {
-    setDocument(undefined)
-    setEntry(undefined)
-    setModalType('completed')
-  }, [])
-
   const form = useMemo(
     () => (formsRes?.Forms || []).find((f) => f.name === PHOTO_FORM),
     [formsRes?.Forms],
@@ -172,6 +166,8 @@ export const OneClickProvider = ({
       return `${defaultClass} one-click-process-photo`
     } else if (modalType === 'checkout') {
       return `${defaultClass} checkout`
+    } else if (modalType === 'completed') {
+      return `${defaultClass} checkout-success`
     }
 
     return defaultClass
@@ -192,7 +188,7 @@ export const OneClickProvider = ({
       onEntrySubmitted,
       onChangePhoto: () => onChangeModal('take-photo'),
       onCheckout: () => onChangeModal('checkout'),
-      onPayDone,
+      onPayDone: () => setModalType('completed'),
       onBack,
     }),
     [
@@ -207,7 +203,6 @@ export const OneClickProvider = ({
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
-      onPayDone,
       onBack,
       onChangeModal,
     ],

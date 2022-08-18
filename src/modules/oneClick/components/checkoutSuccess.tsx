@@ -7,7 +7,7 @@ interface Props {
 const CheckoutSuccess: React.FC<Props> = ({ onClose }) => (
   <div className="success-content">
     <div className="img-wrap">
-      <img src="images/done.png" alt="" />
+      <img src="/images/done.png" alt="" />
     </div>
     <div className="sub-title">
       <h3>Thank you</h3>
