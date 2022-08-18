@@ -1,12 +1,11 @@
 import React from 'react'
-import { CHECKOUT_STEPS } from '@/constants'
-import ProcessStep from '@/components/elements/processStep'
+import { Bars } from 'react-loading-icons'
 
-import BottomButtons from './bottomButtons'
+import { CHECKOUT_STEP } from '@/constants'
+import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
 
 interface Props {
   step: number
-  completedStep: number
   loading: boolean
   onSubmit: () => void
   onBack: () => void
@@ -17,43 +16,39 @@ interface Props {
 
 const OneClickCheckoutLayout: React.FC<Props> = ({
   step,
-  completedStep,
   loading,
   children,
-  nextButtonText = 'Next',
   submitDisabled = false,
   onSubmit,
   onBack,
 }) => (
-  <div className="cart-page">
-    <div className="page-title">
-      <div className="container">
+  <div className="steps-page">
+    <div className="steps-content">
+      <div className="step-data">
         <div className="data-wrap">
-          <h1>Checkout</h1>
+          <ProcessStepPhoto step={step} steps={CHECKOUT_STEP.steps} />
+          {children}
         </div>
-      </div>
-    </div>
-    <div className="floating-wrap">
-      <div className="application-form">
-        <div className="container">
-          <div className="data-wrap horizontal">
-            <ProcessStep
-              title={CHECKOUT_STEPS.title}
-              step={step}
-              steps={CHECKOUT_STEPS.steps}
-              completeStep={completedStep}
-            />
-            {children}
+        <div className="btn-wrap checkout-btn-wrap">
+          <div className="action-btn">
+            <button type="button" className="main-btn outline" onClick={onBack}>
+              <i className="icon-left"></i>
+              <span>Back</span>
+            </button>
+            <button
+              type="button"
+              disabled={Boolean(submitDisabled) || loading}
+              className="main-btn"
+              onClick={onSubmit}>
+              {loading ? (
+                <Bars height={25} fill="#FFFFFF" stroke="transparent" />
+              ) : (
+                <span>Pay with card</span>
+              )}
+            </button>
           </div>
         </div>
       </div>
-      <BottomButtons
-        loading={loading}
-        submitDisabled={submitDisabled}
-        nextButtonText={nextButtonText}
-        onBack={onBack}
-        onNext={onSubmit}
-      />
     </div>
   </div>
 )

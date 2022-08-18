@@ -157,7 +157,7 @@ export const OneClickProvider = ({
   )
 
   const modalClass = useMemo(() => {
-    const defaultClass = 'one-click-modal green-c one-click'
+    const defaultClass = 'one-click-modal one-click'
     if (modalType === 'take-photo') {
       return `${defaultClass} one-click-take-photo`
     } else if (modalType === 'process-photo') {

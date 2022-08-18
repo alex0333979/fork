@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import { FieldType, FormField } from '@/apollo'
 import RadioOption from '@/components/elements/radioOption'
@@ -64,7 +65,10 @@ const FormElement: React.FC<Props> = ({
   if (field.type === FieldType.CountryPicker) {
     return (
       <CountryPicker
-        className={field.size || undefined}
+        className={classNames(
+          country?.toLowerCase(),
+          field.size || 'half-size',
+        )}
         formField={field}
         selectedCountry={onSelectCountry}
         error={error}

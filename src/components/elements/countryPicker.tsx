@@ -17,9 +17,7 @@ const CountryPicker: React.FC<CountryPickerProps> = ({
   selectedCountry,
   error,
 }) => {
-  const [country, setCountry] = useState<string>(
-    formField.value ? formField.value : '',
-  )
+  const [country, setCountry] = useState<string | undefined>()
 
   const selectCountry = useCallback(
     (country: string) => {
@@ -30,10 +28,20 @@ const CountryPicker: React.FC<CountryPickerProps> = ({
   )
 
   useEffect(() => {
-    if (!formField.value && formField.required) {
-      selectedCountry(formField.name, 'US')
+    if (country === undefined) {
+      const _country = formField.required
+        ? formField.value || 'US'
+        : formField.value || ''
+      setCountry(_country)
+      selectedCountry(formField.name, _country)
     }
-  }, [formField.name, formField.required, formField.value, selectedCountry])
+  }, [
+    country,
+    formField.name,
+    formField.required,
+    formField.value,
+    selectedCountry,
+  ])
 
   return (
     <label className={className}>

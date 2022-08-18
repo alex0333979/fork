@@ -1,7 +1,7 @@
 import React from 'react'
 interface CheckBoxProps {
   className?: string | undefined
-  text: string
+  text: string | React.ReactNode
   placeholder?: string
   value?: boolean
   onChange: (status: boolean) => void

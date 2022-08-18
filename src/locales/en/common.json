@@ -1,4 +1,5 @@
 {
   "currency": "{{value, currency(USD), number(minimumFractionDigits: 2, maximumFractionDigits: 2)}}",
-  "number": "{{value, number(minimumFractionDigits: 2, maximumFractionDigits: 2)}}"
+  "number": "{{value, number(minimumFractionDigits: 2, maximumFractionDigits: 2)}}",
+  "oneClickShipping": "Please send 2 paper photos to my address +<comp>{{value}}</comp>(Free delivery)"
 }
