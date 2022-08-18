@@ -1,32 +1,20 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import {
-  FormField,
-  ShippingType,
-  useAddShippingAddressToCartMutation,
-} from '@/apollo'
+import { FormField, ShippingType, useAddShippingAddressToCartMutation } from '@/apollo'
 import { formValidation } from '@/utils'
 import { ValidationError } from '@/types'
 import { useAuth, useLocation } from '@/hooks'
 import { ONE_CLICK__BILLING_FORM } from '@/constants'
 
-interface IUseSetShippingInfo {
-  onSubmitted: () => void
-}
-
-export const useOneClickCheckout = ({ onSubmitted }: IUseSetShippingInfo) => {
+export const useOneClickCheckout = () => {
   const { cart, updateMe, me } = useAuth()
   const { country: defaultCountry } = useLocation()
   const [billingForm, setBillingForm] = useState<{
     [key: string]: FormField
   }>(ONE_CLICK__BILLING_FORM)
   const [country, setCountry] = useState<string | undefined>()
-  const [shippingType, setShippingType] = useState<ShippingType>(
-    ShippingType.NoShipping,
-  )
   const [error, setError] = useState<ValidationError>({})
   const [loading, setLoading] = useState<boolean>(false)
-  const [refreshKey, setRefreshKey] = useState<number>(new Date().getTime())
   const [addShippingAddress] = useAddShippingAddressToCartMutation()
 
   useEffect(() => {
@@ -58,7 +46,6 @@ export const useOneClickCheckout = ({ onSubmitted }: IUseSetShippingInfo) => {
 
   useEffect(() => {
     initializeForm()
-    setRefreshKey(new Date().getTime())
   }, [initializeForm])
 
   const onValueChange = useCallback(
@@ -79,43 +66,49 @@ export const useOneClickCheckout = ({ onSubmitted }: IUseSetShippingInfo) => {
     [onValueChange],
   )
 
-  const onSubmit = useCallback(async () => {
-    const error = formValidation(
-      Object.keys(billingForm).map((key) => billingForm[key]),
-      country,
-    )
-    setError(error)
-    if (Object.keys(error).length > 0) return
+  const onSubmit = useCallback(
+    async (before: () => void, after: () => void) => {
+      const error = formValidation(
+        Object.keys(billingForm).map((key) => billingForm[key]),
+        country,
+      )
+      setError(error)
+      if (Object.keys(error).length > 0) return
 
-    const shippingAddress: any = {}
-    Object.keys(billingForm).map((key) => {
-      shippingAddress[key] = billingForm[key].value
-    })
-    setLoading(true)
-    const { data } = await addShippingAddress({
-      variables: { shippingAddress },
-    })
-    setLoading(false)
-    const cart = data?.AddShippingAddressToCart.data
-    if (cart) {
-      updateMe({ cart })
-      onSubmitted()
-    }
-  }, [addShippingAddress, billingForm, country, onSubmitted, updateMe])
+      const shippingAddress: any = {}
+      Object.keys(billingForm).map((key) => {
+        if (key !== 'confirmPP') {
+          if (key === 'shippingType') {
+            shippingAddress[key] = billingForm[key].value || ShippingType.NoShipping
+          } else {
+            shippingAddress[key] = billingForm[key].value
+          }
+        }
+      })
+      before()
+      console.log({ shippingAddress })
+      setTimeout(() => {
+        after()
+      }, 3000)
+      // setLoading(true)
+      // const { data } = await addShippingAddress({
+      //   variables: { shippingAddress },
+      // })
+      // // setLoading(false)
+      // const cart = data?.AddShippingAddressToCart.data
+      // if (cart) {
+      //   updateMe({ cart })
+      //   callback()
+      // }
+    },
+    [addShippingAddress, billingForm, country, updateMe],
+  )
 
   return {
-    refreshKey,
     loading,
     error,
     country,
     billingForm,
-    shippingType,
-    onChangeShippingType: () =>
-      setShippingType(
-        shippingType === ShippingType.NoShipping
-          ? ShippingType.Free
-          : ShippingType.NoShipping,
-      ),
     onValueChange,
     onSelectCountry,
     onSubmit,

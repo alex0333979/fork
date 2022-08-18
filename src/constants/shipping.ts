@@ -196,7 +196,7 @@ export const ONE_CLICK__BILLING_FORM: { [key: string]: FormField } = {
     name: 'shippingType',
     text: 'oneClickShipping',
     required: false,
-    defaultValue: ShippingType.From3To6,
+    defaultValue: ShippingType.NoShipping,
     size: 'full-size',
   },
   firstName: {

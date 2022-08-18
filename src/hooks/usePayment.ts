@@ -2,10 +2,12 @@
 import { useMemo, useCallback, useEffect, useState, useRef } from 'react'
 import {
   PaymentIntent,
+  Stripe,
   StripeCardElement,
+  StripeElements,
   StripeError,
 } from '@stripe/stripe-js'
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { CardElement } from '@stripe/react-stripe-js'
 import { useCookies } from 'react-cookie'
 
 import {
@@ -24,26 +26,29 @@ import { showError, showSuccess, humanize } from '@/utils'
 import { TEMP_ORDER_NUM, shippingTypes } from '@/constants'
 
 interface IUsePayment {
+  stripe: Stripe | null
+  stripeElements: StripeElements | null
   shippingType: Maybe<ShippingType>
   items: CartItem[]
   billingAddressState: Maybe<string>
-  onPayDone: () => void
+  callback: (isSuccess?: boolean) => void
 }
 
 export const usePayment = ({
+  stripe,
+  stripeElements,
   shippingType,
   items,
   billingAddressState,
-  onPayDone,
+  callback,
 }: IUsePayment) => {
   const [, setCookie] = useCookies([TEMP_ORDER_NUM])
   const { getProduct } = useProducts()
   const { country } = useLocation()
   const { currentCurrency } = useCurrency()
   const { updateMe } = useAuth()
-  const stripe = useStripe()
-  const elements = useElements()
 
+  const [newOrder, setNewOrder] = useState<Order | undefined>()
   const [cardName, setCardName] = useState<string>('')
   const [error, setError] = useState<ValidationError>({})
   const [loading, setLoading] = useState<boolean>(false)
@@ -108,9 +113,10 @@ export const usePayment = ({
   )
 
   const onCreateOrder = useCallback(async (): Promise<Order | undefined> => {
-    setLoading(true)
+    if (newOrder) return newOrder
+    // setLoading(true)
     const { data } = await createOrder({})
-    setLoading(false)
+    // setLoading(false)
 
     const order = data?.CreateOrder.data
     if (!order) {
@@ -121,19 +127,20 @@ export const usePayment = ({
       }))
       return
     }
+    setNewOrder(order)
     return order
-  }, [createOrder])
+  }, [createOrder, newOrder])
 
   const getClientSecret = useCallback(
     async (order: Order): Promise<string | undefined> => {
-      setLoading(true)
+      // setLoading(true)
       const { data: intent } = await getPaymentIntent({
         variables: {
           orderId: order.id,
           currency: currentCurrency.label.toLowerCase(),
         },
       })
-      setLoading(false)
+      // setLoading(false)
       const clientSecret = intent?.GetPaymentIntent.data?.clientSecret
       if (!clientSecret) {
         setPayment({ status: 'error' })
@@ -163,6 +170,7 @@ export const usePayment = ({
           result: error.message ?? 'An unknown error occurred',
         }))
         cardElement?.clear()
+        callback(false)
       } else if (paymentIntent) {
         showSuccess('Payment is done successfully.')
         setPayment(paymentIntent)
@@ -243,14 +251,15 @@ export const usePayment = ({
         setCookie(TEMP_ORDER_NUM, order.orderNumber, {
           path: '/',
         })
-        onPayDone()
+        setNewOrder(undefined)
+        callback(true)
       }
     },
     [
+      callback,
       clearCart,
       currentCurrency.label,
       getProduct,
-      onPayDone,
       setCookie,
       shippingPrice,
       tax,
@@ -259,8 +268,9 @@ export const usePayment = ({
   )
 
   const onSubmit = useCallback(async () => {
-    const cardElement = elements?.getElement(CardElement)
+    const cardElement = stripeElements?.getElement(CardElement)
     if (!cardElement || !stripe) {
+      callback(false)
       return
     }
 
@@ -271,20 +281,26 @@ export const usePayment = ({
       }))
       return
     } else if (error.cardNumber) {
+      callback(false)
       return
     }
 
+    callback(true)
+    return
+
     const order = await onCreateOrder()
     if (!order) {
+      callback(false)
       return
     }
 
     const clientSecret = await getClientSecret(order)
     if (!clientSecret) {
+      callback(false)
       return
     }
 
-    setLoading(true)
+    // setLoading(true)
     const { error: pError, paymentIntent } = await stripe.confirmCardPayment(
       clientSecret,
       {
@@ -295,7 +311,7 @@ export const usePayment = ({
         },
       },
     )
-    setLoading(false)
+    // setLoading(false)
 
     await finalizeResult(order, cardElement, pError, paymentIntent)
 
@@ -303,18 +319,19 @@ export const usePayment = ({
       stripe?.confirmCardPayment(clientSecret)
     }
   }, [
-    cardName,
-    elements,
-    error.cardNumber,
-    finalizeResult,
-    getClientSecret,
-    onCreateOrder,
+    stripeElements,
     stripe,
+    cardName,
+    error.cardNumber,
+    onCreateOrder,
+    getClientSecret,
+    finalizeResult,
+    callback,
   ])
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current)
-    if (!stripe || !elements) {
+    if (!stripe || !stripeElements) {
       return
     }
 
@@ -346,7 +363,7 @@ export const usePayment = ({
           return
         }
 
-        setLoading(true)
+        // setLoading(true)
         const { error, paymentIntent } = await stripe.confirmCardPayment(
           clientSecret,
           {
@@ -356,7 +373,7 @@ export const usePayment = ({
             handleActions: false,
           },
         )
-        setLoading(false)
+        // setLoading(false)
 
         await finalizeResult(order, undefined, error, paymentIntent)
 
@@ -371,7 +388,7 @@ export const usePayment = ({
     }
   }, [
     stripe,
-    elements,
+    stripeElements,
     subTotal,
     shippingPrice,
     conciergePrice,
@@ -395,10 +412,11 @@ export const usePayment = ({
     error,
     cardName,
     payment,
-    loading,
     stripeFocus,
     submitDisabled:
-      !['initial', 'succeeded', 'error'].includes(payment.status) || !stripe,
+      !['initial', 'succeeded', 'error'].includes(payment.status) ||
+      !stripe ||
+      !cardName,
     onFocusStripe: (f: boolean) => setStripeFocus(f),
     onSetError: (e: ValidationError) => setError(e),
     onSubmit,

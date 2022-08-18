@@ -1,6 +1,8 @@
 import React from 'react'
+import { Elements } from '@stripe/react-stripe-js'
 
 import DocModal from '@/modules/home/docModal'
+import { getStripe } from '@/utils'
 import OneClickModal from './components/oneClickModal'
 import { OneClickProvider } from './oneClickContext'
 import TakePhoto from './components/takePhoto'
@@ -66,7 +68,9 @@ const OneClick: React.FC = () => (
               />
             )}
             {modalType === 'checkout' && (
-              <CheckoutForm onBack={onBack} onPayDone={onPayDone} />
+              <Elements stripe={getStripe()}>
+                <CheckoutForm onBack={onBack} onPayDone={onPayDone} />
+              </Elements>
             )}
             {modalType === 'completed' && (
               <CheckoutSuccess onClose={onCloseModal} />

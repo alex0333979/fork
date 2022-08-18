@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useElements, useStripe } from '@stripe/react-stripe-js'
 
-import { FieldType, ShippingType } from '@/apollo'
+import { ShippingType } from '@/apollo'
 import { useOneClickCheckout, useCurrency, useAuth, usePayment } from '@/hooks'
 import FormElement from '@/modules/checkout/shippingInformation/formElement'
 import CheckBox from '@/components/elements/checkBox'
@@ -19,20 +20,20 @@ interface Props {
 const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
   const { t } = useTranslation()
   const { currentCurrency } = useCurrency()
-
   const { cart } = useAuth()
+  const stripe = useStripe()
+  const stripeElements = useElements()
+
+  const [loading, setLoading] = useState<boolean>(false)
 
   const {
     billingForm,
     country,
-    shippingType,
     error: billingInfoError,
-    onChangeShippingType,
     onValueChange,
     onSelectCountry,
-  } = useOneClickCheckout({
-    onSubmitted: () => null,
-  })
+    onSubmit: onSubmitBillingInfo,
+  } = useOneClickCheckout()
 
   const {
     cardName,
@@ -42,27 +43,111 @@ const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
     total,
     paymentRequest,
     error: paymentError,
-    loading,
     stripeFocus,
     submitDisabled,
     onSetError,
     onInputChange,
-    onSubmit,
+    onSubmit: onPay,
     onFocusStripe,
   } = usePayment({
+    stripe,
+    stripeElements,
     shippingType: cart?.shippingType,
     items: cart?.items && cart.items[0] ? [cart.items[0]] : [],
-    billingAddressState: cart?.billingAddress?.state,
-    onPayDone,
+    billingAddressState: billingForm.state.value,
+    onPayDone: () => {
+      setLoading(false)
+      onPayDone()
+    },
   })
 
+  const renderFormElement = useCallback(
+    (field: string) => {
+      if (field === 'shippingType') {
+        return (
+          <CheckBox
+            key={field}
+            className={billingForm[field].size || ''}
+            text={
+              <Trans
+                i18nKey={billingForm[field].text || ''}
+                values={{
+                  value: t('currency', {
+                    value: shippingPrice,
+                    currency: currentCurrency.label,
+                  }),
+                }}
+                components={{
+                  comp: <span className="free-sipping-price" />,
+                }}
+              />
+            }
+            value={billingForm[field].value === ShippingType.Free}
+            onChange={(checked: boolean) =>
+              onValueChange(
+                billingForm[field].name,
+                checked ? ShippingType.Free : ShippingType.NoShipping,
+              )
+            }
+          />
+        )
+      }
+      if (field === 'confirmPP') {
+        return (
+          <CheckBox
+            key={field}
+            className={billingForm[field].size || ''}
+            text={t(billingForm[field].text || '')}
+            value={!!billingForm[field].value}
+            onChange={(checked: boolean) =>
+              onValueChange(billingForm[field].name, checked)
+            }
+          />
+        )
+      }
+
+      return (
+        <FormElement
+          key={`${field}-${country}`}
+          field={billingForm[field]}
+          country={country}
+          error={billingInfoError[billingForm[field].name]}
+          onValueChange={onValueChange}
+          onSelectCountry={onSelectCountry}
+        />
+      )
+    },
+    [
+      billingForm,
+      billingInfoError,
+      country,
+      currentCurrency.label,
+      onSelectCountry,
+      onValueChange,
+      shippingPrice,
+      t,
+    ],
+  )
+
+  const onSubmitForm = useCallback(async () => {
+    onSubmitBillingInfo(
+      () => setLoading(true),
+      async () => {
+        onPay()
+      },
+    )
+  }, [onPay, onSubmitBillingInfo])
+
+  console.log({ billingForm })
   return (
     <OneClickCheckoutLayout
       step={3}
       loading={loading}
-      onSubmit={onSubmit}
+      onSubmit={onSubmitForm}
       onBack={onBack}
-      submitDisabled={submitDisabled || !billingForm.confirmPP?.value}
+      submitDisabled={
+        submitDisabled || !billingForm.confirmPP?.value || loading
+      }
       nextButtonText="Pay with card">
       <div className="sub-title">
         <h3>Checkout</h3>
@@ -72,38 +157,8 @@ const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
         <PaymentStatus status={payment.status} error={paymentError.result} />
         <form>
           <div className="form-fields">
-            {Object.keys(billingForm).map((key) =>
-              billingForm[key].type === FieldType.CheckBox ? (
-                <CheckBox
-                  key={key}
-                  className={billingForm[key].size || ''}
-                  text={
-                    <Trans
-                      i18nKey={billingForm[key].text || ''}
-                      values={{
-                        value: t('currency', {
-                          value: shippingPrice,
-                          currency: currentCurrency.label,
-                        }),
-                      }}
-                      components={{
-                        comp: <span className="free-sipping-price" />,
-                      }}
-                    />
-                  }
-                  value={shippingType === ShippingType.Free}
-                  onChange={() => onChangeShippingType()}
-                />
-              ) : (
-                <FormElement
-                  key={`${key}-${country}`}
-                  field={billingForm[key]}
-                  country={country}
-                  error={billingInfoError[billingForm[key].name]}
-                  onValueChange={onValueChange}
-                  onSelectCountry={onSelectCountry}
-                />
-              ),
+            {Object.keys(billingForm).map((field: string) =>
+              renderFormElement(field),
             )}
           </div>
         </form>

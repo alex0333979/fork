@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { useElements, useStripe } from '@stripe/react-stripe-js'
 
 import { useAuth, useCurrency, usePayment } from '@/hooks'
 import { PAGES } from '@/constants'
@@ -13,6 +14,8 @@ const ReviewAndPay: React.FC = () => {
   const { cart } = useAuth()
   const { currentCurrency } = useCurrency()
   const router = useRouter()
+  const stripe = useStripe()
+  const stripeElements = useElements()
 
   const {
     cardName,
@@ -32,6 +35,8 @@ const ReviewAndPay: React.FC = () => {
     onSubmit,
     onFocusStripe,
   } = usePayment({
+    stripe,
+    stripeElements,
     shippingType: cart?.shippingType,
     items: cart?.items || [],
     billingAddressState: cart?.billingAddress?.state,
