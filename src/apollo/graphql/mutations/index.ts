@@ -1,5 +1,6 @@
 export * from './addBillingAddressToCart.generated'
 export * from './addItemsToCart.generated'
+export * from './addOneClickInfo.generated'
 export * from './addPromoCodeToCart.generated'
 export * from './addShippingAddressToCart.generated'
 export * from './checkPhoto.generated'

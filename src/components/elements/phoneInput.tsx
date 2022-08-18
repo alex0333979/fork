@@ -9,6 +9,7 @@ const ReactTooltip = dynamic(() => import('react-tooltip'), {
 })
 
 interface PhoneInputProps {
+  className?: string | undefined
   country?: string
   formField: FormField
   onValueChange: (name: string, value: string | undefined) => void
@@ -16,6 +17,7 @@ interface PhoneInputProps {
 }
 
 const PhoneInput: React.FC<PhoneInputProps> = ({
+  className = 'half-size',
   country = 'US',
   formField,
   onValueChange,
@@ -34,7 +36,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   )
 
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}

@@ -49,7 +49,7 @@ const PaymentStatus: React.FC<Props> = ({ status, error }) => {
     )
   }
 
-  if (status === 'error') {
+  if (status === 'error' && !!error) {
     return (
       <div className="form-fields">
         <div className="form-notice">

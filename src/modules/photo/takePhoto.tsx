@@ -7,6 +7,7 @@ import { showError, showSuccess } from '@/utils'
 import { TakePhotoPageProps } from '@/pages/photo/take-photo'
 import { SignedUrl, useSubmitEntryMutation } from '@/apollo'
 import { TEMP_IMG_DIM, PAGES } from '@/constants'
+import { TCamera } from '@/types'
 import GetPhoto from './_getPhoto'
 
 const TakePhoto: React.FC<TakePhotoPageProps> = ({
@@ -23,7 +24,7 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
     async (
       signedUrl: SignedUrl,
       imgResolution: string,
-      type: string,
+      camera: TCamera,
       setLoading: (l: boolean) => void,
     ) => {
       const formStep = form.steps[0]
@@ -61,7 +62,7 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
           path: '/',
         })
         await router.push(
-          `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${type}&documentId=${documentId}`,
+          `${PAGES.photo.processPhoto}?entryId=${result.id}&type=${camera}&documentId=${documentId}`,
         )
         setLoading(false)
       }

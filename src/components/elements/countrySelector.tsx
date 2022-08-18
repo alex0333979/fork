@@ -4,7 +4,7 @@ import countryList from 'react-select-country-list'
 import { ValueContainerProps } from 'react-select/dist/declarations/src/components/containers'
 import { countries } from '../../constants/countries'
 
-export interface iCountry {
+export interface ICountry {
   label: string
   value: string
 }
@@ -28,7 +28,7 @@ export const CountryFlagSelectOption = (props: any) => (
 )
 
 export const CountryFlagValueContainer: React.FC<
-  ValueContainerProps<iCountry>
+  ValueContainerProps<ICountry>
 > = ({ children, ...props }) => {
   const code = (props.hasValue && props.getValue()[0].value) || false
 
@@ -60,15 +60,15 @@ const styles = {
 }
 
 export interface CountrySelectorProps {
-  country: iCountry | undefined
-  onSelectCountry: (value: iCountry) => void
+  country: ICountry | undefined
+  onSelectCountry: (value: ICountry) => void
 }
 
 const CountrySelector: React.FC<CountrySelectorProps> = ({
   country,
   onSelectCountry,
 }) => {
-  const options = useMemo<iCountry[]>(() => {
+  const options = useMemo<ICountry[]>(() => {
     const all = countryList().getData()
     return all.filter((c) => countries.find((ic) => ic.countryCode === c.value))
   }, [])

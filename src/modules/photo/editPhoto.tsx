@@ -7,10 +7,10 @@ import { EditPhotoProps } from '@/pages/photo/edit-photo'
 import { useUpdateOrderPhotoMutation } from '@/apollo'
 import { COOKIES_EDIT_ORDER_TOKEN_NAME, PAGES } from '@/constants'
 import { showError, showSuccess } from '@/utils'
+import { ProcessingStatus } from '@/types'
 import SaveButton from './components/saveButton'
 import VerifyEmail from './components/verifyEmail'
 import VerifyPhoto from './_verifyPhoto'
-import { ProcessingStatus } from './types'
 
 const EditPhoto: React.FC<EditPhotoProps> = ({ accessToken, entry, type }) => {
   const router = useRouter()

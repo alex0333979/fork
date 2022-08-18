@@ -8,12 +8,14 @@ const ReactTooltip = dynamic(() => import('react-tooltip'), {
 })
 
 interface TextInputProps {
+  className?: string | undefined
   formField: FormField
   onValueChange: (name: string, value: string | number) => void
   error: string | undefined
 }
 
 const TextInput: React.FC<TextInputProps> = ({
+  className = 'half-size',
   formField,
   onValueChange,
   error,
@@ -76,7 +78,7 @@ const TextInput: React.FC<TextInputProps> = ({
   )
 
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}

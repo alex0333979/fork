@@ -6,11 +6,11 @@
       font-size: 36px;
     }
   }
-  .modal-wrap.doc-type .modal-content {
+  .modal-wrap.general .modal-content {
     max-width: 1300px;
     padding: 45px 5px 15px 5px;
   }
-  .modal-wrap.doc-type .modal-content .content-scroll {
+  .modal-wrap.general .modal-content .content-scroll {
     padding: 10px 47px;
   }
 }
@@ -1080,7 +1080,7 @@
     padding: 9px 19px;
     font-size: 20px;
   }
-  .modal-wrap.doc-type .close-btn {
+  .modal-wrap.general .close-btn {
     top: 6px;
     right: 8px;
   }

@@ -35,6 +35,7 @@ type Cart {
   defaultCurrency: Currency
   items: [CartItem!]
   promoCode: String
+  remarks: String
   shippingAddress: ShippingAddress
   shippingType: ShippingType!
 }
@@ -241,6 +242,9 @@ type FormField {
   options: [Option!]
   placeholder: String
   required: Boolean
+
+  """half-size | full-size"""
+  size: String
   text: String
   type: FieldType!
   validations: [Validation!]
@@ -296,6 +300,7 @@ type Head {
 type Mutation {
   AddBillingAddressToCart(billingAddress: BillingAddressInput!): CartResponse!
   AddItemsToCart(items: [CartItemInput!]!): CartResponse!
+  AddOneClickInfo(input: OneClickInfoInput!): CartResponse!
   AddPromoCodeToCart(promoCode: String!): CartResponse!
   AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
   CheckPhoto(entryId: String!, imageResolution: String!, userAgent: String!): CheckPhotoResponse!
@@ -326,6 +331,21 @@ type Mutation {
   VerifyOTP(accessToken: String!, otp: String!): OrderEditResponse!
 }
 
+input OneClickInfoInput {
+  address1: String!
+  address2: String
+  city: String!
+  country: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  postalCode: String!
+  remarks: String!
+  shippingType: ShippingType!
+  state: String = ""
+}
+
 type Option {
   notes: String
   text: String
@@ -342,11 +362,13 @@ type Order {
   billingAddress: BillingAddress!
   createdAt: DateTime!
   currency: Currency
+  fulfillmentFires: Float!
   id: ID!
   items: [OrderItem!]!
   orderNumber: Int!
   paymentStatus: PaymentStatus!
   promoCode: String
+  remarks: String
   shipStation: OrderShipStation
   shippingAddress: ShippingAddress
   shippingType: ShippingType!

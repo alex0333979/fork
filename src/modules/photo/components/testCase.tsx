@@ -5,7 +5,7 @@ import { Dictionary } from '@/apollo'
 import { camelCaseToSentence } from '@/utils'
 import { CHECKLIST } from '@/constants'
 
-import { ProcessingStatus } from '../types'
+import { ProcessingStatus } from '@/types'
 
 interface Props {
   status: ProcessingStatus

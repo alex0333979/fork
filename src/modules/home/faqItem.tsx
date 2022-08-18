@@ -14,7 +14,6 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
 
   useEffect(() => {
     if (allClosed) {
-      console.log('here')
       setShow(false)
     }
   }, [allClosed])

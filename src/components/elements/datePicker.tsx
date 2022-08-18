@@ -7,12 +7,14 @@ import moment from 'moment'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 
 interface AppDatePickerProps {
+  className?: string | undefined
   formField: FormField
   onValueChange: (name: string, value: string | undefined) => void
   error: string | undefined
 }
 
 const AppDatePicker: React.FC<AppDatePickerProps> = ({
+  className = 'half-size',
   formField,
   onValueChange,
   error,
@@ -39,7 +41,7 @@ const AppDatePicker: React.FC<AppDatePickerProps> = ({
     [formField.name],
   )
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}

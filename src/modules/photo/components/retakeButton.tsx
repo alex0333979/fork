@@ -1,14 +1,14 @@
 import React from 'react'
 import { Bars } from 'react-loading-icons'
 
-import { ProcessingStatus } from '../types'
+import { ProcessingStatus } from '@/types'
 
 interface Props {
   loading: boolean
   status: ProcessingStatus
   onRetake: () => void
   onNext: () => Promise<void>
-  onOpenInfo: (v: boolean) => void
+  onOpenInfo?: (v: boolean) => void
 }
 
 const RetakeButton: React.FC<Props> = ({
@@ -30,14 +30,16 @@ const RetakeButton: React.FC<Props> = ({
             )}
           </button>
         </div>
-        <div className="info-btn">
-          <button
-            type="button"
-            className="main-btn outline"
-            onClick={() => onOpenInfo(true)}>
-            <i className="icon-info" />
-          </button>
-        </div>
+        {!!onOpenInfo && (
+          <div className="info-btn">
+            <button
+              type="button"
+              className="main-btn outline"
+              onClick={() => onOpenInfo(true)}>
+              <i className="icon-info" />
+            </button>
+          </div>
+        )}
       </div>
     )
   }
@@ -59,14 +61,16 @@ const RetakeButton: React.FC<Props> = ({
           )}
         </button>
       </div>
-      <div className="info-btn">
-        <button
-          type="button"
-          className="main-btn outline"
-          onClick={() => onOpenInfo(true)}>
-          <i className="icon-info" />
-        </button>
-      </div>
+      {!!onOpenInfo && (
+        <div className="info-btn">
+          <button
+            type="button"
+            className="main-btn outline"
+            onClick={() => onOpenInfo(true)}>
+            <i className="icon-info" />
+          </button>
+        </div>
+      )}
     </div>
   )
 }

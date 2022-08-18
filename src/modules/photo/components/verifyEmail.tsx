@@ -17,7 +17,10 @@ interface Props {
 
 const VerifyEmail: React.FC<Props> = ({ accessToken, onVerified }) => {
   const { isAuthenticated, setMe } = useAuth()
-  const [, setCookie] = useCookies()
+  const [cookies, setCookie] = useCookies([
+    COOKIES_TOKEN_NAME,
+    COOKIES_EDIT_ORDER_TOKEN_NAME,
+  ])
   const [open, setOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [emailVerified, setEmailVerified] = useState<boolean>(false)
@@ -28,13 +31,18 @@ const VerifyEmail: React.FC<Props> = ({ accessToken, onVerified }) => {
   const [sendOTP] = useSendOtpMutation()
   const [verifyOTP] = useVerifyOtpMutation()
 
+  const editToken = useMemo(
+    () => cookies[COOKIES_EDIT_ORDER_TOKEN_NAME],
+    [cookies],
+  )
+
   useEffect(() => {
     if (email === undefined) return
     setError((e) => (email ? '' : e))
   }, [email])
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && editToken) {
       setOpen(false)
       setEmail(undefined)
       setOtp('')
@@ -44,7 +52,7 @@ const VerifyEmail: React.FC<Props> = ({ accessToken, onVerified }) => {
     } else {
       setOpen(true)
     }
-  }, [isAuthenticated])
+  }, [editToken, isAuthenticated])
 
   const validate = useCallback((_email: string | undefined) => {
     let _error = ''

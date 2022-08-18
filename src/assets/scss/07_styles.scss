@@ -3499,7 +3499,7 @@ footer {
 }
 
 
-.steps-page {
+.steps-page, [class*="one-click-"] {
   overflow: hidden;
 
   .container {
@@ -4861,14 +4861,14 @@ footer {
     }
   }
 
-  &.doc-type {
+  &.general {
     .overlay {
       background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
     }
 
     .modal-content {
-      padding: 25px 5px;
+      padding: 30px 5px;
       position: relative;
       background: #FFFFFF;
       border-radius: 8px;

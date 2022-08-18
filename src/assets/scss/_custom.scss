@@ -68,3 +68,215 @@
 .spacer {
   flex-grow: 1;
 }
+
+.one-click-take-photo {
+  .step-data {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .data-wrap {
+      width: 85%;
+    }
+    .action-btn {
+      justify-content: center;
+    }
+  }
+}
+
+.one-click-process-photo {
+  .step-data {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .data-wrap {
+      width: 100%;
+      max-width: 100% !important;
+    }
+    .action-btn {
+      justify-content: center;
+    }
+    .requirements-wrap {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.one-click-toolbar {
+  padding: 15px 0;
+  background-color: var(--catskill-white);
+  box-shadow: unset !important;
+  position: relative !important;
+  z-index: 3;
+}
+
+.one-click-modal.checkout {
+  .steps-content {
+    .step-data {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkout-btn-wrap {
+      width: 100%;
+      .action-btn {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  .free-sipping-price {
+    color: var(--jungle-green);
+    padding: 0 5px;
+  }
+
+  label.us, label.ca {
+    width: calc(50% - 20px);
+  }
+
+  .total-info {
+    margin: 24px 0 10px 0;
+    padding: 26px 0;
+    position: relative;
+    z-index: 1;
+
+    &:before,
+    &:after {
+      content: '';
+      height: 3px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjgwIiBoZWlnaHQ9IjMiIHZpZXdCb3g9IjAgMCA2ODAgMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMkM1NDQgMS4yIDY4MCAxIDY4MCAxIiBzdHJva2U9IiNDNEM0QzQiIHN0cm9rZS1taXRlcmxpbWl0PSIxLjIyODYzIiBzdHJva2UtZGFzaGFycmF5PSI3IDciLz4KPC9zdmc+Cg==);
+      pointer-events: none;
+    }
+
+    &:before {
+      top: 0;
+    }
+
+    &:after {
+      bottom: 0;
+    }
+
+    table {
+      //width: 100%;
+      border-collapse: collapse;
+
+      tr {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 1.22;
+
+        td {
+          padding: 10px 10px 10px 0;
+
+          &:first-child {
+            min-width: 110px;
+          }
+        }
+      }
+
+      tfoot {
+        tr {
+          font-weight: 600;
+          font-size: 24px;
+
+          span {
+            font-size: 26px;
+          }
+        }
+      }
+    }
+  }
+
+  .form-notice {
+    padding-bottom: 26px;
+
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+      padding: 25px;
+
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.2;
+
+      background: var(--gin-fizz);
+      border-radius: 4px;
+      border-left: 4px solid var(--azure-radiance);
+
+      span.icon-info {
+        display: flex;
+        padding-left: 20px;
+        font-size: 25px;
+        color: var(--azure-radiance);
+      }
+    }
+  }
+
+  .form-fields {
+    .form-notice {
+      width: 100%;
+      margin: 0 10px;
+    }
+  }
+}
+
+.checkout-success {
+  .success-content {
+    max-width: 310px;
+    .img-wrap {
+      padding-bottom: 17px;
+    }
+    .sub-title h3 {
+      font-weight: 400;
+      font-size: 46px;
+    }
+    .sub-title p {
+      padding-top: 6px;
+    }
+    .btn-wrap {
+      padding-top: 60px;
+      .main-btn {
+        max-width: 200px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .success-content .btn-wrap {
+      padding-top: 30px;
+      .main-btn {
+        max-width: 218px;
+        min-height: 48px;
+        font-size: 16px;
+      }
+    }
+    .success-content .img-wrap {
+      padding-bottom: 0;
+      margin-bottom: -5px;
+    }
+    .success-content .sub-title h3 {
+      font-size: 26px;
+    }
+    .success-content .sub-title p {
+      padding-top: 17px;
+      font-size: 16px;
+    }
+    .success-content .btn-wrap {
+      padding-top: 41px;
+    }
+    .success-content .btn-wrap .main-btn {
+      max-width: 168px;
+    }
+  }
+}

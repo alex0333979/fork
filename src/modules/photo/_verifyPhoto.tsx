@@ -1,28 +1,18 @@
-/* eslint-disable @next/next/no-img-element */
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useRouter, NextRouter } from 'next/router'
 import NextImage from 'next/image'
 import classNames from 'classnames'
-import { parse } from 'path'
-import { useCookies } from 'react-cookie'
 
 import { PAGES, PHOTO_STEP } from '@/constants'
-import ProcessStepPhoto from '@/components/elements/processStepPhoto'
 import LoadingMask from '@/components/elements/loadingMask'
 import LoadingSpinner from '@/components/loadingSpinner'
-import {
-  Code,
-  Dictionary,
-  Entry,
-  useCheckPhotoMutation,
-  PDocument,
-} from '@/apollo'
-import { showError } from '@/utils'
-import { TEMP_IMG_DIM } from '@/constants'
+import { Entry, PDocument } from '@/apollo'
+import { ProcessingStatus } from '@/types'
+import { useVerifyPhoto } from '@/hooks'
 
+import ProcessStepPhoto from './components/processStepPhoto'
 import StepInfo from './components/stepInfo'
 import TestCase from './components/testCase'
-import { ProcessingStatus } from './types'
 
 interface Props {
   entry?: Entry
@@ -52,59 +42,14 @@ const VerifyPhoto: React.FC<Props> = ({
   renderRetakeButton,
 }) => {
   const router = useRouter()
-  const [cookie, , removeCookie] = useCookies([TEMP_IMG_DIM])
-  const [status, setStatus] = useState<ProcessingStatus>(
-    ProcessingStatus.notStarted,
-  )
-  const [failed, setFailed] = useState<Dictionary[]>([])
-  const [passed, setPassed] = useState<Dictionary[]>([])
   const [openStepInfo, setOpenStepInfo] = useState<boolean>(false)
-  const [checkPhoto] = useCheckPhotoMutation({
-    fetchPolicy: 'no-cache',
-    onCompleted: (data) => {
-      const result = data?.CheckPhoto.data
-      if (result) {
-        if (result.code === Code.Code200) {
-          setStatus(ProcessingStatus.success)
-        } else {
-          setStatus(ProcessingStatus.failed)
-        }
-        setFailed(result.failed ?? [])
-        setPassed(result.passed ?? [])
-      } else {
-        showError(data?.CheckPhoto.message ?? 'Unexpected error')
-        setStatus(ProcessingStatus.failed)
-      }
-      removeCookie(TEMP_IMG_DIM)
-    },
-  })
 
-  console.log({ document })
-  useEffect(
-    () => () => {
-      setStatus(ProcessingStatus.notStarted)
-    },
-    [],
-  )
-
-  const imageUrl = useMemo(
-    () =>
-      entry?.form.steps[0].fields.find((f) => f.name === 'image_url')?.value ||
+  const { status, imageUrl, imageLink, width, height, passed, failed } =
+    useVerifyPhoto({
+      entry,
+      document,
       photoUrl,
-    [entry?.form.steps, photoUrl],
-  )
-
-  const imageLink = useMemo<string>(() => {
-    if (imageUrl) {
-      return status === ProcessingStatus.success
-        ? `${parse(imageUrl).dir}/${parse(imageUrl).name}_watermark${
-            parse(imageUrl).ext
-          }`
-        : imageUrl
-    } else {
-      return '/images/steps/step-02-03.png'
-    }
-  }, [imageUrl, status])
+    })
 
   const onChangePhoto = useCallback(() => {
     if (entry?.id && document?.id) {
@@ -115,41 +60,6 @@ const VerifyPhoto: React.FC<Props> = ({
       router.push(PAGES.photo.takeNewPhoto)
     }
   }, [document?.id, entry?.id, router, type])
-
-  useEffect(() => {
-    if (!entry?.id) return
-    if (status !== ProcessingStatus.notStarted) return
-
-    setStatus(ProcessingStatus.loading)
-    const userAgent = navigator.userAgent
-    checkPhoto({
-      variables: {
-        entryId: entry.id,
-        userAgent,
-        imageResolution: cookie[TEMP_IMG_DIM] || 'x',
-      },
-      fetchPolicy: 'no-cache',
-    })
-  }, [checkPhoto, cookie, entry?.id, status])
-
-  const { width, height } = useMemo(() => {
-    if (
-      document?.dimensions?.width &&
-      document?.dimensions?.height &&
-      document?.dimensions?.unit
-    ) {
-      return {
-        width: `${document?.dimensions?.width}${document?.dimensions?.unit}`,
-        height: `${document?.dimensions?.height}${document?.dimensions?.unit}`,
-      }
-    }
-
-    return { width: 'unset', height: 'unset' }
-  }, [
-    document?.dimensions?.height,
-    document?.dimensions?.unit,
-    document?.dimensions?.width,
-  ])
 
   return (
     <>

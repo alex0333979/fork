@@ -1,7 +1,7 @@
 import React from 'react'
 import { Bars } from 'react-loading-icons'
 
-import { ProcessingStatus } from '../types'
+import { ProcessingStatus } from '@/types'
 
 interface Props {
   loading: boolean

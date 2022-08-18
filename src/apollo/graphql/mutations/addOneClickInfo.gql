@@ -1,0 +1,9 @@
+mutation AddOneClickInfo($input: OneClickInfoInput!) {
+  AddOneClickInfo(input: $input) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

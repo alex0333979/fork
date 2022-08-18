@@ -1,22 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FormField } from '@/apollo'
 import { CountryDropdown } from 'react-country-region-selector'
 import classNames from 'classnames'
 
+import { FormField } from '@/apollo'
+
 interface CountryPickerProps {
+  className?: string | undefined
   formField: FormField
   selectedCountry: (name: string, country: string) => void
   error: string | undefined
 }
 
 const CountryPicker: React.FC<CountryPickerProps> = ({
+  className = 'half-size',
   formField,
   selectedCountry,
   error,
 }) => {
-  const [country, setCountry] = useState<string>(
-    formField.value ? formField.value : '',
-  )
+  const [country, setCountry] = useState<string | undefined>()
 
   const selectCountry = useCallback(
     (country: string) => {
@@ -27,13 +28,23 @@ const CountryPicker: React.FC<CountryPickerProps> = ({
   )
 
   useEffect(() => {
-    if (!formField.value && formField.required) {
-      selectedCountry(formField.name, 'US')
+    if (country === undefined) {
+      const _country = formField.required
+        ? formField.value || 'US'
+        : formField.value || ''
+      setCountry(_country)
+      selectedCountry(formField.name, _country)
     }
-  }, [formField.name, formField.required, formField.value, selectedCountry])
+  }, [
+    country,
+    formField.name,
+    formField.required,
+    formField.value,
+    selectedCountry,
+  ])
 
   return (
-    <label className="half-size">
+    <label className={className}>
       <span className="label">
         {formField.text}
         {formField.required ? ' *' : ''}
@@ -42,7 +53,7 @@ const CountryPicker: React.FC<CountryPickerProps> = ({
         <CountryDropdown
           name={formField.name}
           valueType={'short'}
-          value={country}
+          value={country || ''}
           onChange={selectCountry}
           classes={classNames({
             'error-border': !!error,

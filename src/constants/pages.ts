@@ -28,6 +28,7 @@ export const PAGES = {
   shippingPolicy: '/shipping-policy/',
   upSell: '/up-sell/',
   blogs: '/blogs/',
+  oneClick: '/one-click/',
 }
 
 export const TOP_MENUS: NavItemProps[] = [

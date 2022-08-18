@@ -8,12 +8,14 @@ const ReactTooltip = dynamic(() => import('react-tooltip'), {
 })
 
 interface RadioOptionProps {
+  className?: string | undefined
   formField: FormField
   onValueChange: (name: string, value: string | boolean) => void
   error: string | undefined
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
+  className = '',
   formField,
   onValueChange,
   error,
@@ -43,6 +45,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           className={classNames({
             'third-size': formField.options && formField.options.length > 2,
             'half-size': !(formField.options && formField.options.length > 2),
+            [className]: !!className,
           })}>
           <span className="field radio">
             <span className="name">
