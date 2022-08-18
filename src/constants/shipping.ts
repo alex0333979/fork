@@ -165,8 +165,6 @@ export const ONE_CLICK__BILLING_FORM: { [key: string]: FormField } = {
     text: 'Email (only for contact regarding the photo)',
     required: true,
     placeholder: '',
-    notes:
-      'Please enter your valid email address in the format - yourname@domainname.com',
     validations: [
       {
         type: ValidationType.IsEmail,
@@ -255,5 +253,23 @@ export const ONE_CLICK__BILLING_FORM: { [key: string]: FormField } = {
         message: 'Input correct (US) phone Number format',
       },
     ],
+  },
+  confirmPP: {
+    index: 10,
+    type: FieldType.CheckBox,
+    name: 'confirmPP',
+    text: 'confirmPP',
+    required: false,
+    defaultValue: false,
+    size: 'full-size',
+  },
+  remarks: {
+    index: 11,
+    type: FieldType.Input,
+    name: 'remarks',
+    text: 'Remarks (on shipping, retouch, etc.)',
+    required: true,
+    placeholder: '',
+    size: 'full-size',
   },
 }

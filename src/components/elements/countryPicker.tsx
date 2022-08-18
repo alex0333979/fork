@@ -53,7 +53,7 @@ const CountryPicker: React.FC<CountryPickerProps> = ({
         <CountryDropdown
           name={formField.name}
           valueType={'short'}
-          value={country}
+          value={country || ''}
           onChange={selectCountry}
           classes={classNames({
             'error-border': !!error,

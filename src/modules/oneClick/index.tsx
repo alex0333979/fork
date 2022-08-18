@@ -24,6 +24,7 @@ const OneClick: React.FC = () => (
       onEntrySubmitted,
       onChangePhoto,
       onCheckout,
+      onPayDone,
       onBack,
     }) => (
       <>
@@ -64,7 +65,9 @@ const OneClick: React.FC = () => (
                 onCheckout={onCheckout}
               />
             )}
-            {modalType === 'checkout' && <CheckoutForm />}
+            {modalType === 'checkout' && (
+              <CheckoutForm onBack={onBack} onPayDone={onPayDone} />
+            )}
             {modalType === 'completed' && (
               <CheckoutSuccess onClose={onCloseModal} />
             )}

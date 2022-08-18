@@ -2,20 +2,31 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { FieldType, ShippingType } from '@/apollo'
-import { useOneClickCheckout, useCurrency } from '@/hooks'
+import { useOneClickCheckout, useCurrency, useAuth, usePayment } from '@/hooks'
 import FormElement from '@/modules/checkout/shippingInformation/formElement'
 import CheckBox from '@/components/elements/checkBox'
+import PaymentStatus from '@/modules/checkout/review/paymentStatus'
+import PaymentButtons from '@/modules/checkout/review/paymentButtons'
+import PayWithCard from '@/modules/checkout/review/payWithCard'
 import OneClickCheckoutLayout from './oneClickCheckoutLayout'
+import CheckoutTotalInfo from './checkoutTotalInfo'
 
-const CheckoutForm: React.FC = () => {
+interface Props {
+  onBack: () => void
+  onPayDone: () => void
+}
+
+const CheckoutForm: React.FC<Props> = ({ onBack, onPayDone }) => {
   const { t } = useTranslation()
   const { currentCurrency } = useCurrency()
+
+  const { cart } = useAuth()
 
   const {
     billingForm,
     country,
     shippingType,
-    error,
+    error: billingInfoError,
     onChangeShippingType,
     onValueChange,
     onSelectCountry,
@@ -23,19 +34,42 @@ const CheckoutForm: React.FC = () => {
     onSubmitted: () => null,
   })
 
+  const {
+    cardName,
+    payment,
+    shippingPrice,
+    subTotal,
+    total,
+    paymentRequest,
+    error: paymentError,
+    loading,
+    stripeFocus,
+    submitDisabled,
+    onSetError,
+    onInputChange,
+    onSubmit,
+    onFocusStripe,
+  } = usePayment({
+    shippingType: cart?.shippingType,
+    items: cart?.items && cart.items[0] ? [cart.items[0]] : [],
+    billingAddressState: cart?.billingAddress?.state,
+    onPayDone,
+  })
+
   return (
     <OneClickCheckoutLayout
       step={3}
-      loading={false}
-      onSubmit={() => null}
-      onBack={() => null}
-      submitDisabled={false}
-      nextButtonText="Next">
+      loading={loading}
+      onSubmit={onSubmit}
+      onBack={onBack}
+      submitDisabled={submitDisabled || !billingForm.confirmPP?.value}
+      nextButtonText="Pay with card">
       <div className="sub-title">
         <h3>Checkout</h3>
       </div>
 
       <div className="form-wrap">
+        <PaymentStatus status={payment.status} error={paymentError.result} />
         <form>
           <div className="form-fields">
             {Object.keys(billingForm).map((key) =>
@@ -48,7 +82,7 @@ const CheckoutForm: React.FC = () => {
                       i18nKey={billingForm[key].text || ''}
                       values={{
                         value: t('currency', {
-                          value: 3,
+                          value: shippingPrice,
                           currency: currentCurrency.label,
                         }),
                       }}
@@ -65,7 +99,7 @@ const CheckoutForm: React.FC = () => {
                   key={`${key}-${country}`}
                   field={billingForm[key]}
                   country={country}
-                  error={error[billingForm[key].name]}
+                  error={billingInfoError[billingForm[key].name]}
                   onValueChange={onValueChange}
                   onSelectCountry={onSelectCountry}
                 />
@@ -74,31 +108,16 @@ const CheckoutForm: React.FC = () => {
           </div>
         </form>
       </div>
-
-      <div className="total-info">
-        <table>
-          <tbody>
-            <tr>
-              <td>Subtotal:</td>
-              <td>$12.95</td>
-            </tr>
-            <tr>
-              <td>Discount:</td>
-              <td>
-                <span style={{ color: '#EB5757' }}>23%</span>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td>Total:</td>
-              <td>
-                <span>$9.95</span>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
+      {!!paymentRequest && <PaymentButtons paymentRequest={paymentRequest} />}
+      <PayWithCard
+        error={paymentError}
+        cardName={cardName}
+        stripeFocus={stripeFocus}
+        onChangeStripeFocus={onFocusStripe}
+        onChangeError={onSetError}
+        onInputChange={onInputChange}
+      />
+      <CheckoutTotalInfo subtotal={subTotal} total={total} />
     </OneClickCheckoutLayout>
   )
 }

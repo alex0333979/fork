@@ -38,6 +38,7 @@ interface IContextProps {
   onChangePhoto: () => void
   onCheckout: () => void
   onBack: () => void
+  onPayDone: () => void
 }
 
 export const OneClickContext = createContext<IContextProps>({
@@ -55,6 +56,7 @@ export const OneClickContext = createContext<IContextProps>({
   onChangePhoto: () => null,
   onCheckout: () => null,
   onBack: () => null,
+  onPayDone: () => null,
 })
 
 export const OneClickProvider = ({
@@ -140,8 +142,8 @@ export const OneClickProvider = ({
   }, [])
 
   const onBack = useCallback(() => {
-    if (modalType === 'delivery-method') {
-      setModalType('check-cart')
+    if (modalType === 'checkout') {
+      setModalType('take-photo')
     }
   }, [modalType])
 
@@ -150,6 +152,12 @@ export const OneClickProvider = ({
       router.push(PAGES.home)
     }
   }, [modalType, router])
+
+  const onPayDone = useCallback(() => {
+    setDocument(undefined)
+    setEntry(undefined)
+    setModalType('completed')
+  }, [])
 
   const form = useMemo(
     () => (formsRes?.Forms || []).find((f) => f.name === PHOTO_FORM),
@@ -184,6 +192,7 @@ export const OneClickProvider = ({
       onEntrySubmitted,
       onChangePhoto: () => onChangeModal('take-photo'),
       onCheckout: () => onChangeModal('checkout'),
+      onPayDone,
       onBack,
     }),
     [
@@ -198,8 +207,9 @@ export const OneClickProvider = ({
       onSelectCountry,
       onSelectDocument,
       onEntrySubmitted,
-      onChangeModal,
+      onPayDone,
       onBack,
+      onChangeModal,
     ],
   )
 

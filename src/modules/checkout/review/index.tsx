@@ -1,28 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
-import { useCookies } from 'react-cookie'
 
-import {
-  PaymentIntent,
-  StripeCardElement,
-  StripeError,
-} from '@stripe/stripe-js'
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
-
-import {
-  CurrencyType,
-  Order,
-  ProductSku,
-  ShippingType,
-  useClearCartMutation,
-  useCreateOrderMutation,
-  useGetPaymentIntentMutation,
-} from '@/apollo'
-import { ValidationError } from '@/types'
-import { showError, showSuccess, humanize } from '@/utils'
-import { useAuth, useProducts, useCurrency, useLocation } from '@/hooks'
-import { TEMP_ORDER_NUM, PAGES, shippingTypes } from '@/constants'
+import { useAuth, useCurrency, usePayment } from '@/hooks'
+import { PAGES } from '@/constants'
 import CheckoutLayout from '../checkoutLayout'
 import PaymentStatus from './paymentStatus'
 import OrderSummary from './orderSummary'
@@ -30,363 +10,41 @@ import PaymentButtons from './paymentButtons'
 import PayWithCard from './payWithCard'
 
 const ReviewAndPay: React.FC = () => {
-  const { getProduct } = useProducts()
-  const [, setCookie] = useCookies([TEMP_ORDER_NUM])
-  const { cart, updateMe } = useAuth()
+  const { cart } = useAuth()
   const { currentCurrency } = useCurrency()
-  const { country } = useLocation()
-  const [cardName, setCardName] = useState<string>('')
-  const [error, setError] = useState<ValidationError>({})
-  const [stripeFocus, setStripeFocus] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [payment, setPayment] = useState({ status: 'initial' })
-  const [createOrder] = useCreateOrderMutation()
-  const [getPaymentIntent] = useGetPaymentIntentMutation()
-  const [clearCart] = useClearCartMutation()
-  const [paymentRequest, setPaymentRequest] = useState<any>(null)
   const router = useRouter()
-  const timer = useRef<NodeJS.Timeout | null>()
 
-  const stripe = useStripe()
-  const elements = useElements()
-
-  const shippingPrice = useMemo(() => {
-    const productSku = shippingTypes(country?.value).find(
-      (s) => s.value === cart?.shippingType,
-    )?.productSku
-
-    if (!productSku) return 0
-
-    return getProduct(productSku)?.price || 0
-  }, [cart?.shippingType, country?.value, getProduct])
-
-  const conciergePrice = useMemo(() => {
-    if (cart?.shippingType === ShippingType.NoShipping) return 0
-    const product = getProduct(ProductSku.PrintShipService)
-
-    return product?.price || 0
-  }, [cart?.shippingType, getProduct])
-
-  const subTotal = useMemo(
-    () =>
-      (cart?.items
-        ?.filter((i) => i.isComplete)
-        .reduce((a, { productSku }) => {
-          const product = getProduct(productSku)
-          return a + (product?.price || 0)
-        }, 0) ?? 0) +
-      conciergePrice +
-      shippingPrice,
-    [cart?.items, conciergePrice, getProduct, shippingPrice],
-  )
-
-  const tax = useMemo(() => {
-    if (cart?.billingAddress?.state === 'NY') {
-      return parseFloat((subTotal * 0.08875).toFixed(2))
-    }
-    return 0
-  }, [cart?.billingAddress?.state, subTotal])
-
-  const total = useMemo(() => subTotal + tax, [tax, subTotal])
-
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setError((errors) => ({
-        ...errors,
-        cardName: '',
-      }))
-      setCardName(e.target.value)
-    },
-    [],
-  )
-
-  const onCreateOrder = useCallback(async (): Promise<Order | undefined> => {
-    setLoading(true)
-    const { data } = await createOrder({})
-    setLoading(false)
-
-    const order = data?.CreateOrder.data
-    if (!order) {
-      setPayment({ status: 'error' })
-      setError((errors) => ({
-        ...errors,
-        result: 'Create order is failed.',
-      }))
-      return
-    }
-    return order
-  }, [createOrder])
-
-  const getClientSecret = useCallback(
-    async (order: Order): Promise<string | undefined> => {
-      setLoading(true)
-      const { data: intent } = await getPaymentIntent({
-        variables: {
-          orderId: order.id,
-          currency: currentCurrency.label.toLowerCase(),
-        },
-      })
-      setLoading(false)
-      const clientSecret = intent?.GetPaymentIntent.data?.clientSecret
-      if (!clientSecret) {
-        setPayment({ status: 'error' })
-        setError((errors) => ({
-          ...errors,
-          result: 'Get payment intent is failed',
-        }))
-        return
-      }
-      return clientSecret
-    },
-    [currentCurrency.label, getPaymentIntent],
-  )
-
-  const finalizeResult = useCallback(
-    async (
-      order: Order,
-      cardElement: StripeCardElement | undefined,
-      error: StripeError | undefined,
-      paymentIntent: PaymentIntent | undefined,
-    ) => {
-      if (error) {
-        showError(error.message ?? 'An unknown error occurred')
-        setPayment({ status: 'error' })
-        setError((errors) => ({
-          ...errors,
-          result: error.message ?? 'An unknown error occurred',
-        }))
-        cardElement?.clear()
-      } else if (paymentIntent) {
-        showSuccess('Payment is done successfully.')
-        setPayment(paymentIntent)
-        const { data } = await clearCart({})
-        const cart = data?.ClearCart.data
-        if (cart) {
-          updateMe({ cart })
-        }
-
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
-          transaction_id: order.orderNumber,
-          value: order.totalPrice / 100,
-          currency: currentCurrency.label,
-          tax,
-          shipping: shippingPrice,
-          items: order.items.map((item) => {
-            const product = getProduct(item.productSku)
-
-            return {
-              id: item.productId,
-              name: item.name,
-              category: humanize(item.productCategory as string),
-              price: product?.price || 0,
-            }
-          }),
-        })
-
-        window.gtag('event', 'purchase', {
-          transaction_id: order.orderNumber,
-          value: order.totalPrice / 100,
-          currency: currentCurrency.label,
-          tax,
-          shipping: shippingPrice,
-          items: order.items.map((item) => {
-            const product = getProduct(item.productSku)
-
-            return {
-              id: item.productId,
-              name: item.name,
-              category: humanize(item.productCategory as string),
-              price: product?.price || 0,
-            }
-          }),
-        })
-
-        // @ts-ignore
-        if (window && window.woopra) {
-          // @ts-ignore
-          window.woopra.track('checkout', {
-            total_items: order.items.length,
-            discount_amount: 0,
-            tax_amount: tax,
-            shipping_amount: shippingPrice,
-            total_amount: order.totalPrice / 100,
-            order_id: order.orderNumber,
-          })
-        }
-
-        // @ts-ignore
-        if (window && window.uetq) {
-          // @ts-ignore
-          window.uetq.push('event', 'purchase', {
-            revenue_value: order.totalPrice / 100,
-            currency: order.currency?.label || CurrencyType.Usd,
-          })
-          // @ts-ignore
-          window.uetq.push('event', 'PRODUCT_PURCHASE', {
-            ecomm_prodid: 'PHOTO',
-            ecomm_pagetype: 'PURCHASE',
-            revenue_value: order.totalPrice / 100,
-            currency: order.currency?.label || CurrencyType.Usd,
-          })
-        }
-
-        // bing
-        // ..
-        setCookie(TEMP_ORDER_NUM, order.orderNumber, {
-          path: '/',
-        })
-        await router.push(PAGES.checkout.thankYou)
-      }
-    },
-    [
-      clearCart,
-      currentCurrency.label,
-      getProduct,
-      router,
-      setCookie,
-      shippingPrice,
-      tax,
-      updateMe,
-    ],
-  )
-
-  const onSubmit = useCallback(async () => {
-    const cardElement = elements?.getElement(CardElement)
-    if (!cardElement || !stripe) {
-      return
-    }
-
-    if (!cardName) {
-      setError((errors) => ({
-        ...errors,
-        cardName: 'This field is required',
-      }))
-      return
-    } else if (error.cardNumber) {
-      return
-    }
-
-    const order = await onCreateOrder()
-    if (!order) {
-      return
-    }
-
-    const clientSecret = await getClientSecret(order)
-    if (!clientSecret) {
-      return
-    }
-
-    setLoading(true)
-    const { error: pError, paymentIntent } = await stripe.confirmCardPayment(
-      clientSecret,
-      {
-        payment_method: {
-          card: cardElement,
-          billing_details: { name: cardName },
-          metadata: { order_id: order.id },
-        },
-      },
-    )
-    setLoading(false)
-
-    await finalizeResult(order, cardElement, pError, paymentIntent)
-
-    if (paymentIntent?.status === 'requires_action') {
-      stripe?.confirmCardPayment(clientSecret)
-    }
-  }, [
+  const {
     cardName,
-    elements,
-    error.cardNumber,
-    finalizeResult,
-    getClientSecret,
-    onCreateOrder,
-    stripe,
-  ])
-
-  useEffect(() => {
-    if (timer.current) clearTimeout(timer.current)
-    if (!stripe || !elements) {
-      return
-    }
-
-    timer.current = setTimeout(() => {
-      const pr = stripe.paymentRequest({
-        currency: currentCurrency.label.toLowerCase(),
-        country: country?.value || 'US',
-        total: {
-          label: '',
-          amount: 100 * total,
-        },
-        requestPayerEmail: true,
-        requestPayerName: true,
-      })
-      pr.canMakePayment().then((result) => {
-        if (result) {
-          setPaymentRequest(pr)
-        }
-      })
-
-      pr.on('paymentmethod', async ({ paymentMethod }) => {
-        const order = await onCreateOrder()
-        if (!order) {
-          return
-        }
-
-        const clientSecret = await getClientSecret(order)
-        if (!clientSecret) {
-          return
-        }
-
-        setLoading(true)
-        const { error, paymentIntent } = await stripe.confirmCardPayment(
-          clientSecret,
-          {
-            payment_method: paymentMethod.id,
-          },
-          {
-            handleActions: false,
-          },
-        )
-        setLoading(false)
-
-        await finalizeResult(order, undefined, error, paymentIntent)
-
-        if (paymentIntent?.status === 'requires_action') {
-          stripe?.confirmCardPayment(clientSecret)
-        }
-      })
-    }, 1500)
-
-    return () => {
-      if (timer.current) clearTimeout(timer.current)
-    }
-  }, [
-    stripe,
-    elements,
-    subTotal,
-    shippingPrice,
+    payment,
     conciergePrice,
-    onCreateOrder,
-    getClientSecret,
-    finalizeResult,
+    shippingPrice,
+    subTotal,
     total,
     tax,
-    currentCurrency.symbol,
-    currentCurrency.label,
-    country,
-  ])
+    paymentRequest,
+    error,
+    loading,
+    stripeFocus,
+    submitDisabled,
+    onSetError,
+    onInputChange,
+    onSubmit,
+    onFocusStripe,
+  } = usePayment({
+    shippingType: cart?.shippingType,
+    items: cart?.items || [],
+    billingAddressState: cart?.billingAddress?.state,
+    onPayDone: () => router.push(PAGES.checkout.thankYou),
+  })
 
   return (
     <CheckoutLayout
       step={4}
       loading={loading}
       backLink={PAGES.checkout.payment}
-      nextButtonText={'Check out'}
-      disableSubmit={
-        !['initial', 'succeeded', 'error'].includes(payment.status) || !stripe
-      }
+      nextButtonText="Check out"
+      disableSubmit={submitDisabled}
       onSubmit={onSubmit}
       completeStep={3}>
       <div className="form-wrap">
@@ -410,9 +68,9 @@ const ReviewAndPay: React.FC = () => {
           error={error}
           cardName={cardName}
           stripeFocus={stripeFocus}
-          onChangeStripeFocus={setStripeFocus}
-          onChangeError={setError}
-          onInputChange={handleInputChange}
+          onChangeStripeFocus={onFocusStripe}
+          onChangeError={onSetError}
+          onInputChange={onInputChange}
         />
       </div>
     </CheckoutLayout>

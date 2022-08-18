@@ -19,6 +19,7 @@ fragment Order on Order {
   orderNumber
   shippingType
   trackingNumber
+  fulfillmentFires
   createdAt
   updatedAt
 }
