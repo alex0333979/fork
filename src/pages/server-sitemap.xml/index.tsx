@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       priority: 0.7,
       lastmod: new Date().toISOString(),
     })
-  });
+  })
 
   AvailablePath['united-kingdom'].passport.forEach((path) => {
     fields.push({
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       priority: 0.7,
       lastmod: new Date().toISOString(),
     })
-  });
+  })
 
   return getServerSideSitemap(ctx, fields)
 }
