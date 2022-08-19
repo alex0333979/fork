@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import Select, { components } from 'react-select'
 import countryList from 'react-select-country-list'
 import { ValueContainerProps } from 'react-select/dist/declarations/src/components/containers'
-import { countries } from '../../constants/countries'
+import { countriesCode } from '../../constants/countries'
 
 export interface ICountry {
   label: string
@@ -70,7 +70,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 }) => {
   const options = useMemo<ICountry[]>(() => {
     const all = countryList().getData()
-    return all.filter((c) => countries.includes(c.value))
+    return all.filter((c) => countriesCode.includes(c.value))
   }, [])
 
   const changeHandler = (value: any) => {
