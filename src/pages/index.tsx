@@ -170,7 +170,6 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       await client.query({
         query: DocumentsByCountryDocument,
         variables: { country: country.country },
-        fetchPolicy: 'no-cache',
       })
     const documents = documentsResult.data?.DocumentsByCountry.data
     const document = documents?.find(

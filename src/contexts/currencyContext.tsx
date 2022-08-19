@@ -37,7 +37,6 @@ export const CurrencyProvider: React.FC<{
   const [currentCurrency, setCurrentCurrency] = useState<Currency | undefined>()
 
   const [fetchCurrencies, { loading }] = useCurrenciesLazyQuery({
-    fetchPolicy: 'no-cache',
     onCompleted: (res) => {
       setCurrencies(res?.Currencies?.data || [])
     },
