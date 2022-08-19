@@ -75,4 +75,8 @@ const OneClickHomePage: NextPage = () => {
   )
 }
 
+export const getServerSideProps = async () => ({
+  props: {}
+})
+
 export default OneClickHomePage

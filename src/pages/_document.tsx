@@ -9,8 +9,6 @@ import Document, {
 } from 'next/document'
 import React from 'react'
 
-import MicrosoftUETScript from '@/scripts/msUet'
-
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -21,7 +19,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta charSet="UTF-8" />
           <meta name="format-detection" content="telephone=no" />
           <meta name="format-detection" content="address=no" />
 
@@ -129,8 +126,6 @@ class MyDocument extends Document {
           />
           <meta property="og:image" content="template.png" />
           <meta property="og:locale" content="us_EN" />
-          {/* Microsoft UET tag */}
-          <MicrosoftUETScript />
         </Head>
         <body>
           <Main />

@@ -16,6 +16,7 @@ import GoogledAdsScript from '@/scripts/googleAds'
 import GoogledAnalyticsScript from '@/scripts/googleAnalytics'
 import FacebookPixelScript from '@/scripts/fbPixel'
 import WoopraScript from '@/scripts/woopra'
+import MicrosoftUETScript from '@/scripts/msAdsBing'
 import {
   AppProvider,
   AuthProvider,
@@ -23,6 +24,7 @@ import {
   CurrencyProvider,
   ProductsProvider,
 } from '@/contexts'
+
 import { useApollo } from '@/apollo/client'
 import '@/assets/scss/index.scss'
 
@@ -39,9 +41,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <GoogledAdsScript />
-      <GoogledAnalyticsScript />
-      <FacebookPixelScript />
       <ApolloProvider client={apolloClient}>
         <I18nextProvider i18n={i18n}>
           <CookiesProvider>
@@ -51,11 +50,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <CurrencyProvider>
                     <ProductsProvider>
                       <Head>
-                        <title>Passport Photos</title>
                         <meta
                           name="viewport"
                           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
                         />
+                        <title>Passport Photos</title>
                       </Head>
                       <SignIn />
                       <SignUp />
@@ -70,6 +69,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         </I18nextProvider>
       </ApolloProvider>
       <WoopraScript />
+      <GoogledAdsScript />
+      <GoogledAnalyticsScript />
+      <FacebookPixelScript />
+      <MicrosoftUETScript />
     </>
   )
 }

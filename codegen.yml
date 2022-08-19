@@ -1,6 +1,5 @@
 overwrite: true
-# schema: "https://biometric-backend.cyberfuze.com/graphql"
-schema: "http://192.168.1.173:4000/graphql"
+schema: "https://biometric-backend.cyberfuze.com/graphql"
 documents: "./src/apollo/graphql/**/*.gql"
 generates:
   src/apollo/generated/apollo-helpers.ts:
