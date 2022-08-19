@@ -21,7 +21,10 @@ class MyDocument extends Document {
         <Head>
           <meta name="format-detection" content="telephone=no" />
           <meta name="format-detection" content="address=no" />
-
+          <link
+            href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"
+            rel="stylesheet"
+          />
           <link
             rel="apple-touch-icon-precomposed"
             sizes="57x57"
