@@ -1,11 +1,10 @@
 import React from 'react'
 import { NextPage } from 'next'
-import dynamic from 'next/dynamic'
 import { NextSeo } from 'next-seo'
 
 import { AppLayout } from '@/components'
+import ContactUs from '@/modules/contactUs'
 import { SEO } from '@/constants'
-const ContactUs = dynamic(() => import('@/modules/contactUs'))
 
 const ContactUsPage: NextPage = () => (
   <>

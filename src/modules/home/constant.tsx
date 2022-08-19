@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { IFAQ } from './types'
+import { ExtraPathMap } from '@/constants'
 
 const faq2: IFAQ = {
   key: 'faq2',
@@ -621,42 +622,42 @@ export const HomepageContent: Record<
     title: 'Take Your Passport and Visa Photos Online',
     description: 'Get your perfect biometric photo (compliance guaranteed)',
   },
-  'order-passport-photos-online': {
+  [ExtraPathMap.OrderPassportPhotosOnline]: {
     title: 'Order Your Passport Photos Online With Our Simple Digital Tool',
     description:
       'Use your cell phone and order your passport photos online. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
-  'order-passport-photos-online-gb': {
+  [`${[ExtraPathMap.OrderPassportPhotosOnline]}-gb`]: {
     title: 'Order Your Passport Photos Online With Our Simple Digital Tool',
     description:
       "Use your cell phone and order your passport photos online. We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
-  'take-your-own-passport-photo': {
+  [ExtraPathMap.TakeYourOwnPassportPhoto]: {
     title: 'Yes! You Can Take Your Own Passport Photo.',
     description:
       'Take your own passport photo with your cell phone. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
-  'take-your-own-passport-photo-gb': {
+  [`${ExtraPathMap.TakeYourOwnPassportPhoto}-gb`]: {
     title: 'Yes! You Can Take Your Own Passport Photo With Your Phone',
     description:
       "Take your own passport photo with your cell phone. We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
-  'take-your-passport-photo-with-your-phone': {
+  [ExtraPathMap.TakeYourPassportPhotoWithYourPhone]: {
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description:
       'Take your passport photo with your cell phone, we’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
-  'take-your-passport-photo-with-your-phone-gb': {
+  [`${ExtraPathMap.TakeYourPassportPhotoWithYourPhone}-gb`]: {
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description:
       "Take your passport photo with your cell phone, We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
-  'take-passport-photos-at-home': {
+  [ExtraPathMap.TakePassportPhotosAtHome]: {
     title: 'Take Your Passport Photo at Home, With Our Simple to Tool',
     description:
       'From home or virtually anywhere, take your passport photo with your cell phone or desktop. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
-  'take-passport-photos-at-home-gb': {
+  [`${ExtraPathMap.TakePassportPhotosAtHome}-gb`]: {
     title: 'Go Ahead, Take Your Passport Photo With Your Phone',
     description: (
       <>
@@ -679,27 +680,27 @@ export const HomepageContent: Record<
       </>
     ),
   },
-  'print-passport-photos-at-home': {
+  [ExtraPathMap.PrintPassportPhotosAtHome]: {
     title: 'Print Your Passport Photo at Home, With Our Simple Tool',
     description:
       'Use your cell phone and print your passport photo at home. We’ve made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.',
   },
-  'print-passport-photos-at-home-gb': {
+  [`${ExtraPathMap.PrintPassportPhotosAtHome}-gb`]: {
     title: 'Print Your Passport Photo at Home, With Our Simple Tool',
     description:
       "Use your cell phone and print your passport photo at home. We've made it easy. Our software makes sure it’s verified and you’ll receive it ready for your application.",
   },
-  'passport-photo-app': {
+  [ExtraPathMap.PassportPhotoApp]: {
     title: "You Don't Need an App For A Photo That'll Last You 10 Years",
     description:
       "Our web based passport photo verification tool is all you'll need to get the shot you want.  From home or virtually anywhere, take your photo with your cell phone.",
   },
-  'passport-photo-app-gb': {
+  [`${ExtraPathMap.PassportPhotoApp}-gb`]: {
     title: "You Don't Need an App For A Photo That'll Last You 10 Years",
     description:
       "Our web based passport photo verification tool is all you'll need to get the shot you want.  From home or virtually anywhere, take your photo with your cell phone. ",
   },
-  'print-my-passport-photo-at-cvs': {
+  [ExtraPathMap.PrintMyPassportPhotoAtCvs]: {
     title: 'Take Your Own Shot and Have it Printed at CVS',
     description:
       "Take the perfect passport photo. When you're satisfied, send it over to CVS for printing. We've made it easy. Our software makes sure it’s verified and you'll receive it ready for your application.",
@@ -711,7 +712,7 @@ export const HomepageContent: Record<
       'order passport photos online from cvs',
     ],
   },
-  'print-my-passport-photo-at-walgreens': {
+  [ExtraPathMap.PrintMyPassportPhotoAtWalgreens]: {
     title: 'Take Your Own Shot and Have it Printed at Walgreens',
     description:
       "Take the perfect passport photo. When you're satisfied,  send it over to Walgreens for printing. We've made it easy. Our software makes sure it’s verified and you'll receive it ready for your application.",
@@ -727,8 +728,8 @@ export const HomepageContent: Record<
 
 export const Faqs: Record<string, IFAQ[]> = {
   default: [...commonFaqs, faq5, faq6, faq7],
-  'order-passport-photos-online': [...commonFaqs, faq5, faq6, faq7],
-  'order-passport-photos-online-gb': [
+  [ExtraPathMap.OrderPassportPhotosOnline]: [...commonFaqs, faq5, faq6, faq7],
+  [`${ExtraPathMap.OrderPassportPhotosOnline}-gb`]: [
     faqUk1,
     faqUk2_online,
     faqUk3,
@@ -737,8 +738,8 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq6,
     faqUk7_online,
   ],
-  'take-your-own-passport-photo': [...commonFaqs, faq5, faq6, faq7],
-  'take-your-own-passport-photo-gb': [
+  [ExtraPathMap.TakeYourOwnPassportPhoto]: [...commonFaqs, faq5, faq6, faq7],
+  [`${ExtraPathMap.TakeYourOwnPassportPhoto}-gb`]: [
     faqUk1,
     faqUk2_own,
     faqUk3,
@@ -747,8 +748,13 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq6,
     faqUk7_own,
   ],
-  'take-your-passport-photo-with-your-phone': [...commonFaqs, faq5, faq6, faq7],
-  'take-your-passport-photo-with-your-phone-gb': [
+  [ExtraPathMap.TakeYourPassportPhotoWithYourPhone]: [
+    ...commonFaqs,
+    faq5,
+    faq6,
+    faq7,
+  ],
+  [`${ExtraPathMap.TakeYourPassportPhotoWithYourPhone}-gb`]: [
     faqUk1,
     faqUk2_phone,
     faqUk3,
@@ -757,8 +763,8 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq6,
     faqUk7_phone,
   ],
-  'take-passport-photos-at-home': [...commonFaqs, faq5, faq6, faq7],
-  'take-passport-photos-at-home-gb': [
+  [ExtraPathMap.TakePassportPhotosAtHome]: [...commonFaqs, faq5, faq6, faq7],
+  [`${ExtraPathMap.TakePassportPhotosAtHome}-gb`]: [
     faqUk1,
     faqUk2,
     faqUk3,
@@ -766,13 +772,13 @@ export const Faqs: Record<string, IFAQ[]> = {
     faqUk5,
     faqUk6,
   ],
-  'print-passport-photos-at-home': [
+  [ExtraPathMap.PrintPassportPhotosAtHome]: [
     ...commonFaqs,
     faq5_print,
     faq6_print,
     faq7_print,
   ],
-  'print-passport-photos-at-home-gb': [
+  [`${ExtraPathMap.PrintPassportPhotosAtHome}-gb`]: [
     faqUk1,
     faqUk2_print,
     faqUk3,
@@ -781,8 +787,13 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq6,
     faqUk7_print,
   ],
-  'passport-photo-app': [...commonFaqs, faq5_print, faq6_print, faq7_print],
-  'passport-photo-app-gb': [
+  [ExtraPathMap.PassportPhotoApp]: [
+    ...commonFaqs,
+    faq5_print,
+    faq6_print,
+    faq7_print,
+  ],
+  [`${ExtraPathMap.PassportPhotoApp}-gb`]: [
     faqUk1,
     faqUk2_app,
     faqUk3,
@@ -791,7 +802,7 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq6,
     faqUk7_app,
   ],
-  'print-my-passport-photo-at-cvs': [
+  [ExtraPathMap.PrintMyPassportPhotoAtCvs]: [
     faq1_cvs,
     faq2,
     faq3_cvs,
@@ -800,7 +811,7 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq6,
     faq7,
   ],
-  'print-my-passport-photo-at-walgreens': [
+  [ExtraPathMap.PrintMyPassportPhotoAtWalgreens]: [
     faq1_walgreens,
     faq2,
     faq3_walgreens,

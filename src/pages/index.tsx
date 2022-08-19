@@ -9,7 +9,7 @@ import { ApolloQueryResult } from '@apollo/client'
 import { AppLayout } from '@/components'
 import Home from '@/modules/home'
 import { HomepageContent } from '@/modules/home/constant'
-import { SEO, countries, ExtraPath } from '@/constants'
+import { SEO, countries, ExtraPathMap, AvailablePath } from '@/constants'
 import { initializeApollo } from '@/apollo/client'
 import {
   Country,
@@ -48,7 +48,8 @@ const HomePage: NextPage<HomePageProps> = ({
     let _buttonTitle = `Take Your ${countryName} ${
       document?.type || ''
     } Photo Now`
-    if (extraPath && ExtraPath.includes(extraPath)) {
+
+    if (extraPath && Object.values(ExtraPathMap).includes(extraPath)) {
       if (country?.countryCode === 'US') {
         _title = HomepageContent[extraPath].title
         _desc = HomepageContent[extraPath].description
@@ -69,8 +70,8 @@ const HomePage: NextPage<HomePageProps> = ({
     if (
       extraPath &&
       [
-        'print-my-passport-photo-at-cvs',
-        'print-my-passport-photo-at-walgreens',
+        ExtraPathMap.PrintMyPassportPhotoAtCvs,
+        ExtraPathMap.PrintMyPassportPhotoAtWalgreens,
       ].includes(extraPath)
     ) {
       _buttonTitle = 'Get Started'
@@ -115,31 +116,18 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   const countryCode = context?.params?.country as string
   const documentType = context?.params?.documentType as string
   const extraPath = (context?.params?.extraPath as string) || null
-
-  if (extraPath && ExtraPath.includes(extraPath)) {
-    const _props = {
-      props: {
-        country: null,
-        document: null,
-        extraPath,
-        errorCode: 404,
-      },
-    }
-    if (!countryCode) return _props
-
-    if (countryCode !== 'united-states') {
-      if (
-        !(
-          countryCode === 'united-kingdom' &&
-          (extraPath.includes('take-passport-photos-at-home') ||
-            extraPath.includes('order-passport-photos-online') ||
-            extraPath.includes('take-your-own-passport-photo') ||
-            extraPath.includes('take-your-passport-photo-with-your-phone') ||
-            extraPath.includes('print-passport-photos-at-home') ||
-            extraPath.includes('passport-photo-app'))
-        )
-      ) {
-        return _props
+  if (countryCode && documentType && extraPath) {
+    const isValid = (AvailablePath[countryCode][documentType] || []).includes(
+      extraPath,
+    )
+    if (!isValid) {
+      return {
+        props: {
+          country: null,
+          document: null,
+          extraPath: null,
+          errorCode: 404,
+        },
       }
     }
   }
@@ -205,7 +193,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       props: {
         country: null,
         document: null,
-        extraPath,
+        extraPath: null,
       },
     }
   }
