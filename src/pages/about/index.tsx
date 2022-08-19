@@ -8,9 +8,7 @@ import { SEO } from '@/constants'
 
 const AboutPage: NextPage = () => (
   <>
-    <NextSeo 
-      title={SEO.about.title} 
-      description={SEO.about.description} />
+    <NextSeo title={SEO.about.title} description={SEO.about.description} />
     <AppLayout>
       <About />
     </AppLayout>
