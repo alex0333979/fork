@@ -70,7 +70,7 @@ const CountrySelector: React.FC<CountrySelectorProps> = ({
 }) => {
   const options = useMemo<ICountry[]>(() => {
     const all = countryList().getData()
-    return all.filter((c) => countries.find((ic) => ic.countryCode === c.value))
+    return all.filter((c) => countries.includes(c.value))
   }, [])
 
   const changeHandler = (value: any) => {
