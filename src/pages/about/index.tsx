@@ -16,7 +16,7 @@ const AboutPage: NextPage = () => (
 )
 
 export const getServerSideProps = async () => ({
-  props: {}
+  props: {},
 })
 
 export default AboutPage

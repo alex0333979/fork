@@ -19,7 +19,7 @@ const ContactUsPage: NextPage = () => (
 )
 
 export const getServerSideProps = async () => ({
-  props: {}
+  props: {},
 })
 
 export default ContactUsPage

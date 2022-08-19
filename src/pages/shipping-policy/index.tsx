@@ -19,7 +19,7 @@ const ShippingPolicyPage: NextPage = () => (
 )
 
 export const getServerSideProps = async () => ({
-  props: {}
+  props: {},
 })
 
 export default ShippingPolicyPage
