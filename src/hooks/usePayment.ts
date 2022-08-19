@@ -181,7 +181,7 @@ export const usePayment = ({
         }
 
         // @ts-ignore
-        if(window && window.gtag) {
+        if (window && window.gtag) {
           // @ts-ignore
           window.gtag('event', 'conversion', {
             send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
@@ -200,11 +200,11 @@ export const usePayment = ({
                 price: product?.price || 0,
               }
             }),
-          });
+          })
         }
 
         // @ts-ignore
-        if(window && window.gtag) {
+        if (window && window.gtag) {
           // @ts-ignore
           window.gtag('event', 'purchase', {
             transaction_id: order.orderNumber,
@@ -253,7 +253,6 @@ export const usePayment = ({
             currency: order.currency?.label || CurrencyType.Usd,
           })
         }
-        
         // @TODO: need Refactor
         setCookie(TEMP_ORDER_NUM, order.orderNumber, {
           path: '/',
