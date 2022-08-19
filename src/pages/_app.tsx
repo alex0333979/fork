@@ -16,7 +16,7 @@ import GoogledAdsScript from '@/scripts/googleAds'
 import GoogledAnalyticsScript from '@/scripts/googleAnalytics'
 import FacebookPixelScript from '@/scripts/fbPixel'
 import WoopraScript from '@/scripts/woopra'
-import MicrosoftUETScript from '@/scripts/msAdsBing'
+import MicrosoftUETScript from '@/scripts/msUet'
 import {
   AppProvider,
   AuthProvider,
