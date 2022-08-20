@@ -7,7 +7,6 @@ import React, {
   ReactNode,
   useState,
 } from 'react'
-import { useRouter } from 'next/router'
 
 import {
   Entry,
@@ -19,7 +18,7 @@ import {
 import { useLocation, useCurrency } from '@/hooks'
 import { Maybe, TCamera } from '@/types'
 import { ICountry } from '@/components/elements/countrySelector'
-import { PAGES, PHOTO_FORM } from '@/constants'
+import { PHOTO_FORM } from '@/constants'
 import { TModalType } from './types'
 import { showError } from '@/utils'
 
@@ -60,11 +59,12 @@ export const OneClickContext = createContext<IContextProps>({
 })
 
 export const OneClickProvider = ({
+  onClose,
   children,
 }: {
+  onClose: () => void
   children: (v: IContextProps) => ReactNode
 }) => {
-  const router = useRouter()
   const [modalType, setModalType] = useState<TModalType>('select-doc')
   const { country: currentCountry, onChangeCountry } = useLocation()
   const { onChangeCurrencyByCountry } = useCurrency()
@@ -149,9 +149,9 @@ export const OneClickProvider = ({
 
   const onCloseModal = useCallback(() => {
     if (['select-doc', 'completed'].includes(modalType)) {
-      router.push(PAGES.home)
+      onClose()
     }
-  }, [modalType, router])
+  }, [modalType, onClose])
 
   const form = useMemo(
     () => (formsRes?.Forms || []).find((f) => f.name === PHOTO_FORM),

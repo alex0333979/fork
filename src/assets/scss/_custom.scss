@@ -138,6 +138,10 @@
 
   label.us, label.ca {
     width: calc(50% - 20px);
+
+    @media (max-width: 767px) {
+      width: 100% !important;
+    }
   }
 
   .total-info {
@@ -279,4 +283,13 @@
       max-width: 168px;
     }
   }
+}
+
+body.scroll-lock {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }

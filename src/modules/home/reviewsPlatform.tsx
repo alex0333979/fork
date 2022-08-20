@@ -87,10 +87,10 @@ const REVIEWS2 = [
 ]
 
 interface ReviewsPlatformProps {
-  setOpen: React.Dispatch<boolean>
+  onStartNow: (isOpen?: boolean) => void
 }
 
-const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
+const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow }) => (
   <div className="reviews-platform">
     <div className="container">
       <div className="data-wrap">
@@ -228,8 +228,10 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ setOpen }) => (
             className="main-btn big"
             onClick={() => {
               scrollToTop()
-              setOpen(true)
-            }}>{`Start Now`}</button>
+              onStartNow(true)
+            }}>
+            Start Now
+          </button>
         </div>
       </div>
     </div>

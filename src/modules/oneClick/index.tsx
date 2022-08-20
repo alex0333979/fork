@@ -10,8 +10,13 @@ import ProcessPhoto from './components/processPhoto'
 import CheckoutForm from './components/checkoutForm'
 import CheckoutSuccess from './components/checkoutSuccess'
 
-const OneClick: React.FC = () => (
-  <OneClickProvider>
+interface Props {
+  open: boolean
+  onClose: () => void
+}
+
+const OneClick: React.FC<Props> = ({ open, onClose }) => (
+  <OneClickProvider onClose={onClose}>
     {({
       modalType,
       country,
@@ -31,7 +36,7 @@ const OneClick: React.FC = () => (
     }) => (
       <>
         <DocModal
-          open={modalType === 'select-doc'}
+          open={open && modalType === 'select-doc'}
           onClose={onCloseModal}
           country={country}
           onSelectCountry={onSelectCountry}
@@ -40,12 +45,12 @@ const OneClick: React.FC = () => (
         />
         {!!document?.id && form && (
           <OneClickModal
-            open={[
-              'take-photo',
-              'process-photo',
-              'checkout',
-              'completed',
-            ].includes(modalType)}
+            open={
+              open &&
+              ['take-photo', 'process-photo', 'checkout', 'completed'].includes(
+                modalType,
+              )
+            }
             className={modalClass}
             onClose={() =>
               modalType === 'completed' ? onCloseModal() : undefined

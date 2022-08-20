@@ -88,13 +88,13 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
 
 export interface WorkingProcessProps {
   onEndRunning: () => void
-  setOpen: React.Dispatch<boolean>
+  onStartNow: (isOpen?: boolean) => void
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ onEndRunning, setOpen }, ref) => {
+> = ({ onEndRunning, onStartNow }, ref) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -225,7 +225,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
                   className="main-btn big"
                   onClick={() => {
                     scrollToTop()
-                    setOpen(true)
+                    onStartNow(true)
                   }}>{`Start Now`}</button>
               </div>
             </div>

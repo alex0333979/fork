@@ -20,21 +20,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     })
   })
 
-  AvailablePath['united-states'].passport.forEach((path) => {
-    fields.push({
-      loc: `https://passportphotos.com/united-states/passport/${path}`,
-      changefreq: `daily`,
-      priority: 0.7,
-      lastmod: new Date().toISOString(),
-    })
-  })
-
-  AvailablePath['united-kingdom'].passport.forEach((path) => {
-    fields.push({
-      loc: `https://passportphotos.com/united-kingdom/passport/${path}`,
-      changefreq: `daily`,
-      priority: 0.7,
-      lastmod: new Date().toISOString(),
+  Object.entries(AvailablePath).forEach(([country, docTypes]) => {
+    Object.entries(docTypes).forEach(([docType, paths]) => {
+      paths.forEach((path) => {
+        fields.push({
+          loc: `https://passportphotos.com/${country}/${docType}/${path}`,
+          changefreq: `daily`,
+          priority: 0.7,
+          lastmod: new Date().toISOString(),
+        })
+      })
     })
   })
 

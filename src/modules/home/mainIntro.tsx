@@ -16,10 +16,9 @@ const CountrySelector = dynamic(
     ssr: false,
   },
 )
-
 interface MainIntroProps {
   open: boolean
-  setOpen: React.Dispatch<boolean>
+  onStartNow: (isOpen?: boolean) => void
   country: Country | null
   document: PDocument | null
   title?: string
@@ -30,7 +29,7 @@ interface MainIntroProps {
 const MainIntro = (
   {
     open,
-    setOpen,
+    onStartNow,
     country: pCountry,
     document: pDoc,
     title,
@@ -139,17 +138,21 @@ const MainIntro = (
                         {buttonTitle}
                       </a>
                       <div className="choose-text">
-                        <a onClick={() => setOpen(true)}>
+                        <a onClick={() => onStartNow(true)}>
                           Change Country Or Document
                         </a>
                       </div>
                     </>
                   ) : pCountry ? (
-                    <a className="main-btn big" onClick={() => setOpen(true)}>
+                    <a
+                      className="main-btn big"
+                      onClick={() => onStartNow(true)}>
                       Choose Document and Start Now
                     </a>
                   ) : (
-                    <a className="main-btn big" onClick={() => setOpen(true)}>
+                    <a
+                      className="main-btn big"
+                      onClick={() => onStartNow(true)}>
                       Choose document
                     </a>
                   )}
@@ -173,7 +176,7 @@ const MainIntro = (
       </div>
       <DocModal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => onStartNow(false)}
         country={country}
         onSelectCountry={onSelectCountry}
         document={document}

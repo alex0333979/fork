@@ -26,6 +26,7 @@ export interface HomePageProps {
   buttonTitle?: string
   description?: any
   errorCode?: number
+  onStart?: () => void
 }
 
 const HomePage: NextPage<HomePageProps> = ({
