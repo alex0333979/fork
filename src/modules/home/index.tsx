@@ -18,6 +18,7 @@ const Home: React.FC<HomePageProps> = ({
   description,
   buttonTitle,
   extraPath,
+  onStart,
 }) => {
   const target = React.useRef<HTMLDivElement>(null)
   const ref = React.useRef<WorkingProcessInterface>(null)
@@ -34,6 +35,14 @@ const Home: React.FC<HomePageProps> = ({
     }
   }, [running])
 
+  const onStartNow = useCallback(
+    (isOpen?: boolean) => {
+      if (onStart) onStart()
+      else setOpenDocument(Boolean(isOpen))
+    },
+    [onStart, setOpenDocument],
+  )
+
   useEffect(() => {
     window.addEventListener('scroll', listenScrollEvent)
     return () => window.removeEventListener('scroll', listenScrollEvent)
@@ -44,7 +53,7 @@ const Home: React.FC<HomePageProps> = ({
       <MainIntro
         ref={target}
         open={openDocument}
-        setOpen={setOpenDocument}
+        onStartNow={onStartNow}
         country={country}
         document={document}
         title={title}
@@ -54,7 +63,7 @@ const Home: React.FC<HomePageProps> = ({
       <WorkingProcess
         ref={ref}
         onEndRunning={() => setRunning(false)}
-        setOpen={setOpenDocument}
+        onStartNow={onStartNow}
       />
       {country && document && (
         <RequirementBox
@@ -63,7 +72,7 @@ const Home: React.FC<HomePageProps> = ({
           extraPath={extraPath}
         />
       )}
-      <ReviewsPlatform setOpen={setOpenDocument} />
+      <ReviewsPlatform onStartNow={onStartNow} />
       <FaqSection country={country} extraPath={extraPath} />
       <FaqForm />
     </>

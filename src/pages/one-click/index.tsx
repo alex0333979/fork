@@ -17,11 +17,9 @@ const OneClickHomePage: NextPage = () => {
   const [cookie, , removeCookie] = useCookies([TEMP_ORDER_NUM])
   const { currentCurrency } = useCurrency()
   const [skus, setSkus] = useState<string[]>([])
+  const [startOneClick, setStartOneClick] = useState<boolean>(false)
 
   const [fetchSkus] = useOrderSkusLazyQuery({
-    variables: {
-      orderNumber: +(cookie[TEMP_ORDER_NUM] || 0),
-    },
     onCompleted: (res) => {
       setSkus(res.OrderByOrderNumber.data?.skus || [])
       removeCookie(TEMP_ORDER_NUM)
@@ -29,7 +27,6 @@ const OneClickHomePage: NextPage = () => {
   })
 
   useEffect(() => {
-    console.log(cookie[TEMP_ORDER_NUM])
     if (!isNaN(+cookie[TEMP_ORDER_NUM]) && +cookie[TEMP_ORDER_NUM] !== 0) {
       console.log('here')
       fetchSkus({
@@ -68,15 +65,16 @@ const OneClickHomePage: NextPage = () => {
           title={HomepageContent.default.title}
           description={HomepageContent.default.description}
           buttonTitle="Choose document"
+          onStart={() => setStartOneClick(true)}
         />
       </AppLayout>
-      <OneClick />
+      <OneClick open={startOneClick} onClose={() => setStartOneClick(false)} />
     </>
   )
 }
 
 export const getServerSideProps = async () => ({
-  props: {}
+  props: {},
 })
 
 export default OneClickHomePage

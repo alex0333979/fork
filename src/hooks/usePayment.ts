@@ -180,42 +180,50 @@ export const usePayment = ({
           updateMe({ cart })
         }
 
-        window.gtag('event', 'conversion', {
-          send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
-          transaction_id: order.orderNumber,
-          value: order.totalPrice / 100,
-          currency: currentCurrency.label,
-          tax,
-          shipping: shippingPrice,
-          items: order.items.map((item) => {
-            const product = getProduct(item.productSku)
+        // @ts-ignore
+        if (window && window.gtag) {
+          // @ts-ignore
+          window.gtag('event', 'conversion', {
+            send_to: 'AW-435888795/MnPZCKuRpr8CEJvF7M8B',
+            transaction_id: order.orderNumber,
+            value: order.totalPrice / 100,
+            currency: currentCurrency.label,
+            tax,
+            shipping: shippingPrice,
+            items: order.items.map((item) => {
+              const product = getProduct(item.productSku)
 
-            return {
-              id: item.productId,
-              name: item.name,
-              category: humanize(item.productCategory as string),
-              price: product?.price || 0,
-            }
-          }),
-        })
+              return {
+                id: item.productId,
+                name: item.name,
+                category: humanize(item.productCategory as string),
+                price: product?.price || 0,
+              }
+            }),
+          })
+        }
 
-        window.gtag('event', 'purchase', {
-          transaction_id: order.orderNumber,
-          value: order.totalPrice / 100,
-          currency: currentCurrency.label,
-          tax,
-          shipping: shippingPrice,
-          items: order.items.map((item) => {
-            const product = getProduct(item.productSku)
+        // @ts-ignore
+        if (window && window.gtag) {
+          // @ts-ignore
+          window.gtag('event', 'purchase', {
+            transaction_id: order.orderNumber,
+            value: order.totalPrice / 100,
+            currency: currentCurrency.label,
+            tax,
+            shipping: shippingPrice,
+            items: order.items.map((item) => {
+              const product = getProduct(item.productSku)
 
-            return {
-              id: item.productId,
-              name: item.name,
-              category: humanize(item.productCategory as string),
-              price: product?.price || 0,
-            }
-          }),
-        })
+              return {
+                id: item.productId,
+                name: item.name,
+                category: humanize(item.productCategory as string),
+                price: product?.price || 0,
+              }
+            }),
+          })
+        }
 
         // @ts-ignore
         if (window && window.woopra) {
@@ -245,12 +253,11 @@ export const usePayment = ({
             currency: order.currency?.label || CurrencyType.Usd,
           })
         }
-
-        // bing
-        // ..
+        // @TODO: need Refactor
         setCookie(TEMP_ORDER_NUM, order.orderNumber, {
           path: '/',
         })
+
         setNewOrder(undefined)
         callback(true)
       }

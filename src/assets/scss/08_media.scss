@@ -1,5 +1,5 @@
 @media screen and (min-width: 1421px) {
-  .steps-page .steps-content .step-data .title.small {
+  .steps-page .steps-content .step-data .title.small, .one-click .steps-content .step-data .title.small {
     max-width: 590px;
 
     h1 {
@@ -16,7 +16,7 @@
 }
 
 @media screen and (min-width: 992px) {
-  .steps-page .steps-content .step-data .title.small {
+  .steps-page .steps-content .step-data .title.small, .one-click .steps-content .step-data .title.small {
     max-width: 510px;
     margin: 0 auto;
 
@@ -995,48 +995,48 @@
       font-size: 21px;
     }
   }
-  .steps-page .steps-content .step-info {
+  .steps-page .steps-content .step-info, .one-click .steps-content .step-info {
     padding: 45px 15px;
   }
-  .steps-page .steps-content .step-info .info-text {
+  .steps-page .steps-content .step-info .info-text, .one-click .steps-content .step-info .info-text {
     min-height: calc(100vh - 70px - 110px);
   }
-  .steps-page .steps-content .progress-wrap {
+  .steps-page .steps-content .progress-wrap, .one-click .steps-content .progress-wrap {
     padding-bottom: 35px;
   }
-  .steps-page .steps-content .step-data .title h1 {
+  .steps-page .steps-content .step-data .title h1, .one-click .steps-content .step-data .title h1 {
     font-size: 42px;
   }
-  .steps-page .steps-content .step-data .title p {
+  .steps-page .steps-content .step-data .title p, .one-click .steps-content .step-data .title p {
     padding-top: 22px;
     font-size: 16px;
   }
-  .steps-page .steps-content .method-option {
+  .steps-page .steps-content .method-option, .one-click .steps-content .method-option {
     padding: 36px 7.7% 0 7.7%;
   }
-  .steps-page .steps-content .method-option label span.img {
+  .steps-page .steps-content .method-option label span.img, .one-click .steps-content .method-option label span.img {
     max-width: 140px;
   }
-  .steps-page .steps-content .method-option label span.option-wrap {
+  .steps-page .steps-content .method-option label span.option-wrap, .one-click .steps-content .method-option label span.option-wrap {
     padding: 45px 15px 23px 15px;
   }
-  .steps-page .steps-content .method-option label span.name {
+  .steps-page .steps-content .method-option label span.name, .one-click .steps-content .method-option label span.name {
     padding-top: 24px;
     font-size: 16px;
   }
-  .steps-page .steps-content .btn-wrap {
+  .steps-page .steps-content .btn-wrap, .one-click .steps-content .btn-wrap {
     padding-top: 43px;
   }
-  .steps-page .steps-content .action-btn .main-btn {
+  .steps-page .steps-content .action-btn .main-btn, .one-click .steps-content .action-btn .main-btn {
     min-height: 64px;
   }
-  .steps-page .steps-content .info-link {
+  .steps-page .steps-content .info-link, .one-click .steps-content .info-link {
     padding: 30px 0 15px 0;
   }
-  .steps-page .steps-content .info-link span {
+  .steps-page .steps-content .info-link span, .one-click .steps-content .info-link span {
     font-size: 16px;
   }
-  .steps-page .steps-content .info-link span:after {
+  .steps-page .steps-content .info-link span:after, .one-click .steps-content .info-link span:after {
     margin-left: 7px;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
@@ -1045,14 +1045,16 @@
   .steps-page .steps-content .step-info .info-text .text {
     padding-top: 50px;
   }
-  .steps-page .steps-content .step-info .info-text .text p {
+  .steps-page .steps-content .step-info .info-text .text p, .one-click .steps-content .step-info .info-text .text p {
     font-size: 16px;
   }
-  .steps-page .steps-content .instruction-list ul li .text p {
+  .steps-page .steps-content .instruction-list ul li .text p, .one-click .steps-content .instruction-list ul li .text p {
     font-size: 16px;
   }
   .steps-page .steps-content .sub-title h3,
-  .steps-page .steps-content .step-data .title.big h1 {
+  .one-click .steps-content .sub-title h3,
+  .steps-page .steps-content .step-data .title.big h1,
+  .one-click .steps-content .step-data .title.big h1 {
     font-size: 43px;
   }
   .photo-requirements .requirements-wrap .list ul li {
@@ -1064,16 +1066,19 @@
   .photo-requirements .requirements-wrap .img .main-btn {
     margin-top: 20px;
   }
-  .steps-page .steps-content .photo-requirements .requirements-wrap {
+  .steps-page .steps-content .photo-requirements .requirements-wrap,
+  .one-click .steps-content .photo-requirements .requirements-wrap {
     padding: 0 0 0 2%;
   }
   .photo-requirements .requirements-wrap .list {
     padding-left: 15px;
   }
-  .steps-page .steps-content .photo-requirements {
+  .steps-page .steps-content .photo-requirements,
+  .one-click .steps-content .photo-requirements {
     padding-bottom: 30px;
   }
-  .steps-page .steps-content .photo-requirements .requirements-wrap.failed {
+  .steps-page .steps-content .photo-requirements .requirements-wrap.failed,
+  .one-click .steps-content .photo-requirements .requirements-wrap.failed {
     padding: 0 10%;
   }
   .form-fields label span.field.code input {
@@ -1139,67 +1144,80 @@
     margin: 3px 26px 3px 0;
     font-size: 14px;
   }
-  .steps-page .steps-content .progress-wrap {
+  .steps-page .steps-content .progress-wrap, .one-click .steps-content .progress-wrap {
     padding-bottom: 28px;
   }
-  .steps-page .steps-content .step-data .title h1 {
+  .steps-page .steps-content .step-data .title h1, .one-click .steps-content .step-data .title h1 {
     font-size: 35px;
   }
-  .steps-page .steps-content .step-data .title p {
+  .steps-page .steps-content .step-data .title p, .one-click .steps-content .step-data .title p {
     padding-top: 18px;
     font-size: 14px;
   }
-  .steps-page .steps-content .method-option {
+  .steps-page .steps-content .method-option, .one-click .steps-content .method-option {
     padding: 28px 7.1% 0 7.1%;
   }
-  .steps-page .steps-content .faq-section {
+  .steps-page .steps-content .faq-section, .one-click .steps-content .faq-section {
     padding: 0 7.1%;
   }
-  .steps-page .steps-content .method-option label span.option-wrap {
+  .steps-page .steps-content .method-option label span.option-wrap,
+  .one-click .steps-content .method-option label span.option-wrap {
     padding: 35px 15px 17px 15px;
   }
-  .steps-page .steps-content .method-option label span.img {
+  .steps-page .steps-content .method-option label span.img,
+  .one-click .steps-content .method-option label span.img {
     max-width: 120px;
   }
-  .steps-page .steps-content .method-option label span.name {
+  .steps-page .steps-content .method-option label span.name,
+  .one-click .steps-content .method-option label span.name {
     padding-top: 19px;
     font-size: 14px;
   }
-  .steps-page .steps-content .btn-wrap {
+  .steps-page .steps-content .btn-wrap, .one-click .steps-content .btn-wrap {
     padding-top: 35px;
   }
-  .steps-page .steps-content .action-btn .main-btn {
+  .steps-page .steps-content .action-btn .main-btn,
+  .one-click .steps-content .action-btn .main-btn {
     min-height: 52px;
   }
-  .steps-page .steps-content .step-info .info-text .text {
+  .steps-page .steps-content .step-info .info-text .text,
+  .one-click .steps-content .step-info .info-text .text {
     padding-top: 36px;
   }
-  .steps-page .steps-content .step-info .info-text .text p {
+  .steps-page .steps-content .step-info .info-text .text p,
+  .one-click .steps-content .step-info .info-text .text p {
     font-size: 14px;
   }
-  .steps-page .steps-content .step-info .info-text {
+  .steps-page .steps-content .step-info .info-text,
+  .one-click .steps-content .step-info .info-text {
     min-height: calc(100vh - 58px - 110px);
   }
-  .steps-page .steps-content .instruction-list ul li .text p {
+  .steps-page .steps-content .instruction-list ul li .text p,
+  .one-click .steps-content .instruction-list ul li .text p {
     font-size: 14px;
   }
-  .steps-page .steps-content .instruction-list ul li .img span {
+  .steps-page .steps-content .instruction-list ul li .img span,
+  .one-click .steps-content .instruction-list ul li .img span {
     margin-right: -20px;
   }
   /*  .steps-page .steps-content .instruction-list ul li .img {
       padding-top: 20px;
       padding-left: 10px;
     }*/
-  .steps-page .steps-content .instruction-list ul li .img:before {
+  .steps-page .steps-content .instruction-list ul li .img:before,
+  .one-click .steps-content .instruction-list ul li .img:before {
     width: 35px;
     height: 35px;
     font-size: 15px;
   }
-  .steps-page .steps-content .instruction-list ul li .text {
+  .steps-page .steps-content .instruction-list ul li .text,
+  .one-click .steps-content .instruction-list ul li .text {
     padding-left: 20px;
   }
   .steps-page .steps-content .sub-title h3,
-  .steps-page .steps-content .step-data .title.big h1 {
+  .one-click .steps-content .sub-title h3,
+  .steps-page .steps-content .step-data .title.big h1,
+  .one-click .steps-content .step-data .title.big h1 {
     font-size: 38px;
   }
   .photo-requirements .requirements-wrap .list ul li {
@@ -1211,7 +1229,8 @@
   .photo-requirements .requirements-wrap .list ul {
     column-gap: 10px;
   }
-  .steps-page .steps-content .photo-requirements .requirements-wrap {
+  .steps-page .steps-content .photo-requirements .requirements-wrap,
+  .one-click .steps-content .photo-requirements .requirements-wrap {
     padding: 0;
   }
 
@@ -1614,7 +1633,8 @@
   .steps-header .steps-advantages {
     padding: 12px 0 0 0;
   }
-  .steps-page .steps-content .step-info {
+  .steps-page .steps-content .step-info,
+  .one-click .steps-content .step-info {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -1639,7 +1659,8 @@
       visibility: visible;
     }
   }
-  .steps-page .steps-content .step-info .info-text {
+  .steps-page .steps-content .step-info .info-text,
+  .one-click .steps-content .step-info .info-text {
     flex: 1;
     min-height: unset;
     margin-right: -10px;
@@ -1650,26 +1671,32 @@
       max-height: 100%;
     }
   }
-  .steps-page .steps-content .step-info .info-text .text {
+  .steps-page .steps-content .step-info .info-text .text,
+  .one-click .steps-content .step-info .info-text .text {
     padding-top: 26px;
   }
-  .steps-page .steps-content .step-info .info-toolbar {
+  .steps-page .steps-content .step-info .info-toolbar,
+  .one-click .steps-content .step-info .info-toolbar {
     display: flex;
   }
 
-  .steps-page .steps-content .instruction-list ul li .img:before {
+  .steps-page .steps-content .instruction-list ul li .img:before,
+  .one-click .steps-content .instruction-list ul li .img:before {
     width: 47px;
     height: 47px;
     font-size: 18px;
   }
-  .steps-page .steps-content .instruction-list ul {
+  .steps-page .steps-content .instruction-list ul ,
+  .one-click .steps-content .instruction-list ul {
     max-width: 515px;
     margin: 0 auto;
   }
-  .steps-page .steps-content .instruction-list ul li .text p {
+  .steps-page .steps-content .instruction-list ul li .text p,
+  .one-click .steps-content .instruction-list ul li .text p {
     font-size: 18px;
   }
-  .steps-page .steps-content .instruction-list {
+  .steps-page .steps-content .instruction-list,
+  .one-click .steps-content .instruction-list {
     max-height: 100%;
     margin: 0 -10px 0 0;
     padding: 0 10px 0 0;
@@ -1677,15 +1704,18 @@
     overflow: auto;
   }
 
-  .steps-page .steps-content .step-data {
+  .steps-page .steps-content .step-data,
+  .one-click .steps-content .step-data {
     width: 100%;
     padding: 24px 0;
   }
-  .steps-page .steps-content .step-data .data-wrap {
+  .steps-page .steps-content .step-data .data-wrap,
+  .one-click .steps-content .step-data .data-wrap {
     margin: 0 auto;
   }
 
-  .steps-page .steps-content .btn-wrap {
+  .steps-page .steps-content .btn-wrap,
+  .one-click .steps-content .btn-wrap {
     display: flex;
     align-items: center;
 
@@ -1703,7 +1733,8 @@
     }
   }
 
-  .steps-page .steps-content .progress-wrap ul li .name {
+  .steps-page .steps-content .progress-wrap ul li .name,
+  .one-click .steps-content .progress-wrap ul li .name {
     display: block;
   }
   .modal-wrap .up-sale .text .title h3 {
@@ -2305,21 +2336,28 @@
   .application-list ul li.add-application .add-form {
     right: 10px;
   }
-  .steps-page .steps-content .step-data .data-wrap {
+  .steps-page .steps-content .step-data .data-wrap,
+  .one-click .steps-content .step-data .data-wrap {
     max-width: unset;
   }
   .steps-page .steps-content .add-photo,
+  .one-click .steps-content .add-photo,
   .steps-page .steps-content .btn-wrap,
+  .one-click .steps-content .btn-wrap,
   .photo-succeed,
   .steps-page .steps-content .uploaded-photo,
+  .one-click .steps-content .uploaded-photo,
   .photo-validation ul {
     max-width: unset;
   }
   .steps-page .steps-content .photo-requirements .requirements-wrap,
-  .steps-page .steps-content .photo-requirements .requirements-wrap.failed {
+  .one-click .steps-content .photo-requirements .requirements-wrap,
+  .steps-page .steps-content .photo-requirements .requirements-wrap.failed,
+  .one-click .steps-content .photo-requirements .requirements-wrap.failed {
     padding: 0;
   }
-  .steps-page .steps-content .step-data .title.big {
+  .steps-page .steps-content .step-data .title.big,
+  .one-click .steps-content .step-data .title.big {
     padding-top: 14px;
     padding-bottom: 31px;
   }
@@ -2347,10 +2385,12 @@
     width: 100%;
     padding: 35px 0 0 0;
   }
-  .steps-page .steps-content .photo-requirements .requirements-wrap.failed .list {
+  .steps-page .steps-content .photo-requirements .requirements-wrap.failed .list,
+  .one-click .steps-content .photo-requirements .requirements-wrap.failed .list {
     max-width: unset;
   }
-  .steps-page .steps-content .photo-requirements {
+  .steps-page .steps-content .photo-requirements,
+  .one-click .steps-content .photo-requirements {
     padding-bottom: 0;
   }
   .modal-wrap .up-sale {
@@ -2650,37 +2690,47 @@
   .shipping-data {
     padding-bottom: 40px;
   }
-  .steps-page .steps-content .step-data .data-wrap {
+  .steps-page .steps-content .step-data .data-wrap,
+  .one-click .steps-content .step-data .data-wrap {
     padding: 0;
   }
-  .steps-page .steps-content .step-data .title h1 {
+  .steps-page .steps-content .step-data .title h1,
+  .one-click .steps-content .step-data .title h1 {
     font-size: 26px;
     letter-spacing: -0.5px;
   }
-  .steps-page .steps-content .step-data .title p {
+  .steps-page .steps-content .step-data .title p,
+  .one-click .steps-content .step-data .title p {
     padding-top: 21px;
     font-size: 18px;
   }
-  .steps-page .steps-content .progress-wrap {
+  .steps-page .steps-content .progress-wrap,
+  .one-click .steps-content .progress-wrap {
     margin: 0 -20px;
     padding-bottom: 23px;
   }
-  .steps-page .steps-content .progress-wrap ul li .name h4 {
+  .steps-page .steps-content .progress-wrap ul li .name h4,
+  .one-click .steps-content .progress-wrap ul li .name h4 {
     font-size: 14px;
   }
-  .steps-page .steps-content .progress-wrap ul li .name {
+  .steps-page .steps-content .progress-wrap ul li .name,
+  .one-click .steps-content .progress-wrap ul li .name {
     padding: 3px 0 0 0;
   }
-  .steps-page .steps-content .method-option {
+  .steps-page .steps-content .method-option,
+  .one-click .steps-content .method-option {
     padding: 31px 0 0 0;
   }
-  .steps-page .steps-content .faq-section {
+  .steps-page .steps-content .faq-section,
+  .one-click .steps-content .faq-section {
     padding: 0;
   }
-  .steps-page .steps-content .method-option label span.img {
+  .steps-page .steps-content .method-option label span.img,
+  .one-click .steps-content .method-option label span.img {
     max-width: 118px;
   }
-  .steps-page .steps-content .method-option label span.bullet {
+  .steps-page .steps-content .method-option label span.bullet,
+  .one-click .steps-content .method-option label span.bullet {
     width: 16px;
     height: 16px;
     top: 14px;
@@ -2691,31 +2741,36 @@
       border-width: 2px;
     }
   }
-  .steps-page .steps-content .method-option label span.option-wrap {
+  .steps-page .steps-content .method-option label span.option-wrap,
+  .one-click .steps-content .method-option label span.option-wrap {
     padding: 25px 15px 6px 15px;
   }
-  .steps-page .steps-content .method-option label span.name {
+  .steps-page .steps-content .method-option label span.name,
+  .one-click .steps-content .method-option label span.name {
     padding-top: 10px;
     font-size: 14px;
     line-height: 1;
   }
-  .steps-page .steps-content .btn-wrap {
+  .steps-page .steps-content .btn-wrap,
+  .one-click .steps-content .btn-wrap {
     padding-top: 21px;
   }
-  .steps-page .steps-content .action-btn .main-btn {
+  .steps-page .steps-content .action-btn .main-btn,
+  .one-click .steps-content .action-btn .main-btn {
     min-height: 70px;
   }
-  .steps-page .steps-content .step-data {
+  .steps-page .steps-content .step-data,
+  .one-click .steps-content .step-data {
     padding: 14px 0;
   }
-  .steps-page .steps-content {
+  .steps-page .steps-content, .one-click .steps-content {
     padding-bottom: 26px;
   }
 
-  .steps-page .steps-content .add-photo {
+  .steps-page .steps-content .add-photo, .one-click .steps-content .add-photo {
     padding: 69px 0 13px 0;
   }
-  .steps-page .steps-content .action-btn {
+  .steps-page .steps-content .action-btn, .one-click .steps-content .action-btn {
     margin: 0;
 
     &.mobile-column {
@@ -2758,43 +2813,53 @@
       }
     }
   }
-  .steps-page .steps-content .btn-wrap .info-btn {
+  .steps-page .steps-content .btn-wrap .info-btn,
+  .one-click .steps-content .btn-wrap .info-btn {
     padding-left: 0;
   }
 
-  .steps-page .steps-content .info-link {
+  .steps-page .steps-content .info-link,
+  .one-click .steps-content .info-link {
     padding: 20px 0 0 0;
   }
-  .steps-page .steps-content .info-link a {
+  .steps-page .steps-content .info-link a,
+  .one-click .steps-content .info-link a {
     font-size: 18px;
   }
-  .steps-page .steps-content .info-link a:after {
+  .steps-page .steps-content .info-link a:after,
+  .one-click .steps-content .info-link a:after {
     margin-top: 1px;
     margin-left: 13px;
     border-top: 7px solid transparent;
     border-bottom: 7px solid transparent;
     border-left: 11px solid var(--azure-radiance);
   }
-  .steps-page .steps-content .instruction-list ul {
+  .steps-page .steps-content .instruction-list ul,
+  .one-click .steps-content .instruction-list ul {
     padding-top: 11px;
   }
-  .steps-page .steps-content .instruction-list ul li {
+  .steps-page .steps-content .instruction-list ul li,
+  .one-click .steps-content .instruction-list ul li {
     flex-direction: column;
     padding-bottom: 52px;
   }
-  .steps-page .steps-content .instruction-list ul li .img {
+  .steps-page .steps-content .instruction-list ul li .img,
+  .one-click .steps-content .instruction-list ul li .img {
     width: 100%;
     max-width: 200px;
     padding-top: 15px;
   }
-  .steps-page .steps-content .instruction-list ul li .img span {
+  .steps-page .steps-content .instruction-list ul li .img span,
+  .one-click .steps-content .instruction-list ul li .img span {
     margin-right: 0;
   }
 
-  .steps-page .steps-content .instruction-list ul li .img:before {
+  .steps-page .steps-content .instruction-list ul li .img:before,
+  .one-click .steps-content .instruction-list ul li .img:before {
     right: 23px;
   }
-  .steps-page .steps-content .instruction-list ul li .text {
+  .steps-page .steps-content .instruction-list ul li .text,
+  .one-click .steps-content .instruction-list ul li .text {
     width: 100%;
     padding: 30px 0 0 0;
 
@@ -2802,7 +2867,8 @@
       text-align: center;
     }
   }
-  .steps-page .steps-content .uploaded-photo {
+  .steps-page .steps-content .uploaded-photo,
+  .one-click .steps-content .uploaded-photo {
     padding: 41px 0 32px 0;
 
     &.failed {
@@ -2821,7 +2887,8 @@
       }
     }
   }
-  .steps-page .steps-content .uploaded-photo span {
+  .steps-page .steps-content .uploaded-photo span,
+  .one-click .steps-content .uploaded-photo span {
     border-radius: 4px;
   }
   .photo-validation {
@@ -2831,21 +2898,27 @@
     margin-top: 18px;
   }
   .steps-page .steps-content .sub-title h3,
-  .steps-page .steps-content .step-data .title.big h1 {
+  .one-click .steps-content .sub-title h3,
+  .steps-page .steps-content .step-data .title.big h1,
+  .one-click .steps-content .step-data .title.big h1 {
     font-size: 26px;
     letter-spacing: -0.5px;
   }
-  .steps-page .steps-content .uploading-progress .sub-title {
+  .steps-page .steps-content .uploading-progress .sub-title,
+  .one-click .steps-content .uploading-progress .sub-title {
     padding-bottom: 30px;
   }
-  .steps-page .steps-content .uploading-progress {
+  .steps-page .steps-content .uploading-progress,
+  .one-click .steps-content .uploading-progress {
     padding-top: 75px;
   }
-  .steps-page .steps-content .faq-section .faq-list ul li .question {
+  .steps-page .steps-content .faq-section .faq-list ul li .question,
+  .one-click .steps-content .faq-section .faq-list ul li .question {
     padding-left: 0;
     padding-right: 0;
   }
-  .steps-page .steps-content .faq-section .faq-list ul li .answer {
+  .steps-page .steps-content .faq-section .faq-list ul li .answer,
+  .one-click .steps-content .faq-section .faq-list ul li .answer {
     padding-left: 4px;
     padding-bottom: 0;
   }
