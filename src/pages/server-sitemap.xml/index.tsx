@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { getServerSideSitemap, ISitemapField } from 'next-sitemap'
-import { documents } from '@/constants'
+import { documents, AvailablePath } from '@/constants'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const fields: ISitemapField[] = []
@@ -19,6 +19,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       lastmod: new Date().toISOString(),
     })
   })
+
+  AvailablePath['united-states'].passport.forEach((path) => {
+    fields.push({
+      loc: `https://passportphotos.com/united-states/passport/${path}`,
+      changefreq: `daily`,
+      priority: 0.7,
+      lastmod: new Date().toISOString(),
+    })
+  })
+
+  AvailablePath['united-kingdom'].passport.forEach((path) => {
+    fields.push({
+      loc: `https://passportphotos.com/united-kingdom/passport/${path}`,
+      changefreq: `daily`,
+      priority: 0.7,
+      lastmod: new Date().toISOString(),
+    })
+  })
+
   return getServerSideSitemap(ctx, fields)
 }
 

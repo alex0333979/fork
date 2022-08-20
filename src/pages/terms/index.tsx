@@ -15,9 +15,8 @@ const TermsPage: NextPage = () => (
   </>
 )
 
-
 export const getServerSideProps = async () => ({
-  props: {}
+  props: {},
 })
 
 export default TermsPage
