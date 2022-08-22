@@ -293,3 +293,14 @@ body.scroll-lock {
   bottom: 0;
   overflow: hidden;
 }
+
+.country-picker-value {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  padding-left: 8px;
+
+  input#react-select-5-input {
+    min-height: unset !important;
+  }
+}

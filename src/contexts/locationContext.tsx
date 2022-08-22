@@ -84,9 +84,14 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
     [setCookie],
   )
 
-  const onChangeCountry = useCallback((_country: ICountry) => {
-    setCountry(_country)
-  }, [])
+  const onChangeCountry = useCallback(
+    (_country: ICountry) => {
+      if (country?.value !== _country.value) {
+        setCountry(_country)
+      }
+    },
+    [country?.value],
+  )
 
   return (
     <LocationContext.Provider
