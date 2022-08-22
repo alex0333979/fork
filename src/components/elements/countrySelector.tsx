@@ -33,13 +33,7 @@ export const CountryFlagValueContainer: React.FC<
   const code = (props.hasValue && props.getValue()[0].value) || false
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexGrow: 1,
-        alignItems: 'center',
-        paddingLeft: '8px',
-      }}>
+    <div className="country-picker-value">
       {(code && <CountryFlag code={code.toLowerCase()} />) || null}
       <components.ValueContainer {...props}>
         {children}

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -48,6 +48,7 @@ const MainIntro = (
         }
       : undefined,
   )
+  const timer = useRef<NodeJS.Timeout | null>(null)
   const router = useRouter()
 
   const [document, setDocument] = useState<Maybe<PDocument>>(pDoc)
@@ -63,26 +64,35 @@ const MainIntro = (
   )
 
   useEffect(() => {
-    if (country === undefined && currentCountry) {
-      setCountry(
-        currentCountry
-          ? currentCountry
-          : {
-              label: 'United States',
-              value: 'US',
-            },
-      )
+    if (country === undefined) {
+      if (pCountry?.country && pCountry?.countryCode) {
+        setCountry({
+          label: pCountry.country,
+          value: pCountry.countryCode,
+        })
+      } else if (currentCountry) {
+        setCountry(currentCountry)
+      }
     }
-  }, [country, currentCountry])
+  }, [country, currentCountry, pCountry?.country, pCountry?.countryCode])
 
   useEffect(() => {
-    if (pCountry?.country && pCountry.countryCode) {
-      onCountryChanged({
-        label: pCountry.country,
-        value: pCountry.countryCode,
-      })
+    if (timer.current) {
+      clearTimeout(timer.current)
     }
-  }, [onCountryChanged, pCountry?.country, pCountry?.countryCode])
+    if (country) {
+      timer.current = setTimeout(() => {
+        onChangeCountry(country)
+        onChangeCurrencyByCountry(country.value)
+      }, 300)
+    }
+
+    return () => {
+      if (timer.current) {
+        clearTimeout(timer.current)
+      }
+    }
+  }, [country, onChangeCountry, onChangeCurrencyByCountry])
 
   const goTakePhoto = useCallback(
     async (d: Maybe<PDocument>) => {
