@@ -68,7 +68,7 @@ export const AuthProvider = ({
     },
   })
 
-  const [createGuest, { loading: creatingGuest }] = useCreateGuestMutation({
+  const [createGuest] = useCreateGuestMutation({
     onCompleted: (res) => {
       if (res.CreateGuest.data?.accessToken) {
         setCookie(COOKIES_TOKEN_NAME, res?.CreateGuest.data?.accessToken, {
@@ -89,7 +89,6 @@ export const AuthProvider = ({
     if (!isPrivateRoute) {
       timer.current = setTimeout(() => {
         const token = cookies[COOKIES_TOKEN_NAME]
-        console.log({ token })
         if (!token) {
           createGuest()
         }
@@ -99,7 +98,7 @@ export const AuthProvider = ({
     return () => {
       if (timer.current) clearTimeout(timer.current)
     }
-  }, [cookies, createGuest, creatingGuest])
+  }, [cookies, createGuest])
 
   const isAuthenticated = useMemo((): boolean => Boolean(me), [me])
 
