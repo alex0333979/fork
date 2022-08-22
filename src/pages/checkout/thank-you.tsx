@@ -52,4 +52,8 @@ const ThankYouPage: NextPage = () => {
   )
 }
 
+export const getServerSideProps = async () => ({
+  props: {},
+})
+
 export default ThankYouPage
