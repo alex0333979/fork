@@ -514,7 +514,7 @@ const ReviewAndPay: React.FC = () => {
       step={4}
       loading={loading}
       backLink={PAGES.checkout.payment}
-      nextButtonText={'Check out'}
+      nextButtonText={'Checkout'}
       disableSubmit={
         !['initial', 'succeeded', 'error'].includes(payment.status) || !stripe
       }

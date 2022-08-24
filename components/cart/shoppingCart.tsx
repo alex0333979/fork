@@ -193,7 +193,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                     </tfoot>
                   </table>
                   <button className="main-btn big" onClick={onCheckout}>
-                    {'Check out'}
+                    {'Checkout'}
                   </button>
                 </div>
               </div>
