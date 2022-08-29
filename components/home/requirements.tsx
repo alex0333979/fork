@@ -268,6 +268,7 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
                     src={'/images/requirements-img.png'}
                     width={294}
                     height={310}
+                    layout="fill"
                     alt=""
                   />
                 </span>
