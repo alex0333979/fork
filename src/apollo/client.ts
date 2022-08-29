@@ -66,11 +66,14 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, locations, path }) => {
+      graphQLErrors.forEach(({ message, locations, path, extensions }) => {
         console.log(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
         )
-        if (message !== 'Unauthorized') {
+
+        if (extensions.code === 'UNAUTHENTICATED') {
+          cookie.serialize(COOKIES_TOKEN_NAME, '')
+        } else {
           showError(
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
           )
