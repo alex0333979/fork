@@ -18,7 +18,6 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
   blur = false,
   onNext,
   nextButtonText = 'Next',
-  disableSubmit = false,
 }) => {
   const router = useRouter()
 
@@ -39,13 +38,7 @@ const ApplicationToolbar: React.FC<ApplicationToolbarProps> = ({
             )}
           </div>
           <div className="next-btn">
-            <button
-              type="button"
-              className={classNames('main-btn big', {
-                disabled: disableSubmit,
-              })}
-              disabled={disableSubmit}
-              onClick={onNext}>
+            <button type="button" className="main-btn big" onClick={onNext}>
               {loading ? (
                 <Bars height={25} fill="#FFFFFF" stroke="transparent" />
               ) : (

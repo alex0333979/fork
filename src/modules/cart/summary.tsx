@@ -73,7 +73,7 @@ const Summary: React.FC<SummaryProps> = ({ cart, currency, onCheckout }) => {
           </tfoot>
         </table>
         <button className="main-btn big" onClick={onCheckout}>
-          Check out
+          Checkout
         </button>
       </div>
     </div>

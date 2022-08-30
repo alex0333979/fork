@@ -52,7 +52,7 @@ const ReviewAndPay: React.FC = () => {
       step={4}
       loading={loading}
       backLink={PAGES.checkout.payment}
-      nextButtonText="Check out"
+      nextButtonText="Checkout"
       disableSubmit={submitDisabled}
       onSubmit={onSubmit}
       completeStep={3}>
