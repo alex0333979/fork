@@ -1,0 +1,9 @@
+mutation CreateGuest {
+  CreateGuest {
+    data {
+      accessToken
+    }
+    message
+    status
+  }
+}

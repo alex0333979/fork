@@ -1,0 +1,12 @@
+fragment CartItem on CartItem {
+  id
+  productId
+  name
+  description
+  imageUrl
+  productCategory
+  productSku
+  isComplete
+  createdAt
+  updatedAt
+}

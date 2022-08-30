@@ -9,6 +9,7 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
+    disableStaticImages: true,
     domains: [
       'passport-photos-ai.s3.us-east-1.amazonaws.com',
       'biometric-backend.s3.eu-central-1.amazonaws.com',

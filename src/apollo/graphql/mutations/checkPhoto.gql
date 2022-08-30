@@ -1,0 +1,9 @@
+mutation CheckPhoto($userAgent: String!, $imageResolution: String!, $entryId: String!) {
+  CheckPhoto(userAgent: $userAgent, imageResolution: $imageResolution, entryId: $entryId) {
+    message
+    status
+    data {
+      ...TestResult
+    }
+  }
+}

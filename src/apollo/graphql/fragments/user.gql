@@ -1,0 +1,21 @@
+fragment User on User {
+  id
+  email
+  firstName
+  lastName
+  phone
+  guest
+  isAdmin
+  country
+  createdAt
+  updatedAt
+  billingAddress {
+    ...BillingAddress
+  }
+  shippingAddress {
+    ...ShippingAddress
+  }
+  cart {
+    ...Cart
+  }
+}

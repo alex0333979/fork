@@ -1,0 +1,9 @@
+mutation SetShippingTypeToCart($shippingType: String!) {
+  SetShippingTypeToCart(shippingType: $shippingType) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

@@ -1,0 +1,9 @@
+query Me {
+  Me {
+    message
+    status
+    data {
+      ...User
+    }
+  }
+}

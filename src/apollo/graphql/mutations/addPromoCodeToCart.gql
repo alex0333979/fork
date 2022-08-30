@@ -1,0 +1,9 @@
+mutation AddPromoCodeToCart($promoCode: String!) {
+  AddPromoCodeToCart(promoCode: $promoCode) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

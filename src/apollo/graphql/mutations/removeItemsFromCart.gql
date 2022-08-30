@@ -1,0 +1,9 @@
+mutation RemoveItemsFromCart($ids: [ID!]!) {
+  RemoveItemsFromCart(ids: $ids) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

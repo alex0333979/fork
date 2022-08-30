@@ -1,0 +1,10 @@
+query GetSignedUrl {
+  GetSignedUrl {
+    message
+    status
+    data {
+      url
+      signedUrl
+    }
+  }
+}

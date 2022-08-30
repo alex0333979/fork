@@ -1,0 +1,8 @@
+fragment FormStep on FormStep {
+  name
+  step
+  notes
+  fields {
+    ...FormField
+  }
+}

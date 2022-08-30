@@ -1,0 +1,12 @@
+fragment ShippingAddress on ShippingAddress {
+  address1
+  address2
+  city
+  country
+  firstName
+  lastName
+  postalCode
+  state
+  email
+  phone
+}

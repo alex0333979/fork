@@ -1,0 +1,716 @@
+type BillingAddress {
+  address1: String!
+  address2: String
+  city: String!
+  country: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  postalCode: String!
+  state: String
+}
+
+input BillingAddressInput {
+  address1: String!
+  address2: String
+  city: String!
+  country: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  postalCode: String!
+  state: String = ""
+}
+
+type BillingAddressResponse {
+  data: BillingAddress
+  message: String!
+  status: Boolean!
+}
+
+type Cart {
+  billingAddress: BillingAddress
+  defaultCurrency: Currency
+  items: [CartItem!]
+  promoCode: String
+  remarks: String
+  shippingAddress: ShippingAddress
+  shippingType: ShippingType!
+}
+
+type CartItem {
+  createdAt: DateTime
+  description: String!
+  id: ID!
+  imageUrl: String
+  isComplete: Boolean!
+  name: String!
+
+  """Deprecated."""
+  price: Float
+
+  """Deprecated."""
+  product: String
+  productCategory: ProductCategory
+  productId: ID!
+  productSku: ProductSku
+  updatedAt: DateTime
+}
+
+input CartItemInput {
+  description: String!
+  imageUrl: String
+  name: String!
+  productCategory: ProductCategory
+  productId: ID!
+  productSku: ProductSku!
+}
+
+type CartResponse {
+  data: Cart
+  message: String!
+  status: Boolean!
+}
+
+type CheckPhotoResponse {
+  data: TestResult
+  message: String!
+  status: Boolean!
+}
+
+type Checklist {
+  confirmed: Boolean
+  id: String!
+  items: [ChecklistItem!]!
+  photoUrl: String!
+  refusalReason: String
+  sellerName: String
+}
+
+input ChecklistInput {
+  confirmed: Boolean!
+  id: String!
+  items: [ChecklistItemInput!]!
+  refusalReason: String
+  sellerName: String!
+}
+
+type ChecklistItem {
+  result: Boolean
+  spec: String!
+}
+
+input ChecklistItemInput {
+  result: Boolean!
+  spec: String!
+}
+
+type ChecklistResponse {
+  data: [Checklist!]!
+  message: String!
+  status: Boolean!
+}
+
+enum Code {
+  Code200
+  Code400
+  Code500
+}
+
+type CountriesResponse {
+  data: [Country!]!
+  total: Float!
+}
+
+type Country {
+  country: String
+  countryCode: String
+  id: Int
+  type: String
+}
+
+type CurrenciesResponse {
+  data: [Currency!]!
+  message: String!
+  status: Boolean!
+}
+
+type Currency {
+  code: CurrencyCode!
+  label: CurrencyType!
+  symbol: String!
+}
+
+enum CurrencyCode {
+  eu
+  gb
+  us
+}
+
+input CurrencyInput {
+  code: CurrencyCode!
+  label: CurrencyType!
+  symbol: String!
+}
+
+enum CurrencyType {
+  EUR
+  GBP
+  USD
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Dictionary {
+  message: String
+  test: String
+}
+
+type Dimensions {
+  height: Float
+  unit: String
+  width: Float
+}
+
+input EmailToAdminInput {
+  email: String!
+  name: String!
+  phone: String
+  question: String!
+}
+
+type Entry {
+  completeStep: Int!
+  createdAt: DateTime!
+  currentStep: Int!
+  form: Form!
+  formId: ID!
+  id: ID!
+  isComplete: Boolean!
+  updatedAt: DateTime!
+  userId: ID!
+}
+
+type EntryPaginatedResponse {
+  data: [Entry!]!
+  total: Float!
+}
+
+type EntryResponse {
+  data: Entry
+  message: String!
+  status: Boolean!
+}
+
+type Eye {
+  position: Position!
+}
+
+enum FieldType {
+  Button
+  CheckBox
+  CountryPicker
+  DatePicker
+  Input
+  Label
+  PhoneInput
+  Radio
+  Select
+  StatePicker
+  TextArea
+}
+
+type Form {
+  description: String!
+  id: ID!
+  name: String!
+  steps: [FormStep!]!
+}
+
+type FormField {
+  defaultValue: Value
+  disabled: Boolean
+  hidden: Boolean
+  index: Float
+  name: String!
+  notes: String
+  options: [Option!]
+  placeholder: String
+  required: Boolean
+
+  """half-size | full-size"""
+  size: String
+  text: String
+  type: FieldType!
+  validations: [Validation!]
+  value: Value
+}
+
+input FormFieldInput {
+  defaultValue: Value
+  disabled: Boolean
+  hidden: Boolean
+  index: Float
+  name: String!
+  notes: String
+  options: [OptionInput!]
+  placeholder: String
+  required: Boolean
+  text: String
+  type: FieldType!
+  validations: [ValidationInput!]
+  value: Value
+}
+
+type FormResponse {
+  data: Form
+  message: String!
+  status: Boolean!
+}
+
+type FormStep {
+  fields: [FormField!]!
+  name: String!
+  notes: String
+  step: Int!
+}
+
+input FormStepInput {
+  fields: [FormFieldInput!]!
+  name: String!
+  notes: String
+  step: Int!
+}
+
+enum FulfillmentCenter {
+  Europe
+  US
+}
+
+type Head {
+  Dimensions: Dimensions
+  position: Position
+}
+
+type Mutation {
+  AddBillingAddressToCart(billingAddress: BillingAddressInput!): CartResponse!
+  AddItemsToCart(items: [CartItemInput!]!): CartResponse!
+  AddOneClickInfo(input: OneClickInfoInput!): CartResponse!
+  AddPromoCodeToCart(promoCode: String!): CartResponse!
+  AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
+  CheckPhoto(entryId: String!, imageResolution: String!, userAgent: String!): CheckPhotoResponse!
+  ClearCart: CartResponse!
+  ConfirmChecklist(input: ChecklistInput!, orderNumber: Float!): ChecklistResponse!
+  CreateGuest: TokenResponse!
+  CreateOrder: OrderResponse!
+  DeleteOrder(orderId: String!): StringResponse!
+  GetPaymentIntent(currency: String!, orderId: String!): PaymentIntentResponse!
+  Login(email: String!, password: String!): TokenResponse!
+  RemoveItemsFromCart(ids: [ID!]!): CartResponse!
+  SendEmailToAdmin(data: EmailToAdminInput!): StringResponse!
+  SendOTP(accessToken: String!, email: String!): OrderEditResponse!
+  SendOrderConfirmToFulfillmentManually(orderId: String!): StringResponse!
+  SendOrderConfirmToUserManually(orderId: String!): StringResponse!
+  SendOrderEditRequest(orderId: String!): StringResponse!
+  SetDefaultBillingAddress(billingAddress: BillingAddressInput!): BillingAddressResponse!
+  SetDefaultCurrency(currency: CurrencyInput!): CartResponse!
+  SetDefaultShippingAddress(shippingAddress: ShippingAddressInput!): ShippingAddressResponse!
+  SetShippingTypeToCart(shippingType: String!): CartResponse!
+  SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
+  SignUp(user: UserInput!): UserResponse!
+  SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
+  UpdateCartItemPrice(item: UpdateCartItemPriceInput!): CartResponse!
+  UpdateEntryPhoto(editToken: String!, imageUrl: String!): EntryResponse!
+  UpdateOrderPhoto(editToken: String!, imageUrl: String!): StringResponse!
+  UpdateOrderStatus(orderId: String!, orderStatus: OrderStatus!, orderStatusType: OrderStatusType!): OrderResponse!
+  VerifyOTP(accessToken: String!, otp: String!): OrderEditResponse!
+}
+
+input OneClickInfoInput {
+  address1: String!
+  address2: String
+  city: String!
+  country: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  postalCode: String!
+  remarks: String!
+  shippingType: ShippingType!
+  state: String = ""
+}
+
+type Option {
+  notes: String
+  text: String
+  value: Value!
+}
+
+input OptionInput {
+  notes: String
+  text: String
+  value: Value!
+}
+
+type Order {
+  billingAddress: BillingAddress!
+  createdAt: DateTime!
+  currency: Currency
+  fulfillmentFires: Float!
+  id: ID!
+  items: [OrderItem!]!
+  orderNumber: Int!
+  paymentStatus: PaymentStatus!
+  promoCode: String
+  remarks: String
+  shipStation: OrderShipStation
+  shippingAddress: ShippingAddress
+  shippingType: ShippingType!
+  skus: [String!]
+  status: OrderTrack!
+  totalPrice: Float!
+  trackingNumber: String
+  updatedAt: DateTime!
+  userId: ID!
+}
+
+type OrderEditRes {
+  authToken: String
+  editToken: String
+  imageUrl: String
+  user: User
+}
+
+type OrderEditResponse {
+  data: OrderEditRes
+  message: String!
+  status: Boolean!
+}
+
+type OrderItem {
+  checklist: Checklist
+  createdAt: DateTime
+  description: String!
+  id: ID!
+  imageUrl: String
+  isComplete: Boolean!
+  name: String!
+
+  """Deprecated."""
+  price: Float
+
+  """Deprecated."""
+  product: String
+  productCategory: ProductCategory
+  productId: ID!
+  productSku: ProductSku
+  updatedAt: DateTime
+}
+
+type OrderPaginatedResponse {
+  data: [Order!]!
+  total: Float!
+}
+
+type OrderResponse {
+  data: Order
+  message: String!
+  status: Boolean!
+}
+
+type OrderShipStation {
+  fulfillmentCenter: FulfillmentCenter!
+  orderId: Int!
+  status: [ShipStationStatus!]
+  trackingNumber: String
+}
+
+enum OrderStatus {
+  COMPLETED
+  NOT_STARTED
+  ON_PROGRESS
+  PENDING
+}
+
+enum OrderStatusType {
+  confirmOrder
+  delivered
+  outForDelivery
+  productPrepared
+  shipped
+}
+
+type OrderTrack {
+  confirmOrder: TrackStep!
+  delivered: TrackStep!
+  outForDelivery: TrackStep!
+  productPrepared: TrackStep!
+  shipped: TrackStep!
+}
+
+type PDocument {
+  background: String
+  country: String
+  countryCode: String
+  dimensions: Dimensions
+  dpi: Int
+  head: Head
+  id: Int
+  size: Size
+  type: String
+}
+
+type PDocumentResponse {
+  data: PDocument
+  message: String!
+  status: Boolean!
+}
+
+type PDocumentsResponse {
+  data: [PDocument!]!
+  total: Float!
+}
+
+type PaymentIntent {
+  clientSecret: String!
+}
+
+type PaymentIntentResponse {
+  data: PaymentIntent
+  message: String!
+  status: Boolean!
+}
+
+enum PaymentStatus {
+  COMPLETED
+  PENDING
+}
+
+type Position {
+  max: Float
+  min: Float
+  unit: Unit
+}
+
+type Product {
+  category: ProductCategory!
+  currency: Currency!
+  description: String
+  price: Float!
+  sku: ProductSku!
+}
+
+enum ProductCategory {
+  Application
+  Photo
+  Shipping
+  Upsell
+}
+
+enum ProductSku {
+  Application
+  ExpeditedShipping
+  FourPhotos
+  Free
+  PrintShipService
+  PriorityService
+  SixPhotos
+  StandardShipping
+  TwoPhotos
+  Upsell
+}
+
+type ProductsResponse {
+  data: [Product!]!
+  message: String!
+  status: Boolean!
+}
+
+type Query {
+  AllProducts: StringResponse!
+  Cart: CartResponse!
+  CompletedOrders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+  Countries: CountriesResponse!
+  Currencies: CurrenciesResponse!
+  Document(id: String!): PDocumentResponse!
+  DocumentsByCountry(country: String!): PDocumentsResponse!
+  Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
+  Entry(entryId: String!): EntryResponse!
+  Form(id: String!): FormResponse!
+  Forms: [Form!]!
+  GetChecklist(orderNumber: Float!): ChecklistResponse!
+  GetCountry: StringResponse!
+  GetSignedUrl: SignedUrlResponse!
+  Me: UserResponse!
+  Order(orderId: String!): OrderResponse!
+  OrderByOrderNumber(orderNumber: Float!): OrderResponse!
+  Orders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+  OrdersForAdmin(locale: [String!], page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+  Products(currencyCode: CurrencyCode): ProductsResponse!
+}
+
+type ShipStationStatus {
+  date: String!
+  status: String!
+}
+
+type ShippingAddress {
+  address1: String!
+  address2: String
+  city: String!
+  country: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  postalCode: String!
+  state: String
+}
+
+input ShippingAddressInput {
+  address1: String!
+  address2: String
+  city: String!
+  country: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  phone: String!
+  postalCode: String!
+  state: String = ""
+}
+
+type ShippingAddressResponse {
+  data: ShippingAddress
+  message: String!
+  status: Boolean!
+}
+
+enum ShippingType {
+  FREE
+  FROM1TO2
+  FROM3TO3
+  FROM3TO6
+  NO_SHIPPING
+}
+
+type SignedUrl {
+  signedUrl: String!
+  url: String!
+}
+
+type SignedUrlResponse {
+  data: SignedUrl
+  message: String!
+  status: Boolean!
+}
+
+type Size {
+  max: Int
+  min: Int
+}
+
+type StringResponse {
+  data: String
+  message: String!
+  status: Boolean!
+}
+
+type TestResult {
+  code: Code
+  failed: [Dictionary!]
+  message: String
+  passed: [Dictionary!]
+}
+
+type Token {
+  accessToken: String!
+}
+
+type TokenResponse {
+  data: Token
+  message: String!
+  status: Boolean!
+}
+
+type TrackStep {
+  status: OrderStatus!
+  updatedAt: DateTime!
+}
+
+enum Unit {
+  Inch
+  Mm
+  Percentage
+}
+
+input UpdateCartItemPriceInput {
+  itemId: ID!
+  productSku: ProductSku!
+}
+
+type User {
+  billingAddress: BillingAddress
+  cart: Cart
+  country: String
+  createdAt: DateTime!
+  email: String
+  firstName: String
+  guest: Boolean!
+  id: ID!
+  isAdmin: Boolean!
+  lastName: String
+  phone: String
+  shippingAddress: ShippingAddress
+  updatedAt: DateTime!
+}
+
+input UserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  phone: String!
+}
+
+type UserResponse {
+  data: User
+  message: String!
+  status: Boolean!
+}
+
+type ValidatedImage {
+  image: String
+}
+
+type Validation {
+  message: String
+  type: ValidationType!
+  value: Float
+}
+
+input ValidationInput {
+  message: String
+  type: ValidationType!
+  value: Float
+}
+
+enum ValidationType {
+  IsEmail
+  IsNumber
+  IsPhone
+  Max
+  MaxLength
+  Min
+  MinLength
+  Nullable
+}
+
+"""Value custom scalar type"""
+scalar Value

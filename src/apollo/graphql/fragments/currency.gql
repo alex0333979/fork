@@ -1,0 +1,5 @@
+fragment Currency on Currency {
+  label
+  code
+  symbol
+}

@@ -1,0 +1,8 @@
+fragment Form on Form {
+  id
+  name
+  description
+  steps {
+    ...FormStep
+  }
+}

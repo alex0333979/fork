@@ -1,0 +1,9 @@
+fragment Product on Product {
+  sku
+  price
+  currency {
+    ...Currency
+  }
+  category
+  description
+}

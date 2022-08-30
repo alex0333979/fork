@@ -1,0 +1,570 @@
+.one-click-modal.green-c {
+  font-family: var(--BwModelica);
+  .sub-title {
+    p {
+      font-family: var(--averta);
+      color: #0B0F27;
+      opacity: 0.7;
+    }
+  }
+  .form-fields {
+    label {
+      input {
+        &:focus {
+          border-color: #44BA94;
+        }
+      }
+      select {
+        &:focus {
+          border-color: #44BA94;
+        }
+      }
+      textarea {
+        &:focus {
+          border-color: #44BA94;
+        }
+      }
+    }
+  }
+  .main-btn {
+    border-radius: 54px;
+    border-color: #44BA94;
+    background-color: #44BA94;
+    &:hover {
+      color: var(--white);
+      border-color: #2b896b;
+      background-color: #2b896b;
+    }
+  }
+  .main-btn.no-border {
+    color: #44BA94;
+    border-color: var(--white);
+    background-color: var(--white);
+  }
+  .main-btn.outline {
+    color: #44BA94;
+    border-color: #44BA94;
+    background-color: var(--white);
+  }
+}
+
+.photo-requirements {
+  .requirements-wrap {
+    .list {
+      ul {
+        li {
+          span.icon {
+            &:before {
+              background: #44BA94;
+            }
+          }
+        }
+      }
+    }
+  }
+  .requirements-wrap.failed {
+    .list {
+      ul {
+        li {
+          span.icon {
+            &:before {
+              background: var(--burnt-sienna);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.uploading-progress {
+  .progress-line {
+    svg {
+      stroke: #44BA94;
+    }
+  }
+}
+.form-fields {
+  label {
+    span.field.checkbox {
+      input {
+        &:checked {
+          + {
+            .wrap {
+              .bullet {
+                border-color: #44BA94;
+                background: #44BA94;
+              }
+              .border {
+                border-color: #44BA94;
+              }
+            }
+          }
+        }
+      }
+      .bullet {
+        &:before {
+          background-color: #44BA94;
+        }
+      }
+    }
+    span.field.radio {
+      .bullet {
+        &:before {
+          background-color: #44BA94;
+        }
+      }
+      input {
+        &:checked {
+          + {
+            .wrap {
+              .border {
+                border-color: #44BA94;
+              }
+              .bullet {
+                border-color: #44BA94;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .steps-page {
+    .steps-content {
+      .step-data {
+        .title.small {
+          max-width: 510px;
+          margin: 0 auto;
+          h1 {
+            font-size: 30px;
+          }
+        }
+      }
+      .sub-title {
+        h3 {
+          font-size: 46px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1421px) {
+  .steps-page {
+    .steps-content {
+      .step-data {
+        .title.small {
+          max-width: 590px;
+          h1 {
+            font-size: 36px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1580px) {
+  .wrapper {
+    max-width: 1326px;
+  }
+  .container {
+    max-width: 1110px !important;
+  }
+  .main-btn {
+    font-size: 16px;
+    span.icon-logout {
+      padding-left: 8px;
+      font-size: 16px;
+    }
+  }
+  .main-btn.big {
+    min-height: 62px;
+  }
+  .main-btn.small {
+    font-size: 15px;
+  }
+  .sub-title {
+    h2 {
+      font-size: 34px;
+    }
+    p {
+      padding-top: 17px;
+      font-size: 16px;
+    }
+  }
+  .modal-wrap {
+    .content-title {
+      h3 {
+        font-size: 34px;
+      }
+      p {
+        padding-top: 15px;
+        font-size: 16px;
+      }
+    }
+  }
+  .online-forms {
+    .digital-app {
+      .title {
+        h1 {
+          font-size: 43px;
+        }
+      }
+    }
+  }
+  .success-page {
+    .data-wrap {
+      min-height: calc(100vh - 95px - 73px - 47px);
+    }
+  }
+}
+
+@media screen and (max-width: 1420px) {
+  .wrapper {
+    max-width: 1110px;
+  }
+  .container {
+    max-width: 930px !important;
+  }
+  .sub-title {
+    h2 {
+      font-size: 29px;
+    }
+    p {
+      padding-top: 15px;
+      font-size: 14px;
+    }
+  }
+  .main-btn {
+    padding: 8px 11px;
+    font-size: 14px;
+    span.icon-close {
+      margin-left: 10px;
+      font-size: 8px;
+    }
+    span.icon-logout {
+      padding-left: 6px;
+      font-size: 14px;
+    }
+  }
+  .main-btn.big {
+    min-height: 54px;
+  }
+  .main-btn.small {
+    font-size: 13px;
+  }
+  .photo-requirements {
+    .requirements-wrap {
+      .list {
+        ul {
+          li {
+            font-size: 14px;
+          }
+          -webkit-column-gap: 15px;
+          -moz-column-gap: 15px;
+          column-gap: 15px;
+        }
+        padding-left: 15px;
+      }
+      .img {
+        .main-btn {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+  .modal-wrap.doc-type {
+    .close-btn {
+      top: 6px;
+      right: 8px;
+    }
+  }
+  .success-page {
+    padding-bottom: 32px;
+    .data-wrap {
+      min-height: calc(100vh - 88px - 62px - 32px);
+    }
+  }
+}
+
+@media screen and (max-width: 1180px) {
+  .modal-wrap {
+    .modal-content {
+      max-width: 950px;
+    }
+    .close-btn {
+      button {
+        width: 45px;
+        height: 45px;
+      }
+    }
+    .close-modal {
+      max-width: 750px;
+      padding: 0 55px;
+    }
+  }
+  .photo-succeed {
+    .info-wrap {
+      .see-requirements {
+        .main-btn.no-border {
+          padding: 0 0 0 9px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .wrapper {
+    padding: 0 20px !important;
+  }
+  .container {
+    padding: 0 20px !important;
+  }
+  .form-fields {
+    label {
+      span.field.radio {
+        .name {
+          font-size: 16px;
+        }
+        .price {
+          padding: 0 4px 0 25px;
+          font-size: 16px;
+        }
+      }
+      span.field.checkbox {
+        .name {
+          font-size: 16px;
+        }
+        .price {
+          padding: 0 4px 0 25px;
+          font-size: 16px;
+        }
+      }
+      span.field.radio.with-price {
+        min-height: 68px;
+        padding: 9px 50px 9px 17px;
+        .name {
+          line-height: 1.37;
+        }
+        .bullet {
+          width: 28px;
+          height: 28px;
+          right: 16px;
+        }
+      }
+      span.field.checkbox.with-price {
+        min-height: 68px;
+        padding: 9px 50px 9px 17px;
+        .name {
+          line-height: 1.37;
+        }
+        .bullet {
+          width: 28px;
+          height: 28px;
+          right: 16px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .form-fields {
+    .extra-info {
+      h3 {
+        font-size: 20px;
+      }
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      label {
+        max-width: 100%;
+        margin: 0;
+        padding: 20px 0 0 0;
+      }
+    }
+    label.third-size {
+      width: calc(100% - 20px);
+    }
+    label {
+      &:not(.error) {
+        span.warning {
+          max-height: 0;
+        }
+      }
+      span.field.radio {
+        .name {
+          font-size: 16px;
+        }
+        min-height: 64px;
+        padding: 8px 50px 8px 10px;
+        .extra {
+          padding-top: 6px;
+          font-size: 14px;
+        }
+      }
+      span.field.checkbox {
+        .name {
+          font-size: 16px;
+        }
+        min-height: 64px;
+        padding: 8px 50px 8px 10px;
+        .extra {
+          padding-top: 6px;
+          font-size: 14px;
+        }
+      }
+      span.more {
+        -webkit-box-align: unset;
+        -ms-flex-align: unset;
+        align-items: unset;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        .field {
+          width: 100%;
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+    .group {
+      padding: 5px 0;
+    }
+  }
+  .forms-list {
+    .form-box {
+      .name {
+        h3 {
+          font-size: 18px;
+          text-align: center;
+        }
+        padding-bottom: 17px;
+      }
+      padding: 10px 11px;
+      .img {
+        span {
+          &:before {
+            padding-bottom: 136.7%;
+          }
+        }
+      }
+      .btn {
+        padding-top: 16px;
+        .main-btn.big {
+          min-height: 62px;
+        }
+      }
+    }
+    margin: 0 -11px;
+  }
+  .modal-content {
+    padding: 45px 5px 25px 5px;
+  }
+  .progress-wrap {
+    ul {
+      li {
+        .counter {
+          .index {
+            width: 34px;
+            height: 34px;
+            &:after {
+              font-size: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .steps-page {
+    .steps-content {
+      .progress-wrap {
+        ul {
+          li {
+            .name {
+              padding: 6px 0 0 0;
+              h4 {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        margin: 0 -15px;
+        padding-bottom: 38px;
+      }
+      .step-data {
+        .title {
+          p {
+            padding-top: 16px;
+            font-size: 16px;
+          }
+        }
+      }
+      .add-photo {
+        padding-bottom: 0;
+        .main-btn {
+          margin-bottom: 20px;
+        }
+      }
+      .action-btn {
+        .main-btn {
+          max-width: 167px;
+          min-height: 48px;
+        }
+        &:not(.mobile-column) {
+          .main-btn.outline {
+            width: 76px;
+            height: 48px;
+          }
+        }
+      }
+      .btn-wrap {
+        &:not(.single) {
+          .action-btn {
+            .main-btn {
+              font-size: 16px;
+            }
+            padding-left: 18px;
+          }
+        }
+      }
+      .uploading-progress {
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .uploading-progress {
+    .text {
+      padding-top: 22px;
+      p {
+        font-size: 24px;
+      }
+    }
+  }
+  .form-fields {
+    label {
+      span.label {
+        padding-bottom: 19px;
+        font-size: 14px;
+      }
+      span.field.checkbox {
+        .name {
+          line-height: 1.38;
+        }
+        .bullet {
+          top: 16px;
+        }
+      }
+      span.field.checkbox.no-border {
+        padding: 3px 0 7px 40px;
+      }
+    }
+  }
+}
