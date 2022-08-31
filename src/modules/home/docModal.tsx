@@ -53,7 +53,11 @@ const DocModal = ({
   }, [country?.label, fetchDocuments])
 
   return (
-    <Modal className="general" open={open} onClose={onClose}>
+    <Modal
+      className="general"
+      preventBodyScroll={false}
+      open={open}
+      onClose={onClose}>
       {loading && (
         <div className="loading-wrapper">
           <Bars height={50} fill="#0080FF" stroke="transparent" />
