@@ -26,19 +26,17 @@ const PhotoHelper: React.FC = () => {
       <div className="info-link" onClick={() => setOpen(true)}>
         <span>How to take a photo</span>
       </div>
-      {open && (
-        <ModalContainer open closeModal={() => setOpen(false)}>
-          <div style={{ width: vWidth, height: vHeight }}>
-            <YoutubePlayer
-              videoId="niyaWETsrUI"
-              opts={{
-                width: `${vWidth}`,
-                height: `${vHeight}`,
-              }}
-            />
-          </div>
-        </ModalContainer>
-      )}
+      <ModalContainer open={open} closeModal={() => setOpen(false)}>
+        <div style={{ width: vWidth, height: vHeight }}>
+          <YoutubePlayer
+            videoId="niyaWETsrUI"
+            opts={{
+              width: `${vWidth}`,
+              height: `${vHeight}`,
+            }}
+          />
+        </div>
+      </ModalContainer>
     </>
   )
 }
