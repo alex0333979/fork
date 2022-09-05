@@ -320,7 +320,8 @@ export type FormStepInput = {
 
 export enum FulfillmentCenter {
   Europe = 'Europe',
-  Us = 'US'
+  Us = 'US',
+  Us2 = 'US2'
 }
 
 export type Head = {
@@ -631,6 +632,15 @@ export enum OrderStatus {
   Pending = 'PENDING'
 }
 
+export enum OrderStatusFilterType {
+  ConfirmOrder = 'confirmOrder',
+  Delivered = 'delivered',
+  NoShipping = 'noShipping',
+  OutForDelivery = 'outForDelivery',
+  ProductPrepared = 'productPrepared',
+  Shipped = 'shipped'
+}
+
 export enum OrderStatusType {
   ConfirmOrder = 'confirmOrder',
   Delivered = 'delivered',
@@ -823,6 +833,7 @@ export type QueryOrdersForAdminArgs = {
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
   search?: InputMaybe<Scalars['String']>;
+  shippingStatus?: InputMaybe<Array<OrderStatusFilterType>>;
   skip?: InputMaybe<Scalars['Int']>;
 };
 
