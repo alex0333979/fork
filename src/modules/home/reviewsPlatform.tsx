@@ -167,6 +167,9 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow }) => (
                 <SwiperSlide key={`swiper2_${index}`}>
                   <div className="reviews-item">
                     <div className="item-wrap">
+                      <div className="rating">
+                        <img src="/images/stars-5.svg" alt="Star image" />
+                      </div>
                       <div suppressHydrationWarning className="content">
                         {review.content}
                       </div>
