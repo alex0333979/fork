@@ -290,6 +290,7 @@ input FormStepInput {
 enum FulfillmentCenter {
   Europe
   US
+  US2
 }
 
 type Head {
@@ -438,6 +439,15 @@ enum OrderStatus {
   PENDING
 }
 
+enum OrderStatusFilterType {
+  confirmOrder
+  delivered
+  noShipping
+  outForDelivery
+  productPrepared
+  shipped
+}
+
 enum OrderStatusType {
   confirmOrder
   delivered
@@ -551,7 +561,7 @@ type Query {
   Order(orderId: String!): OrderResponse!
   OrderByOrderNumber(orderNumber: Float!): OrderResponse!
   Orders(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
-  OrdersForAdmin(locale: [String!], page: Int = 1, pageSize: Int = 20, search: String, skip: Int): OrderPaginatedResponse!
+  OrdersForAdmin(locale: [String!], page: Int = 1, pageSize: Int = 20, search: String, shippingStatus: [OrderStatusFilterType!], skip: Int): OrderPaginatedResponse!
   Products(currencyCode: CurrencyCode): ProductsResponse!
 }
 

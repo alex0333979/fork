@@ -1691,6 +1691,15 @@ header {
         }
       }
 
+      .rating {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 10px;
+        img {
+          width: 50%;
+        }
+      }
       .author {
         display: flex;
         align-items: center;

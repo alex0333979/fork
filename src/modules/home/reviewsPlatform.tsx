@@ -13,6 +13,7 @@ const REVIEWS1 = [
      that my first photo wasn’t good quality (due to the indoor light).  
      The tips provided, on how to take a good passport photo by your cell phone camera, 
      are extremely useful. Thanks.`,
+    rate: 5,
     author: {
       name: 'Isaac Ross, NY',
       occupation: 'Billing Coordinator',
@@ -22,6 +23,7 @@ const REVIEWS1 = [
     content: `I love that they do not just print the photo, 
     they ensure the quality of the photo will be accepted by the passport authority. 
     They do not stop until they get it right. Awesome service. Can't wait to get my photos!`,
+    rate: 5,
     author: {
       name: 'Tia Webb, NC',
       occupation: 'Regional Manager',
@@ -33,6 +35,7 @@ const REVIEWS1 = [
     and make any changes necessary to get the photo to a standard where it will be accepted by the passport office. 
     The one sent got accepted no problem. 
     I would definitely recommend as probably the only way to pretty much guarantee your photo will be accepted.`,
+    rate: 5,
     author: {
       name: 'George Pearce, TX',
       occupation: 'Recruiter',
@@ -42,6 +45,7 @@ const REVIEWS1 = [
     content: `Fast, reliable, great service. 
     Quality of pics was just what I needed and I got the shot that I wanted to have for 10 years. 
     Would certainly use again.`,
+    rate: 5,
     author: {
       name: 'Isabelle Parry, NM',
       occupation: 'IT Director',
@@ -53,6 +57,7 @@ const REVIEWS2 = [
   {
     content: `This site is very user friendly and is very easy to navigate through.
     I had little or no issue using this site. I am very pleased with my results.`,
+    rate: 5,
     author: {
       name: 'Alex Gardner, NJ',
       occupation: 'Payroll Specialist',
@@ -61,6 +66,7 @@ const REVIEWS2 = [
   {
     content: `If I’m going to need my passport for 10 years, getting the shot I wanted made sense. 
     I got it here.  Thank you.`,
+    rate: 5,
     author: {
       name: 'Daniel Marcolina, NJ',
       occupation: 'Internal Auditor',
@@ -69,6 +75,7 @@ const REVIEWS2 = [
   {
     content: `Very good, it was convenient and easy way to take passport pictures, 
     it  beats going to the drug store and waiting for someone to help.`,
+    rate: 5,
     author: {
       name: 'Ace Jonas, NY',
       occupation: 'Regional Group Sales',
@@ -79,6 +86,7 @@ const REVIEWS2 = [
     I was able to submit my order in very few steps and I like the option to have them printed and shipped to me. 
     I am also very impressed with the quick processing time, my order shipped the same day as I placed it! 
     The pricing is perfect and I will definitely recommend it to my friends.`,
+    rate: 5,
     author: {
       name: 'Ariah Clay, CA',
       occupation: 'Financial Consultant',
@@ -121,6 +129,9 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow }) => (
                 <SwiperSlide key={`swiper1_${index}`}>
                   <div className="reviews-item">
                     <div className="item-wrap">
+                      <div className="rating">
+                        <img src="/images/stars-5.svg" alt="Star image" />
+                      </div>
                       <div className="content">
                         <p suppressHydrationWarning>{review.content}</p>
                       </div>
