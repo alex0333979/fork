@@ -1,4 +1,4 @@
-import { FormField, FormStep } from '@/apollo'
+import { FormStep } from '@/apollo'
 
 import { IEntry } from '@/modules/application/applicationForm/types'
 
