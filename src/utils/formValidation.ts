@@ -9,7 +9,11 @@ export const formValidation = (
 ): ValidationError => {
   const error: ValidationError = {}
   for (const field of fields) {
-    if (!field.disabled && field.required && !field.value) {
+    if (
+      !field.disabled &&
+      field.required &&
+      (field.value === undefined || field.value === null || field.value === '')
+    ) {
       if (field.type === FieldType.StatePicker && country !== 'US') {
         continue
       } else {
