@@ -36,6 +36,7 @@ export const useVerifyPhoto = ({
     onCompleted: (data) => {
       const result = data?.CheckPhoto.data
       if (result) {
+        removeCookie(TEMP_IMG_DIM)
         if (result.code === Code.Code200) {
           setStatus(ProcessingStatus.success)
         } else {
@@ -47,7 +48,6 @@ export const useVerifyPhoto = ({
         showError(data?.CheckPhoto.message ?? 'Unexpected error')
         setStatus(ProcessingStatus.failed)
       }
-      removeCookie(TEMP_IMG_DIM)
     },
   })
 
