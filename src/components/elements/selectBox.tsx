@@ -19,7 +19,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({
 
   useEffect(() => {
     setValue(formField.value ?? formField.defaultValue ?? 'default')
-    if (!formField.value && formField.defaultValue !== undefined) {
+    if (formField.value === undefined && formField.defaultValue !== undefined) {
       onValueChange(formField.name, formField.defaultValue)
     }
   }, [formField.defaultValue, formField.name, formField.value, onValueChange])

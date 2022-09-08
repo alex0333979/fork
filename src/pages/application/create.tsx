@@ -29,8 +29,12 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
     }
 
     const formId = context?.query?.formId as string
+    const type = context?.query.t as string
+
     const applicationForms = forms.filter((f) => f.name !== PHOTO_FORM)
-    const form = applicationForms.find((f) => f.id === formId)
+    const form = applicationForms.find(
+      (f) => f.id === formId || f.name.toLowerCase() === type,
+    )
 
     return {
       props: {

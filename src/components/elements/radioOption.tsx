@@ -23,8 +23,11 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   const [value, setValue] = useState<string | boolean>('')
 
   useEffect(() => {
-    setValue(formField.value ?? '')
-  }, [formField.value])
+    setValue(formField.value ?? formField.defaultValue ?? '')
+    if (formField.value === undefined && formField.defaultValue !== undefined) {
+      onValueChange(formField.name, formField.defaultValue)
+    }
+  }, [formField.defaultValue, formField.name, formField.value, onValueChange])
 
   const onChange = useCallback(
     (value: string | boolean) => {

@@ -30,10 +30,8 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
   const router = useRouter()
   const { updateMe } = useAuth()
 
-  const [formStep, setFormStep] = useState<FormStep | undefined>(
-    entry.form.steps.find((s) => s.step === step),
-  )
-  const [country, setCountry] = useState<string>('US')
+  const [formStep, setFormStep] = useState<FormStep | undefined>()
+  const [country, setCountry] = useState<string>('')
   const [isOpenAddForm, setIsOpenAddForm] = useState<boolean>(false)
   const [error, setError] = useState<ValidationError>({})
 
@@ -41,8 +39,15 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
   const [addToCart, { loading: addingToCart }] = useAddItemsToCartMutation()
 
   useEffect(() => {
-    setFormStep(entry.form.steps.find((s) => s.step === step))
-    setCountry('US')
+    setCountry('')
+    setFormStep(undefined)
+    setError({})
+  }, [step])
+
+  useEffect(() => {
+    if (!formStep) {
+      setFormStep(entry.form.steps.find((s) => s.step === step))
+    }
   }, [entry.form.steps, formStep, step])
 
   const process: ProcessStepProps = useMemo(
@@ -77,14 +82,27 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
       if (!formStep) return
+      const _formStep = { ...formStep }
 
-      const fieldIndex = formStep.fields.findIndex(
+      const fieldIndex = _formStep.fields.findIndex(
         (field) => field.name === name,
       )
       if (fieldIndex === -1) return
 
-      formStep.fields[fieldIndex].value = value
-      setFormStep(formStep)
+      _formStep.fields[fieldIndex].value = value
+      if (name === 'issued_us_passport_book_card') {
+        const fields = _formStep.fields.map((field) => {
+          if (field.name !== 'issued_us_passport_book_card') {
+            return { ...field, disabled: value === true }
+          }
+
+          return field
+        })
+
+        _formStep.fields = fields
+      }
+
+      setFormStep(_formStep)
       setError({})
     },
     [formStep],
@@ -93,13 +111,14 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
   const onSetStatePickerDisable = useCallback(
     (status: boolean) => {
       if (!formStep) return
+      const _formStep = { ...formStep }
 
-      const fieldIndex = formStep.fields.findIndex(
+      const fieldIndex = _formStep.fields.findIndex(
         (field) => field.type === FieldType.StatePicker,
       )
       if (fieldIndex === -1) return
 
-      formStep.fields[fieldIndex].disabled = status
+      _formStep.fields[fieldIndex].disabled = status
       setFormStep(formStep)
       setError({})
     },
@@ -108,11 +127,13 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
 
   const onSelectCountry = useCallback(
     (name: string, value: string) => {
-      onValueChange(name, value)
-      setCountry(value)
-      onSetStatePickerDisable(!(value === 'US' || value === 'CA'))
+      if (country !== value) {
+        onValueChange(name, value)
+        setCountry(value)
+        onSetStatePickerDisable(!['US', 'CA'].includes(value))
+      }
     },
-    [onSetStatePickerDisable, onValueChange],
+    [country, onSetStatePickerDisable, onValueChange],
   )
 
   const onAddToCartItem = useCallback(
@@ -210,16 +231,19 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
                 {step === 1 && <FormStep1 forms={forms} entry={entry} />}
                 <form>
                   <div className="form-fields">
-                    {formStep?.fields.map((field, index) => (
-                      <FormElement
-                        key={`${index}_${step}`}
-                        field={field}
-                        country={country}
-                        error={error[field.name]}
-                        onValueChange={onValueChange}
-                        onSelectCountry={onSelectCountry}
-                      />
-                    ))}
+                    {formStep?.fields.map(
+                      (field, index) =>
+                        !field.disabled && (
+                          <FormElement
+                            key={`${index}_${step}`}
+                            field={field}
+                            country={country}
+                            error={error[field.name]}
+                            onValueChange={onValueChange}
+                            onSelectCountry={onSelectCountry}
+                          />
+                        ),
+                    )}
                   </div>
                 </form>
               </div>
