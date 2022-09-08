@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import type {
   GetServerSideProps,
   GetServerSidePropsContext,
@@ -14,11 +14,20 @@ import { initializeApollo } from '@/apollo/client'
 import {
   CartDocument,
   CartQuery,
+  EntryDocument,
+  EntryQuery,
   Form,
   FormsDocument,
   FormsQuery,
 } from '@/apollo'
-import { PAGES, SEO, TOKEN_EXPIRE_IN, COOKIES_TOKEN_NAME } from '@/constants'
+import { cleanEntry } from '@/utils'
+import {
+  PAGES,
+  SEO,
+  TOKEN_EXPIRE_IN,
+  COOKIES_TOKEN_NAME,
+  PHOTO_FORM,
+} from '@/constants'
 
 const ApplicationForm = dynamic(
   () => import('@/modules/application/applicationForm'),
@@ -36,21 +45,27 @@ export interface EntryPageProps {
   step: number
 }
 
-const Entry: NextPage<EntryPageProps> = ({ forms, entry, step }) => (
-  <>
-    <NextSeo
-      title={SEO.passportApplication.title}
-      description={SEO.passportApplication.description}
-    />
-    <AppLayout>
-      <ApplicationForm forms={forms} entry={entry} step={step} />
-    </AppLayout>
-  </>
-)
+const Entry: NextPage<EntryPageProps> = ({ forms, entry: _entry, step }) => {
+  const entry = useMemo(() => cleanEntry(_entry), [_entry])
+
+  return (
+    <>
+      <NextSeo
+        title={SEO.passportApplication.title}
+        description={SEO.passportApplication.description}
+      />
+      <AppLayout>
+        <ApplicationForm forms={forms} entry={entry} step={step} />
+      </AppLayout>
+    </>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
   context: GetServerSidePropsContext,
 ) => {
+  const entryId = context?.params?.entryId as string
+  const step = context?.params?.step as string
   const token = context?.query.token as string
   if (token && context.res) {
     context.res.setHeader(
@@ -76,23 +91,64 @@ export const getServerSideProps: GetServerSideProps<EntryPageProps> = async (
       }
     }
 
-    const cartRes: ApolloQueryResult<CartQuery> = await client.query({
-      query: CartDocument,
+    if (!entryId) {
+      const result: ApolloQueryResult<CartQuery> = await client.query({
+        query: CartDocument,
+      })
+      const cart = result.data.Cart.data
+      const items = cart?.items ?? []
+      if (items.length > 0) {
+        const lastEntry = items[items.length - 1].productId
+        return {
+          redirect: {
+            destination: `${PAGES.application.index}${lastEntry}/`,
+            permanent: false,
+          },
+        }
+      } else {
+        return {
+          redirect: {
+            destination: PAGES.application.create,
+            permanent: false,
+          },
+        }
+      }
+    }
+
+    const entryResult: ApolloQueryResult<EntryQuery> = await client.query({
+      query: EntryDocument,
+      variables: { entryId },
     })
-    const cart = cartRes.data.Cart.data
-    const items = cart?.items ?? []
-    if (items.length > 0) {
-      const lastEntry = items[items.length - 1].productId
+
+    const entry = entryResult.data?.Entry.data
+
+    if (entry && entry.form.name !== PHOTO_FORM) {
+      let nextStep = entry.completeStep + 1
+      if (entry.completeStep + 1 > entry.form.steps.length) {
+        nextStep = entry.completeStep
+      }
+      if (!step || (step && parseInt(step, 10) > nextStep)) {
+        return {
+          redirect: {
+            destination: `${PAGES.application.index}${entryId}/${nextStep}/`,
+            permanent: false,
+          },
+        }
+      }
+      const applicationForms = forms.filter((f) => f.name !== PHOTO_FORM)
+
       return {
-        redirect: {
-          destination: `${PAGES.application.index}${lastEntry}/`,
-          permanent: false,
+        props: {
+          forms: applicationForms ?? [],
+          entry,
+          step: parseInt(step, 10),
         },
       }
     }
+
     return {
       redirect: {
-        destination: PAGES.application.create,
+        destination: PAGES.application.index,
         permanent: false,
       },
     }

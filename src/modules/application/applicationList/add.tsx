@@ -59,7 +59,7 @@ const Add: React.FC<AddProps> = ({ isOpenAddFrom, openAddForm, onCreate }) => {
                 <td>Your new package price:</td>
                 <td>
                   {t('currency', {
-                    value: (subTotal || 0) / 100,
+                    value: 0,
                     currency: currentCurrency.label,
                   })}
                 </td>
@@ -75,7 +75,7 @@ const Add: React.FC<AddProps> = ({ isOpenAddFrom, openAddForm, onCreate }) => {
                 <td>
                   <span>
                     {t('currency', {
-                      value: (subTotal || 0) / 100,
+                      value: subTotal || 0,
                       currency: currentCurrency.label,
                     })}
                   </span>
