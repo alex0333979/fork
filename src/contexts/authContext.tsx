@@ -13,7 +13,7 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client'
 import {
   Cart,
   useCreateGuestMutation,
-  useMeQuery,
+  useMeLazyQuery,
   useLoginMutation,
   LoginMutationVariables,
   User,
@@ -58,8 +58,7 @@ export const AuthProvider = ({
 
   const timer = useRef<NodeJS.Timeout | null>(null)
 
-  useMeQuery({
-    skip: !cookies[COOKIES_TOKEN_NAME],
+  const [fetchMe, { error: authError }] = useMeLazyQuery({
     fetchPolicy: 'network-only',
     onCompleted: (res) => {
       if (res.Me.data) {
@@ -80,6 +79,18 @@ export const AuthProvider = ({
   })
 
   const [login] = useLoginMutation()
+
+  useEffect(() => {
+    if (cookies[COOKIES_TOKEN_NAME] && !me) {
+      fetchMe()
+    }
+  }, [cookies, fetchMe, me])
+
+  useEffect(() => {
+    if (authError?.message === 'Unauthorized') {
+      removeCookie(COOKIES_TOKEN_NAME)
+    }
+  }, [authError?.message, removeCookie])
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current)
