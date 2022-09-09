@@ -2451,6 +2451,10 @@ footer {
             height: 100%;
             stroke: var(--jungle-green);
             transform: rotate(-90deg);
+
+            circle {
+              transition: all 0.2s linear;
+            }
           }
         }
 

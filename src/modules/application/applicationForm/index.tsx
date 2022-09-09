@@ -13,7 +13,7 @@ import {
 } from '@/apollo'
 
 import ProcessStep, {
-  ProcessStepProps,
+  ProcessStepsProps,
 } from '@/components/elements/processStep'
 import ApplicationToolbar from '@/components/elements/applicationToolbar'
 import { useAuth } from '@/hooks'
@@ -50,28 +50,43 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
     }
   }, [entry.form.steps, formStep, step])
 
-  const process: ProcessStepProps = useMemo(
-    () => ({
+  const process: ProcessStepsProps = useMemo(() => {
+    const getFields = (s: FormStep) => {
+      if (s.step !== step) return 0
+
+      return s.fields?.filter((f) => !f.disabled && !f.hidden).length
+    }
+
+    const getCompleted = (s: FormStep) => {
+      if (s.step !== step) return 0
+
+      return formStep?.fields.filter(
+        (f) =>
+          !f.disabled && !f.hidden && f.value !== '' && f.value !== undefined,
+      ).length
+    }
+    return {
       title: entry.form.description,
       step,
       completeStep: entry.completeStep,
       steps: entry.form.steps.map((s) => ({
         name: s.name,
         step: s.step,
-        fieldsCount: s.fields?.length || 0,
+        fieldsCount: getFields(s),
+        completedFields: getCompleted(s),
         link: entry.id
           ? `${PAGES.application.index}${entry.id}/${s.step}`
           : PAGES.application.index,
       })),
-    }),
-    [
-      entry.completeStep,
-      entry.form.description,
-      entry.form.steps,
-      entry.id,
-      step,
-    ],
-  )
+    }
+  }, [
+    entry.completeStep,
+    entry.form.description,
+    entry.form.steps,
+    entry.id,
+    formStep,
+    step,
+  ])
 
   const entryUserName = useMemo((): string => {
     const a = formStep?.fields.find((f) => f.name === 'first_name')
@@ -94,7 +109,7 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
       if (name === 'issued_us_passport_book_card') {
         const fields = _formStep.fields.map((field) => {
           if (field.name !== 'issued_us_passport_book_card') {
-            return { ...field, disabled: value === true }
+            return { ...field, hidden: value === true }
           }
 
           return field
@@ -120,7 +135,7 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
       if (fieldIndex === -1) return
 
       _formStep.fields[fieldIndex].disabled = status
-      setFormStep(formStep)
+      setFormStep(_formStep)
       setError({})
     },
     [formStep],
@@ -234,7 +249,7 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
                   <div className="form-fields">
                     {formStep?.fields.map(
                       (field, index) =>
-                        !field.disabled && (
+                        !field.hidden && (
                           <FormElement
                             key={`${index}_${step}`}
                             field={field}

@@ -1,39 +1,113 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 
 import { humanizeTime } from '@/utils'
 
-export interface ProcessStepProps {
+export interface IStep {
+  name: string
+  step: number
+  link: string
+  fieldsCount?: number
+  completedFields?: number
+}
+export interface ProcessStepsProps {
   title: string
   step: number
   completeStep: number
-  steps: {
-    name: string
-    step: number
-    link: string
-    fieldsCount?: number
-  }[]
+  steps: IStep[]
+}
+
+interface ProcessStepProps {
+  isDone: boolean
+  isCurrent: boolean
+  step: IStep
+  onClickStep: (s: IStep) => void
 }
 
 const timePerInput = 7 // seconds
 const completePercentage = 295 // %
 
-const ProcessStep: React.FC<ProcessStepProps> = ({
+const ProgressStep: React.FC<ProcessStepProps> = ({
+  isDone,
+  isCurrent,
+  step,
+  onClickStep,
+}) => {
+  const [percentage, setPercentage] = useState<number>(0)
+
+  const totalTime = useMemo(() => {
+    if (!isCurrent || !step?.fieldsCount) return 0
+
+    const fieldsToComplete = step.fieldsCount - (step.completedFields || 0)
+    if (!percentage) {
+      setPercentage(completePercentage / step.fieldsCount)
+    }
+    return fieldsToComplete * timePerInput
+  }, [percentage, step, isCurrent])
+
+  useEffect(() => {
+    if (step.fieldsCount) {
+      setPercentage(
+        ((step.completedFields || 0) * completePercentage) / step.fieldsCount,
+      )
+    } else {
+      setPercentage(59)
+    }
+  }, [step.completedFields, step.fieldsCount])
+
+  return (
+    <li
+      className={classNames({
+        done: isDone,
+        current: isCurrent,
+      })}
+      onClick={() => onClickStep(step)}>
+      <div className="counter">
+        <span className="line">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+            <circle
+              cx="24"
+              cy="24"
+              r="22.5"
+              fill="transparent"
+              strokeWidth="3"
+              strokeDasharray={
+                isDone
+                  ? '295%,1000'
+                  : isCurrent
+                  ? `${percentage}%,1000`
+                  : '0%,1000'
+              }
+              strokeDashoffset="0"
+            />
+          </svg>
+        </span>
+        <span className="index" />
+      </div>
+      <div className="name">
+        <h4>{step.name}</h4>
+        <p>
+          {isDone
+            ? 'Done'
+            : totalTime
+            ? `On progress ≈ ${humanizeTime(totalTime)}`
+            : `On progress`}
+        </p>
+      </div>
+    </li>
+  )
+}
+
+const ProcessSteps: React.FC<ProcessStepsProps> = ({
   step,
   completeStep,
   steps,
 }) => {
-  const [percentage, setPercentage] = useState<number>(0)
   const router = useRouter()
-  const timer = useRef<NodeJS.Timeout | null>(null)
-
-  useEffect(() => {
-    setPercentage(0)
-  }, [step])
 
   const onClickStep = useCallback(
-    async (s: { name: string; step: number; link: string }) => {
+    async (s: IStep) => {
       if (s.step < completeStep + 2) {
         await router.push(s.link)
       }
@@ -41,90 +115,22 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
     [completeStep, router],
   )
 
-  const totalTime = useMemo(() => {
-    const curStep = steps.find((s) => s.step === step)
-
-    const fieldsCount = curStep?.fieldsCount || 0
-    if (!percentage) {
-      setPercentage(completePercentage / fieldsCount)
-    }
-    return fieldsCount * timePerInput
-  }, [percentage, step, steps])
-
-  useEffect(() => {
-    if (totalTime) {
-      timer.current = setInterval(() => {
-        setPercentage((p) =>
-          Math.min(
-            completePercentage,
-            p + completePercentage / (totalTime / 7),
-          ),
-        )
-      }, 7000)
-    }
-
-    return () => {
-      if (timer.current) {
-        clearInterval(timer.current)
-      }
-    }
-  }, [totalTime])
-
-  useEffect(() => {
-    if (percentage >= completePercentage && timer.current) {
-      clearInterval(timer.current)
-    }
-  }, [percentage])
-
   return (
     <div className="progress-wrap">
       {/* <h2>{title}</h2>*/}
       <ul>
         {steps.map((s, index) => (
-          <li
+          <ProgressStep
             key={index}
-            className={classNames({
-              done: s.step < step,
-              current: s.step === step,
-            })}
-            onClick={() => onClickStep(s)}>
-            <div className="counter">
-              <span className="line">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                  <circle
-                    cx="24"
-                    cy="24"
-                    r="22.5"
-                    fill="transparent"
-                    strokeWidth="3"
-                    strokeDasharray={
-                      s.step < step
-                        ? '295%,1000'
-                        : s.step === step
-                        ? `${percentage}%,1000`
-                        : '0%,1000'
-                    }
-                    strokeDashoffset="0"
-                  />
-                </svg>
-              </span>
-              <span className="index" />
-            </div>
-            <div className="name">
-              <h4>{s.name}</h4>
-              <p>
-                {s.step < step
-                  ? 'Done'
-                  : totalTime
-                  ? `On progress ≈ ${humanizeTime(totalTime)}`
-                  : `On progress`}
-              </p>
-            </div>
-          </li>
+            isDone={s.step < step}
+            isCurrent={s.step === step}
+            step={s}
+            onClickStep={onClickStep}
+          />
         ))}
       </ul>
     </div>
   )
 }
 
-export default ProcessStep
+export default ProcessSteps

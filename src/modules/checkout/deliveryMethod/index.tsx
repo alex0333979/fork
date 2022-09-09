@@ -3,11 +3,13 @@ import { useRouter } from 'next/router'
 
 import { ShippingType, useSetShippingTypeToCartMutation } from '@/apollo'
 import { useAuth } from '@/hooks'
-import { PAGES } from '@/constants'
+import { PAGES, CHECKOUT_STEPS } from '@/constants'
 import CheckoutLayout from '../checkoutLayout'
 import Header from './header'
 import Services from './services'
 import Methods from './methods'
+
+const step = 1
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter()
@@ -41,7 +43,8 @@ const DeliveryMethod: React.FC = () => {
 
   return (
     <CheckoutLayout
-      step={1}
+      step={step}
+      steps={CHECKOUT_STEPS.steps}
       loading={loading}
       backLink={PAGES.cart}
       onSubmit={onSubmit}

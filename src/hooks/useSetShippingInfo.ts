@@ -58,6 +58,11 @@ export const useSetShippingInfo = ({ onSubmitted }: IUseSetShippingInfo) => {
     (name: string, value: string | number | boolean | undefined) => {
       const _shippingForm = { ...shippingForm }
       _shippingForm[name].value = value
+      if (name === 'country') {
+        _shippingForm.state.hidden = !['US', 'CA'].includes(
+          (value || '').toString(),
+        )
+      }
       setShippingForm(_shippingForm)
       setError({})
     },

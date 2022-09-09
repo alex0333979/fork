@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
 
 import { useSetShippingInfo } from '@/hooks'
-import { PAGES } from '@/constants'
+import { PAGES, CHECKOUT_STEPS } from '@/constants'
+import { IStep } from '@/components/elements/processStep'
 import CheckoutLayout from '../checkoutLayout'
 import FormElement from './formElement'
+
+const step = 2
 
 const ShippingInformation: React.FC = () => {
   const router = useRouter()
@@ -24,10 +27,35 @@ const ShippingInformation: React.FC = () => {
     },
   })
 
+  const steps = useMemo(() => {
+    const getFields = (s: IStep) => {
+      if (s.step !== step) return 0
+
+      return Object.values(shippingForm)?.filter(
+        (f) => !f.disabled && !f.hidden,
+      ).length
+    }
+
+    const getCompleted = (s: IStep) => {
+      if (s.step !== step) return 0
+
+      return Object.values(shippingForm).filter(
+        (f) => !f.disabled && !f.hidden && !!f.value,
+      ).length
+    }
+
+    return CHECKOUT_STEPS.steps.map((s) => ({
+      ...s,
+      fieldsCount: getFields(s),
+      completedFields: getCompleted(s),
+    }))
+  }, [shippingForm])
+
   return (
     <CheckoutLayout
       key={refreshKey}
-      step={2}
+      step={step}
+      steps={steps}
       loading={loading}
       backLink={PAGES.checkout.index}
       onSubmit={onSubmit}
