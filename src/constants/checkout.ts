@@ -1,8 +1,8 @@
-import { ProcessStepProps } from '@/components/elements/processStep'
+import { ProcessStepsProps } from '@/components/elements/processStep'
 
 import { PAGES } from './pages'
 
-export const CHECKOUT_STEPS: ProcessStepProps = {
+export const CHECKOUT_STEPS: ProcessStepsProps = {
   title: 'New passport application',
   completeStep: 0,
   step: 1,

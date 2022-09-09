@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { FormField, useAddBillingAddressToCartMutation } from '@/apollo'
-import { PAGES, SHIPPING_BILLING_FORM } from '@/constants'
+import { PAGES, SHIPPING_BILLING_FORM, CHECKOUT_STEPS } from '@/constants'
 import { useAuth } from '@/hooks'
 import CheckBox from '@/components/elements/checkBox'
+import { IStep } from '@/components/elements/processStep'
 import { formValidation } from '@/utils'
 import { ValidationError } from '@/types'
 import CheckoutLayout from '../checkoutLayout'
 import FormElement from './formElement'
+
+const step = 3
 
 const PaymentInformation: React.FC = () => {
   const router = useRouter()
@@ -77,6 +80,11 @@ const PaymentInformation: React.FC = () => {
     (name: string, value: string | number | boolean | undefined) => {
       const _billingForm = { ...billingForm }
       _billingForm[name].value = value
+      if (name === 'country') {
+        _billingForm.state.hidden = !['US', 'CA'].includes(
+          (value || '').toString(),
+        )
+      }
       setBillingForm(_billingForm)
       setError({})
     },
@@ -115,10 +123,34 @@ const PaymentInformation: React.FC = () => {
     }
   }, [addBillingAddress, billingForm, country, router, updateMe])
 
+  const steps = useMemo(() => {
+    const getFields = (s: IStep) => {
+      if (s.step !== step) return 0
+
+      return Object.values(billingForm)?.filter((f) => !f.disabled && !f.hidden)
+        .length
+    }
+
+    const getCompleted = (s: IStep) => {
+      if (s.step !== step) return 0
+
+      return Object.values(billingForm).filter(
+        (f) => !f.disabled && !f.hidden && !!f.value,
+      ).length
+    }
+
+    return CHECKOUT_STEPS.steps.map((s) => ({
+      ...s,
+      fieldsCount: getFields(s),
+      completedFields: getCompleted(s),
+    }))
+  }, [billingForm])
+
   return (
     <CheckoutLayout
       key={refreshKey}
-      step={3}
+      step={step}
+      steps={steps}
       loading={loading}
       backLink={PAGES.checkout.shipping}
       onSubmit={onSubmit}

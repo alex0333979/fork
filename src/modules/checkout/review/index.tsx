@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useElements, useStripe } from '@stripe/react-stripe-js'
 
 import { useAuth, useCurrency, usePayment } from '@/hooks'
-import { PAGES } from '@/constants'
+import { PAGES, CHECKOUT_STEPS } from '@/constants'
 import CheckoutLayout from '../checkoutLayout'
 import PaymentStatus from './paymentStatus'
 import OrderSummary from './orderSummary'
 import PaymentButtons from './paymentButtons'
 import PayWithCard from './payWithCard'
+
+const step = 4
 
 const ReviewAndPay: React.FC = () => {
   const { cart } = useAuth()
@@ -47,9 +49,21 @@ const ReviewAndPay: React.FC = () => {
     },
   })
 
+  const steps = useMemo(
+    () =>
+      CHECKOUT_STEPS.steps.map((s) => ({
+        ...s,
+        fieldsCount: 2,
+        completedFields: cardName ? 2 : 0,
+      })),
+    [cardName],
+  )
+
+  console.log({ steps })
   return (
     <CheckoutLayout
-      step={4}
+      step={step}
+      steps={steps}
       loading={loading}
       backLink={PAGES.checkout.payment}
       nextButtonText="Checkout"
