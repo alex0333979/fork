@@ -58,6 +58,7 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
       steps: entry.form.steps.map((s) => ({
         name: s.name,
         step: s.step,
+        fieldsCount: s.fields?.length || 0,
         link: entry.id
           ? `${PAGES.application.index}${entry.id}/${s.step}`
           : PAGES.application.index,

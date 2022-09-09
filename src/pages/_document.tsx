@@ -129,6 +129,10 @@ class MyDocument extends Document {
           />
           <meta property="og:image" content="template.png" />
           <meta property="og:locale" content="us_EN" />
+          <meta
+            name="msvalidate.01"
+            content="48E7FE2938C0DAED21B535D9EB4B292E"
+          />
         </Head>
         <body>
           <Main />
