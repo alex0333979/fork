@@ -1,10 +1,11 @@
 import React from 'react'
 import { CHECKOUT_STEPS } from '@/constants'
-import ProcessStep from '@/components/elements/processStep'
+import ProcessStep, { IStep } from '@/components/elements/processStep'
 import ApplicationToolbar from '@/components/elements/applicationToolbar'
 
 interface CheckoutLayoutProps {
   step: number
+  steps: IStep[]
   completeStep: number
   loading: boolean
   backLink: string | undefined
@@ -17,6 +18,7 @@ interface CheckoutLayoutProps {
 const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
   step,
   completeStep,
+  steps,
   loading,
   backLink,
   children,
@@ -42,7 +44,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
             <ProcessStep
               title={CHECKOUT_STEPS.title}
               step={step}
-              steps={CHECKOUT_STEPS.steps}
+              steps={steps}
               completeStep={completeStep}
             />
             {children}
