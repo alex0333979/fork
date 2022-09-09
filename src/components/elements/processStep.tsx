@@ -1,6 +1,8 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
+
+import { humanizeTime } from '@/utils'
 
 export interface ProcessStepProps {
   title: string
@@ -10,15 +12,26 @@ export interface ProcessStepProps {
     name: string
     step: number
     link: string
+    fieldsCount?: number
   }[]
 }
+
+const timePerInput = 7 // seconds
+const completePercentage = 295 // %
 
 const ProcessStep: React.FC<ProcessStepProps> = ({
   step,
   completeStep,
   steps,
 }) => {
+  const [percentage, setPercentage] = useState<number>(0)
   const router = useRouter()
+  const timer = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    setPercentage(0)
+  }, [step])
+
   const onClickStep = useCallback(
     async (s: { name: string; step: number; link: string }) => {
       if (s.step < completeStep + 2) {
@@ -27,6 +40,41 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
     },
     [completeStep, router],
   )
+
+  const totalTime = useMemo(() => {
+    const curStep = steps.find((s) => s.step === step)
+
+    const fieldsCount = curStep?.fieldsCount || 0
+    if (!percentage) {
+      setPercentage(completePercentage / fieldsCount)
+    }
+    return fieldsCount * timePerInput
+  }, [percentage, step, steps])
+
+  useEffect(() => {
+    if (totalTime) {
+      timer.current = setInterval(() => {
+        setPercentage((p) =>
+          Math.min(
+            completePercentage,
+            p + completePercentage / (totalTime / 7),
+          ),
+        )
+      }, 7000)
+    }
+
+    return () => {
+      if (timer.current) {
+        clearInterval(timer.current)
+      }
+    }
+  }, [totalTime])
+
+  useEffect(() => {
+    if (percentage >= completePercentage && timer.current) {
+      clearInterval(timer.current)
+    }
+  }, [percentage])
 
   return (
     <div className="progress-wrap">
@@ -53,7 +101,7 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
                       s.step < step
                         ? '295%,1000'
                         : s.step === step
-                        ? '295%,1000'
+                        ? `${percentage}%,1000`
                         : '0%,1000'
                     }
                     strokeDashoffset="0"
@@ -64,7 +112,13 @@ const ProcessStep: React.FC<ProcessStepProps> = ({
             </div>
             <div className="name">
               <h4>{s.name}</h4>
-              <p>{s.step < step ? 'Done' : 'On progress'}</p>
+              <p>
+                {s.step < step
+                  ? 'Done'
+                  : totalTime
+                  ? `On progress ≈ ${humanizeTime(totalTime)}`
+                  : `On progress`}
+              </p>
             </div>
           </li>
         ))}

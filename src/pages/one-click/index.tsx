@@ -28,7 +28,6 @@ const OneClickHomePage: NextPage = () => {
 
   useEffect(() => {
     if (!isNaN(+cookie[TEMP_ORDER_NUM]) && +cookie[TEMP_ORDER_NUM] !== 0) {
-      console.log('here')
       fetchSkus({
         variables: {
           orderNumber: +(cookie[TEMP_ORDER_NUM] || 0),
