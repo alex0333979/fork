@@ -6,19 +6,18 @@ import { ApolloQueryResult } from '@apollo/client'
 
 import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery } from '@/apollo'
-
 import { AppLayout } from '@/components'
-import ShippingInformation from '@/modules/checkout/shippingInformation'
+import DeliveryMethod from '@/modules/checkout/deliveryMethod'
 import { PAGES, SEO } from '@/constants'
 
-const ShippingPage: NextPage = () => (
+const DeliveryMethodPage: NextPage = () => (
   <>
     <NextSeo
       title={SEO.checkout.title}
       description={SEO.checkout.description}
     />
     <AppLayout showNav={false}>
-      <ShippingInformation />
+      <DeliveryMethod />
     </AppLayout>
   </>
 )
@@ -56,4 +55,4 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 }
 
-export default ShippingPage
+export default DeliveryMethodPage

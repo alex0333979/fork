@@ -8,8 +8,8 @@ export const PAGES = {
   },
   checkout: {
     index: '/checkout/',
-    deliveryMethod: '/checkout/',
-    shipping: '/checkout/shipping/',
+    deliveryMethod: '/checkout/delivery-method/',
+    shipping: '/checkout/',
     payment: '/checkout/payment/',
     review: '/checkout/review/',
     thankYou: '/checkout/thank-you/',
