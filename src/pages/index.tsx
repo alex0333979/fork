@@ -73,6 +73,7 @@ const HomePage: NextPage<HomePageProps> = ({
       [
         ExtraPathMap.PrintMyPassportPhotoAtCvs,
         ExtraPathMap.PrintMyPassportPhotoAtWalgreens,
+        ExtraPathMap.PassportPhotosNearMe,
       ].includes(extraPath)
     ) {
       _buttonTitle = 'Get Started'
