@@ -7,7 +7,7 @@ import { IStep } from '@/components/elements/processStep'
 import CheckoutLayout from '../checkoutLayout'
 import FormElement from './formElement'
 
-const step = 2
+const step = 1
 
 const ShippingInformation: React.FC = () => {
   const router = useRouter()
@@ -57,7 +57,7 @@ const ShippingInformation: React.FC = () => {
       step={step}
       steps={steps}
       loading={loading}
-      backLink={PAGES.checkout.index}
+      backLink={PAGES.cart}
       onSubmit={onSubmit}
       completeStep={1}>
       <div className="form-wrap">

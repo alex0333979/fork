@@ -59,13 +59,12 @@ const ReviewAndPay: React.FC = () => {
     [cardName],
   )
 
-  console.log({ steps })
   return (
     <CheckoutLayout
       step={step}
       steps={steps}
       loading={loading}
-      backLink={PAGES.checkout.payment}
+      backLink={PAGES.checkout.deliveryMethod}
       nextButtonText="Checkout"
       disableSubmit={submitDisabled}
       onSubmit={onSubmit}

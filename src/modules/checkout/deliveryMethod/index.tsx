@@ -9,7 +9,7 @@ import Header from './header'
 import Services from './services'
 import Methods from './methods'
 
-const step = 1
+const step = 3
 
 const DeliveryMethod: React.FC = () => {
   const router = useRouter()
@@ -33,11 +33,7 @@ const DeliveryMethod: React.FC = () => {
     const cart = data?.SetShippingTypeToCart.data
     if (cart) {
       updateMe({ cart })
-      if (cart.shippingType === ShippingType.NoShipping) {
-        await router.push(PAGES.checkout.payment)
-      } else {
-        await router.push(PAGES.checkout.shipping)
-      }
+      await router.push(PAGES.checkout.review)
     }
   }, [router, setShippingTypeToCart, shippingType, updateMe])
 
@@ -46,7 +42,7 @@ const DeliveryMethod: React.FC = () => {
       step={step}
       steps={CHECKOUT_STEPS.steps}
       loading={loading}
-      backLink={PAGES.cart}
+      backLink={PAGES.checkout.payment}
       onSubmit={onSubmit}
       completeStep={0}>
       <div className="form-wrap">
