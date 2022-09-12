@@ -59,7 +59,7 @@ const ShippingInformation: React.FC = () => {
       loading={loading}
       backLink={PAGES.cart}
       onSubmit={onSubmit}
-      completeStep={1}>
+      completeStep={0}>
       <div className="form-wrap">
         <div className="form-fields">
           <div className="extra-info">
