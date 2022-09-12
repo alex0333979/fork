@@ -41,12 +41,15 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const authLink = setContext((_, { headers }) => {
     // get token from cookie
     const token = getToken(ctx?.req)
+    const domain = typeof window !== 'undefined' ? window.location.host : ctx?.req?.headers?.host
 
+    console.log({ domain })
     // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,
         Authorization: token ? `Bearer ${token}` : '',
+        domain,
       },
     }
   })
