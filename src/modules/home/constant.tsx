@@ -559,12 +559,12 @@ const faq1_cvs: IFAQ = {
       - Stand 1.5 feet (0.5 meters) away from the background (this reduces
       shadows)
       <br />
-      - Alighn yourself with the overlay
+      - Align yourself with the overlay
       <br />
       - No need to crop your photo, or software will line you up perfectly
       <br />
       <br />
-      <b>Plain expressionand face in full view</b>
+      <b>Plain expression and face in full view</b>
       <br />
       - When possible, use the front facing camera. You may need to ask a friend
       to help.
@@ -613,6 +613,54 @@ const faqUk7_own: IFAQ = faqUk7_online
 const faqUk7_phone: IFAQ = faqUk7_online
 const faqUk7_print: IFAQ = faqUk7_online
 const faqUk7_app: IFAQ = faqUk7_online
+
+const faq1_near_me: IFAQ = faq1_cvs
+const faq2_near_me: IFAQ = {
+  key: 'faq2',
+  question:
+    'If I want you to print and ship my photos to me, what are your delivery options? (Home & Digital Delivery)',
+  answer: (
+    <p>
+      Home Delivery:
+      <br />
+      We offer 2 shipping options with our Print & Ship service:
+      <br />
+      - Expedited 1-2 business days
+      <br />
+      - Standard 3-5 business days
+      <br />
+      <br />
+      Digital / Online Delivery:
+      <br />
+      Photos arrive as a .jpeg for you to print on your own. You may also choose
+      to have it sent to a retail store with passport picture printing
+      available. (CVS, Walgreens, etc.)
+    </p>
+  ),
+}
+const faq3_near_me: IFAQ = faq3_cvs
+const faq7_near_me: IFAQ = {
+  key: 'faq7',
+  question: 'How do I print my photo at home using my own printer?',
+  answer: (
+    <p>
+      <b>Step 1: </b>Be sure to have 4”X6” glossy photo paper.
+      <br />
+      <b>Step 2: </b>Open the confirmation email on your PC or Mobile.
+      <br />
+      <b>Step 3: </b>When you use your mobile device, please make sure to press
+      on the link (“Download Your Photos For Print”) and then click “save” your
+      photos to your “photos library”. If your use your PC, press “Right Click”
+      on the photo link (“Download Your Photos For Print”) placed under your
+      “Order items” section, then choose “save link as” & save it as a .jpeg.
+      <br />
+      <b>Step 4: </b>Prest “Ctrl+P” or right click “Print” and your print
+      settings will appear. Make sure to pick 4”X6” size paper, with a minimum
+      600 dpi for quality. Also, make sure that your remove all border
+      spaces/gaps, and print.
+    </p>
+  ),
+}
 
 export const HomepageContent: Record<
   string,
@@ -724,6 +772,25 @@ export const HomepageContent: Record<
       'order passport photos online from walgreens',
     ],
   },
+  [ExtraPathMap.PassportPhotosNearMe]: {
+    title:
+      "Where Do I Get a Passport Photo Near Me? Take a Selfie and You're Almost Done",
+    description: (
+      <>
+        - Take the perfect passport photo with guaranteed US Department of State
+        acceptance.
+        <br />
+        - You don&apos;t need to go anywhere to get the perfect passport photo.
+        <br />- You&apos;ll be able to download the file and send it anywhere to
+        be printed or we can print and ship it directly to you.
+      </>
+    ),
+    seo: [
+      'passport photos near me',
+      'passport picture near me',
+      'digital passport photos near me',
+    ],
+  },
 }
 
 export const Faqs: Record<string, IFAQ[]> = {
@@ -819,5 +886,14 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq5,
     faq6,
     faq7,
+  ],
+  [ExtraPathMap.PassportPhotosNearMe]: [
+    faq1_near_me,
+    faq2_near_me,
+    faq3_near_me,
+    faq4,
+    faq5,
+    faq6,
+    faq7_near_me,
   ],
 }

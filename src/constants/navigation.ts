@@ -10,6 +10,7 @@ export const ExtraPathMap = {
   PassportPhotoApp: 'passport-photo-app',
   PrintMyPassportPhotoAtCvs: 'print-my-passport-photo-at-cvs',
   PrintMyPassportPhotoAtWalgreens: 'print-my-passport-photo-at-walgreens',
+  PassportPhotosNearMe: 'passport-photos-near-me',
 }
 
 export const AvailablePath: {
@@ -25,6 +26,7 @@ export const AvailablePath: {
       ExtraPathMap.PassportPhotoApp,
       ExtraPathMap.PrintMyPassportPhotoAtCvs,
       ExtraPathMap.PrintMyPassportPhotoAtWalgreens,
+      ExtraPathMap.PassportPhotosNearMe,
     ],
   },
   'united-kingdom': {
