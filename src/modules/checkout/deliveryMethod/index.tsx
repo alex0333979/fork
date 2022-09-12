@@ -44,7 +44,7 @@ const DeliveryMethod: React.FC = () => {
       loading={loading}
       backLink={PAGES.checkout.payment}
       onSubmit={onSubmit}
-      completeStep={0}>
+      completeStep={2}>
       <div className="form-wrap">
         <Header
           shippingType={shippingType}
