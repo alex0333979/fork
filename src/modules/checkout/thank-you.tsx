@@ -16,6 +16,14 @@ const ThankYou: React.FC = () => (
             <h3>Transaction completed successfully</h3>
             <p>Thank you</p>
           </div>
+          <div className="thank-you-alert-wrap">
+            <div>💡 Order Status Alert:</div>
+            <div>Secondary Quality Control & Compliance:</div>
+            <div>
+              To ensure compliance, we randomly run a secondary verification
+              scan. Please keep an eye out for our confirmation email.
+            </div>
+          </div>
           <div className="btn-wrap">
             <Link href={PAGES.home}>
               <button className="main-btn big">Back to Home</button>
