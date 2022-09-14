@@ -310,3 +310,27 @@ body.scroll-lock {
   align-items: center;
   gap: 12px;
 }
+
+.thank-you-alert-wrap {
+  color: #ffffff;
+  margin-top: 20px;
+  padding: 15px 30px;
+  border-radius: 25px;
+  background-color: var(--azure-radiance);
+
+  div:nth-of-type(1) {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  div:nth-of-type(2) {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  div:nth-of-type(3) {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: normal;
+  }
+}
