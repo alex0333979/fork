@@ -10,6 +10,7 @@ import {
   ProductCategory,
   useAddItemsToCartMutation,
   useSubmitEntryMutation,
+  FormField,
 } from '@/apollo'
 
 import ProcessStep, {
@@ -88,12 +89,16 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
     step,
   ])
 
-  const entryUserName = useMemo((): string => {
-    const a = formStep?.fields.find((f) => f.name === 'first_name')
-    const b = formStep?.fields.find((l) => l.name === 'last_name')
+  const getEntryUserName = useCallback(
+    (formFields: FormField[] | undefined) => {
+      if (!formFields) return ''
+      const a = formFields.find((f) => f.name === 'first_name')
+      const b = formFields.find((l) => l.name === 'last_name')
 
-    return getHumanizedName([a?.value, b?.value])
-  }, [formStep?.fields])
+      return getHumanizedName([a?.value, b?.value])
+    },
+    [],
+  )
 
   const onValueChange = useCallback(
     (name: string, value: string | number | boolean | undefined) => {
@@ -185,7 +190,7 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
         if (result) {
           if (step === 1) {
             onAddToCartItem({
-              name: entryUserName,
+              name: getEntryUserName(formStep.fields),
               description: `Passport application ${result.form.name}`,
               productId: result.id,
 
@@ -211,7 +216,7 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
     entry.form.steps.length,
     step,
     onAddToCartItem,
-    entryUserName,
+    getEntryUserName,
     router,
   ])
 
