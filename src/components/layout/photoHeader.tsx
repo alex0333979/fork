@@ -12,7 +12,7 @@ const PhotoHeader: React.FC = () => (
               <Link href={'/'}>
                 <a>
                   <Image
-                    src="/images/logo.svg"
+                    src="/images/new-logo.svg"
                     alt=""
                     width={450}
                     height={141}
