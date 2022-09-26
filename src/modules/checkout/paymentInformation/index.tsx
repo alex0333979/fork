@@ -11,7 +11,7 @@ import { ValidationError } from '@/types'
 import CheckoutLayout from '../checkoutLayout'
 import FormElement from './formElement'
 
-const step = 2
+const step = 3
 
 const PaymentInformation: React.FC = () => {
   const router = useRouter()
@@ -119,7 +119,7 @@ const PaymentInformation: React.FC = () => {
     const cart = data?.AddBillingAddressToCart.data
     if (cart) {
       updateMe({ cart })
-      await router.push(PAGES.checkout.deliveryMethod)
+      await router.push(PAGES.checkout.review)
     }
   }, [addBillingAddress, billingForm, country, router, updateMe])
 
@@ -154,7 +154,7 @@ const PaymentInformation: React.FC = () => {
       loading={loading}
       backLink={PAGES.checkout.shipping}
       onSubmit={onSubmit}
-      completeStep={1}>
+      completeStep={2}>
       <div className="form-wrap">
         <div className="form-fields">
           <div className="extra-info">

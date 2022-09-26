@@ -28,10 +28,11 @@ export type CartFieldPolicy = {
 	shippingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CartItemKeySpecifier = ('createdAt' | 'description' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | CartItemKeySpecifier)[];
+export type CartItemKeySpecifier = ('createdAt' | 'description' | 'expeditingService' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | CartItemKeySpecifier)[];
 export type CartItemFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	isComplete?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -179,7 +180,7 @@ export type HeadFieldPolicy = {
 	Dimensions?: FieldPolicy<any> | FieldReadFunction<any>,
 	position?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCart' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	AddBillingAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddItemsToCart?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -207,6 +208,7 @@ export type MutationFieldPolicy = {
 	SetTrackingNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	SignUp?: FieldPolicy<any> | FieldReadFunction<any>,
 	SubmitEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	UpdateCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateCartItemPrice?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateEntryPhoto?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateOrderPhoto?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -254,11 +256,12 @@ export type OrderEditResponseFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderItemKeySpecifier = ('checklist' | 'createdAt' | 'description' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | OrderItemKeySpecifier)[];
+export type OrderItemKeySpecifier = ('checklist' | 'createdAt' | 'description' | 'expeditingService' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | OrderItemKeySpecifier)[];
 export type OrderItemFieldPolicy = {
 	checklist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
+	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	isComplete?: FieldPolicy<any> | FieldReadFunction<any>,

@@ -7,6 +7,7 @@ fragment CartItem on CartItem {
   productCategory
   productSku
   isComplete
+  expeditingService
   createdAt
   updatedAt
 }

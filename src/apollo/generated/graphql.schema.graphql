@@ -40,9 +40,20 @@ type Cart {
   shippingType: ShippingType!
 }
 
+input CartInput {
+  billingAddress: BillingAddressInput
+  defaultCurrency: CurrencyInput
+  items: [CartItemInput!]
+  promoCode: String
+  remarks: String
+  shippingAddress: ShippingAddressInput
+  shippingType: ShippingType
+}
+
 type CartItem {
   createdAt: DateTime
   description: String!
+  expeditingService: String
   id: ID!
   imageUrl: String
   isComplete: Boolean!
@@ -60,12 +71,17 @@ type CartItem {
 }
 
 input CartItemInput {
+  createdAt: DateTime
   description: String!
+  expeditingService: String
+  id: ID
   imageUrl: String
+  isComplete: Boolean = false
   name: String!
   productCategory: ProductCategory
   productId: ID!
   productSku: ProductSku!
+  updatedAt: DateTime
 }
 
 type CartResponse {
@@ -325,6 +341,7 @@ type Mutation {
   SetTrackingNumber(orderId: String!, trackingNumber: String!): OrderResponse!
   SignUp(user: UserInput!): UserResponse!
   SubmitEntry(entryId: ID, formId: ID!, formStep: FormStepInput!): EntryResponse!
+  UpdateCart(data: CartInput!): CartResponse!
   UpdateCartItemPrice(item: UpdateCartItemPriceInput!): CartResponse!
   UpdateEntryPhoto(editToken: String!, imageUrl: String!): EntryResponse!
   UpdateOrderPhoto(editToken: String!, imageUrl: String!): StringResponse!
@@ -398,6 +415,7 @@ type OrderItem {
   checklist: Checklist
   createdAt: DateTime
   description: String!
+  expeditingService: String
   id: ID!
   imageUrl: String
   isComplete: Boolean!

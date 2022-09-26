@@ -9,7 +9,7 @@ export const PAGES = {
   checkout: {
     index: '/checkout/',
     deliveryMethod: '/checkout/delivery-method/',
-    shipping: '/checkout/',
+    shipping: '/checkout/shipping',
     payment: '/checkout/payment/',
     review: '/checkout/review/',
     thankYou: '/checkout/thank-you/',

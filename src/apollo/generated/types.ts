@@ -59,10 +59,21 @@ export type Cart = {
   shippingType: ShippingType;
 };
 
+export type CartInput = {
+  billingAddress?: InputMaybe<BillingAddressInput>;
+  defaultCurrency?: InputMaybe<CurrencyInput>;
+  items?: InputMaybe<Array<CartItemInput>>;
+  promoCode?: InputMaybe<Scalars['String']>;
+  remarks?: InputMaybe<Scalars['String']>;
+  shippingAddress?: InputMaybe<ShippingAddressInput>;
+  shippingType?: InputMaybe<ShippingType>;
+};
+
 export type CartItem = {
   __typename?: 'CartItem';
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
+  expeditingService?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   isComplete: Scalars['Boolean'];
@@ -78,12 +89,17 @@ export type CartItem = {
 };
 
 export type CartItemInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']>;
   description: Scalars['String'];
+  expeditingService?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
   imageUrl?: InputMaybe<Scalars['String']>;
+  isComplete?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   productCategory?: InputMaybe<ProductCategory>;
   productId: Scalars['ID'];
   productSku: ProductSku;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type CartResponse = {
@@ -358,6 +374,7 @@ export type Mutation = {
   SetTrackingNumber: OrderResponse;
   SignUp: UserResponse;
   SubmitEntry: EntryResponse;
+  UpdateCart: CartResponse;
   UpdateCartItemPrice: CartResponse;
   UpdateEntryPhoto: EntryResponse;
   UpdateOrderPhoto: StringResponse;
@@ -490,6 +507,11 @@ export type MutationSubmitEntryArgs = {
 };
 
 
+export type MutationUpdateCartArgs = {
+  data: CartInput;
+};
+
+
 export type MutationUpdateCartItemPriceArgs = {
   item: UpdateCartItemPriceInput;
 };
@@ -590,6 +612,7 @@ export type OrderItem = {
   checklist?: Maybe<Checklist>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
+  expeditingService?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   isComplete: Scalars['Boolean'];
