@@ -14,6 +14,19 @@ export type Scalars = {
   Value: any;
 };
 
+export type AddressEditInput = {
+  address1?: InputMaybe<Scalars['String']>;
+  address2?: InputMaybe<Scalars['String']>;
+  city?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  postalCode?: InputMaybe<Scalars['String']>;
+  state?: InputMaybe<Scalars['String']>;
+};
+
 export type BillingAddress = {
   __typename?: 'BillingAddress';
   address1: Scalars['String'];
@@ -52,6 +65,7 @@ export type Cart = {
   __typename?: 'Cart';
   billingAddress?: Maybe<BillingAddress>;
   defaultCurrency?: Maybe<Currency>;
+  expeditingService?: Maybe<Scalars['String']>;
   items?: Maybe<Array<CartItem>>;
   promoCode?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
@@ -62,6 +76,7 @@ export type Cart = {
 export type CartInput = {
   billingAddress?: InputMaybe<BillingAddressInput>;
   defaultCurrency?: InputMaybe<CurrencyInput>;
+  expeditingService?: InputMaybe<Scalars['String']>;
   items?: InputMaybe<Array<CartItemInput>>;
   promoCode?: InputMaybe<Scalars['String']>;
   remarks?: InputMaybe<Scalars['String']>;
@@ -73,7 +88,6 @@ export type CartItem = {
   __typename?: 'CartItem';
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
-  expeditingService?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   isComplete: Scalars['Boolean'];
@@ -91,7 +105,6 @@ export type CartItem = {
 export type CartItemInput = {
   createdAt?: InputMaybe<Scalars['DateTime']>;
   description: Scalars['String'];
-  expeditingService?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   imageUrl?: InputMaybe<Scalars['String']>;
   isComplete?: InputMaybe<Scalars['Boolean']>;
@@ -348,6 +361,7 @@ export type Head = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  AddAddressToCart: CartResponse;
   AddBillingAddressToCart: CartResponse;
   AddItemsToCart: CartResponse;
   AddOneClickInfo: CartResponse;
@@ -377,9 +391,16 @@ export type Mutation = {
   UpdateCart: CartResponse;
   UpdateCartItemPrice: CartResponse;
   UpdateEntryPhoto: EntryResponse;
+  UpdateOrderDetail: OrderResponse;
   UpdateOrderPhoto: StringResponse;
   UpdateOrderStatus: OrderResponse;
   VerifyOTP: OrderEditResponse;
+};
+
+
+export type MutationAddAddressToCartArgs = {
+  billingAddress?: InputMaybe<BillingAddressInput>;
+  shippingAddress?: InputMaybe<ShippingAddressInput>;
 };
 
 
@@ -418,6 +439,11 @@ export type MutationCheckPhotoArgs = {
 export type MutationConfirmChecklistArgs = {
   input: ChecklistInput;
   orderNumber: Scalars['Float'];
+};
+
+
+export type MutationCreateOrderArgs = {
+  shippingType?: InputMaybe<ShippingType>;
 };
 
 
@@ -523,6 +549,12 @@ export type MutationUpdateEntryPhotoArgs = {
 };
 
 
+export type MutationUpdateOrderDetailArgs = {
+  input: UpdateOrderEditInput;
+  orderId: Scalars['String'];
+};
+
+
 export type MutationUpdateOrderPhotoArgs = {
   editToken: Scalars['String'];
   imageUrl: Scalars['String'];
@@ -574,6 +606,7 @@ export type Order = {
   billingAddress: BillingAddress;
   createdAt: Scalars['DateTime'];
   currency?: Maybe<Currency>;
+  expeditingService?: Maybe<Scalars['String']>;
   fulfillmentFires: Scalars['Float'];
   id: Scalars['ID'];
   items: Array<OrderItem>;
@@ -612,7 +645,6 @@ export type OrderItem = {
   checklist?: Maybe<Checklist>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description: Scalars['String'];
-  expeditingService?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   imageUrl?: Maybe<Scalars['String']>;
   isComplete: Scalars['Boolean'];
@@ -778,6 +810,7 @@ export type Query = {
   DocumentsByCountry: PDocumentsResponse;
   Entries: EntryPaginatedResponse;
   Entry: EntryResponse;
+  ExportOrdersForAdmin: StringResponse;
   Form: FormResponse;
   Forms: Array<Form>;
   GetChecklist: ChecklistResponse;
@@ -820,6 +853,13 @@ export type QueryEntriesArgs = {
 
 export type QueryEntryArgs = {
   entryId: Scalars['String'];
+};
+
+
+export type QueryExportOrdersForAdminArgs = {
+  locale?: InputMaybe<Array<Scalars['String']>>;
+  search?: InputMaybe<Scalars['String']>;
+  shippingStatus?: InputMaybe<Array<OrderStatusFilterType>>;
 };
 
 
@@ -976,6 +1016,12 @@ export type UpdateCartItemPriceInput = {
   productSku: ProductSku;
 };
 
+export type UpdateOrderEditInput = {
+  billingAddress?: InputMaybe<AddressEditInput>;
+  shippingAddress?: InputMaybe<AddressEditInput>;
+  shippingType?: InputMaybe<ShippingType>;
+};
+
 export type User = {
   __typename?: 'User';
   billingAddress?: Maybe<BillingAddress>;
@@ -1027,9 +1073,11 @@ export type ValidationInput = {
 };
 
 export enum ValidationType {
+  IsDate = 'IsDate',
   IsEmail = 'IsEmail',
   IsNumber = 'IsNumber',
   IsPhone = 'IsPhone',
+  IsUsaPostalCode = 'IsUSAPostalCode',
   Max = 'Max',
   MaxLength = 'MaxLength',
   Min = 'Min',

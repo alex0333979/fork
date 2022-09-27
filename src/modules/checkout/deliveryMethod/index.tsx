@@ -1,13 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import {
-  CartItem,
-  CartItemInput,
-  ProductSku,
-  ShippingType,
-  useUpdateCartMutation,
-} from '@/apollo'
+import { ShippingType, useUpdateCartMutation } from '@/apollo'
 import { useAuth } from '@/hooks'
 import { PAGES, CHECKOUT_STEPS } from '@/constants'
 import CheckoutLayout from '../checkoutLayout'
@@ -28,8 +22,8 @@ const DeliveryMethod: React.FC = () => {
   )
   const [isExpediting, setIsExpediting] = useState<boolean | undefined>()
   const [expeditingAnswers, setExpeditingAnswers] = useState<
-    Record<string, string>
-  >({})
+    Record<string, string> | undefined
+  >()
   const [updateCart] = useUpdateCartMutation()
 
   useEffect(() => {
@@ -42,24 +36,21 @@ const DeliveryMethod: React.FC = () => {
     setIsExpediting(true)
   }, [isExpediting, me?.country])
 
+  useEffect(() => {
+    if (expeditingAnswers || !isExpediting) return
+
+    setExpeditingAnswers(JSON.parse(cart?.expeditingService || '{}'))
+  }, [cart?.expeditingService, expeditingAnswers, isExpediting])
+
   const onSubmit = useCallback(async () => {
     setLoading(true)
-    const items: CartItem[] = (cart?.items || []).map((item) => {
-      if (isExpediting) {
-        return {
-          ...item,
-          productSku: ProductSku.ExpeditedShipping,
-          expeditingService: JSON.stringify(expeditingAnswers),
-        }
-      }
-      return item
-    })
-
     const { data } = await updateCart({
       variables: {
         data: {
-          items: items as CartItemInput[],
           shippingType,
+          expeditingService: isExpediting
+            ? JSON.stringify(expeditingAnswers)
+            : null,
         },
       },
     })
@@ -70,7 +61,6 @@ const DeliveryMethod: React.FC = () => {
       await router.push(PAGES.checkout.shipping)
     }
   }, [
-    cart?.items,
     expeditingAnswers,
     isExpediting,
     router,
@@ -93,9 +83,11 @@ const DeliveryMethod: React.FC = () => {
       completeStep={0}>
       <>
         <div className="form-wrap">
-          <div className="checkout-element-title">
-            <div>1</div>Choose Delivery Method
-          </div>
+          {me?.country === 'US' && (
+            <div className="checkout-element-title">
+              <div>1</div>Choose Delivery Method
+            </div>
+          )}
           <Header
             shippingType={shippingType}
             onChangeShippingType={setShippingType}
@@ -119,7 +111,7 @@ const DeliveryMethod: React.FC = () => {
           )}
           {isExpediting && (
             <ExpeditingServiceQuestions
-              values={expeditingAnswers}
+              values={expeditingAnswers || {}}
               onChange={onChangeAnswers}
             />
           )}
