@@ -18,21 +18,21 @@ export type BillingAddressResponseFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CartKeySpecifier = ('billingAddress' | 'defaultCurrency' | 'items' | 'promoCode' | 'remarks' | 'shippingAddress' | 'shippingType' | CartKeySpecifier)[];
+export type CartKeySpecifier = ('billingAddress' | 'defaultCurrency' | 'expeditingService' | 'items' | 'promoCode' | 'remarks' | 'shippingAddress' | 'shippingType' | CartKeySpecifier)[];
 export type CartFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	defaultCurrency?: FieldPolicy<any> | FieldReadFunction<any>,
+	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	promoCode?: FieldPolicy<any> | FieldReadFunction<any>,
 	remarks?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingType?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CartItemKeySpecifier = ('createdAt' | 'description' | 'expeditingService' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | CartItemKeySpecifier)[];
+export type CartItemKeySpecifier = ('createdAt' | 'description' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | CartItemKeySpecifier)[];
 export type CartItemFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
-	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	isComplete?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -180,8 +180,9 @@ export type HeadFieldPolicy = {
 	Dimensions?: FieldPolicy<any> | FieldReadFunction<any>,
 	position?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCart' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('AddAddressToCart' | 'AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCart' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderDetail' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
+	AddAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddBillingAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddItemsToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddOneClickInfo?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -211,6 +212,7 @@ export type MutationFieldPolicy = {
 	UpdateCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateCartItemPrice?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateEntryPhoto?: FieldPolicy<any> | FieldReadFunction<any>,
+	UpdateOrderDetail?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateOrderPhoto?: FieldPolicy<any> | FieldReadFunction<any>,
 	UpdateOrderStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	VerifyOTP?: FieldPolicy<any> | FieldReadFunction<any>
@@ -221,11 +223,12 @@ export type OptionFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
+export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'expeditingService' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
 export type OrderFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	currency?: FieldPolicy<any> | FieldReadFunction<any>,
+	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	fulfillmentFires?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -256,12 +259,11 @@ export type OrderEditResponseFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderItemKeySpecifier = ('checklist' | 'createdAt' | 'description' | 'expeditingService' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | OrderItemKeySpecifier)[];
+export type OrderItemKeySpecifier = ('checklist' | 'createdAt' | 'description' | 'id' | 'imageUrl' | 'isComplete' | 'name' | 'price' | 'product' | 'productCategory' | 'productId' | 'productSku' | 'updatedAt' | OrderItemKeySpecifier)[];
 export type OrderItemFieldPolicy = {
 	checklist?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	description?: FieldPolicy<any> | FieldReadFunction<any>,
-	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	imageUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	isComplete?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -352,7 +354,7 @@ export type ProductsResponseFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('AllProducts' | 'Cart' | 'CompletedOrders' | 'Countries' | 'Currencies' | 'Document' | 'DocumentsByCountry' | 'Entries' | 'Entry' | 'Form' | 'Forms' | 'GetChecklist' | 'GetCountry' | 'GetSignedUrl' | 'Me' | 'Order' | 'OrderByOrderNumber' | 'Orders' | 'OrdersForAdmin' | 'Products' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('AllProducts' | 'Cart' | 'CompletedOrders' | 'Countries' | 'Currencies' | 'Document' | 'DocumentsByCountry' | 'Entries' | 'Entry' | 'ExportOrdersForAdmin' | 'Form' | 'Forms' | 'GetChecklist' | 'GetCountry' | 'GetSignedUrl' | 'Me' | 'Order' | 'OrderByOrderNumber' | 'Orders' | 'OrdersForAdmin' | 'Products' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	AllProducts?: FieldPolicy<any> | FieldReadFunction<any>,
 	Cart?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -363,6 +365,7 @@ export type QueryFieldPolicy = {
 	DocumentsByCountry?: FieldPolicy<any> | FieldReadFunction<any>,
 	Entries?: FieldPolicy<any> | FieldReadFunction<any>,
 	Entry?: FieldPolicy<any> | FieldReadFunction<any>,
+	ExportOrdersForAdmin?: FieldPolicy<any> | FieldReadFunction<any>,
 	Form?: FieldPolicy<any> | FieldReadFunction<any>,
 	Forms?: FieldPolicy<any> | FieldReadFunction<any>,
 	GetChecklist?: FieldPolicy<any> | FieldReadFunction<any>,

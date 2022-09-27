@@ -1,3 +1,16 @@
+input AddressEditInput {
+  address1: String
+  address2: String
+  city: String
+  country: String
+  email: String
+  firstName: String
+  lastName: String
+  phone: String
+  postalCode: String
+  state: String
+}
+
 type BillingAddress {
   address1: String!
   address2: String
@@ -33,6 +46,7 @@ type BillingAddressResponse {
 type Cart {
   billingAddress: BillingAddress
   defaultCurrency: Currency
+  expeditingService: String
   items: [CartItem!]
   promoCode: String
   remarks: String
@@ -43,6 +57,7 @@ type Cart {
 input CartInput {
   billingAddress: BillingAddressInput
   defaultCurrency: CurrencyInput
+  expeditingService: String
   items: [CartItemInput!]
   promoCode: String
   remarks: String
@@ -53,7 +68,6 @@ input CartInput {
 type CartItem {
   createdAt: DateTime
   description: String!
-  expeditingService: String
   id: ID!
   imageUrl: String
   isComplete: Boolean!
@@ -73,7 +87,6 @@ type CartItem {
 input CartItemInput {
   createdAt: DateTime
   description: String!
-  expeditingService: String
   id: ID
   imageUrl: String
   isComplete: Boolean = false
@@ -315,6 +328,7 @@ type Head {
 }
 
 type Mutation {
+  AddAddressToCart(billingAddress: BillingAddressInput, shippingAddress: ShippingAddressInput): CartResponse!
   AddBillingAddressToCart(billingAddress: BillingAddressInput!): CartResponse!
   AddItemsToCart(items: [CartItemInput!]!): CartResponse!
   AddOneClickInfo(input: OneClickInfoInput!): CartResponse!
@@ -324,7 +338,7 @@ type Mutation {
   ClearCart: CartResponse!
   ConfirmChecklist(input: ChecklistInput!, orderNumber: Float!): ChecklistResponse!
   CreateGuest: TokenResponse!
-  CreateOrder: OrderResponse!
+  CreateOrder(shippingType: ShippingType): OrderResponse!
   DeleteOrder(orderId: String!): StringResponse!
   GetPaymentIntent(currency: String!, orderId: String!): PaymentIntentResponse!
   Login(email: String!, password: String!): TokenResponse!
@@ -344,6 +358,7 @@ type Mutation {
   UpdateCart(data: CartInput!): CartResponse!
   UpdateCartItemPrice(item: UpdateCartItemPriceInput!): CartResponse!
   UpdateEntryPhoto(editToken: String!, imageUrl: String!): EntryResponse!
+  UpdateOrderDetail(input: UpdateOrderEditInput!, orderId: String!): OrderResponse!
   UpdateOrderPhoto(editToken: String!, imageUrl: String!): StringResponse!
   UpdateOrderStatus(orderId: String!, orderStatus: OrderStatus!, orderStatusType: OrderStatusType!): OrderResponse!
   VerifyOTP(accessToken: String!, otp: String!): OrderEditResponse!
@@ -380,6 +395,7 @@ type Order {
   billingAddress: BillingAddress!
   createdAt: DateTime!
   currency: Currency
+  expeditingService: String
   fulfillmentFires: Float!
   id: ID!
   items: [OrderItem!]!
@@ -415,7 +431,6 @@ type OrderItem {
   checklist: Checklist
   createdAt: DateTime
   description: String!
-  expeditingService: String
   id: ID!
   imageUrl: String
   isComplete: Boolean!
@@ -570,6 +585,7 @@ type Query {
   DocumentsByCountry(country: String!): PDocumentsResponse!
   Entries(page: Int = 1, pageSize: Int = 20, search: String, skip: Int): EntryPaginatedResponse!
   Entry(entryId: String!): EntryResponse!
+  ExportOrdersForAdmin(locale: [String!], search: String, shippingStatus: [OrderStatusFilterType!]): StringResponse!
   Form(id: String!): FormResponse!
   Forms: [Form!]!
   GetChecklist(orderNumber: Float!): ChecklistResponse!
@@ -683,6 +699,12 @@ input UpdateCartItemPriceInput {
   productSku: ProductSku!
 }
 
+input UpdateOrderEditInput {
+  billingAddress: AddressEditInput
+  shippingAddress: AddressEditInput
+  shippingType: ShippingType
+}
+
 type User {
   billingAddress: BillingAddress
   cart: Cart
@@ -730,9 +752,11 @@ input ValidationInput {
 }
 
 enum ValidationType {
+  IsDate
   IsEmail
   IsNumber
   IsPhone
+  IsUSAPostalCode
   Max
   MaxLength
   Min
