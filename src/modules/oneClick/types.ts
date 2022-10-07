@@ -1,0 +1,11 @@
+export type TModalType =
+  | 'select-doc'
+  | 'take-photo'
+  | 'process-photo'
+  | 'check-cart'
+  | 'checkout'
+  | 'completed'
+  | 'delivery-method'
+  | 'set-shipping'
+  | 'set-billing'
+  | 'handle-payment'

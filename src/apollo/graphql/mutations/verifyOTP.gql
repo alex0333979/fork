@@ -1,0 +1,14 @@
+mutation VerifyOTP($accessToken: String!, $otp: String!) {
+  VerifyOTP(accessToken: $accessToken, otp: $otp) {
+    data {
+      authToken
+      user {
+        ...User
+      }
+      editToken
+      imageUrl
+    }
+    status
+    message
+  }
+}

@@ -1,0 +1,9 @@
+mutation SetDefaultBillingAddress($billingAddress: BillingAddressInput!) {
+  SetDefaultBillingAddress(billingAddress: $billingAddress) {
+    message
+    status
+    data {
+      ...BillingAddress
+    }
+  }
+}

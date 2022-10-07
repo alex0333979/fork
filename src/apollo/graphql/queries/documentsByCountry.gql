@@ -1,0 +1,8 @@
+query DocumentsByCountry($country: String!) {
+  DocumentsByCountry(country: $country) {
+    data {
+      ...PDocument
+    }
+    total
+  }
+}

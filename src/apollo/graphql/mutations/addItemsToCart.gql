@@ -1,0 +1,9 @@
+mutation AddItemsToCart($cartItems: [CartItemInput!]!) {
+  AddItemsToCart(items: $cartItems) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

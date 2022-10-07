@@ -1,0 +1,7 @@
+mutation SendEmailToAdmin($data: EmailToAdminInput!) {
+  SendEmailToAdmin(data: $data) {
+    status
+    message
+    data
+  }
+}

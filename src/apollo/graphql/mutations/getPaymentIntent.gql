@@ -1,0 +1,9 @@
+mutation GetPaymentIntent($orderId: String!, $currency: String!) {
+  GetPaymentIntent(orderId: $orderId, currency: $currency) {
+    message
+    status
+    data {
+      clientSecret
+    }
+  }
+}

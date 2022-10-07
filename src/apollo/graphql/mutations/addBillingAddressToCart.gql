@@ -1,0 +1,9 @@
+mutation AddBillingAddressToCart($billingAddress: BillingAddressInput!) {
+  AddBillingAddressToCart(billingAddress: $billingAddress) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

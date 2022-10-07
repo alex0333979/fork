@@ -1,0 +1,9 @@
+query Document($id: String!) {
+  Document(id: $id) {
+    message
+    status
+    data {
+      ...PDocument
+    }
+  }
+}

@@ -1,0 +1,9 @@
+query Entry($entryId: String!) {
+  Entry(entryId: $entryId) {
+    message
+    status
+    data {
+      ...Entry
+    }
+  }
+}

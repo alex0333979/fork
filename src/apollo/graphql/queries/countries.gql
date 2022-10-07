@@ -1,0 +1,8 @@
+query Countries {
+  Countries {
+    data {
+      ...Country
+    }
+    total
+  }
+}

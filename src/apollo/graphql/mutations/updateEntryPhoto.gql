@@ -1,0 +1,9 @@
+mutation UpdateEntryPhoto($imageUrl: String!, $editToken: String!) {
+  UpdateEntryPhoto(imageUrl: $imageUrl, editToken: $editToken) {
+    message
+    status
+    data {
+      id
+    }
+  }
+}

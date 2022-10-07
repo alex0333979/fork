@@ -1,0 +1,12 @@
+fragment TestResult on TestResult {
+  message
+  code
+  failed {
+    test
+    message
+  }
+  passed {
+    test
+    message
+  }
+}

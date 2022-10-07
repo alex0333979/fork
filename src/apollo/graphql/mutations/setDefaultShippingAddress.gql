@@ -1,0 +1,9 @@
+mutation SetDefaultShippingAddress($shippingAddress: ShippingAddressInput!) {
+  SetDefaultShippingAddress(shippingAddress: $shippingAddress) {
+    message
+    status
+    data {
+      ...ShippingAddress
+    }
+  }
+}

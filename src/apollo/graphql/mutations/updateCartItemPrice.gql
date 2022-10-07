@@ -1,0 +1,9 @@
+mutation UpdateCartItemPrice($item: UpdateCartItemPriceInput!) {
+  UpdateCartItemPrice(item: $item) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}

@@ -1,4 +1,0 @@
-{
-  "currency": "{{value, currency(USD), number(minimumFractionDigits: 2, maximumFractionDigits: 2)}}",
-  "shoppingCart": "Shopping cart"
-}

@@ -1,0 +1,9 @@
+mutation CreateOrder {
+  CreateOrder {
+    message
+    status
+    data {
+      ...Order
+    }
+  }
+}

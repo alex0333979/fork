@@ -1,0 +1,9 @@
+query Products($currencyCode: CurrencyCode) {
+  Products(currencyCode: $currencyCode) {
+    data {
+      ...Product
+    }
+    message
+    status
+  }
+}

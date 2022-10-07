@@ -1,0 +1,9 @@
+mutation UpdateCart($data: CartInput!) {
+  UpdateCart(data: $data) {
+    message
+    status
+    data {
+      ...Cart
+    }
+  }
+}
