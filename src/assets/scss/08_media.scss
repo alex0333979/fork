@@ -195,6 +195,9 @@
     padding-bottom: 15px;
     font-size: 15px;
   }
+  .form-fields .select-list .group .group-label p {
+    padding-bottom: 15px;
+  }
   .form-fields label input,
   .form-fields label select,
   .form-fields label textarea {
@@ -473,6 +476,10 @@
   .success-page .data-wrap {
     min-height: calc(100vh - 95px - 73px - 47px);
   }
+
+  .shipping-title h3 {
+    font-size: 26px;
+  }
 }
 
 @media screen and (max-width: 1420px) {
@@ -695,6 +702,9 @@
     padding-bottom: 12px;
     font-size: 14px;
   }
+  .form-fields .select-list .group .group-label p {
+    padding-bottom: 12px;
+  }
   .form-fields label input,
   .form-fields label select,
   .form-fields label textarea {
@@ -864,16 +874,43 @@
   }
   .shipping-data ol li {
     padding: 21px 0 16px 0;
+
+    & + .shipping-title {
+      padding-top: 18px;
+    }
+
+    .name {
+      h3 {
+        font-size: 13px;
+      }
+      h4 {
+        font-size: 16px;
+      }
+    }
+    ul {
+      padding: 13px 0 0 0;
+      margin-left: 21px;
+      li {
+        font-size: 15px;
+      }
+    }
   }
-  .shipping-data ol li .name h3 {
-    font-size: 13px;
+  .form-fields {
+    .select-list {
+      width: calc(100% + 10px);
+      margin: 0 -5px;
+      .group {
+        padding: 0 15px;
+        padding-top: 30px;
+      }
+    }
   }
-  .shipping-data ol li ul li {
-    font-size: 15px;
-  }
-  .shipping-data ol li ul {
-    padding: 13px 0 0 0;
-    margin-left: 21px;
+  .shipping-title {
+    padding-top: 25px;
+
+    h3 {
+      font-size: 24px;
+    }
   }
   .form-fields label span.field.radio.with-price, .form-fields label span.field.checkbox.with-price {
     min-height: 43px;
@@ -2190,6 +2227,9 @@
     padding-bottom: 17px;
     font-size: 16px;
   }
+  .form-fields .select-list .group .group-label p {
+    padding-bottom: 17px;
+  }
   .form-fields label input,
   .form-fields label select,
   .form-fields label textarea {
@@ -2516,6 +2556,19 @@
   .form-fields label:not(.error) span.warning {
     max-height: 0;
   }
+  .form-fields {
+    .select-list {
+      width: 100%;
+      margin: 0;
+      padding: 12px 10px 0 10px;
+
+      .group {
+        width: 100%;
+        padding: 0;
+        padding-top: 34px;
+      }
+    }
+  }
   .application-form .form-wrap .form-fields {
     label {
       padding: 5px 0;
@@ -2538,6 +2591,10 @@
     .extra-info label {
       padding: 20px 0 0 0;
     }
+    .select-list .group .group-label p {
+      padding-bottom: 24px;
+      font-size: 16px;
+    }
   }
   .form-fields .group {
     padding: 5px 0;
@@ -2547,6 +2604,23 @@
   }
   .application-form .form-wrap {
     padding: 19px 0;
+  }
+  .shipping-title {
+    padding-top: 32px;
+
+    h3 {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+  }
+  .shipping-data {
+    & + .shipping-title {
+      padding-top: 33px;
+    }
+    ol li ul {
+      padding: 17px 0 0 0;
+      margin-left: 40px;
+    }
   }
   .form-fields label span.field.radio .name,
   .form-fields label span.field.checkbox .name {
@@ -2962,6 +3036,19 @@
   }
   .modal-wrap .up-sale .text .btn-wrap .main-btn {
     max-width: 100%;
+  }
+  .form-fields {
+    .select-list {
+      width: 100%;
+      margin: 0;
+      padding: 12px 10px 0 10px;
+
+      .group {
+        width: 100%;
+        padding: 0;
+        padding-top: 34px;
+      }
+    }
   }
   .terms-page .text-wrap h2 {
     padding-bottom: 25px;
