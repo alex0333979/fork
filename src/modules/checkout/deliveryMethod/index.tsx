@@ -81,42 +81,38 @@ const DeliveryMethod: React.FC = () => {
       backLink={PAGES.cart}
       onSubmit={onSubmit}
       completeStep={0}>
-      <>
-        <div className="form-wrap">
-          {me?.country === 'US' && (
-            <div className="checkout-element-title">
-              <div>1</div>Choose Delivery Method
-            </div>
-          )}
-          <Header
-            shippingType={shippingType}
-            onChangeShippingType={setShippingType}
-          />
-          <div className="shipping-data">
-            <ol>
-              <Services shippingType={shippingType} />
-              <Methods
-                shippingType={shippingType}
-                onChangeShippingType={setShippingType}
-              />
-            </ol>
-          </div>
-          {me?.country === 'US' && (
-            <>
-              <ExpeditingService
-                optIn={isExpediting}
-                onChange={setIsExpediting}
-              />
-            </>
-          )}
-          {isExpediting && (
-            <ExpeditingServiceQuestions
-              values={expeditingAnswers || {}}
-              onChange={onChangeAnswers}
+      <div className="form-wrap">
+        {me?.country === 'US' && (
+          <div className="checkout-element-title">Choose Delivery Method</div>
+        )}
+        <Header
+          shippingType={shippingType}
+          onChangeShippingType={setShippingType}
+        />
+        <div className="shipping-data">
+          <ol>
+            <Services shippingType={shippingType} />
+            <Methods
+              shippingType={shippingType}
+              onChangeShippingType={setShippingType}
             />
-          )}
+          </ol>
         </div>
-      </>
+        {me?.country === 'US' && (
+          <>
+            <ExpeditingService
+              optIn={isExpediting}
+              onChange={setIsExpediting}
+            />
+          </>
+        )}
+        {isExpediting && (
+          <ExpeditingServiceQuestions
+            values={expeditingAnswers || {}}
+            onChange={onChangeAnswers}
+          />
+        )}
+      </div>
     </CheckoutLayout>
   )
 }

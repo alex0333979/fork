@@ -8,26 +8,33 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ shippingType, onChangeShippingType }) => (
-  <div className="switcher-box">
-    <label>
-      <input
-        type="checkbox"
-        checked={shippingType !== ShippingType.NoShipping}
-        onChange={(e) =>
-          onChangeShippingType(
-            e.target.checked ? ShippingType.From3To6 : ShippingType.NoShipping,
-          )
-        }
-      />
-      <span className="box-wrap">
-        <span className="option">Digital Photo (Only)</span>
-        <span className="slider" />
-        <span className="option" data-status="Recommended">
-          <b>Print & Ship To My Address</b>
+  <>
+    <div className="switcher-box">
+      <label>
+        <input
+          type="checkbox"
+          checked={shippingType !== ShippingType.NoShipping}
+          onChange={(e) =>
+            onChangeShippingType(
+              e.target.checked
+                ? ShippingType.From3To6
+                : ShippingType.NoShipping,
+            )
+          }
+        />
+        <span className="box-wrap">
+          <span className="option">Digital Photo (Only)</span>
+          <span className="slider" />
+          <span className="option" data-status="Recommended">
+            <b>Print & Ship To My Address</b>
+          </span>
         </span>
-      </span>
-    </label>
-  </div>
+      </label>
+    </div>
+    <div className="shipping-title">
+      <h3>Choose delivery Method</h3>
+    </div>
+  </>
 )
 
 export default Header

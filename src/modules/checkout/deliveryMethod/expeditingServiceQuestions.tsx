@@ -3,7 +3,6 @@ import React from 'react'
 import classNames from 'classnames'
 import countryList from 'react-select-country-list'
 
-import Accordion from '@/components/elements/accordion'
 import RadioElement from '@/components/elements/radioElement'
 
 interface Props {
@@ -13,6 +12,7 @@ interface Props {
 
 interface IQuestion {
   question: string
+  placeholder: string
   answers: {
     label: string
     value: string
@@ -22,6 +22,7 @@ interface IQuestion {
 const questions: IQuestion[] = [
   {
     question: 'Which passport are you applying for?',
+    placeholder: 'Select passport',
     answers: [
       {
         label: 'New Passport (DS-11 Form)',
@@ -39,6 +40,7 @@ const questions: IQuestion[] = [
   },
   {
     question: 'How Soon do you need your passport / Visa?',
+    placeholder: 'Select the period',
     answers: [
       {
         label: 'Within 72 hours',
@@ -60,6 +62,7 @@ const questions: IQuestion[] = [
   },
   {
     question: 'Do you have proof of travel / itinerary?',
+    placeholder: 'Select proof',
     answers: [
       {
         label: 'Flight itinerary',
@@ -81,48 +84,45 @@ const questions: IQuestion[] = [
   },
   {
     question: 'Travel Destination',
+    placeholder: 'Select country',
     answers: countryList().getData(),
   },
 ]
 
 const ExpeditingServiceQuestions: React.FC<Props> = ({ values, onChange }) => (
-  <div className="expediting-service-questions">
-    <div className="pb-3 expediting-service-question-title">
-      To better assist you please complete the following
-    </div>
-    {questions.map((q, qIndex) => (
-      <Accordion
-        key={`q-${qIndex}`}
-        className="expediting-accordion"
-        renderRight={() => (
-          <div
-            className={classNames('expediting-icon', {
-              question: !values[q.question],
-            })}>
-            {values[q.question] ? '🗸' : '?'}
+  <div className="form-fields">
+    <div className="select-list">
+      {questions.map((q, qIndex) => (
+        <div key={`q-${qIndex}`} className="group">
+          <div className="group-label">
+            <p>{`${qIndex + 1}. ${q.question}`}</p>
           </div>
-        )}
-        title={q.question}>
-        <div className="form-fields">
-          {q.answers.map((a, aIndex) => (
-            <div key={`a-${aIndex}`} className="expediting-answers">
-              <RadioElement<string>
-                className={classNames('expediting-answer-option', {
-                  // @ts-ignore
-                  'option-selected': values[q.question] === a.value,
-                })}
-                label={a.label}
-                name={q.question}
-                // @ts-ignore
-                selected={values[q.question] === a.value}
-                value={a.value}
-                onSelect={(v: string) => onChange(q.question, v)}
-              />
+          <div className="group-select">
+            <div className="label">
+              <p>{values[q.question] || q.placeholder}</p>
             </div>
-          ))}
+            <div className="option">
+              {q.answers.map((a, aIndex) => (
+                <div key={`a-${aIndex}`} className="expediting-answers">
+                  <RadioElement<string>
+                    className={classNames('expediting-answer-option', {
+                      // @ts-ignore
+                      'option-selected': values[q.question] === a.value,
+                    })}
+                    label={a.label}
+                    name={q.question}
+                    // @ts-ignore
+                    selected={values[q.question] === a.value}
+                    value={a.value}
+                    onSelect={(v: string) => onChange(q.question, v)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </Accordion>
-    ))}
+      ))}
+    </div>
   </div>
 )
 

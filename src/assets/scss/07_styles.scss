@@ -297,6 +297,26 @@ select {
     }
   }
 
+  .select-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 40px);
+    margin: 0 -20px;
+    .group {
+      width: 50%;
+      padding: 0 30px;
+      padding-top: 44px;
+      flex-direction: column;
+      justify-content: space-between;
+      .group-label {
+        padding: 0;
+        p {
+          padding-bottom: 24px;
+        }
+      }
+    }
+  }
+
   .group {
     width: 100%;
     display: flex;
@@ -328,6 +348,139 @@ select {
       .group-label {
         p {
           color: var(--shuttle-gray);
+        }
+      }
+    }
+    .group-select {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+
+      &:hover {
+        z-index: 5;
+        .label {
+          &:before {
+            pointer-events: auto;
+          }
+        }
+        .option {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+      }
+
+      .label {
+        width: 100%;
+        padding: 18px 19px;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 1.34;
+        color: var(--shuttle-gray);
+        background: var(--white);
+        border: 1px solid var(--porcelain);
+        border-radius: 4px;
+        transition: color var(--transition), border-color var(--transition);
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+
+        &:before {
+          content: "";
+          height: 7px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -6px;
+          z-index: 2;
+          cursor: auto;
+          pointer-events: none;
+        }
+
+        p {
+          margin: 0 30px 0 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        &:after {
+          font-family: "icoFont";
+          content: "\e902";
+          display: flex;
+          align-items: center;
+          font-size: 11px;
+          color: var(--shuttle-gray);
+          position: absolute;
+          top: 0;
+          right: 27px;
+          bottom: 0;
+          transition: color var(--transition), transform var(--transition);
+        }
+      }
+      .option {
+        max-height: 224px;
+        padding: 9px 10px;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        right: 0;
+        z-index: 1;
+        background: var(--white);
+        border: 1px solid var(--porcelain);
+        overflow: auto;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity var(--transition), visibility var(--transition);
+
+        &::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+          background: var(--azure-radiance);
+          border-radius: 15px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+          background: var(--science-blue);
+        }
+
+        label {
+          padding: 0;
+
+          span.field {
+            min-height: 68px;
+            padding-left: 0;
+            .border {
+              border-left: none;
+              border-right: none;
+              border-bottom: none;
+              border-color: var(--porcelain);
+              border-radius: 0;
+            }
+            .bullet {
+              right: 0;
+            }
+
+            input:checked + .wrap .border {
+              border-color: var(--porcelain);
+            }
+          }
+          &:first-child {
+            span.field .border {
+              border-top: none;
+            }
+          }
         }
       }
     }
@@ -2818,12 +2971,28 @@ footer {
   }
 }
 
+.shipping-title {
+  padding-top: 40px;
+
+  h3 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+  }
+}
+
 .shipping-data {
   padding: 26px;
   margin: 29px 0 7px 0;
   background: var(--catskill-white);
   border: 2px solid var(--porcelain);
   border-radius: 4px;
+
+  & + .shipping-title {
+    padding-top: 32px;
+  }
 
   ol {
     li {
@@ -2840,6 +3009,17 @@ footer {
           font-weight: 600;
           font-size: 16px;
           line-height: 1.37;
+        }
+        h4 {
+          margin: 0;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 1.22;
+
+          span {
+            color: var(--azure-radiance);
+            text-transform: uppercase;
+          }
         }
 
         p {
@@ -2868,6 +3048,7 @@ footer {
 
         li {
           padding: 0;
+          margin: 10px 0;
           border: none;
           font-weight: 400;
           font-size: 18px;
