@@ -714,9 +714,9 @@ type User {
   firstName: String
   guest: Boolean!
   id: ID!
-  isAdmin: Boolean!
   lastName: String
   phone: String
+  role: UserRole
   shippingAddress: ShippingAddress
   updatedAt: DateTime!
 }
@@ -727,12 +727,19 @@ input UserInput {
   lastName: String!
   password: String!
   phone: String!
+  role: UserRole = Customer
 }
 
 type UserResponse {
   data: User
   message: String!
   status: Boolean!
+}
+
+enum UserRole {
+  Admin
+  Customer
+  Expeditor
 }
 
 type ValidatedImage {

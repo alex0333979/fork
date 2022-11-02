@@ -5,7 +5,7 @@ fragment User on User {
   lastName
   phone
   guest
-  isAdmin
+  role
   country
   createdAt
   updatedAt
