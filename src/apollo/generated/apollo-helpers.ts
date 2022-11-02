@@ -446,7 +446,7 @@ export type TrackStepFieldPolicy = {
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('billingAddress' | 'cart' | 'country' | 'createdAt' | 'email' | 'firstName' | 'guest' | 'id' | 'isAdmin' | 'lastName' | 'phone' | 'shippingAddress' | 'updatedAt' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('billingAddress' | 'cart' | 'country' | 'createdAt' | 'email' | 'firstName' | 'guest' | 'id' | 'lastName' | 'phone' | 'role' | 'shippingAddress' | 'updatedAt' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	cart?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -456,9 +456,9 @@ export type UserFieldPolicy = {
 	firstName?: FieldPolicy<any> | FieldReadFunction<any>,
 	guest?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
-	isAdmin?: FieldPolicy<any> | FieldReadFunction<any>,
 	lastName?: FieldPolicy<any> | FieldReadFunction<any>,
 	phone?: FieldPolicy<any> | FieldReadFunction<any>,
+	role?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };

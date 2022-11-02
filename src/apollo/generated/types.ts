@@ -1032,9 +1032,9 @@ export type User = {
   firstName?: Maybe<Scalars['String']>;
   guest: Scalars['Boolean'];
   id: Scalars['ID'];
-  isAdmin: Scalars['Boolean'];
   lastName?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
+  role?: Maybe<UserRole>;
   shippingAddress?: Maybe<ShippingAddress>;
   updatedAt: Scalars['DateTime'];
 };
@@ -1045,6 +1045,7 @@ export type UserInput = {
   lastName: Scalars['String'];
   password: Scalars['String'];
   phone: Scalars['String'];
+  role?: InputMaybe<UserRole>;
 };
 
 export type UserResponse = {
@@ -1053,6 +1054,12 @@ export type UserResponse = {
   message: Scalars['String'];
   status: Scalars['Boolean'];
 };
+
+export enum UserRole {
+  Admin = 'Admin',
+  Customer = 'Customer',
+  Expeditor = 'Expeditor'
+}
 
 export type ValidatedImage = {
   __typename?: 'ValidatedImage';
