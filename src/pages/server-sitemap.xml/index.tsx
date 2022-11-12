@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .replace(/\s/g, '-')
 
     fields.push({
-      loc: `https://passportphotos.com/${countryName}/${documentType}`,
+      loc: `https://www.passportphotos.com/${countryName}/${documentType}`,
       changefreq: `daily`,
       priority: 0.7,
       lastmod: new Date().toISOString(),
