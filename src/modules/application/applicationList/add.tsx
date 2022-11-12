@@ -99,6 +99,5 @@ const Add: React.FC<AddProps> = ({ isOpenAddFrom, openAddForm, onCreate }) => {
     </li>
   )
 }
-  
 
 export default Add
