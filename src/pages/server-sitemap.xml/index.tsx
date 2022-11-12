@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .replace(/\s/g, '-')
 
     fields.push({
-      loc: `https://passportphotos.com/${countryName}/${documentType}/`,
+      loc: `https://passportphotos.com/${countryName}/${documentType}`,
       changefreq: `daily`,
       priority: 0.7,
       lastmod: new Date().toISOString(),
@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     Object.entries(docTypes).forEach(([docType, paths]) => {
       paths.forEach((path) => {
         fields.push({
-          loc: `https://passportphotos.com/${country}/${docType}/${path}`,
+          loc: `https://www.passportphotos.com/${country}/${docType}/${path}`,
           changefreq: `daily`,
           priority: 0.7,
           lastmod: new Date().toISOString(),
