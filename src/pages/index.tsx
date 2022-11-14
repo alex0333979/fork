@@ -119,7 +119,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   const documentType = context?.params?.documentType as string
   const extraPath = (context?.params?.extraPath as string) || null
   if (countryCode && documentType && extraPath) {
-    const isValid = (AvailablePath[countryCode][documentType] || []).includes(
+    const isValid = (AvailablePath[countryCode]?.[documentType] || []).includes(
       extraPath,
     )
     if (!isValid) {
