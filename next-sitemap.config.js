@@ -1,10 +1,9 @@
-const siteUrl = 'https://passportphotos.com'
+const siteUrl = 'https://www.passportphotos.com'
 module.exports = {
   siteUrl,
   generateRobotsTxt: true,
   robotsTxtOptions: {
     additionalSitemaps: [
-      `${siteUrl}/sitemap.xml`,
       `${siteUrl}/server-sitemap.xml`,
     ],
     policies: [

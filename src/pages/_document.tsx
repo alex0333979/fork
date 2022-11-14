@@ -120,7 +120,7 @@ class MyDocument extends Document {
           />
 
           <meta property="og:site_name" content="Passport Photos" />
-          <meta property="og:url" content="https://PassportPhotos.com" />
+          <meta property="og:url" content="https://www.passportphotos.com" />
           <meta property="og:type" content="website" />
           <meta
             property="og:description"
