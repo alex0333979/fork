@@ -15,7 +15,7 @@ import SignUp from '@/modules/auth/signUp'
 import GoogledAdsScript from '@/scripts/googleAds'
 import GoogledAnalyticsScript from '@/scripts/googleAnalytics'
 import FacebookPixelScript from '@/scripts/fbPixel'
-import WoopraScript from '@/scripts/woopra'
+import MailChimpScript from '@/scripts/mailchimp'
 import MicrosoftUETScript from '@/scripts/msUet'
 import {
   AppProvider,
@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </CookiesProvider>
         </I18nextProvider>
       </ApolloProvider>
-      <WoopraScript />
+      <MailChimpScript />
       <GoogledAdsScript />
       <GoogledAnalyticsScript />
       <FacebookPixelScript />

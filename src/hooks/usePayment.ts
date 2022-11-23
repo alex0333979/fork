@@ -226,19 +226,6 @@ export const usePayment = ({
         }
 
         // @ts-ignore
-        if (window && window.woopra) {
-          // @ts-ignore
-          window.woopra.track('checkout', {
-            total_items: order.items.length,
-            discount_amount: 0,
-            tax_amount: tax,
-            shipping_amount: shippingPrice,
-            total_amount: order.totalPrice / 100,
-            order_id: order.orderNumber,
-          })
-        }
-
-        // @ts-ignore
         if (window && window.uetq) {
           // @ts-ignore
           window.uetq.push('event', 'purchase', {
