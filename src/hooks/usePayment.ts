@@ -174,6 +174,7 @@ export const usePayment = ({
       } else if (paymentIntent) {
         showSuccess('Payment is done successfully.')
         setPayment(paymentIntent)
+
         const { data } = await clearCart({})
         const cart = data?.ClearCart.data
         if (cart) {
@@ -222,19 +223,6 @@ export const usePayment = ({
                 price: product?.price || 0,
               }
             }),
-          })
-        }
-
-        // @ts-ignore
-        if (window && window.woopra) {
-          // @ts-ignore
-          window.woopra.track('checkout', {
-            total_items: order.items.length,
-            discount_amount: 0,
-            tax_amount: tax,
-            shipping_amount: shippingPrice,
-            total_amount: order.totalPrice / 100,
-            order_id: order.orderNumber,
           })
         }
 
