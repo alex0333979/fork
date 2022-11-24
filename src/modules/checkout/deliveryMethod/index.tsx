@@ -54,7 +54,7 @@ const DeliveryMethod: React.FC = () => {
     const _cart = data?.UpdateCart.data
     if (_cart) {
       updateMe({ cart: _cart })
-      await router.push(curStep!.next)
+      await router.push(curStep!.next!)
     }
   }, [
     curStep,

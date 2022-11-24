@@ -123,7 +123,7 @@ const PaymentInformation: React.FC = () => {
     const cart = data?.AddBillingAddressToCart.data
     if (cart) {
       updateMe({ cart })
-      await router.push(curStep!.next)
+      await router.push(curStep!.next!)
     }
   }, [addBillingAddress, billingForm, country, curStep, router, updateMe])
 
