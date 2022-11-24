@@ -5,11 +5,14 @@ import { useRouter } from 'next/router'
 import { humanizeTime } from '@/utils'
 
 export interface IStep {
+  id: string
   name: string
   step: number
   link: string
   fieldsCount?: number
   completedFields?: number
+  prev: string
+  next: string
 }
 export interface ProcessStepsProps {
   title: string

@@ -1,16 +1,19 @@
 import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
 
-import { useSetShippingInfo } from '@/hooks'
-import { PAGES, CHECKOUT_STEPS } from '@/constants'
+import { useSetShippingInfo, useCheckout } from '@/hooks'
 import { IStep } from '@/components/elements/processStep'
 import CheckoutLayout from '../checkoutLayout'
 import FormElement from './formElement'
 
-const step = 2
-
 const ShippingInformation: React.FC = () => {
   const router = useRouter()
+  const { checkoutSteps } = useCheckout()
+
+  const curStep = useMemo(
+    () => checkoutSteps.steps.find((s) => s.id === 'shipping_information'),
+    [checkoutSteps.steps],
+  )
 
   const {
     refreshKey,
@@ -23,13 +26,13 @@ const ShippingInformation: React.FC = () => {
     onSubmit,
   } = useSetShippingInfo({
     onSubmitted: () => {
-      router.push(PAGES.checkout.payment)
+      router.push(curStep!.next)
     },
   })
 
   const steps = useMemo(() => {
     const getFields = (s: IStep) => {
-      if (s.step !== step) return 0
+      if (s.step !== curStep!.step) return 0
 
       return Object.values(shippingForm)?.filter(
         (f) => !f.disabled && !f.hidden,
@@ -37,27 +40,27 @@ const ShippingInformation: React.FC = () => {
     }
 
     const getCompleted = (s: IStep) => {
-      if (s.step !== step) return 0
+      if (s.step !== curStep!.step) return 0
 
       return Object.values(shippingForm).filter(
         (f) => !f.disabled && !f.hidden && !!f.value,
       ).length
     }
 
-    return CHECKOUT_STEPS.steps.map((s) => ({
+    return checkoutSteps.steps.map((s) => ({
       ...s,
       fieldsCount: getFields(s),
       completedFields: getCompleted(s),
     }))
-  }, [shippingForm])
+  }, [checkoutSteps.steps, curStep, shippingForm])
 
   return (
     <CheckoutLayout
       key={refreshKey}
-      step={step}
+      step={curStep!.step}
       steps={steps}
       loading={loading}
-      backLink={PAGES.checkout.deliveryMethod}
+      backLink={curStep!.prev}
       onSubmit={onSubmit}
       completeStep={1}>
       <div className="form-wrap">

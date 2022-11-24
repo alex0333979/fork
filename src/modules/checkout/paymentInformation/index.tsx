@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { FormField, useAddBillingAddressToCartMutation } from '@/apollo'
-import { PAGES, SHIPPING_BILLING_FORM, CHECKOUT_STEPS } from '@/constants'
-import { useAuth } from '@/hooks'
+import { SHIPPING_BILLING_FORM } from '@/constants'
+import { useAuth, useCheckout } from '@/hooks'
 import CheckBox from '@/components/elements/checkBox'
 import { IStep } from '@/components/elements/processStep'
 import { formValidation } from '@/utils'
@@ -11,10 +11,9 @@ import { ValidationError } from '@/types'
 import CheckoutLayout from '../checkoutLayout'
 import FormElement from './formElement'
 
-const step = 3
-
 const PaymentInformation: React.FC = () => {
   const router = useRouter()
+  const { checkoutSteps } = useCheckout()
   const { cart, updateMe, me } = useAuth()
   const [billingForm, setBillingForm] = useState<{ [key: string]: FormField }>(
     SHIPPING_BILLING_FORM,
@@ -56,6 +55,11 @@ const PaymentInformation: React.FC = () => {
   useEffect(() => {
     initializeForm()
   }, [initializeForm])
+
+  const curStep = useMemo(
+    () => checkoutSteps.steps.find((s) => s.id === 'payment_information'),
+    [checkoutSteps.steps],
+  )
 
   const onChangeSameAddress = useCallback(
     (status: boolean) => {
@@ -119,40 +123,40 @@ const PaymentInformation: React.FC = () => {
     const cart = data?.AddBillingAddressToCart.data
     if (cart) {
       updateMe({ cart })
-      await router.push(PAGES.checkout.review)
+      await router.push(curStep!.next)
     }
-  }, [addBillingAddress, billingForm, country, router, updateMe])
+  }, [addBillingAddress, billingForm, country, curStep, router, updateMe])
 
   const steps = useMemo(() => {
     const getFields = (s: IStep) => {
-      if (s.step !== step) return 0
+      if (s.step !== curStep!.step) return 0
 
       return Object.values(billingForm)?.filter((f) => !f.disabled && !f.hidden)
         .length
     }
 
     const getCompleted = (s: IStep) => {
-      if (s.step !== step) return 0
+      if (s.step !== curStep!.step) return 0
 
       return Object.values(billingForm).filter(
         (f) => !f.disabled && !f.hidden && !!f.value,
       ).length
     }
 
-    return CHECKOUT_STEPS.steps.map((s) => ({
+    return checkoutSteps.steps.map((s) => ({
       ...s,
       fieldsCount: getFields(s),
       completedFields: getCompleted(s),
     }))
-  }, [billingForm])
+  }, [billingForm, checkoutSteps.steps, curStep])
 
   return (
     <CheckoutLayout
       key={refreshKey}
-      step={step}
+      step={curStep!.step}
       steps={steps}
       loading={loading}
-      backLink={PAGES.checkout.shipping}
+      backLink={curStep!.prev}
       onSubmit={onSubmit}
       completeStep={2}>
       <div className="form-wrap">

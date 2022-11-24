@@ -2,8 +2,7 @@ import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useElements, useStripe } from '@stripe/react-stripe-js'
 
-import { useAuth, useCurrency, usePayment } from '@/hooks'
-import { PAGES, CHECKOUT_STEPS } from '@/constants'
+import { useAuth, useCurrency, usePayment, useCheckout } from '@/hooks'
 import CheckoutLayout from '../checkoutLayout'
 import PaymentStatus from './paymentStatus'
 import OrderSummary from './orderSummary'
@@ -11,14 +10,18 @@ import PaymentButtons from './paymentButtons'
 import PayWithCard from './payWithCard'
 import ApplyCoupon from './applyCoupon'
 
-const step = 4
-
 const ReviewAndPay: React.FC = () => {
   const { cart } = useAuth()
+  const { checkoutSteps } = useCheckout()
   const { currentCurrency } = useCurrency()
   const router = useRouter()
   const stripe = useStripe()
   const stripeElements = useElements()
+
+  const curStep = useMemo(
+    () => checkoutSteps.steps.find((s) => s.id === 'review_and_pay'),
+    [checkoutSteps.steps],
+  )
 
   const {
     cardName,
@@ -46,27 +49,27 @@ const ReviewAndPay: React.FC = () => {
     billingAddressState: cart?.billingAddress?.state,
     callback: (isSuccess?: boolean) => {
       if (isSuccess) {
-        router.push(PAGES.checkout.thankYou)
+        router.push(curStep!.next)
       }
     },
   })
 
   const steps = useMemo(
     () =>
-      CHECKOUT_STEPS.steps.map((s) => ({
+      checkoutSteps.steps.map((s) => ({
         ...s,
         fieldsCount: 2,
         completedFields: cardName ? 2 : 0,
       })),
-    [cardName],
+    [cardName, checkoutSteps.steps],
   )
 
   return (
     <CheckoutLayout
-      step={step}
+      step={curStep!.step}
       steps={steps}
       loading={loading}
-      backLink={PAGES.checkout.deliveryMethod}
+      backLink={curStep!.prev}
       nextButtonText="Checkout"
       disableSubmit={submitDisabled}
       onSubmit={onSubmit}
