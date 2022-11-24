@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { ShippingType, useUpdateCartMutation } from '@/apollo'
-import { useAuth } from '@/hooks'
-import { PAGES, CHECKOUT_STEPS } from '@/constants'
+import { useUpdateCartMutation } from '@/apollo'
+import { useAuth, useCheckout } from '@/hooks'
 import CheckoutLayout from '../checkoutLayout'
 import Header from './header'
 import Services from './services'
@@ -11,24 +10,16 @@ import Methods from './methods'
 import ExpeditingService from './expeditingService'
 import ExpeditingServiceQuestions from './expeditingServiceQuestions'
 
-const step = 1
-
 const DeliveryMethod: React.FC = () => {
   const router = useRouter()
   const { me, cart, updateMe } = useAuth()
+  const { shippingType, checkoutSteps, onChangeShippingType } = useCheckout()
   const [loading, setLoading] = useState<boolean>(false)
-  const [shippingType, setShippingType] = useState<ShippingType>(
-    cart?.shippingType ?? ShippingType.From3To6,
-  )
   const [isExpediting, setIsExpediting] = useState<boolean | undefined>()
   const [expeditingAnswers, setExpeditingAnswers] = useState<
     Record<string, string> | undefined
   >()
   const [updateCart] = useUpdateCartMutation()
-
-  useEffect(() => {
-    setShippingType(cart?.shippingType ?? ShippingType.From3To6)
-  }, [cart])
 
   useEffect(() => {
     if (isExpediting !== undefined || me?.country !== 'US') return
@@ -41,6 +32,11 @@ const DeliveryMethod: React.FC = () => {
 
     setExpeditingAnswers(JSON.parse(cart?.expeditingService || '{}'))
   }, [cart?.expeditingService, expeditingAnswers, isExpediting])
+
+  const curStep = useMemo(
+    () => checkoutSteps.steps.find((s) => s.id === 'delivery_method'),
+    [checkoutSteps.steps],
+  )
 
   const onSubmit = useCallback(async () => {
     setLoading(true)
@@ -58,9 +54,10 @@ const DeliveryMethod: React.FC = () => {
     const _cart = data?.UpdateCart.data
     if (_cart) {
       updateMe({ cart: _cart })
-      await router.push(PAGES.checkout.shipping)
+      await router.push(curStep!.next)
     }
   }, [
+    curStep,
     expeditingAnswers,
     isExpediting,
     router,
@@ -75,10 +72,10 @@ const DeliveryMethod: React.FC = () => {
 
   return (
     <CheckoutLayout
-      step={step}
-      steps={CHECKOUT_STEPS.steps}
+      step={curStep!.step}
+      steps={checkoutSteps.steps}
       loading={loading}
-      backLink={PAGES.cart}
+      backLink={curStep!.prev}
       onSubmit={onSubmit}
       completeStep={0}>
       <div className="form-wrap">
@@ -87,14 +84,14 @@ const DeliveryMethod: React.FC = () => {
         )}
         <Header
           shippingType={shippingType}
-          onChangeShippingType={setShippingType}
+          onChangeShippingType={onChangeShippingType}
         />
         <div className="shipping-data">
           <ol>
             <Services shippingType={shippingType} />
             <Methods
               shippingType={shippingType}
-              onChangeShippingType={setShippingType}
+              onChangeShippingType={onChangeShippingType}
             />
           </ol>
         </div>

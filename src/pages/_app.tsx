@@ -12,6 +12,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from '@/i18n'
 import SignIn from '@/modules/auth/signIn'
 import SignUp from '@/modules/auth/signUp'
+import { CheckoutContextProvider } from '@/modules/checkout/checkoutContext'
 import GoogledAdsScript from '@/scripts/googleAds'
 import GoogledAnalyticsScript from '@/scripts/googleAnalytics'
 import FacebookPixelScript from '@/scripts/fbPixel'
@@ -49,17 +50,19 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <LocationProvider>
                   <CurrencyProvider>
                     <ProductsProvider>
-                      <Head>
-                        <meta
-                          name="viewport"
-                          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-                        />
-                        <title>Passport Photos</title>
-                      </Head>
-                      <SignIn />
-                      <SignUp />
-                      <Component {...pageProps} />
-                      <ToastContainer />
+                      <CheckoutContextProvider>
+                        <Head>
+                          <meta
+                            name="viewport"
+                            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+                          />
+                          <title>Passport Photos</title>
+                        </Head>
+                        <SignIn />
+                        <SignUp />
+                        <Component {...pageProps} />
+                        <ToastContainer />
+                      </CheckoutContextProvider>
                     </ProductsProvider>
                   </CurrencyProvider>
                 </LocationProvider>
