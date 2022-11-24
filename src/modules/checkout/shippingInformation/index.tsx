@@ -26,7 +26,7 @@ const ShippingInformation: React.FC = () => {
     onSubmit,
   } = useSetShippingInfo({
     onSubmitted: () => {
-      router.push(curStep!.next)
+      router.push(curStep!.next!)
     },
   })
 

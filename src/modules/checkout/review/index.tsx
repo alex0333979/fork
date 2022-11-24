@@ -49,7 +49,7 @@ const ReviewAndPay: React.FC = () => {
     billingAddressState: cart?.billingAddress?.state,
     callback: (isSuccess?: boolean) => {
       if (isSuccess) {
-        router.push(curStep!.next)
+        router.push(curStep!.next!)
       }
     },
   })
