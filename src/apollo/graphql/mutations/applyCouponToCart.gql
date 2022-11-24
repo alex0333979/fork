@@ -1,0 +1,9 @@
+mutation ApplyCouponToCart($coupon: String!) {
+  ApplyCouponToCart(coupon: $coupon) {
+    message
+    status
+    data {
+        ...Cart
+    }
+  }
+}

@@ -64,6 +64,7 @@ export type BillingAddressResponse = {
 export type Cart = {
   __typename?: 'Cart';
   billingAddress?: Maybe<BillingAddress>;
+  coupon?: Maybe<CouponType>;
   defaultCurrency?: Maybe<Currency>;
   expeditingService?: Maybe<Scalars['String']>;
   items?: Maybe<Array<CartItem>>;
@@ -184,6 +185,11 @@ export type Country = {
   id?: Maybe<Scalars['Int']>;
   type?: Maybe<Scalars['String']>;
 };
+
+export enum CouponType {
+  Mg33Sl = 'MG33Sl',
+  Tvp13Rzggh3 = 'TVP13RZGGH3'
+}
 
 export type CurrenciesResponse = {
   __typename?: 'CurrenciesResponse';
@@ -348,6 +354,7 @@ export type FormStepInput = {
 };
 
 export enum FulfillmentCenter {
+  Ca = 'CA',
   Europe = 'Europe',
   Us = 'US',
   Us2 = 'US2'
@@ -367,6 +374,7 @@ export type Mutation = {
   AddOneClickInfo: CartResponse;
   AddPromoCodeToCart: CartResponse;
   AddShippingAddressToCart: CartResponse;
+  ApplyCouponToCart: CartResponse;
   CheckPhoto: CheckPhotoResponse;
   ClearCart: CartResponse;
   ConfirmChecklist: ChecklistResponse;
@@ -426,6 +434,11 @@ export type MutationAddPromoCodeToCartArgs = {
 
 export type MutationAddShippingAddressToCartArgs = {
   shippingAddress: ShippingAddressInput;
+};
+
+
+export type MutationApplyCouponToCartArgs = {
+  coupon: Scalars['String'];
 };
 
 
@@ -604,6 +617,7 @@ export type OptionInput = {
 export type Order = {
   __typename?: 'Order';
   billingAddress: BillingAddress;
+  coupon?: Maybe<CouponType>;
   createdAt: Scalars['DateTime'];
   currency?: Maybe<Currency>;
   expeditingService?: Maybe<Scalars['String']>;

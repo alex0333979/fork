@@ -1,3 +1,4 @@
+import { CouponType } from '@/apollo'
 import { ProcessStepsProps } from '@/components/elements/processStep'
 
 import { PAGES } from './pages'
@@ -28,4 +29,13 @@ export const CHECKOUT_STEPS: ProcessStepsProps = {
       link: PAGES.checkout.review,
     },
   ],
+}
+
+export const COUPON_VALUES = {
+  [CouponType.Mg33Sl]: {
+    percentage: 15,
+  },
+  [CouponType.Tvp13Rzggh3]: {
+    percentage: 23.3,
+  },
 }

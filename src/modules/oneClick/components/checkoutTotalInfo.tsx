@@ -5,10 +5,11 @@ import { useCurrency } from '@/hooks'
 
 interface Props {
   subtotal: number
+  discount: number
   total: number
 }
 
-const CheckoutTotalInfo: React.FC<Props> = ({ subtotal, total }) => {
+const CheckoutTotalInfo: React.FC<Props> = ({ subtotal, discount, total }) => {
   const { t } = useTranslation()
   const { currentCurrency } = useCurrency()
 
@@ -25,6 +26,17 @@ const CheckoutTotalInfo: React.FC<Props> = ({ subtotal, total }) => {
               })}
             </td>
           </tr>
+          {discount > 0 && (
+            <tr className="discount-value">
+              <td>Discount:</td>
+              <td>
+                {t('currency', {
+                  value: -discount,
+                  currency: currentCurrency.label,
+                })}
+              </td>
+            </tr>
+          )}
         </tbody>
         <tfoot>
           <tr>

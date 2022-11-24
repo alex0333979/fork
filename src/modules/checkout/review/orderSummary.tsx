@@ -11,6 +11,7 @@ interface Props {
   shippingPrice: number
   subTotal: number
   total: number
+  discount: number
   tax: number
 }
 
@@ -20,6 +21,7 @@ const OrderSummary: React.FC<Props> = ({
   shippingPrice,
   subTotal,
   total,
+  discount,
   tax,
 }) => {
   const { t } = useTranslation()
@@ -124,6 +126,17 @@ const OrderSummary: React.FC<Props> = ({
               })}
             </p>
           </div>
+          {discount > 0 && (
+            <div className="name discount-value">
+              <h3>Discount</h3>
+              <p>
+                {t('currency', {
+                  value: -discount,
+                  currency: currency.label,
+                })}
+              </p>
+            </div>
+          )}
           <div className="name">
             <h3>Subtotal Cost</h3>
             <p>

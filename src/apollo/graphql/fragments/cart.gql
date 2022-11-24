@@ -15,4 +15,5 @@ fragment Cart on Cart {
   shippingType
   remarks
   expeditingService
+  coupon
 }
