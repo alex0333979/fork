@@ -496,3 +496,12 @@ ul.check-mark {
 .discount-value * {
   color: var(--burnt-sienna) !important;
 }
+
+.form-fields .group .group-select.open {
+  z-index: 5;
+  .option {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
