@@ -22,7 +22,7 @@ import {
 } from '@/apollo'
 import { useProducts, useLocation, useCurrency, useAuth } from '@/hooks'
 import { Maybe, ValidationError } from '@/types'
-import { showError, showSuccess, humanize } from '@/utils'
+import { showError, showSuccess, humanize, applyCouponToPrice } from '@/utils'
 import { TEMP_ORDER_NUM, shippingTypes } from '@/constants'
 
 interface IUsePayment {
@@ -46,7 +46,7 @@ export const usePayment = ({
   const { getProduct } = useProducts()
   const { country } = useLocation()
   const { currentCurrency } = useCurrency()
-  const { updateMe } = useAuth()
+  const { cart, updateMe } = useAuth()
 
   const [newOrder, setNewOrder] = useState<Order | undefined>()
   const [cardName, setCardName] = useState<string>('')
@@ -79,8 +79,8 @@ export const usePayment = ({
     return product?.price || 0
   }, [shippingType, getProduct])
 
-  const subTotal = useMemo(
-    () =>
+  const [subTotal, discount] = useMemo(() => {
+    const sum =
       (items
         .filter((i) => i.isComplete)
         .reduce((a, { productSku }) => {
@@ -88,9 +88,10 @@ export const usePayment = ({
           return a + (product?.price || 0)
         }, 0) ?? 0) +
       conciergePrice +
-      shippingPrice,
-    [conciergePrice, getProduct, items, shippingPrice],
-  )
+      shippingPrice
+
+    return applyCouponToPrice(sum, cart?.coupon)
+  }, [cart?.coupon, conciergePrice, getProduct, items, shippingPrice])
 
   const tax = useMemo(() => {
     if (billingAddressState === 'NY') {
@@ -399,6 +400,7 @@ export const usePayment = ({
     shippingPrice,
     subTotal,
     total,
+    discount,
     tax,
     paymentRequest,
     error,

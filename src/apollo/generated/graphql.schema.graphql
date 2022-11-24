@@ -45,6 +45,7 @@ type BillingAddressResponse {
 
 type Cart {
   billingAddress: BillingAddress
+  coupon: CouponType
   defaultCurrency: Currency
   expeditingService: String
   items: [CartItem!]
@@ -158,6 +159,11 @@ type Country {
   countryCode: String
   id: Int
   type: String
+}
+
+enum CouponType {
+  MG33Sl
+  TVP13RZGGH3
 }
 
 type CurrenciesResponse {
@@ -317,6 +323,7 @@ input FormStepInput {
 }
 
 enum FulfillmentCenter {
+  CA
   Europe
   US
   US2
@@ -334,6 +341,7 @@ type Mutation {
   AddOneClickInfo(input: OneClickInfoInput!): CartResponse!
   AddPromoCodeToCart(promoCode: String!): CartResponse!
   AddShippingAddressToCart(shippingAddress: ShippingAddressInput!): CartResponse!
+  ApplyCouponToCart(coupon: String!): CartResponse!
   CheckPhoto(entryId: String!, imageResolution: String!, userAgent: String!): CheckPhotoResponse!
   ClearCart: CartResponse!
   ConfirmChecklist(input: ChecklistInput!, orderNumber: Float!): ChecklistResponse!
@@ -393,6 +401,7 @@ input OptionInput {
 
 type Order {
   billingAddress: BillingAddress!
+  coupon: CouponType
   createdAt: DateTime!
   currency: Currency
   expeditingService: String

@@ -472,3 +472,27 @@ ul.check-mark {
     }
   }
 }
+
+.coupon-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+
+  label {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+  }
+  .next-btn {
+    button {
+      height: 47px;
+      min-height: unset;
+      min-width: 100px;  
+    }
+  }
+}
+
+.discount-value * {
+  color: var(--burnt-sienna) !important;
+}

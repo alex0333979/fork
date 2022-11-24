@@ -20,6 +20,7 @@ fragment Order on Order {
   shippingType
   trackingNumber
   fulfillmentFires
+  coupon
   createdAt
   updatedAt
 }

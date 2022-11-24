@@ -18,9 +18,10 @@ export type BillingAddressResponseFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CartKeySpecifier = ('billingAddress' | 'defaultCurrency' | 'expeditingService' | 'items' | 'promoCode' | 'remarks' | 'shippingAddress' | 'shippingType' | CartKeySpecifier)[];
+export type CartKeySpecifier = ('billingAddress' | 'coupon' | 'defaultCurrency' | 'expeditingService' | 'items' | 'promoCode' | 'remarks' | 'shippingAddress' | 'shippingType' | CartKeySpecifier)[];
 export type CartFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
+	coupon?: FieldPolicy<any> | FieldReadFunction<any>,
 	defaultCurrency?: FieldPolicy<any> | FieldReadFunction<any>,
 	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -180,7 +181,7 @@ export type HeadFieldPolicy = {
 	Dimensions?: FieldPolicy<any> | FieldReadFunction<any>,
 	position?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('AddAddressToCart' | 'AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCart' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderDetail' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('AddAddressToCart' | 'AddBillingAddressToCart' | 'AddItemsToCart' | 'AddOneClickInfo' | 'AddPromoCodeToCart' | 'AddShippingAddressToCart' | 'ApplyCouponToCart' | 'CheckPhoto' | 'ClearCart' | 'ConfirmChecklist' | 'CreateGuest' | 'CreateOrder' | 'DeleteOrder' | 'GetPaymentIntent' | 'Login' | 'RemoveItemsFromCart' | 'SendEmailToAdmin' | 'SendOTP' | 'SendOrderConfirmToFulfillmentManually' | 'SendOrderConfirmToUserManually' | 'SendOrderEditRequest' | 'SetDefaultBillingAddress' | 'SetDefaultCurrency' | 'SetDefaultShippingAddress' | 'SetShippingTypeToCart' | 'SetTrackingNumber' | 'SignUp' | 'SubmitEntry' | 'UpdateCart' | 'UpdateCartItemPrice' | 'UpdateEntryPhoto' | 'UpdateOrderDetail' | 'UpdateOrderPhoto' | 'UpdateOrderStatus' | 'VerifyOTP' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	AddAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddBillingAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -188,6 +189,7 @@ export type MutationFieldPolicy = {
 	AddOneClickInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddPromoCodeToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	AddShippingAddressToCart?: FieldPolicy<any> | FieldReadFunction<any>,
+	ApplyCouponToCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	CheckPhoto?: FieldPolicy<any> | FieldReadFunction<any>,
 	ClearCart?: FieldPolicy<any> | FieldReadFunction<any>,
 	ConfirmChecklist?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -223,9 +225,10 @@ export type OptionFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderKeySpecifier = ('billingAddress' | 'createdAt' | 'currency' | 'expeditingService' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
+export type OrderKeySpecifier = ('billingAddress' | 'coupon' | 'createdAt' | 'currency' | 'expeditingService' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
 export type OrderFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
+	coupon?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	currency?: FieldPolicy<any> | FieldReadFunction<any>,
 	expeditingService?: FieldPolicy<any> | FieldReadFunction<any>,

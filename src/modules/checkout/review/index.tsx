@@ -9,6 +9,7 @@ import PaymentStatus from './paymentStatus'
 import OrderSummary from './orderSummary'
 import PaymentButtons from './paymentButtons'
 import PayWithCard from './payWithCard'
+import ApplyCoupon from './applyCoupon'
 
 const step = 4
 
@@ -26,6 +27,7 @@ const ReviewAndPay: React.FC = () => {
     shippingPrice,
     subTotal,
     total,
+    discount,
     tax,
     paymentRequest,
     error,
@@ -82,8 +84,10 @@ const ReviewAndPay: React.FC = () => {
           shippingPrice={shippingPrice || 0}
           subTotal={subTotal || 0}
           total={total || 0}
+          discount={discount}
           tax={tax || 0}
         />
+        <ApplyCoupon cartCoupon={cart?.coupon} />
         {!!paymentRequest && <PaymentButtons paymentRequest={paymentRequest} />}
 
         <PayWithCard

@@ -56,6 +56,7 @@ const CheckoutForm: React.FC<Props> = ({
     payment,
     subTotal,
     total,
+    discount,
     paymentRequest,
     error: paymentError,
     stripeFocus,
@@ -204,7 +205,11 @@ const CheckoutForm: React.FC<Props> = ({
         onChangeError={onSetError}
         onInputChange={onInputChange}
       />
-      <CheckoutTotalInfo subtotal={subTotal} total={total} />
+      <CheckoutTotalInfo
+        subtotal={subTotal}
+        discount={discount}
+        total={total}
+      />
     </OneClickCheckoutLayout>
   )
 }
