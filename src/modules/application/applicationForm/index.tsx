@@ -46,10 +46,8 @@ const ApplicationForm: React.FC<FormProps> = ({ forms, entry, step }) => {
   }, [step])
 
   useEffect(() => {
-    if (!formStep) {
-      setFormStep(entry.form.steps.find((s) => s.step === step))
-    }
-  }, [entry.form.steps, formStep, step])
+    setFormStep(entry.form.steps.find((s) => s.step === step))
+  }, [entry.form.steps, step])
 
   const process: ProcessStepsProps = useMemo(() => {
     const getFields = (s: FormStep) => {
