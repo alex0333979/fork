@@ -16,7 +16,7 @@ import { IncomingMessage } from 'http'
 import isEqual from 'lodash/isEqual'
 
 import { showError } from '@/utils'
-import { COOKIES_TOKEN_NAME, APOLLO_STATE_PROP_NAME } from '@/constants'
+import { COOKIES_TOKEN_NAME, APOLLO_STATE_PROP_NAME, SOURCE } from '@/constants'
 
 const getToken = (req?: IncomingMessage) => {
   const parsedCookie = cookie.parse(
@@ -41,14 +41,13 @@ const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   const authLink = setContext((_, { headers }) => {
     // get token from cookie
     const token = getToken(ctx?.req)
-    const domain = typeof window !== 'undefined' ? window.location.host : ctx?.req?.headers?.host
 
     // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,
         Authorization: token ? `Bearer ${token}` : '',
-        domain,
+        source: SOURCE,
       },
     }
   })

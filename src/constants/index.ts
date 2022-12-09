@@ -9,6 +9,7 @@ export const TEMP_ORDER_NUM = '@n'
 export const COOKIES_EDIT_ORDER_TOKEN_NAME = 'EOtoken'
 export const LANGUAGE_COOKIE_NAME = '@lang'
 export const ROUTE_COOKIE_NAME = '@nextUrl'
+export const SOURCE = 'passportphotos.com'
 
 export * from './blogs'
 export * from './checkout'
