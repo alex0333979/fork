@@ -22,19 +22,7 @@ const ApplicationModal: React.FC<Props> = ({
         <div className="text">
           <div className="title">
             <h3>
-              Complete Your Passport Application DS-82 / DS-11 Form Online
-              Today.
-              <br />
-              <br /> It&apos;s Completely
-              <span
-                style={{
-                  textDecoration: 'underline',
-                  marginLeft: '16px',
-                  fontWeight: 'normal',
-                  color: 'var(--black)',
-                }}>
-                FREE
-              </span>
+              Save time, complete your passport application from online now (avg. time: 2.5 mins)
             </h3>
           </div>
           <div className="btn-wrap">
@@ -56,7 +44,7 @@ const ApplicationModal: React.FC<Props> = ({
           <span>
             <Link href={`${PAGES.application.create}?t=ds-82`}>
               <Image
-                src="/images/app-ds-82.png"
+                src="/images/ds82.jpeg"
                 width={251}
                 height={372}
                 alt=""
@@ -66,7 +54,7 @@ const ApplicationModal: React.FC<Props> = ({
           <span>
             <Link href={`${PAGES.application.create}?t=ds-11`}>
               <Image
-                src="/images/app-ds-11.png"
+                src="/images/ds11.png"
                 width={251}
                 height={372}
                 alt=""
