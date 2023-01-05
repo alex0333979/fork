@@ -206,6 +206,7 @@ export type Currency = {
 };
 
 export enum CurrencyCode {
+  Ca = 'ca',
   Eu = 'eu',
   Gb = 'gb',
   Us = 'us'
@@ -218,6 +219,7 @@ export type CurrencyInput = {
 };
 
 export enum CurrencyType {
+  Cad = 'CAD',
   Eur = 'EUR',
   Gbp = 'GBP',
   Usd = 'USD'
@@ -632,6 +634,7 @@ export type Order = {
   shippingAddress?: Maybe<ShippingAddress>;
   shippingType: ShippingType;
   skus?: Maybe<Array<Scalars['String']>>;
+  source?: Maybe<Scalars['String']>;
   status: OrderTrack;
   totalPrice: Scalars['Float'];
   trackingNumber?: Maybe<Scalars['String']>;

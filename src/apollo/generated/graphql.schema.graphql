@@ -179,6 +179,7 @@ type Currency {
 }
 
 enum CurrencyCode {
+  ca
   eu
   gb
   us
@@ -191,6 +192,7 @@ input CurrencyInput {
 }
 
 enum CurrencyType {
+  CAD
   EUR
   GBP
   USD
@@ -416,6 +418,7 @@ type Order {
   shippingAddress: ShippingAddress
   shippingType: ShippingType!
   skus: [String!]
+  source: String
   status: OrderTrack!
   totalPrice: Float!
   trackingNumber: String

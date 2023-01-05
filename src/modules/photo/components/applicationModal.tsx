@@ -22,7 +22,8 @@ const ApplicationModal: React.FC<Props> = ({
         <div className="text">
           <div className="title">
             <h3>
-              Save time, complete your passport application from online now (avg. time: 2.5 mins)
+              Save time, complete your passport application from online now
+              (avg. time: 2.5 mins)
             </h3>
           </div>
           <div className="btn-wrap">
@@ -43,22 +44,12 @@ const ApplicationModal: React.FC<Props> = ({
         <div className="img application-imgs">
           <span>
             <Link href={`${PAGES.application.create}?t=ds-82`}>
-              <Image
-                src="/images/ds82.jpeg"
-                width={251}
-                height={372}
-                alt=""
-              />
+              <Image src="/images/ds82.jpeg" width={251} height={372} alt="" />
             </Link>
           </span>
           <span>
             <Link href={`${PAGES.application.create}?t=ds-11`}>
-              <Image
-                src="/images/ds11.png"
-                width={251}
-                height={372}
-                alt=""
-              />
+              <Image src="/images/ds11.png" width={251} height={372} alt="" />
             </Link>
           </span>
         </div>

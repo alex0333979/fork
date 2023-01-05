@@ -95,6 +95,8 @@ const LanguageCurrencySelector: React.FC<{ wrapperClass?: string }> = ({
       label = 'Euro'
     } else if (code === CurrencyCode.Gb) {
       label = 'Pound Sterling'
+    } else if (code === CurrencyCode.Ca) {
+      label = 'Canada Dollar'
     }
 
     return label

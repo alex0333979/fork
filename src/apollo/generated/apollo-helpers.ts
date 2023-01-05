@@ -225,7 +225,7 @@ export type OptionFieldPolicy = {
 	text?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type OrderKeySpecifier = ('billingAddress' | 'coupon' | 'createdAt' | 'currency' | 'expeditingService' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
+export type OrderKeySpecifier = ('billingAddress' | 'coupon' | 'createdAt' | 'currency' | 'expeditingService' | 'fulfillmentFires' | 'id' | 'items' | 'orderNumber' | 'paymentStatus' | 'promoCode' | 'remarks' | 'shipStation' | 'shippingAddress' | 'shippingType' | 'skus' | 'source' | 'status' | 'totalPrice' | 'trackingNumber' | 'updatedAt' | 'userId' | OrderKeySpecifier)[];
 export type OrderFieldPolicy = {
 	billingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	coupon?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -243,6 +243,7 @@ export type OrderFieldPolicy = {
 	shippingAddress?: FieldPolicy<any> | FieldReadFunction<any>,
 	shippingType?: FieldPolicy<any> | FieldReadFunction<any>,
 	skus?: FieldPolicy<any> | FieldReadFunction<any>,
+	source?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalPrice?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackingNumber?: FieldPolicy<any> | FieldReadFunction<any>,
