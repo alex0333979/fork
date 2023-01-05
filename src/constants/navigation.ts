@@ -1,3 +1,5 @@
+import ExtraPath from "@/pages/[country]/[documentType]/[extraPath]"
+
 export const PRIVATE_ROUTES = ['/photo/edit-photo']
 
 export const ExtraPathMap = {
@@ -11,6 +13,8 @@ export const ExtraPathMap = {
   PrintMyPassportPhotoAtCvs: 'print-my-passport-photo-at-cvs',
   PrintMyPassportPhotoAtWalgreens: 'print-my-passport-photo-at-walgreens',
   PassportPhotosNearMe: 'passport-photos-near-me',
+  CanadianPassportAtHome: 'canadian-passport-at-home',
+  CanadianPassportPhoto: 'canadian-passport-photo'
 }
 
 export const AvailablePath: {
@@ -39,4 +43,10 @@ export const AvailablePath: {
       ExtraPathMap.PassportPhotoApp,
     ],
   },
+  'canada': {
+    passport: [
+      ExtraPathMap.CanadianPassportAtHome,
+      ExtraPathMap.CanadianPassportPhoto
+    ]
+  }
 }

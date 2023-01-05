@@ -791,6 +791,42 @@ export const HomepageContent: Record<
       'digital passport photos near me',
     ],
   },
+  [ExtraPathMap.CanadianPassportAtHome]: {
+    title:
+      "Where Do I Get a Passport Photo Near Me? Take a Selfie and You're Almost Done",
+    description: (
+      <>
+        - Take the perfect passport photo with guaranteed US Department of State
+        acceptance.
+        <br />
+        - You don&apos;t need to go anywhere to get the perfect passport photo.
+        <br />- You&apos;ll be able to download the file and send it anywhere to
+        be printed or we can print and ship it directly to you.
+      </>
+    ),
+    seo: [
+      'passport photos near me',
+      'passport picture near me',
+      'digital passport photos near me',
+    ],
+  },
+  [ExtraPathMap.CanadianPassportPhoto]: {
+    title:
+      "Take Your Passport Photo at Home, With Your Cell Phone",
+    description: (
+      <>
+        From home or virtually anywhere, take your passport photo with your cell phone. <br />
+        We've made it easy. <br />
+        Our software makes sure it’s verified and your’ll receive it ready for your application. 
+      </>
+    ),
+    seo: [
+      'passport photos near me',
+      'passport picture near me',
+      'digital passport photos near me',
+    ],
+
+  }
 }
 
 export const Faqs: Record<string, IFAQ[]> = {
