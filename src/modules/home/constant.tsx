@@ -811,13 +811,14 @@ export const HomepageContent: Record<
     ],
   },
   [ExtraPathMap.CanadianPassportPhoto]: {
-    title:
-      "Take Your Passport Photo at Home, With Your Cell Phone",
+    title: 'Take Your Passport Photo at Home, With Your Cell Phone',
     description: (
       <>
-        From home or virtually anywhere, take your passport photo with your cell phone. <br />
-        We've made it easy. <br />
-        Our software makes sure it’s verified and your’ll receive it ready for your application. 
+        From home or virtually anywhere, take your passport photo with your cell
+        phone. <br />
+        We&apos;ve made it easy. <br />
+        Our software makes sure it’s verified and your’ll receive it ready for
+        your application.
       </>
     ),
     seo: [
@@ -825,8 +826,7 @@ export const HomepageContent: Record<
       'passport picture near me',
       'digital passport photos near me',
     ],
-
-  }
+  },
 }
 
 export const Faqs: Record<string, IFAQ[]> = {

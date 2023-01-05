@@ -59,6 +59,10 @@ const HomePage: NextPage<HomePageProps> = ({
         _title = HomepageContent[`${extraPath}-gb`].title
         _desc = HomepageContent[`${extraPath}-gb`].description
         _seo = HomepageContent[`${extraPath}-gb`].seo || []
+      } else if (country?.countryCode === 'CA') {
+        _title = HomepageContent[extraPath].title
+        _desc = HomepageContent[extraPath].description
+        _seo = HomepageContent[extraPath].seo || []
       }
     } else {
       if (country && document) {
