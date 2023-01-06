@@ -79,9 +79,9 @@ const DeliveryMethod: React.FC = () => {
       onSubmit={onSubmit}
       completeStep={0}>
       <div className="form-wrap">
-        {me?.country === 'US' && (
-          <div className="checkout-element-title">Choose Delivery Method</div>
-        )}
+        <div className="shipping-title">
+          <h3 className="checkout-element-title">Choose Delivery Method</h3>
+        </div>
         <Header
           shippingType={shippingType}
           onChangeShippingType={onChangeShippingType}

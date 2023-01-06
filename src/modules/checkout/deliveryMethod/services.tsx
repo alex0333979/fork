@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useProducts } from '@/hooks'
+import { useProducts, useAuth } from '@/hooks'
 import { ShippingType, ProductSku } from '@/apollo'
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 
 const Services: React.FC<Props> = ({ shippingType }) => {
   const { t } = useTranslation()
+  const { me } = useAuth()
   const { getProduct } = useProducts()
 
   const printPrice = useMemo(
@@ -22,6 +24,27 @@ const Services: React.FC<Props> = ({ shippingType }) => {
       shippingType === ShippingType.NoShipping ? 0 : printPrice?.price || 0,
     [printPrice?.price, shippingType],
   )
+
+  const serviceDesc = useMemo(() => {
+    const defaultDesc: any[] = [
+      'We print and ship your photos on a premium glossy photo paper (along with other official documents)',
+      '1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)',
+      'Additional photo expert Review to ensure biometric requirements',
+    ]
+    if (me?.country === 'CA') {
+      defaultDesc[0] = (
+        <>
+          Our studio prints and ships your photos on premium glossy photo paper.
+          <br />
+          <b>For Canadian passport</b> our studio will{' '}
+          <u>stamp the back of your photo</u> and add the date and it’s address
+          as required
+        </>
+      )
+    }
+
+    return defaultDesc
+  }, [me?.country])
 
   return (
     <>
@@ -73,17 +96,9 @@ const Services: React.FC<Props> = ({ shippingType }) => {
             </>
           ) : (
             <ul className="checked">
-              <li>
-                We print and ship your photos on a premium glossy photo paper
-                (along with other official documents)
-              </li>
-              <li>
-                1 Digital photo for official website submission + a &quot;ready
-                to print&quot; template to print at a local printer (store/home)
-              </li>
-              <li>
-                Additional photo expert Review to ensure biometric requirements
-              </li>
+              {serviceDesc.map((desc: any, index: number) => (
+                <li key={index}>{desc}</li>
+              ))}
             </ul>
           )}
         </div>

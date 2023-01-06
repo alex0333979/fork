@@ -1,19 +1,23 @@
 import React from 'react'
 
 import { ShippingType } from '@/apollo'
+import { useAuth } from '@/hooks'
 
 interface Props {
   shippingType: ShippingType
   onChangeShippingType: (s: ShippingType) => void
 }
 
-const Header: React.FC<Props> = ({ shippingType, onChangeShippingType }) => (
-  <>
+const Header: React.FC<Props> = ({ shippingType, onChangeShippingType }) => {
+  const { me } = useAuth()
+
+  return (
     <div className="switcher-box">
       <label>
         <input
           type="checkbox"
           checked={shippingType !== ShippingType.NoShipping}
+          disabled={me?.country === 'CA'}
           onChange={(e) =>
             onChangeShippingType(
               e.target.checked
@@ -25,16 +29,19 @@ const Header: React.FC<Props> = ({ shippingType, onChangeShippingType }) => (
         <span className="box-wrap">
           <span className="option">Digital Photo (Only)</span>
           <span className="slider" />
-          <span className="option" data-status="Recommended">
-            <b>Print & Ship To My Address</b>
+          <span className="option">
+            <b>Print & Ship Studio Service Cost</b>
+            <div className="d-flex">
+              Ship to My Address
+              <span className="mx-1" style={{ color: `var(--jungle-green)` }}>
+                (Recommended)
+              </span>
+            </div>
           </span>
         </span>
       </label>
     </div>
-    <div className="shipping-title">
-      <h3>Choose delivery Method</h3>
-    </div>
-  </>
-)
+  )
+}
 
 export default Header

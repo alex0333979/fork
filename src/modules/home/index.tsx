@@ -62,6 +62,7 @@ const Home: React.FC<HomePageProps> = ({
       />
       <WorkingProcess
         ref={ref}
+        extraPath={extraPath}
         onEndRunning={() => setRunning(false)}
         onStartNow={onStartNow}
       />

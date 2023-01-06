@@ -5,37 +5,14 @@ import React, {
   useCallback,
   useState,
   useRef,
+  useMemo,
   useImperativeHandle,
 } from 'react'
 import Image from 'next/image'
 import { scrollToTop } from '@/utils'
-
-const PROCESS_DATA = [
-  {
-    label: 'Take your photo',
-    description: <p>{`Take or Upload a Photo With Your Mobile or PC`}</p>,
-  },
-  {
-    label: 'AI Software Photo Scan',
-    description: (
-      <p>{`Our Biometric Software Will Scan and Verify Your Photo for Government Compliance`}</p>
-    ),
-  },
-  {
-    label: `Photo Compliance`,
-    description: (
-      <p>
-        {`Our Technology Map Your Facial Features and Then Reposition, Size, Crop and Clean Up the Background of Your Shot`}
-      </p>
-    ),
-  },
-  {
-    label: `Delivery`,
-    description: (
-      <p>{`We’ll Then Print and Ship Them to You or You May Print Them at Home`}</p>
-    ),
-  },
-]
+import { IProcessDatum } from '@/types'
+import { ProcessData } from './constant'
+import { ExtraPathMap } from '@/constants'
 
 const initialData = [
   { active: false, past: false, loaded: false, reset: false },
@@ -87,6 +64,7 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
 )
 
 export interface WorkingProcessProps {
+  extraPath?: string | null
   onEndRunning: () => void
   onStartNow: (isOpen?: boolean) => void
 }
@@ -94,7 +72,7 @@ export interface WorkingProcessProps {
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ onEndRunning, onStartNow }, ref) => {
+> = ({ extraPath, onEndRunning, onStartNow }, ref) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -184,6 +162,18 @@ const WorkingProcess: React.ForwardRefRenderFunction<
     [onEndRunning, startProcess],
   )
 
+  const processData: IProcessDatum[] = useMemo(() => {
+    let _processData = ProcessData.default
+    if (
+      extraPath === ExtraPathMap.CanadianPassportAtHome ||
+      extraPath === ExtraPathMap.CanadianPassportPhoto
+    ) {
+      _processData = ProcessData[extraPath]
+    }
+
+    return _processData
+  }, [extraPath])
+
   useImperativeHandle(
     ref,
     () => ({
@@ -206,7 +196,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
             <div className="process-list">
               <div className="list-wrap">
                 <ul>
-                  {PROCESS_DATA.map((process, index) => (
+                  {processData.map((process, index) => (
                     <ProcessItem
                       key={index}
                       label={process.label}

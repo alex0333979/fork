@@ -84,6 +84,9 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     if (country.countryCode?.toLowerCase() === 'gb') {
       return <p>29 mm</p>
     }
+    if (country.countryCode?.toLowerCase() === 'ca') {
+      return <p>31 mm</p>
+    }
 
     return defaultReq
   }, [country.countryCode, extraPath])
@@ -98,6 +101,9 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
       return <p>34 mm</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'ca') {
+      return <p>36 mm</p>
     }
 
     return defaultReq
@@ -120,6 +126,9 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     if (country.countryCode?.toLowerCase() === 'gb') {
       return <p>600 px</p>
     }
+    if (country.countryCode?.toLowerCase() === 'gb') {
+      return <p>600 dpi</p>
+    }
 
     return defaultReq
   }, [country.countryCode, document.head?.position?.min, extraPath])
@@ -134,6 +143,9 @@ const RequirementBox: React.FC<Props> = ({ country, document, extraPath }) => {
     }
     if (country.countryCode?.toLowerCase() === 'gb') {
       return <p>750 px</p>
+    }
+    if (country.countryCode?.toLowerCase() === 'ca') {
+      return <p>1200 dpi</p>
     }
 
     return defaultReq

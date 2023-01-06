@@ -41,6 +41,8 @@ const HomePage: NextPage<HomePageProps> = ({
       countryName = 'US'
     } else if (country?.countryCode?.toLowerCase() === 'gb') {
       countryName = 'UK'
+    } else if (country?.countryCode?.toLowerCase() === 'ca') {
+      countryName = 'Canadian'
     }
 
     let _title = HomepageContent.default.title

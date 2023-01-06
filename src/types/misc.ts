@@ -24,3 +24,8 @@ export enum ProcessingStatus {
   failed = 2,
   notStarted = 3,
 }
+
+export interface IProcessDatum {
+  label: string
+  description: any
+}

@@ -28,6 +28,7 @@ interface ModalContainerProps {
   title?: string
   label?: string
   open: boolean
+  className?: string
   closeModal?: () => void
   children: React.ReactNode
 }
@@ -36,6 +37,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   title,
   label,
   open,
+  className,
   closeModal,
   children,
 }) => (
@@ -60,7 +62,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       <></>
     )}
 
-    <div className="modal-content">{children}</div>
+    <div className={`modal-content ${className || ''}`}>{children}</div>
   </Modal>
 )
 export default ModalContainer

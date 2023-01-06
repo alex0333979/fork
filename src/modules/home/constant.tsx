@@ -1,6 +1,98 @@
 /* eslint-disable max-len */
 import { IFAQ } from './types'
 import { ExtraPathMap } from '@/constants'
+import { IProcessDatum } from '@/types'
+
+export const ProcessData: Record<string, IProcessDatum[]> = {
+  default: [
+    {
+      label: 'Take your photo',
+      description: <p>Take or Upload a Photo With Your Mobile or PC</p>,
+    },
+    {
+      label: 'AI Software Photo Scan',
+      description: (
+        <p>
+          Our Biometric Software Will Scan and Verify Your Photo for Government
+          Compliance
+        </p>
+      ),
+    },
+    {
+      label: `Photo Compliance`,
+      description: (
+        <p>
+          Our Technology Map Your Facial Features and Then Reposition, Size,
+          Crop and Clean Up the Background of Your Shot
+        </p>
+      ),
+    },
+    {
+      label: `Delivery`,
+      description: (
+        <p>
+          We’ll Then Print and Ship Them to You or You May Print Them at Home
+        </p>
+      ),
+    },
+  ],
+  [ExtraPathMap.CanadianPassportAtHome]: [
+    {
+      label: 'Take your photo',
+      description: <p>Take or Upload a Photo With Your Cell Phone or PC</p>,
+    },
+    {
+      label: 'AI Software Photo Scan and Biometric Verification',
+      description: (
+        <p>
+          Our Biometric Software Will Scan and Verify Your Photo for Government
+          Compliance
+        </p>
+      ),
+    },
+    {
+      label: `We will print and stamp your photo, as required`,
+      description: (
+        <p>
+          We will place the required address & date stamp on the back of your
+          photos.
+        </p>
+      ),
+    },
+    {
+      label: `Your Guarantor Signature & Compliance`,
+      description: <p>You will then have your guarantor</p>,
+    },
+  ],
+  [ExtraPathMap.CanadianPassportPhoto]: [
+    {
+      label: 'Take your photo',
+      description: <p>Take or Upload a Photo With Your Cell Phone or PC</p>,
+    },
+    {
+      label: 'AI Software Photo Scan and Biometric Verification',
+      description: (
+        <p>
+          Our Biometric Software Will Scan and Verify Your Photo for Government
+          Compliance
+        </p>
+      ),
+    },
+    {
+      label: `We will print and stamp your photo, as required`,
+      description: (
+        <p>
+          We will place the required address & date stamp on the back of your
+          photos.
+        </p>
+      ),
+    },
+    {
+      label: `Your Guarantor Signature & Compliance`,
+      description: <p>You will then have your guarantor</p>,
+    },
+  ],
+}
 
 const faq2: IFAQ = {
   key: 'faq2',
@@ -662,6 +754,146 @@ const faq7_near_me: IFAQ = {
   ),
 }
 
+const faqCa1: IFAQ = {
+  key: 'faq1',
+  question: 'What are your delivery options? (Home & DIgital Delivery)',
+  answer: (
+    <p>
+      <b>Home Delivery:</b> We offer 2 shipping options with our Print & Ship
+      service, using Canada Post:
+      <br />
+      1. Regular Parcel Shipping Usually 1-6 business days
+      <br />
+      2. Xpresspost Shipping Next Business Day to 2 business days
+      <br />
+      <br />
+      <b>Digital/Email Delivery:</b> With every order our customers will also
+      receive their photos on 2 digital JPG files: one digital file will include
+      the 2/4/6 photos, and another digital file that includes 1 digital photo
+      (usually used for online photo submissions (Visas, etc))
+    </p>
+  ),
+}
+
+const faqCa2: IFAQ = {
+  key: 'faq2',
+  question:
+    'Are you providing a commercial photography studio and do you stamp the back of the passport photo as required?',
+  answer: (
+    <p>
+      Our commercial photography studio will print your photo on a quality
+      glossy photo paper, stamp the back of your photo and and state the
+      following as required:
+      <br />
+      - The date the photo was taken
+      <br />- The name and complete address of our photo studio location in
+      Canada
+    </p>
+  ),
+}
+
+const faqCa3: IFAQ = {
+  key: 'faq3',
+  question: 'Do I need a guarantor to sign the back of my photos?',
+  answer: (
+    <p>
+      If you&apos;re renewing an adult passport, the good news is that you do
+      not need a guarantor to sign any of your photos.
+      <br />
+      <br />
+      For applying to a New Passport (Adult) or for applying to a Child’s
+      Passport - a guarantor is required to sign your photos.
+      <br />
+      The guarantor must do so by doing the following:
+      <br />
+      - Clearly write &quot;I certify this to be a true likeness of
+      (applicant&apos;s or child’s name)&quot; for an application
+      <br />- Sign the back of the photo
+    </p>
+  ),
+}
+
+const faqCa4: IFAQ = {
+  key: 'faq4',
+  question: "What are the guarantor's requirements?",
+  answer: (
+    <p>
+      Your guarantor can be anyone, including a family member or member of your
+      household
+      <br />
+      <br />
+      You don&apos;t need a guarantor if you&apos;re renewing your passport. You
+      only need a guarantor if you&apos;re applying for a passport for the first
+      time or you aren&apos;t eligible to renew your passport.
+      <br />
+      <br />
+      Your Guarantor must:
+      <br />
+      - have known you for at least 2 years
+      <br />
+      - If the guarantor is for your child&apos;s passport, they must have known
+      you for at least 2 years and must know of your child.
+      <br />
+      - be available if we need to contact them
+      <br />
+      - be a Canadian citizen 18 years of age or older
+      <br />
+      - provide the information needed that’s in their passport
+      <br />- have been 16 years of age or older when they applied for their own
+      passport
+      <br />
+      - hold a 5-year or 10-year Canadian passport that, on the day you submit
+      your application, is expired for no more than 1 year, or valid
+      <br />- If you&apos;re the parent or legal guardian that is applying on
+      behalf of a child, you cannot sign as guarantor on the child’s
+      application. However, the other parent or legal guardian (not submitting
+      the application) can sign as long as they meet the requirements
+    </p>
+  ),
+}
+
+const faqCa5: IFAQ = {
+  key: 'faq5',
+  question:
+    "If I can't find a guarantor, what can I do to get my photo approved?",
+  answer: (
+    <p>
+      Complete the Statutory Declaration in Lieu of Guarantor form.
+      <br />
+      <br />
+      Find someone who can administer an oath to swear to and sign the form:
+      <br />
+      - This person doesn&apos;t need to know you personally
+      <br />
+      - If you&apos;re in Canada, this can be a: Notary public, justice of the
+      peace, or commissioner for oaths.
+      <br />- If you&apos;re outside Canada, this can be a: Canadian or British
+      diplomatic or consular representative, or qualified local official, such
+      as a civil servant or member of Parliament
+    </p>
+  ),
+}
+
+const faqCa6: IFAQ = {
+  key: 'faq6',
+  question: 'Statutory Declaration in Lieu of Guarantor Form',
+  answer: (
+    <p>
+      The Statutory Declaration in Lieu of a Guarantor form is not available
+      online.
+      <br />
+      <br />
+      To get the form:
+      <br />
+      - In Canada: Go to the nearest passport service location
+      <br />
+      - In the United States: Go to the nearest Canadian embassy or consulate
+      <br />- Outside Canada and the US: Contact the nearest Canadian embassy or
+      consulate
+    </p>
+  ),
+}
+
 export const HomepageContent: Record<
   string,
   { title: string; description: any; seo?: string[] }
@@ -792,18 +1024,9 @@ export const HomepageContent: Record<
     ],
   },
   [ExtraPathMap.CanadianPassportAtHome]: {
-    title:
-      "Where Do I Get a Passport Photo Near Me? Take a Selfie and You're Almost Done",
-    description: (
-      <>
-        - Take the perfect passport photo with guaranteed US Department of State
-        acceptance.
-        <br />
-        - You don&apos;t need to go anywhere to get the perfect passport photo.
-        <br />- You&apos;ll be able to download the file and send it anywhere to
-        be printed or we can print and ship it directly to you.
-      </>
-    ),
+    title: 'Take Your Passport Photo at Home, With Your Cell Phone',
+    description:
+      "From home or virtually anywhere, take your passport photo with your cell phone. We've made it easy. Our software makes sure it’s verified and your’ll receive it ready for your application.",
     seo: [
       'passport photos near me',
       'passport picture near me',
@@ -931,5 +1154,21 @@ export const Faqs: Record<string, IFAQ[]> = {
     faq5,
     faq6,
     faq7_near_me,
+  ],
+  [ExtraPathMap.CanadianPassportAtHome]: [
+    faqCa1,
+    faqCa2,
+    faqCa3,
+    faqCa4,
+    faqCa5,
+    faqCa6,
+  ],
+  [ExtraPathMap.CanadianPassportPhoto]: [
+    faqCa1,
+    faqCa2,
+    faqCa3,
+    faqCa4,
+    faqCa5,
+    faqCa6,
   ],
 }

@@ -29,6 +29,9 @@ const FaqSection: React.FC<Props> = ({ country, extraPath }) => {
     if (country?.countryCode?.toLowerCase() === 'gb') {
       return Faqs[`${extraPath}-gb`]
     }
+    if (country?.countryCode?.toLowerCase() === 'ca') {
+      return Faqs[extraPath]
+    }
 
     return Faqs[extraPath] || Faqs.default
   }, [country?.countryCode, extraPath])
