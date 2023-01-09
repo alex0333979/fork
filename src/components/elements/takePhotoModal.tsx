@@ -4,9 +4,9 @@ import ModalContainer from '@/components/elements/modalContainer'
 import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo'
 import 'react-html5-camera-photo/build/css/index.css'
 import { createFileFromBase64, showError } from '@/utils'
-import { useAuth } from '@/hooks'
 
 interface TakePhotoProps {
+  country: string
   open: boolean
   idealFacingMode: string
   closeTakePhoto: () => void
@@ -14,12 +14,12 @@ interface TakePhotoProps {
 }
 
 const TakePhotoModal: React.FC<TakePhotoProps> = ({
+  country,
   open,
   closeTakePhoto,
   takePhoto,
   idealFacingMode,
 }) => {
-  const { me } = useAuth()
   const handleTakePhotoAnimationDone = useCallback(
     (dataUri: string) => {
       const file = createFileFromBase64(dataUri)
@@ -33,7 +33,11 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
   }, [])
 
   return (
-    <ModalContainer open={open} className={`take-photo-${me?.country || ''}`} closeModal={() => closeTakePhoto()}>
+    <ModalContainer
+      open={open}
+      className={`take-photo-${country.replace(/ /g, '')}`}
+      closeModal={() => closeTakePhoto()}
+    >
       {open && (
         <Camera
           onTakePhotoAnimationDone={handleTakePhotoAnimationDone}

@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import NextImage from 'next/image'
+import { useRouter } from 'next/router'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
 
+import { useDocumentQuery } from '@/apollo'
 import TakePhotoModal from '@/components/elements/takePhotoModal'
 
 interface Props {
@@ -18,8 +20,21 @@ const UploadPhoto: React.FC<Props> = ({
   onChangeCamera,
   onPhotoTaken,
 }) => {
+  const router = useRouter()
   const [openCamera, setOpenCamera] = useState<boolean>(false)
+  const [docCountry, setDocCountry] = useState<string>('')
   const matches = useMediaQuery('only screen and (max-width: 1024px)')
+
+  useDocumentQuery({
+    fetchPolicy: 'cache-first',
+    skip: !router.query.documentId,
+    variables: {
+      id: (router.query.documentId || '') as string,
+    },
+    onCompleted: (res) => {
+      setDocCountry(res.Document.data?.country || '')
+    },
+  })
 
   return (
     <>
@@ -91,6 +106,7 @@ const UploadPhoto: React.FC<Props> = ({
         </div>
       </div>
       <TakePhotoModal
+        country={docCountry}
         open={openCamera}
         idealFacingMode={camera}
         closeTakePhoto={() => setOpenCamera(false)}

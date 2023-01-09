@@ -61,7 +61,9 @@ export const ProcessData: Record<string, IProcessDatum[]> = {
     },
     {
       label: `Your Guarantor Signature & Compliance`,
-      description: <p>You will then have your guarantor</p>,
+      description: (
+        <p>You will then have your guarantor sign the back of the photo</p>
+      ),
     },
   ],
   [ExtraPathMap.CanadianPassportPhoto]: [
