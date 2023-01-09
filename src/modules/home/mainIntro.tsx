@@ -92,7 +92,8 @@ const MainIntro = (
         clearTimeout(timer.current)
       }
     }
-  }, [country, onChangeCountry, onChangeCurrencyByCountry])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country, onChangeCountry])
 
   const goTakePhoto = useCallback(
     async (d: Maybe<PDocument>) => {
