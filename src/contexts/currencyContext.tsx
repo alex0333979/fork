@@ -64,6 +64,12 @@ export const CurrencyProvider: React.FC<{
           code: CurrencyCode.Gb,
           symbol: '£',
         }
+      } else if (countryCode === 'CA') {
+        _currency = {
+          label: CurrencyType.Cad,
+          code: CurrencyCode.Ca,
+          symbol: 'C$',
+        }
       } else if (['DE', 'FR', 'IT', 'ES'].includes(countryCode)) {
         _currency = {
           label: CurrencyType.Eur,
