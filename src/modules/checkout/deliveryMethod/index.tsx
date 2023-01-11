@@ -82,10 +82,14 @@ const DeliveryMethod: React.FC = () => {
         <div className="shipping-title">
           <h3 className="checkout-element-title">Choose Delivery Method</h3>
         </div>
-        <Header
-          shippingType={shippingType}
-          onChangeShippingType={onChangeShippingType}
-        />
+        {me?.country === 'CA' && (
+          <>
+            <Header
+              shippingType={shippingType}
+              onChangeShippingType={onChangeShippingType}
+            />
+          </>
+        )}
         <div className="shipping-data">
           <ol>
             <Services shippingType={shippingType} />

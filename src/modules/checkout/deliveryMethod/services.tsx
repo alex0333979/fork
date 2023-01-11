@@ -50,7 +50,7 @@ const Services: React.FC<Props> = ({ shippingType }) => {
     <>
       <li>
         <div className="name">
-          <h3>Print & Ship Service Cost</h3>
+          <h3>Print & Ship Studio Service Cost</h3>
           <p>
             Just
             <b>
