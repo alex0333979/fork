@@ -82,7 +82,7 @@ const DeliveryMethod: React.FC = () => {
         <div className="shipping-title">
           <h3 className="checkout-element-title">Choose Delivery Method</h3>
         </div>
-        {me?.country === 'CA' && (
+        {me?.country !== 'CA' && (
           <>
             <Header
               shippingType={shippingType}
