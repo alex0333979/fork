@@ -48,8 +48,7 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
           }
           imageType={IMAGE_TYPES.JPG}
           // idealResolution={{ width: 1500, height: country === 'Canada' ? 1875 : 1500  }}
-          sizeFactor={1}
-          isMaxResolution={true}
+          isMaxResolution={country === 'Canada' ? true : false}
           isDisplayStartCameraError={false}
           onCameraError={handleCameraError}
           isFullscreen={false}
