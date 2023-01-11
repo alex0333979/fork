@@ -22,7 +22,7 @@ const ApplicationModal: React.FC<Props> = ({
         <div className="text">
           <div className="title">
             <h3>
-              Save time, complete your passport application from online now
+              Save time, complete your passport application form online now
               (avg. time: 2.5 mins)
             </h3>
           </div>
