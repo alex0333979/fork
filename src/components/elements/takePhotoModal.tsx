@@ -47,7 +47,9 @@ const TakePhotoModal: React.FC<TakePhotoProps> = ({
               : FACING_MODES.USER
           }
           imageType={IMAGE_TYPES.JPG}
-          // idealResolution={{ width: 1500, height: country === 'Canada' ? 1875 : 1500  }}
+          // eslint-disable-next-line max-len
+          idealResolution={country !== 'Canada' ? { width: 1500, height: 1500  } : undefined}
+          sizeFactor={1}
           isMaxResolution={country === 'Canada' ? true : false}
           isDisplayStartCameraError={false}
           onCameraError={handleCameraError}
