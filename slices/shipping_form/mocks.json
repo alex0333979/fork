@@ -1,0 +1,49 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {},
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "required_field",
+            {
+              "__TYPE__": "BooleanContent",
+              "value": false
+            }
+          ],
+          [
+            "field_label",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Proident reprehenderit nisi deserunt elit nulla."
+                  }
+                }
+              ]
+            }
+          ],
+          [
+            "field_notice",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Cillum exercitation esse sit aliquip dolor officia deserunt. Duis amet elit tempor. Incididunt sit eu duis pariatur cupidatat non velit in amet Lorem sit in nulla dolore in."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

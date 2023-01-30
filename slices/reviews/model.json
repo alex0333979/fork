@@ -1,0 +1,78 @@
+{
+  "id": "reviews",
+  "type": "SharedSlice",
+  "name": "reviews",
+  "description": "Reviews",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgg",
+      "description": "Reviews",
+      "primary": {
+        "reviews_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Reviews Title"
+          }
+        },
+        "reviews_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "Reviews Text"
+          }
+        },
+        "reviews_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Reviews Button"
+          }
+        }
+      },
+      "items": {
+        "review_stars": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Review Stars"
+          }
+        },
+        "author_photo": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Author Photo"
+          }
+        },
+        "author_name": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Author Name"
+          }
+        },
+        "author_position": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Author position"
+          }
+        },
+        "review_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em,hyperlink",
+            "allowTargetBlank": true,
+            "label": "Review Text"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "payment_information",
+  "type": "SharedSlice",
+  "name": "payment_information",
+  "description": "Payment Information",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgb",
+      "description": "Payment Information",
+      "primary": {
+        "step_name": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading4",
+            "label": "Step Name"
+          }
+        },
+        "step_status": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Step Status"
+          }
+        },
+        "step_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Step Title"
+          }
+        },
+        "form_option": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Form Option"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

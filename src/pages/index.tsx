@@ -1,10 +1,12 @@
 /* eslint-disable max-len */
 import React, { useMemo } from 'react'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { InferGetServerSidePropsType, GetServerSideProps, GetServerSidePropsContext, GetStaticPathsContext, GetStaticPropsContext, PreviewData } from 'next'
 import type { NextPage } from 'next'
 import ErrorPage from 'next/error'
 import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
+
+import { createClient } from '../../prismicio'
 
 import { AppLayout } from '@/components'
 import Home from '@/modules/home'
@@ -17,6 +19,11 @@ import {
   DocumentsByCountryQuery,
   PDocument,
 } from '@/apollo'
+import { ParsedUrlQuery } from 'querystring'
+import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { PrismicDocument } from '@prismicio/types'
+
+export type LandingPageProps = InferGetServerSidePropsType<typeof getServerSideProps>
 
 export interface HomePageProps {
   country: Country | null
@@ -27,6 +34,7 @@ export interface HomePageProps {
   description?: any
   errorCode?: number
   onStart?: () => void
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const HomePage: NextPage<HomePageProps> = ({
@@ -34,6 +42,7 @@ const HomePage: NextPage<HomePageProps> = ({
   document,
   extraPath,
   errorCode = 200,
+  page
 }) => {
   const { title, description, seo, buttonTitle } = useMemo(() => {
     let countryName = ''
@@ -45,7 +54,7 @@ const HomePage: NextPage<HomePageProps> = ({
       countryName = 'Canadian'
     }
 
-    let _title = HomepageContent.default.title
+    let _title = page?.data.title[0].text
     let _desc = HomepageContent.default.description
     let _seo = HomepageContent.default.seo || []
     let _buttonTitle = `Take Your ${countryName} ${
@@ -99,15 +108,16 @@ const HomePage: NextPage<HomePageProps> = ({
   return (
     <>
       <NextSeo
-        title={title}
+        title={title || undefined}
         description={seo?.length ? seo.join(', ') : SEO.home.description}
       />
       <AppLayout>
         <Home
+          page={page}
           country={country}
           document={document}
           extraPath={extraPath}
-          title={title}
+          title={title || undefined}
           description={description}
           buttonTitle={buttonTitle}
         />
@@ -121,6 +131,9 @@ export default HomePage
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   context: GetServerSidePropsContext,
 ) => {
+  const previewData = context.params?.previewData;
+  const client = createClient({ previewData })
+  const page = await client.getByUID(PageTypeHashes.usLandingPage, PageUIDHashes.homepage)
   const countryCode = context?.params?.country as string
   const documentType = context?.params?.documentType as string
   const extraPath = (context?.params?.extraPath as string) || null
@@ -135,6 +148,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
           document: null,
           extraPath: null,
           errorCode: 404,
+          page
         },
       }
     }
@@ -146,6 +160,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country: null,
         document: null,
         extraPath,
+        page
       },
     }
   }
@@ -160,6 +175,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         document: null,
         extraPath,
         errorCode: 404,
+        page
       },
     }
   }
@@ -169,6 +185,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country,
         document: null,
         extraPath,
+        page
       },
     }
   }
@@ -193,6 +210,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country,
         document: document ?? null,
         extraPath,
+        page
       },
     }
   } catch (e) {
@@ -201,6 +219,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country: null,
         document: null,
         extraPath: null,
+        page
       },
     }
   }

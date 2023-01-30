@@ -1,0 +1,102 @@
+{
+  "id": "review_and_pay",
+  "type": "SharedSlice",
+  "name": "review_and_pay",
+  "description": "Review and Pay",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgc",
+      "description": "Review and Pay",
+      "primary": {
+        "step_name": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading4",
+            "label": "Step Name"
+          }
+        },
+        "step_status": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Step Status"
+          }
+        },
+        "step_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Step Title"
+          }
+        },
+        "summary_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Summary Label"
+          }
+        },
+        "service_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Service Label"
+          }
+        },
+        "shipping_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Shipping Label"
+          }
+        },
+        "subtotal_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Subtotal Label"
+          }
+        },
+        "tax_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Tax Label"
+          }
+        },
+        "total_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Total Label"
+          }
+        },
+        "pay_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Pay Title"
+          }
+        },
+        "name_on_the_card": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Name on the Card"
+          }
+        },
+        "card_number": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph",
+            "label": "Card Number"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

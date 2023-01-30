@@ -1361,6 +1361,10 @@ header {
           label {
             width: 100%;
 
+            span.prismic-label {
+              font-weight: 600;
+            }
+
             span.field.select:after {
               color: var(--azure-radiance);
             }
@@ -1653,29 +1657,22 @@ header {
 
   .process-img {
     width: calc(100% - 42.3%);
+    position: relative;
+    z-index: 1;
 
     span {
       display: block;
       background: #EDF6FF;
       border-radius: 50px;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
 
-      &:before {
-        content: '';
-        display: block;
-        padding-bottom: 90.6%;
-        pointer-events: none;
+      span {
+        width: 100%!important;
       }
 
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        position: absolute;
-        top: 0;
-        left: 0;
       }
     }
   }

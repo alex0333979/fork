@@ -1,0 +1,39 @@
+{
+  "id": "shipping_information",
+  "type": "SharedSlice",
+  "name": "shipping_information",
+  "description": "Shipping Information",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhga",
+      "description": "Shipping Information",
+      "primary": {
+        "step_name": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading4",
+            "label": "Step Name"
+          }
+        },
+        "step_status": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Step Status"
+          }
+        },
+        "step_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Step Title"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

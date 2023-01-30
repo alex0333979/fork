@@ -1,0 +1,154 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {
+      "requirements_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading2",
+            "content": {
+              "text": "Seeing"
+            }
+          }
+        ]
+      },
+      "requirements_image": {
+        "__TYPE__": "ImageContent",
+        "origin": {
+          "id": "main",
+          "url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
+          "width": 4000,
+          "height": 4000
+        },
+        "url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
+        "width": 4000,
+        "height": 4000,
+        "edit": {
+          "zoom": 1,
+          "crop": {
+            "x": 0,
+            "y": 0
+          },
+          "background": "transparent"
+        },
+        "thumbnails": {}
+      },
+      "image_dpi": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Cillum amet nisi quis enim ullamco eiusmod irure mollit anim magna consequat. Non non qui tempor mollit dolor enim aliquip duis est do incididunt sint ea commodo dolore. Exercitation enim culpa est duis enim non veniam voluptate quis cillum culpa excepteur pariatur enim."
+            }
+          }
+        ]
+      },
+      "image_width": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Tempor aliquip sunt esse ex fugiat consectetur sunt."
+            }
+          }
+        ]
+      },
+      "image_height": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Id ipsum nostrud ex deserunt nisi enim pariatur nulla quis dolore. Irure mollit id sit tempor Lorem. Exercitation occaecat fugiat nisi ipsum commodo amet."
+            }
+          }
+        ]
+      },
+      "image_face_space": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Adipisicing deserunt ullamco excepteur amet Lorem ex nisi incididunt quis commodo. Ullamco consectetur velit cupidatat laboris est occaecat exercitation cupidatat id voluptate laboris incididunt exercitation do. Ex dolor aute consequat dolore cillum duis cupidatat reprehenderit in ad esse Lorem proident."
+            }
+          }
+        ]
+      },
+      "image_top_space": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Nisi aliqua adipisicing elit. Commodo deserunt ad anim fugiat eu."
+            }
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "list_icon",
+            {
+              "__TYPE__": "ImageContent",
+              "origin": {
+                "id": "main",
+                "url": "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1",
+                "width": 5616,
+                "height": 3744
+              },
+              "url": "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1",
+              "width": 5616,
+              "height": 3744,
+              "edit": {
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                },
+                "background": "transparent"
+              },
+              "thumbnails": {}
+            }
+          ],
+          [
+            "list_title",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "heading3",
+                  "content": {
+                    "text": "Experience"
+                  }
+                }
+              ]
+            }
+          ],
+          [
+            "list_text",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Consequat anim id est et officia non proident proident cupidatat quis cupidatat aliquip cillum reprehenderit proident. Mollit cupidatat et culpa magna sint aliqua et labore minim nisi duis magna irure aliquip magna."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

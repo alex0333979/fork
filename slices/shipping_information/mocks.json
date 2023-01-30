@@ -1,0 +1,47 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {
+      "step_name": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading4",
+            "content": {
+              "text": "Rocky"
+            }
+          }
+        ]
+      },
+      "step_status": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Aute adipisicing aute excepteur tempor est ullamco adipisicing. Mollit commodo aliquip veniam ullamco nisi aliquip sunt laboris ullamco aliquip ut ullamco deserunt. Aute laborum aute aute amet non excepteur commodo non cupidatat ipsum excepteur non deserunt velit aliquip."
+            }
+          }
+        ]
+      },
+      "step_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Became"
+            }
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": []
+      }
+    ]
+  }
+]

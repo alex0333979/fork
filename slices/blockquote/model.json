@@ -1,0 +1,25 @@
+{
+  "id": "blockquote",
+  "type": "SharedSlice",
+  "name": "blockquote",
+  "description": "Blockquote",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg5",
+      "description": "Blockquote",
+      "primary": {
+        "blockquote": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "Blockquote"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

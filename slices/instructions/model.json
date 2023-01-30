@@ -1,0 +1,63 @@
+{
+  "id": "instructions",
+  "type": "SharedSlice",
+  "name": "instructions",
+  "description": "Instructions",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgh",
+      "description": "Instructions",
+      "primary": {
+        "instructions_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Instructions Title"
+          }
+        },
+        "instructions_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "Instructions Text"
+          }
+        },
+        "instructions_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Instructions Button"
+          }
+        }
+      },
+      "items": {
+        "instructions_icon": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Instructions Icon"
+          }
+        },
+        "instructions_question": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Instructions Question"
+          }
+        },
+        "instructions_answer": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em,hyperlink,image,list-item,o-list-item",
+            "allowTargetBlank": true,
+            "label": "Instructions Answer"
+          }
+        }
+      }
+    }
+  ]
+}

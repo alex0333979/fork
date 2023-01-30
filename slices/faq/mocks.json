@@ -1,0 +1,76 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {
+      "faq_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading2",
+            "content": {
+              "text": "Clothes"
+            }
+          }
+        ]
+      },
+      "faq_text": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Eiusmod consequat commodo proident ipsum cillum."
+            }
+          }
+        ]
+      },
+      "faq_button": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Est minim culpa labore sint cupidatat cupidatat dolor sit excepteur amet."
+            }
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "faq_question",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "heading3",
+                  "content": {
+                    "text": "Living"
+                  }
+                }
+              ]
+            }
+          ],
+          [
+            "faq_answer",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Nulla anim sint pariatur. Fugiat aliqua exercitation dolor eiusmod velit enim do cupidatat ullamco incididunt consequat elit commodo nulla dolor. Velit officia dolore aliquip occaecat aliquip proident amet ullamco ad magna elit incididunt consectetur esse mollit."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

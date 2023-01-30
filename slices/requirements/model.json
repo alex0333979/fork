@@ -1,0 +1,91 @@
+{
+  "id": "requirements",
+  "type": "SharedSlice",
+  "name": "requirements",
+  "description": "Photo Requirements",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgf",
+      "description": "Photo Requirements",
+      "primary": {
+        "requirements_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Requirements Title"
+          }
+        },
+        "requirements_image": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Requirements Image"
+          }
+        },
+        "image_dpi": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Image dpi"
+          }
+        },
+        "image_width": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Image Width"
+          }
+        },
+        "image_height": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Image Height"
+          }
+        },
+        "image_face_space": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Image Face Space"
+          }
+        },
+        "image_top_space": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Image Top Space"
+          }
+        }
+      },
+      "items": {
+        "list_icon": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "List Icon"
+          }
+        },
+        "list_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "List Title"
+          }
+        },
+        "list_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "List Text"
+          }
+        }
+      }
+    }
+  ]
+}

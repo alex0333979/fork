@@ -1,0 +1,64 @@
+{
+  "id": "working_process",
+  "type": "SharedSlice",
+  "name": "working_process",
+  "description": "Working Process",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhge",
+      "description": "Working Process",
+      "primary": {
+        "process_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Process Title"
+          }
+        },
+        "process_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "allowTargetBlank": true,
+            "label": "Process Text"
+          }
+        },
+        "process_image": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Process Image"
+          }
+        },
+        "process_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "hyperlink",
+            "label": "Process Button"
+          }
+        }
+      },
+      "items": {
+        "process_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Process Label"
+          }
+        },
+        "process_description": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em,hyperlink",
+            "allowTargetBlank": true,
+            "label": "Process Description"
+          }
+        }
+      }
+    }
+  ]
+}

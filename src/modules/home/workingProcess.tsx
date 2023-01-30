@@ -9,10 +9,13 @@ import React, {
   useImperativeHandle,
 } from 'react'
 import Image from 'next/image'
+import { PrismicDocument, RTNode } from '@prismicio/types'
 import { scrollToTop } from '@/utils'
 import { IProcessDatum } from '@/types'
 import { ProcessData } from './constant'
 import { ExtraPathMap } from '@/constants'
+import { PrismicRichText } from '@prismicio/react'
+import { PrismicNextImage } from '@prismicio/next'
 
 const initialData = [
   { active: false, past: false, loaded: false, reset: false },
@@ -23,12 +26,12 @@ const initialData = [
 ]
 
 interface ProcessItemProps {
-  label: string
-  description: ReactNode
   active: boolean
   past: boolean
   loaded: boolean
   reset: boolean
+  index: number
+  page?: PrismicDocument<Record<string, any>, string, string>
   onClick: () => void
 }
 
@@ -37,12 +40,12 @@ interface ChildInterface {
 }
 
 const ProcessItem: React.FC<ProcessItemProps> = ({
-  label,
-  description,
   active,
   past,
   loaded,
   reset,
+  index,
+  page,
   onClick,
 }) => (
   <li
@@ -57,9 +60,9 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
       <span className="progress-bullet" />
     </div>
     <div className="label">
-      <h3>{label}</h3>
+      <h3><PrismicRichText field={page?.data.slices[0].items[index].process_label}/></h3>
     </div>
-    <div className="description">{description}</div>
+    <div className="description"><PrismicRichText field={page?.data.slices[0].items[index].process_description}/></div>
   </li>
 )
 
@@ -67,12 +70,13 @@ export interface WorkingProcessProps {
   extraPath?: string | null
   onEndRunning: () => void
   onStartNow: (isOpen?: boolean) => void
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ extraPath, onEndRunning, onStartNow }, ref) => {
+> = ({ extraPath, onEndRunning, onStartNow, page }, ref) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -189,8 +193,8 @@ const WorkingProcess: React.ForwardRefRenderFunction<
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2>How Our Process Works?</h2>
-            <p>Biometrically approved photos</p>
+            <h2><PrismicRichText field={page?.data.slices[0].primary.process_title} /></h2>
+            <p><PrismicRichText field={page?.data.slices[0].primary.process_text} /></p>
           </div>
           <div className="process-wrap">
             <div className="process-list">
@@ -199,8 +203,8 @@ const WorkingProcess: React.ForwardRefRenderFunction<
                   {processData.map((process, index) => (
                     <ProcessItem
                       key={index}
-                      label={process.label}
-                      description={process.description}
+                      index={index}
+                      page={page}
                       active={data[index].active}
                       past={data[index].past}
                       loaded={data[index].loaded}
@@ -216,18 +220,13 @@ const WorkingProcess: React.ForwardRefRenderFunction<
                   onClick={() => {
                     scrollToTop()
                     onStartNow(true)
-                  }}>{`Start Now`}</button>
+                  }}><PrismicRichText field={page?.data.slices[0].primary.process_button} /></button>
               </div>
             </div>
+            
             <div className="process-img">
               <span>
-                <Image
-                  src="/images/up-sale.png"
-                  layout="fill"
-                  priority
-                  placeholder="empty"
-                  alt=""
-                />
+                <PrismicNextImage field={page?.data.slices[0].primary.process_image} />
               </span>
             </div>
           </div>

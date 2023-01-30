@@ -18,6 +18,7 @@ const Home: React.FC<HomePageProps> = ({
   description,
   buttonTitle,
   extraPath,
+  page,
   onStart,
 }) => {
   const target = React.useRef<HTMLDivElement>(null)
@@ -52,6 +53,7 @@ const Home: React.FC<HomePageProps> = ({
     <>
       <MainIntro
         ref={target}
+        page={page}
         open={openDocument}
         onStartNow={onStartNow}
         country={country}
@@ -62,6 +64,7 @@ const Home: React.FC<HomePageProps> = ({
       />
       <WorkingProcess
         ref={ref}
+        page={page}
         extraPath={extraPath}
         onEndRunning={() => setRunning(false)}
         onStartNow={onStartNow}
@@ -73,8 +76,8 @@ const Home: React.FC<HomePageProps> = ({
           extraPath={extraPath}
         />
       )}
-      <ReviewsPlatform onStartNow={onStartNow} />
-      <FaqSection country={country} extraPath={extraPath} />
+      <ReviewsPlatform onStartNow={onStartNow} page={page}/>
+      <FaqSection country={country} extraPath={extraPath} page={page}/>
       <FaqForm />
     </>
   )
