@@ -72,6 +72,7 @@ const Home: React.FC<HomePageProps> = ({
         />
       )}
       */}
+      {/* for the required prop */}
       <SliceZone slices={page?.data.slices} components={components} />
       <FaqForm />
     </>
