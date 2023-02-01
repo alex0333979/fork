@@ -1,9 +1,8 @@
 import React from 'react'
 
 export interface IFAQ {
-  key: string
-  question: string
-  answer: React.ReactNode
+  faq_answer: object
+  faq_question: object
 }
 
 export interface IFAQForm {

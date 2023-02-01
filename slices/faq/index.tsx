@@ -36,26 +36,24 @@ const Faq: React.FC<Props> = ({ /*country, extraPath,*/slice }) => {
 
   //   return Faqs[extraPath] || Faqs.default
   // }, [country?.countryCode, extraPath])
-  const faqs: IFAQ[] = slice.items
+  const faqs = slice.items || []
 
   return (
     <div className="faq-section" id="faq">
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2><PrismicRichText field={slice.primary.faq_title} /></h2>
+            <PrismicRichText field={slice.primary.faq_title} />
             <PrismicRichText field={slice.primary.faq_text} />
           </div>
           <div className="faq-list">
             <ul>
-              {faqs.map((faq: { key: string, question: string, answer: React.ReactNode }, index: number) => (
+              {faqs.map((faq: any, index: number) => (
                 <FaqItem
-                  key={faq.key}
+                  key={index}
                   faq={faq}
                   allClosed={allClosed}
                   onOpen={onOpenFaq}
-                  slice={slice}
-                  index={index}
                 />
               ))}
             </ul>

@@ -63,7 +63,7 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
       <span className="progress-bullet" />
     </div>
     <div className="label">
-      <h3><PrismicRichText field={slice.items[index].process_label}/></h3>
+      <PrismicRichText field={slice.items[index].process_label}/>
     </div>
     <div className="description"><PrismicRichText field={slice.items[index].process_description}/></div>
   </li>
@@ -196,8 +196,8 @@ const WorkingProcess: React.ForwardRefRenderFunction<
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2><PrismicRichText field={slice.primary.process_title} /></h2>
-            <p><PrismicRichText field={slice.primary.process_text} /></p>
+            <PrismicRichText field={slice.primary.process_title} />
+            <PrismicRichText field={slice.primary.process_text} />
           </div>
           <div className="process-wrap">
             <div className="process-list">

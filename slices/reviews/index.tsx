@@ -31,7 +31,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2><PrismicRichText field={slice.primary.reviews_title} /></h2>
+            <PrismicRichText field={slice.primary.reviews_title} />
             <PrismicRichText field={slice.primary.reviews_text} />
           </div>
           <div className="reviews-wrap">
@@ -67,9 +67,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                         </div>
                         <div className="author">
                           <div className="name">
-                            <h3>
-                              <PrismicRichText field={slice.items[index].author_name} />
-                            </h3>
+                            <PrismicRichText field={slice.items[index].author_name} />
                             {/* <p>{review.author.occupation}</p> */}
                           </div>
                         </div>

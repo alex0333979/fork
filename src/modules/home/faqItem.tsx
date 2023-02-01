@@ -5,14 +5,12 @@ import { IFAQ } from './types'
 import { PrismicRichText } from '@prismicio/react'
 
 interface Props {
-  faq: IFAQ
+  faq: any
   allClosed?: boolean
   onOpen?: () => void
-  slice: any
-  index: number
 }
 
-const FaqItem: React.FC<Props> = ({ faq, allClosed, slice, index, onOpen }) => {
+const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
   const [show, setShow] = useState<boolean>(false)
 
   useEffect(() => {
@@ -29,12 +27,12 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, slice, index, onOpen }) => {
             if (onOpen) onOpen()
             setShow(!show)
           }}>
-          <PrismicRichText field={slice.items[index].faq_question}/>
+          <PrismicRichText field={faq.faq_question}/>
           <span className="icon-close" />
         </h3>
       </div>
       <div className="answer">
-        <PrismicRichText field={slice.items[index].faq_answer}/>
+        <PrismicRichText field={faq.faq_answer}/>
       </div>
     </li>
   )

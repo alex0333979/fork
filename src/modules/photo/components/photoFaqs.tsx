@@ -75,8 +75,8 @@ const PhotoFaqs: React.FC = () => (
   <div className="faq-section">
     <div className="faq-list">
       <ul>
-        {Data.map((item, index) => (
-          <FaqItem key={item.key} faq={item} index={index} />
+        {Data.map((item) => (
+          <FaqItem key={item.key} faq={item} />
         ))}
       </ul>
     </div>
