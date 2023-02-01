@@ -1,24 +1,19 @@
 /* eslint-disable max-len */
 import React, {
-  ReactNode,
   useEffect,
   useCallback,
   useState,
   useRef,
-  useMemo,
   useImperativeHandle,
 } from 'react'
-import Image from 'next/image'
-import { PrismicRichText, SliceZone } from '@prismicio/react'
+import { PrismicRichText } from '@prismicio/react'
 import { PrismicNextImage } from '@prismicio/next'
-import { PrismicDocument, RTNode } from '@prismicio/types'
 
-import { components } from 'slices'
 import { scrollToTop } from '@/utils'
-import { IProcessDatum } from '@/types'
-import { ExtraPathMap } from '@/constants'
+// import { IProcessDatum } from '@/types'
+// import { ExtraPathMap } from '@/constants'
 
-import { ProcessData } from '../../src/modules/home/constant'
+// import { ProcessData } from '../../src/modules/home/constant'
 
 const initialData = [
   { active: false, past: false, loaded: false, reset: false },
@@ -63,9 +58,11 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
       <span className="progress-bullet" />
     </div>
     <div className="label">
-      <PrismicRichText field={slice.items[index].process_label}/>
+      <PrismicRichText field={slice.items[index].process_label} />
     </div>
-    <div className="description"><PrismicRichText field={slice.items[index].process_description}/></div>
+    <div className="description">
+      <PrismicRichText field={slice.items[index].process_description} />
+    </div>
   </li>
 )
 
@@ -166,20 +163,20 @@ const WorkingProcess: React.ForwardRefRenderFunction<
         }, 10000)
       }
     },
-    [/*onEndRunning, */startProcess],
+    [/* onEndRunning,*/ startProcess],
   )
 
-  const processData: IProcessDatum[] = useMemo(() => {
-    let _processData = ProcessData.default
-    // if (
-    //   extraPath === ExtraPathMap.CanadianPassportAtHome ||
-    //   extraPath === ExtraPathMap.CanadianPassportPhoto
-    // ) {
-    //   _processData = ProcessData[extraPath]
-    // }
+  // const processData: IProcessDatum[] = useMemo(() => {
+  //   let _processData = ProcessData.default
+  //   if (
+  //     extraPath === ExtraPathMap.CanadianPassportAtHome ||
+  //     extraPath === ExtraPathMap.CanadianPassportPhoto
+  //   ) {
+  //     _processData = ProcessData[extraPath]
+  //   }
 
-    return _processData
-  }, [/*extraPath*/])
+  //   return _processData
+  // }, [/*extraPath*/])
 
   useImperativeHandle(
     ref,
@@ -223,10 +220,12 @@ const WorkingProcess: React.ForwardRefRenderFunction<
                   onClick={() => {
                     scrollToTop()
                     // onStartNow(true)
-                  }}><PrismicRichText field={slice.primary.process_button} /></button>
+                  }}>
+                  <PrismicRichText field={slice.primary.process_button} />
+                </button>
               </div>
             </div>
-            
+
             <div className="process-img">
               <span>
                 <PrismicNextImage field={slice.primary.process_image} />

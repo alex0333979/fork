@@ -1,11 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { PrismicDocument } from '@prismicio/types'
+import React, { useCallback, useState } from 'react'
 import { PrismicRichText } from '@prismicio/react'
 
 import FaqItem from '@/modules/home/faqItem'
 import { scrollToTop } from '@/utils'
-import { Country } from '@/apollo'
-import { IFAQ } from '@/modules/home/types'
 
 interface Props {
   // country: Country | null
@@ -13,7 +10,7 @@ interface Props {
   slice?: any
 }
 
-const Faq: React.FC<Props> = ({ /*country, extraPath,*/slice }) => {
+const Faq: React.FC<Props> = ({ /* country, extraPath,*/ slice }) => {
   const [allClosed, setAllClosed] = useState<boolean>(false)
 
   const onStart = useCallback(() => {

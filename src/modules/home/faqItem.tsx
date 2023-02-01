@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 
-import { IFAQ } from './types'
 import { PrismicRichText } from '@prismicio/react'
 
 interface Props {
@@ -27,12 +26,12 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
             if (onOpen) onOpen()
             setShow(!show)
           }}>
-          <PrismicRichText field={faq.faq_question}/>
+          <PrismicRichText field={faq.faq_question} />
           <span className="icon-close" />
         </h3>
       </div>
       <div className="answer">
-        <PrismicRichText field={faq.faq_answer}/>
+        <PrismicRichText field={faq.faq_answer} />
       </div>
     </li>
   )

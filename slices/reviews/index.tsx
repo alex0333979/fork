@@ -18,13 +18,13 @@ interface ReviewsPlatformProps {
 const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
   const items = slice.items
   const middleIndex = Math.ceil(items.length / 2)
-  
+
   const [REVIEWS1, REVIEWS2] = useMemo(() => {
     const _REVIEWS1 = [...items.slice(0, middleIndex)]
     const _REVIEWS2 = [...items.slice(-middleIndex)]
 
     return [_REVIEWS1, _REVIEWS2]
-  }, [items])
+  }, [items, middleIndex])
 
   return (
     <div className="reviews-platform">
@@ -58,16 +58,22 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                     <div className="reviews-item">
                       <div className="item-wrap">
                         <div className="rating">
-                          <PrismicNextImage field={slice.items[index].review_stars} />
+                          <PrismicNextImage
+                            field={slice.items[index].review_stars}
+                          />
                         </div>
                         <div className="content">
                           <p suppressHydrationWarning>
-                            <PrismicRichText field={slice.items[index].review_text} />
+                            <PrismicRichText
+                              field={slice.items[index].review_text}
+                            />
                           </p>
                         </div>
                         <div className="author">
                           <div className="name">
-                            <PrismicRichText field={slice.items[index].author_name} />
+                            <PrismicRichText
+                              field={slice.items[index].author_name}
+                            />
                             {/* <p>{review.author.occupation}</p> */}
                           </div>
                         </div>
@@ -98,15 +104,21 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                     <div className="reviews-item">
                       <div className="item-wrap">
                         <div className="rating">
-                        <PrismicNextImage field={slice.items[index].review_stars} />
+                          <PrismicNextImage
+                            field={slice.items[index].review_stars}
+                          />
                         </div>
                         <div suppressHydrationWarning className="content">
-                          <PrismicRichText field={slice.items[index].review_text} />
+                          <PrismicRichText
+                            field={slice.items[index].review_text}
+                          />
                         </div>
                         <div className="author">
                           <div className="name">
                             <h3>
-                              <PrismicRichText field={slice.items[index].author_name} />
+                              <PrismicRichText
+                                field={slice.items[index].author_name}
+                              />
                             </h3>
                             {/* <p>{review.author.occupation}</p> */}
                           </div>
@@ -182,6 +194,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
         </div>
       </div>
     </div>
-)}
+  )
+}
 
 export default Reviews

@@ -18,7 +18,7 @@ const Home: React.FC<HomePageProps> = ({
   title,
   description,
   buttonTitle,
-  extraPath,
+  // extraPath,
   page,
   onStart,
 }) => {
