@@ -115,11 +115,9 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                         </div>
                         <div className="author">
                           <div className="name">
-                            <h3>
-                              <PrismicRichText
-                                field={slice.items[index].author_name}
-                              />
-                            </h3>
+                            <PrismicRichText
+                              field={slice.items[index].author_name}
+                            />
                             {/* <p>{review.author.occupation}</p> */}
                           </div>
                         </div>
