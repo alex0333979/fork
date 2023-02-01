@@ -69,14 +69,14 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
 export interface WorkingProcessProps {
   // extraPath?: string | null
   // onEndRunning: () => void
-  // onStartNow: (isOpen?: boolean) => void
+  onStartNow?: (isOpen?: boolean) => void
   slice: any
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ slice }, ref) => {
+> = ({ slice, onStartNow }, ref) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -219,7 +219,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
                   className="main-btn big"
                   onClick={() => {
                     scrollToTop()
-                    // onStartNow(true)
+                    onStartNow?.(true)
                   }}>
                   <PrismicRichText field={slice.primary.process_button} />
                 </button>

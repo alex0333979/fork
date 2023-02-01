@@ -11,7 +11,7 @@ import 'swiper/css/bundle'
 import 'swiper/css'
 
 interface ReviewsPlatformProps {
-  onStartNow: (isOpen?: boolean) => void
+  onStartNow?: (isOpen?: boolean) => void
   slice?: any
 }
 
@@ -186,7 +186,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
               className="main-btn big"
               onClick={() => {
                 scrollToTop()
-                onStartNow(true)
+                onStartNow?.(true)
               }}>
               <PrismicRichText field={slice.primary.reviews_button} />
             </button>

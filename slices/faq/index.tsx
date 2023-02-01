@@ -5,12 +5,10 @@ import FaqItem from '@/modules/home/faqItem'
 import { scrollToTop } from '@/utils'
 
 interface Props {
-  // country: Country | null
-  // extraPath?: string | null
   slice?: any
 }
 
-const Faq: React.FC<Props> = ({ /* country, extraPath,*/ slice }) => {
+const Faq: React.FC<Props> = ({ slice }) => {
   const [allClosed, setAllClosed] = useState<boolean>(false)
 
   const onStart = useCallback(() => {
@@ -22,17 +20,6 @@ const Faq: React.FC<Props> = ({ /* country, extraPath,*/ slice }) => {
     setAllClosed(false)
   }, [])
 
-  // const faqs: IFAQ[] = useMemo(() => {
-  //   if (!extraPath) return Faqs.default
-  //   if (country?.countryCode?.toLowerCase() === 'gb') {
-  //     return Faqs[`${extraPath}-gb`]
-  //   }
-  //   if (country?.countryCode?.toLowerCase() === 'ca') {
-  //     return Faqs[extraPath]
-  //   }
-
-  //   return Faqs[extraPath] || Faqs.default
-  // }, [country?.countryCode, extraPath])
   const faqs = slice.items || []
 
   return (

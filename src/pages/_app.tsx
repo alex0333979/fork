@@ -46,11 +46,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <PrismicProvider internalLinkComponent={({ href, ...props }) => (
-        <Link href={href}>
-          <a {...props} />
-        </Link>
-      )}>
+      <PrismicProvider
+        internalLinkComponent={({ href, ...props }) => (
+          <Link href={href}>
+            <a {...props} />
+          </Link>
+        )}>
         <PrismicPreview repositoryName={repositoryName}>
           <ApolloProvider client={apolloClient}>
             <I18nextProvider i18n={i18n}>

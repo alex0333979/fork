@@ -1,17 +1,22 @@
 /* eslint-disable max-len */
-import React, { useMemo } from 'react'
-import { InferGetServerSidePropsType, GetServerSideProps, GetServerSidePropsContext, GetStaticPathsContext, GetStaticPropsContext, PreviewData } from 'next'
+import React from 'react'
+import {
+  InferGetServerSidePropsType,
+  GetServerSideProps,
+  GetServerSidePropsContext,
+} from 'next'
 import type { NextPage } from 'next'
 import ErrorPage from 'next/error'
 import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
+import { PrismicDocument } from '@prismicio/types'
+import * as prismicH from '@prismicio/helpers'
 
 import { createClient } from '../../prismicio'
 
 import { AppLayout } from '@/components'
 import Home from '@/modules/home'
-import { HomepageContent } from '@/modules/home/constant'
-import { SEO, countries, ExtraPathMap, AvailablePath } from '@/constants'
+import { countries, AvailablePath } from '@/constants'
 import { initializeApollo } from '@/apollo/client'
 import {
   Country,
@@ -19,19 +24,15 @@ import {
   DocumentsByCountryQuery,
   PDocument,
 } from '@/apollo'
-import { ParsedUrlQuery } from 'querystring'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
-import { PrismicDocument } from '@prismicio/types'
 
-export type LandingPageProps = InferGetServerSidePropsType<typeof getServerSideProps>
+export type LandingPageProps = InferGetServerSidePropsType<
+  typeof getServerSideProps
+>
 
 export interface HomePageProps {
   country: Country | null
   document: PDocument | null
-  extraPath: string | null
-  title?: string
-  buttonTitle?: string
-  description?: any
   errorCode?: number
   onStart?: () => void
   page?: PrismicDocument<Record<string, any>, string, string>
@@ -40,88 +41,20 @@ export interface HomePageProps {
 const HomePage: NextPage<HomePageProps> = ({
   country,
   document,
-  extraPath,
   errorCode = 200,
-  page
+  page,
 }) => {
-  const { title, description, seo, buttonTitle } = useMemo(() => {
-    let countryName = ''
-    if (country?.countryCode?.toLowerCase() === 'us') {
-      countryName = 'US'
-    } else if (country?.countryCode?.toLowerCase() === 'gb') {
-      countryName = 'UK'
-    } else if (country?.countryCode?.toLowerCase() === 'ca') {
-      countryName = 'Canadian'
-    }
-
-    let _title = page?.data.title[0].text
-    let _desc = HomepageContent.default.description
-    let _seo = HomepageContent.default.seo || []
-    let _buttonTitle = `Take Your ${countryName} ${
-      document?.type || ''
-    } Photo Now`
-
-    if (extraPath && Object.values(ExtraPathMap).includes(extraPath)) {
-      if (country?.countryCode === 'US') {
-        _title = HomepageContent[extraPath].title
-        _desc = HomepageContent[extraPath].description
-        _seo = HomepageContent[extraPath].seo || []
-      } else if (country?.countryCode === 'GB') {
-        _title = HomepageContent[`${extraPath}-gb`].title
-        _desc = HomepageContent[`${extraPath}-gb`].description
-        _seo = HomepageContent[`${extraPath}-gb`].seo || []
-      } else if (country?.countryCode === 'CA') {
-        _title = HomepageContent[extraPath].title
-        _desc = HomepageContent[extraPath].description
-        _seo = HomepageContent[extraPath].seo || []
-      }
-    } else {
-      if (country && document) {
-        _title = `Take Your ${country.country} ${document.type} Photos Online`
-      } else if (country) {
-        _title = `Take Your ${country.country} Passport and Visa Photos Online`
-      }
-    }
-
-    if (
-      extraPath &&
-      [
-        ExtraPathMap.PrintMyPassportPhotoAtCvs,
-        ExtraPathMap.PrintMyPassportPhotoAtWalgreens,
-        ExtraPathMap.PassportPhotosNearMe,
-      ].includes(extraPath)
-    ) {
-      _buttonTitle = 'Get Started'
-    }
-
-    return {
-      title: _title,
-      description: _desc,
-      seo: _seo,
-      buttonTitle: _buttonTitle,
-    }
-  }, [country, document, extraPath])
-
   if (errorCode === 404) {
     return <ErrorPage statusCode={errorCode} />
   }
   return (
     <>
       <NextSeo
-        title={title || undefined}
-        description={seo?.length ? seo.join(', ') : SEO.home.description}
+        title={prismicH.asText(page?.data.title) || undefined}
+        // description={seo?.length ? seo.join(', ') : SEO.home.description}
       />
       <AppLayout>
-        <Home
-          page={page}
-          country={country}
-          document={document}
-          extraPath={extraPath}
-          title={title || undefined}
-          description={description}
-          buttonTitle={buttonTitle}
-        />
-
+        <Home page={page} country={country} document={document} />
       </AppLayout>
     </>
   )
@@ -132,9 +65,12 @@ export default HomePage
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   context: GetServerSidePropsContext,
 ) => {
-  const previewData = context.params?.previewData;
+  const previewData = context.params?.previewData
   const client = createClient({ previewData })
-  const page = await client.getByUID(PageTypeHashes.usLandingPage, PageUIDHashes.homepage)
+  const page = await client.getByUID(
+    PageTypeHashes.usLandingPage,
+    PageUIDHashes.homepage,
+  )
   const countryCode = context?.params?.country as string
   const documentType = context?.params?.documentType as string
   const extraPath = (context?.params?.extraPath as string) || null
@@ -149,7 +85,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
           document: null,
           extraPath: null,
           errorCode: 404,
-          page
+          page,
         },
       }
     }
@@ -161,7 +97,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country: null,
         document: null,
         extraPath,
-        page
+        page,
       },
     }
   }
@@ -176,7 +112,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         document: null,
         extraPath,
         errorCode: 404,
-        page
+        page,
       },
     }
   }
@@ -186,7 +122,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country,
         document: null,
         extraPath,
-        page
+        page,
       },
     }
   }
@@ -211,7 +147,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country,
         document: document ?? null,
         extraPath,
-        page
+        page,
       },
     }
   } catch (e) {
@@ -220,7 +156,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
         country: null,
         document: null,
         extraPath: null,
-        page
+        page,
       },
     }
   }

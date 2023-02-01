@@ -15,10 +15,6 @@ type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>
 const Home: React.FC<HomePageProps> = ({
   country,
   document,
-  title,
-  description,
-  buttonTitle,
-  // extraPath,
   page,
   onStart,
 }) => {
@@ -59,20 +55,7 @@ const Home: React.FC<HomePageProps> = ({
         onStartNow={onStartNow}
         country={country}
         document={document}
-        title={title}
-        description={description}
-        buttonTitle={buttonTitle}
       />
-      {/* 
-      {country && document && (
-        <RequirementBox
-          country={country}
-          document={document}
-          extraPath={extraPath}
-        />
-      )}
-      */}
-      {/* for the required prop */}
       <SliceZone slices={page?.data.slices} components={components} />
       <FaqForm />
     </>

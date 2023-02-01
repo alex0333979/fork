@@ -1,13 +1,10 @@
 /* eslint-disable max-len */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { PrismicDocument, RichTextField, RTNode } from '@prismicio/types'
+import { PrismicDocument } from '@prismicio/types'
 import { PrismicRichText } from '@prismicio/react'
 import { PrismicNextImage } from '@prismicio/next'
-import * as prismicH from '@prismicio/helpers'
-import type { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next'
 
 import { Country, PDocument } from '@/apollo'
 import { useLocation, useCurrency } from '@/hooks'
@@ -15,7 +12,6 @@ import { Maybe } from '@/types'
 import { ICountry } from '@/components/elements/countrySelector'
 import { PAGES } from '@/constants'
 import DocModal from './docModal'
-import { LandingPageProps } from '@/pages'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
   {
@@ -35,16 +31,7 @@ interface MainIntroProps {
 }
 
 const MainIntro = (
-  {
-    page,
-    open,
-    onStartNow,
-    country: pCountry,
-    document: pDoc,
-    title,
-    description,
-    buttonTitle,
-  }: MainIntroProps,
+  { page, open, onStartNow, country: pCountry, document: pDoc }: MainIntroProps,
   ref: any,
 ) => {
   const { country: currentCountry, onChangeCountry } = useLocation()
@@ -130,16 +117,14 @@ const MainIntro = (
           <div className="intro-wrap mobile-img">
             <div className="intro-title">
               <div className="title big">
-                <h1>
-                  <PrismicRichText field={page?.data.title} />
-                </h1>
+                <PrismicRichText field={page?.data.title} />
                 <PrismicRichText field={page?.data.text} />
               </div>
               <div className="select-country">
                 {!pDoc && (
                   <div className="form-fields">
                     <label>
-                      <span className='prismic-label'>
+                      <span className="prismic-label">
                         <PrismicRichText field={page?.data.country_label} />
                       </span>
                       <span className="field">
@@ -157,7 +142,7 @@ const MainIntro = (
                       <a
                         className="main-btn big"
                         onClick={() => goTakePhoto(document)}>
-                        <PrismicRichText field={page?.data.button_label}/>
+                        <PrismicRichText field={page?.data.button_label} />
                       </a>
                       <div className="choose-text">
                         <a onClick={() => onStartNow(true)}>
@@ -175,7 +160,7 @@ const MainIntro = (
                     <a
                       className="main-btn big"
                       onClick={() => onStartNow(true)}>
-                      <PrismicRichText field={page?.data.button_label}/>
+                      <PrismicRichText field={page?.data.button_label} />
                     </a>
                   )}
                 </div>
@@ -183,7 +168,7 @@ const MainIntro = (
             </div>
             <div className="intro-img">
               <span>
-                <PrismicNextImage field={page?.data.intro_image}/>
+                <PrismicNextImage field={page?.data.intro_image} />
               </span>
             </div>
           </div>
