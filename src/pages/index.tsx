@@ -121,6 +121,7 @@ const HomePage: NextPage<HomePageProps> = ({
           description={description}
           buttonTitle={buttonTitle}
         />
+
       </AppLayout>
     </>
   )

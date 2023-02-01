@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { SliceZone } from '@prismicio/react'
+
+import { components } from 'slices'
 
 import { HomePageProps } from '@/pages'
 import { useApp } from '@/hooks'
 import MainIntro from './mainIntro'
-import WorkingProcess from './workingProcess'
+import WorkingProcess from 'slices/working_process'
 import FaqForm from './faqForm'
-import ReviewsPlatform from './reviewsPlatform'
-import RequirementBox from './requirements'
-import FaqSection from './faqSection'
+// import RequirementBox from './requirements'
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>
 
@@ -62,13 +63,7 @@ const Home: React.FC<HomePageProps> = ({
         description={description}
         buttonTitle={buttonTitle}
       />
-      <WorkingProcess
-        ref={ref}
-        page={page}
-        extraPath={extraPath}
-        onEndRunning={() => setRunning(false)}
-        onStartNow={onStartNow}
-      />
+      {/* 
       {country && document && (
         <RequirementBox
           country={country}
@@ -76,8 +71,8 @@ const Home: React.FC<HomePageProps> = ({
           extraPath={extraPath}
         />
       )}
-      <ReviewsPlatform onStartNow={onStartNow} page={page}/>
-      <FaqSection country={country} extraPath={extraPath} page={page}/>
+      */}
+      <SliceZone slices={page?.data.slices} components={components} />
       <FaqForm />
     </>
   )

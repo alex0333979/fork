@@ -1,9 +1,0 @@
-{
-  "id": "home",
-  "label": "Home",
-  "repeatable": true,
-  "status": true,
-  "json": {
-    "Main": {}
-  }
-}

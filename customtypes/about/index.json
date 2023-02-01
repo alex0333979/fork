@@ -1,0 +1,80 @@
+{
+  "id": "about",
+  "label": "About",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Page id"
+        }
+      },
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading1",
+          "label": "Title"
+        }
+      },
+      "intro_desktop_text": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,strong,em",
+          "allowTargetBlank": true,
+          "label": "Intro Desktop Text"
+        }
+      },
+      "intro_mobile_text": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,strong,em",
+          "allowTargetBlank": true,
+          "label": "Intro Mobile Text"
+        }
+      },
+      "title_list": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "strong,em,list-item",
+          "allowTargetBlank": true,
+          "label": "Intro List"
+        }
+      },
+      "intro_top_image": {
+        "type": "Image",
+        "config": {
+          "constraint": {},
+          "thumbnails": [],
+          "label": "Intro Top Image"
+        }
+      },
+      "intro_bottom_image": {
+        "type": "Image",
+        "config": {
+          "constraint": {},
+          "thumbnails": [],
+          "label": "Intro Bottom Image"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "values": {
+              "type": "SharedSlice"
+            },
+            "info": {
+              "type": "SharedSlice"
+            },
+            "why": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { prismicRoutes } from '@/constants/PageUIDHashes'
 import * as prismic from '@prismicio/client'
 import * as prismicNext from '@prismicio/next'
+import * as prismicH from "@prismicio/helpers"
 import sm from './sm.json'
 
 /**
@@ -38,3 +39,15 @@ export const createClient = ({
 
   return client
 }
+
+export const linkResolver = (link: any) => {
+  if (link.type === "page") {
+    if (link.uid === "home") {
+      return "/";
+    }
+
+    return `/${link.uid}`;
+  }
+
+  return "/";
+};

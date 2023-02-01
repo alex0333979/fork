@@ -1,23 +1,23 @@
+/* eslint-disable max-len */
 import React, { useMemo } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/bundle'
+import { PrismicRichText } from '@prismicio/react'
 import { Autoplay, Mousewheel, Navigation } from 'swiper'
 
 import { scrollToTop } from '@/utils'
-import { PrismicDocument } from '@prismicio/types'
-import { PrismicRichText } from '@prismicio/react'
 import { PrismicNextImage } from '@prismicio/next'
+
+import 'swiper/css/bundle'
+import 'swiper/css'
 
 interface ReviewsPlatformProps {
   onStartNow: (isOpen?: boolean) => void
-  page?: PrismicDocument<Record<string, any>, string, string>
+  slice?: any
 }
 
-const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow, page }) => {
-  const items = page?.data.slices[1].items
+const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
+  const items = slice.items
   const middleIndex = Math.ceil(items.length / 2)
-
   
   const [REVIEWS1, REVIEWS2] = useMemo(() => {
     const _REVIEWS1 = [...items.slice(0, middleIndex)]
@@ -31,8 +31,8 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow, page }) =
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2><PrismicRichText field={page?.data.slices[1].primary.reviews_title} /></h2>
-            <PrismicRichText field={page?.data.slices[1].primary.reviews_text} />
+            <h2><PrismicRichText field={slice.primary.reviews_title} /></h2>
+            <PrismicRichText field={slice.primary.reviews_text} />
           </div>
           <div className="reviews-wrap">
             <div className="slider-shade" />
@@ -58,17 +58,17 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow, page }) =
                     <div className="reviews-item">
                       <div className="item-wrap">
                         <div className="rating">
-                          <PrismicNextImage field={page?.data.slices[1].items[index].review_stars} />
+                          <PrismicNextImage field={slice.items[index].review_stars} />
                         </div>
                         <div className="content">
                           <p suppressHydrationWarning>
-                            <PrismicRichText field={page?.data.slices[1].items[index].review_text} />
+                            <PrismicRichText field={slice.items[index].review_text} />
                           </p>
                         </div>
                         <div className="author">
                           <div className="name">
                             <h3>
-                              <PrismicRichText field={page?.data.slices[1].items[index].author_name} />
+                              <PrismicRichText field={slice.items[index].author_name} />
                             </h3>
                             {/* <p>{review.author.occupation}</p> */}
                           </div>
@@ -100,15 +100,15 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow, page }) =
                     <div className="reviews-item">
                       <div className="item-wrap">
                         <div className="rating">
-                        <PrismicNextImage field={page?.data.slices[1].items[index].review_stars} />
+                        <PrismicNextImage field={slice.items[index].review_stars} />
                         </div>
                         <div suppressHydrationWarning className="content">
-                          <PrismicRichText field={page?.data.slices[1].items[index].review_text} />
+                          <PrismicRichText field={slice.items[index].review_text} />
                         </div>
                         <div className="author">
                           <div className="name">
                             <h3>
-                              <PrismicRichText field={page?.data.slices[1].items[index].author_name} />
+                              <PrismicRichText field={slice.items[index].author_name} />
                             </h3>
                             {/* <p>{review.author.occupation}</p> */}
                           </div>
@@ -178,7 +178,7 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow, page }) =
                 scrollToTop()
                 onStartNow(true)
               }}>
-              <PrismicRichText field={page?.data.slices[1].primary.reviews_button} />
+              <PrismicRichText field={slice.primary.reviews_button} />
             </button>
           </div>
         </div>
@@ -186,4 +186,4 @@ const ReviewsPlatform: React.FC<ReviewsPlatformProps> = ({ onStartNow, page }) =
     </div>
 )}
 
-export default ReviewsPlatform
+export default Reviews
