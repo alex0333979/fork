@@ -1,0 +1,47 @@
+{
+  "id": "proceed_to_checkout",
+  "type": "SharedSlice",
+  "name": "proceed_to_checkout",
+  "description": "Proceed To Checkout",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg8",
+      "description": "Proceed To Checkout",
+      "primary": {
+        "proceed_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Proceed Button"
+          }
+        },
+        "change_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Change Button"
+          }
+        },
+        "retake_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Retake Button"
+          }
+        }
+      },
+      "items": {
+        "requirement_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Requirement Label"
+          }
+        }
+      }
+    }
+  ]
+}

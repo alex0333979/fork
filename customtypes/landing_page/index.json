@@ -1,0 +1,91 @@
+{
+  "id": "landing_page",
+  "label": "Landing Page",
+  "repeatable": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Page id"
+        }
+      },
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading1",
+          "label": "Title"
+        }
+      },
+      "text": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,strong,em,hyperlink",
+          "allowTargetBlank": true,
+          "label": "Text"
+        }
+      },
+      "intro_image": {
+        "type": "Image",
+        "config": {
+          "constraint": {},
+          "thumbnails": [],
+          "label": "Intro Image"
+        }
+      },
+      "country_label": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,strong,em",
+          "label": "Country Label"
+        }
+      },
+      "country": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Country"
+        }
+      },
+      "document": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Document"
+        }
+      },
+      "button_label": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Button Label"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice zone",
+        "config": {
+          "labels": {},
+          "choices": {
+            "working_process": {
+              "type": "SharedSlice"
+            },
+            "requirements": {
+              "type": "SharedSlice"
+            },
+            "reviews": {
+              "type": "SharedSlice"
+            },
+            "instructions": {
+              "type": "SharedSlice"
+            },
+            "faq": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  },
+  "status": true
+}

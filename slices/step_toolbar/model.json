@@ -1,0 +1,49 @@
+{
+  "id": "step_toolbar",
+  "type": "SharedSlice",
+  "name": "step_toolbar",
+  "description": "Step Toolbar",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg6",
+      "description": "Step Toolbar",
+      "primary": {
+        "single_image": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Single Image"
+          }
+        },
+        "image_caption": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "Image Caption"
+          }
+        }
+      },
+      "items": {
+        "list_image": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "List Image"
+          }
+        },
+        "list_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "List Text"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -60,10 +60,9 @@ const OneClickHomePage: NextPage = () => {
         <Home
           country={null}
           document={null}
-          extraPath={null}
-          title={HomepageContent.default.title}
-          description={HomepageContent.default.description}
-          buttonTitle="Choose document"
+          // title={HomepageContent.default.title}
+          // description={HomepageContent.default.description}
+          // buttonTitle="Choose document"
           onStart={() => setStartOneClick(true)}
         />
       </AppLayout>

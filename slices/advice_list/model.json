@@ -1,0 +1,63 @@
+{
+  "id": "advice_list",
+  "type": "SharedSlice",
+  "name": "advice_list",
+  "description": "Advice List",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg7",
+      "description": "Advice List",
+      "primary": {},
+      "items": {
+        "correct_example": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Correct Example"
+          }
+        },
+        "wrong_example": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Wrong Example"
+          }
+        },
+        "video_example": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Video Example"
+          }
+        },
+        "video_link": {
+          "type": "Link",
+          "config": {
+            "label": "Video Link",
+            "select": null
+          }
+        },
+        "advice_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Advice Title"
+          }
+        },
+        "advice_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "Advice Text"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "delivery_method",
+  "type": "SharedSlice",
+  "name": "delivery_method",
+  "description": "Delivery Method",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg9",
+      "description": "Delivery Method",
+      "primary": {
+        "step_name": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading4",
+            "label": "Step Name"
+          }
+        },
+        "step_status": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Step Status"
+          }
+        },
+        "step_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Step Title"
+          }
+        },
+        "cost_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Cost Label"
+          }
+        },
+        "digital_method": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Digital Method"
+          }
+        },
+        "digital_status": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Digital Status"
+          }
+        },
+        "digital_list_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Digital List Title"
+          }
+        },
+        "digital_pros": {
+          "type": "StructuredText",
+          "config": {
+            "single": "list-item",
+            "label": "Digital Pros"
+          }
+        },
+        "digital_cons": {
+          "type": "StructuredText",
+          "config": {
+            "single": "list-item",
+            "label": "Digital Cons"
+          }
+        },
+        "print_ship_method": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Print & Ship Method"
+          }
+        },
+        "print_ship_status": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Print & Ship Status"
+          }
+        },
+        "print_ship_list_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Print & Ship List Title"
+          }
+        },
+        "print_ship_pros": {
+          "type": "StructuredText",
+          "config": {
+            "single": "list-item",
+            "label": "Print & Ship Pros"
+          }
+        },
+        "print_ship_cons": {
+          "type": "StructuredText",
+          "config": {
+            "single": "list-item",
+            "label": "Print & Ship Cons"
+          }
+        },
+        "method_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Method Title"
+          }
+        }
+      },
+      "items": {
+        "method_option": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Method Option"
+          }
+        }
+      }
+    }
+  ]
+}

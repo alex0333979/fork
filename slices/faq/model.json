@@ -1,0 +1,55 @@
+{
+  "id": "faq",
+  "type": "SharedSlice",
+  "name": "faq",
+  "description": "FAQ",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgi",
+      "description": "FAQ",
+      "primary": {
+        "faq_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "FAQ Title"
+          }
+        },
+        "faq_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "label": "FAQ Text"
+          }
+        },
+        "faq_button": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "FAQ Button"
+          }
+        }
+      },
+      "items": {
+        "faq_question": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "FAQ Question"
+          }
+        },
+        "faq_answer": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em,hyperlink,image,list-item,o-list-item",
+            "allowTargetBlank": true,
+            "label": "FAQ Answer"
+          }
+        }
+      }
+    }
+  ]
+}

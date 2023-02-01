@@ -1,0 +1,25 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {
+      "blockquote": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Aliquip aliquip cupidatat ea tempor pariatur cupidatat aliqua deserunt aliqua laborum excepteur. Ea laborum est aute consectetur est id Lorem non minim ea aute qui ea et. Aliquip non aliqua dolore magna commodo sunt eu mollit consectetur nisi."
+            }
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": []
+      }
+    ]
+  }
+]

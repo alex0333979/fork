@@ -1,0 +1,100 @@
+{
+  "id": "process_page",
+  "label": "Process Page",
+  "repeatable": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Page id"
+        }
+      },
+      "steps_advantages": {
+        "type": "Group",
+        "config": {
+          "fields": {
+            "icon_class": {
+              "type": "StructuredText",
+              "config": {
+                "single": "paragraph",
+                "label": "Icon Class"
+              }
+            },
+            "text": {
+              "type": "StructuredText",
+              "config": {
+                "single": "paragraph,em",
+                "label": "Text"
+              }
+            }
+          },
+          "label": "Steps Advantages"
+        }
+      },
+      "step_name": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Step Name"
+        }
+      },
+      "step_title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading1",
+          "label": "Step Title"
+        }
+      },
+      "step_text": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph,strong,em",
+          "label": "Step Text"
+        }
+      },
+      "step_options": {
+        "type": "Group",
+        "config": {
+          "fields": {
+            "option_image": {
+              "type": "Image",
+              "config": {
+                "constraint": {},
+                "thumbnails": [],
+                "label": "Option image"
+              }
+            },
+            "option_text": {
+              "type": "StructuredText",
+              "config": {
+                "single": "paragraph",
+                "label": "Option text"
+              }
+            }
+          },
+          "label": "Step Options"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice zone",
+        "config": {
+          "labels": null,
+          "choices": {
+            "step_toolbar": {
+              "type": "SharedSlice"
+            },
+            "advice_list": {
+              "type": "SharedSlice"
+            },
+            "proceed_to_checkout": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  },
+  "status": true
+}

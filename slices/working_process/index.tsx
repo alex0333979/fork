@@ -1,18 +1,19 @@
 /* eslint-disable max-len */
 import React, {
-  ReactNode,
   useEffect,
   useCallback,
   useState,
   useRef,
-  useMemo,
   useImperativeHandle,
 } from 'react'
-import Image from 'next/image'
+import { PrismicRichText } from '@prismicio/react'
+import { PrismicNextImage } from '@prismicio/next'
+
 import { scrollToTop } from '@/utils'
-import { IProcessDatum } from '@/types'
-import { ProcessData } from './constant'
-import { ExtraPathMap } from '@/constants'
+// import { IProcessDatum } from '@/types'
+// import { ExtraPathMap } from '@/constants'
+
+// import { ProcessData } from '../../src/modules/home/constant'
 
 const initialData = [
   { active: false, past: false, loaded: false, reset: false },
@@ -23,12 +24,12 @@ const initialData = [
 ]
 
 interface ProcessItemProps {
-  label: string
-  description: ReactNode
   active: boolean
   past: boolean
   loaded: boolean
   reset: boolean
+  index: number
+  slice?: any
   onClick: () => void
 }
 
@@ -37,12 +38,12 @@ interface ChildInterface {
 }
 
 const ProcessItem: React.FC<ProcessItemProps> = ({
-  label,
-  description,
   active,
   past,
   loaded,
   reset,
+  index,
+  slice,
   onClick,
 }) => (
   <li
@@ -57,22 +58,25 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
       <span className="progress-bullet" />
     </div>
     <div className="label">
-      <h3>{label}</h3>
+      <PrismicRichText field={slice.items[index].process_label} />
     </div>
-    <div className="description">{description}</div>
+    <div className="description">
+      <PrismicRichText field={slice.items[index].process_description} />
+    </div>
   </li>
 )
 
 export interface WorkingProcessProps {
-  extraPath?: string | null
-  onEndRunning: () => void
-  onStartNow: (isOpen?: boolean) => void
+  // extraPath?: string | null
+  // onEndRunning: () => void
+  onStartNow?: (isOpen?: boolean) => void
+  slice: any
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ extraPath, onEndRunning, onStartNow }, ref) => {
+> = ({ slice, onStartNow }, ref) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -150,7 +154,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
           a += 1
           if (a === initialData.length) {
             if (timeIntervalId.current) {
-              onEndRunning()
+              // onEndRunning()
               clearInterval(timeIntervalId.current)
             }
           } else {
@@ -159,20 +163,20 @@ const WorkingProcess: React.ForwardRefRenderFunction<
         }, 10000)
       }
     },
-    [onEndRunning, startProcess],
+    [/* onEndRunning,*/ startProcess],
   )
 
-  const processData: IProcessDatum[] = useMemo(() => {
-    let _processData = ProcessData.default
-    if (
-      extraPath === ExtraPathMap.CanadianPassportAtHome ||
-      extraPath === ExtraPathMap.CanadianPassportPhoto
-    ) {
-      _processData = ProcessData[extraPath]
-    }
+  // const processData: IProcessDatum[] = useMemo(() => {
+  //   let _processData = ProcessData.default
+  //   if (
+  //     extraPath === ExtraPathMap.CanadianPassportAtHome ||
+  //     extraPath === ExtraPathMap.CanadianPassportPhoto
+  //   ) {
+  //     _processData = ProcessData[extraPath]
+  //   }
 
-    return _processData
-  }, [extraPath])
+  //   return _processData
+  // }, [/*extraPath*/])
 
   useImperativeHandle(
     ref,
@@ -189,18 +193,18 @@ const WorkingProcess: React.ForwardRefRenderFunction<
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2>How Our Process Works?</h2>
-            <p>Biometrically approved photos</p>
+            <PrismicRichText field={slice.primary.process_title} />
+            <PrismicRichText field={slice.primary.process_text} />
           </div>
           <div className="process-wrap">
             <div className="process-list">
               <div className="list-wrap">
                 <ul>
-                  {processData.map((process, index) => (
+                  {slice.items.map((_item: object, index: number) => (
                     <ProcessItem
                       key={index}
-                      label={process.label}
-                      description={process.description}
+                      index={index}
+                      slice={slice}
                       active={data[index].active}
                       past={data[index].past}
                       loaded={data[index].loaded}
@@ -215,19 +219,16 @@ const WorkingProcess: React.ForwardRefRenderFunction<
                   className="main-btn big"
                   onClick={() => {
                     scrollToTop()
-                    onStartNow(true)
-                  }}>{`Start Now`}</button>
+                    onStartNow?.(true)
+                  }}>
+                  <PrismicRichText field={slice.primary.process_button} />
+                </button>
               </div>
             </div>
+
             <div className="process-img">
               <span>
-                <Image
-                  src="/images/up-sale.png"
-                  layout="fill"
-                  priority
-                  placeholder="empty"
-                  alt=""
-                />
+                <PrismicNextImage field={slice.primary.process_image} />
               </span>
             </div>
           </div>

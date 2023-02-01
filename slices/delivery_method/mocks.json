@@ -1,0 +1,194 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {
+      "step_name": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading4",
+            "content": {
+              "text": "Street"
+            }
+          }
+        ]
+      },
+      "step_status": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Qui nisi culpa sit ea elit ex irure consequat enim amet. Ea proident voluptate adipisicing ex anim anim. Nulla sint qui non."
+            }
+          }
+        ]
+      },
+      "step_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Rocky"
+            }
+          }
+        ]
+      },
+      "cost_label": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Refused"
+            }
+          }
+        ]
+      },
+      "digital_method": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Ullamco proident proident culpa. Laboris nulla deserunt cupidatat aliqua excepteur cillum officia mollit ipsum non eu veniam Lorem cillum quis."
+            }
+          }
+        ]
+      },
+      "digital_status": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Aliqua id cillum enim commodo ullamco. Qui sint quis cupidatat ea consequat cupidatat mollit magna ad. Sit exercitation aute velit pariatur anim qui ipsum aliquip dolor quis."
+            }
+          }
+        ]
+      },
+      "digital_list_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Proper"
+            }
+          }
+        ]
+      },
+      "digital_pros": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Est laboris id aute. Veniam non nulla sit aliquip laborum."
+            }
+          }
+        ]
+      },
+      "digital_cons": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Commodo ipsum nulla anim pariatur magna reprehenderit sit. Culpa ipsum dolore laborum adipisicing officia incididunt labore sunt ut. Ex laborum ut laborum occaecat in cillum ad labore."
+            }
+          }
+        ]
+      },
+      "print_ship_method": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Eu aute est consequat consequat ullamco."
+            }
+          }
+        ]
+      },
+      "print_ship_status": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Amet quis excepteur mollit laboris incididunt mollit nisi. Aute excepteur labore irure consequat mollit pariatur elit ipsum excepteur cupidatat duis culpa ut sint."
+            }
+          }
+        ]
+      },
+      "print_ship_list_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Spread"
+            }
+          }
+        ]
+      },
+      "print_ship_pros": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Sint elit aliquip dolor do cupidatat duis eiusmod qui dolor officia enim dolore esse. Eu occaecat consectetur laboris ut magna qui duis officia nostrud amet sit reprehenderit. Cupidatat nisi nulla proident amet occaecat officia sit occaecat excepteur aute ea aliqua ex ex voluptate."
+            }
+          }
+        ]
+      },
+      "print_ship_cons": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Voluptate eu Lorem sint proident ut."
+            }
+          }
+        ]
+      },
+      "method_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Vessels"
+            }
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "method_option",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Laborum excepteur in consectetur deserunt deserunt. Non consequat deserunt adipisicing est minim laborum qui sit consequat pariatur. Exercitation occaecat sunt culpa."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

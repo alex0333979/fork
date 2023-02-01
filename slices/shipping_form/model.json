@@ -1,0 +1,39 @@
+{
+  "id": "shipping_form",
+  "type": "SharedSlice",
+  "name": "shipping_form",
+  "description": "Shipping Form",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhgd",
+      "description": "Shipping Form",
+      "primary": {},
+      "items": {
+        "required_field": {
+          "type": "Boolean",
+          "config": {
+            "default_value": true,
+            "label": "Required Field"
+          }
+        },
+        "field_label": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Field Label"
+          }
+        },
+        "field_notice": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph",
+            "label": "Field Notice"
+          }
+        }
+      }
+    }
+  ]
+}

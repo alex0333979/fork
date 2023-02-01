@@ -1,0 +1,41 @@
+{
+  "id": "info",
+  "type": "SharedSlice",
+  "name": "info",
+  "description": "Info",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg2",
+      "description": "Info",
+      "primary": {},
+      "items": {
+        "info_image": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Info Image"
+          }
+        },
+        "info_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Info Title"
+          }
+        },
+        "info_text": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em",
+            "allowTargetBlank": true,
+            "label": "Info Text"
+          }
+        }
+      }
+    }
+  ]
+}

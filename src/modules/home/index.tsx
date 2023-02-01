@@ -1,23 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { SliceZone } from '@prismicio/react'
+
+import { components } from 'slices'
 
 import { HomePageProps } from '@/pages'
 import { useApp } from '@/hooks'
 import MainIntro from './mainIntro'
-import WorkingProcess from './workingProcess'
+import WorkingProcess from 'slices/working_process'
 import FaqForm from './faqForm'
-import ReviewsPlatform from './reviewsPlatform'
-import RequirementBox from './requirements'
-import FaqSection from './faqSection'
+// import RequirementBox from './requirements'
 
 type WorkingProcessInterface = React.ElementRef<typeof WorkingProcess>
 
 const Home: React.FC<HomePageProps> = ({
   country,
   document,
-  title,
-  description,
-  buttonTitle,
-  extraPath,
+  page,
   onStart,
 }) => {
   const target = React.useRef<HTMLDivElement>(null)
@@ -52,29 +50,13 @@ const Home: React.FC<HomePageProps> = ({
     <>
       <MainIntro
         ref={target}
+        page={page}
         open={openDocument}
         onStartNow={onStartNow}
         country={country}
         document={document}
-        title={title}
-        description={description}
-        buttonTitle={buttonTitle}
       />
-      <WorkingProcess
-        ref={ref}
-        extraPath={extraPath}
-        onEndRunning={() => setRunning(false)}
-        onStartNow={onStartNow}
-      />
-      {country && document && (
-        <RequirementBox
-          country={country}
-          document={document}
-          extraPath={extraPath}
-        />
-      )}
-      <ReviewsPlatform onStartNow={onStartNow} />
-      <FaqSection country={country} extraPath={extraPath} />
+      <SliceZone slices={page?.data.slices} components={components} />
       <FaqForm />
     </>
   )

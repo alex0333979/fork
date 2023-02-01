@@ -1,0 +1,58 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "default-slice",
+    "primary": {
+      "step_name": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading4",
+            "content": {
+              "text": "Crack"
+            }
+          }
+        ]
+      },
+      "step_status": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Mollit sit ipsum aliqua et laborum duis veniam dolor eiusmod ex Lorem. Sint qui sint aliqua sit fugiat. Consectetur nostrud incididunt ullamco ipsum deserunt."
+            }
+          }
+        ]
+      },
+      "step_title": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "heading3",
+            "content": {
+              "text": "Physical"
+            }
+          }
+        ]
+      },
+      "form_option": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Nulla mollit labore exercitation pariatur elit voluptate ex Lorem irure consequat fugiat."
+            }
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": []
+      }
+    ]
+  }
+]

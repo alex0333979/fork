@@ -1,0 +1,64 @@
+{
+  "id": "values",
+  "type": "SharedSlice",
+  "name": "values",
+  "description": "Values",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg1",
+      "description": "Values",
+      "primary": {
+        "values_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Values Title"
+          }
+        },
+        "values_sub_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading3",
+            "label": "Values Sub Title"
+          }
+        },
+        "values_sub_text": {
+          "type": "StructuredText",
+          "config": {
+            "single": "paragraph,strong,em",
+            "allowTargetBlank": true,
+            "label": "Values Sub Text"
+          }
+        }
+      },
+      "items": {
+        "values_list_icon": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Values List Icon"
+          }
+        },
+        "values_list_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading4",
+            "label": "Values List Title"
+          }
+        },
+        "values_list_text": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em",
+            "allowTargetBlank": true,
+            "label": "Values List Text"
+          }
+        }
+      }
+    }
+  ]
+}

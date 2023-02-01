@@ -1,0 +1,48 @@
+{
+  "id": "why",
+  "type": "SharedSlice",
+  "name": "why",
+  "description": "Why",
+  "variations": [
+    {
+      "id": "default-slice",
+      "name": "Default slice",
+      "docURL": "...",
+      "version": "gn37f1cqglbv3qhg3",
+      "description": "Why",
+      "primary": {},
+      "items": {
+        "why_image": {
+          "type": "Image",
+          "config": {
+            "constraint": {},
+            "thumbnails": [],
+            "label": "Why Image"
+          }
+        },
+        "why_title": {
+          "type": "StructuredText",
+          "config": {
+            "single": "heading2",
+            "label": "Why Title"
+          }
+        },
+        "why_text": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em",
+            "allowTargetBlank": true,
+            "label": "Why Text"
+          }
+        },
+        "why_list": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "strong,em,list-item",
+            "label": "Why List"
+          }
+        }
+      }
+    }
+  ]
+}

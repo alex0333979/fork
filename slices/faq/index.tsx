@@ -1,18 +1,14 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
+import { PrismicRichText } from '@prismicio/react'
 
+import FaqItem from '@/modules/home/faqItem'
 import { scrollToTop } from '@/utils'
-import { Country } from '@/apollo'
-
-import FaqItem from './faqItem'
-import { Faqs } from './constant'
-import { IFAQ } from './types'
 
 interface Props {
-  country: Country | null
-  extraPath?: string | null
+  slice?: any
 }
 
-const FaqSection: React.FC<Props> = ({ country, extraPath }) => {
+const Faq: React.FC<Props> = ({ slice }) => {
   const [allClosed, setAllClosed] = useState<boolean>(false)
 
   const onStart = useCallback(() => {
@@ -24,31 +20,21 @@ const FaqSection: React.FC<Props> = ({ country, extraPath }) => {
     setAllClosed(false)
   }, [])
 
-  const faqs: IFAQ[] = useMemo(() => {
-    if (!extraPath) return Faqs.default
-    if (country?.countryCode?.toLowerCase() === 'gb') {
-      return Faqs[`${extraPath}-gb`]
-    }
-    if (country?.countryCode?.toLowerCase() === 'ca') {
-      return Faqs[extraPath]
-    }
-
-    return Faqs[extraPath] || Faqs.default
-  }, [country?.countryCode, extraPath])
+  const faqs = slice.items || []
 
   return (
     <div className="faq-section" id="faq">
       <div className="container">
         <div className="data-wrap">
           <div className="sub-title">
-            <h2>FAQ</h2>
-            <p>Biometrically approved photos</p>
+            <PrismicRichText field={slice.primary.faq_title} />
+            <PrismicRichText field={slice.primary.faq_text} />
           </div>
           <div className="faq-list">
             <ul>
-              {faqs.map((faq) => (
+              {faqs.map((faq: any, index: number) => (
                 <FaqItem
-                  key={faq.key}
+                  key={index}
                   faq={faq}
                   allClosed={allClosed}
                   onOpen={onOpenFaq}
@@ -58,7 +44,7 @@ const FaqSection: React.FC<Props> = ({ country, extraPath }) => {
           </div>
           <div className="start-btn">
             <button className="main-btn big" onClick={onStart}>
-              Start Now
+              <PrismicRichText field={slice.primary.faq_button} />
             </button>
           </div>
         </div>
@@ -67,4 +53,4 @@ const FaqSection: React.FC<Props> = ({ country, extraPath }) => {
   )
 }
 
-export default FaqSection
+export default Faq

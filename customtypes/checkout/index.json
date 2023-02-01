@@ -1,0 +1,138 @@
+{
+  "id": "checkout",
+  "label": "Checkout",
+  "repeatable": false,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Page id"
+        }
+      },
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading1",
+          "label": "Title"
+        }
+      },
+      "pop_up_text": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Pop Up Text"
+        }
+      },
+      "cart_text": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Cart Text"
+        }
+      },
+      "price_label": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Price Label"
+        }
+      },
+      "preview_button": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Preview Button"
+        }
+      },
+      "add_button": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Add Button"
+        }
+      },
+      "summary_title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading3",
+          "label": "Summary Title"
+        }
+      },
+      "summary_subtotal": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Summary Subtotal"
+        }
+      },
+      "summary_tax": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Summary Tax"
+        }
+      },
+      "summary_total": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Summary Total"
+        }
+      },
+      "next_step_button": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Next Step Button"
+        }
+      },
+      "back_button": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Back Button"
+        }
+      },
+      "next_button": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Next Button"
+        }
+      },
+      "filled_step_status": {
+        "type": "StructuredText",
+        "config": {
+          "single": "paragraph",
+          "label": "Filled Step Status"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice zone",
+        "config": {
+          "labels": null,
+          "choices": {
+            "delivery_method": {
+              "type": "SharedSlice"
+            },
+            "shipping_information": {
+              "type": "SharedSlice"
+            },
+            "payment_information": {
+              "type": "SharedSlice"
+            },
+            "review_and_pay": {
+              "type": "SharedSlice"
+            },
+            "shipping_form": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  },
+  "status": true
+}

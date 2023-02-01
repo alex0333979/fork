@@ -1,0 +1,83 @@
+{
+  "id": "contact_us",
+  "label": "Contact us",
+  "repeatable": false,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Page id"
+        }
+      },
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading1",
+          "label": "Title"
+        }
+      },
+      "title_background": {
+        "type": "Image",
+        "config": {
+          "constraint": {},
+          "thumbnails": [],
+          "label": "Title Background"
+        }
+      },
+      "sub_title": {
+        "type": "StructuredText",
+        "config": {
+          "single": "heading2",
+          "label": "Sub Title"
+        }
+      },
+      "sub_text": {
+        "type": "StructuredText",
+        "config": {
+          "multi": "paragraph,strong,em",
+          "allowTargetBlank": true,
+          "label": "Sub text"
+        }
+      },
+      "direction_link": {
+        "type": "StructuredText",
+        "config": {
+          "single": "hyperlink",
+          "allowTargetBlank": true,
+          "label": "Direction Link"
+        }
+      },
+      "geopoint": {
+        "type": "GeoPoint",
+        "config": {
+          "label": "Geopoint"
+        }
+      },
+      "contacts_list": {
+        "type": "Group",
+        "config": {
+          "fields": {
+            "list_title": {
+              "type": "StructuredText",
+              "config": {
+                "single": "heading3",
+                "label": "List Title"
+              }
+            },
+            "list_text": {
+              "type": "StructuredText",
+              "config": {
+                "single": "paragraph,strong,em,hyperlink",
+                "allowTargetBlank": true,
+                "label": "List Text"
+              }
+            }
+          },
+          "label": "Contacts List"
+        }
+      }
+    }
+  },
+  "status": true
+}
