@@ -5,12 +5,12 @@ import { useForm, Controller } from 'react-hook-form'
 import { Bars } from 'react-loading-icons'
 import Input from 'react-phone-number-input/input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
+import { PrismicRichText } from '@prismicio/react'
+import { PrismicNextImage } from '@prismicio/next'
 
 import { showError, showSuccess } from '@/utils'
 import { useSendEmailToAdminMutation } from '@/apollo'
 import { ContactUsPageProps } from '@/pages/contact-us'
-import { PrismicRichText } from '@prismicio/react'
-import { PrismicNextImage } from '@prismicio/next'
 
 import { IContactUsForm } from './types'
 import ContactItem from './contactItem'
@@ -195,8 +195,9 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
                 scrolling="no"
                 marginHeight={0}
                 marginWidth={0}
+                // eslint-disable-next-line no-template-curly-in-string
                 src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;
-                hl=en&amp;q='+page?.data.geopoint.latitude+','+page?.data.geopoint.longitude+'&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+                hl=en&amp;q=${page?.data.geopoint.latitude},${page?.data.geopoint.longitude}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
             </div>
           </div>
         </div>
