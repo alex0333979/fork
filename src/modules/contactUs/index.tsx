@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 /* eslint-disable max-len */
 import React, { useCallback, useState } from 'react'
 import classNames from 'classnames'
@@ -80,7 +81,7 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
                   ))}
                 </ul>
                 <div className="btn">
-                  <a href="https://www.google.com/maps?q=185+Great+Neck+Road,+NY+11021">
+                  <a href="https://www.google.com/maps?q=${page?.data.geopoint.latitude},${page?.data.geopoint.longitude}">
                     <PrismicRichText field={page?.data.direction_link} />
                     <span className="icon-longarrow" />
                   </a>
