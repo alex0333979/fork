@@ -1,10 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react'
-import {
-  InferGetServerSidePropsType,
-  GetServerSideProps,
-  GetServerSidePropsContext,
-} from 'next'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import type { NextPage } from 'next'
 import ErrorPage from 'next/error'
 import { NextSeo } from 'next-seo'
@@ -25,10 +21,6 @@ import {
   PDocument,
 } from '@/apollo'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
-
-export type LandingPageProps = InferGetServerSidePropsType<
-  typeof getServerSideProps
->
 
 export interface HomePageProps {
   country: Country | null
