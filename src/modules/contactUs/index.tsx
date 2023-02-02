@@ -80,11 +80,9 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
                     <ContactItem key={index} contact={item} />
                   ))}
                 </ul>
-                <div className="btn">
-                  <a href="https://www.google.com/maps?q=${page?.data.geopoint.latitude},${page?.data.geopoint.longitude}">
-                    <PrismicRichText field={page?.data.direction_link} />
-                    <span className="icon-longarrow" />
-                  </a>
+                <div className="d-flex align-center btn">
+                  <PrismicRichText field={page?.data.direction_link} />
+                  <span className="icon-longarrow" />
                 </div>
               </div>
             </div>
@@ -196,9 +194,10 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
                 scrolling="no"
                 marginHeight={0}
                 marginWidth={0}
-                // eslint-disable-next-line no-template-curly-in-string
                 src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;
-                hl=en&amp;q=${page?.data.geopoint.latitude},${page?.data.geopoint.longitude}&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+                hl=en&amp;q=185%20Great%20Neck%20Road,%20NY%2011021+(185%20Great%20Neck%20Road,
+                %20NY%2011021)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+              />
             </div>
           </div>
         </div>
