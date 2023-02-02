@@ -1,5 +1,5 @@
+/* eslint-disable max-len */
 import React, { useCallback, useState } from 'react'
-import Image from 'next/image'
 import classNames from 'classnames'
 import { useForm, Controller } from 'react-hook-form'
 import { Bars } from 'react-loading-icons'
@@ -8,10 +8,16 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 
 import { showError, showSuccess } from '@/utils'
 import { useSendEmailToAdminMutation } from '@/apollo'
-import 'react-phone-number-input/style.css'
-import { IContactUsForm } from './types'
+import { ContactUsPageProps } from '@/pages/contact-us'
+import { PrismicRichText } from '@prismicio/react'
+import { PrismicNextImage } from '@prismicio/next'
 
-const ContactUs: React.FC = () => {
+import { IContactUsForm } from './types'
+import ContactItem from './contactItem'
+
+import 'react-phone-number-input/style.css'
+
+const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [sendEmailToAdmin] = useSendEmailToAdminMutation()
   const {
@@ -50,18 +56,9 @@ const ContactUs: React.FC = () => {
         <div className="container">
           <div className="title">
             <div className="contacts-bg">
-              <Image
-                src="/images/Contacts/contacts-bg.jpg"
-                width={1328}
-                height={659}
-                alt=""
-              />
+              <PrismicNextImage field={page?.data.title_background} />
             </div>
-            <h1>
-              The premier online passport photo service.
-              <br />
-              Proudly serving our customers globally.
-            </h1>
+            <PrismicRichText field={page?.data.title} />
           </div>
         </div>
       </div>
@@ -71,40 +68,20 @@ const ContactUs: React.FC = () => {
           <div className="row">
             <div className="col-12">
               <div className="title">
-                <h2>Contact Us</h2>
-                <p>
-                  Please find our contact details and form below for general
-                  queries and order inquiries. We&apos;re here to help!
-                </p>
+                <PrismicRichText field={page?.data.sub_title} />
+                <PrismicRichText field={page?.data.sub_text} />
               </div>
             </div>
             <div className="col-12 col-lg-4">
               <div className="text">
                 <ul>
-                  <li>
-                    <h3>EMAIL SUPPORT</h3>
-                    <p>
-                      <a href="mailto:support@passportphotos.com">
-                        support@passportphotos.co
-                      </a>
-                    </p>
-                  </li>
-                  <li>
-                    <h3>OPERATING HOURS</h3>
-                    <p>Mon - Fri: 10am - 6p</p>
-                  </li>
-                  <li>
-                    <h3>Office Address</h3>
-                    <p>
-                      185 Great Neck Road, NY
-                      <br />
-                      11021
-                    </p>
-                  </li>
+                  {page?.data.contacts_list.map((item: any, index: number) => (
+                    <ContactItem key={index} contact={item} />
+                  ))}
                 </ul>
                 <div className="btn">
                   <a href="https://www.google.com/maps?q=185+Great+Neck+Road,+NY+11021">
-                    Get Directions
+                    <PrismicRichText field={page?.data.direction_link} />
                     <span className="icon-longarrow" />
                   </a>
                 </div>
@@ -219,9 +196,7 @@ const ContactUs: React.FC = () => {
                 marginHeight={0}
                 marginWidth={0}
                 src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;
-                hl=en&amp;q=185%20Great%20Neck%20Road,%20NY%2011021+(185%20Great%20Neck%20Road,
-                %20NY%2011021)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-              />
+                hl=en&amp;q='+page?.data.geopoint.latitude+','+page?.data.geopoint.longitude+'&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
             </div>
           </div>
         </div>
