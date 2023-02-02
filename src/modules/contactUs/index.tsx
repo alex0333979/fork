@@ -194,9 +194,13 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
                 scrolling="no"
                 marginHeight={0}
                 marginWidth={0}
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;
-                hl=en&amp;q=185%20Great%20Neck%20Road,%20NY%2011021+(185%20Great%20Neck%20Road,
-                %20NY%2011021)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                src={
+                  'https://maps.google.com/maps?width=100%25&height=600&hl=en&q=' +
+                  page?.data.geopoint.latitude +
+                  ',' +
+                  page?.data.geopoint.longitude +
+                  '&t=&z=14&ie=UTF8&iwloc=B&output=embed'
+                }
               />
             </div>
           </div>
