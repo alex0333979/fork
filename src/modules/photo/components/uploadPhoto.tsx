@@ -8,12 +8,14 @@ import { PrismicNextImage } from '@prismicio/next'
 import { useDocumentQuery } from '@/apollo'
 import TakePhotoModal from '@/components/elements/takePhotoModal'
 import { PrismicContext } from '@/contexts'
+import { PrismicDocument } from '@prismicio/types'
 
 interface Props {
   camera: 'user' | 'environment'
   onChangeCamera: (c: 'user' | 'environment') => void
   onStartUpload: () => void
   onPhotoTaken: (f: File) => Promise<void>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const UploadPhoto: React.FC<Props> = ({
@@ -21,14 +23,13 @@ const UploadPhoto: React.FC<Props> = ({
   onStartUpload,
   onChangeCamera,
   onPhotoTaken,
+  page,
 }) => {
   const router = useRouter()
   const [openCamera, setOpenCamera] = useState<boolean>(false)
   const [docCountry, setDocCountry] = useState<string>('')
   const matches = useMediaQuery('only screen and (max-width: 1024px)')
-  const { pageData } = useContext(PrismicContext)
 
-  console.error('here:>>>>', pageData)
   useDocumentQuery({
     fetchPolicy: 'cache-first',
     skip: !router.query.documentId,
@@ -43,8 +44,8 @@ const UploadPhoto: React.FC<Props> = ({
   return (
     <>
       <div className="title">
-        <PrismicRichText field={pageData?.data.step_title} />
-        <PrismicRichText field={pageData?.data.step_text} />
+        <PrismicRichText field={page?.data.step_title} />
+        <PrismicRichText field={page?.data.step_text} />
       </div>
       <div className="method-option">
         <label>
@@ -59,12 +60,12 @@ const UploadPhoto: React.FC<Props> = ({
             <span className="bullet" />
             <div className="img">
               <PrismicNextImage
-                field={pageData?.data.step_options[0].option_image}
+                field={page?.data.step_options[0].option_image}
               />
             </div>
             <span className="name">
               <PrismicRichText
-                field={pageData?.data.step_options[0].option_text}
+                field={page?.data.step_options[0].option_text}
               />
             </span>
           </span>
@@ -83,12 +84,12 @@ const UploadPhoto: React.FC<Props> = ({
               <span className="bullet" />
               <div className="img">
                 <PrismicNextImage
-                  field={pageData?.data.step_options[1].option_image}
+                  field={page?.data.step_options[1].option_image}
                 />
               </div>
               <span className="name">
                 <PrismicRichText
-                  field={pageData?.data.step_options[1].option_text}
+                  field={page?.data.step_options[1].option_text}
                 />
               </span>
             </span>

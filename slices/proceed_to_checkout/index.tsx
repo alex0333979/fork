@@ -34,8 +34,6 @@ const ProceedToCheckout: React.FC<ProceedToCheckoutProps> = ({
     onSubmitEntry,
   })
 
-  console.error('proceed slice here:>>>', slice)
-
   return (
     <div className="step-data">
       <div className="data-wrap">
@@ -60,6 +58,7 @@ const ProceedToCheckout: React.FC<ProceedToCheckoutProps> = ({
             onChangeCamera={onChangeCamera}
             onStartUpload={() => fileRef?.current?.click()}
             onPhotoTaken={onPhotoTaken}
+            page={context.page}
           />
         )}
         <PhotoHelper />

@@ -20,7 +20,7 @@ const GetPhoto: React.FC<Props & TakeNewPhotoProps> = ({
           <SliceZone
             slices={page?.data.slices}
             components={components}
-            context={{ onSubmitEntry }}
+            context={{ onSubmitEntry, page }}
           />
         </div>
       </div>
