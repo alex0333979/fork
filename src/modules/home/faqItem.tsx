@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import classNames from 'classnames'
-
 import { PrismicRichText } from '@prismicio/react'
+import { PrismicNextImage } from '@prismicio/next'
+import classNames from 'classnames'
 
 interface Props {
   faq: any
@@ -36,6 +36,16 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
         <PrismicRichText
           field={faq.advice_text ? faq.advice_text : faq.faq_answer}
         />
+
+        <div>
+          {faq.correct_example && (
+            <div className="attached-images">
+              <PrismicNextImage field={faq.correct_example} />
+              <PrismicNextImage field={faq.wrong_example} />
+              <PrismicNextImage field={faq.video_example} />
+            </div>
+          )}
+        </div>
       </div>
     </li>
   )
