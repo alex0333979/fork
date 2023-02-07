@@ -5,12 +5,14 @@ interface Props {
   selectedImage: File | undefined
   percentage: number
   onCancelUpload: () => void
+  slice: any
 }
 
 const PhotoProcessing: React.FC<Props> = ({
   selectedImage,
   percentage,
   onCancelUpload,
+  slice,
 }) => {
   const UserImage = useMemo(() => {
     if (selectedImage) {

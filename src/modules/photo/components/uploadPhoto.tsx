@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import NextImage from 'next/image'
 import { useRouter } from 'next/router'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
@@ -27,8 +26,9 @@ const UploadPhoto: React.FC<Props> = ({
   const [openCamera, setOpenCamera] = useState<boolean>(false)
   const [docCountry, setDocCountry] = useState<string>('')
   const matches = useMediaQuery('only screen and (max-width: 1024px)')
-  const { page } = useContext(PrismicContext)
+  const { pageData } = useContext(PrismicContext)
 
+  console.error('here:>>>>', pageData)
   useDocumentQuery({
     fetchPolicy: 'cache-first',
     skip: !router.query.documentId,
@@ -43,8 +43,8 @@ const UploadPhoto: React.FC<Props> = ({
   return (
     <>
       <div className="title">
-        <PrismicRichText field={page?.data.step_title} />
-        <PrismicRichText field={page?.data.step_text} />
+        <PrismicRichText field={pageData?.data.step_title} />
+        <PrismicRichText field={pageData?.data.step_text} />
       </div>
       <div className="method-option">
         <label>
@@ -59,11 +59,13 @@ const UploadPhoto: React.FC<Props> = ({
             <span className="bullet" />
             <div className="img">
               <PrismicNextImage
-                field={page?.data.step_options[0].option_image}
+                field={pageData?.data.step_options[0].option_image}
               />
             </div>
             <span className="name">
-              <PrismicRichText field={page?.data.step_options[0].option_text} />
+              <PrismicRichText
+                field={pageData?.data.step_options[0].option_text}
+              />
             </span>
           </span>
         </label>
@@ -79,14 +81,16 @@ const UploadPhoto: React.FC<Props> = ({
             />
             <span className="option-wrap">
               <span className="bullet" />
-              <span className="img">
-                <NextImage
-                  src="/images/steps/step-01-02-v2.png"
-                  layout="fill"
-                  alt=""
+              <div className="img">
+                <PrismicNextImage
+                  field={pageData?.data.step_options[0].option_image}
+                />
+              </div>
+              <span className="name">
+                <PrismicRichText
+                  field={pageData?.data.step_options[0].option_text}
                 />
               </span>
-              <span className="name">Someone’s taking my photo</span>
             </span>
           </label>
         )}

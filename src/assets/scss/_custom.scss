@@ -720,3 +720,90 @@ ul.check-mark {
 .justify-center {
   justify-content: center;
 }
+
+.instruction-list {
+  margin: 0 0 0 -12px;
+  padding: 0 12px 0 0;
+
+  ul {
+    counter-reset: item;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding-bottom: 0;
+
+      .step-toolbar-img {
+        position: relative;
+        z-index: 1;
+
+        span {
+          display: block;
+          position: relative;
+          z-index: 1;
+          margin-right: -30px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            top: 0;
+            left: 0;
+            z-index: 1;
+          }
+        }
+
+        &:before {
+          counter-increment: item;
+          content: counter(item, decimal-leading-zero);
+          width: 47px;
+          height: 47px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 5px;
+          position: absolute;
+          top: 28px;
+          right: 16px;
+          z-index: 3;
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 1.22;
+          color: var(--black);
+          border-radius: 50%;
+          background: var(--white);
+          border: 1px solid var(--porcelain);
+        }
+
+        span {
+          display: block;
+          margin-right: -30px;
+          position: relative;
+          z-index: 1;
+
+          &:before {
+            content: '';
+            display: block;
+            pointer-events: none;
+          }
+        }
+      }
+
+      .text {
+        width: (100% - 38.7%);
+        padding-left: 30px;
+
+        p {
+          margin: 0;
+          font-weight: normal;
+          line-height: 1.22;
+          color: #4C5862;
+        }
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+}

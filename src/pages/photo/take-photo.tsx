@@ -35,8 +35,9 @@ const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
   documentId,
   page,
 }) => {
-  const { setPage } = useContext(PrismicContext)
-  setPage(page)
+  const { setPageData } = useContext(PrismicContext)
+  setPageData(page)
+  console.error('here: >>>', page)
 
   return (
     <>
