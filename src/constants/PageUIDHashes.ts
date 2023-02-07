@@ -1,6 +1,7 @@
 export const PageTypeHashes = {
   usLandingPage: 'landing_page',
   contactUs: 'contact_us',
+  process_page: 'process_page',
 }
 
 export const PageUIDHashes = {
@@ -8,6 +9,7 @@ export const PageUIDHashes = {
     'united-states-passport-order-your-passport-photos-online-with-our-simple-digital-tool',
   homepage: 'home',
   contactusPage: 'contact-us',
+  processPage: 'take-photo',
 }
 
 export const prismicRoutes = [
@@ -25,5 +27,10 @@ export const prismicRoutes = [
     type: PageTypeHashes.contactUs,
     uid: PageUIDHashes.contactusPage,
     path: '/contact-us',
+  },
+  {
+    type: PageTypeHashes.process_page,
+    uid: PageUIDHashes.processPage,
+    path: '/photo/take-photo/',
   },
 ]

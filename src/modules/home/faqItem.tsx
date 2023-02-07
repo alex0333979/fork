@@ -26,12 +26,16 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
             if (onOpen) onOpen()
             setShow(!show)
           }}>
-          <PrismicRichText field={faq.faq_question} />
+          <PrismicRichText
+            field={faq.advice_title ? faq.advice_title : faq.faq_question}
+          />
           <span className="icon-close" />
         </h3>
       </div>
       <div className="answer">
-        <PrismicRichText field={faq.faq_answer} />
+        <PrismicRichText
+          field={faq.advice_text ? faq.advice_text : faq.faq_answer}
+        />
       </div>
     </li>
   )

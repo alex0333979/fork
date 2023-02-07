@@ -11,8 +11,8 @@ import { I18nextProvider } from 'react-i18next'
 import Link from 'next/link'
 import { PrismicProvider } from '@prismicio/react'
 import { PrismicPreview } from '@prismicio/next'
-import { repositoryName } from '../../prismicio'
 
+import { repositoryName } from '../../prismicio'
 import i18n from '@/i18n'
 import SignIn from '@/modules/auth/signIn'
 import SignUp from '@/modules/auth/signUp'
@@ -28,6 +28,7 @@ import {
   LocationProvider,
   CurrencyProvider,
   ProductsProvider,
+  PrismicContextProvider,
 } from '@/contexts'
 
 import { useApollo } from '@/apollo/client'
@@ -52,42 +53,44 @@ function MyApp({ Component, pageProps }: AppProps) {
             <a {...props} />
           </Link>
         )}>
-        <PrismicPreview repositoryName={repositoryName}>
-          <ApolloProvider client={apolloClient}>
-            <I18nextProvider i18n={i18n}>
-              <CookiesProvider>
-                <AppProvider>
-                  <AuthProvider client={apolloClient}>
-                    <LocationProvider>
-                      <CurrencyProvider>
-                        <ProductsProvider>
-                          <CheckoutContextProvider>
-                            <Head>
-                              <meta
-                                name="viewport"
-                                content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-                              />
-                              <title>Passport Photos</title>
-                            </Head>
-                            <SignIn />
-                            <SignUp />
-                            <Component {...pageProps} />
-                            <ToastContainer />
-                          </CheckoutContextProvider>
-                        </ProductsProvider>
-                      </CurrencyProvider>
-                    </LocationProvider>
-                  </AuthProvider>
-                </AppProvider>
-              </CookiesProvider>
-            </I18nextProvider>
-          </ApolloProvider>
-          <MailChimpScript />
-          <GoogledAdsScript />
-          <GoogledAnalyticsScript />
-          <FacebookPixelScript />
-          <MicrosoftUETScript />
-        </PrismicPreview>
+        <PrismicContextProvider>
+          <PrismicPreview repositoryName={repositoryName}>
+            <ApolloProvider client={apolloClient}>
+              <I18nextProvider i18n={i18n}>
+                <CookiesProvider>
+                  <AppProvider>
+                    <AuthProvider client={apolloClient}>
+                      <LocationProvider>
+                        <CurrencyProvider>
+                          <ProductsProvider>
+                            <CheckoutContextProvider>
+                              <Head>
+                                <meta
+                                  name="viewport"
+                                  content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+                                />
+                                <title>Passport Photos</title>
+                              </Head>
+                              <SignIn />
+                              <SignUp />
+                              <Component {...pageProps} />
+                              <ToastContainer />
+                            </CheckoutContextProvider>
+                          </ProductsProvider>
+                        </CurrencyProvider>
+                      </LocationProvider>
+                    </AuthProvider>
+                  </AppProvider>
+                </CookiesProvider>
+              </I18nextProvider>
+            </ApolloProvider>
+            <MailChimpScript />
+            <GoogledAdsScript />
+            <GoogledAnalyticsScript />
+            <FacebookPixelScript />
+            <MicrosoftUETScript />
+          </PrismicPreview>
+        </PrismicContextProvider>
       </PrismicProvider>
     </>
   )

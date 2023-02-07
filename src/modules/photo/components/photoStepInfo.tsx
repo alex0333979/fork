@@ -1,7 +1,11 @@
 import React from 'react'
 import NextImage from 'next/image'
 
-const PhotoStepInfo: React.FC = () => (
+interface PhotoStepInfoProps {
+  slice?: any
+}
+
+const PhotoStepInfo: React.FC<PhotoStepInfoProps> = ({ slice }) => (
   <div className="step-info">
     <div className="info-toolbar">
       <p>

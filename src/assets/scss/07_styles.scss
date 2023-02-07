@@ -4085,7 +4085,7 @@ footer {
 
           &.option-wrap {
             width: 100%;
-            padding: 47px 15px 25px 15px;
+            // padding: 47px 15px 25px 15px;
             position: relative;
             z-index: 1;
             border: 3px solid transparent;
@@ -4151,7 +4151,6 @@ footer {
           }
 
           &.name {
-            padding-top: 26px;
             font-weight: normal;
             font-size: 18px;
             line-height: 1.22;

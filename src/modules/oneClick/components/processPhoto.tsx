@@ -33,7 +33,6 @@ const ProcessPhoto: React.FC<Props> = ({
       _onCheckout()
     },
   })
-
   const { status, imageUrl, imageLink, width, height, passed, failed } =
     useVerifyPhoto({
       entry,

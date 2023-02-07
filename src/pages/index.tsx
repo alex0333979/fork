@@ -27,7 +27,7 @@ export interface HomePageProps {
   document: PDocument | null
   errorCode?: number
   onStart?: () => void
-  page?: PrismicDocument<Record<string, any>, string, string>
+  page: PrismicDocument<Record<string, any>, string, string>
 }
 
 const HomePage: NextPage<HomePageProps> = ({
@@ -39,6 +39,7 @@ const HomePage: NextPage<HomePageProps> = ({
   if (errorCode === 404) {
     return <ErrorPage statusCode={errorCode} />
   }
+
   return (
     <>
       <NextSeo
