@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import NextImage from 'next/image'
 import { useRouter } from 'next/router'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
+import { PrismicRichText } from '@prismicio/react'
+import { PrismicNextImage } from '@prismicio/next'
+import { PrismicDocument } from '@prismicio/types'
 
 import { useDocumentQuery } from '@/apollo'
 import TakePhotoModal from '@/components/elements/takePhotoModal'
@@ -12,6 +14,7 @@ interface Props {
   onChangeCamera: (c: 'user' | 'environment') => void
   onStartUpload: () => void
   onPhotoTaken: (f: File) => Promise<void>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const UploadPhoto: React.FC<Props> = ({
@@ -19,6 +22,7 @@ const UploadPhoto: React.FC<Props> = ({
   onStartUpload,
   onChangeCamera,
   onPhotoTaken,
+  page,
 }) => {
   const router = useRouter()
   const [openCamera, setOpenCamera] = useState<boolean>(false)
@@ -39,8 +43,8 @@ const UploadPhoto: React.FC<Props> = ({
   return (
     <>
       <div className="title">
-        <h1>Taking your shot on your own or having someone take it for you?</h1>
-        <p>Select from the options below</p>
+        <PrismicRichText field={page?.data.step_title} />
+        <PrismicRichText field={page?.data.step_text} />
       </div>
       <div className="method-option">
         <label>
@@ -53,14 +57,14 @@ const UploadPhoto: React.FC<Props> = ({
           />
           <span className="option-wrap">
             <span className="bullet" />
-            <span className="img">
-              <NextImage
-                src="/images/steps/step-01-01-v2.png"
-                layout="fill"
-                alt=""
+            <div className="img">
+              <PrismicNextImage
+                field={page?.data.step_options[0].option_image}
               />
+            </div>
+            <span className="name">
+              <PrismicRichText field={page?.data.step_options[0].option_text} />
             </span>
-            <span className="name">I&apos;ll take a selfie</span>
           </span>
         </label>
 
@@ -75,14 +79,16 @@ const UploadPhoto: React.FC<Props> = ({
             />
             <span className="option-wrap">
               <span className="bullet" />
-              <span className="img">
-                <NextImage
-                  src="/images/steps/step-01-02-v2.png"
-                  layout="fill"
-                  alt=""
+              <div className="img">
+                <PrismicNextImage
+                  field={page?.data.step_options[1]?.option_image}
+                />
+              </div>
+              <span className="name">
+                <PrismicRichText
+                  field={page?.data.step_options[1]?.option_text}
                 />
               </span>
-              <span className="name">Someone’s taking my photo</span>
             </span>
           </label>
         )}

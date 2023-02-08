@@ -1,8 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { PrismicRichText } from '@prismicio/react'
 
-const PhotoHeader: React.FC = () => (
+import { PhotoProps } from 'slices/proceed_to_checkout'
+
+const PhotoHeader: React.FC<PhotoProps> = ({ page }) => (
   <header>
     <div className="steps-header">
       <div className="container">
@@ -24,18 +27,12 @@ const PhotoHeader: React.FC = () => (
           <div className="right-side">
             <div className="steps-advantages">
               <ul>
-                <li>
-                  <span className="icon-government" />
-                  {'Government Compliant'}
-                </li>
-                <li>
-                  <span className="icon-safe" />
-                  {'Your Data Is Secure'}
-                </li>
-                <li>
-                  <span className="icon-revisions" />
-                  {'Unlimited Revisions'}
-                </li>
+                {page.data.steps_advantages.map((step: any, index: number) => (
+                  <li key={index}>
+                    <span className={step.icon_class[0].text} />
+                    <PrismicRichText field={step.text} />
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -44,4 +41,5 @@ const PhotoHeader: React.FC = () => (
     </div>
   </header>
 )
+
 export default PhotoHeader

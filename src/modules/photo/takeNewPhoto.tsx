@@ -1,13 +1,18 @@
 import React, { useCallback } from 'react'
 import { useCookies } from 'react-cookie'
 import { useRouter } from 'next/router'
+import { PrismicDocument } from '@prismicio/types'
 
 import { SignedUrl, useUpdateEntryPhotoMutation } from '@/apollo'
 import { TCamera } from '@/types'
 import { PAGES, COOKIES_EDIT_ORDER_TOKEN_NAME, TEMP_IMG_DIM } from '@/constants'
 import GetPhoto from './_getPhoto'
 
-const TakeNewPhoto: React.FC = () => {
+export interface TakeNewPhotoProps {
+  page?: PrismicDocument<Record<string, any>, string, string>
+}
+
+const TakeNewPhoto: React.FC<TakeNewPhotoProps> = ({ page }) => {
   const router = useRouter()
   const [cookie, setCookie] = useCookies([
     COOKIES_EDIT_ORDER_TOKEN_NAME,
@@ -43,6 +48,6 @@ const TakeNewPhoto: React.FC = () => {
     [cookie, router, setCookie, updateEntryPhoto],
   )
 
-  return <GetPhoto onSubmitEntry={updateEntry} />
+  return <GetPhoto onSubmitEntry={updateEntry} page={page} />
 }
 export default TakeNewPhoto

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
+import { createClient } from 'prismicio'
 
 import PhotoLayout from '@/components/layout/photoLayout'
 import TakePhoto from '@/modules/photo/takePhoto'
@@ -17,28 +18,43 @@ import {
 } from '@/apollo'
 import { initializeApollo } from '@/apollo/client'
 import { PAGES, PHOTO_FORM, SEO } from '@/constants'
+import { PrismicDocument } from '@prismicio/types'
+import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { PrismicContext } from '@/contexts'
 
 export interface TakePhotoPageProps {
   form: Form
   entry: Entry | null
   documentId: string
+  page: PrismicDocument<Record<string, any>, string, string>
 }
 
 const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
   form,
   entry,
   documentId,
-}) => (
-  <>
-    <NextSeo
-      title={SEO.selectType.title}
-      description={SEO.selectType.description}
-    />
-    <PhotoLayout>
-      <TakePhoto form={form} entry={entry} documentId={documentId} />
-    </PhotoLayout>
-  </>
-)
+  page,
+}) => {
+  const { setPageData } = useContext(PrismicContext)
+  setPageData(page)
+
+  return (
+    <>
+      <NextSeo
+        title={SEO.selectType.title}
+        description={SEO.selectType.description}
+      />
+      <PhotoLayout page={page}>
+        <TakePhoto
+          form={form}
+          entry={entry}
+          documentId={documentId}
+          page={page}
+        />
+      </PhotoLayout>
+    </>
+  )
+}
 
 export default TakePhotoPage
 
@@ -51,6 +67,14 @@ export const getServerSideProps: GetServerSideProps<
       permanent: false,
     },
   })
+
+  const previewData = context.params?.previewData
+  const client = createClient({ previewData })
+
+  const page = await client.getByUID(
+    PageTypeHashes.process_page,
+    PageUIDHashes.processPage,
+  )
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 'no-store')
@@ -77,6 +101,7 @@ export const getServerSideProps: GetServerSideProps<
           form,
           entry: null,
           documentId,
+          page,
         },
       }
     }
@@ -93,6 +118,7 @@ export const getServerSideProps: GetServerSideProps<
             form,
             entry: null,
             documentId,
+            page,
           },
         }
       }
@@ -112,6 +138,7 @@ export const getServerSideProps: GetServerSideProps<
         form,
         entry,
         documentId,
+        page,
       },
     }
   } catch (e) {

@@ -14,6 +14,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
   entry,
   type,
   document,
+  page,
 }) => {
   const router = useRouter()
   const [openApplication, setOpenApplication] = useState<boolean>(false)
@@ -41,6 +42,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
         showStep
         entry={entry}
         type={type}
+        page={page}
         document={document}
         onCheckout={onCheckout}
         onChangePhoto={() =>
@@ -78,6 +80,7 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
         ) => (
           <RetakeButton
             loading={loading}
+            page={page}
             status={status}
             onRetake={() =>
               router.push(

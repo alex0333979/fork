@@ -12,6 +12,7 @@ import { useProcessPhoto, useVerifyPhoto } from '@/hooks'
 import RetakeButton from '@/modules/photo/components/retakeButton'
 import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
 import TestCase from '@/modules/photo/components/testCase'
+import { PhotoProps } from 'slices/proceed_to_checkout'
 
 interface Props {
   entry: Entry
@@ -20,11 +21,12 @@ interface Props {
   onCheckout: () => void
 }
 
-const ProcessPhoto: React.FC<Props> = ({
+const ProcessPhoto: React.FC<Props & PhotoProps> = ({
   entry,
   document,
   onChangePhoto,
   onCheckout: _onCheckout,
+  page,
 }) => {
   const { loading, onCheckout } = useProcessPhoto({
     document,
@@ -33,7 +35,6 @@ const ProcessPhoto: React.FC<Props> = ({
       _onCheckout()
     },
   })
-
   const { status, imageUrl, imageLink, width, height, passed, failed } =
     useVerifyPhoto({
       entry,
@@ -117,7 +118,12 @@ const ProcessPhoto: React.FC<Props> = ({
                   Change Photo
                 </button>
               </div>
-              <TestCase status={status} passed={passed} failed={failed} />
+              <TestCase
+                status={status}
+                passed={passed}
+                failed={failed}
+                items={page.data.slices[1].items}
+              />
             </div>
           </div>
 
@@ -127,6 +133,7 @@ const ProcessPhoto: React.FC<Props> = ({
               status={status}
               onRetake={onChangePhoto}
               onNext={() => onCheckout(imageLink)}
+              page={page}
             />
           </div>
         </div>

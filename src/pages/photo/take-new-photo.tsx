@@ -1,21 +1,25 @@
 import React from 'react'
-import type { NextPage } from 'next'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { NextSeo } from 'next-seo'
 
 import PhotoLayout from '@/components/layout/photoLayout'
 import TakeNewPhoto from '@/modules/photo/takeNewPhoto'
+import { PrismicDocument } from '@prismicio/types'
 
 import { SEO } from '@/constants'
 
-const TakeNewPhotoPage: NextPage = () => (
+interface TakeNewPhotoPageProps {
+  page?: PrismicDocument<Record<string, any>, string, string>
+}
+
+const TakeNewPhotoPage: React.FC<TakeNewPhotoPageProps> = ({ page }) => (
   <>
     <NextSeo
       title={SEO.selectType.title}
       description={SEO.selectType.description}
     />
     <PhotoLayout>
-      <TakeNewPhoto />
+      <TakeNewPhoto page={page} />
     </PhotoLayout>
   </>
 )
