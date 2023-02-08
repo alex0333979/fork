@@ -811,3 +811,23 @@ ul.check-mark {
 .attached-images {
   padding: 15px 0 8px 20px;
 }
+
+.proceed-to-checkout {
+  @media screen and (min-width: 1420px) {
+    height: 54px
+  }
+
+  @media screen and (max-width: 1420px) {
+    height: 32px
+  }
+}
+
+.change-to-photo {
+  height: 32px
+}
+
+.retake-button {
+  @media screen and (max-width: 1176px) {
+    height: 52px
+  }
+}

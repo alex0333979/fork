@@ -1,7 +1,9 @@
 import React from 'react'
 import { Bars } from 'react-loading-icons'
+import { PrismicRichText } from '@prismicio/react'
 
 import { ProcessingStatus } from '@/types'
+import { PhotoProps } from 'slices/proceed_to_checkout'
 
 interface Props {
   loading: boolean
@@ -11,12 +13,13 @@ interface Props {
   onOpenInfo?: (v: boolean) => void
 }
 
-const RetakeButton: React.FC<Props> = ({
+const RetakeButton: React.FC<Props & PhotoProps> = ({
   loading,
   status,
   onRetake,
   onNext,
   onOpenInfo,
+  page,
 }) => {
   if (status !== ProcessingStatus.success) {
     return (
@@ -47,9 +50,16 @@ const RetakeButton: React.FC<Props> = ({
   return (
     <div className="btn-wrap">
       <div className="action-btn">
-        <button type="button" className="main-btn outline" onClick={onRetake}>
+        <button
+          type="button"
+          className="main-btn outline retake-button"
+          onClick={onRetake}>
           <i className="icon-left" />
-          <span>Retake My Shot</span>
+          <span>
+            <PrismicRichText
+              field={page?.data.slices[1].primary.retake_button}
+            />
+          </span>
         </button>
         <button type="button" className="main-btn" onClick={onNext}>
           {loading ? (

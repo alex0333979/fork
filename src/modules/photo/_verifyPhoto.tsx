@@ -9,10 +9,12 @@ import LoadingSpinner from '@/components/loadingSpinner'
 import { Entry, PDocument } from '@/apollo'
 import { ProcessingStatus } from '@/types'
 import { useVerifyPhoto } from '@/hooks'
+import { PrismicDocument } from '@prismicio/types'
 
 import ProcessStepPhoto from './components/processStepPhoto'
 import StepInfo from './components/stepInfo'
 import TestCase from './components/testCase'
+import { PrismicRichText } from '@prismicio/react'
 
 interface Props {
   entry?: Entry
@@ -20,6 +22,7 @@ interface Props {
   photoUrl?: string
   document?: PDocument
   showStep?: boolean
+  page?: PrismicDocument<Record<string, any>, string, string>
   onCheckout?: (imageLink: string) => void
   onChangePhoto: () => void
   renderTitle: (status: ProcessingStatus) => React.ReactNode
@@ -37,6 +40,7 @@ const VerifyPhoto: React.FC<Props> = ({
   type,
   document,
   showStep,
+  page,
   onCheckout,
   renderTitle,
   renderRetakeButton,
@@ -113,20 +117,29 @@ const VerifyPhoto: React.FC<Props> = ({
                     {status === ProcessingStatus.success && onCheckout && (
                       <button
                         type="button"
-                        className="main-btn"
+                        className="main-btn proceed-to-checkout"
                         onClick={() => onCheckout(imageLink)}>
-                        Proceed To Checkout
+                        <PrismicRichText
+                          field={page?.data.slices[1].primary.proceed_button}
+                        />
                       </button>
                     )}
                     <button
                       type="button"
-                      className="main-btn no-border"
+                      className="main-btn no-border change-to-photo"
                       onClick={onChangePhoto}>
                       <i className="icon-camera" />
-                      Change Photo
+                      <PrismicRichText
+                        field={page?.data.slices[1].primary.change_button}
+                      />
                     </button>
                   </div>
-                  <TestCase status={status} passed={passed} failed={failed} />
+                  <TestCase
+                    status={status}
+                    passed={passed}
+                    failed={failed}
+                    items={page?.data.slices[1].items}
+                  />
                 </div>
               </div>
 

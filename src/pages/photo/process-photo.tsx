@@ -24,25 +24,30 @@ import {
   TOKEN_EXPIRE_IN,
   COOKIES_TOKEN_NAME,
 } from '@/constants'
+import { PrismicDocument } from '@prismicio/types'
+import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { createClient } from 'prismicio'
 
 export interface ProcessPhotoProps {
   entry: Entry
   type: string
   document: PDocument
+  page: PrismicDocument<Record<string, any>, string, string>
 }
 
 const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({
   entry,
   type,
   document,
+  page,
 }) => (
   <>
     <NextSeo
       title={SEO.processPhoto.title}
       description={SEO.processPhoto.description}
     />
-    <PhotoLayout>
-      <ProcessPhoto entry={entry} type={type} document={document} />
+    <PhotoLayout page={page}>
+      <ProcessPhoto entry={entry} type={type} document={document} page={page} />
     </PhotoLayout>
   </>
 )
@@ -52,6 +57,13 @@ export default ProcessPhotoPage
 export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   context: GetServerSidePropsContext,
 ) => {
+  const previewData = context.params?.previewData
+  const client = createClient({ previewData })
+  const page = await client.getByUID(
+    PageTypeHashes.process_page,
+    PageUIDHashes.processPage,
+  )
+
   if (context.res) {
     context.res.setHeader('Cache-Control', 'no-store')
   }
@@ -106,6 +118,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
               ? FACING_MODES.ENVIRONMENT
               : FACING_MODES.USER,
           document,
+          page,
         },
       }
     }

@@ -3,6 +3,7 @@ import { Elements } from '@stripe/react-stripe-js'
 
 import DocModal from '@/modules/home/docModal'
 import { getStripe } from '@/utils'
+import { PhotoProps } from 'slices/proceed_to_checkout'
 import OneClickModal from './components/oneClickModal'
 import { OneClickProvider } from './oneClickContext'
 import TakePhoto from './components/takePhoto'
@@ -15,7 +16,7 @@ interface Props {
   onClose: () => void
 }
 
-const OneClick: React.FC<Props> = ({ open, onClose }) => (
+const OneClick: React.FC<Props & PhotoProps> = ({ open, onClose, page }) => (
   <OneClickProvider onClose={onClose}>
     {({
       modalType,
@@ -70,6 +71,7 @@ const OneClick: React.FC<Props> = ({ open, onClose }) => (
                 entry={entry}
                 onChangePhoto={onChangePhoto}
                 onCheckout={onCheckout}
+                page={page}
               />
             )}
             {modalType === 'checkout' && (

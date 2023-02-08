@@ -1,4 +1,7 @@
 import React, { useRef } from 'react'
+import { PrismicDocument } from '@prismicio/types'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { createClient } from 'prismicio'
 
 import PhotoHelper from '@/modules/photo/components/photoHelperVideoModal'
 import ProcessStepPhoto from '@/modules/photo/components/processStepPhoto'
@@ -7,6 +10,7 @@ import ProcessingPhoto from '@/modules/photo/components/photoProcessing'
 import { useGetPhoto } from '@/hooks'
 import { PHOTO_STEP } from '@/constants'
 import { TOnSubmitEntry } from '@/types'
+import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 
 export interface ProceedToCheckoutProps {
   onSubmitEntry: TOnSubmitEntry
@@ -14,12 +18,16 @@ export interface ProceedToCheckoutProps {
   context: any
 }
 
-const ProceedToCheckout: React.FC<ProceedToCheckoutProps> = ({
+export interface PhotoProps {
+  page: PrismicDocument<Record<string, any>, string, string>
+}
+
+const ProceedToCheckout: React.FC<ProceedToCheckoutProps & PhotoProps> = ({
   slice,
   context,
 }) => {
   const fileRef = useRef<HTMLInputElement>(null)
-  const { onSubmitEntry } = context
+  const { onSubmitEntry, page } = context
   const {
     inProgress,
     percentage,
@@ -58,7 +66,7 @@ const ProceedToCheckout: React.FC<ProceedToCheckoutProps> = ({
             onChangeCamera={onChangeCamera}
             onStartUpload={() => fileRef?.current?.click()}
             onPhotoTaken={onPhotoTaken}
-            page={context.page}
+            page={page}
           />
         )}
         <PhotoHelper />
@@ -68,3 +76,20 @@ const ProceedToCheckout: React.FC<ProceedToCheckoutProps> = ({
 }
 
 export default ProceedToCheckout
+
+export const getServerSideProps: GetServerSideProps<PhotoProps> = async (
+  context: GetServerSidePropsContext,
+) => {
+  const previewData = context.params?.previewData
+  const client = createClient({ previewData })
+  const page = await client.getByUID(
+    PageTypeHashes.usLandingPage,
+    PageUIDHashes.homepage,
+  )
+
+  return {
+    props: {
+      page,
+    },
+  }
+}

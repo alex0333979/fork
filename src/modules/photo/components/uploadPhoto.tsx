@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
 import { PrismicRichText } from '@prismicio/react'
 import { PrismicNextImage } from '@prismicio/next'
+import { PrismicDocument } from '@prismicio/types'
 
 import { useDocumentQuery } from '@/apollo'
 import TakePhotoModal from '@/components/elements/takePhotoModal'
-import { PrismicContext } from '@/contexts'
-import { PrismicDocument } from '@prismicio/types'
 
 interface Props {
   camera: 'user' | 'environment'
@@ -64,9 +63,7 @@ const UploadPhoto: React.FC<Props> = ({
               />
             </div>
             <span className="name">
-              <PrismicRichText
-                field={page?.data.step_options[0].option_text}
-              />
+              <PrismicRichText field={page?.data.step_options[0].option_text} />
             </span>
           </span>
         </label>

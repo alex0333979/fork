@@ -37,7 +37,6 @@ const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
 }) => {
   const { setPageData } = useContext(PrismicContext)
   setPageData(page)
-  console.error('here: >>>', page)
 
   return (
     <>
@@ -45,7 +44,7 @@ const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
         title={SEO.selectType.title}
         description={SEO.selectType.description}
       />
-      <PhotoLayout>
+      <PhotoLayout page={page}>
         <TakePhoto
           form={form}
           entry={entry}

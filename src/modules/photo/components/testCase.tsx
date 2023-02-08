@@ -1,9 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
+import { PrismicRichText } from '@prismicio/react'
 
 import { Dictionary } from '@/apollo'
 import { camelCaseToSentence } from '@/utils'
-import { CHECKLIST } from '@/constants'
 
 import { ProcessingStatus } from '@/types'
 
@@ -11,26 +11,27 @@ interface Props {
   status: ProcessingStatus
   failed: Dictionary[]
   passed: Dictionary[]
+  items: any[]
 }
 
-const TestCase: React.FC<Props> = ({ status, failed, passed }) => (
+const TestCase: React.FC<Props> = ({ status, failed, passed, items }) => (
   <div className="list">
     <ul>
       {status === ProcessingStatus.notStarted &&
-        CHECKLIST.map((text, index) => (
+        items.map((item, index) => (
           <li key={`l_${index}`} className="loading ">
-            <span className="text">{text}</span>
+            <PrismicRichText field={item.requirement_label} />
           </li>
         ))}
       {status === ProcessingStatus.loading &&
-        CHECKLIST.map((text, index) => (
+        items.map((item, index) => (
           <li
             key={`l_${index}`}
             className={classNames({
               loading: status === ProcessingStatus.loading,
             })}>
             <span className="icon" />
-            <span className="text">{text}</span>
+            <PrismicRichText field={item.requirement_label} />
           </li>
         ))}
       {status === ProcessingStatus.failed &&
@@ -50,4 +51,5 @@ const TestCase: React.FC<Props> = ({ status, failed, passed }) => (
     </ul>
   </div>
 )
+
 export default TestCase
