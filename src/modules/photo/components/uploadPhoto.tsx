@@ -81,12 +81,12 @@ const UploadPhoto: React.FC<Props> = ({
               <span className="bullet" />
               <div className="img">
                 <PrismicNextImage
-                  field={page?.data.step_options[1].option_image}
+                  field={page?.data.step_options[1]?.option_image}
                 />
               </div>
               <span className="name">
                 <PrismicRichText
-                  field={page?.data.step_options[1].option_text}
+                  field={page?.data.step_options[1]?.option_text}
                 />
               </span>
             </span>
