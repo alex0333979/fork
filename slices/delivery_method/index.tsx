@@ -67,6 +67,7 @@ const DeliveryMethod: React.FC<CheckoutSlice> = ({ slice }) => {
     updateMe,
   ])
 
+  console.error('herE:>>', slice)
   const onChangeAnswers = useCallback((q: string, a: string) => {
     setExpeditingAnswers((prev) => ({ ...prev, [q]: a }))
   }, [])
@@ -81,7 +82,9 @@ const DeliveryMethod: React.FC<CheckoutSlice> = ({ slice }) => {
       completeStep={0}>
       <div className="form-wrap">
         <div className="shipping-title">
-          <h3 className="checkout-element-title">Choose Delivery Method</h3>
+          <h3 className="checkout-element-title">
+            {slice.primary.step_title[0].text}
+          </h3>
         </div>
         {me?.country !== 'CA' && (
           <>

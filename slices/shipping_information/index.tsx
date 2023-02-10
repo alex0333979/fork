@@ -5,9 +5,9 @@ import { useSetShippingInfo, useCheckout } from '@/hooks'
 import { IStep } from '@/components/elements/processStep'
 import CheckoutLayout from '@/modules/checkout/checkoutLayout'
 import FormElement from '@/modules/checkout/shippingInformation/formElement'
-import { CheckoutProps } from '@/pages/checkout/delivery-method'
+import { CheckoutSlice } from '@/pages/checkout/delivery-method'
 
-const ShippingInformation: React.FC<CheckoutProps> = () => {
+const ShippingInformation: React.FC<CheckoutSlice> = ({ slice }) => {
   const router = useRouter()
   const { checkoutSteps } = useCheckout()
 
@@ -67,7 +67,7 @@ const ShippingInformation: React.FC<CheckoutProps> = () => {
       <div className="form-wrap">
         <div className="form-fields">
           <div className="extra-info">
-            <h3>Shipping Information</h3>
+            <h3>{slice.primary.step_title[0].text}</h3>
           </div>
         </div>
         <form>

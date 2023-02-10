@@ -29,7 +29,6 @@ const ReviewAndPayPage: NextPage<CheckoutProps> = ({ page }) => {
       />
       <AppLayout showNav={false}>
         <Elements stripe={getStripe()}>
-          {/* <ReviewAndPay /> */}
           <SliceZone slices={reviewAndPaySlice} components={components} />
         </Elements>
       </AppLayout>

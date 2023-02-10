@@ -27,7 +27,6 @@ const ShippingPage: NextPage<CheckoutProps> = ({ page }) => {
         description={SEO.checkout.description}
       />
       <AppLayout showNav={false}>
-        {/* <ShippingInformation /> */}
         <SliceZone slices={shippingSlice} components={components} />
       </AppLayout>
     </>

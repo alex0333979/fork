@@ -26,7 +26,6 @@ const PaymentInfoPage: NextPage<CheckoutProps> = ({ page }) => {
         description={SEO.checkout.description}
       />
       <AppLayout showNav={false}>
-        {/* <PaymentInformation /> */}
         <SliceZone slices={paymentInfoSlice} components={components} />
       </AppLayout>
     </>

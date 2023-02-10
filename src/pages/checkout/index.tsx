@@ -26,7 +26,6 @@ const DeliveryMethodPage: NextPage<CheckoutProps> = ({ page }) => {
         description={SEO.checkout.description}
       />
       <AppLayout showNav={false}>
-        {/* <DeliveryMethod page={page} /> */}
         <SliceZone slices={delieverSlice} components={components} />
       </AppLayout>
     </>

@@ -12,7 +12,6 @@ interface Props {
 
 const Services: React.FC<Props> = ({ shippingType, primary }) => {
   const { t } = useTranslation()
-  // const { me } = useAuth()
   const { getProduct } = useProducts()
 
   const printPrice = useMemo(
@@ -25,27 +24,6 @@ const Services: React.FC<Props> = ({ shippingType, primary }) => {
       shippingType === ShippingType.NoShipping ? 0 : printPrice?.price || 0,
     [printPrice?.price, shippingType],
   )
-
-  // const serviceDesc = useMemo(() => {
-  //   const defaultDesc: any[] = [
-  //     'We print and ship your photos on a premium glossy photo paper (along with other official documents)',
-  //     '1 Digital photo for official website submission + a "ready to print" template to print at a local printer (store/home)',
-  //     'Additional photo expert Review to ensure biometric requirements',
-  //   ]
-  //   if (me?.country === 'CA') {
-  //     defaultDesc[0] = (
-  //       <>
-  //         Our studio prints and ships your photos on premium glossy photo paper.
-  //         <br />
-  //         <b>For Canadian passport</b> our studio will{' '}
-  //         <u>stamp the back of your photo</u> and add the date and it’s address
-  //         as required
-  //       </>
-  //     )
-  //   }
-
-  //   return defaultDesc
-  // }, [me?.country])
 
   return (
     <>
