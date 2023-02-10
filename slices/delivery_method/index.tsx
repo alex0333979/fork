@@ -3,15 +3,15 @@ import { useRouter } from 'next/router'
 
 import { useUpdateCartMutation } from '@/apollo'
 import { useAuth, useCheckout } from '@/hooks'
-import CheckoutLayout from '../checkoutLayout'
-import Header from './header'
-import Services from './services'
-import Methods from './methods'
-import ExpeditingService from './expeditingService'
-import ExpeditingServiceQuestions from './expeditingServiceQuestions'
-import { CheckoutProps } from '@/pages/checkout/delivery-method'
+import CheckoutLayout from '@/modules/checkout/checkoutLayout'
+import Header from '@/modules/checkout/deliveryMethod/header'
+import Services from '@/modules/checkout/deliveryMethod/services'
+import Methods from '@/modules/checkout/deliveryMethod/methods'
+import ExpeditingService from '@/modules/checkout/deliveryMethod/expeditingService'
+import ExpeditingServiceQuestions from '@/modules/checkout/deliveryMethod/expeditingServiceQuestions'
+import { CheckoutSlice } from '@/pages/checkout/delivery-method'
 
-const DeliveryMethod: React.FC<CheckoutProps> = () => {
+const DeliveryMethod: React.FC<CheckoutSlice> = ({ slice }) => {
   const router = useRouter()
   const { me, cart, updateMe } = useAuth()
   const { shippingType, checkoutSteps, onChangeShippingType } = useCheckout()
@@ -71,7 +71,7 @@ const DeliveryMethod: React.FC<CheckoutProps> = () => {
     setExpeditingAnswers((prev) => ({ ...prev, [q]: a }))
   }, [])
 
-  return (
+  return slice.slice_type === 'delivery_method' ? (
     <CheckoutLayout
       step={curStep!.step}
       steps={checkoutSteps.steps}
@@ -88,15 +88,17 @@ const DeliveryMethod: React.FC<CheckoutProps> = () => {
             <Header
               shippingType={shippingType}
               onChangeShippingType={onChangeShippingType}
+              primary={slice.primary}
             />
           </>
         )}
         <div className="shipping-data">
           <ol>
-            <Services shippingType={shippingType} />
+            <Services shippingType={shippingType} primary={slice.primary} />
             <Methods
               shippingType={shippingType}
               onChangeShippingType={onChangeShippingType}
+              slice={slice}
             />
           </ol>
         </div>
@@ -116,6 +118,8 @@ const DeliveryMethod: React.FC<CheckoutProps> = () => {
         )}
       </div>
     </CheckoutLayout>
+  ) : (
+    <></>
   )
 }
 

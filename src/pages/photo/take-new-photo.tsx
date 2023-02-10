@@ -9,7 +9,7 @@ import { PrismicDocument } from '@prismicio/types'
 import { SEO } from '@/constants'
 
 interface TakeNewPhotoPageProps {
-  page?: PrismicDocument<Record<string, any>, string, string>
+  page: PrismicDocument<Record<string, any>, string, string>
 }
 
 const TakeNewPhotoPage: React.FC<TakeNewPhotoPageProps> = ({ page }) => (
@@ -18,7 +18,7 @@ const TakeNewPhotoPage: React.FC<TakeNewPhotoPageProps> = ({ page }) => (
       title={SEO.selectType.title}
       description={SEO.selectType.description}
     />
-    <PhotoLayout>
+    <PhotoLayout page={page}>
       <TakeNewPhoto page={page} />
     </PhotoLayout>
   </>

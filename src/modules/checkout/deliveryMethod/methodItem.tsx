@@ -13,12 +13,14 @@ interface Props {
     value: ShippingType
   }
   onSelect: (v: ShippingType) => void
+  prismicShippingTitle: string
 }
 
 const DeliveryMethodItem: React.FC<Props> = ({
   selected,
   shippingType,
   onSelect,
+  prismicShippingTitle,
 }) => {
   const { t } = useTranslation()
   const { getProduct } = useProducts()
@@ -33,7 +35,7 @@ const DeliveryMethodItem: React.FC<Props> = ({
   return (
     <label className="full-size">
       <span className="field radio with-price">
-        <span className="name">{shippingType.title}</span>
+        <span className="name">{prismicShippingTitle}</span>
         <span className="price">
           {price.price > 0
             ? `+${t('currency', {

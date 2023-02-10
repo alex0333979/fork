@@ -7,6 +7,11 @@
       "default": {
         "primary": {}
       }
+    },
+    "delivery_method": {
+      "default-slice": {
+        "primary": {}
+      }
     }
   }
 }

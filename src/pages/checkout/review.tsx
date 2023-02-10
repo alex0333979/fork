@@ -4,33 +4,47 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
 import { Elements } from '@stripe/react-stripe-js'
+import { SliceZone } from '@prismicio/react'
 
+import { components } from 'slices'
+import { createClient } from 'prismicio'
 import { AppLayout } from '@/components'
-import ReviewAndPay from '@/modules/checkout/review'
 import { getStripe } from '@/utils'
 import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery, ShippingType } from '@/apollo'
 import { PAGES, SEO } from '@/constants'
+import { PageTypeHashes } from '@/constants/PageUIDHashes'
+import { CheckoutProps } from './delivery-method'
 
-const ReviewAndPayPage: NextPage = () => (
-  <>
-    <NextSeo
-      title={SEO.checkout.title}
-      description={SEO.checkout.description}
-    />
-    <AppLayout showNav={false}>
-      <Elements stripe={getStripe()}>
-        <ReviewAndPay />
-      </Elements>
-    </AppLayout>
-  </>
-)
+const ReviewAndPayPage: NextPage<CheckoutProps> = ({ page }) => {
+  const reviewAndPaySlice = page.data.slices.filter(
+    (item: any) => item.slice_type === 'review_and_pay',
+  )
+
+  return (
+    <>
+      <NextSeo
+        title={SEO.checkout.title}
+        description={SEO.checkout.description}
+      />
+      <AppLayout showNav={false}>
+        <Elements stripe={getStripe()}>
+          {/* <ReviewAndPay /> */}
+          <SliceZone slices={reviewAndPaySlice} components={components} />
+        </Elements>
+      </AppLayout>
+    </>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
   try {
     const client = initializeApollo(null, context)
+    const previewData = context.params?.previewData
+    const prismicClient = createClient({ previewData })
+    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page)
 
     const result: ApolloQueryResult<CartQuery> = await client.query({
       query: CartDocument,
@@ -57,7 +71,9 @@ export const getServerSideProps: GetServerSideProps = async (
         }
       }
       return {
-        props: {},
+        props: {
+          page,
+        },
       }
     } else {
       return {

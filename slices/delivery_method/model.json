@@ -42,8 +42,10 @@
         "digital_method": {
           "type": "StructuredText",
           "config": {
-            "single": "paragraph",
-            "label": "Digital Method"
+            "label": "Digital Method",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph,heading3"
           }
         },
         "digital_status": {
@@ -56,8 +58,10 @@
         "digital_list_title": {
           "type": "StructuredText",
           "config": {
-            "single": "heading3",
-            "label": "Digital List Title"
+            "label": "Digital List Title",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "heading1,heading6,heading5"
           }
         },
         "digital_pros": {
@@ -125,7 +129,8 @@
             "label": "Method Option"
           }
         }
-      }
+      },
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
     }
   ]
 }
