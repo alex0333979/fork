@@ -3,31 +3,44 @@ import type { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { ApolloQueryResult } from '@apollo/client'
+import { SliceZone } from '@prismicio/react'
 
 import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery } from '@/apollo'
 
+import { components } from 'slices'
 import { AppLayout } from '@/components'
-import ShippingInformation from '@/modules/checkout/shippingInformation'
+import { createClient } from 'prismicio'
 import { PAGES, SEO } from '@/constants'
+import { PageTypeHashes } from '@/constants/PageUIDHashes'
+import { CheckoutProps } from './delivery-method'
 
-const ShippingPage: NextPage = () => (
-  <>
-    <NextSeo
-      title={SEO.checkout.title}
-      description={SEO.checkout.description}
-    />
-    <AppLayout showNav={false}>
-      <ShippingInformation />
-    </AppLayout>
-  </>
-)
+const ShippingPage: NextPage<CheckoutProps> = ({ page }) => {
+  const shippingSlice = page.data.slices.filter(
+    (item: any) => item.slice_type === 'shipping_information',
+  )
+
+  return (
+    <>
+      <NextSeo
+        title={SEO.checkout.title}
+        description={SEO.checkout.description}
+      />
+      <AppLayout showNav={false}>
+        <SliceZone slices={shippingSlice} components={components} />
+      </AppLayout>
+    </>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext,
 ) => {
   try {
     const client = initializeApollo(null, context)
+    const previewData = context.params?.previewData
+    const prismicClient = createClient({ previewData })
+    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page)
 
     const result: ApolloQueryResult<CartQuery> = await client.query({
       query: CartDocument,
@@ -36,7 +49,9 @@ export const getServerSideProps: GetServerSideProps = async (
 
     if (cart?.items?.filter((i) => i.isComplete).length ?? 0 > 0) {
       return {
-        props: {},
+        props: {
+          page,
+        },
       }
     } else {
       return {

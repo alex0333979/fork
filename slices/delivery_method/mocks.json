@@ -53,7 +53,7 @@
           {
             "type": "paragraph",
             "content": {
-              "text": "Ullamco proident proident culpa. Laboris nulla deserunt cupidatat aliqua excepteur cillum officia mollit ipsum non eu veniam Lorem cillum quis."
+              "text": "Elit officia qui nostrud pariatur do. Cupidatat exercitation dolore voluptate."
             }
           }
         ]
@@ -73,9 +73,9 @@
         "__TYPE__": "StructuredTextContent",
         "value": [
           {
-            "type": "heading3",
+            "type": "heading1",
             "content": {
-              "text": "Proper"
+              "text": "Strike"
             }
           }
         ]

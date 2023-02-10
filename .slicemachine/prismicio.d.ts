@@ -6,95 +6,2234 @@ import type * as prismic from "@prismicio/client";
 type Simplify<T> = {
     [KeyType in keyof T]: T[KeyType];
 };
-/** Content for Home documents */
-type HomeDocumentData = Record<string, never>;
-/**
- * Home document from Prismic
- *
- * - **API ID**: `home`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type HomeDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<HomeDocumentData>, "home", Lang>;
-export type AllDocumentTypes = HomeDocument;
-/**
- * Primary content in Home → Primary
- *
- */
-interface HomeSliceDefaultPrimary {
+/** Content for About documents */
+interface AboutDocumentData {
     /**
-     * Title field in *Home → Primary*
+     * Title field in *About*
      *
      * - **Field Type**: Title
-     * - **Placeholder**: Passport
-     * - **API ID Path**: home.primary.title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.title
+     * - **Tab**: Main
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
     title: prismicT.TitleField;
     /**
-     * Description field in *Home → Primary*
+     * Intro Desktop Text field in *About*
      *
      * - **Field Type**: Rich Text
-     * - **Placeholder**: A nice description of your feature
-     * - **API ID Path**: home.primary.description
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.intro_desktop_text
+     * - **Tab**: Main
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
-    description: prismicT.RichTextField;
+    intro_desktop_text: prismicT.RichTextField;
+    /**
+     * Intro Mobile Text field in *About*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.intro_mobile_text
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    intro_mobile_text: prismicT.RichTextField;
+    /**
+     * Intro List field in *About*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.title_list
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title_list: prismicT.RichTextField;
+    /**
+     * Intro Top Image field in *About*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.intro_top_image
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    intro_top_image: prismicT.ImageField<never>;
+    /**
+     * Intro Bottom Image field in *About*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.intro_bottom_image
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    intro_bottom_image: prismicT.ImageField<never>;
+    /**
+     * Slice Zone field in *About*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: about.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<AboutDocumentDataSlicesSlice>;
 }
 /**
- * Default variation for Home Slice
- *
- * - **API ID**: `default`
- * - **Description**: `Home`
- * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ * Slice for *About → Slice Zone*
  *
  */
-export type HomeSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<HomeSliceDefaultPrimary>, never>;
+type AboutDocumentDataSlicesSlice = ValuesSlice | InfoSlice | WhySlice;
 /**
- * Slice variation for *Home*
+ * About document from Prismic
  *
+ * - **API ID**: `about`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
  */
-type HomeSliceVariation = HomeSliceDefault;
-/**
- * Home Shared Slice
- *
- * - **API ID**: `home`
- * - **Description**: `Home`
- * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
- *
- */
-export type HomeSlice = prismicT.SharedSlice<"home", HomeSliceVariation>;
-/**
- * Primary content in WorkingProcess → Primary
- *
- */
-interface WorkingProcessSliceDefaultPrimary {
+export type AboutDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<AboutDocumentData>, "about", Lang>;
+/** Content for Article documents */
+interface ArticleDocumentData {
     /**
-     * ProcessTitle field in *WorkingProcess → Primary*
+     * Title field in *Article*
      *
      * - **Field Type**: Title
-     * - **Placeholder**: This is where it all begins...
+     * - **Placeholder**: *None*
+     * - **API ID Path**: article.title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Date field in *Article*
+     *
+     * - **Field Type**: Date
+     * - **Placeholder**: *None*
+     * - **API ID Path**: article.date
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/date
+     *
+     */
+    date: prismicT.DateField;
+    /**
+     * Cover Image field in *Article*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: article.cover_image
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    cover_image: prismicT.ImageField<never>;
+    /**
+     * Slice Zone field in *Article*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: article.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<ArticleDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Article → Slice Zone*
+ *
+ */
+type ArticleDocumentDataSlicesSlice = ContentSlice | BlockquoteSlice;
+/**
+ * Article document from Prismic
+ *
+ * - **API ID**: `article`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ArticleDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<ArticleDocumentData>, "article", Lang>;
+/** Content for Checkout documents */
+interface CheckoutDocumentData {
+    /**
+     * Title field in *Checkout*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Pop Up Text field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.pop_up_text
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    pop_up_text: prismicT.RichTextField;
+    /**
+     * Cart Text field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.cart_text
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    cart_text: prismicT.RichTextField;
+    /**
+     * Price Label field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.price_label
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    price_label: prismicT.RichTextField;
+    /**
+     * Preview Button field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.preview_button
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    preview_button: prismicT.RichTextField;
+    /**
+     * Add Button field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.add_button
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    add_button: prismicT.RichTextField;
+    /**
+     * Summary Title field in *Checkout*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.summary_title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    summary_title: prismicT.TitleField;
+    /**
+     * Summary Subtotal field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.summary_subtotal
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    summary_subtotal: prismicT.RichTextField;
+    /**
+     * Summary Tax field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.summary_tax
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    summary_tax: prismicT.RichTextField;
+    /**
+     * Summary Total field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.summary_total
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    summary_total: prismicT.RichTextField;
+    /**
+     * Next Step Button field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.next_step_button
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    next_step_button: prismicT.RichTextField;
+    /**
+     * Back Button field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.back_button
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    back_button: prismicT.RichTextField;
+    /**
+     * Next Button field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.next_button
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    next_button: prismicT.RichTextField;
+    /**
+     * Filled Step Status field in *Checkout*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.filled_step_status
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    filled_step_status: prismicT.RichTextField;
+    /**
+     * Slice Zone field in *Checkout*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: checkout.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<CheckoutDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Checkout → Slice Zone*
+ *
+ */
+type CheckoutDocumentDataSlicesSlice = DeliveryMethodSlice | ShippingInformationSlice | PaymentInformationSlice | ReviewAndPaySlice | ShippingFormSlice;
+/**
+ * Checkout document from Prismic
+ *
+ * - **API ID**: `checkout`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CheckoutDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<CheckoutDocumentData>, "checkout", Lang>;
+/** Content for Contact us documents */
+interface ContactUsDocumentData {
+    /**
+     * Title field in *Contact us*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Title Background field in *Contact us*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.title_background
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    title_background: prismicT.ImageField<never>;
+    /**
+     * Sub Title field in *Contact us*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.sub_title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    sub_title: prismicT.TitleField;
+    /**
+     * Sub text field in *Contact us*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.sub_text
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    sub_text: prismicT.RichTextField;
+    /**
+     * Direction Link field in *Contact us*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.direction_link
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    direction_link: prismicT.RichTextField;
+    /**
+     * Geopoint field in *Contact us*
+     *
+     * - **Field Type**: GeoPoint
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.geopoint
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/geopoint
+     *
+     */
+    geopoint: prismicT.GeoPointField;
+    /**
+     * Contacts List field in *Contact us*
+     *
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.contacts_list[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     *
+     */
+    contacts_list: prismicT.GroupField<Simplify<ContactUsDocumentDataContactsListItem>>;
+}
+/**
+ * Item in Contact us → Contacts List
+ *
+ */
+export interface ContactUsDocumentDataContactsListItem {
+    /**
+     * List Title field in *Contact us → Contacts List*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.contacts_list[].list_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    list_title: prismicT.TitleField;
+    /**
+     * List Text field in *Contact us → Contacts List*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: contact_us.contacts_list[].list_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    list_text: prismicT.RichTextField;
+}
+/**
+ * Contact us document from Prismic
+ *
+ * - **API ID**: `contact_us`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ContactUsDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<ContactUsDocumentData>, "contact_us", Lang>;
+/** Content for Landing Page documents */
+interface LandingPageDocumentData {
+    /**
+     * Title field in *Landing Page*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    title: prismicT.TitleField;
+    /**
+     * Text field in *Landing Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.text
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    text: prismicT.RichTextField;
+    /**
+     * Intro Image field in *Landing Page*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.intro_image
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    intro_image: prismicT.ImageField<never>;
+    /**
+     * Country Label field in *Landing Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.country_label
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    country_label: prismicT.RichTextField;
+    /**
+     * Country field in *Landing Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.country
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    country: prismicT.RichTextField;
+    /**
+     * Document field in *Landing Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.document
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    document: prismicT.RichTextField;
+    /**
+     * Button Label field in *Landing Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.button_label
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    button_label: prismicT.RichTextField;
+    /**
+     * Slice Zone field in *Landing Page*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: landing_page.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<LandingPageDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Landing Page → Slice Zone*
+ *
+ */
+type LandingPageDocumentDataSlicesSlice = WorkingProcessSlice | RequirementsSlice | ReviewsSlice | InstructionsSlice | FaqSlice;
+/**
+ * Landing Page document from Prismic
+ *
+ * - **API ID**: `landing_page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LandingPageDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<LandingPageDocumentData>, "landing_page", Lang>;
+/** Content for Process Page documents */
+interface ProcessPageDocumentData {
+    /**
+     * Steps Advantages field in *Process Page*
+     *
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.steps_advantages[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     *
+     */
+    steps_advantages: prismicT.GroupField<Simplify<ProcessPageDocumentDataStepsAdvantagesItem>>;
+    /**
+     * Step Name field in *Process Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.step_name
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_name: prismicT.RichTextField;
+    /**
+     * Step Title field in *Process Page*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.step_title
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_title: prismicT.TitleField;
+    /**
+     * Step Text field in *Process Page*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.step_text
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_text: prismicT.RichTextField;
+    /**
+     * Step Options field in *Process Page*
+     *
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.step_options[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     *
+     */
+    step_options: prismicT.GroupField<Simplify<ProcessPageDocumentDataStepOptionsItem>>;
+    /**
+     * Slice Zone field in *Process Page*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.slices[]
+     * - **Tab**: Main
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<ProcessPageDocumentDataSlicesSlice>;
+}
+/**
+ * Item in Process Page → Steps Advantages
+ *
+ */
+export interface ProcessPageDocumentDataStepsAdvantagesItem {
+    /**
+     * Icon Class field in *Process Page → Steps Advantages*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.steps_advantages[].icon_class
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    icon_class: prismicT.RichTextField;
+    /**
+     * Text field in *Process Page → Steps Advantages*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.steps_advantages[].text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    text: prismicT.RichTextField;
+}
+/**
+ * Item in Process Page → Step Options
+ *
+ */
+export interface ProcessPageDocumentDataStepOptionsItem {
+    /**
+     * Option image field in *Process Page → Step Options*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.step_options[].option_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    option_image: prismicT.ImageField<never>;
+    /**
+     * Option text field in *Process Page → Step Options*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: process_page.step_options[].option_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    option_text: prismicT.RichTextField;
+}
+/**
+ * Slice for *Process Page → Slice Zone*
+ *
+ */
+type ProcessPageDocumentDataSlicesSlice = StepToolbarSlice | AdviceListSlice | ProceedToCheckoutSlice;
+/**
+ * Process Page document from Prismic
+ *
+ * - **API ID**: `process_page`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProcessPageDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<ProcessPageDocumentData>, "process_page", Lang>;
+export type AllDocumentTypes = AboutDocument | ArticleDocument | CheckoutDocument | ContactUsDocument | LandingPageDocument | ProcessPageDocument;
+/**
+ * Item in advice_list → Items
+ *
+ */
+export interface AdviceListSliceDefaultSliceItem {
+    /**
+     * Correct Example field in *advice_list → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: advice_list.items[].correct_example
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    correct_example: prismicT.ImageField<never>;
+    /**
+     * Wrong Example field in *advice_list → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: advice_list.items[].wrong_example
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    wrong_example: prismicT.ImageField<never>;
+    /**
+     * Video Example field in *advice_list → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: advice_list.items[].video_example
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    video_example: prismicT.ImageField<never>;
+    /**
+     * Video Link field in *advice_list → Items*
+     *
+     * - **Field Type**: Link
+     * - **Placeholder**: *None*
+     * - **API ID Path**: advice_list.items[].video_link
+     * - **Documentation**: https://prismic.io/docs/core-concepts/link-content-relationship
+     *
+     */
+    video_link: prismicT.LinkField;
+    /**
+     * Advice Title field in *advice_list → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: advice_list.items[].advice_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    advice_title: prismicT.TitleField;
+    /**
+     * Advice Text field in *advice_list → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: advice_list.items[].advice_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    advice_text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for advice_list Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Advice List`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type AdviceListSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Record<string, never>, Simplify<AdviceListSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *advice_list*
+ *
+ */
+type AdviceListSliceVariation = AdviceListSliceDefaultSlice;
+/**
+ * advice_list Shared Slice
+ *
+ * - **API ID**: `advice_list`
+ * - **Description**: `Advice List`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type AdviceListSlice = prismicT.SharedSlice<"advice_list", AdviceListSliceVariation>;
+/**
+ * Primary content in blockquote → Primary
+ *
+ */
+interface BlockquoteSliceDefaultSlicePrimary {
+    /**
+     * Blockquote field in *blockquote → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: blockquote.primary.blockquote
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    blockquote: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for blockquote Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Blockquote`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type BlockquoteSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<BlockquoteSliceDefaultSlicePrimary>, never>;
+/**
+ * Slice variation for *blockquote*
+ *
+ */
+type BlockquoteSliceVariation = BlockquoteSliceDefaultSlice;
+/**
+ * blockquote Shared Slice
+ *
+ * - **API ID**: `blockquote`
+ * - **Description**: `Blockquote`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type BlockquoteSlice = prismicT.SharedSlice<"blockquote", BlockquoteSliceVariation>;
+/**
+ * Primary content in content → Primary
+ *
+ */
+interface ContentSliceDefaultSlicePrimary {
+    /**
+     * Text field in *content → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: content.primary.text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for content Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Content`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ContentSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<ContentSliceDefaultSlicePrimary>, never>;
+/**
+ * Slice variation for *content*
+ *
+ */
+type ContentSliceVariation = ContentSliceDefaultSlice;
+/**
+ * content Shared Slice
+ *
+ * - **API ID**: `content`
+ * - **Description**: `Content`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ContentSlice = prismicT.SharedSlice<"content", ContentSliceVariation>;
+/**
+ * Primary content in delivery_method → Primary
+ *
+ */
+interface DeliveryMethodSliceDefaultSlicePrimary {
+    /**
+     * Step Name field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.step_name
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_name: prismicT.TitleField;
+    /**
+     * Step Status field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.step_status
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_status: prismicT.RichTextField;
+    /**
+     * Step Title field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.step_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_title: prismicT.TitleField;
+    /**
+     * Cost Label field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.cost_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    cost_label: prismicT.TitleField;
+    /**
+     * Digital Method field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.digital_method
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    digital_method: prismicT.RichTextField;
+    /**
+     * Digital Status field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.digital_status
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    digital_status: prismicT.RichTextField;
+    /**
+     * Digital List Title field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.digital_list_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    digital_list_title: prismicT.TitleField;
+    /**
+     * Digital Pros field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.digital_pros
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    digital_pros: prismicT.RichTextField;
+    /**
+     * Digital Cons field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.digital_cons
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    digital_cons: prismicT.RichTextField;
+    /**
+     * Print & Ship Method field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.print_ship_method
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    print_ship_method: prismicT.RichTextField;
+    /**
+     * Print & Ship Status field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.print_ship_status
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    print_ship_status: prismicT.RichTextField;
+    /**
+     * Print & Ship List Title field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.print_ship_list_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    print_ship_list_title: prismicT.TitleField;
+    /**
+     * Print & Ship Pros field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.print_ship_pros
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    print_ship_pros: prismicT.RichTextField;
+    /**
+     * Print & Ship Cons field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.print_ship_cons
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    print_ship_cons: prismicT.RichTextField;
+    /**
+     * Method Title field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.method_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    method_title: prismicT.TitleField;
+}
+/**
+ * Item in delivery_method → Items
+ *
+ */
+export interface DeliveryMethodSliceDefaultSliceItem {
+    /**
+     * Method Option field in *delivery_method → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.items[].method_option
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    method_option: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for delivery_method Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Delivery Method`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type DeliveryMethodSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<DeliveryMethodSliceDefaultSlicePrimary>, Simplify<DeliveryMethodSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *delivery_method*
+ *
+ */
+type DeliveryMethodSliceVariation = DeliveryMethodSliceDefaultSlice;
+/**
+ * delivery_method Shared Slice
+ *
+ * - **API ID**: `delivery_method`
+ * - **Description**: `Delivery Method`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type DeliveryMethodSlice = prismicT.SharedSlice<"delivery_method", DeliveryMethodSliceVariation>;
+/**
+ * Primary content in faq → Primary
+ *
+ */
+interface FaqSliceDefaultSlicePrimary {
+    /**
+     * FAQ Title field in *faq → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: faq.primary.faq_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    faq_title: prismicT.TitleField;
+    /**
+     * FAQ Text field in *faq → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: faq.primary.faq_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    faq_text: prismicT.RichTextField;
+    /**
+     * FAQ Button field in *faq → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: faq.primary.faq_button
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    faq_button: prismicT.RichTextField;
+}
+/**
+ * Item in faq → Items
+ *
+ */
+export interface FaqSliceDefaultSliceItem {
+    /**
+     * FAQ Question field in *faq → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: faq.items[].faq_question
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    faq_question: prismicT.TitleField;
+    /**
+     * FAQ Answer field in *faq → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: faq.items[].faq_answer
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    faq_answer: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for faq Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `FAQ`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type FaqSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<FaqSliceDefaultSlicePrimary>, Simplify<FaqSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *faq*
+ *
+ */
+type FaqSliceVariation = FaqSliceDefaultSlice;
+/**
+ * faq Shared Slice
+ *
+ * - **API ID**: `faq`
+ * - **Description**: `FAQ`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type FaqSlice = prismicT.SharedSlice<"faq", FaqSliceVariation>;
+/**
+ * Item in info → Items
+ *
+ */
+export interface InfoSliceDefaultSliceItem {
+    /**
+     * Info Image field in *info → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: info.items[].info_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    info_image: prismicT.ImageField<never>;
+    /**
+     * Info Title field in *info → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: info.items[].info_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    info_title: prismicT.TitleField;
+    /**
+     * Info Text field in *info → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: info.items[].info_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    info_text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for info Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Info`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type InfoSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Record<string, never>, Simplify<InfoSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *info*
+ *
+ */
+type InfoSliceVariation = InfoSliceDefaultSlice;
+/**
+ * info Shared Slice
+ *
+ * - **API ID**: `info`
+ * - **Description**: `Info`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type InfoSlice = prismicT.SharedSlice<"info", InfoSliceVariation>;
+/**
+ * Primary content in instructions → Primary
+ *
+ */
+interface InstructionsSliceDefaultSlicePrimary {
+    /**
+     * Instructions Title field in *instructions → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: instructions.primary.instructions_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    instructions_title: prismicT.TitleField;
+    /**
+     * Instructions Text field in *instructions → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: instructions.primary.instructions_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    instructions_text: prismicT.RichTextField;
+    /**
+     * Instructions Button field in *instructions → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: instructions.primary.instructions_button
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    instructions_button: prismicT.RichTextField;
+}
+/**
+ * Item in instructions → Items
+ *
+ */
+export interface InstructionsSliceDefaultSliceItem {
+    /**
+     * Instructions Icon field in *instructions → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: instructions.items[].instructions_icon
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    instructions_icon: prismicT.ImageField<never>;
+    /**
+     * Instructions Question field in *instructions → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: instructions.items[].instructions_question
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    instructions_question: prismicT.TitleField;
+    /**
+     * Instructions Answer field in *instructions → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: instructions.items[].instructions_answer
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    instructions_answer: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for instructions Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Instructions`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type InstructionsSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<InstructionsSliceDefaultSlicePrimary>, Simplify<InstructionsSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *instructions*
+ *
+ */
+type InstructionsSliceVariation = InstructionsSliceDefaultSlice;
+/**
+ * instructions Shared Slice
+ *
+ * - **API ID**: `instructions`
+ * - **Description**: `Instructions`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type InstructionsSlice = prismicT.SharedSlice<"instructions", InstructionsSliceVariation>;
+/**
+ * Primary content in payment_information → Primary
+ *
+ */
+interface PaymentInformationSliceDefaultSlicePrimary {
+    /**
+     * Step Name field in *payment_information → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: payment_information.primary.step_name
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_name: prismicT.TitleField;
+    /**
+     * Step Status field in *payment_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: payment_information.primary.step_status
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_status: prismicT.RichTextField;
+    /**
+     * Step Title field in *payment_information → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: payment_information.primary.step_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_title: prismicT.TitleField;
+    /**
+     * Form Option field in *payment_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: payment_information.primary.form_option
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    form_option: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for payment_information Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Payment Information`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type PaymentInformationSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<PaymentInformationSliceDefaultSlicePrimary>, never>;
+/**
+ * Slice variation for *payment_information*
+ *
+ */
+type PaymentInformationSliceVariation = PaymentInformationSliceDefaultSlice;
+/**
+ * payment_information Shared Slice
+ *
+ * - **API ID**: `payment_information`
+ * - **Description**: `Payment Information`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type PaymentInformationSlice = prismicT.SharedSlice<"payment_information", PaymentInformationSliceVariation>;
+/**
+ * Primary content in proceed_to_checkout → Primary
+ *
+ */
+interface ProceedToCheckoutSliceDefaultSlicePrimary {
+    /**
+     * Proceed Button field in *proceed_to_checkout → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: proceed_to_checkout.primary.proceed_button
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    proceed_button: prismicT.RichTextField;
+    /**
+     * Change Button field in *proceed_to_checkout → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: proceed_to_checkout.primary.change_button
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    change_button: prismicT.RichTextField;
+    /**
+     * Retake Button field in *proceed_to_checkout → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: proceed_to_checkout.primary.retake_button
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    retake_button: prismicT.RichTextField;
+}
+/**
+ * Item in proceed_to_checkout → Items
+ *
+ */
+export interface ProceedToCheckoutSliceDefaultSliceItem {
+    /**
+     * Requirement Label field in *proceed_to_checkout → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: proceed_to_checkout.items[].requirement_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    requirement_label: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for proceed_to_checkout Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Proceed To Checkout`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ProceedToCheckoutSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<ProceedToCheckoutSliceDefaultSlicePrimary>, Simplify<ProceedToCheckoutSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *proceed_to_checkout*
+ *
+ */
+type ProceedToCheckoutSliceVariation = ProceedToCheckoutSliceDefaultSlice;
+/**
+ * proceed_to_checkout Shared Slice
+ *
+ * - **API ID**: `proceed_to_checkout`
+ * - **Description**: `Proceed To Checkout`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ProceedToCheckoutSlice = prismicT.SharedSlice<"proceed_to_checkout", ProceedToCheckoutSliceVariation>;
+/**
+ * Primary content in requirements → Primary
+ *
+ */
+interface RequirementsSliceDefaultSlicePrimary {
+    /**
+     * Requirements Title field in *requirements → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.requirements_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    requirements_title: prismicT.TitleField;
+    /**
+     * Requirements Image field in *requirements → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.requirements_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    requirements_image: prismicT.ImageField<never>;
+    /**
+     * Image dpi field in *requirements → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.image_dpi
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    image_dpi: prismicT.RichTextField;
+    /**
+     * Image Width field in *requirements → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.image_width
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    image_width: prismicT.RichTextField;
+    /**
+     * Image Height field in *requirements → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.image_height
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    image_height: prismicT.RichTextField;
+    /**
+     * Image Face Space field in *requirements → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.image_face_space
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    image_face_space: prismicT.RichTextField;
+    /**
+     * Image Top Space field in *requirements → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.primary.image_top_space
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    image_top_space: prismicT.RichTextField;
+}
+/**
+ * Item in requirements → Items
+ *
+ */
+export interface RequirementsSliceDefaultSliceItem {
+    /**
+     * List Icon field in *requirements → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.items[].list_icon
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    list_icon: prismicT.ImageField<never>;
+    /**
+     * List Title field in *requirements → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.items[].list_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    list_title: prismicT.TitleField;
+    /**
+     * List Text field in *requirements → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: requirements.items[].list_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    list_text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for requirements Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Photo Requirements`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type RequirementsSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<RequirementsSliceDefaultSlicePrimary>, Simplify<RequirementsSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *requirements*
+ *
+ */
+type RequirementsSliceVariation = RequirementsSliceDefaultSlice;
+/**
+ * requirements Shared Slice
+ *
+ * - **API ID**: `requirements`
+ * - **Description**: `Photo Requirements`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type RequirementsSlice = prismicT.SharedSlice<"requirements", RequirementsSliceVariation>;
+/**
+ * Primary content in review_and_pay → Primary
+ *
+ */
+interface ReviewAndPaySliceDefaultSlicePrimary {
+    /**
+     * Step Name field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.step_name
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_name: prismicT.TitleField;
+    /**
+     * Step Status field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.step_status
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_status: prismicT.RichTextField;
+    /**
+     * Step Title field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.step_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_title: prismicT.TitleField;
+    /**
+     * Summary Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.summary_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    summary_label: prismicT.TitleField;
+    /**
+     * Service Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.service_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    service_label: prismicT.RichTextField;
+    /**
+     * Shipping Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.shipping_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    shipping_label: prismicT.RichTextField;
+    /**
+     * Subtotal Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.subtotal_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    subtotal_label: prismicT.RichTextField;
+    /**
+     * Tax Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.tax_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    tax_label: prismicT.RichTextField;
+    /**
+     * Total Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.total_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    total_label: prismicT.RichTextField;
+    /**
+     * Pay Title field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.pay_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    pay_title: prismicT.TitleField;
+    /**
+     * Name on the Card field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.name_on_the_card
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    name_on_the_card: prismicT.RichTextField;
+    /**
+     * Card Number field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.card_number
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    card_number: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for review_and_pay Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Review and Pay`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ReviewAndPaySliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<ReviewAndPaySliceDefaultSlicePrimary>, never>;
+/**
+ * Slice variation for *review_and_pay*
+ *
+ */
+type ReviewAndPaySliceVariation = ReviewAndPaySliceDefaultSlice;
+/**
+ * review_and_pay Shared Slice
+ *
+ * - **API ID**: `review_and_pay`
+ * - **Description**: `Review and Pay`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ReviewAndPaySlice = prismicT.SharedSlice<"review_and_pay", ReviewAndPaySliceVariation>;
+/**
+ * Primary content in reviews → Primary
+ *
+ */
+interface ReviewsSliceDefaultSlicePrimary {
+    /**
+     * Reviews Title field in *reviews → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.primary.reviews_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    reviews_title: prismicT.TitleField;
+    /**
+     * Reviews Text field in *reviews → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.primary.reviews_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    reviews_text: prismicT.RichTextField;
+    /**
+     * Reviews Button field in *reviews → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.primary.reviews_button
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    reviews_button: prismicT.RichTextField;
+}
+/**
+ * Item in reviews → Items
+ *
+ */
+export interface ReviewsSliceDefaultSliceItem {
+    /**
+     * Review Stars field in *reviews → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.items[].review_stars
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    review_stars: prismicT.ImageField<never>;
+    /**
+     * Author Photo field in *reviews → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.items[].author_photo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    author_photo: prismicT.ImageField<never>;
+    /**
+     * Author Name field in *reviews → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.items[].author_name
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    author_name: prismicT.TitleField;
+    /**
+     * Author position field in *reviews → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.items[].author_position
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    author_position: prismicT.RichTextField;
+    /**
+     * Review Text field in *reviews → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: reviews.items[].review_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    review_text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for reviews Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Reviews`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ReviewsSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<ReviewsSliceDefaultSlicePrimary>, Simplify<ReviewsSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *reviews*
+ *
+ */
+type ReviewsSliceVariation = ReviewsSliceDefaultSlice;
+/**
+ * reviews Shared Slice
+ *
+ * - **API ID**: `reviews`
+ * - **Description**: `Reviews`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ReviewsSlice = prismicT.SharedSlice<"reviews", ReviewsSliceVariation>;
+/**
+ * Item in shipping_form → Items
+ *
+ */
+export interface ShippingFormSliceDefaultSliceItem {
+    /**
+     * Required Field field in *shipping_form → Items*
+     *
+     * - **Field Type**: Boolean
+     * - **Placeholder**: *None*
+     * - **Default Value**: true
+     * - **API ID Path**: shipping_form.items[].required_field
+     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+     *
+     */
+    required_field: prismicT.BooleanField;
+    /**
+     * Field Label field in *shipping_form → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_form.items[].field_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    field_label: prismicT.RichTextField;
+    /**
+     * Field Notice field in *shipping_form → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_form.items[].field_notice
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    field_notice: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for shipping_form Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Shipping Form`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ShippingFormSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Record<string, never>, Simplify<ShippingFormSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *shipping_form*
+ *
+ */
+type ShippingFormSliceVariation = ShippingFormSliceDefaultSlice;
+/**
+ * shipping_form Shared Slice
+ *
+ * - **API ID**: `shipping_form`
+ * - **Description**: `Shipping Form`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ShippingFormSlice = prismicT.SharedSlice<"shipping_form", ShippingFormSliceVariation>;
+/**
+ * Primary content in shipping_information → Primary
+ *
+ */
+interface ShippingInformationSliceDefaultSlicePrimary {
+    /**
+     * Step Name field in *shipping_information → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_information.primary.step_name
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_name: prismicT.TitleField;
+    /**
+     * Step Status field in *shipping_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_information.primary.step_status
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_status: prismicT.RichTextField;
+    /**
+     * Step Title field in *shipping_information → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_information.primary.step_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    step_title: prismicT.TitleField;
+}
+/**
+ * Default slice variation for shipping_information Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Shipping Information`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ShippingInformationSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<ShippingInformationSliceDefaultSlicePrimary>, never>;
+/**
+ * Slice variation for *shipping_information*
+ *
+ */
+type ShippingInformationSliceVariation = ShippingInformationSliceDefaultSlice;
+/**
+ * shipping_information Shared Slice
+ *
+ * - **API ID**: `shipping_information`
+ * - **Description**: `Shipping Information`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ShippingInformationSlice = prismicT.SharedSlice<"shipping_information", ShippingInformationSliceVariation>;
+/**
+ * Primary content in step_toolbar → Primary
+ *
+ */
+interface StepToolbarSliceDefaultSlicePrimary {
+    /**
+     * Single Image field in *step_toolbar → Primary*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: step_toolbar.primary.single_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    single_image: prismicT.ImageField<never>;
+    /**
+     * Image Caption field in *step_toolbar → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: step_toolbar.primary.image_caption
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    image_caption: prismicT.RichTextField;
+}
+/**
+ * Item in step_toolbar → Items
+ *
+ */
+export interface StepToolbarSliceDefaultSliceItem {
+    /**
+     * List Image field in *step_toolbar → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: step_toolbar.items[].list_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    list_image: prismicT.ImageField<never>;
+    /**
+     * List Text field in *step_toolbar → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: step_toolbar.items[].list_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    list_text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for step_toolbar Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Step Toolbar`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type StepToolbarSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<StepToolbarSliceDefaultSlicePrimary>, Simplify<StepToolbarSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *step_toolbar*
+ *
+ */
+type StepToolbarSliceVariation = StepToolbarSliceDefaultSlice;
+/**
+ * step_toolbar Shared Slice
+ *
+ * - **API ID**: `step_toolbar`
+ * - **Description**: `Step Toolbar`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type StepToolbarSlice = prismicT.SharedSlice<"step_toolbar", StepToolbarSliceVariation>;
+/**
+ * Primary content in values → Primary
+ *
+ */
+interface ValuesSliceDefaultSlicePrimary {
+    /**
+     * Values Title field in *values → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: values.primary.values_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    values_title: prismicT.TitleField;
+    /**
+     * Values Sub Title field in *values → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: values.primary.values_sub_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    values_sub_title: prismicT.TitleField;
+    /**
+     * Values Sub Text field in *values → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: values.primary.values_sub_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    values_sub_text: prismicT.RichTextField;
+}
+/**
+ * Item in values → Items
+ *
+ */
+export interface ValuesSliceDefaultSliceItem {
+    /**
+     * Values List Icon field in *values → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: values.items[].values_list_icon
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    values_list_icon: prismicT.ImageField<never>;
+    /**
+     * Values List Title field in *values → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: values.items[].values_list_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    values_list_title: prismicT.TitleField;
+    /**
+     * Values List Text field in *values → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: values.items[].values_list_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    values_list_text: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for values Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Values`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ValuesSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<ValuesSliceDefaultSlicePrimary>, Simplify<ValuesSliceDefaultSliceItem>>;
+/**
+ * Slice variation for *values*
+ *
+ */
+type ValuesSliceVariation = ValuesSliceDefaultSlice;
+/**
+ * values Shared Slice
+ *
+ * - **API ID**: `values`
+ * - **Description**: `Values`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type ValuesSlice = prismicT.SharedSlice<"values", ValuesSliceVariation>;
+/**
+ * Item in why → Items
+ *
+ */
+export interface WhySliceDefaultSliceItem {
+    /**
+     * Why Image field in *why → Items*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: why.items[].why_image
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    why_image: prismicT.ImageField<never>;
+    /**
+     * Why Title field in *why → Items*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
+     * - **API ID Path**: why.items[].why_title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    why_title: prismicT.TitleField;
+    /**
+     * Why Text field in *why → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: why.items[].why_text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    why_text: prismicT.RichTextField;
+    /**
+     * Why List field in *why → Items*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: why.items[].why_list
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    why_list: prismicT.RichTextField;
+}
+/**
+ * Default slice variation for why Slice
+ *
+ * - **API ID**: `default-slice`
+ * - **Description**: `Why`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type WhySliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Record<string, never>, Simplify<WhySliceDefaultSliceItem>>;
+/**
+ * Slice variation for *why*
+ *
+ */
+type WhySliceVariation = WhySliceDefaultSlice;
+/**
+ * why Shared Slice
+ *
+ * - **API ID**: `why`
+ * - **Description**: `Why`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type WhySlice = prismicT.SharedSlice<"why", WhySliceVariation>;
+/**
+ * Primary content in working_process → Primary
+ *
+ */
+interface WorkingProcessSliceDefaultSlicePrimary {
+    /**
+     * Process Title field in *working_process → Primary*
+     *
+     * - **Field Type**: Title
+     * - **Placeholder**: *None*
      * - **API ID Path**: working_process.primary.process_title
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
     process_title: prismicT.TitleField;
     /**
-     * ProcessText field in *WorkingProcess → Primary*
+     * Process Text field in *working_process → Primary*
      *
      * - **Field Type**: Rich Text
-     * - **Placeholder**: A nice description of your feature
+     * - **Placeholder**: *None*
      * - **API ID Path**: working_process.primary.process_text
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
     process_text: prismicT.RichTextField;
     /**
-     * ProcessImage field in *WorkingProcess → Primary*
+     * Process Image field in *working_process → Primary*
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
@@ -104,7 +2243,7 @@ interface WorkingProcessSliceDefaultPrimary {
      */
     process_image: prismicT.ImageField<never>;
     /**
-     * ProcessButton field in *WorkingProcess → Primary*
+     * Process Button field in *working_process → Primary*
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
@@ -115,22 +2254,22 @@ interface WorkingProcessSliceDefaultPrimary {
     process_button: prismicT.RichTextField;
 }
 /**
- * Item in WorkingProcess → Items
+ * Item in working_process → Items
  *
  */
-export interface WorkingProcessSliceDefaultItem {
+export interface WorkingProcessSliceDefaultSliceItem {
     /**
-     * ProcessLabel field in *WorkingProcess → Items*
+     * Process Label field in *working_process → Items*
      *
-     * - **Field Type**: Rich Text
+     * - **Field Type**: Title
      * - **Placeholder**: *None*
      * - **API ID Path**: working_process.items[].process_label
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
-    process_label: prismicT.RichTextField;
+    process_label: prismicT.TitleField;
     /**
-     * ProcessDescription field in *WorkingProcess → Items*
+     * Process Description field in *working_process → Items*
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
@@ -141,24 +2280,24 @@ export interface WorkingProcessSliceDefaultItem {
     process_description: prismicT.RichTextField;
 }
 /**
- * Default variation for WorkingProcess Slice
+ * Default slice variation for working_process Slice
  *
- * - **API ID**: `default`
- * - **Description**: `WorkingProcess`
+ * - **API ID**: `default-slice`
+ * - **Description**: `Working Process`
  * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
  *
  */
-export type WorkingProcessSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<WorkingProcessSliceDefaultPrimary>, Simplify<WorkingProcessSliceDefaultItem>>;
+export type WorkingProcessSliceDefaultSlice = prismicT.SharedSliceVariation<"default-slice", Simplify<WorkingProcessSliceDefaultSlicePrimary>, Simplify<WorkingProcessSliceDefaultSliceItem>>;
 /**
- * Slice variation for *WorkingProcess*
+ * Slice variation for *working_process*
  *
  */
-type WorkingProcessSliceVariation = WorkingProcessSliceDefault;
+type WorkingProcessSliceVariation = WorkingProcessSliceDefaultSlice;
 /**
- * WorkingProcess Shared Slice
+ * working_process Shared Slice
  *
  * - **API ID**: `working_process`
- * - **Description**: `WorkingProcess`
+ * - **Description**: `Working Process`
  * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
  *
  */
@@ -168,6 +2307,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { HomeDocumentData, HomeDocument, AllDocumentTypes, HomeSliceDefaultPrimary, HomeSliceDefault, HomeSliceVariation, HomeSlice, WorkingProcessSliceDefaultPrimary, WorkingProcessSliceDefaultItem, WorkingProcessSliceDefault, WorkingProcessSliceVariation, WorkingProcessSlice };
+        export type { AboutDocumentData, AboutDocumentDataSlicesSlice, AboutDocument, ArticleDocumentData, ArticleDocumentDataSlicesSlice, ArticleDocument, CheckoutDocumentData, CheckoutDocumentDataSlicesSlice, CheckoutDocument, ContactUsDocumentData, ContactUsDocumentDataContactsListItem, ContactUsDocument, LandingPageDocumentData, LandingPageDocumentDataSlicesSlice, LandingPageDocument, ProcessPageDocumentData, ProcessPageDocumentDataStepsAdvantagesItem, ProcessPageDocumentDataStepOptionsItem, ProcessPageDocumentDataSlicesSlice, ProcessPageDocument, AllDocumentTypes, AdviceListSliceDefaultSliceItem, AdviceListSliceDefaultSlice, AdviceListSliceVariation, AdviceListSlice, BlockquoteSliceDefaultSlicePrimary, BlockquoteSliceDefaultSlice, BlockquoteSliceVariation, BlockquoteSlice, ContentSliceDefaultSlicePrimary, ContentSliceDefaultSlice, ContentSliceVariation, ContentSlice, DeliveryMethodSliceDefaultSlicePrimary, DeliveryMethodSliceDefaultSliceItem, DeliveryMethodSliceDefaultSlice, DeliveryMethodSliceVariation, DeliveryMethodSlice, FaqSliceDefaultSlicePrimary, FaqSliceDefaultSliceItem, FaqSliceDefaultSlice, FaqSliceVariation, FaqSlice, InfoSliceDefaultSliceItem, InfoSliceDefaultSlice, InfoSliceVariation, InfoSlice, InstructionsSliceDefaultSlicePrimary, InstructionsSliceDefaultSliceItem, InstructionsSliceDefaultSlice, InstructionsSliceVariation, InstructionsSlice, PaymentInformationSliceDefaultSlicePrimary, PaymentInformationSliceDefaultSlice, PaymentInformationSliceVariation, PaymentInformationSlice, ProceedToCheckoutSliceDefaultSlicePrimary, ProceedToCheckoutSliceDefaultSliceItem, ProceedToCheckoutSliceDefaultSlice, ProceedToCheckoutSliceVariation, ProceedToCheckoutSlice, RequirementsSliceDefaultSlicePrimary, RequirementsSliceDefaultSliceItem, RequirementsSliceDefaultSlice, RequirementsSliceVariation, RequirementsSlice, ReviewAndPaySliceDefaultSlicePrimary, ReviewAndPaySliceDefaultSlice, ReviewAndPaySliceVariation, ReviewAndPaySlice, ReviewsSliceDefaultSlicePrimary, ReviewsSliceDefaultSliceItem, ReviewsSliceDefaultSlice, ReviewsSliceVariation, ReviewsSlice, ShippingFormSliceDefaultSliceItem, ShippingFormSliceDefaultSlice, ShippingFormSliceVariation, ShippingFormSlice, ShippingInformationSliceDefaultSlicePrimary, ShippingInformationSliceDefaultSlice, ShippingInformationSliceVariation, ShippingInformationSlice, StepToolbarSliceDefaultSlicePrimary, StepToolbarSliceDefaultSliceItem, StepToolbarSliceDefaultSlice, StepToolbarSliceVariation, StepToolbarSlice, ValuesSliceDefaultSlicePrimary, ValuesSliceDefaultSliceItem, ValuesSliceDefaultSlice, ValuesSliceVariation, ValuesSlice, WhySliceDefaultSliceItem, WhySliceDefaultSlice, WhySliceVariation, WhySlice, WorkingProcessSliceDefaultSlicePrimary, WorkingProcessSliceDefaultSliceItem, WorkingProcessSliceDefaultSlice, WorkingProcessSliceVariation, WorkingProcessSlice };
     }
 }

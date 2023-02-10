@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { PrismicRichText } from '@prismicio/react'
 
 import { Currency, ProductCategory, ProductSku } from '@/apollo'
 import { useAuth, useProducts } from '@/hooks'
+import { CheckoutSlice } from '@/pages/checkout/delivery-method'
 
 interface Props {
   currency: Currency
@@ -15,7 +17,7 @@ interface Props {
   tax: number
 }
 
-const OrderSummary: React.FC<Props> = ({
+const OrderSummary: React.FC<Props & CheckoutSlice> = ({
   currency,
   conciergePrice,
   shippingPrice,
@@ -23,6 +25,7 @@ const OrderSummary: React.FC<Props> = ({
   total,
   discount,
   tax,
+  slice,
 }) => {
   const { t } = useTranslation()
   const { cart } = useAuth()
@@ -80,7 +83,7 @@ const OrderSummary: React.FC<Props> = ({
       <ol>
         <li>
           <div className="name">
-            <h3>Order summary</h3>
+            <PrismicRichText field={slice.primary.summary_label} />
           </div>
         </li>
         <li>
@@ -109,7 +112,7 @@ const OrderSummary: React.FC<Props> = ({
         </li>
         <li>
           <div className="name">
-            <h3>Print & Ship Service</h3>
+            <h3>{slice.primary.service_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: conciergePrice,
@@ -118,7 +121,7 @@ const OrderSummary: React.FC<Props> = ({
             </p>
           </div>
           <div className="name">
-            <h3>Shipping</h3>
+            <h3>{slice.primary.shipping_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: shippingPrice || 0,
@@ -138,7 +141,7 @@ const OrderSummary: React.FC<Props> = ({
             </div>
           )}
           <div className="name">
-            <h3>Subtotal Cost</h3>
+            <h3>{slice.primary.subtotal_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: subTotal,
@@ -148,7 +151,7 @@ const OrderSummary: React.FC<Props> = ({
           </div>
           {cart?.billingAddress?.state === 'NY' ? (
             <div className="name">
-              <h3>Sales tax</h3>
+              <h3>Sales Tax</h3>
               <p>
                 {t('currency', {
                   value: tax,
@@ -158,7 +161,7 @@ const OrderSummary: React.FC<Props> = ({
             </div>
           ) : (
             <div className="name">
-              <h3>Tax</h3>
+              <h3>{slice.primary.shipping_label[0].text}</h3>
               <p>
                 {t('currency', {
                   value: 0,
