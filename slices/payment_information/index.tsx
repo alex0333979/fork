@@ -151,7 +151,6 @@ const PaymentInformation: React.FC<CheckoutSlice> = ({ slice }) => {
     }))
   }, [billingForm, checkoutSteps.steps, curStep])
 
-  console.error('payment_information', slice)
   return (
     <CheckoutLayout
       key={refreshKey}

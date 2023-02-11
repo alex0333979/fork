@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react'
-import YoutubePlayer from 'react-youtube'
+import { PrismicRichText } from '@prismicio/react'
 
 import ModalContainer from '@/components/elements/modalContainer'
+import { ArticlePageProps } from '../takeNewPhoto'
 
 const videoRatio = 0.5625
 
-const PhotoHelper: React.FC = () => {
+const PhotoHelper: React.FC<ArticlePageProps> = ({ articlePage }) => {
   const [open, setOpen] = useState<boolean>(false)
 
   const [vWidth, vHeight] = useMemo(() => {
@@ -28,13 +29,7 @@ const PhotoHelper: React.FC = () => {
       </div>
       <ModalContainer open={open} closeModal={() => setOpen(false)}>
         <div style={{ width: vWidth, height: vHeight }}>
-          <YoutubePlayer
-            videoId="niyaWETsrUI"
-            opts={{
-              width: `${vWidth}`,
-              height: `${vHeight}`,
-            }}
-          />
+          <PrismicRichText field={articlePage?.data.slices[0].primary.text} />
         </div>
       </ModalContainer>
     </>
