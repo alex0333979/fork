@@ -1,16 +1,22 @@
 import React from 'react'
+import { SliceZone } from '@prismicio/react'
+import { PrismicDocument } from '@prismicio/types'
 
+import { components } from 'slices'
 import Summary from './summary'
-import AboutValues from './aboutValues'
-import AboutWhatWeDo from './aboutWhatWeDo'
-import AboutHistory from './aboutHistory'
 
-const About: React.FC = () => (
+export interface AboutProps {
+  page: PrismicDocument<Record<string, any>, string, string>
+}
+
+export interface SliceProps {
+  slice: any
+}
+
+const About: React.FC<AboutProps> = ({ page }) => (
   <>
-    <Summary />
-    <AboutValues />
-    <AboutWhatWeDo />
-    <AboutHistory />
+    <Summary page={page} />
+    <SliceZone slices={page?.data.slices} components={components} />
   </>
 )
 

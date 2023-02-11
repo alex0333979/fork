@@ -10,6 +10,9 @@ import reviews from './reviews'
 import shipping_information from './shipping_information'
 import step_toolbar from './step_toolbar'
 import working_process from './working_process'
+import values from './values'
+import info from './info'
+import why from './why'
 
 export {
   advice_list,
@@ -22,6 +25,9 @@ export {
   shipping_information,
   step_toolbar,
   working_process,
+  values,
+  info,
+  why,
 }
 
 export const components = {
@@ -35,4 +41,7 @@ export const components = {
   shipping_information,
   step_toolbar,
   working_process,
+  values,
+  info,
+  why,
 }

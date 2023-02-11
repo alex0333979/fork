@@ -4,6 +4,7 @@ export const PageTypeHashes = {
   process_page: 'process_page',
   checkout_page: 'checkout',
   article_page: 'article',
+  about_page: 'about',
 }
 
 export const PageUIDHashes = {
@@ -14,6 +15,7 @@ export const PageUIDHashes = {
   processPage: 'take-photo',
   checkoutPage: 'checkout',
   articlePage: 'article',
+  aboutPage: 'about',
 }
 
 export const prismicRoutes = [
@@ -46,5 +48,10 @@ export const prismicRoutes = [
     type: PageTypeHashes.article_page,
     uid: PageUIDHashes.articlePage,
     path: '/photo/take-photo/:uid',
+  },
+  {
+    type: PageTypeHashes.about_page,
+    uid: PageUIDHashes.aboutPage,
+    path: '/about',
   },
 ]
