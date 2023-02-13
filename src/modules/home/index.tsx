@@ -17,6 +17,7 @@ const Home: React.FC<HomePageProps> = ({
   document,
   page,
   onStart,
+  extraPath,
 }) => {
   const target = React.useRef<HTMLDivElement>(null)
   const ref = React.useRef<WorkingProcessInterface>(null)
@@ -56,7 +57,11 @@ const Home: React.FC<HomePageProps> = ({
         country={country}
         document={document}
       />
-      <SliceZone slices={page?.data.slices} components={components} />
+      <SliceZone
+        slices={page?.data.slices}
+        components={components}
+        context={{ country, document, extraPath }}
+      />
       <FaqForm />
     </>
   )

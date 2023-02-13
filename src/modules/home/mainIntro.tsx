@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { PrismicDocument } from '@prismicio/types'
 import { PrismicRichText } from '@prismicio/react'
 import { PrismicNextImage } from '@prismicio/next'
+import * as prismicH from '@prismicio/helpers'
 
 import { Country, PDocument } from '@/apollo'
 import { useLocation, useCurrency } from '@/hooks'
@@ -12,6 +13,7 @@ import { Maybe } from '@/types'
 import { ICountry } from '@/components/elements/countrySelector'
 import { PAGES } from '@/constants'
 import DocModal from './docModal'
+import { transformPrismic } from '@/utils/prismic'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
   {
@@ -117,7 +119,14 @@ const MainIntro = (
           <div className="intro-wrap mobile-img">
             <div className="intro-title">
               <div className="title big">
-                <PrismicRichText field={page?.data.title} />
+                <h1>
+                  <b>
+                    {transformPrismic(prismicH.asText(page?.data.title), {
+                      country: country?.label,
+                      documentType: document?.type,
+                    })}
+                  </b>
+                </h1>
                 <PrismicRichText field={page?.data.text} />
               </div>
               <div className="select-country">

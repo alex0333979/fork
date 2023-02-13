@@ -16,6 +16,7 @@ export const PageUIDHashes = {
   checkoutPage: 'checkout',
   articlePage: 'article',
   dynamic_page: 'country-dynamic-landing-page',
+  document_page: 'document-dynamic-landing-page',
   aboutPage: 'about',
 }
 
@@ -39,6 +40,11 @@ export const prismicRoutes = [
     type: PageTypeHashes.landingPage,
     uid: PageUIDHashes.dynamic_page,
     path: '/:uid',
+  },
+  {
+    type: PageTypeHashes.landingPage,
+    uid: PageUIDHashes.document_page,
+    path: '/:uid/:uid',
   },
   {
     type: PageTypeHashes.contactUs,

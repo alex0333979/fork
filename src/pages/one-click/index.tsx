@@ -68,9 +68,6 @@ const OneClickHomePage: NextPage<PhotoProps> = ({ page }) => {
           country={null}
           document={null}
           page={page}
-          // title={HomepageContent.default.title}
-          // description={HomepageContent.default.description}
-          // buttonTitle="Choose document"
           onStart={() => setStartOneClick(true)}
         />
       </AppLayout>

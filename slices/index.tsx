@@ -13,6 +13,7 @@ import working_process from './working_process'
 import values from './values'
 import info from './info'
 import why from './why'
+import requirements from './requirements'
 
 export {
   advice_list,
@@ -28,6 +29,7 @@ export {
   values,
   info,
   why,
+  requirements,
 }
 
 export const components = {
@@ -44,4 +46,5 @@ export const components = {
   values,
   info,
   why,
+  requirements,
 }
