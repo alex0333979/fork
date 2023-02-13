@@ -16,7 +16,7 @@ import { Maybe, TCamera, TOnSubmitEntry } from '@/types'
 interface IUseGetPhoto {
   fileRef: RefObject<HTMLInputElement>
   camera?: Maybe<TCamera>
-  onSubmitEntry: TOnSubmitEntry
+  onSubmitEntry?: TOnSubmitEntry
 }
 
 export const useGetPhoto = ({
@@ -71,7 +71,7 @@ export const useGetPhoto = ({
         .put(data.signedUrl, selectedImage, config)
         .then(async () => {
           showSuccess('File upload success.')
-          await onSubmitEntry(data, imageResolution, camera, (l: boolean) =>
+          await onSubmitEntry?.(data, imageResolution, camera, (l: boolean) =>
             setLoading(l),
           )
         })

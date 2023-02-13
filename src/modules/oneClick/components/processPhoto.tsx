@@ -122,7 +122,7 @@ const ProcessPhoto: React.FC<Props & PhotoProps> = ({
                 status={status}
                 passed={passed}
                 failed={failed}
-                items={page.data.slices[1].items}
+                items={page?.data.slices[1].items}
               />
             </div>
           </div>

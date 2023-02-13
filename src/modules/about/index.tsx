@@ -6,11 +6,11 @@ import { components } from 'slices'
 import Summary from './summary'
 
 export interface AboutProps {
-  page: PrismicDocument<Record<string, any>, string, string>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 export interface SliceProps {
-  slice: any
+  slice?: any
 }
 
 const About: React.FC<AboutProps> = ({ page }) => (

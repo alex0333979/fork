@@ -9,7 +9,7 @@ import DeliveryMethodItem from './methodItem'
 interface Props {
   shippingType: ShippingType
   onChangeShippingType: (s: ShippingType) => void
-  slice: any
+  slice?: any
 }
 
 const Methods: React.FC<Props> = ({
@@ -22,7 +22,7 @@ const Methods: React.FC<Props> = ({
   return (
     <li>
       <div className="name">
-        <PrismicRichText field={slice.primary.step_name} />
+        <PrismicRichText field={slice?.primary.step_name} />
       </div>
       <div className="form-fields">
         {shippingTypes(country?.value).map((sType, index) => (
@@ -31,7 +31,7 @@ const Methods: React.FC<Props> = ({
             selected={shippingType}
             shippingType={sType}
             onSelect={onChangeShippingType}
-            prismicShippingTitle={slice.items[index].method_option[0].text}
+            prismicShippingTitle={slice?.items[index].method_option[0].text}
           />
         ))}
       </div>

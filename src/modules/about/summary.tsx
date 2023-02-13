@@ -4,7 +4,13 @@ import Image from 'next/image'
 
 import { AboutProps } from '@/pages/about'
 
-export const imageLoader = ({ src, width }) => `${src}&w=${width}&q=100}`
+interface ImageLoader {
+  src: any
+  width: any
+}
+
+export const imageLoader = ({ src, width }: ImageLoader) =>
+  `${src}&w=${width}&q=100}`
 
 const Summary: React.FC<AboutProps> = ({ page }) => (
   <div className="about-page top-shadow">

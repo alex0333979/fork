@@ -19,7 +19,7 @@ export interface EditPhotoProps {
   accessToken?: string
   entry?: Entry
   type?: string
-  page: PrismicDocument<Record<string, any>, string, string>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const EditPhotoPage: NextPage<EditPhotoProps> = ({

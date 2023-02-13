@@ -91,7 +91,7 @@ export const getServerSideProps: GetServerSideProps<PhotoProps> = async (
   const previewData = context.params?.previewData
   const client = createClient({ previewData })
   const page = await client.getByUID(
-    PageTypeHashes.usLandingPage,
+    PageTypeHashes.landingPage,
     PageUIDHashes.homepage,
   )
 

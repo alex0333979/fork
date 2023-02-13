@@ -13,17 +13,16 @@ import { TOnSubmitEntry } from '@/types'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 
 export interface ProceedToCheckoutProps {
-  onSubmitEntry: TOnSubmitEntry
-  slice: any
-  context: any
+  onSubmitEntry?: TOnSubmitEntry
+  slice?: any
+  context?: any
 }
 
 export interface PhotoProps {
-  page: PrismicDocument<Record<string, any>, string, string>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const ProceedToCheckout: React.FC<ProceedToCheckoutProps & PhotoProps> = ({
-  slice,
   context,
 }) => {
   const fileRef = useRef<HTMLInputElement>(null)
@@ -58,7 +57,6 @@ const ProceedToCheckout: React.FC<ProceedToCheckoutProps & PhotoProps> = ({
             selectedImage={selectedImage}
             percentage={percentage}
             onCancelUpload={onCancelUpload}
-            slice={slice}
           />
         ) : (
           <UploadPhoto
@@ -83,7 +81,7 @@ export const getServerSideProps: GetServerSideProps<PhotoProps> = async (
   const previewData = context.params?.previewData
   const client = createClient({ previewData })
   const page = await client.getByUID(
-    PageTypeHashes.usLandingPage,
+    PageTypeHashes.landingPage,
     PageUIDHashes.homepage,
   )
 

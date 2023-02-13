@@ -9,8 +9,9 @@ import OrderSummary from './orderSummary'
 import PaymentButtons from './paymentButtons'
 import PayWithCard from './payWithCard'
 import ApplyCoupon from './applyCoupon'
+import { CheckoutSlice } from '@/pages/checkout/delivery-method'
 
-const ReviewAndPay: React.FC = () => {
+const ReviewAndPay: React.FC<CheckoutSlice> = ({ slice }) => {
   const { cart } = useAuth()
   const { checkoutSteps } = useCheckout()
   const { currentCurrency } = useCurrency()
@@ -89,6 +90,7 @@ const ReviewAndPay: React.FC = () => {
           total={total || 0}
           discount={discount}
           tax={tax || 0}
+          slice={slice}
         />
         <ApplyCoupon cartCoupon={cart?.coupon} />
         {!!paymentRequest && <PaymentButtons paymentRequest={paymentRequest} />}

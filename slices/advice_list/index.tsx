@@ -3,7 +3,7 @@ import React from 'react'
 import PhotoFaqs from '@/modules/photo/components/photoFaqs'
 
 export interface AdviceListProps {
-  slice: any
+  slice?: any
 }
 
 const AdviceList: React.FC<AdviceListProps> = ({ slice }) => (

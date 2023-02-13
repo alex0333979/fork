@@ -27,7 +27,7 @@ export interface HomePageProps {
   document: PDocument | null
   errorCode?: number
   onStart?: () => void
-  page: PrismicDocument<Record<string, any>, string, string>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 const HomePage: NextPage<HomePageProps> = ({
@@ -42,10 +42,7 @@ const HomePage: NextPage<HomePageProps> = ({
 
   return (
     <>
-      <NextSeo
-        title={prismicH.asText(page?.data.title) || undefined}
-        // description={seo?.length ? seo.join(', ') : SEO.home.description}
-      />
+      <NextSeo title={prismicH.asText(page?.data.title) || undefined} />
       <AppLayout>
         <Home page={page} country={country} document={document} />
       </AppLayout>
@@ -59,13 +56,16 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   context: GetServerSidePropsContext,
 ) => {
   const previewData = context.params?.previewData
-  const client = createClient({ previewData })
-  const page = await client.getByUID(
-    PageTypeHashes.usLandingPage,
-    PageUIDHashes.homepage,
-  )
-  const countryCode = context?.params?.country as string
   const documentType = context?.params?.documentType as string
+  const countryCode = context?.params?.country as string
+
+  const client = createClient({ previewData })
+  const page = countryCode
+    ? await client.getByUID(
+        PageTypeHashes.landingPage,
+        PageUIDHashes.dynamic_page,
+      )
+    : await client.getByUID(PageTypeHashes.landingPage, PageUIDHashes.homepage)
   const extraPath = (context?.params?.extraPath as string) || null
   if (countryCode && documentType && extraPath) {
     const isValid = (AvailablePath[countryCode]?.[documentType] || []).includes(

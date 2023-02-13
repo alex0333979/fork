@@ -1,5 +1,5 @@
 export const PageTypeHashes = {
-  usLandingPage: 'landing_page',
+  landingPage: 'landing_page',
   contactUs: 'contact_us',
   process_page: 'process_page',
   checkout_page: 'checkout',
@@ -15,19 +15,30 @@ export const PageUIDHashes = {
   processPage: 'take-photo',
   checkoutPage: 'checkout',
   articlePage: 'article',
+  dynamic_page: 'country-dynamic-landing-page',
   aboutPage: 'about',
 }
 
 export const prismicRoutes = [
   {
-    type: PageTypeHashes.usLandingPage,
+    type: PageTypeHashes.landingPage,
     uid: PageUIDHashes.homepage,
     path: '/',
   },
   {
-    type: PageTypeHashes.usLandingPage,
+    type: PageTypeHashes.landingPage,
+    uid: PageUIDHashes.homepage,
+    path: '/:uid',
+  },
+  {
+    type: PageTypeHashes.landingPage,
     uid: PageUIDHashes.orderPage,
     path: '/',
+  },
+  {
+    type: PageTypeHashes.landingPage,
+    uid: PageUIDHashes.dynamic_page,
+    path: '/:uid',
   },
   {
     type: PageTypeHashes.contactUs,

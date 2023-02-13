@@ -14,7 +14,9 @@ export const PrismicContext = createContext<IPrismicContext>({
 export const PrismicContextProvider: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
-  const [pageData, setPageData] = useState<PrismicDocument>({})
+  const [pageData, setPageData] = useState<PrismicDocument>(
+    {} as unknown as PrismicDocument,
+  )
 
   const value = useMemo(
     () => ({ pageData, setPageData }),
