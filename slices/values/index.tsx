@@ -5,7 +5,7 @@ import { PrismicRichText } from '@prismicio/react'
 import { SliceProps } from '@/modules/about'
 import { imageLoader } from '@/modules/about/summary'
 
-const Values: React.FC<SliceProps> = ({ slice }) => (
+const AboutUs: React.FC<SliceProps> = ({ slice }) => (
   <div className="about-values">
     <span className="bg-gradient" />
     <div className="container">
@@ -44,4 +44,4 @@ const Values: React.FC<SliceProps> = ({ slice }) => (
     </div>
   </div>
 )
-export default Values
+export default AboutUs
