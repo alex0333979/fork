@@ -21,6 +21,7 @@ import {
   PDocument,
 } from '@/apollo'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { transformPrismic } from '@/utils/prismic'
 
 export interface HomePageProps {
   country: Country | null
@@ -28,6 +29,7 @@ export interface HomePageProps {
   errorCode?: number
   onStart?: () => void
   page?: PrismicDocument<Record<string, any>, string, string>
+  extraPath?: string | null
 }
 
 const HomePage: NextPage<HomePageProps> = ({
@@ -35,16 +37,30 @@ const HomePage: NextPage<HomePageProps> = ({
   document,
   errorCode = 200,
   page,
+  extraPath,
 }) => {
   if (errorCode === 404) {
     return <ErrorPage statusCode={errorCode} />
   }
 
+  console.error('page: >>>> extrapath', page, extraPath)
   return (
     <>
-      <NextSeo title={prismicH.asText(page?.data.title) || undefined} />
+      <NextSeo
+        title={
+          transformPrismic(prismicH.asText(page?.data.title), {
+            country: country?.country,
+            documentType: document?.type,
+          }) || undefined
+        }
+      />
       <AppLayout>
-        <Home page={page} country={country} document={document} />
+        <Home
+          page={page}
+          country={country}
+          document={document}
+          extraPath={extraPath}
+        />
       </AppLayout>
     </>
   )
@@ -60,12 +76,25 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   const countryCode = context?.params?.country as string
 
   const client = createClient({ previewData })
-  const page = countryCode
-    ? await client.getByUID(
-        PageTypeHashes.landingPage,
-        PageUIDHashes.dynamic_page,
-      )
-    : await client.getByUID(PageTypeHashes.landingPage, PageUIDHashes.homepage)
+  let page: any
+
+  if (!countryCode && !documentType) {
+    page = await client.getByUID(
+      PageTypeHashes.landingPage,
+      PageUIDHashes.homepage,
+    )
+  } else if (countryCode && !documentType) {
+    page = await client.getByUID(
+      PageTypeHashes.landingPage,
+      PageUIDHashes.dynamic_page,
+    )
+  } else if (countryCode && documentType) {
+    page = await client.getByUID(
+      PageTypeHashes.landingPage,
+      PageUIDHashes.document_page,
+    )
+  }
+
   const extraPath = (context?.params?.extraPath as string) || null
   if (countryCode && documentType && extraPath) {
     const isValid = (AvailablePath[countryCode]?.[documentType] || []).includes(
