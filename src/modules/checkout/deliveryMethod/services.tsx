@@ -6,8 +6,8 @@ import { useProducts } from '@/hooks'
 import { ShippingType, ProductSku } from '@/apollo'
 
 interface Props {
-  shippingType: ShippingType
-  primary: any
+  shippingType?: ShippingType
+  primary?: any
 }
 
 const Services: React.FC<Props> = ({ shippingType, primary }) => {
@@ -29,7 +29,7 @@ const Services: React.FC<Props> = ({ shippingType, primary }) => {
     <>
       <li>
         <div className="name">
-          <h3>{primary.print_ship_method[0].text}</h3>
+          <h3>{primary?.print_ship_method[0].text}</h3>
           <p>
             Just
             <b>
@@ -48,24 +48,24 @@ const Services: React.FC<Props> = ({ shippingType, primary }) => {
               <span>Digital Photo (Only) Includes:</span>
             </h3>
           ) : (
-            <h3>{primary.print_ship_list_title[0].text}</h3>
+            <h3>{primary?.print_ship_list_title[0].text}</h3>
           )}
         </div>
         <div className="text">
           {shippingType === ShippingType.NoShipping ? (
             <>
               <ul className="checked">
-                {primary.digital_pros.map((pro: any, index: number) => (
+                {primary?.digital_pros.map((pro: any, index: number) => (
                   <li key={index}>{pro.text}</li>
                 ))}
               </ul>
               <ul style={{ paddingTop: 0 }}>
-                <li>{primary.digital_cons[0].text}</li>
+                <li>{primary?.digital_cons[0].text}</li>
               </ul>
             </>
           ) : (
             <ul className="checked">
-              {primary.digital_pros.map((desc: any, index: number) => (
+              {primary?.digital_pros.map((desc: any, index: number) => (
                 <li key={index}>{desc.text}</li>
               ))}
             </ul>

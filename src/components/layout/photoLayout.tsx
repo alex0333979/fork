@@ -5,7 +5,7 @@ import { PrismicDocument } from '@prismicio/types'
 
 interface AppLayoutProps {
   children: React.ReactNode
-  page: PrismicDocument<Record<string, any>, string, string>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 const PhotoLayout: React.FC<AppLayoutProps> = ({ children, page }) => (
   <>

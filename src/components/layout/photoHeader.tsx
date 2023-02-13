@@ -27,7 +27,7 @@ const PhotoHeader: React.FC<PhotoProps> = ({ page }) => (
           <div className="right-side">
             <div className="steps-advantages">
               <ul>
-                {page.data.steps_advantages.map((step: any, index: number) => (
+                {page?.data.steps_advantages.map((step: any, index: number) => (
                   <li key={index}>
                     <span className={step.icon_class[0].text} />
                     <PrismicRichText field={step.text} />

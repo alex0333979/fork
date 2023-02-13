@@ -67,7 +67,6 @@ const DeliveryMethod: React.FC<CheckoutSlice> = ({ slice }) => {
     updateMe,
   ])
 
-  console.error('herE:>>', slice)
   const onChangeAnswers = useCallback((q: string, a: string) => {
     setExpeditingAnswers((prev) => ({ ...prev, [q]: a }))
   }, [])

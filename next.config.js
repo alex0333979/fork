@@ -13,6 +13,7 @@ module.exports = {
     domains: [
       'passport-photos-ai.s3.us-east-1.amazonaws.com',
       'biometric-backend.s3.eu-central-1.amazonaws.com',
+      'images.prismic.io',
     ],
   },
   env: {

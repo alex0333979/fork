@@ -1,8 +1,10 @@
 export const PageTypeHashes = {
-  usLandingPage: 'landing_page',
+  landingPage: 'landing_page',
   contactUs: 'contact_us',
   process_page: 'process_page',
   checkout_page: 'checkout',
+  article_page: 'article',
+  about_page: 'about',
 }
 
 export const PageUIDHashes = {
@@ -12,18 +14,31 @@ export const PageUIDHashes = {
   contactusPage: 'contact-us',
   processPage: 'take-photo',
   checkoutPage: 'checkout',
+  articlePage: 'article',
+  dynamic_page: 'country-dynamic-landing-page',
+  aboutPage: 'about',
 }
 
 export const prismicRoutes = [
   {
-    type: PageTypeHashes.usLandingPage,
+    type: PageTypeHashes.landingPage,
     uid: PageUIDHashes.homepage,
     path: '/',
   },
   {
-    type: PageTypeHashes.usLandingPage,
+    type: PageTypeHashes.landingPage,
+    uid: PageUIDHashes.homepage,
+    path: '/:uid',
+  },
+  {
+    type: PageTypeHashes.landingPage,
     uid: PageUIDHashes.orderPage,
     path: '/',
+  },
+  {
+    type: PageTypeHashes.landingPage,
+    uid: PageUIDHashes.dynamic_page,
+    path: '/:uid',
   },
   {
     type: PageTypeHashes.contactUs,
@@ -39,5 +54,15 @@ export const prismicRoutes = [
     type: PageTypeHashes.checkout_page,
     uid: PageUIDHashes.checkoutPage,
     path: '/checkout',
+  },
+  {
+    type: PageTypeHashes.article_page,
+    uid: PageUIDHashes.articlePage,
+    path: '/photo/take-photo/:uid',
+  },
+  {
+    type: PageTypeHashes.about_page,
+    uid: PageUIDHashes.aboutPage,
+    path: '/about',
   },
 ]

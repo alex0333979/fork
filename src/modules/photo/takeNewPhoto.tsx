@@ -12,6 +12,10 @@ export interface TakeNewPhotoProps {
   page?: PrismicDocument<Record<string, any>, string, string>
 }
 
+export interface ArticlePageProps {
+  articlePage?: PrismicDocument<Record<string, any>, string, string>
+}
+
 const TakeNewPhoto: React.FC<TakeNewPhotoProps> = ({ page }) => {
   const router = useRouter()
   const [cookie, setCookie] = useCookies([

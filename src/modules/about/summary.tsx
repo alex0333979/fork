@@ -1,54 +1,57 @@
 import React from 'react'
+import { PrismicRichText } from '@prismicio/react'
 import Image from 'next/image'
 
-const Summary: React.FC = () => (
+import { AboutProps } from '@/pages/about'
+
+interface ImageLoader {
+  src: any
+  width: any
+}
+
+export const imageLoader = ({ src, width }: ImageLoader) =>
+  `${src}&w=${width}&q=100}`
+
+const Summary: React.FC<AboutProps> = ({ page }) => (
   <div className="about-page top-shadow">
     <span className="circle" />
     <div className="container">
       <div className="row">
         <div className="title col-12 col-lg-5">
-          <h1>
-            We are all about convenience and speed when it comes to Your
-            Passport Photos
-          </h1>
-          <p className="d-lg-none">
-            We invest our resources developing most innovative AI software to
-            insure your passport photos meet all Gov requirements - Using your
-            mobile or PC
-          </p>
-          <p className="d-none d-lg-block">
-            We invest our resources developing most innovative AI software to
-            insure your passport photos meet all Gov requirements - Using your
-            mobile or
-          </p>
+          <PrismicRichText field={page?.data.title} />
+          <div className="d-lg-none">
+            <PrismicRichText field={page?.data.intro_desktop_text} />
+          </div>
+          <div className="d-none d-lg-block">
+            <PrismicRichText field={page?.data.intro_mobile_text} />
+          </div>
           <ul>
             <li className="d-lg-none">All process is safe</li>
             <li className="d-lg-none">Get approved quickly</li>
-            <li className="d-none d-lg-block">Convenience - Quick & Easy</li>
-            <li className="d-none d-lg-block">
-              Passport photo + Application, everything in one place
-            </li>
-            <li className="d-none d-lg-block">
-              Instant Bio-metric photo approva
-            </li>
-            <li className="d-none d-lg-block">Ship Directly to your home</li>
+            {page?.data.title_list.map((title: any, index: number) => (
+              <li className="d-none d-lg-block" key={index}>
+                {title.text}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="img col-12 col-lg-7">
           <div className="img-wrap">
             <span>
               <Image
-                src="/images/About/about-1.jpg"
-                width={370}
-                height={434}
+                src={page?.data.intro_top_image.url}
+                width={page?.data.intro_top_image.dimensions.width}
+                height={page?.data.intro_top_image.dimensions.height}
+                loader={imageLoader}
                 alt=""
               />
             </span>
             <span className="d-none d-md-flex">
               <Image
-                src="/images/About/about-2.jpg"
-                width={354}
-                height={455}
+                src={page?.data.intro_bottom_image.url}
+                width={page?.data.intro_bottom_image.dimensions.width}
+                height={page?.data.intro_bottom_image.dimensions.height}
+                loader={imageLoader}
                 alt=""
               />
             </span>

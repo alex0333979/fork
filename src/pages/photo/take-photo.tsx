@@ -27,6 +27,7 @@ export interface TakePhotoPageProps {
   entry: Entry | null
   documentId: string
   page: PrismicDocument<Record<string, any>, string, string>
+  articlePage: PrismicDocument<Record<string, any>, string, string>
 }
 
 const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
@@ -34,6 +35,7 @@ const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
   entry,
   documentId,
   page,
+  articlePage,
 }) => {
   const { setPageData } = useContext(PrismicContext)
   setPageData(page)
@@ -50,6 +52,7 @@ const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
           entry={entry}
           documentId={documentId}
           page={page}
+          articlePage={articlePage}
         />
       </PhotoLayout>
     </>
@@ -75,6 +78,8 @@ export const getServerSideProps: GetServerSideProps<
     PageTypeHashes.process_page,
     PageUIDHashes.processPage,
   )
+
+  const articlePage = await client.getByUID(PageUIDHashes.articlePage, 'test')
 
   if (context.res) {
     context.res.setHeader('Cache-Control', 'no-store')
@@ -102,6 +107,7 @@ export const getServerSideProps: GetServerSideProps<
           entry: null,
           documentId,
           page,
+          articlePage,
         },
       }
     }
@@ -119,6 +125,7 @@ export const getServerSideProps: GetServerSideProps<
             entry: null,
             documentId,
             page,
+            articlePage,
           },
         }
       }
@@ -139,6 +146,7 @@ export const getServerSideProps: GetServerSideProps<
         entry,
         documentId,
         page,
+        articlePage,
       },
     }
   } catch (e) {

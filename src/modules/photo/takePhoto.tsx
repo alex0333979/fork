@@ -15,6 +15,7 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
   entry,
   documentId,
   page,
+  articlePage,
 }) => {
   const router = useRouter()
   const [, setCookie] = useCookies([TEMP_IMG_DIM])
@@ -79,6 +80,12 @@ const TakePhoto: React.FC<TakePhotoPageProps> = ({
     ],
   )
 
-  return <GetPhoto onSubmitEntry={createEntry} page={page} />
+  return (
+    <GetPhoto
+      onSubmitEntry={createEntry}
+      page={page}
+      articlePage={articlePage}
+    />
+  )
 }
 export default TakePhoto

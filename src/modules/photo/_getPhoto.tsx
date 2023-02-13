@@ -3,14 +3,15 @@ import { SliceZone } from '@prismicio/react'
 
 import { components } from 'slices'
 import { TOnSubmitEntry } from '@/types'
-import { TakeNewPhotoProps } from './takeNewPhoto'
+import { ArticlePageProps, TakeNewPhotoProps } from './takeNewPhoto'
 
 interface Props {
   onSubmitEntry: TOnSubmitEntry
 }
 
-const GetPhoto: React.FC<Props & TakeNewPhotoProps> = ({
+const GetPhoto: React.FC<Props & TakeNewPhotoProps & ArticlePageProps> = ({
   page,
+  articlePage,
   onSubmitEntry,
 }) => (
   <>
@@ -20,7 +21,7 @@ const GetPhoto: React.FC<Props & TakeNewPhotoProps> = ({
           <SliceZone
             slices={page?.data.slices}
             components={components}
-            context={{ onSubmitEntry, page }}
+            context={{ onSubmitEntry, page, articlePage }}
           />
         </div>
       </div>

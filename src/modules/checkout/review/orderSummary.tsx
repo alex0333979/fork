@@ -83,7 +83,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
       <ol>
         <li>
           <div className="name">
-            <PrismicRichText field={slice.primary.summary_label} />
+            <PrismicRichText field={slice?.primary.summary_label} />
           </div>
         </li>
         <li>
@@ -112,7 +112,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
         </li>
         <li>
           <div className="name">
-            <h3>{slice.primary.service_label[0].text}</h3>
+            <h3>{slice?.primary.service_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: conciergePrice,
@@ -121,7 +121,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
             </p>
           </div>
           <div className="name">
-            <h3>{slice.primary.shipping_label[0].text}</h3>
+            <h3>{slice?.primary.shipping_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: shippingPrice || 0,
@@ -141,7 +141,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
             </div>
           )}
           <div className="name">
-            <h3>{slice.primary.subtotal_label[0].text}</h3>
+            <h3>{slice?.primary.subtotal_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: subTotal,
@@ -161,7 +161,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
             </div>
           ) : (
             <div className="name">
-              <h3>{slice.primary.shipping_label[0].text}</h3>
+              <h3>{slice?.primary.shipping_label[0].text}</h3>
               <p>
                 {t('currency', {
                   value: 0,
