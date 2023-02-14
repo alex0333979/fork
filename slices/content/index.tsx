@@ -21,31 +21,14 @@ const Content: React.FC<SliceProps> = ({ slice, context }) => (
       <blockquote>
         <p>
           <i>
-            But when we get passport photos. The only thing which is very
-            unacceptable is the pricing. To resolve this and to minimize the
-            cost of getting those passport photos, We have come up with a guide
-            on how to take passport photo with iPhone?
+            <PrismicRichText
+              field={context?.page?.data.slices[1].primary.blockquote}
+            />
           </i>
         </p>
       </blockquote>
-      <p>
-        A Passport photo can be necessary for anyone in many situations when
-        applying or renewing a passport, visa for a country.
-        <br />
-        But when we get passport photos. The only thing which is very
-        unacceptable is the pricing.
-        <br />
-        To resolve this and to minimize the cost of getting those passport
-        photos, We have come up with a guide on “how to take passport photo with
-        iPhone?” That’ll help you to make the perfect passport photo for you.
-        <br />
-        In this article, we are going you on everything from passport photo
-        requirements to even guide you step by step on how to make those
-        passport photos. A Passport photo can be necessary for anyone in many
-        situations when applying or renewing a passport, visa for a country.
-      </p>
+      <PrismicRichText field={context?.page?.data.slices[2].primary.text} />
     </div>
   </div>
 )
-
 export default Content
