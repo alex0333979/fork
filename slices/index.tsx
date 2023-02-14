@@ -14,6 +14,8 @@ import values from './values'
 import info from './info'
 import why from './why'
 import requirements from './requirements'
+import content from './content'
+import blockquote from './blockquote'
 
 export {
   advice_list,
@@ -30,6 +32,8 @@ export {
   info,
   why,
   requirements,
+  content,
+  blockquote,
 }
 
 export const components = {
@@ -47,4 +51,6 @@ export const components = {
   info,
   why,
   requirements,
+  content,
+  blockquote,
 }

@@ -43,7 +43,6 @@ const HomePage: NextPage<HomePageProps> = ({
     return <ErrorPage statusCode={errorCode} />
   }
 
-  console.error('page: >>>> extrapath', page, extraPath)
   return (
     <>
       <NextSeo

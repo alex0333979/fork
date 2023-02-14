@@ -1,31 +1,48 @@
 import React from 'react'
-import type { GetServerSideProps, NextPage } from 'next'
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextPage,
+} from 'next'
 import { NextSeo } from 'next-seo'
 import dynamic from 'next/dynamic'
 import { AppLayout } from '@/components/index'
 import { SEO } from '@/constants/index'
 import { IBlog } from '@/constants/blogs'
+import { BlogProps } from '.'
+import { createClient } from 'prismicio'
+import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 const Article = dynamic(() => import('@/modules/blog/article'))
 
 export interface ArticlePageProps {
   blog?: IBlog | null
 }
 
-const BlogPage: NextPage<ArticlePageProps> = () => (
+const BlogPage: NextPage<BlogProps> = ({ page }) => (
   <>
     <NextSeo title={SEO.blog.title} description={SEO.blog.description} />
     <AppLayout>
-      <Article />
+      <Article page={page} />
     </AppLayout>
   </>
 )
 
-export const getServerSideProps: GetServerSideProps<
-  ArticlePageProps
-> = async () => ({
-  props: {
-    blog: null,
-  },
-})
+export const getServerSideProps: GetServerSideProps<BlogProps> = async (
+  context: GetServerSidePropsContext,
+) => {
+  const previewData = context.params?.previewData
+
+  const client = createClient({ previewData })
+  const page = await client.getByUID(
+    PageTypeHashes.article_page,
+    PageUIDHashes.dynamic_blog_page,
+  )
+
+  return {
+    props: {
+      page,
+    },
+  }
+}
 
 export default BlogPage

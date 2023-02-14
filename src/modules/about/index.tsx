@@ -11,6 +11,8 @@ export interface AboutProps {
 
 export interface SliceProps {
   slice?: any
+  context?: any
+  column?: boolean
 }
 
 const About: React.FC<AboutProps> = ({ page }) => (
