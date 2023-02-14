@@ -18,6 +18,8 @@ export const PageUIDHashes = {
   dynamic_page: 'country-dynamic-landing-page',
   document_page: 'document-dynamic-landing-page',
   aboutPage: 'about',
+  dynamic_blog_page:
+    'how-to-take-passport-photo-with-iphone-the-ideal-diy-guide--test',
 }
 
 export const prismicRoutes = [
@@ -70,5 +72,10 @@ export const prismicRoutes = [
     type: PageTypeHashes.about_page,
     uid: PageUIDHashes.aboutPage,
     path: '/about',
+  },
+  {
+    type: PageTypeHashes.article_page,
+    uid: PageUIDHashes.dynamic_blog_page,
+    path: '/blogs/:uid',
   },
 ]
