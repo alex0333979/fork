@@ -12,7 +12,7 @@ import { AppLayout } from '@/components'
 import DeliveryMethod from '@/modules/checkout/deliveryMethod'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 export interface CheckoutProps {
   locale?: string

@@ -13,8 +13,8 @@ import { AppLayout } from '@/components'
 import { createClient } from 'prismicio'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocs'
 import { CheckoutProps } from './delivery-method'
-import { withLocale } from '@/hocks'
 
 const ShippingPage: NextPage<CheckoutProps> = ({ page }) => {
   const shippingSlice = page.data.slices.filter(

@@ -14,8 +14,8 @@ import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery, ShippingType } from '@/apollo'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocs'
 import { CheckoutProps } from './delivery-method'
-import { withLocale } from '@/hocks'
 
 const ReviewAndPayPage: NextPage<CheckoutProps> = ({ page }) => {
   const reviewAndPaySlice = page.data.slices.filter(

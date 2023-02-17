@@ -13,8 +13,7 @@ import Blogs from '@/modules/blog/blogs'
 import { SEO } from '@/constants/index'
 import { IBlog } from '@/constants/blogs'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
-
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 export interface BlogProps {
   locale?: string

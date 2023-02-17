@@ -12,8 +12,8 @@ import { CartDocument, CartQuery } from '@/apollo'
 import { AppLayout } from '@/components'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocs'
 import { CheckoutProps } from './delivery-method'
-import { withLocale } from '@/hocks'
 
 const DeliveryMethodPage: NextPage<CheckoutProps> = ({ page }) => {
   const delieverSlice = page.data.slices.filter(

@@ -19,7 +19,7 @@ import { useOrderSkusLazyQuery } from '@/apollo'
 import OneClick from '@/modules/oneClick'
 import { PhotoProps } from 'slices/proceed_to_checkout'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 const OneClickHomePage: NextPage<PhotoProps> = ({ page }) => {
   const [cookie, , removeCookie] = useCookies([TEMP_ORDER_NUM])

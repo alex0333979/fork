@@ -21,7 +21,7 @@ import { PAGES, PHOTO_FORM, SEO } from '@/constants'
 import { PrismicDocument } from '@prismicio/types'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { PrismicContext } from '@/contexts'
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 export interface TakePhotoPageProps {
   form: Form

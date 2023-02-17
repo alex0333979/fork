@@ -7,9 +7,9 @@ import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { AppLayout } from '@/components'
 import ContactUs from '@/modules/contactUs'
 import { SEO } from '@/constants'
+import { withLocale } from '@/hocs'
 
 import { createClient } from '../../../prismicio'
-import { withLocale } from '@/hocks'
 
 export interface ContactUsPageProps {
   locale?: string

@@ -8,7 +8,7 @@ import About from '@/modules/about'
 import { SEO } from '@/constants'
 import { createClient } from 'prismicio'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 export interface AboutProps {
   locale?: string

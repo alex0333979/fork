@@ -87,7 +87,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
       },
       {
         id: 'it-it',
-        label: 'Italy',
+        label: 'Italian',
         value: 'it-it',
       },
     ],

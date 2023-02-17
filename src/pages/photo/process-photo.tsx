@@ -27,7 +27,7 @@ import {
 import { PrismicDocument } from '@prismicio/types'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { createClient } from 'prismicio'
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 export interface ProcessPhotoProps {
   entry: Entry

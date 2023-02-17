@@ -14,7 +14,7 @@ import EditPhoto from '@/modules/photo/editPhoto'
 
 import { PAGES, SEO, PHOTO_FORM } from '@/constants'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
-import { withLocale } from '@/hocks'
+import { withLocale } from '@/hocs'
 
 export interface EditPhotoProps {
   accessToken?: string
