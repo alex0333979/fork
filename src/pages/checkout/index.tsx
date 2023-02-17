@@ -13,6 +13,7 @@ import { AppLayout } from '@/components'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
 import { CheckoutProps } from './delivery-method'
+import { withLocale } from '@/hocks'
 
 const DeliveryMethodPage: NextPage<CheckoutProps> = ({ page }) => {
   const delieverSlice = page.data.slices.filter(
@@ -37,10 +38,13 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   try {
     const client = initializeApollo(null, context)
+    const locale = context?.locale as string
 
     const previewData = context.params?.previewData
     const prismicClient = createClient({ previewData })
-    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page)
+    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page, {
+      lang: locale,
+    })
     const result: ApolloQueryResult<CartQuery> = await client.query({
       query: CartDocument,
     })
@@ -70,4 +74,4 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 }
 
-export default DeliveryMethodPage
+export default withLocale(DeliveryMethodPage)

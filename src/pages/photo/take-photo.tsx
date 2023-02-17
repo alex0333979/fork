@@ -21,6 +21,7 @@ import { PAGES, PHOTO_FORM, SEO } from '@/constants'
 import { PrismicDocument } from '@prismicio/types'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { PrismicContext } from '@/contexts'
+import { withLocale } from '@/hocks'
 
 export interface TakePhotoPageProps {
   form: Form
@@ -28,6 +29,7 @@ export interface TakePhotoPageProps {
   documentId: string
   page: PrismicDocument<Record<string, any>, string, string>
   articlePage: PrismicDocument<Record<string, any>, string, string>
+  locale?: string
 }
 
 const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
@@ -59,7 +61,7 @@ const TakePhotoPage: NextPage<TakePhotoPageProps> = ({
   )
 }
 
-export default TakePhotoPage
+export default withLocale(TakePhotoPage)
 
 export const getServerSideProps: GetServerSideProps<
   TakePhotoPageProps
@@ -73,10 +75,12 @@ export const getServerSideProps: GetServerSideProps<
 
   const previewData = context.params?.previewData
   const client = createClient({ previewData })
+  const locale = context?.locale as string
 
   const page = await client.getByUID(
     PageTypeHashes.process_page,
     PageUIDHashes.processPage,
+    { lang: locale },
   )
 
   const articlePage = await client.getByUID(PageUIDHashes.articlePage, 'test')

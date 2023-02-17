@@ -15,10 +15,12 @@ interface ILocationContext {
   country: ICountry | undefined
   currentLanguage: ILanguage | undefined
   languages: ILanguage[]
+  defaultLanguage: ILanguage['value']
   onChangeCountry: (c: ICountry) => void
   onChangeLanguage: (l?: string) => void
 }
 export interface ILanguage {
+  id: string
   label: string
   value: string
 }
@@ -27,6 +29,7 @@ export const LocationContext = createContext<ILocationContext>({
   country: undefined,
   currentLanguage: undefined,
   languages: [],
+  defaultLanguage: 'en-us',
   onChangeCountry: () => null,
   onChangeLanguage: () => null,
 })
@@ -57,8 +60,34 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
   const languages: ILanguage[] = useMemo(
     () => [
       {
-        label: 'English',
-        value: 'en',
+        id: 'en-us',
+        label: 'English (US)',
+        value: 'en-us',
+      },
+      {
+        id: 'en-gb',
+        label: 'English (UK)',
+        value: 'en-gb',
+      },
+      {
+        id: 'de-de',
+        label: 'German',
+        value: 'de-de',
+      },
+      {
+        id: 'es-es',
+        label: 'Spanish',
+        value: 'es-es',
+      },
+      {
+        id: 'fr-fr',
+        label: 'French',
+        value: 'fr-fr',
+      },
+      {
+        id: 'it-it',
+        label: 'Italy',
+        value: 'it-it',
       },
     ],
     [],
@@ -99,6 +128,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
         country,
         currentLanguage,
         languages,
+        defaultLanguage: languages[0]?.value || 'en-us',
         onChangeCountry,
         onChangeLanguage,
       }}>

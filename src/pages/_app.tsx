@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { CookiesProvider } from 'react-cookie'
@@ -30,7 +30,6 @@ import {
   ProductsProvider,
   PrismicContextProvider,
 } from '@/contexts'
-
 import { useApollo } from '@/apollo/client'
 import '@/assets/scss/index.scss'
 

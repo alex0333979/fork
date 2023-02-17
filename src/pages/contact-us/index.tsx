@@ -9,8 +9,10 @@ import ContactUs from '@/modules/contactUs'
 import { SEO } from '@/constants'
 
 import { createClient } from '../../../prismicio'
+import { withLocale } from '@/hocks'
 
 export interface ContactUsPageProps {
+  locale?: string
   page?: PrismicDocument<Record<string, any>, string, string>
 }
 
@@ -26,17 +28,19 @@ const ContactUsPage: NextPage<ContactUsPageProps> = ({ page }) => (
   </>
 )
 
-export default ContactUsPage
+export default withLocale(ContactUsPage)
 
 export const getServerSideProps: GetServerSideProps<
   ContactUsPageProps
 > = async (context: GetServerSidePropsContext) => {
   const previewData = context.params?.previewData
+  const locale = context?.locale as string
 
   const client = createClient({ previewData })
   const page = await client.getByUID(
     PageTypeHashes.contactUs,
     PageUIDHashes.contactusPage,
+    { lang: locale },
   )
 
   return {

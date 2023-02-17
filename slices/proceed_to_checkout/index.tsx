@@ -19,6 +19,7 @@ export interface ProceedToCheckoutProps {
 }
 
 export interface PhotoProps {
+  locale?: string
   page?: PrismicDocument<Record<string, any>, string, string>
 }
 

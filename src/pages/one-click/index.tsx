@@ -19,6 +19,7 @@ import { useOrderSkusLazyQuery } from '@/apollo'
 import OneClick from '@/modules/oneClick'
 import { PhotoProps } from 'slices/proceed_to_checkout'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocks'
 
 const OneClickHomePage: NextPage<PhotoProps> = ({ page }) => {
   const [cookie, , removeCookie] = useCookies([TEMP_ORDER_NUM])
@@ -80,16 +81,18 @@ const OneClickHomePage: NextPage<PhotoProps> = ({ page }) => {
   )
 }
 
-export default OneClickHomePage
+export default withLocale(OneClickHomePage)
 
 export const getServerSideProps: GetServerSideProps<PhotoProps> = async (
   context: GetServerSidePropsContext,
 ) => {
   const previewData = context.params?.previewData
   const client = createClient({ previewData })
+  const locale = context?.locale as string
   const page = await client.getByUID(
     PageTypeHashes.landingPage,
     PageUIDHashes.homepage,
+    { lang: locale },
   )
 
   return {
