@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import type { NextPage } from 'next'
 import ErrorPage from 'next/error'
@@ -7,7 +7,6 @@ import { NextSeo } from 'next-seo'
 import { ApolloQueryResult } from '@apollo/client'
 import { PrismicDocument } from '@prismicio/types'
 import * as prismicH from '@prismicio/helpers'
-// import * as prismic from '@prismicio/client'
 
 import { createClient } from '../../prismicio'
 
@@ -23,8 +22,6 @@ import {
 } from '@/apollo'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { transformPrismic } from '@/utils/prismic'
-import { useRouter } from 'next/router'
-// import locale from '@/constants/locale'
 
 export interface HomePageProps {
   country: Country | null

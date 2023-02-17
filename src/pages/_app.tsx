@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import type { AppProps } from 'next/app'
-import Router, { useRouter } from 'next/router'
+import Router from 'next/router'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/client'
 import { CookiesProvider } from 'react-cookie'
