@@ -12,6 +12,7 @@ import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery, ShippingType } from '@/apollo'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocs'
 import { CheckoutProps } from './delivery-method'
 
 const PaymentInfoPage: NextPage<CheckoutProps> = ({ page }) => {
@@ -39,7 +40,11 @@ export const getServerSideProps: GetServerSideProps = async (
     const client = initializeApollo(null, context)
     const previewData = context.params?.previewData
     const prismicClient = createClient({ previewData })
-    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page)
+    const locale = context?.locale as string
+
+    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page, {
+      lang: locale,
+    })
 
     const result: ApolloQueryResult<CartQuery> = await client.query({
       query: CartDocument,
@@ -81,4 +86,4 @@ export const getServerSideProps: GetServerSideProps = async (
   }
 }
 
-export default PaymentInfoPage
+export default withLocale(PaymentInfoPage)

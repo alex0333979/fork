@@ -6,15 +6,17 @@ import type {
 } from 'next'
 import { NextSeo } from 'next-seo'
 import { PrismicDocument } from '@prismicio/types'
+import { createClient } from 'prismicio'
 
 import { AppLayout } from '@/components/index'
 import Blogs from '@/modules/blog/blogs'
 import { SEO } from '@/constants/index'
 import { IBlog } from '@/constants/blogs'
-import { createClient } from 'prismicio'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocs'
 
 export interface BlogProps {
+  locale?: string
   page?: PrismicDocument<Record<string, any>, string, string>
 }
 
@@ -35,18 +37,21 @@ export const getServerSideProps: GetServerSideProps<BlogProps> = async (
   context: GetServerSidePropsContext,
 ) => {
   const previewData = context.params?.previewData
+  const locale = context?.locale as string
 
   const client = createClient({ previewData })
   const page = await client.getByUID(
     PageTypeHashes.article_page,
     PageUIDHashes.dynamic_blog_page,
+    { lang: locale },
   )
 
   return {
     props: {
+      locale,
       page,
     },
   }
 }
 
-export default BlogsPage
+export default withLocale(BlogsPage)

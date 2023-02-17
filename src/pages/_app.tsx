@@ -30,7 +30,6 @@ import {
   ProductsProvider,
   PrismicContextProvider,
 } from '@/contexts'
-
 import { useApollo } from '@/apollo/client'
 import '@/assets/scss/index.scss'
 

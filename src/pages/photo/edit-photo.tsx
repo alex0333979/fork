@@ -14,12 +14,14 @@ import EditPhoto from '@/modules/photo/editPhoto'
 
 import { PAGES, SEO, PHOTO_FORM } from '@/constants'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
+import { withLocale } from '@/hocs'
 
 export interface EditPhotoProps {
   accessToken?: string
   entry?: Entry
   type?: string
   page?: PrismicDocument<Record<string, any>, string, string>
+  locale?: string
 }
 
 const EditPhotoPage: NextPage<EditPhotoProps> = ({
@@ -38,7 +40,7 @@ const EditPhotoPage: NextPage<EditPhotoProps> = ({
     </PhotoLayout>
   </>
 )
-export default EditPhotoPage
+export default withLocale(EditPhotoPage)
 
 export const getServerSideProps: GetServerSideProps<EditPhotoProps> = async (
   context: GetServerSidePropsContext,

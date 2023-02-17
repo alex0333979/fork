@@ -30,6 +30,7 @@ export interface HomePageProps {
   onStart?: () => void
   page?: PrismicDocument<Record<string, any>, string, string>
   extraPath?: string | null
+  locale?: string
 }
 
 const HomePage: NextPage<HomePageProps> = ({
@@ -73,24 +74,29 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   const previewData = context.params?.previewData
   const documentType = context?.params?.documentType as string
   const countryCode = context?.params?.country as string
+  const locale = context?.locale as string
 
   const client = createClient({ previewData })
+
   let page: any
 
   if (!countryCode && !documentType) {
     page = await client.getByUID(
       PageTypeHashes.landingPage,
       PageUIDHashes.homepage,
+      { lang: locale },
     )
   } else if (countryCode && !documentType) {
     page = await client.getByUID(
       PageTypeHashes.landingPage,
       PageUIDHashes.dynamic_page,
+      { lang: locale },
     )
   } else if (countryCode && documentType) {
     page = await client.getByUID(
       PageTypeHashes.landingPage,
       PageUIDHashes.document_page,
+      { lang: locale },
     )
   }
 

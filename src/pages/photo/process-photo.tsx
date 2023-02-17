@@ -27,12 +27,14 @@ import {
 import { PrismicDocument } from '@prismicio/types'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { createClient } from 'prismicio'
+import { withLocale } from '@/hocs'
 
 export interface ProcessPhotoProps {
   entry: Entry
   type: string
   document: PDocument
   page: PrismicDocument<Record<string, any>, string, string>
+  locale?: string
 }
 
 const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({
@@ -52,16 +54,18 @@ const ProcessPhotoPage: NextPage<ProcessPhotoProps> = ({
   </>
 )
 
-export default ProcessPhotoPage
+export default withLocale(ProcessPhotoPage)
 
 export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   context: GetServerSidePropsContext,
 ) => {
   const previewData = context.params?.previewData
+  const locale = context?.locale as string
   const client = createClient({ previewData })
   const page = await client.getByUID(
     PageTypeHashes.process_page,
     PageUIDHashes.processPage,
+    { lang: locale },
   )
 
   if (context.res) {
