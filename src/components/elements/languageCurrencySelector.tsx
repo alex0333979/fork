@@ -84,7 +84,10 @@ const LanguageCurrencySelector: React.FC<{ wrapperClass?: string }> = ({
     onChangeCurrency,
   } = useCurrency()
   const [open, setOpen] = useState<boolean>(false)
-  const [lang, setLang] = useState<ILanguage | undefined>()
+  const [lang, setLang] = useState<ILanguage | undefined>({
+    value: 'en-us',
+    label: 'English (US)',
+  })
   const [cur, setCur] = useState<IDropdownOption | undefined>()
 
   const getCurrencyLabel = useCallback((code: CurrencyCode) => {

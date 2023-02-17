@@ -10,6 +10,7 @@ import { useCookies } from 'react-cookie'
 import { ICountry } from '@/components/elements/countrySelector'
 import { useAuth } from '@/hooks'
 import { countries, LANGUAGE_COOKIE_NAME } from '@/constants'
+import { useRouter } from 'next/router'
 
 interface ILocationContext {
   country: ICountry | undefined
@@ -92,6 +93,7 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
     ],
     [],
   )
+  const router = useRouter()
 
   const currentLanguage: ILanguage | undefined = useMemo(() => {
     const _cookieLang = cookies[LANGUAGE_COOKIE_NAME] || 'en'
@@ -105,12 +107,13 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
   const onChangeLanguage = useCallback(
     (lang?: string) => {
       if (lang) {
+        router.push('/', '', { locale: lang })
         setCookie(LANGUAGE_COOKIE_NAME, lang, {
-          path: '/',
+          path: `/`,
         })
       }
     },
-    [setCookie],
+    [router, setCookie],
   )
 
   const onChangeCountry = useCallback(
