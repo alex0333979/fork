@@ -79,7 +79,7 @@ export default ProceedToCheckout
 export const getServerSideProps: GetServerSideProps<PhotoProps> = async (
   context: GetServerSidePropsContext,
 ) => {
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
   const client = createClient({ previewData })
   const page = await client.getByUID(
     PageTypeHashes.landingPage,

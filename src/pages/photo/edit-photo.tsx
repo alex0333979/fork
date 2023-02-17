@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps<EditPhotoProps> = async (
     // context.res.setHeader('Set-Cookie', [`${COOKIES_TOKEN_NAME}=deleted; Max-Age=0`]);
   }
 
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
   const client = createClient({ previewData })
   const page = await client.getByUID(
     PageTypeHashes.process_page,

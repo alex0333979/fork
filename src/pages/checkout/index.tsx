@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (
     const client = initializeApollo(null, context)
     const locale = context?.locale as string
 
-    const previewData = context.params?.previewData
+    const previewData = context.previewData
     const prismicClient = createClient({ previewData })
     const page = await prismicClient.getSingle(PageTypeHashes.checkout_page, {
       lang: locale,

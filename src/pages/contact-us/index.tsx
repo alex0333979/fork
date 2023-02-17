@@ -33,7 +33,7 @@ export default withLocale(ContactUsPage)
 export const getServerSideProps: GetServerSideProps<
   ContactUsPageProps
 > = async (context: GetServerSidePropsContext) => {
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
   const locale = context?.locale as string
 
   const client = createClient({ previewData })

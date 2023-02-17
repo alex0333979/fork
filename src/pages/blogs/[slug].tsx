@@ -30,7 +30,7 @@ const BlogPage: NextPage<BlogProps> = ({ page }) => (
 export const getServerSideProps: GetServerSideProps<BlogProps> = async (
   context: GetServerSidePropsContext,
 ) => {
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
 
   const client = createClient({ previewData })
   const page = await client.getByUID(

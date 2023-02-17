@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   try {
     const client = initializeApollo(null, context)
-    const previewData = context.params?.previewData
+    const previewData = context.previewData
     const prismicClient = createClient({ previewData })
     const locale = context?.locale as string
 
