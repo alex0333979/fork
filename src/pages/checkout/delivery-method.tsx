@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps<CheckoutProps> = async (
     })
     const cart = result.data.Cart.data
 
-    const previewData = context.params?.previewData
+    const previewData = context.previewData
     const prismicClient = createClient({ previewData })
     const page = await prismicClient.getSingle(PageTypeHashes.process_page, {
       lang: locale,

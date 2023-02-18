@@ -59,7 +59,7 @@ export default withLocale(ProcessPhotoPage)
 export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   context: GetServerSidePropsContext,
 ) => {
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
   const locale = context?.locale as string
   const client = createClient({ previewData })
   const page = await client.getByUID(

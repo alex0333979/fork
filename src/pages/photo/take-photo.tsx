@@ -73,7 +73,7 @@ export const getServerSideProps: GetServerSideProps<
     },
   })
 
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
   const client = createClient({ previewData })
   const locale = context?.locale as string
 

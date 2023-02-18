@@ -22,6 +22,7 @@ import {
 } from '@/apollo'
 import { PageTypeHashes, PageUIDHashes } from '@/constants/PageUIDHashes'
 import { transformPrismic } from '@/utils/prismic'
+import { withLocale } from '@/hocs'
 
 export interface HomePageProps {
   country: Country | null
@@ -66,12 +67,12 @@ const HomePage: NextPage<HomePageProps> = ({
   )
 }
 
-export default HomePage
+export default withLocale(HomePage)
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   context: GetServerSidePropsContext,
 ) => {
-  const previewData = context.params?.previewData
+  const previewData = context.previewData
   const documentType = context?.params?.documentType as string
   const countryCode = context?.params?.country as string
   const locale = context?.locale as string
