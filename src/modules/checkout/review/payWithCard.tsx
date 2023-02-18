@@ -1,9 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
+import { PrismicRichText } from '@prismicio/react'
 
 import { CardElement } from '@stripe/react-stripe-js'
 
 import { ValidationError } from '@/types'
+import { CheckoutSlice } from '@/pages/checkout/delivery-method'
 
 interface Props {
   error: ValidationError
@@ -38,26 +40,29 @@ const CARD_OPTIONS = {
   },
 }
 
-const PayWithCard: React.FC<Props> = ({
+const PayWithCard: React.FC<Props & CheckoutSlice> = ({
   error,
   cardName,
   stripeFocus,
   onChangeStripeFocus,
   onChangeError,
   onInputChange,
+  slice,
 }) => (
   <div className="shipping-data">
     <ol>
       <li>
         <div className="name">
-          <h3>Pay With Credit Card</h3>
+          <PrismicRichText field={slice?.primary.pay_title} />
         </div>
       </li>
       <li>
         <form>
           <div className="form-fields">
             <label className="full-size">
-              <span className="label">Name on the card *</span>
+              <span className="label">
+                {slice?.primary.name_on_the_card[0].text}
+              </span>
               <span className="field">
                 <input
                   type="text"
@@ -75,7 +80,9 @@ const PayWithCard: React.FC<Props> = ({
               )}
             </label>
             <label className="full-size">
-              <span className="label">Card number</span>
+              <span className="label">
+                {slice?.primary.card_number[0].text}
+              </span>
               <span className="field">
                 <span
                   className={classNames('stripe-input', {
