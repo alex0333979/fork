@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { CheckoutProps } from '@/pages/checkout/delivery-method'
 import { useUpdateCartMutation } from '@/apollo'
 import { useAuth, useCheckout } from '@/hooks'
 import CheckoutLayout from '../checkoutLayout'
@@ -11,7 +10,7 @@ import Methods from './methods'
 import ExpeditingService from './expeditingService'
 import ExpeditingServiceQuestions from './expeditingServiceQuestions'
 
-const DeliveryMethod: React.FC<CheckoutProps> = ({ page }) => {
+const DeliveryMethod: React.FC = () => {
   const router = useRouter()
   const { me, cart, updateMe } = useAuth()
   const { shippingType, checkoutSteps, onChangeShippingType } = useCheckout()
