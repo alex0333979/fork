@@ -4,12 +4,13 @@ import { NextSeo } from 'next-seo'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { ApolloQueryResult } from '@apollo/client'
 import { PrismicDocument } from '@prismicio/types'
+import { SliceZone } from '@prismicio/react'
 
 import { createClient } from 'prismicio'
+import { components } from 'slices'
 import { initializeApollo } from '@/apollo/client'
 import { CartDocument, CartQuery } from '@/apollo'
 import { AppLayout } from '@/components'
-import DeliveryMethod from '@/modules/checkout/deliveryMethod'
 import { PAGES, SEO } from '@/constants'
 import { PageTypeHashes } from '@/constants/PageUIDHashes'
 import { withLocale } from '@/hocs'
@@ -23,17 +24,23 @@ export interface CheckoutSlice {
   slice: any
 }
 
-const DeliveryMethodPage: NextPage<CheckoutProps> = ({ page }) => (
-  <>
-    <NextSeo
-      title={SEO.checkout.title}
-      description={SEO.checkout.description}
-    />
-    <AppLayout showNav={false}>
-      <DeliveryMethod page={page} />
-    </AppLayout>
-  </>
-)
+const DeliveryMethodPage: NextPage<CheckoutProps> = ({ page }) => {
+  const delieverSlice = page?.data.slices.filter(
+    (item: any) => item.slice_type === 'delivery_method',
+  )
+
+  return (
+    <>
+      <NextSeo
+        title={SEO.checkout.title}
+        description={SEO.checkout.description}
+      />
+      <AppLayout showNav={false}>
+        <SliceZone slices={delieverSlice} components={components} />
+      </AppLayout>
+    </>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps<CheckoutProps> = async (
   context: GetServerSidePropsContext,
@@ -49,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<CheckoutProps> = async (
 
     const previewData = context.previewData
     const prismicClient = createClient({ previewData })
-    const page = await prismicClient.getSingle(PageTypeHashes.process_page, {
+    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page, {
       lang: locale,
     })
 
