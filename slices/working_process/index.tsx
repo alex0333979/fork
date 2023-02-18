@@ -31,6 +31,7 @@ interface ProcessItemProps {
   index: number
   slice?: any
   onClick: () => void
+  context?: any
 }
 
 interface ChildInterface {
@@ -68,15 +69,14 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
 
 export interface WorkingProcessProps {
   // extraPath?: string | null
-  // onEndRunning: () => void
-  onStartNow?: (isOpen?: boolean) => void
   slice: any
+  context?: any
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ slice, onStartNow }, ref) => {
+> = ({ slice, context }, ref) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -154,7 +154,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
           a += 1
           if (a === initialData.length) {
             if (timeIntervalId.current) {
-              // onEndRunning()
+              context?.onEndRunning()
               clearInterval(timeIntervalId.current)
             }
           } else {
@@ -163,7 +163,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
         }, 10000)
       }
     },
-    [/* onEndRunning,*/ startProcess],
+    [context, startProcess],
   )
 
   // const processData: IProcessDatum[] = useMemo(() => {
@@ -179,7 +179,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
   // }, [/*extraPath*/])
 
   useImperativeHandle(
-    ref,
+    context?.ref,
     () => ({
       startWorkingProcess() {
         onClickItem(0)

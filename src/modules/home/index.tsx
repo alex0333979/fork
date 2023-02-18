@@ -60,7 +60,7 @@ const Home: React.FC<HomePageProps> = ({
       <SliceZone
         slices={page?.data.slices}
         components={components}
-        context={{ country, document, extraPath }}
+        context={{ country, document, extraPath, ref, setRunning, onStartNow }}
       />
       <FaqForm />
     </>
