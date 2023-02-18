@@ -18,7 +18,7 @@ import { withLocale } from '@/hocs'
 import { CheckoutProps } from './delivery-method'
 
 const ReviewAndPayPage: NextPage<CheckoutProps> = ({ page }) => {
-  const reviewAndPaySlice = page.data.slices.filter(
+  const reviewAndPaySlice = page?.data.slices.filter(
     (item: any) => item.slice_type === 'review_and_pay',
   )
 

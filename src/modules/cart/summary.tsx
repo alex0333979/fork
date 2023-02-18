@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import dynamic from 'next/dynamic'
+import { PrismicRichText } from '@prismicio/react'
 
 import { Product } from '@/apollo'
 import { useProducts } from '@/hooks'
@@ -13,7 +14,12 @@ const LanguageCurrencySelector = dynamic(
 
 import { SummaryProps } from './types'
 
-const Summary: React.FC<SummaryProps> = ({ cart, currency, onCheckout }) => {
+const Summary: React.FC<SummaryProps> = ({
+  cart,
+  currency,
+  onCheckout,
+  page,
+}) => {
   const { t } = useTranslation()
   const { getProduct } = useProducts()
 
@@ -32,13 +38,13 @@ const Summary: React.FC<SummaryProps> = ({ cart, currency, onCheckout }) => {
     <div className="item-wrap total-info">
       <div className="order-summary">
         <div className="summary-header">
-          <h3>Order summary</h3>
+          <PrismicRichText field={page?.data.summary_title} />
           <LanguageCurrencySelector wrapperClass="language-selector" />
         </div>
         <table>
           <tbody>
             <tr>
-              <td>Subtotal</td>
+              <td>{page?.data.summary_subtotal[0].text}</td>
               <td>
                 {t('currency', {
                   value: subTotal,
@@ -47,7 +53,7 @@ const Summary: React.FC<SummaryProps> = ({ cart, currency, onCheckout }) => {
               </td>
             </tr>
             <tr>
-              <td>Tax</td>
+              <td>{page?.data.summary_tax[0].text}</td>
               <td>
                 {t('currency', {
                   value: 0,
@@ -59,7 +65,7 @@ const Summary: React.FC<SummaryProps> = ({ cart, currency, onCheckout }) => {
           <tfoot>
             <tr>
               <td>
-                <b>Total</b>
+                <b>{page?.data.summary_total[0].text}</b>
               </td>
               <td>
                 <b>

@@ -16,7 +16,7 @@ import { withLocale } from '@/hocs'
 
 export interface CheckoutProps {
   locale?: string
-  page: PrismicDocument<Record<string, any>, string, string>
+  page?: PrismicDocument<Record<string, any>, string, string>
 }
 
 export interface CheckoutSlice {

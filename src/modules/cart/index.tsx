@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
+import { PrismicRichText } from '@prismicio/react'
 
 import {
   CartItem,
@@ -17,7 +18,7 @@ import ApplicationItems from './applicationItems'
 import AddAnotherButton from './addAnotherButton'
 import Summary from './summary'
 
-const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
+const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart, page }) => {
   const router = useRouter()
   const { cart, updateMe } = useAuth()
   const { currentCurrency } = useCurrency()
@@ -75,7 +76,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
         <div className="page-title">
           <div className="container">
             <div className="data-wrap">
-              <h1>Shopping cart</h1>
+              <PrismicRichText field={page?.data.title} />
             </div>
           </div>
         </div>
@@ -89,6 +90,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                 onRemoveItem={onRemoveCartItem}
                 onUpdated={updateMe}
                 onPreview={onPreview}
+                previewButton={page?.data.preview_button[0].text}
               />
 
               <ApplicationItems
@@ -105,6 +107,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                 <div className="item-wrap">
                   <AddAnotherButton
                     onAddAnother={() => router.push(PAGES.photo.index)}
+                    title={page?.data.add_button[0].text}
                   />
                 </div>
               )}
@@ -112,6 +115,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart }) => {
                 cart={cart}
                 currency={currentCurrency}
                 onCheckout={onCheckout}
+                page={page}
               />
             </div>
           </div>
