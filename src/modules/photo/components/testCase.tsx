@@ -1,6 +1,5 @@
 import React from 'react'
 import classNames from 'classnames'
-import { PrismicRichText } from '@prismicio/react'
 
 import { Dictionary } from '@/apollo'
 import { camelCaseToSentence } from '@/utils'
@@ -20,7 +19,7 @@ const TestCase: React.FC<Props> = ({ status, failed, passed, items }) => (
       {status === ProcessingStatus.notStarted &&
         items.map((item, index) => (
           <li key={`l_${index}`} className="loading ">
-            <PrismicRichText field={item.requirement_label} />
+            <span className="text">{item.requirement_label[0].text}</span>
           </li>
         ))}
       {status === ProcessingStatus.loading &&
@@ -31,7 +30,7 @@ const TestCase: React.FC<Props> = ({ status, failed, passed, items }) => (
               loading: status === ProcessingStatus.loading,
             })}>
             <span className="icon" />
-            <PrismicRichText field={item.requirement_label} />
+            <span className="text">{item.requirement_label[0].text}</span>
           </li>
         ))}
       {status === ProcessingStatus.failed &&
