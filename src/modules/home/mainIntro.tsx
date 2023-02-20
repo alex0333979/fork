@@ -1,10 +1,10 @@
 /* eslint-disable max-len */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { PrismicDocument } from '@prismicio/types'
 import { PrismicRichText } from '@prismicio/react'
-import { PrismicNextImage } from '@prismicio/next'
 import * as prismicH from '@prismicio/helpers'
 
 import { Country, PDocument } from '@/apollo'
@@ -14,6 +14,7 @@ import { ICountry } from '@/components/elements/countrySelector'
 import { PAGES } from '@/constants'
 import DocModal from './docModal'
 import { transformPrismic } from '@/utils/prismic'
+import { imageLoader } from '../about/summary'
 const CountrySelector = dynamic(
   () => import('@/components/elements/countrySelector'),
   {
@@ -176,8 +177,16 @@ const MainIntro = (
               </div>
             </div>
             <div className="intro-img">
-              <span className="prismic-content">
-                <PrismicNextImage field={page?.data.intro_image} />
+              <span>
+                <picture>
+                  <Image
+                    src={page?.data.intro_image.url}
+                    width={page?.data.intro_image.dimensions.width}
+                    height={page?.data.intro_image.dimensions.height}
+                    loader={imageLoader}
+                    alt=""
+                  />
+                </picture>
               </span>
             </div>
           </div>
