@@ -13,6 +13,7 @@ interface CheckoutLayoutProps {
   nextButtonText?: string
   disableSubmit?: boolean
   children: React.ReactNode
+  slice?: any
 }
 
 const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
@@ -25,6 +26,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
   nextButtonText = 'Next',
   disableSubmit,
   onSubmit,
+  slice,
 }) => (
   <div className="cart-page">
     <div className="page-title">
@@ -46,6 +48,7 @@ const CheckoutLayout: React.FC<CheckoutLayoutProps> = ({
               step={step}
               steps={steps}
               completeStep={completeStep}
+              slice={slice}
             />
             {children}
           </div>

@@ -35,6 +35,28 @@
             }
           }
         ]
+      },
+      "status_done": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Quis sint elit Lorem non occaecat sint id Lorem ullamco. Nostrud ipsum consectetur id proident culpa aliquip nisi do anim anim amet quis occaecat quis do."
+            }
+          }
+        ]
+      },
+      "status_on_progress": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Nostrud esse do anim. Ullamco nostrud tempor fugiat anim adipisicing aute velit. Do cupidatat duis ut ex commodo laborum enim quis aliqua non voluptate ea do."
+            }
+          }
+        ]
       }
     },
     "items": [

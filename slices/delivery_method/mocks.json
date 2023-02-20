@@ -167,6 +167,28 @@
             }
           }
         ]
+      },
+      "status_done": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Est labore qui excepteur ex occaecat. Voluptate excepteur id reprehenderit culpa veniam officia amet aute cillum veniam aliquip aute. Consectetur aute proident aliquip do esse qui officia in amet sunt laborum labore quis."
+            }
+          }
+        ]
+      },
+      "status_on_progress": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Aliqua sit non cillum incididunt aliquip consectetur proident. Laboris anim id in duis voluptate. Nulla adipisicing Lorem mollit nostrud ipsum consectetur mollit sunt duis pariatur esse consequat deserunt nulla tempor."
+            }
+          }
+        ]
       }
     },
     "items": [

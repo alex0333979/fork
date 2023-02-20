@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import NextImage from 'next/image'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
 import { PrismicRichText } from '@prismicio/react'
-import { PrismicNextImage } from '@prismicio/next'
 import { PrismicDocument } from '@prismicio/types'
 
 import { useDocumentQuery } from '@/apollo'
@@ -71,16 +70,20 @@ const UploadPhoto: React.FC<Props> = ({
             />
             <span className="option-wrap">
               <span className="bullet" />
-              {!!page?.data.step_options[0]?.option_image && (
-                <span className="img prismic-content">
-                  <NextImage
-                    src={page?.data.step_options[0]?.option_image.url}
-                    layout="fill"
-                    alt=""
-                  />
-                </span>
-              )}
-              <span className="name prismic-content">
+              <span className="img">
+                <Image
+                  src={page?.data.step_options[0]?.option_image.url}
+                  width={
+                    page?.data.step_options[0]?.option_image.dimensions.width
+                  }
+                  height={
+                    page?.data.step_options[0]?.option_image.dimensions.height
+                  }
+                  layout="fill"
+                  alt=""
+                />
+              </span>
+              <span className="name">
                 <PrismicRichText
                   field={page?.data.step_options[0].option_text}
                 />
@@ -101,8 +104,16 @@ const UploadPhoto: React.FC<Props> = ({
             <span className="option-wrap">
               <span className="bullet" />
               <div className="img prismic-content">
-                <PrismicNextImage
-                  field={page?.data.step_options[1]?.option_image}
+                <Image
+                  src={page?.data.step_options[1]?.option_image.url}
+                  width={
+                    page?.data.step_options[1]?.option_image.dimensions.width
+                  }
+                  height={
+                    page?.data.step_options[1]?.option_image.dimensions.height
+                  }
+                  layout="fill"
+                  alt=""
                 />
               </div>
               <span className="name prismic-content">

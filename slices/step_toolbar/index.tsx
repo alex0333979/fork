@@ -1,5 +1,5 @@
 import React from 'react'
-import { PrismicNextImage } from '@prismicio/next'
+import NextImage from 'next/image'
 import { PrismicRichText } from '@prismicio/react'
 
 interface PhotoStepInfoProps {
@@ -21,8 +21,16 @@ const PhotoStepInfo: React.FC<PhotoStepInfoProps> = ({ slice }) => (
         <ul>
           {slice.items.map((item: any, index: number) => (
             <li key={index}>
-              <div className="step-toolbar-img prismic-content">
-                <PrismicNextImage field={item.list_image} />
+              <div className="img">
+                {!!item?.list_image && (
+                  <span>
+                    <NextImage
+                      src={item?.list_image?.url}
+                      layout="fill"
+                      alt=""
+                    />
+                  </span>
+                )}
               </div>
               <div className="text prismic-content">
                 <PrismicRichText field={item.list_text} />

@@ -75,6 +75,7 @@ const ReviewAndPay: React.FC<CheckoutSlice> = ({ slice }) => {
       nextButtonText="Checkout"
       disableSubmit={submitDisabled}
       onSubmit={onSubmit}
+      slice={slice}
       completeStep={3}>
       <div className="form-wrap">
         <PaymentStatus status={payment.status} error={error.result} />

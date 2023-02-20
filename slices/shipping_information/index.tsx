@@ -63,6 +63,7 @@ const ShippingInformation: React.FC<CheckoutSlice> = ({ slice }) => {
       loading={loading}
       backLink={curStep!.prev}
       onSubmit={onSubmit}
+      slice={slice}
       completeStep={1}>
       <div className="form-wrap">
         <div className="form-fields">

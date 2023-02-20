@@ -8,7 +8,6 @@ import sm from '../../sm.json'
 
 const locale = async () => {
   const client = prismic.createClient(sm.apiEndpoint)
-  console.error('locale:>?> locale>?>', client)
 
   const repository = await client.getRepository()
   const locales = repository.languages.map((lang: any) => lang.id)

@@ -134,6 +134,28 @@
             }
           }
         ]
+      },
+      "status_done": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Officia ut et proident cillum commodo. Fugiat adipisicing eu adipisicing nostrud ipsum occaecat."
+            }
+          }
+        ]
+      },
+      "status_on_progress": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Cupidatat fugiat sunt incididunt. Exercitation sint laboris consectetur cupidatat."
+            }
+          }
+        ]
       }
     },
     "items": [

@@ -7,13 +7,12 @@ import React, {
   useImperativeHandle,
 } from 'react'
 import { PrismicRichText } from '@prismicio/react'
-import { PrismicNextImage } from '@prismicio/next'
+import NextImage from 'next/image'
 
 import { scrollToTop } from '@/utils'
-// import { IProcessDatum } from '@/types'
-// import { ExtraPathMap } from '@/constants'
-
-// import { ProcessData } from '../../src/modules/home/constant'
+import { PrismicNextImage } from '@prismicio/next'
+import Image from 'next/image'
+import { imageLoader } from '@/modules/about/summary'
 
 const initialData = [
   { active: false, past: false, loaded: false, reset: false },
@@ -214,8 +213,16 @@ const WorkingProcess: React.ForwardRefRenderFunction<
             </div>
 
             <div className="process-img">
-              <span className="prismic-content">
-                <PrismicNextImage field={slice.primary.process_image} />
+              <span>
+                {slice?.primary.process_image && (
+                  <Image
+                    src={slice?.primary.process_image.url}
+                    width={slice?.primary.process_image.dimensions.width}
+                    height={slice?.primary.process_image.dimensions.height}
+                    loader={imageLoader}
+                    alt=""
+                  />
+                )}
               </span>
             </div>
           </div>
