@@ -46,6 +46,28 @@
             }
           }
         ]
+      },
+      "status_done": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Duis minim ea dolore culpa eiusmod dolor proident proident esse minim nisi sint nulla elit ea. Irure in occaecat officia dolor Lorem ipsum irure occaecat cillum id."
+            }
+          }
+        ]
+      },
+      "status_on_progress": {
+        "__TYPE__": "StructuredTextContent",
+        "value": [
+          {
+            "type": "paragraph",
+            "content": {
+              "text": "Magna amet cupidatat in ad eiusmod aute Lorem eu fugiat."
+            }
+          }
+        ]
       }
     },
     "items": [

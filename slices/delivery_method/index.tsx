@@ -76,6 +76,7 @@ const DeliveryMethod: React.FC<CheckoutSlice> = ({ slice }) => {
       step={curStep!.step}
       steps={checkoutSteps.steps}
       loading={loading}
+      slice={slice}
       backLink={curStep!.prev}
       onSubmit={onSubmit}
       completeStep={0}>

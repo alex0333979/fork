@@ -19,6 +19,7 @@ export interface ProcessStepsProps {
   step: number
   completeStep: number
   steps: IStep[]
+  slice?: any
 }
 
 interface ProcessStepProps {
@@ -26,6 +27,7 @@ interface ProcessStepProps {
   isCurrent: boolean
   step: IStep
   onClickStep: (s: IStep) => void
+  slice?: any
 }
 
 const timePerInput = 7 // seconds
@@ -36,6 +38,7 @@ const ProgressStep: React.FC<ProcessStepProps> = ({
   isCurrent,
   step,
   onClickStep,
+  slice,
 }) => {
   const [percentage, setPercentage] = useState<number>(0)
 
@@ -92,10 +95,10 @@ const ProgressStep: React.FC<ProcessStepProps> = ({
         <h4>{step.name}</h4>
         <p>
           {isDone
-            ? 'Done'
+            ? slice?.primary.status_done[0].text
             : totalTime
             ? `On progress ≈ ${humanizeTime(totalTime)}`
-            : `On progress`}
+            : slice?.primary.status_on_progress[0].text}
         </p>
       </div>
     </li>
@@ -106,6 +109,7 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({
   step,
   completeStep,
   steps,
+  slice,
 }) => {
   const router = useRouter()
 
@@ -129,6 +133,7 @@ const ProcessSteps: React.FC<ProcessStepsProps> = ({
             isCurrent={s.step === step}
             step={s}
             onClickStep={onClickStep}
+            slice={slice}
           />
         ))}
       </ul>

@@ -1027,6 +1027,26 @@ interface DeliveryMethodSliceDefaultSlicePrimary {
      *
      */
     method_title: prismicT.TitleField;
+    /**
+     * Status Done field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.status_done
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_done: prismicT.RichTextField;
+    /**
+     * Status On Progress field in *delivery_method → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: delivery_method.primary.status_on_progress
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_on_progress: prismicT.RichTextField;
 }
 /**
  * Item in delivery_method → Items
@@ -1351,6 +1371,26 @@ interface PaymentInformationSliceDefaultSlicePrimary {
      *
      */
     form_option: prismicT.RichTextField;
+    /**
+     * Status Done field in *payment_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: payment_information.primary.status_done
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_done: prismicT.RichTextField;
+    /**
+     * Status On Progress field in *payment_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: payment_information.primary.status_on_progress
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_on_progress: prismicT.RichTextField;
 }
 /**
  * Default slice variation for payment_information Slice
@@ -1710,6 +1750,26 @@ interface ReviewAndPaySliceDefaultSlicePrimary {
      *
      */
     card_number: prismicT.RichTextField;
+    /**
+     * Status Done field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.status_done
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_done: prismicT.RichTextField;
+    /**
+     * Status On Progress field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.status_on_progress
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_on_progress: prismicT.RichTextField;
 }
 /**
  * Default slice variation for review_and_pay Slice
@@ -1944,6 +2004,26 @@ interface ShippingInformationSliceDefaultSlicePrimary {
      *
      */
     step_title: prismicT.TitleField;
+    /**
+     * Status Done field in *shipping_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_information.primary.status_done
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_done: prismicT.RichTextField;
+    /**
+     * Status On Progress field in *shipping_information → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: shipping_information.primary.status_on_progress
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    status_on_progress: prismicT.RichTextField;
 }
 /**
  * Default slice variation for shipping_information Slice

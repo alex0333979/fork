@@ -157,6 +157,7 @@ const PaymentInformation: React.FC<CheckoutSlice> = ({ slice }) => {
       step={curStep!.step}
       steps={steps}
       loading={loading}
+      slice={slice}
       backLink={curStep!.prev}
       onSubmit={onSubmit}
       completeStep={2}>

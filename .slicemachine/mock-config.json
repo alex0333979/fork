@@ -12,6 +12,17 @@
       "default-slice": {
         "primary": {}
       }
+    },
+    "shipping_information": {
+      "default-slice": {
+        "primary": {}
+      }
+    },
+    "payment_information": {},
+    "review_and_pay": {
+      "default-slice": {
+        "primary": {}
+      }
     }
   }
 }

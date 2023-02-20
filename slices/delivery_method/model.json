@@ -119,6 +119,24 @@
             "single": "heading3",
             "label": "Method Title"
           }
+        },
+        "status_done": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Status Done",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph"
+          }
+        },
+        "status_on_progress": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Status On Progress",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph"
+          }
         }
       },
       "items": {
