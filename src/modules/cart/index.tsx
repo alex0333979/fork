@@ -75,7 +75,7 @@ const ShoppingCart: React.FC<CartPageProps> = ({ cart: _cart, page }) => {
       <div className="cart-page">
         <div className="page-title">
           <div className="container">
-            <div className="data-wrap">
+            <div className="data-wrap prismic-content">
               <PrismicRichText field={page?.data.title} />
             </div>
           </div>

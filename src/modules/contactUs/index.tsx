@@ -55,8 +55,8 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
     <>
       <div className="contacts-page">
         <div className="container">
-          <div className="title">
-            <div className="contacts-bg">
+          <div className="title prismic-content">
+            <div className="contacts-bg prismic-content">
               <PrismicNextImage field={page?.data.title_background} />
             </div>
             <PrismicRichText field={page?.data.title} />
@@ -68,7 +68,7 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <div className="title">
+              <div className="title prismic-content">
                 <PrismicRichText field={page?.data.sub_title} />
                 <PrismicRichText field={page?.data.sub_text} />
               </div>
@@ -80,7 +80,7 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
                     <ContactItem key={index} contact={item} />
                   ))}
                 </ul>
-                <div className="d-flex align-center btn">
+                <div className="d-flex align-center btn prismic-content">
                   <PrismicRichText field={page?.data.direction_link} />
                   <span className="icon-longarrow" />
                 </div>

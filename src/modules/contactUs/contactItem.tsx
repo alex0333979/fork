@@ -6,7 +6,7 @@ interface Props {
 }
 
 const ContactItem: React.FC<Props> = ({ contact }) => (
-  <li>
+  <li className="prismic-content">
     <PrismicRichText field={contact.list_title} />
     <PrismicRichText field={contact.list_text} />
   </li>

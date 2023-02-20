@@ -9,12 +9,12 @@ const AboutUs: React.FC<SliceProps> = ({ slice }) => (
   <div className="about-values">
     <span className="bg-gradient" />
     <div className="container">
-      <div className="title">
+      <div className="title prismic-content">
         <PrismicRichText field={slice.primary.values_title} />
       </div>
       <div className="row">
         <div className="col-12 col-lg-3">
-          <div className="text">
+          <div className="text prismic-content">
             <PrismicRichText field={slice.primary.values_sub_title} />
             <PrismicRichText field={slice.primary.values_sub_text} />
           </div>

@@ -30,7 +30,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
     <div className="reviews-platform">
       <div className="container">
         <div className="data-wrap">
-          <div className="sub-title">
+          <div className="sub-title prismic-content">
             <PrismicRichText field={slice.primary.reviews_title} />
             <PrismicRichText field={slice.primary.reviews_text} />
           </div>
@@ -57,20 +57,22 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                   <SwiperSlide key={`swiper1_${index}`}>
                     <div className="reviews-item">
                       <div className="item-wrap">
-                        <div className="rating">
+                        <div className="rating prismic-content">
                           <PrismicNextImage
                             field={slice.items[index].review_stars}
                           />
                         </div>
                         <div className="content">
-                          <p suppressHydrationWarning>
+                          <p
+                            suppressHydrationWarning
+                            className="prismic-content">
                             <PrismicRichText
                               field={slice.items[index].review_text}
                             />
                           </p>
                         </div>
                         <div className="author">
-                          <div className="name">
+                          <div className="name prismic-content">
                             <PrismicRichText
                               field={slice.items[index].author_name}
                             />
@@ -103,18 +105,20 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                   <SwiperSlide key={`swiper2_${index}`}>
                     <div className="reviews-item">
                       <div className="item-wrap">
-                        <div className="rating">
+                        <div className="rating prismic-content">
                           <PrismicNextImage
                             field={slice.items[index].review_stars}
                           />
                         </div>
-                        <div suppressHydrationWarning className="content">
+                        <div
+                          suppressHydrationWarning
+                          className="content prismic-content">
                           <PrismicRichText
                             field={slice.items[index].review_text}
                           />
                         </div>
                         <div className="author">
-                          <div className="name">
+                          <div className="name prismic-content">
                             <PrismicRichText
                               field={slice.items[index].author_name}
                             />

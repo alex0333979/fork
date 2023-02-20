@@ -102,6 +102,7 @@ const ReviewAndPay: React.FC<CheckoutSlice> = ({ slice }) => {
           onChangeStripeFocus={onFocusStripe}
           onChangeError={onSetError}
           onInputChange={onInputChange}
+          slice={slice}
         />
       </div>
     </CheckoutLayout>

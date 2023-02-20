@@ -19,7 +19,7 @@ const Article: React.FC<BlogProps> = ({ page }) => {
     <div className="article-page">
       <div className="container">
         <div className="article-wrap">
-          <div className="article-title">
+          <div className="article-title prismic-content">
             <PrismicRichText field={page?.data.title} />
             <p>
               {moment(

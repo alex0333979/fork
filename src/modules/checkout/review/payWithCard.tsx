@@ -52,7 +52,7 @@ const PayWithCard: React.FC<Props & CheckoutSlice> = ({
   <div className="shipping-data">
     <ol>
       <li>
-        <div className="name">
+        <div className="name prismic-content">
           <PrismicRichText field={slice?.primary.pay_title} />
         </div>
       </li>

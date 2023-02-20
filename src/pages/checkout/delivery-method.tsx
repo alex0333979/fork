@@ -21,7 +21,7 @@ export interface CheckoutProps {
 }
 
 export interface CheckoutSlice {
-  slice: any
+  slice?: any
 }
 
 const DeliveryMethodPage: NextPage<CheckoutProps> = ({ page }) => {

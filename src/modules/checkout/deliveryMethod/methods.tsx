@@ -21,7 +21,7 @@ const Methods: React.FC<Props> = ({
 
   return (
     <li>
-      <div className="name">
+      <div className="name prismic-content">
         <PrismicRichText field={slice?.primary.step_name} />
       </div>
       <div className="form-fields">

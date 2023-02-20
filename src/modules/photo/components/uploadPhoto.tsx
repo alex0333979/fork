@@ -42,7 +42,7 @@ const UploadPhoto: React.FC<Props> = ({
 
   return (
     <>
-      <div className="title">
+      <div className="title prismic-content">
         <PrismicRichText field={page?.data.step_title} />
         <PrismicRichText field={page?.data.step_text} />
       </div>
@@ -57,12 +57,12 @@ const UploadPhoto: React.FC<Props> = ({
           />
           <span className="option-wrap">
             <span className="bullet" />
-            <div className="img">
+            <div className="img prismic-content">
               <PrismicNextImage
                 field={page?.data.step_options[0].option_image}
               />
             </div>
-            <span className="name">
+            <span className="name prismic-content">
               <PrismicRichText field={page?.data.step_options[0].option_text} />
             </span>
           </span>
@@ -79,12 +79,12 @@ const UploadPhoto: React.FC<Props> = ({
             />
             <span className="option-wrap">
               <span className="bullet" />
-              <div className="img">
+              <div className="img prismic-content">
                 <PrismicNextImage
                   field={page?.data.step_options[1]?.option_image}
                 />
               </div>
-              <span className="name">
+              <span className="name prismic-content">
                 <PrismicRichText
                   field={page?.data.step_options[1]?.option_text}
                 />

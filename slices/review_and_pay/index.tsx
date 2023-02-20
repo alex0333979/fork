@@ -79,7 +79,7 @@ const ReviewAndPay: React.FC<CheckoutSlice> = ({ slice }) => {
       <div className="form-wrap">
         <PaymentStatus status={payment.status} error={error.result} />
         <div className="form-fields">
-          <div className="extra-info">
+          <div className="extra-info prismic-content">
             <PrismicRichText field={slice.primary.step_title} />
           </div>
         </div>

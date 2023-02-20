@@ -37,7 +37,7 @@ const Summary: React.FC<SummaryProps> = ({
   return (
     <div className="item-wrap total-info">
       <div className="order-summary">
-        <div className="summary-header">
+        <div className="summary-header prismic-content">
           <PrismicRichText field={page?.data.summary_title} />
           <LanguageCurrencySelector wrapperClass="language-selector" />
         </div>

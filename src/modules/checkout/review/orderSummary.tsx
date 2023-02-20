@@ -82,7 +82,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
     <div className="shipping-data">
       <ol>
         <li>
-          <div className="name">
+          <div className="name prismic-content">
             <PrismicRichText field={slice?.primary.summary_label} />
           </div>
         </li>
