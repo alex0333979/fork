@@ -24,15 +24,16 @@ const ProcessPhoto: React.FC<ProcessPhotoProps> = ({
     entry,
     onItemAddedToCart: () => {
       showSuccess('This entry is added to cart.')
-      if (document.id === 495) {
-        // document.id === 489
-        // only for US passport and UK passport
-        setOpenApplication(true)
-        // await router.push(PAGES.upSell);
-        // await router.push(PAGES.cart);
-      } else {
-        router.push(PAGES.cart)
-      }
+      router.push(PAGES.cart)
+      // if (document.id === 495) {
+      //   // document.id === 489
+      //   // only for US passport and UK passport
+      //   setOpenApplication(true)
+      //   // await router.push(PAGES.upSell);
+      //   // await router.push(PAGES.cart);
+      // } else {
+      //   router.push(PAGES.cart)
+      // }
     },
   })
 

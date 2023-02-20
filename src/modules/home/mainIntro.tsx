@@ -133,7 +133,7 @@ const MainIntro = (
                 {!pDoc && (
                   <div className="form-fields">
                     <label>
-                      <span className="prismic-label prismic-content">
+                      <span className="label prismic-content">
                         <PrismicRichText field={page?.data.country_label} />
                       </span>
                       <span className="field">

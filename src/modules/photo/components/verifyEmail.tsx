@@ -70,12 +70,13 @@ const VerifyEmail: React.FC<Props> = ({ accessToken, onVerified }) => {
   }, [])
 
   const onSignIn = useCallback(async () => {
-    if (validate(email)) {
+    const _email = email?.trim().toLowerCase()
+    if (validate(_email)) {
       setLoading(true)
       const { data: sendOtpRes } = await sendOTP({
         variables: {
           accessToken,
-          email: email || '',
+          email: _email || '',
         },
       })
 

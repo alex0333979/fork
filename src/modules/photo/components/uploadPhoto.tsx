@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import NextImage from 'next/image'
 import { useRouter } from 'next/router'
 import { FACING_MODES } from 'react-html5-camera-photo'
 import { useMediaQuery } from '@material-ui/core'
@@ -40,6 +41,18 @@ const UploadPhoto: React.FC<Props> = ({
     },
   })
 
+  const hideSelfie = useMemo(
+    () => router.query.documentId === '83' && matches, // Canada passport
+    [matches, router.query.documentId],
+  )
+
+  useEffect(() => {
+    if (hideSelfie) {
+      onChangeCamera(FACING_MODES.ENVIRONMENT)
+    }
+  }, [hideSelfie, onChangeCamera])
+
+  console.log({ aa: page?.data.step_options })
   return (
     <>
       <div className="title prismic-content">
@@ -47,26 +60,34 @@ const UploadPhoto: React.FC<Props> = ({
         <PrismicRichText field={page?.data.step_text} />
       </div>
       <div className="method-option">
-        <label>
-          <input
-            type="radio"
-            name="method"
-            checked={camera === FACING_MODES.USER}
-            hidden
-            onChange={() => onChangeCamera(FACING_MODES.USER)}
-          />
-          <span className="option-wrap">
-            <span className="bullet" />
-            <div className="img prismic-content">
-              <PrismicNextImage
-                field={page?.data.step_options[0].option_image}
-              />
-            </div>
-            <span className="name prismic-content">
-              <PrismicRichText field={page?.data.step_options[0].option_text} />
+        {!hideSelfie && (
+          <label>
+            <input
+              type="radio"
+              name="method"
+              checked={camera === FACING_MODES.USER}
+              hidden
+              onChange={() => onChangeCamera(FACING_MODES.USER)}
+            />
+            <span className="option-wrap">
+              <span className="bullet" />
+              {!!page?.data.step_options[0]?.option_image && (
+                <span className="img prismic-content">
+                  <NextImage
+                    src={page?.data.step_options[0]?.option_image.url}
+                    layout="fill"
+                    alt=""
+                  />
+                </span>
+              )}
+              <span className="name prismic-content">
+                <PrismicRichText
+                  field={page?.data.step_options[0].option_text}
+                />
+              </span>
             </span>
-          </span>
-        </label>
+          </label>
+        )}
 
         {matches && (
           <label>
