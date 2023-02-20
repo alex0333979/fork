@@ -97,7 +97,9 @@ const ProgressStep: React.FC<ProcessStepProps> = ({
           {isDone
             ? slice?.primary.status_done[0].text
             : totalTime
-            ? `On progress ≈ ${humanizeTime(totalTime)}`
+            ? `${slice?.primary.status_on_progress[0].text} ≈ ${humanizeTime(
+                totalTime,
+              )}`
             : slice?.primary.status_on_progress[0].text}
         </p>
       </div>
