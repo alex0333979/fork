@@ -250,7 +250,7 @@ const RequirementBox: React.FC<RequirementsProps> = ({ slice, context }) => {
                         />
                       </span>
                     </div>
-                    <div className="text-wrap">
+                    <div className="text-wrap prismic-content">
                       <PrismicRichText field={item.list_title} />
                       <PrismicRichText field={item.list_text} />
                     </div>

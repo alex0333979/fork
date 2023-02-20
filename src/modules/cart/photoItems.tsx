@@ -4,12 +4,17 @@ import ShoppingCartItem from './cartItem'
 
 import { PhotoItemsProps } from './types'
 
-const PhotoItems: React.FC<PhotoItemsProps> = ({
+interface PreviewProps {
+  previewButton?: string
+}
+
+const PhotoItems: React.FC<PhotoItemsProps & PreviewProps> = ({
   items,
   currency,
   onRemoveItem,
   onUpdated,
   onPreview,
+  previewButton,
 }) => {
   if (!items.length) return null
 
@@ -24,6 +29,7 @@ const PhotoItems: React.FC<PhotoItemsProps> = ({
             onDelete={onRemoveItem}
             onUpdated={onUpdated}
             onPreview={onPreview}
+            previewButton={previewButton}
           />
         ))}
       </ul>

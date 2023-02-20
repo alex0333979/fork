@@ -55,7 +55,7 @@ const RetakeButton: React.FC<Props & PhotoProps> = ({
           className="main-btn outline retake-button"
           onClick={onRetake}>
           <i className="icon-left" />
-          <span>
+          <span className="prismic-content">
             <PrismicRichText
               field={page?.data.slices[1].primary.retake_button}
             />

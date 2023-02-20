@@ -21,10 +21,10 @@ const PhotoStepInfo: React.FC<PhotoStepInfoProps> = ({ slice }) => (
         <ul>
           {slice.items.map((item: any, index: number) => (
             <li key={index}>
-              <div className="step-toolbar-img">
+              <div className="step-toolbar-img prismic-content">
                 <PrismicNextImage field={item.list_image} />
               </div>
-              <div className="text">
+              <div className="text prismic-content">
                 <PrismicRichText field={item.list_text} />
               </div>
             </li>

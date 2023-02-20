@@ -31,6 +31,7 @@ interface ProcessItemProps {
   index: number
   slice?: any
   onClick: () => void
+  context?: any
 }
 
 interface ChildInterface {
@@ -57,26 +58,24 @@ const ProcessItem: React.FC<ProcessItemProps> = ({
       <span className="progress-bar" />
       <span className="progress-bullet" />
     </div>
-    <div className="label">
+    <div className="label prismic-content">
       <PrismicRichText field={slice.items[index].process_label} />
     </div>
-    <div className="description">
+    <div className="description prismic-content">
       <PrismicRichText field={slice.items[index].process_description} />
     </div>
   </li>
 )
 
 export interface WorkingProcessProps {
-  // extraPath?: string | null
-  // onEndRunning: () => void
-  onStartNow?: (isOpen?: boolean) => void
   slice: any
+  context?: any
 }
 
 const WorkingProcess: React.ForwardRefRenderFunction<
   ChildInterface,
   WorkingProcessProps
-> = ({ slice, onStartNow }, ref) => {
+> = ({ slice, context }) => {
   const [data, setData] =
     useState<
       { active: boolean; past: boolean; loaded: boolean; reset: boolean }[]
@@ -154,7 +153,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
           a += 1
           if (a === initialData.length) {
             if (timeIntervalId.current) {
-              // onEndRunning()
+              context?.onEndRunning()
               clearInterval(timeIntervalId.current)
             }
           } else {
@@ -163,23 +162,11 @@ const WorkingProcess: React.ForwardRefRenderFunction<
         }, 10000)
       }
     },
-    [/* onEndRunning,*/ startProcess],
+    [context, startProcess],
   )
 
-  // const processData: IProcessDatum[] = useMemo(() => {
-  //   let _processData = ProcessData.default
-  //   if (
-  //     extraPath === ExtraPathMap.CanadianPassportAtHome ||
-  //     extraPath === ExtraPathMap.CanadianPassportPhoto
-  //   ) {
-  //     _processData = ProcessData[extraPath]
-  //   }
-
-  //   return _processData
-  // }, [/*extraPath*/])
-
   useImperativeHandle(
-    ref,
+    context?.ref,
     () => ({
       startWorkingProcess() {
         onClickItem(0)
@@ -192,7 +179,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
     <div className="working-process">
       <div className="container">
         <div className="data-wrap">
-          <div className="sub-title">
+          <div className="sub-title prismic-content">
             <PrismicRichText field={slice.primary.process_title} />
             <PrismicRichText field={slice.primary.process_text} />
           </div>
@@ -216,10 +203,10 @@ const WorkingProcess: React.ForwardRefRenderFunction<
               </div>
               <div className="start-btn">
                 <button
-                  className="main-btn big"
+                  className="main-btn big prismic-content"
                   onClick={() => {
                     scrollToTop()
-                    onStartNow?.(true)
+                    context?.onStartNow?.(true)
                   }}>
                   <PrismicRichText field={slice.primary.process_button} />
                 </button>
@@ -227,7 +214,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
             </div>
 
             <div className="process-img">
-              <span>
+              <span className="prismic-content">
                 <PrismicNextImage field={slice.primary.process_image} />
               </span>
             </div>

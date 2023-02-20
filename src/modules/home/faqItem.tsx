@@ -20,7 +20,7 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
 
   return (
     <li className={classNames({ open: show })}>
-      <div className="question">
+      <div className="question prismic-content">
         <h3
           onClick={() => {
             if (onOpen) onOpen()
@@ -32,14 +32,14 @@ const FaqItem: React.FC<Props> = ({ faq, allClosed, onOpen }) => {
           <span className="icon-close" />
         </h3>
       </div>
-      <div className="answer">
+      <div className="answer prismic-content">
         <PrismicRichText
           field={faq.advice_text ? faq.advice_text : faq.faq_answer}
         />
 
         <div>
           {faq.correct_example && (
-            <div className="attached-images">
+            <div className="attached-images prismic-content">
               <PrismicNextImage field={faq.correct_example} />
               <PrismicNextImage field={faq.wrong_example} />
               <PrismicNextImage field={faq.video_example} />

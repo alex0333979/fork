@@ -16,11 +16,11 @@ const Content: React.FC<SliceProps> = ({ slice, context }) => (
         alt=""
       />
     </div>
-    <div className="text">
+    <div className="text prismic-content">
       <PrismicRichText field={slice.primary.text} />
       <blockquote>
         <p>
-          <i>
+          <i className="prismic-content">
             <PrismicRichText
               field={context?.page?.data.slices[1].primary.blockquote}
             />

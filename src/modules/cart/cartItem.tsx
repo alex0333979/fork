@@ -24,6 +24,7 @@ interface CartItemProps {
   onDelete: (id: string) => void
   onUpdated: (d: Partial<User>) => void
   onPreview: (url: string) => void
+  previewButton?: string
 }
 
 const ShoppingCartItem: React.FC<CartItemProps> = ({
@@ -32,6 +33,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
   onDelete,
   onUpdated,
   onPreview,
+  previewButton,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -130,7 +132,7 @@ const ShoppingCartItem: React.FC<CartItemProps> = ({
             onClick={() => onClickItem(item)}>
             {item.productCategory === ProductCategory.Application
               ? 'Review'
-              : 'Preview'}
+              : previewButton}
           </button>
         </div>
       </div>

@@ -82,7 +82,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
     <div className="shipping-data">
       <ol>
         <li>
-          <div className="name">
+          <div className="name prismic-content">
             <PrismicRichText field={slice?.primary.summary_label} />
           </div>
         </li>
@@ -151,7 +151,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
           </div>
           {cart?.billingAddress?.state === 'NY' ? (
             <div className="name">
-              <h3>Sales Tax</h3>
+              <h3>{slice?.primary.tax_label[0].text}</h3>
               <p>
                 {t('currency', {
                   value: tax,
@@ -173,7 +173,8 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
         </li>
         <li>
           <div className="name">
-            <h3>Grand Total</h3>
+            {/* <h3>Grand Total</h3> */}
+            <h3>{slice?.primary.total_label[0].text}</h3>
             <p>
               {t('currency', {
                 value: total,

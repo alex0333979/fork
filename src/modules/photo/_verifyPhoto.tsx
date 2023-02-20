@@ -14,7 +14,6 @@ import { PrismicDocument } from '@prismicio/types'
 import ProcessStepPhoto from './components/processStepPhoto'
 import StepInfo from './components/stepInfo'
 import TestCase from './components/testCase'
-import { PrismicRichText } from '@prismicio/react'
 
 interface Props {
   entry?: Entry
@@ -119,9 +118,7 @@ const VerifyPhoto: React.FC<Props> = ({
                         type="button"
                         className="main-btn proceed-to-checkout"
                         onClick={() => onCheckout(imageLink)}>
-                        <PrismicRichText
-                          field={page?.data.slices[1].primary.proceed_button}
-                        />
+                        {page?.data.slices[1].primary.proceed_button[0].text}
                       </button>
                     )}
                     <button
@@ -129,9 +126,7 @@ const VerifyPhoto: React.FC<Props> = ({
                       className="main-btn no-border change-to-photo"
                       onClick={onChangePhoto}>
                       <i className="icon-camera" />
-                      <PrismicRichText
-                        field={page?.data.slices[1].primary.change_button}
-                      />
+                      {page?.data.slices[1].primary.change_button[0].text}
                     </button>
                   </div>
                   <TestCase

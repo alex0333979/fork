@@ -22,7 +22,7 @@ const Why: React.FC<SliceProps> = ({ slice }) => (
           </div>
         </div>
         <div className="col-12 col-lg-6">
-          <div className="text">
+          <div className="text prismic-content">
             <PrismicRichText field={slice.items[0].why_title} />
             <PrismicRichText field={slice.items[0].why_text} />
             <ul>

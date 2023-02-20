@@ -118,7 +118,7 @@ const MainIntro = (
         <div className="container">
           <div className="intro-wrap mobile-img">
             <div className="intro-title">
-              <div className="title big">
+              <div className="title big prismic-content">
                 <h1>
                   <b>
                     {transformPrismic(prismicH.asText(page?.data.title), {
@@ -133,7 +133,7 @@ const MainIntro = (
                 {!pDoc && (
                   <div className="form-fields">
                     <label>
-                      <span className="prismic-label">
+                      <span className="prismic-label prismic-content">
                         <PrismicRichText field={page?.data.country_label} />
                       </span>
                       <span className="field">
@@ -149,7 +149,7 @@ const MainIntro = (
                   {pCountry && pDoc ? (
                     <>
                       <a
-                        className="main-btn big"
+                        className="main-btn big prismic-content"
                         onClick={() => goTakePhoto(document)}>
                         <PrismicRichText field={page?.data.button_label} />
                       </a>
@@ -167,7 +167,7 @@ const MainIntro = (
                     </a>
                   ) : (
                     <a
-                      className="main-btn big"
+                      className="main-btn big prismic-content"
                       onClick={() => onStartNow(true)}>
                       <PrismicRichText field={page?.data.button_label} />
                     </a>
@@ -176,7 +176,7 @@ const MainIntro = (
               </div>
             </div>
             <div className="intro-img">
-              <span>
+              <span className="prismic-content">
                 <PrismicNextImage field={page?.data.intro_image} />
               </span>
             </div>

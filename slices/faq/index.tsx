@@ -26,7 +26,7 @@ const Faq: React.FC<Props> = ({ slice }) => {
     <div className="faq-section" id="faq">
       <div className="container">
         <div className="data-wrap">
-          <div className="sub-title">
+          <div className="sub-title prismic-content">
             <PrismicRichText field={slice.primary.faq_title} />
             <PrismicRichText field={slice.primary.faq_text} />
           </div>
@@ -43,7 +43,7 @@ const Faq: React.FC<Props> = ({ slice }) => {
             </ul>
           </div>
           <div className="start-btn">
-            <button className="main-btn big" onClick={onStart}>
+            <button className="main-btn big prismic-content" onClick={onStart}>
               <PrismicRichText field={slice.primary.faq_button} />
             </button>
           </div>

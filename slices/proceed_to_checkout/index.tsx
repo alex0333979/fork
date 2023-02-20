@@ -68,7 +68,7 @@ const ProceedToCheckout: React.FC<ProceedToCheckoutProps & PhotoProps> = ({
             page={page}
           />
         )}
-        <PhotoHelper /* articlePage={context.articlePage}*/ />
+        <PhotoHelper />
       </div>
     </div>
   )

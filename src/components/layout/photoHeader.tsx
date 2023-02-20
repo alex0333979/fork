@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PrismicRichText } from '@prismicio/react'
 
 import { PhotoProps } from 'slices/proceed_to_checkout'
 
@@ -30,7 +29,7 @@ const PhotoHeader: React.FC<PhotoProps> = ({ page }) => (
                 {page?.data.steps_advantages.map((step: any, index: number) => (
                   <li key={index}>
                     <span className={step.icon_class[0].text} />
-                    <PrismicRichText field={step.text} />
+                    {step.text[0].text}
                   </li>
                 ))}
               </ul>

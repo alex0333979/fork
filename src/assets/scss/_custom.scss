@@ -808,6 +808,19 @@ ul.check-mark {
   }
 }
 
+.main-btn {
+  .change-to-photo {
+    @media screen and (min-width: 1580px) {    
+      height: 54px;
+    }
+
+    @media screen and (max-width: 1580px) {
+      height: 32px;
+    }
+  }
+
+}
+
 .attached-images {
   padding: 15px 0 8px 20px;
 }
@@ -820,10 +833,6 @@ ul.check-mark {
   @media screen and (max-width: 1420px) {
     height: 32px
   }
-}
-
-.change-to-photo {
-  height: 32px
 }
 
 .retake-button {
@@ -844,5 +853,11 @@ ul.check-mark {
     @media screen and (max-width: 1580px) {
       font-size: 14px;
     }
+  }
+}
+
+.prismic-content {
+  p {
+    margin: 0 !important;
   }
 }

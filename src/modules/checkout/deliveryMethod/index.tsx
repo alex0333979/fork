@@ -9,9 +9,8 @@ import Services from './services'
 import Methods from './methods'
 import ExpeditingService from './expeditingService'
 import ExpeditingServiceQuestions from './expeditingServiceQuestions'
-import { CheckoutProps } from '@/pages/checkout/delivery-method'
 
-const DeliveryMethod: React.FC<CheckoutProps> = () => {
+const DeliveryMethod: React.FC = () => {
   const router = useRouter()
   const { me, cart, updateMe } = useAuth()
   const { shippingType, checkoutSteps, onChangeShippingType } = useCheckout()

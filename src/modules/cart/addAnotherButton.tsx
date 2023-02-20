@@ -4,13 +4,14 @@ import { AddAnotherButtonProps } from './types'
 
 const AddAnotherButton: React.FC<AddAnotherButtonProps> = ({
   onAddAnother,
+  title,
 }) => (
   <div className="btn-wrap">
     <button
       type="button"
       className="main-btn small outline"
       onClick={onAddAnother}>
-      Add Another Person&apos;s Photo
+      {title}
       <span className="icon-close" />
     </button>
   </div>

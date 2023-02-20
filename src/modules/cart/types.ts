@@ -1,3 +1,5 @@
+import { PrismicDocument } from '@prismicio/types'
+
 import { Cart, CartItem, Currency, User } from '@/apollo'
 
 export interface PhotoItemsProps {
@@ -16,10 +18,12 @@ export interface ApplicationItemsProps extends PhotoItemsProps {
 
 export interface AddAnotherButtonProps {
   onAddAnother: () => void
+  title?: string
 }
 
 export interface SummaryProps {
   cart: Cart | null
   currency: Currency
   onCheckout: () => void
+  page?: PrismicDocument<Record<string, any>, string, string>
 }

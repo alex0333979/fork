@@ -17,12 +17,12 @@ const Summary: React.FC<AboutProps> = ({ page }) => (
     <span className="circle" />
     <div className="container">
       <div className="row">
-        <div className="title col-12 col-lg-5">
+        <div className="title col-12 col-lg-5 prismic-content">
           <PrismicRichText field={page?.data.title} />
-          <div className="d-lg-none">
+          <div className="d-lg-none prismic-content">
             <PrismicRichText field={page?.data.intro_desktop_text} />
           </div>
-          <div className="d-none d-lg-block">
+          <div className="d-none d-lg-block prismic-content">
             <PrismicRichText field={page?.data.intro_mobile_text} />
           </div>
           <ul>
