@@ -26,9 +26,9 @@ const AboutUs: React.FC<SliceProps> = ({ slice }) => (
                 <li key={index}>
                   <div className="icon">
                     <Image
-                      src={item.url}
-                      width={item.width}
-                      height={item.height}
+                      src={item.values_list_icon.url}
+                      width={item.values_list_icon.dimensions.width}
+                      height={item.values_list_icon.dimensions.height}
                       loader={imageLoader}
                       alt=""
                     />
