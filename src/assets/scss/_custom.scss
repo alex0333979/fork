@@ -867,3 +867,14 @@ ul.check-mark {
 .contacts-page .container .title .image-pos span > img {
   object-position: top;
 }
+
+.process-img {
+  span {
+    &:before {
+      content: "";
+        display: block;
+        padding-bottom: 90.6%;
+        pointer-events: none;
+    }
+  }
+}

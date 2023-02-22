@@ -7,11 +7,9 @@ import React, {
   useImperativeHandle,
 } from 'react'
 import { PrismicRichText } from '@prismicio/react'
-import NextImage from 'next/image'
+import Image from 'next/image'
 
 import { scrollToTop } from '@/utils'
-import { PrismicNextImage } from '@prismicio/next'
-import Image from 'next/image'
 import { imageLoader } from '@/modules/about/summary'
 
 const initialData = [
@@ -152,7 +150,7 @@ const WorkingProcess: React.ForwardRefRenderFunction<
           a += 1
           if (a === initialData.length) {
             if (timeIntervalId.current) {
-              context?.onEndRunning()
+              context?.setRunning(false)
               clearInterval(timeIntervalId.current)
             }
           } else {
@@ -214,15 +212,14 @@ const WorkingProcess: React.ForwardRefRenderFunction<
 
             <div className="process-img">
               <span>
-                {slice?.primary.process_image && (
-                  <Image
-                    src={slice?.primary.process_image.url}
-                    width={slice?.primary.process_image.dimensions.width}
-                    height={slice?.primary.process_image.dimensions.height}
-                    loader={imageLoader}
-                    alt=""
-                  />
-                )}
+                <Image
+                  src={slice?.primary.process_image.url}
+                  loader={imageLoader}
+                  layout="fill"
+                  priority
+                  placeholder="empty"
+                  alt=""
+                />
               </span>
             </div>
           </div>
