@@ -7,7 +7,7 @@ import { Bars } from 'react-loading-icons'
 import Input from 'react-phone-number-input/input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import { PrismicRichText } from '@prismicio/react'
-import { PrismicNextImage } from '@prismicio/next'
+import Image from 'next/image'
 
 import { showError, showSuccess } from '@/utils'
 import { useSendEmailToAdminMutation } from '@/apollo'
@@ -55,9 +55,15 @@ const ContactUs: React.FC<ContactUsPageProps> = ({ page }) => {
     <>
       <div className="contacts-page">
         <div className="container">
-          <div className="title prismic-content">
-            <div className="contacts-bg prismic-content">
-              <PrismicNextImage field={page?.data.title_background} />
+          <div className="title">
+            <div className="contacts-bg image-pos">
+              <Image
+                src={page?.data.title_background.url}
+                width={page?.data.title_background.dimensions.width}
+                height={page?.data.title_background.dimensions.height}
+                layout="fill"
+                alt=""
+              />
             </div>
             <PrismicRichText field={page?.data.title} />
           </div>
