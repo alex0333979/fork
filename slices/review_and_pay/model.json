@@ -67,6 +67,15 @@
             "label": "Tax Label"
           }
         },
+        "ny_tax_label": {
+          "type": "StructuredText",
+          "config": {
+            "label": "NY Tax Label",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "single": "paragraph"
+          }
+        },
         "total_label": {
           "type": "StructuredText",
           "config": {

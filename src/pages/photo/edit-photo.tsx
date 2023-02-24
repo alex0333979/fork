@@ -36,7 +36,12 @@ const EditPhotoPage: NextPage<EditPhotoProps> = ({
       description={SEO.editPhoto.description}
     />
     <PhotoLayout page={page}>
-      <EditPhoto accessToken={accessToken} entry={entry} type={type} />
+      <EditPhoto
+        accessToken={accessToken}
+        entry={entry}
+        type={type}
+        page={page}
+      />
     </PhotoLayout>
   </>
 )
@@ -51,10 +56,12 @@ export const getServerSideProps: GetServerSideProps<EditPhotoProps> = async (
   }
 
   const previewData = context.previewData
+  const locale = context?.locale as string
   const client = createClient({ previewData })
   const page = await client.getByUID(
     PageTypeHashes.process_page,
     PageUIDHashes.processPage,
+    { lang: locale },
   )
 
   const accessToken = context?.query?.accessToken as string

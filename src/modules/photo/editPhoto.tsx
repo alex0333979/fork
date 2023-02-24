@@ -12,7 +12,12 @@ import SaveButton from './components/saveButton'
 import VerifyEmail from './components/verifyEmail'
 import VerifyPhoto from './_verifyPhoto'
 
-const EditPhoto: React.FC<EditPhotoProps> = ({ accessToken, entry, type }) => {
+const EditPhoto: React.FC<EditPhotoProps> = ({
+  accessToken,
+  entry,
+  type,
+  page,
+}) => {
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
   const [imageUrl, setImageUrl] = useState<string | undefined>()
@@ -57,6 +62,7 @@ const EditPhoto: React.FC<EditPhotoProps> = ({ accessToken, entry, type }) => {
       <VerifyPhoto
         entry={entry}
         type={type || FACING_MODES.USER}
+        page={page}
         photoUrl={imageUrl}
         onChangePhoto={onChangePhoto}
         renderTitle={(s: ProcessingStatus) => {
@@ -90,6 +96,7 @@ const EditPhoto: React.FC<EditPhotoProps> = ({ accessToken, entry, type }) => {
           <SaveButton
             loading={loading}
             status={status}
+            page={page}
             onSave={() => onSave(status, imageLink)}
             onOpenInfo={onOpenInfo}
           />

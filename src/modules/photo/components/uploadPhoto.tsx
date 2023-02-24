@@ -83,7 +83,7 @@ const UploadPhoto: React.FC<Props> = ({
                   alt=""
                 />
               </span>
-              <span className="name">
+              <span className="name prismic-content">
                 <PrismicRichText
                   field={page?.data.step_options[0].option_text}
                 />

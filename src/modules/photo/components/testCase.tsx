@@ -17,7 +17,7 @@ const TestCase: React.FC<Props> = ({ status, failed, passed, items }) => (
   <div className="list">
     <ul>
       {status === ProcessingStatus.notStarted &&
-        items.map((item, index) => (
+        items?.map((item, index) => (
           <li key={`l_${index}`} className="loading ">
             <span className="text">{item.requirement_label[0].text}</span>
           </li>

@@ -1711,6 +1711,16 @@ interface ReviewAndPaySliceDefaultSlicePrimary {
      */
     tax_label: prismicT.RichTextField;
     /**
+     * NY Tax Label field in *review_and_pay → Primary*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: review_and_pay.primary.ny_tax_label
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    ny_tax_label: prismicT.RichTextField;
+    /**
      * Total Label field in *review_and_pay → Primary*
      *
      * - **Field Type**: Rich Text

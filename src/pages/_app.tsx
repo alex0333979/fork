@@ -35,6 +35,12 @@ Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
+if (process.env.NODE_ENV !== 'development') {
+  console.log = () => null
+  console.error = () => null
+  console.warn = () => null
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   const apolloClient = useApollo(pageProps)
 

@@ -151,7 +151,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
           </div>
           {cart?.billingAddress?.state === 'NY' ? (
             <div className="name">
-              <h3>{slice?.primary.tax_label[0].text}</h3>
+              <h3>{slice?.primary.ny_tax_label?.[0].text}</h3>
               <p>
                 {t('currency', {
                   value: tax,
@@ -161,7 +161,7 @@ const OrderSummary: React.FC<Props & CheckoutSlice> = ({
             </div>
           ) : (
             <div className="name">
-              <h3>{slice?.primary.shipping_label[0].text}</h3>
+              <h3>{slice?.primary.tax_label[0].text}</h3>
               <p>
                 {t('currency', {
                   value: 0,
