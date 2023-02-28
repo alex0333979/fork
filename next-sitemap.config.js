@@ -8,11 +8,6 @@ const linkResolver = (doc) => {
   const prefix = locales.includes(doc.lang, 0) ? `/${doc.lang}` : ''
 
   switch (doc.type) {
-    // case 'homepage':
-    // case 'pricing':
-    // case 'page':
-    //   return `${prefix}/${doc.uid ? doc.uid : ''}`
-
     case 'application':
       return `${prefix}/application/${doc.uid}`
 
@@ -65,20 +60,41 @@ const withPrismicSitemap = require('@reecem/prismic-sitemap')({
 })
 
 module.exports = withPrismicSitemap({
-  SITE_URL,
+  siteUrl: process.env.FRONTEND_URL || 'https://passportphotos.com/',
   generateRobotsTxt: true,
+  changefreq: 'weekly',
+  alternateRefs: [
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'x-default',
+    },
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'en-us',
+    },
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'en-gb',
+    },
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'de-de',
+    },
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'es-es',
+    },
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'fr-fr',
+    },
+    {
+      href: process.env.FRONTEND_URL,
+      hreflang: 'it-it',
+    },
+  ],
   robotsTxtOptions: {
     additionalSitemaps: [`${SITE_URL}/server-sitemap.xml`],
-    policies: [
-      {
-        userAgent: '*',
-        disallow: '/cart',
-      },
-      {
-        userAgent: '*',
-        allow: '/',
-      },
-    ],
   },
   exclude: ['/cart'],
 })
