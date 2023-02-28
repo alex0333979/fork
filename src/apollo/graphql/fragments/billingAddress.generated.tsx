@@ -1,5 +1,3 @@
-import * as Types from '../../generated/types';
-
 import { gql } from '@apollo/client';
 export type BillingAddressFragment = { __typename?: 'BillingAddress', address1: string, address2?: string | null, city: string, country: string, firstName: string, lastName: string, postalCode: string, state?: string | null, email: string, phone: string };
 

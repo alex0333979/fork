@@ -4,7 +4,8 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "ES2017"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -23,7 +24,13 @@
         "./src/*"
       ]
     },
-    "incremental": true
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": true,
   },
   "include": [
     "./src",

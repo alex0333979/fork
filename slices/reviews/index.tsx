@@ -53,7 +53,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                   disableOnInteraction: true,
                   reverseDirection: false,
                 }}>
-                {REVIEWS1.map((review, index) => (
+                {REVIEWS1.map((_review, index) => (
                   <SwiperSlide key={`swiper1_${index}`}>
                     <div className="reviews-item">
                       <div className="item-wrap">
@@ -101,7 +101,7 @@ const Reviews: React.FC<ReviewsPlatformProps> = ({ onStartNow, slice }) => {
                   disableOnInteraction: true,
                   reverseDirection: true,
                 }}>
-                {REVIEWS2.map((review, index) => (
+                {REVIEWS2.map((_review, index) => (
                   <SwiperSlide key={`swiper2_${index}`}>
                     <div className="reviews-item">
                       <div className="item-wrap">

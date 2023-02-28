@@ -33,11 +33,6 @@ class MyDocument extends Document {
           />
           <link
             rel="alternate"
-            hrefLang="en-gb"
-            href="https://passportphotos.com/en-gb"
-          />
-          <link
-            rel="alternate"
             hrefLang="de-de"
             href="https://passportphotos.com/de-de"
           />
@@ -50,11 +45,6 @@ class MyDocument extends Document {
             rel="alternate"
             hrefLang="fr-fr"
             href="https://passportphotos.com/fr-fr"
-          />
-          <link
-            rel="alternate"
-            hrefLang="it-it"
-            href="https://passportphotos.com/it-it"
           />
           <link
             href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"

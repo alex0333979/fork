@@ -89,7 +89,7 @@ const EditPhoto: React.FC<EditPhotoProps> = ({
         }}
         renderRetakeButton={(
           status: ProcessingStatus,
-          router: NextRouter,
+          _router: NextRouter,
           onOpenInfo: (v: boolean) => void,
           imageLink: string,
         ) => (
