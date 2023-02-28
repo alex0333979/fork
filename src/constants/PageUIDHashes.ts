@@ -1,3 +1,7 @@
+/**
+ * When you update this, you should update `PageTypeHashes` in `next-sitemap.config.js`, as well.
+ */
+
 export const PageTypeHashes = {
   landingPage: 'landing_page',
   contactUs: 'contact_us',

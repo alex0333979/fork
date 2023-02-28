@@ -1,7 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const config = require('./next.config')
-const { PageTypeHashes } = require('./src/constants/PageUIDHashes')
 const sm = require('./sm.json')
+
+const PageTypeHashes = {
+  landingPage: 'landing_page',
+  contactUs: 'contact_us',
+  processPage: 'process_page',
+  checkoutPage: 'checkout',
+  articlePage: 'article',
+  aboutPage: 'about',
+  oneClick: 'one_click',
+  shippingPolicy: 'shipping_policy',
+  terms: 'terms',
+}
 
 const API_ENDPOINT = sm.apiEndpoint
 const SITE_URL = sm.hostName
