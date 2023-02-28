@@ -15,7 +15,7 @@ const PageTypeHashes = {
 }
 
 const API_ENDPOINT = sm.apiEndpoint
-const SITE_URL = sm.hostName
+const SITE_URL = 'https://www.passportphotos.com'
 const locales = config.i18n.locales
 
 const linkResolver = (doc) => {
@@ -71,7 +71,7 @@ const withPrismicSitemap = require('@reecem/prismic-sitemap')({
 })
 
 module.exports = withPrismicSitemap({
-  siteUrl: process.env.FRONTEND_URL || 'https://passportphotos.com/',
+  siteUrl: SITE_URL,
   generateRobotsTxt: true,
   changefreq: 'weekly',
   alternateRefs: [

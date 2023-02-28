@@ -25,15 +25,6 @@ const AppHeader: React.FC<{
   const { cart } = useAuth()
   const { setOpenDocument } = useApp()
 
-  // const logout = useCallback(async () => {
-  //   signOut();
-  //   await router.push(PAGES.home);
-  // }, [router, signOut]);
-
-  // const onSelectedCountry = useCallback((country: Country) => {
-  //   console.log(country);
-  // }, []);
-
   const onClickCart = useCallback(async () => {
     if (cart?.items?.length ?? 0 > 0) {
       await router.push(PAGES.cart)
