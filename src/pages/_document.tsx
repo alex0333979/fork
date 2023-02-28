@@ -22,6 +22,41 @@ class MyDocument extends Document {
           <meta name="format-detection" content="telephone=no" />
           <meta name="format-detection" content="address=no" />
           <link
+            rel="alternate"
+            hrefLang="en-us"
+            href="https://passportphotos.com"
+          />
+          <link
+            rel="alternate"
+            hrefLang="en-us"
+            href="https://passportphotos.com/en-us"
+          />
+          <link
+            rel="alternate"
+            hrefLang="en-gb"
+            href="https://passportphotos.com/en-gb"
+          />
+          <link
+            rel="alternate"
+            hrefLang="de-de"
+            href="https://passportphotos.com/de-de"
+          />
+          <link
+            rel="alternate"
+            hrefLang="es-es"
+            href="https://passportphotos.com/es-es"
+          />
+          <link
+            rel="alternate"
+            hrefLang="fr-fr"
+            href="https://passportphotos.com/fr-fr"
+          />
+          <link
+            rel="alternate"
+            hrefLang="it-it"
+            href="https://passportphotos.com/it-it"
+          />
+          <link
             href="https://fonts.googleapis.com/css2?family=Poppins&display=optional"
             rel="stylesheet"
           />
