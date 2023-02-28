@@ -39,15 +39,3 @@ export const createClient = ({
 
   return client
 }
-
-export const linkResolver = (link: any) => {
-  if (link.type === 'page') {
-    if (link.uid === 'home') {
-      return '/'
-    }
-
-    return `/${link.uid}`
-  }
-
-  return '/'
-}

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { PrismicLink, PrismicProvider } from '@prismicio/react'
 import { PrismicDocument } from '@prismicio/types'
 
-import { linkResolver } from '@/../prismicio'
+import { linkResolver } from '@/utils/linkResolver'
 
 interface IPrismicContext {
   pageData: PrismicDocument<Record<string, any>, string, string>
