@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<AboutProps> = async (
 
   const client = createClient({ previewData })
   const page = await client.getByUID(
-    PageTypeHashes.about_page,
+    PageTypeHashes.aboutPage,
     PageUIDHashes.aboutPage,
     { lang: locale },
   )

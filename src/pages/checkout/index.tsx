@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
     const previewData = context.previewData
     const prismicClient = createClient({ previewData })
-    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page, {
+    const page = await prismicClient.getSingle(PageTypeHashes.checkoutPage, {
       lang: locale,
     })
     const result: ApolloQueryResult<CartQuery> = await client.query({

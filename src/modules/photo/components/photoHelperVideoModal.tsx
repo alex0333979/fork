@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from 'react'
-import { YouTubePlayer } from 'react-youtube'
-// import { PrismicRichText } from '@prismicio/react'
+import YoutubePlayer from 'react-youtube'
 
 import ModalContainer from '@/components/elements/modalContainer'
-// import { ArticlePageProps } from '../takeNewPhoto'
 
 const videoRatio = 0.5625
 
@@ -31,7 +29,7 @@ const PhotoHelper: React.FC /* <ArticlePageProps>*/ =
         </div>
         <ModalContainer open={open} closeModal={() => setOpen(false)}>
           <div style={{ width: vWidth, height: vHeight }}>
-            <YouTubePlayer
+            <YoutubePlayer
               videoId="niyaWETsrUI"
               opts={{
                 width: `${vWidth}`,

@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps<ProcessPhotoProps> = async (
   const locale = context?.locale as string
   const client = createClient({ previewData })
   const page = await client.getByUID(
-    PageTypeHashes.process_page,
+    PageTypeHashes.processPage,
     PageUIDHashes.processPage,
     { lang: locale },
   )

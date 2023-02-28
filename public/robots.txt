@@ -7,8 +7,8 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.passportphotos.com
+Host: https://passportphotos.com/
 
 # Sitemaps
-Sitemap: https://www.passportphotos.com/sitemap.xml
-Sitemap: https://www.passportphotos.com/server-sitemap.xml
+Sitemap: https://passportphotos.com/sitemap.xml
+Sitemap: https://www.passportphotos.com//server-sitemap.xml

@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<BlogProps> = async (
 
   const client = createClient({ previewData })
   const page = await client.getByUID(
-    PageTypeHashes.article_page,
+    PageTypeHashes.articlePage,
     PageUIDHashes.dynamic_blog_page,
     { lang: locale },
   )

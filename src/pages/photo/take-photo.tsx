@@ -78,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<
   const locale = context?.locale as string
 
   const page = await client.getByUID(
-    PageTypeHashes.process_page,
+    PageTypeHashes.processPage,
     PageUIDHashes.processPage,
     { lang: locale },
   )

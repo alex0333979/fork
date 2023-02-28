@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (
     const previewData = context.previewData
     const prismicClient = createClient({ previewData })
     const locale = context?.locale as string
-    const page = await prismicClient.getSingle(PageTypeHashes.checkout_page, {
+    const page = await prismicClient.getSingle(PageTypeHashes.checkoutPage, {
       lang: locale,
     })
 
