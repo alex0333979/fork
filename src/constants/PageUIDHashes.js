@@ -1,8 +1,4 @@
-/**
- * When you update this, you should update `PageTypeHashes` in `next-sitemap.config.js`, as well.
- */
-
-export const PageTypeHashes = {
+const PageTypeHashes = {
   landingPage: 'landing_page',
   contactUs: 'contact_us',
   processPage: 'process_page',
@@ -14,7 +10,7 @@ export const PageTypeHashes = {
   terms: 'terms',
 }
 
-export const PageUIDHashes = {
+const PageUIDHashes = {
   orderPage:
     'united-states-passport-order-your-passport-photos-online-with-our-simple-digital-tool',
   homepage: 'home',
@@ -29,7 +25,7 @@ export const PageUIDHashes = {
     'how-to-take-passport-photo-with-iphone-the-ideal-diy-guide--test',
 }
 
-export const prismicRoutes = [
+const prismicRoutes = [
   {
     type: PageTypeHashes.landingPage,
     uid: PageUIDHashes.homepage,
@@ -86,3 +82,9 @@ export const prismicRoutes = [
     path: '/blogs/:uid',
   },
 ]
+
+module.exports = {
+  PageTypeHashes,
+  PageUIDHashes,
+  prismicRoutes,
+}

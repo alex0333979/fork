@@ -4,7 +4,6 @@
   "libraries": [
     "@/slices"
   ],
-  "hostName": "https://www.passportphotos.com/",
   "_latest": "0.3.0",
   "framework": "previousNext"
 }

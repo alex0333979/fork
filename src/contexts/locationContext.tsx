@@ -65,11 +65,11 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
         label: 'English (US)',
         value: 'en-us',
       },
-      {
-        id: 'en-gb',
-        label: 'English (UK)',
-        value: 'en-gb',
-      },
+      // {
+      //   id: 'en-gb',
+      //   label: 'English (UK)',
+      //   value: 'en-gb',
+      // },
       {
         id: 'de-de',
         label: 'German',
@@ -85,11 +85,11 @@ export const LocationProvider: React.FC<{ children: React.ReactNode }> = ({
         label: 'French',
         value: 'fr-fr',
       },
-      {
-        id: 'it-it',
-        label: 'Italian',
-        value: 'it-it',
-      },
+      // {
+      //   id: 'it-it',
+      //   label: 'Italian',
+      //   value: 'it-it',
+      // },
     ],
     [],
   )

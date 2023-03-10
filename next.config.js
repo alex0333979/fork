@@ -22,7 +22,7 @@ module.exports = {
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
   i18n: {
-    locales: ['en-us', 'en-gb', 'de-de', 'es-es', 'fr-fr', 'it-it'],
+    locales: ['en-us', 'de-de', 'es-es', 'fr-fr'],
     defaultLocale: 'en-us',
     localeDetection: false,
     trailingSlash: true,

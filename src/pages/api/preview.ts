@@ -1,6 +1,7 @@
 import * as prismicNext from '@prismicio/next'
 
-import { createClient, linkResolver } from '@/../prismicio'
+import { linkResolver } from '@/utils/linkResolver'
+import { createClient } from '@/../prismicio'
 
 export default async function handler(req: any, res: any) {
   const client = createClient({ req })

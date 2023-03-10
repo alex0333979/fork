@@ -51,7 +51,6 @@ const UploadPhoto: React.FC<Props> = ({
     }
   }, [hideSelfie, onChangeCamera])
 
-  console.log({ aa: page?.data.step_options })
   return (
     <>
       <div className="title prismic-content">
